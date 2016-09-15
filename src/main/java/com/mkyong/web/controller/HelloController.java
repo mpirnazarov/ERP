@@ -29,4 +29,15 @@ public class HelloController {
 
 	}
 
+	@RequestMapping(value = "/login/{imya:.+}", method = RequestMethod.GET,params = {"aone", "atwo"})
+	public ModelAndView blahblah(@PathVariable("imya") String name) {
+
+		ModelAndView model = new ModelAndView();
+		model.setViewName("hello");
+		model.addObject("msg", name);
+
+		return model;
+
+	}
+
 }

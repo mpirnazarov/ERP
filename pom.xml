@@ -49,7 +49,7 @@
 				<configuration>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
 					<webApp>
-						<contextPath>/spring3</contextPath>
+						<contextPath>/</contextPath>
 					</webApp>
 				</configuration>
 			</plugin>

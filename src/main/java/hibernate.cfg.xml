@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://192.168.1.77:5432/ErpSystem</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <mapping class="com.lgcns.erp.tapps.entities.NotificationTypeEntity"/>
+        <mapping class="com.lgcns.erp.tapps.entities.PositionEntity"/>
+        <mapping class="com.lgcns.erp.tapps.entities.ProjectEntity"/>
+        <mapping class="com.lgcns.erp.tapps.entities.ProjectLogEntity"/>
+        <mapping class="com.lgcns.erp.tapps.entities.RoleEntity"/>
+        <mapping class="com.lgcns.erp.tapps.entities.UserLogEntity"/>
+        <mapping class="com.lgcns.erp.tapps.entities.UserInfoEntity"/>
+        <mapping class="com.lgcns.erp.tapps.entities.WorkloadEntity"/>
+        <mapping class="com.lgcns.erp.tapps.entities.WorkloadTypeEntity"/>
+        <mapping class="com.lgcns.erp.tapps.entities.AccessEntity"/>
+        <mapping class="com.lgcns.erp.tapps.entities.CustomerEntity"/>
+        <mapping class="com.lgcns.erp.tapps.entities.NotificationEntity"/>
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+    </session-factory>
+</hibernate-configuration>

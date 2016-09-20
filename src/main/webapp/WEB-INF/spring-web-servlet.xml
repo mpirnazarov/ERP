@@ -21,10 +21,8 @@
 			<value>.jsp</value>
 		</property>
 	</bean>
-<!--
-    <bean id="hibernate.cfg.xml"/>-->
 
-    <mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
  
 	<mvc:annotation-driven />
 	

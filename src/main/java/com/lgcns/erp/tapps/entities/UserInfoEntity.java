@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by Rafatdin on 16.09.2016.
  */
 @Entity
-@Table(name = "UserInfo", schema = "public", catalog = "ErpSystem")
+@Table(name = "\"UserInfo\"", schema = "public", catalog = "ErpSystem")
 public class UserInfoEntity {
     private int id;
     private String firstName;
@@ -21,7 +21,7 @@ public class UserInfoEntity {
     private Integer directHead;
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "\"ID\"", nullable = false)
     public int getId() {
         return id;
     }
@@ -31,7 +31,7 @@ public class UserInfoEntity {
     }
 
     @Basic
-    @Column(name = "FirstName", nullable = false, length = 50)
+    @Column(name = "\"FirstName\"", nullable = false, length = 50)
     public String getFirstName() {
         return firstName;
     }
@@ -41,7 +41,7 @@ public class UserInfoEntity {
     }
 
     @Basic
-    @Column(name = "LastName", nullable = false, length = 50)
+    @Column(name = "\"LastName\"", nullable = false, length = 50)
     public String getLastName() {
         return lastName;
     }
@@ -51,7 +51,7 @@ public class UserInfoEntity {
     }
 
     @Basic
-    @Column(name = "Phone", nullable = true, length = 13)
+    @Column(name = "\"Phone\"", nullable = true, length = 13)
     public String getPhone() {
         return phone;
     }
@@ -61,7 +61,7 @@ public class UserInfoEntity {
     }
 
     @Basic
-    @Column(name = "Email", nullable = true, length = 50)
+    @Column(name = "\"Email\"", nullable = true, length = 50)
     public String getEmail() {
         return email;
     }
@@ -71,7 +71,7 @@ public class UserInfoEntity {
     }
 
     @Basic
-    @Column(name = "PositionID", nullable = false)
+    @Column(name = "\"PositionID\"", nullable = false)
     public int getPositionId() {
         return positionId;
     }
@@ -81,7 +81,7 @@ public class UserInfoEntity {
     }
 
     @Basic
-    @Column(name = "Username", nullable = false, length = 50)
+    @Column(name = "\"Username\"", nullable = false, length = 50)
     public String getUsername() {
         return username;
     }
@@ -91,7 +91,7 @@ public class UserInfoEntity {
     }
 
     @Basic
-    @Column(name = "Password", nullable = false, length = 64)
+    @Column(name = "\"Password\"", nullable = false, length = 64)
     public String getPassword() {
         return password;
     }
@@ -101,7 +101,7 @@ public class UserInfoEntity {
     }
 
     @Basic
-    @Column(name = "Address", nullable = true, length = -1)
+    @Column(name = "\"Address\"", nullable = true, length = -1)
     public String getAddress() {
         return address;
     }
@@ -111,7 +111,7 @@ public class UserInfoEntity {
     }
 
     @Basic
-    @Column(name = "Major", nullable = true, length = -1)
+    @Column(name = "\"Major\"", nullable = true, length = -1)
     public String getMajor() {
         return major;
     }
@@ -121,7 +121,7 @@ public class UserInfoEntity {
     }
 
     @Basic
-    @Column(name = "DirectHead", nullable = true)
+    @Column(name = "\"DirectHead\"", nullable = true)
     public Integer getDirectHead() {
         return directHead;
     }

@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 
-import static org.postgresql.core.Oid.JSON;
 
 /**
  * Created by Rafatdin on 15.09.2016.
@@ -26,7 +25,7 @@ public class UserController {
 
 
     @RequestMapping(value = "/User/Login", method = RequestMethod.GET)
-    public ModelAndView LoginAjax(ModelMap modelne){//RequestBody LoginViewModel query) {
+    public ModelAndView Login(){
 
         ModelAndView model = new ModelAndView();
         model.setViewName("user/login");
@@ -57,12 +56,4 @@ public class UserController {
         return response;
     }
 
-}
-class LoginAjaxResponse
-{
-    public String Url;
-    public LoginAjaxResponse(String url)
-    {
-        this.Url = url;
-    }
 }

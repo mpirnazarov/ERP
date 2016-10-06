@@ -2,18 +2,21 @@ package com.lgcns.erp.tapps.controller;
 
 
 import com.lgcns.erp.tapps.DbContext.UserService;
-import com.lgcns.erp.tapps.model.StringResponse;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.LoginViewModel;
+import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 
 /**
@@ -42,12 +45,7 @@ public class UserController {
         curUser.setPassword(requesValue.getPassword());
 
         JSONObject response = new JSONObject();
-        //TODO here should be responsed the json response !!!!!!!!!!!!!!!!!!!!!!
-        /*StringResponse mav = new StringResponse("jsonView");
-                LoginAjaxResponse response = null;
 
-
-        */
         if(UserService.Authenticate(curUser)==1)
         {
             response.put("Url", "/");
@@ -56,4 +54,13 @@ public class UserController {
         return response;
     }
 
+    @RequestMapping (value = "/User/Register", method = RequestMethod.GET)
+    @ResponseBody public ModelAndView Register(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("user/register");
+        RegistrationViewModel registrationViewModel = new RegistrationViewModel();
+        mav.addObject("registrationVM", registrationViewModel);
+        mav.addObject("")
+        return mav;
+    }
 }

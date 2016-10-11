@@ -7,12 +7,9 @@
 --%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+<c:set var="pageTitle" scope="request" value="User Register"/>
+
+<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHeader.jsp"></jsp:include>
 <form action="/User/Register" method="post">
 
     <div class="form-horizontal">
@@ -113,26 +110,9 @@
             <div class="col-md-2">
                 <select class="form-control" data-val="true" data-val-number="The field Head must selected."
                         id="HeadId" name="HeadId">
-                    <option value="${}">Khilola Urunova</option>
-                    <option value="4026">Jong Gu Choi</option>
-                    <option value="4027">Kim JI Wook</option>
-                    <option value="4029">Ruslan Kharrasov</option>
-                    <option value="4030">Karine Arazklycheva</option>
-                    <option value="4031">Bekzod Gaybullaev</option>
-                    <option value="4032">Hyuk Oh</option>
-                    <option value="4033">Kim Dae Oc</option>
-                    <option value="4034">Dong Min Suh</option>
-                    <option value="4035">Bekzod Alimov</option>
-                    <option value="4036">Kamola Mullamukhamedova</option>
-                    <option value="4037">Erkin Kasimov</option>
-                    <option value="4038">Bakir Maksumov</option>
-                    <option value="4039">Jasur Mukhtarov</option>
-                    <option value="4040">Viktoriya Kim</option>
-                    <option value="4041">Rafatdin Shimbergenov</option>
-                    <option value="4042">Jasur Shaykhov</option>
-                    <option value="4043">Nargiza Akramova</option>
-                    <option value="6027">Diana Azizbaeva</option>
-                    <option value="8028">Muslimbek Pirnazarov</option>
+                    <c:forEach items="${heads}" var="thisHead">
+                        <option value="${thisHead[0].id}">${thisHead[1].firstName} ${thisHead[1].lastName}</option>
+                    </c:forEach>
                 </select>
                 <span class="field-validation-valid" data-valmsg-for="HeadId" data-valmsg-replace="true"></span>
             </div>
@@ -186,6 +166,4 @@
 </form>
 
 
-${registrationVM}
-</body>
-</html>
+<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

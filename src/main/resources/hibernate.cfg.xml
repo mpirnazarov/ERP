@@ -3,7 +3,7 @@
         "-//Hibernate/Hibernate Configuration DTD//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <session-factory>
+   <!-- <session-factory>
         <property name="connection.url">jdbc:postgresql://192.168.1.77:5432/ErpSystem</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.username">user_erp</property>
@@ -20,6 +20,59 @@
         <mapping class="com.lgcns.erp.tapps.entities.AccessEntity"/>
         <mapping class="com.lgcns.erp.tapps.entities.CustomerEntity"/>
         <mapping class="com.lgcns.erp.tapps.entities.NotificationEntity"/>
+        &lt;!&ndash; DB schema will be updated if needed &ndash;&gt;
+        &lt;!&ndash; <property name="hbm2ddl.auto">update</property> &ndash;&gt;
+    </session-factory>-->
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://192.168.1.77:5432/LgErpSystem</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">user_erp</property>
+        <property name="connection.password">P@ssw0rd</property>
+
+        <property name="show_sql">true</property>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.CertificateLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.CertificatesEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.ContactInProjectsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.ContactLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.ContactsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.CurrenciesEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.CurrnecyLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.DepartmentLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.DepartmentsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.DocumentsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.EducationLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.EducationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.FamiliyInfoLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.FamilyInfosEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.LanguageLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.LanguagesEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.OrganizationEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.OrganizationLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.PermissionInRolesEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.PermissionLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.PermissionsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.PersonalEvalutionsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.PostLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.PostsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.ProjectLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.ProjectsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.RoleLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.RolesEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.SalaryHistoriesEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.SessionsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.StatusLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.StatusesEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.TrainingLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.TrainingsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.UserInLanguagesEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.UserInProjectsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.UserInRolesEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.UsersEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.VocationStatusEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.WorkLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.WorksEntity"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

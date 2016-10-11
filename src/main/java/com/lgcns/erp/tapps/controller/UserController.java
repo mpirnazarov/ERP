@@ -60,7 +60,7 @@ public class UserController {
         mav.setViewName("user/register");
         RegistrationViewModel registrationViewModel = new RegistrationViewModel();
         mav.addObject("registrationVM", registrationViewModel);
-        mav.addObject("")
+        mav.addObject("heads", UserService.getDirectHeads());
         return mav;
     }
 }

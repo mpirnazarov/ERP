@@ -1,6 +1,10 @@
 package com.lgcns.erp.tapps.DbContext;
 
+import com.lgcns.erp.tapps.Enums.Language;
+import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.model.UserInfo;
+import com.lgcns.erp.tapps.viewModel.DirectHeads;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,9 +12,11 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
+import javax.xml.registry.infomodel.User;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -32,7 +38,7 @@ public class UserService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from UserInfoEntity where username = :username and password = :password");
+            Query query = session.createQuery("from UsersEntity where userName = :username and passwordHash = :password");
             query.setParameter("username",userInfo.getUsername());
             query.setParameter("password",curHashedPassword);
             list = (List<UserInfo>)query.list();
@@ -70,4 +76,49 @@ public class UserService {
 
         return sb.toString();
     }
+
+    static List<UsersEntity> getAllUsers(){
+        List<UsersEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UsersEntity ");
+            list = (List<UsersEntity>)query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return list;
+    }
+
+    public static Collection<UsersEntity> getDirectHeads()
+    {
+        Collection list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UsersEntity userLoc join userLoc.userLocalizationsesById");//" inner join user.usersByUserId");//" on user.id = userLoc.userId where userLoc.languageId = :languageId");
+            //query.setParameter("languageId", Language.eng.getCode());
+            list = (Collection<UsersEntity>)query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return list;
+    }
+
 }

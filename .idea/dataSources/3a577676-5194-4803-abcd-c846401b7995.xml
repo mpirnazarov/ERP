@@ -36,8 +36,8 @@
     <schema id="10" parent="3" name="public">
       <object-id>2200</object-id>
       <visible>1</visible>
-      <introspection-state-number>887</introspection-state-number>
-      <introspection-timestamp>2016-10-10.14:59:31.267</introspection-timestamp>
+      <introspection-state-number>909</introspection-state-number>
+      <introspection-timestamp>2016-10-12.14:09:35.456</introspection-timestamp>
     </schema>
     <schema id="11" parent="3" name="pg_catalog">
       <object-id>11</object-id>
@@ -372,7 +372,7 @@
     </table>
     <table id="95" parent="10" name="documents">
       <object-id>16947</object-id>
-      <state-number>870</state-number>
+      <state-number>908</state-number>
     </table>
     <table id="96" parent="10" name="education_localizations">
       <object-id>17221</object-id>
@@ -488,7 +488,7 @@
     </table>
     <table id="124" parent="10" name="users">
       <object-id>16913</object-id>
-      <state-number>870</state-number>
+      <state-number>908</state-number>
     </table>
     <table id="125" parent="10" name="vocation_status">
       <object-id>17411</object-id>
@@ -1642,8 +1642,8 @@ ProjectID</columns>
       <underlying-index>departments_pkey</underlying-index>
       <primary>1</primary>
     </key>
-    <column id="343" parent="95" name="id ">
-      <state-number>679</state-number>
+    <column id="343" parent="95" name="id">
+      <state-number>907</state-number>
       <mandatory>1</mandatory>
       <data-type>integer|0</data-type>
       <default-expression>nextval(&apos;&quot;documents_id _seq&quot;&apos;::regclass)</default-expression>
@@ -1681,7 +1681,7 @@ ProjectID</columns>
       <primary>1</primary>
     </key>
     <foreign-key id="350" parent="95" name="fk_documents_get_userid">
-      <object-id>17493</object-id>
+      <object-id>18116</object-id>
       <columns>user_id</columns>
       <ref-key>~.users.users_pkey</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>

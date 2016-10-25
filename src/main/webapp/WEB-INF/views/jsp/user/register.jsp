@@ -10,7 +10,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="pageTitle" scope="request" value="User Register"/>
 
-<%--
+<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHeader.jsp"></jsp:include>
 
 <form action="/User/Register" method="post">
     <div id="tabs">
@@ -194,18 +194,18 @@
             <span class="field-validation-valid" data-valmsg-for="HasHead" data-valmsg-replace="true"></span>
         </div>
     </div>
-    <div class="form-group">
-        <label class="control-label col-md-2">Head</label>
-        <div class="col-md-2">
-            <select class="form-control" data-val="true" data-val-number="The field Head must selected."
-                    id="HeadId" name="HeadId">
-                <c:forEach items="${heads}" var="thisHead">
-                    <option value="${thisHead[0].id}">${thisHead[1].firstName} ${thisHead[1].lastName}</option>
-                </c:forEach>
-            </select>
-            <span class="field-validation-valid" data-valmsg-for="HeadId" data-valmsg-replace="true"></span>
-        </div>
-    </div>
+    <%--<div class="form-group">--%>
+        <%--<label class="control-label col-md-2">Head</label>--%>
+        <%--<div class="col-md-2">--%>
+            <%--<select class="form-control" data-val="true" data-val-number="The field Head must selected."--%>
+                    <%--id="HeadId" name="HeadId">--%>
+                <%--<c:forEach items="${heads}" var="thisHead">--%>
+                    <%--<option value="${thisHead[0].id}">${thisHead[1].firstName} ${thisHead[1].lastName}</option>--%>
+                <%--</c:forEach>--%>
+            <%--</select>--%>
+            <%--<span class="field-validation-valid" data-valmsg-for="HeadId" data-valmsg-replace="true"></span>--%>
+        <%--</div>--%>
+    <%--</div>--%>
     <div class="form-group">
         <label class="control-label col-md-2">Username <font color='red'>*</font></label>
         <div class="col-md-2">
@@ -256,8 +256,7 @@
 </form>
 
 
---%>
-<html>
+<%--<html>
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -271,10 +270,10 @@
     <spring:url value="/resources/core/js/bootstrap.js" var="bootstrapJs"/>
     <spring:url value="/resources/core/js/respond.js" var="respondJs"/>
     <spring:url value="/resources/core/js/registrationMultiStep.js" var="registrationMultiStep"/>
-    <%--<script src="${jquery}"></script>--%>
-    <%--<script src="${notifyMinJs}"></script>--%>
-    <%--<script src="${bootstrapJs}"></script>--%>
-    <%--<script src="${respondJs}"></script>--%>
+    &lt;%&ndash;<script src="${jquery}"></script>&ndash;%&gt;
+    &lt;%&ndash;<script src="${notifyMinJs}"></script>&ndash;%&gt;
+    &lt;%&ndash;<script src="${bootstrapJs}"></script>&ndash;%&gt;
+    &lt;%&ndash;<script src="${respondJs}"></script>&ndash;%&gt;
 
     <!-- jQuery -->
     <script src="http://thecodeplayer.com/uploads/js/jquery-1.9.1.min.js" type="text/javascript"></script>
@@ -284,7 +283,7 @@
     <link href="${registrationCss}" rel="stylesheet"/>
     <script src="${registrationMultiStep}"></script>
 
-    <%--<link href="${bootstrapCss}" rel="stylesheet" />--%>
+    &lt;%&ndash;<link href="${bootstrapCss}" rel="stylesheet" />&ndash;%&gt;
     <link href="${siteCss}" rel="stylesheet"/>
 </head>
 
@@ -339,7 +338,7 @@
     <form:password path="repeatPassword" placeholder="Repeat Password" cssClass="form-control text-box single-line"/>
     <input type="button" name="previous" class="previous action-button" value="Previous"/>
     <input type="submit" name="submit" class="submit action-button" value="Submit"/>
-</fieldset>
+</fieldset>--%>
     <%-- <div class="form-group">
          <form:label path="lastName" cssClass="control-label col-md-2">Last Name</form:label>
          <div class="col-md-2">
@@ -390,5 +389,5 @@
              <input type="button" onclick="location.href='/User'" value="Cancel" class="btn btn-default" />
          </div>
      </div>--%>
-</form:form>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

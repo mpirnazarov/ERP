@@ -7,9 +7,11 @@
 --%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="pageTitle" scope="request" value="User Register"/>
 
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHeader.jsp"></jsp:include>
+<%--
+
 <form action="/User/Register" method="post">
     <div id="tabs">
         <ul>
@@ -254,4 +256,139 @@
 </form>
 
 
+--%>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${pageTitle} | ERP System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <spring:url value="/resources/core/css/Registration.css" var="registrationCss"/>
+    <spring:url value="/resources/core/css/bootstrap.css" var="bootstrapCss"/>
+    <spring:url value="/resources/core/css/Site.css" var="siteCss"/>
+    <spring:url value="/resources/core/js/jquery-1.12.4.min.js" var="jquery"/>
+    <spring:url value="/resources/core/js/notify.min.js" var="notifyMinJs"/>
+    <spring:url value="/resources/core/js/bootstrap.js" var="bootstrapJs"/>
+    <spring:url value="/resources/core/js/respond.js" var="respondJs"/>
+    <spring:url value="/resources/core/js/registrationMultiStep.js" var="registrationMultiStep"/>
+    <%--<script src="${jquery}"></script>--%>
+    <%--<script src="${notifyMinJs}"></script>--%>
+    <%--<script src="${bootstrapJs}"></script>--%>
+    <%--<script src="${respondJs}"></script>--%>
+
+    <!-- jQuery -->
+    <script src="http://thecodeplayer.com/uploads/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <!-- jQuery easing plugin -->
+    <script src="http://thecodeplayer.com/uploads/js/jquery.easing.min.js" type="text/javascript"></script>
+
+    <link href="${registrationCss}" rel="stylesheet"/>
+    <script src="${registrationMultiStep}"></script>
+
+    <%--<link href="${bootstrapCss}" rel="stylesheet" />--%>
+    <link href="${siteCss}" rel="stylesheet"/>
+</head>
+
+<body>
+
+<form:form modelAttribute="registrationVM" cssClass="form-horizontal" method="post" action="/User/Register" id="msform">
+<ul id="progressbar">
+    <li class="active">Personal</li>
+    <li>Company</li>
+    <li>System</li>
+</ul>
+<hr/>
+<fieldset>
+    <h2 class="fs-title">Create new user account</h2>
+    <h3 class="fs-subtitle">Personal Information</h3>
+    <form:input path="firstName" placeholder="First Name" cssClass="form-control text-box single-line"/>
+    <form:input path="lastName" placeholder="Last Name" cssClass="form-control text-box single-line"/>
+    <form:input path="fathersName" placeholder="Father's name" cssClass="form-control text-box single-line"/>
+    <form:input path="dateOfBirth" placeholder="Date of birth" type="date"
+                cssClass="form-control text-box single-line"/>
+    <form:input path="mobilePhone" placeholder="Mobile phone number" type="tel"
+                cssClass="form-control text-box single-line"/>
+    <form:input path="homePhone" placeholder="Home phone number" type="tel"
+                cssClass="form-control text-box single-line"/>
+    <form:input path="email" placeholder="Personal email address" type="email" cssClass="form-control single-line"/>
+    <form:textarea path="address" placeholder="Home address" cssClass="form-control text-box" rows="3" cols="5"/>
+    <input type="button" name="next" class="next action-button" value="Next"/>
+</fieldset>
+
+<fieldset>
+    <h2 class="fs-title">Create new user account</h2>
+    <h3 class="fs-subtitle">Company Information</h3>
+    <form:select path="statusId">
+        <form:option value="0" label="--Current Status--" disabled="true"/>
+        <form:options items="${heads}"/>
+    </form:select>
+    <form:input path="hiringDate" placeholder="Date of hire" type="date" cssClass="form-control single-line"/>
+    <form:select path="chiefId">
+        <form:option value="0" label="--Select Direct Head--" disabled="true"/>
+        <form:options items="${heads}"/>
+    </form:select>
+    <form:input path="companyEmail" placeholder="Company email address" type="email" cssClass="form-control single-line"/>
+    <input type="button" name="previous" class="previous action-button" value="Previous"/>
+    <input type="button" name="next" class="next action-button" value="Next"/>
+</fieldset>
+
+<fieldset>
+    <h2 class="fs-title">Create new user account</h2>
+    <h3 class="fs-subtitle">System Credentials</h3>
+    <form:input path="userName" placeholder="Username" cssClass="form-control text-box single-line"/>
+    <form:password path="password" placeholder="Password" cssClass="form-control text-box single-line"/>
+    <form:password path="repeatPassword" placeholder="Repeat Password" cssClass="form-control text-box single-line"/>
+    <input type="button" name="previous" class="previous action-button" value="Previous"/>
+    <input type="submit" name="submit" class="submit action-button" value="Submit"/>
+</fieldset>
+    <%-- <div class="form-group">
+         <form:label path="lastName" cssClass="control-label col-md-2">Last Name</form:label>
+         <div class="col-md-2">
+             <form:input path="lastName" cssClass="form-control text-box single-line"/>
+         </div>
+     </div>
+     <div class="form-group">
+         <form:label path="fathersName" cssClass="control-label col-md-2">Father's Name</form:label>
+         <div class="col-md-2">
+             <form:input path="fathersName" cssClass="form-control text-box single-line"/>
+         </div>
+     </div>
+     <div class="form-group">
+         <form:label path="dateOfBirth" cssClass="control-label col-md-2">Date of Birth</form:label>
+         <div class="col-md-2">
+             <form:input path="dateOfBirth" type="date" cssClass="form-control text-box single-line"/>
+         </div>
+     </div>
+     <div class="form-group">
+         <form:label path="mobilePhone" cssClass="control-label col-md-2">Phone Number</form:label>
+         <div class="col-md-2">
+             <form:input path="mobilePhone" type="tel" cssClass="form-control text-box single-line"/>
+         </div>
+     </div>
+     <div class="form-group">
+         <form:label path="email" cssClass="control-label col-md-2">Email</form:label>
+         <div class="col-md-2">
+             <form:input path="email" type="email" cssClass="form-control text-box single-line"/>
+         </div>
+     </div>
+     <div class="form-group">
+         <form:label path="address" cssClass="control-label col-md-2">Home Address</form:label>
+         <div class="col-md-5">
+             <form:textarea path="address" cssClass="form-control text-box" rows="3" cols="5"/>
+         </div>
+     </div>
+
+     <br/>
+     <div class="form-group">
+         <form:label path="chiefId" cssClass="control-label col-md-2">Head</form:label>
+         <div class="col-md-5">
+             <form:select path="chiefId" cssClass="form-control" items="${heads}"/>
+         </div>
+     </div>
+     <div class="form-group">
+         <div class="col-md-offset-2 col-md-10">
+             <input type="submit" value="Register" class="btn btn-default" />
+             <input type="button" onclick="location.href='/User'" value="Cancel" class="btn btn-default" />
+         </div>
+     </div>--%>
+</form:form>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

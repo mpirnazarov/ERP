@@ -1,6 +1,7 @@
 package com.lgcns.erp.tapps.viewModel;
 
-import javax.xml.registry.infomodel.EmailAddress;
+
+import org.apache.tools.ant.taskdefs.email.EmailAddress;
 import java.util.Date;
 
 /**
@@ -15,9 +16,11 @@ public class RegistrationViewModel {
     private String MobilePhone;
     private String HomePhone;
     private EmailAddress Email;
+    private EmailAddress CompanyEmail;
     private String Address;
     private String UserName;
     private String Password;
+    private String RepeatPassword;
     private int StatusId;
     private int ChiefId;
     private Date HiringDate;
@@ -86,6 +89,10 @@ public class RegistrationViewModel {
         Email = email;
     }
 
+    public EmailAddress getCompanyEmail() {return CompanyEmail;}
+
+    public void setCompanyEmail(EmailAddress companyEmail) {CompanyEmail = companyEmail;}
+
     public String getAddress() {
         return Address;
     }
@@ -109,6 +116,10 @@ public class RegistrationViewModel {
     public void setPassword(String password) {
         Password = password;
     }
+
+    public String getRepeatPassword() {return RepeatPassword;}
+
+    public void setRepeatPassword(String repeatPassword) {RepeatPassword = repeatPassword;}
 
     public int getStatusId() {
         return StatusId;

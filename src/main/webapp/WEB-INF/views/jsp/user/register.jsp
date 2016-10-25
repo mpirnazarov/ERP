@@ -12,7 +12,7 @@
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHeader.jsp"></jsp:include>
 
-<form action="/User/Register" method="post">
+<form:form modelAttribute="registrationVM" cssClass="form-horizontal" method="post" action="/User/Register">
     <div id="tabs">
         <ul>
             <li><a href="#English">English</a></li>
@@ -21,36 +21,28 @@
         </ul>
         <div id="English">
             <div class="form-horizontal">
-                <hr/>
                     <div class="form-group">
                         <label class="control-label col-md-2">First name <font color='red'>*</font></label>
                         <div class="col-md-2">
-                            <input class="form-control text-box single-line" data-val="true"
-                                   data-val-length="Поле First name должно быть строкой с минимальной длиной 1 и максимальной 50."
-                                   data-val-length-max="50" data-val-length-min="1" data-val-regex="Use letters only please"
-                                   data-val-regex-pattern="^[a-zA-Z\s]+$" data-val-required="First name is compulsory field."
-                                   id="FirstName" name="FirstName" type="text" value=""/>
-                            <span class="field-validation-valid text-danger" data-valmsg-for="FirstName"
-                                  data-valmsg-replace="true"></span>
+                            <form:input path="firstName" placeholder="First Name" cssClass="form-control text-box single-line"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-2">Last name <font color='red'>*</font></label>
                         <div class="col-md-2">
-                            <input class="form-control text-box single-line" data-val="true"
-                                   data-val-length="Поле Last name должно быть строкой с минимальной длиной 1 и максимальной 50."
-                                   data-val-length-max="50" data-val-length-min="1" data-val-regex="Use letters only please"
-                                   data-val-regex-pattern="^[a-zA-Z\s]+$" data-val-required="Last name is compulsory field."
-                                   id="LastName" name="LastName" type="text" value=""/>
-                            <span class="field-validation-valid text-danger" data-valmsg-for="LastName"
-                                  data-valmsg-replace="true"></span>
+                            <form:input path="lastName" placeholder="Last Name" cssClass="form-control text-box single-line"/>
                         </div>
                     </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2" for="Address">Address</label>
+                    <label class="control-label col-md-2">Father's name <font color='red'>*</font></label>
                     <div class="col-md-2">
-                        <input class="form-control text-box single-line" id="Address" name="Address" type="text" value=""/>
-                        <span class="field-validation-valid" data-valmsg-for="Address" data-valmsg-replace="true"></span>
+                        <form:input path="fathersName" placeholder="Father's name" cssClass="form-control text-box single-line"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="Address">Address <font color='red'>*</font></label>
+                    <div class="col-md-2">
+                        <form:textarea path="address" placeholder="Home address" cssClass="form-control text-box" rows="3" cols="5"/>
                     </div>
                 </div>
 
@@ -58,36 +50,28 @@
         </div>
         <div id="Russian">
             <div class="form-horizontal">
-                <hr/>
                 <div class="form-group">
                     <label class="control-label col-md-2">First name <font color='red'>*</font></label>
                     <div class="col-md-2">
-                        <input class="form-control text-box single-line" data-val="true"
-                               data-val-length="Поле First name должно быть строкой с минимальной длиной 1 и максимальной 50."
-                               data-val-length-max="50" data-val-length-min="1" data-val-regex="Use letters only please"
-                               data-val-regex-pattern="^[a-zA-Z\s]+$" data-val-required="First name is compulsory field."
-                               id="FirstName" name="FirstName" type="text" value=""/>
-                        <span class="field-validation-valid text-danger" data-valmsg-for="FirstName"
-                              data-valmsg-replace="true"></span>
+                        <form:input path="firstNameRu" placeholder="Имя" cssClass="form-control text-box single-line"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-2">Last name <font color='red'>*</font></label>
                     <div class="col-md-2">
-                        <input class="form-control text-box single-line" data-val="true"
-                               data-val-length="Поле Last name должно быть строкой с минимальной длиной 1 и максимальной 50."
-                               data-val-length-max="50" data-val-length-min="1" data-val-regex="Use letters only please"
-                               data-val-regex-pattern="^[a-zA-Z\s]+$" data-val-required="Last name is compulsory field."
-                               id="LastName" name="LastName" type="text" value=""/>
-                        <span class="field-validation-valid text-danger" data-valmsg-for="LastName"
-                              data-valmsg-replace="true"></span>
+                        <form:input path="lastNameRu" placeholder="Фамилия" cssClass="form-control text-box single-line"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2" for="Address">Address</label>
+                    <label class="control-label col-md-2">Father's name <font color='red'>*</font></label>
                     <div class="col-md-2">
-                        <input class="form-control text-box single-line" id="Address" name="Address" type="text" value=""/>
-                        <span class="field-validation-valid" data-valmsg-for="Address" data-valmsg-replace="true"></span>
+                        <form:input path="fathersNameRu" placeholder="Отчество" cssClass="form-control text-box single-line"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="Address">Address <font color='red'>*</font></label>
+                    <div class="col-md-2">
+                        <form:textarea path="addressRu" placeholder="Адрес" cssClass="form-control text-box" rows="3" cols="5"/>
                     </div>
                 </div>
 
@@ -95,36 +79,28 @@
         </div>
         <div id="Uzbek">
             <div class="form-horizontal">
-                <hr/>
                 <div class="form-group">
                     <label class="control-label col-md-2">First name <font color='red'>*</font></label>
                     <div class="col-md-2">
-                        <input class="form-control text-box single-line" data-val="true"
-                               data-val-length="Поле First name должно быть строкой с минимальной длиной 1 и максимальной 50."
-                               data-val-length-max="50" data-val-length-min="1" data-val-regex="Use letters only please"
-                               data-val-regex-pattern="^[a-zA-Z\s]+$" data-val-required="First name is compulsory field."
-                               id="FirstName" name="FirstName" type="text" value=""/>
-                        <span class="field-validation-valid text-danger" data-valmsg-for="FirstName"
-                              data-valmsg-replace="true"></span>
+                        <form:input path="firstNameUz" placeholder="First Name" cssClass="form-control text-box single-line"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-2">Last name <font color='red'>*</font></label>
                     <div class="col-md-2">
-                        <input class="form-control text-box single-line" data-val="true"
-                               data-val-length="Поле Last name должно быть строкой с минимальной длиной 1 и максимальной 50."
-                               data-val-length-max="50" data-val-length-min="1" data-val-regex="Use letters only please"
-                               data-val-regex-pattern="^[a-zA-Z\s]+$" data-val-required="Last name is compulsory field."
-                               id="LastName" name="LastName" type="text" value=""/>
-                        <span class="field-validation-valid text-danger" data-valmsg-for="LastName"
-                              data-valmsg-replace="true"></span>
+                        <form:input path="lastNameUz" placeholder="Last Name" cssClass="form-control text-box single-line"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2" for="Address">Address</label>
+                    <label class="control-label col-md-2">Father's name <font color='red'>*</font></label>
                     <div class="col-md-2">
-                        <input class="form-control text-box single-line" id="Address" name="Address" type="text" value=""/>
-                        <span class="field-validation-valid" data-valmsg-for="Address" data-valmsg-replace="true"></span>
+                        <form:input path="fathersNameUz" placeholder="Father's name" cssClass="form-control text-box single-line"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="Address">Address <font color='red'>*</font></label>
+                    <div class="col-md-2">
+                        <form:textarea path="addressUz" placeholder="Home address" cssClass="form-control text-box" rows="3" cols="5"/>
                     </div>
                 </div>
 
@@ -138,12 +114,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Email <font color='red'>*</font></label>
         <div class="col-md-2">
-            <input class="form-control text-box single-line" data-val="true"
-                   data-val-length="Поле Email должно быть строкой с минимальной длиной 1 и максимальной 50."
-                   data-val-length-max="50" data-val-length-min="1" data-val-required="Email is compulsory field."
-                   id="Email" name="Email" type="email" value=""/>
-            <span class="field-validation-valid text-danger" data-valmsg-for="Email"
-                  data-valmsg-replace="true"></span>
+            <form:input path="email" placeholder="Personal email address" type="email" cssClass="form-control single-line"/>
         </div>
     </div>
 
@@ -253,7 +224,7 @@
     </div>
 </div>
 
-</form>
+</form:form>
 
 
 <%--<html>

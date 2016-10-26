@@ -23,7 +23,6 @@
     <li><a data-toggle="tab" href="#familyinfo">Family information</a></li>
 </ul>
 
-<div class="tab-content">
     <div id="headerinfo" class="tab-pane fade in active">
         <h3>Header information</h3>
         <ul class="nav nav-tabs">
@@ -31,6 +30,7 @@
             <li><a data-toggle="tab" href="#en">EN</a></li>
             <li><a data-toggle="tab" href="#uz">UZ</a></li>
         </ul>
+        <div class="tab-content">
         <div id="ru" class="tab-pane fade in active">
             <p>На русском</p>
         </div>
@@ -39,6 +39,7 @@
         </div>
         <div id="uz" class="tab-pane fade">
             <p>На русском</p>
+        </div>
         </div>
     </div>
     <div id="personalinfo" class="tab-pane fade">

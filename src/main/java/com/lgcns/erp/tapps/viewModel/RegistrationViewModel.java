@@ -98,6 +98,17 @@ public class RegistrationViewModel {
     private int ChiefId;
     private Date HiringDate;
 
+    public boolean isHasHead() {
+        return HasHead;
+    }
+
+    public void setHasHead(boolean hasHead) {
+        HasHead = hasHead;
+    }
+
+    private boolean HasHead;
+
+
     public String getFirstName() {
         return FirstName;
     }

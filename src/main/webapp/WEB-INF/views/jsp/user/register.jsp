@@ -26,28 +26,33 @@
         </ul>
         <div id="English" class="tab-pane fade in active">
             <div class="form-horizontal">
+                <hr/>
                     <div class="form-group">
-                        <label class="control-label col-md-2">First name <font color='red'>*</font></label>
+                        <label class="control-label col-md-3">First name <font color='red'>*</font></label>
                         <div class="col-md-5">
                             <form:input path="firstName" placeholder="First Name" cssClass="form-control text-box single-line"/>
+                            <form:errors path="firstName" cssClass="error" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-2">Last name <font color='red'>*</font></label>
+                        <label class="control-label col-md-3">Last name <font color='red'>*</font></label>
                         <div class="col-md-5">
                             <form:input path="lastName" placeholder="Last Name" cssClass="form-control text-box single-line"/>
+                            <form:errors path="lastName" cssClass="error" />
                         </div>
                     </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2">Father's name <font color='red'>*</font></label>
+                    <label class="control-label col-md-3">Father's name <font color='red'>*</font></label>
                     <div class="col-md-5">
                         <form:input path="fathersName" placeholder="Father's name" cssClass="form-control text-box single-line"/>
+                        <form:errors path="fathersName" cssClass="error" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2" for="Address">Address <font color='red'>*</font></label>
+                    <label class="control-label col-md-3" for="Address">Address <font color='red'>*</font></label>
                     <div class="col-md-5">
                         <form:textarea path="address" placeholder="Home address" cssClass="form-control text-box" rows="3" cols="5"/>
+                        <form:errors path="address" cssClass="error" />
                     </div>
                 </div>
 
@@ -55,28 +60,33 @@
         </div>
         <div id="Russian" class="tab-pane fade">
             <div class="form-horizontal">
+                <hr/>
                 <div class="form-group">
-                    <label class="control-label col-md-2">Имя <font color='red'>*</font></label>
+                    <label class="control-label col-md-3">Имя <font color='red'>*</font></label>
                     <div class="col-md-5">
                         <form:input path="firstNameRu" placeholder="Имя" cssClass="form-control text-box single-line"/>
+                        <form:errors path="firstNameRu" cssClass="error" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2">Фамилия <font color='red'>*</font></label>
+                    <label class="control-label col-md-3">Фамилия <font color='red'>*</font></label>
                     <div class="col-md-5">
                         <form:input path="lastNameRu" placeholder="Фамилия" cssClass="form-control text-box single-line"/>
+                        <form:errors path="lastNameRu" cssClass="error" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2">Отчество <font color='red'>*</font></label>
+                    <label class="control-label col-md-3">Отчество <font color='red'>*</font></label>
                     <div class="col-md-5">
                         <form:input path="fathersNameRu" placeholder="Отчество" cssClass="form-control text-box single-line"/>
+                        <form:errors path="fathersNameRu" cssClass="error" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2" for="Address">Адрес <font color='red'>*</font></label>
+                    <label class="control-label col-md-3" for="Address">Адрес <font color='red'>*</font></label>
                     <div class="col-md-5">
                         <form:textarea path="addressRu" placeholder="Адрес" cssClass="form-control text-box" rows="3" cols="5"/>
+                        <form:errors path="addressRu" cssClass="error" />
                     </div>
                 </div>
 
@@ -84,28 +94,33 @@
         </div>
         <div id="Uzbek" class="tab-pane fade">
             <div class="form-horizontal">
+                <hr/>
                 <div class="form-group">
-                    <label class="control-label col-md-2">Ism <font color='red'>*</font></label>
+                    <label class="control-label col-md-3">Ism <font color='red'>*</font></label>
                     <div class="col-md-5">
                         <form:input path="firstNameUz" placeholder="Ism" cssClass="form-control text-box single-line"/>
+                        <form:errors path="firstNameUz" cssClass="error" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2">Familiya <font color='red'>*</font></label>
+                    <label class="control-label col-md-3">Familiya <font color='red'>*</font></label>
                     <div class="col-md-5">
                         <form:input path="lastNameUz" placeholder="Familiya" cssClass="form-control text-box single-line"/>
+                        <form:errors path="lastNameUz" cssClass="error" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2">Sharf <font color='red'>*</font></label>
+                    <label class="control-label col-md-3">Sharf <font color='red'>*</font></label>
                     <div class="col-md-5">
                         <form:input path="fathersNameUz" placeholder="Sharf" cssClass="form-control text-box single-line"/>
+                        <form:errors path="fathersNameUz" cssClass="error" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2" for="Address">Adres <font color='red'>*</font></label>
+                    <label class="control-label col-md-3" for="Address">Adres <font color='red'>*</font></label>
                     <div class="col-md-5">
                         <form:textarea path="addressUz" placeholder="Uy adresi" cssClass="form-control text-box" rows="3" cols="5"/>
+                        <form:errors path="addressUz" cssClass="error" />
                     </div>
                 </div>
 
@@ -118,63 +133,84 @@
         <hr/>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Date of Birth <font color='red'>*</font></label>
+            <label class="control-label col-md-3">Date of Birth <font color='red'>*</font></label>
             <div class="col-md-5">
                 <form:input path="dateOfBirth" type="date" cssClass="form-control text-box single-line"/>
+                <form:errors path="dateOfBirth" cssClass="error" />
             </div>
         </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Email <font color='red'>*</font></label>
+        <label class="control-label col-md-3">Personal Email <font color='red'>*</font></label>
         <div class="col-md-5">
             <form:input path="email" placeholder="Personal email address" type="email" cssClass="form-control single-line"/>
+            <form:errors path="email" cssClass="error" />
         </div>
     </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">Company Email <font color='red'>*</font></label>
+            <div class="col-md-5">
+                <form:input path="companyEmail" placeholder="Company email address" type="email" cssClass="form-control single-line"/>
+                <form:errors path="companyEmail" cssClass="error" />
+            </div>
+        </div>
 
     <div class="form-group">
-        <label class="control-label col-md-2">Phone <font color='red'>*</font></label>
+        <label class="control-label col-md-3">Phone <font color='red'>*</font></label>
         <div class="col-md-5">
             <form:input path="mobilePhone" placeholder="Mobile phone number" type="tel"
                         cssClass="form-control text-box single-line"/>
+            <form:errors path="mobilePhone" cssClass="error" />
         </div>
     </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Phone <font color='red'>*</font></label>
+            <label class="control-label col-md-3">Phone <font color='red'>*</font></label>
             <div class="col-md-5">
                 <form:input path="homePhone" placeholder="Home phone number" type="tel"
                             cssClass="form-control text-box single-line"/>
+                <form:errors path="homePhone" cssClass="error" />
             </div>
         </div>
 
+        <div class="form-group">
+            <label class="control-label col-md-3">Hiring Date <font color='red'>*</font></label>
+            <div class="col-md-5">
+                <form:input path="hiringDate" type="date" cssClass="form-control text-box single-line"/>
+                <form:errors path="hiringDate" cssClass="error" />
+            </div>
+        </div>
 
     <div class="form-group">
-        <label class="control-label col-md-2">System role <font color='red'>*</font></label>
+        <label class="control-label col-md-3">Status <font color='red'>*</font></label>
         <div class="col-md-5">
-            <select class="form-control" data-val="true"
-                    data-val-number="The field System role must be a number."
-                    data-val-required="Требуется поле System role." id="PositionId" name="PositionId">
-                <option value="1">Admin</option>
-                <option value="2">CTO</option>
-                <option value="3">Master</option>
-                <option value="4">User</option>
-                <option value="5">Monitor</option>
-            </select>
-            <span class="field-validation-valid" data-valmsg-for="PositionId" data-valmsg-replace="true"></span>
+            <%--<form:select path="statusId">--%>
+                <%--<form:option value="-" label="--Please Select--"/>--%>
+                <%--&lt;%&ndash;<form:options items="${statuses}" />&ndash;%&gt;--%>
+            <%--</form:select>--%>
+            <%--<form:errors path="statusId" cssClass="error" />--%>
         </div>
     </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Department <font color='red'>*</font></label>
+            <label class="control-label col-md-3">Chief <font color='red'>*</font></label>
+            <div class="col-md-5">
+                <%--<form:select path="chiefId">--%>
+                    <%--<form:option value="-" label="--Please Select--"/>--%>
+                    <%--&lt;%&ndash;<form:options items="${chiefs}" />&ndash;%&gt;--%>
+                <%--</form:select>--%>
+                <%--<form:errors path="chiefId" cssClass="error" />--%>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">Department <font color='red'>*</font></label>
             <div class="col-md-5">
                 <form:input path="departmentId" placeholder="Department" type="" cssClass="form-control single-line"/>
+                <form:errors path="departmentId" cssClass="error" />
             </div>
         </div>
     <div class="form-group">
-        <label class="control-label col-md-2" for="HasHead">Has head</label>
+        <label class="control-label col-md-3">Has head</label>
         <div class="col-md-5">
-            <input data-val="true" data-val-required="Требуется поле Has head." id="HasHead" name="HasHead"
-                   onclick="DisableList()" type="checkbox" value="true"/><input name="HasHead" type="hidden"
-                                                                                value="false"/>
-            <span class="field-validation-valid" data-valmsg-for="HasHead" data-valmsg-replace="true"></span>
+            <form:checkbox path="hasHead" placeholder="Has head" cssClass="form-control single-line"/>
         </div>
     </div>
     <%--<div class="form-group">--%>
@@ -190,41 +226,26 @@
         <%--</div>--%>
     <%--</div>--%>
     <div class="form-group">
-        <label class="control-label col-md-2">Username <font color='red'>*</font></label>
+        <label class="control-label col-md-3">Username <font color='red'>*</font></label>
         <div class="col-md-5">
-            <input class="form-control text-box single-line" data-val="true"
-                   data-val-length="Поле Username должно быть строкой с минимальной длиной 1 и максимальной 50."
-                   data-val-length-max="50" data-val-length-min="1" data-val-required="Требуется поле Username."
-                   id="UserName" name="UserName" type="text" value=""/>
-            <span class="field-validation-valid text-danger" data-valmsg-for="UserName"
-                  data-valmsg-replace="true"></span>
+            <form:input path="userName" placeholder="Username" cssClass="form-control text-box single-line"/>
+            <form:errors path="userName" cssClass="error" />
         </div>
     </div>
 
     <div class="form-group">
-        <label class="control-label col-md-2">Password <font color='red'>*</font></label>
+        <label class="control-label col-md-3">Password <font color='red'>*</font></label>
         <div class="col-md-5">
-            <input class="form-control text-box single-line password" data-val="true"
-                   data-val-length="Поле Password должно быть строкой с минимальной длиной 1 и максимальной 100."
-                   data-val-length-max="100" data-val-length-min="1"
-                   data-val-required="Требуется поле Password." id="Password" name="Password" type="password"
-                   value=""/>
-            <span class="field-validation-valid text-danger" data-valmsg-for="Password"
-                  data-valmsg-replace="true"></span>
+            <form:password path="password" placeholder="Password" cssClass="form-control text-box single-line"/>
+            <form:errors path="password" cssClass="error" />
         </div>
     </div>
 
     <div class="form-group">
-        <label class="control-label col-md-2">Repeat password <font color='red'>*</font></label>
+        <label class="control-label col-md-3">Repeat password <font color='red'>*</font></label>
         <div class="col-md-5">
-            <input class="form-control text-box single-line password" data-val="true"
-                   data-val-equalto="Repeat password mismatch" data-val-equalto-other="*.Password"
-                   data-val-length="Поле Repeat password должно быть строкой с минимальной длиной 1 и максимальной 100."
-                   data-val-length-max="100" data-val-length-min="1"
-                   data-val-required="Требуется поле Repeat password." id="RepeatPassword" name="RepeatPassword"
-                   type="password" value=""/>
-            <span class="field-validation-valid text-danger" data-valmsg-for="RepeatPassword"
-                  data-valmsg-replace="true"></span>
+            <form:password path="repeatPassword" placeholder="Repeat Password" cssClass="form-control text-box single-line"/>
+            <form:errors path="repeatPassword" cssClass="error" />
         </div>
     </div>
 

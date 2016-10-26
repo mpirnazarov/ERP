@@ -16,15 +16,14 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 /**
@@ -104,6 +103,7 @@ public class UserController {
         mav.addObject("profileVM", profileViewModel);
         return mav;
     }
+
     @RequestMapping (value = "/User/Profile/Appointment", method = RequestMethod.GET)
     @ResponseBody public ModelAndView Appointmentrec(){
         ModelAndView mav = new ModelAndView();

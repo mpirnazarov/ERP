@@ -286,6 +286,16 @@ html {
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 1;
 }
+
+#profilePictures {
+  width: 630px;
+}
+
+.profilePicture {
+  float: right;
+  width: 200px;
+  margin: 5px;
+}
 /* SOME DEMO STYLES - NOT REQUIRED */
 body,
 html {

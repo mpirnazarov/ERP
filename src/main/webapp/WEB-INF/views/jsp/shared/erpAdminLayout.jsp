@@ -15,14 +15,11 @@
         <ul class="nav sidebar-nav">
             <li class="sidebar-brand">
                 <a href="#">
-                    Profile menu
+                    Admin menu
                 </a>
             </li>
             <li>
-                <a href="/User/Profile"><i class="fa fa-fw fa-home"></i> General information</a>
-            </li>
-            <li>
-                <a href="/User/Profile/Appointment"><i class="fa fa-fw fa-folder"></i> Appointment record</a>
+                <a href="#"><i class="fa fa-fw fa-folder"></i> Manage users</a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-fw fa-file-o"></i> Workload</a>
@@ -46,10 +43,6 @@
             </li>
             <li>
                 <a href="/User/Profile/Train"><i class="fa fa-fw fa-blank"></i> Training record</a>
-            </li>
-            <hr/>
-            <li>
-                <a href="/logout"><i class="fa fa-fw fa-power"></i> Logout</a>
             </li>
         </ul>
     </nav>

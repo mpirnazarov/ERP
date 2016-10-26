@@ -6,7 +6,12 @@ import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.LoginViewModel;
+import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
+import com.lgcns.erp.tapps.viewModel.usermenu.AppointmentrecViewModel;
+import com.lgcns.erp.tapps.viewModel.usermenu.EduViewModel;
+import com.lgcns.erp.tapps.viewModel.usermenu.JobexpViewModel;
+import com.lgcns.erp.tapps.viewModel.usermenu.TrainViewModel;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
@@ -88,6 +93,47 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("user/register");
 
+        return mav;
+    }
+
+    @RequestMapping (value = "/User/Profile", method = RequestMethod.GET)
+    @ResponseBody public ModelAndView Profile(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/IndexUser");
+        ProfileViewModel profileViewModel = new ProfileViewModel();
+        mav.addObject("profileVM", profileViewModel);
+        return mav;
+    }
+    @RequestMapping (value = "/User/Profile/Appointment", method = RequestMethod.GET)
+    @ResponseBody public ModelAndView Appointmentrec(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/usermenu/AppointmentRec");
+        AppointmentrecViewModel appointmentrecViewModel = new AppointmentrecViewModel();
+        mav.addObject("appointmentrecVM", appointmentrecViewModel);
+        return mav;
+    }
+    @RequestMapping (value = "/User/Profile/Edu", method = RequestMethod.GET)
+    @ResponseBody public ModelAndView Edu(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/usermenu/EducationCer");
+        EduViewModel eduViewModel = new EduViewModel();
+        mav.addObject("eduVM", eduViewModel);
+        return mav;
+    }
+    @RequestMapping (value = "/User/Profile/Jobexp", method = RequestMethod.GET)
+    @ResponseBody public ModelAndView Jobexp(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/usermenu/JobExp");
+        JobexpViewModel jobexpViewModel = new JobexpViewModel();
+        mav.addObject("jobexpVM", jobexpViewModel);
+        return mav;
+    }
+    @RequestMapping (value = "/User/Profile/Train", method = RequestMethod.GET)
+    @ResponseBody public ModelAndView Train(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/usermenu/TrainingRec");
+        TrainViewModel trainViewModel = new TrainViewModel();
+        mav.addObject("trainVM", trainViewModel);
         return mav;
     }
 }

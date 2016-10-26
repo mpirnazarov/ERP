@@ -11,6 +11,12 @@ public class RegistrationViewModel {
     private String FirstName;
     private String LastName;
     private String FathersName;
+    private String FirstNameRu;
+    private String LastNameRu;
+    private String FathersNameRu;
+    private String FirstNameUz;
+    private String LastNameUz;
+    private String FathersNameUz;
     private Date DateOfBirth;
     private int DepartmentId;
     private String MobilePhone;
@@ -18,12 +24,90 @@ public class RegistrationViewModel {
     private EmailAddress Email;
     private EmailAddress CompanyEmail;
     private String Address;
+
+    public String getFirstNameRu() {
+        return FirstNameRu;
+    }
+
+    public void setFirstNameRu(String firstNameRu) {
+        FirstNameRu = firstNameRu;
+    }
+
+    public String getLastNameRu() {
+        return LastNameRu;
+    }
+
+    public void setLastNameRu(String lastNameRu) {
+        LastNameRu = lastNameRu;
+    }
+
+    public String getFathersNameRu() {
+        return FathersNameRu;
+    }
+
+    public void setFathersNameRu(String fathersNameRu) {
+        FathersNameRu = fathersNameRu;
+    }
+
+    public String getFirstNameUz() {
+        return FirstNameUz;
+    }
+
+    public void setFirstNameUz(String firstNameUz) {
+        FirstNameUz = firstNameUz;
+    }
+
+    public String getLastNameUz() {
+        return LastNameUz;
+    }
+
+    public void setLastNameUz(String lastNameUz) {
+        LastNameUz = lastNameUz;
+    }
+
+    public String getFathersNameUz() {
+        return FathersNameUz;
+    }
+
+    public void setFathersNameUz(String fathersNameUz) {
+        FathersNameUz = fathersNameUz;
+    }
+
+    public String getAddressRu() {
+        return AddressRu;
+    }
+
+    public void setAddressRu(String addressRu) {
+        AddressRu = addressRu;
+    }
+
+    public String getAddressUz() {
+        return AddressUz;
+    }
+
+    public void setAddressUz(String addressUz) {
+        AddressUz = addressUz;
+    }
+
+    private String AddressRu;
+    private String AddressUz;
     private String UserName;
     private String Password;
     private String RepeatPassword;
     private int StatusId;
     private int ChiefId;
     private Date HiringDate;
+
+    public boolean isHasHead() {
+        return HasHead;
+    }
+
+    public void setHasHead(boolean hasHead) {
+        HasHead = hasHead;
+    }
+
+    private boolean HasHead;
+
 
     public String getFirstName() {
         return FirstName;

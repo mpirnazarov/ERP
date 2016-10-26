@@ -2,8 +2,7 @@ package com.lgcns.erp.tapps.controller;
 
 
 import com.lgcns.erp.tapps.DbContext.UserService;
-import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
-import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.LoginViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
@@ -16,9 +15,14 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
@@ -82,15 +86,33 @@ public class UserController {
             else
                 heads.put(userTemp.getId(),userTemp.getUserName());
         }
-        //mav.addObject("heads", UserService.getDirectHeads());
         mav.addObject("heads", heads);
+
+
+        Map<Integer, String> departments = new LinkedHashMap<Integer, String>();        //Getting departments and adding to model and view
+        for (DepartmentLocalizationsEntity depLoc : UserService.getDepartments()){
+            departments.put(depLoc.getDepartmentId(),depLoc.getName());
+        }
+        mav.addObject("departments", departments);
+
+        Map<Integer, String> statuses = new LinkedHashMap<Integer, String>();           //Getting statuses and adding to model and view
+        for (StatusLocalizationsEntity statLoc : UserService.getStatuses()){
+            statuses.put(statLoc.getStatusId(),statLoc.getName());
+        }
+        mav.addObject("statuses", statuses);
+
+
         return mav;
     }
 
     @RequestMapping (value = "/User/Register", method = RequestMethod.POST)
-    @ResponseBody public ModelAndView RegisterPost(@ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel ){
+    @ResponseBody public ModelAndView RegisterPost(@Valid RegistrationViewModel registrationViewModel, BindingResult bindingResult){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("user/register");
+        mav.addObject("registrationVM", registrationViewModel);
+        if(bindingResult.hasErrors()){
+            return mav;
+        }
 
         return mav;
     }

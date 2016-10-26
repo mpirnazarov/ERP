@@ -21,6 +21,9 @@ public class UsersEntity {
     private String passwordHash;
     private Date hiringDate;
     private Integer chiefId;
+    private String personalEmail;
+    private boolean isPolitical;
+    private String passport;
     private Collection<CertificatesEntity> certificatesById;
     private Collection<DocumentsEntity> documentsesById;
     private Collection<EducationsEntity> educationsesById;
@@ -50,6 +53,37 @@ public class UsersEntity {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Basic
+    @Column(name = "personal_email", nullable = false)
+    public String getPersonalEmail() {
+        return personalEmail;
+    }
+
+    public void setPersonalEmail(String personalEmail) {
+        this.personalEmail = personalEmail;
+    }
+
+    @Basic
+    @Column(name = "is_political", nullable = false)
+    public boolean isIsPolitical() {
+        return isPolitical;
+    }
+
+    public void setIsPolitical(boolean political) {
+        isPolitical = political;
+    }
+
+    @Basic
+    @Column(name = "passport", nullable = false)
+    public String getPassport() {
+        return passport;
+    }
+
+    public void setPassport(String passport) {
+        this.passport = passport;
+    }
+
 
     @Basic
     @Column(name = "date_of_birth", nullable = false)
@@ -169,6 +203,8 @@ public class UsersEntity {
         if (passwordHash != null ? !passwordHash.equals(that.passwordHash) : that.passwordHash != null) return false;
         if (hiringDate != null ? !hiringDate.equals(that.hiringDate) : that.hiringDate != null) return false;
         if (chiefId != null ? !chiefId.equals(that.chiefId) : that.chiefId != null) return false;
+        if (personalEmail != null ? !personalEmail.equals(that.personalEmail) : that.personalEmail!=null) return false;
+        if (passport != null ? !passport.equals(that.passport) : that.passport!=null) return false;
 
         return true;
     }
@@ -186,6 +222,8 @@ public class UsersEntity {
         result = 31 * result + (passwordHash != null ? passwordHash.hashCode() : 0);
         result = 31 * result + (hiringDate != null ? hiringDate.hashCode() : 0);
         result = 31 * result + (chiefId != null ? chiefId.hashCode() : 0);
+        result = 31 * result + (personalEmail != null ? personalEmail.hashCode() : 0);
+        result = 31 * result + (passport != null ? passport.hashCode() : 0);
         return result;
     }
 

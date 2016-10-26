@@ -1,6 +1,10 @@
 package com.lgcns.erp.tapps.viewModel;
 
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import org.apache.tools.ant.taskdefs.email.EmailAddress;
 import java.util.Date;
 
@@ -24,7 +28,40 @@ public class RegistrationViewModel {
     private EmailAddress Email;
     private EmailAddress CompanyEmail;
     private String Address;
+    private String AddressRu;
+    private String AddressUz;
+    private String UserName;
+    private String Password;
+    private String RepeatPassword;
+    private int StatusId;
+    private int ChiefId;
+    private Date HiringDate;
+    private boolean IsInPoliticalParty;
 
+    @NotNull
+    @Size(min=9, max=9)
+    @Pattern(regexp = "^[A-Za-z0-9]*$")
+    private String PassportNumber;
+
+
+
+    public boolean isIsInPoliticalParty() {
+        return IsInPoliticalParty;
+    }
+
+    public void setInPoliticalParty(boolean inPoliticalParty) {
+        IsInPoliticalParty = inPoliticalParty;
+    }
+
+    public String getPassportNumber() {
+        return PassportNumber;
+    }
+
+    public void setPassportNumber(String passportNumber) {
+        PassportNumber = passportNumber;
+    }
+
+    @NotNull
     public String getFirstNameRu() {
         return FirstNameRu;
     }
@@ -89,14 +126,6 @@ public class RegistrationViewModel {
         AddressUz = addressUz;
     }
 
-    private String AddressRu;
-    private String AddressUz;
-    private String UserName;
-    private String Password;
-    private String RepeatPassword;
-    private int StatusId;
-    private int ChiefId;
-    private Date HiringDate;
 
     public boolean isHasHead() {
         return HasHead;

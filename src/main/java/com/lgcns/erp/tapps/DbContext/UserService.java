@@ -1,5 +1,7 @@
 package com.lgcns.erp.tapps.DbContext;
 
+import com.lgcns.erp.tapps.Enums.Language;
+import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.model.UserInfo;
 import org.hibernate.HibernateException;
@@ -114,5 +116,56 @@ public class UserService {
         return list;
     }
 
+
+    public static List<DepartmentLocalizationsEntity> getDepartments(int language){
+        List<DepartmentLocalizationsEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from DepartmentLocalizationsEntity locs where locs.languageId = :language");
+            query.setParameter("language",language);
+            list = query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return list;
+    }
+    public static List<DepartmentLocalizationsEntity> getDepartments(){
+        return getDepartments(3);
+    }
+
+    public static List<StatusLocalizationsEntity> getStatuses(int language){
+        List<StatusLocalizationsEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from StatusLocalizationsEntity statLoc where statLoc.languageId = :language");
+            query.setParameter("language", language);
+            list = (List<StatusLocalizationsEntity>)query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return list;
+    }
+
+    public static List<StatusLocalizationsEntity> getStatuses() {
+        return getStatuses(3);
+    }
 
 }

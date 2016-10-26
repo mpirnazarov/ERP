@@ -17,6 +17,8 @@
                 <a href="#">
                     Profile menu
                 </a>
+                <!--Profile picture-->
+                <img src="${profilePicture.url}" style="width:45%;" class="w3-round"><br>
             </li>
             <li>
                 <a href="/User/Profile"><i class="fa fa-fw fa-home"></i> General information</a>

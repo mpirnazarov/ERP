@@ -26,15 +26,6 @@
                 <!--General info/Header information Tab-->
     <div id="headerinfo" class="tab-pane fade in active">
         <h3>Header information</h3>
-        <!--Profile picture-->
-        <div id="profilePictures">
-            <c:forEach items="${}" var="profilePicture">
-                <div class="profilePicture">
-                    <img src="${profilePicture.url}" width="200" height="300" />
-                    <br /><c:out value="${profilePicture.description}" />
-                </div>
-            </c:forEach>
-        </div>
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#en">EN</a></li>
             <li><a data-toggle="tab" href="#ru">RU</a></li>
@@ -110,7 +101,8 @@
     <div id="familyinfo" class="tab-pane fade">
         <h3>Family information</h3>
         <!--Family table-->
-        <table>
+        <table class="table table-hover">
+            <thead>
             <tr>
                 <th>Relation</th>
                 <th>Full name</th>
@@ -118,15 +110,25 @@
                 <th>Passport</th>
                 <th>Duties</th>
             </tr>
-            <c:forEach items="${familyList}" var="family" varStatus="status">
+            </thead>
+            <tbody>
+            <%--<c:forEach items="${familyList}" var="family" varStatus="status">--%>
                 <tr>
-                    <td>${}</td>
-                    <td>${}</td>
-                    <td>${}</td>
-                    <td>${}</td>
-                    <td>${}</td>
+                    <td>Row 1 Data 1</td>
+                    <td>Row 1 Data 2</td>
+                    <td>Row 1 Data 2</td>
+                    <td>Row 1 Data 2</td>
+                    <td>Row 1 Data 2</td>
                 </tr>
-            </c:forEach>
+                <tr>
+                    <td>Row 2 Data 1</td>
+                    <td>Row 2 Data 2</td>
+                    <td>Row 1 Data 2</td>
+                    <td>Row 1 Data 2</td>
+                    <td>Row 1 Data 2</td>
+                </tr>
+            <%--</c:forEach>--%>
+            </tbody>
         </table>
     </div>
 </div>

@@ -1,19 +1,12 @@
 package com.lgcns.erp.tapps.DbContext;
 
-import com.lgcns.erp.tapps.Enums.Language;
-import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.model.UserInfo;
-import com.lgcns.erp.tapps.viewModel.DirectHeads;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
-import javax.xml.registry.infomodel.User;
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
@@ -120,5 +113,6 @@ public class UserService {
 
         return list;
     }
+
 
 }

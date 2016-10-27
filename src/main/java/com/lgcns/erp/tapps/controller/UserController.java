@@ -101,7 +101,6 @@ public class UserController {
         }
         mav.addObject("statuses", statuses);
 
-
         return mav;
     }
 

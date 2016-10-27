@@ -6,6 +6,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.apache.tools.ant.taskdefs.email.EmailAddress;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.util.Date;
 
 /**
@@ -38,9 +40,9 @@ public class RegistrationViewModel {
     private Date HiringDate;
     private boolean IsInPoliticalParty;
 
-    @NotNull
     @Size(min=9, max=9)
-    @Pattern(regexp = "^[A-Za-z0-9]*$")
+    @Pattern(regexp = "^[A-Za-z0-9]{9}$", message = "Passport number should be nine digits")
+    @NotEmpty(message = "Passport no. is required.")
     private String PassportNumber;
 
 
@@ -194,6 +196,7 @@ public class RegistrationViewModel {
         HomePhone = homePhone;
     }
 
+    @NotNull(message = "Personal Email is required")
     public EmailAddress getEmail() {
         return Email;
     }

@@ -18,26 +18,26 @@
             <h1 class="page-header">New User Registration</h1>
             <form:form modelAttribute="registrationVM" cssClass="form-horizontal" method="post" action="/User/Register">
 
-            <div class="tab-content">
-        <ul class="nav nav-tabs">
+        <div class="tab-content">
+            <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#English">English</a></li>
             <li><a data-toggle="tab" href="#Russian">Russian</a></li>
             <li><a data-toggle="tab" href="#Uzbek">Uzbek</a></li>
         </ul>
-        <div id="English" class="tab-pane fade in active">
+            <div id="English" class="tab-pane fade in active"  style="border: 1px solid #fff;">
+                <br/>
             <div class="form-horizontal">
-                <hr/>
                     <div class="form-group">
                         <label class="control-label col-md-3">First name <font color='red'>*</font></label>
                         <div class="col-md-5">
-                            <form:input path="firstName" placeholder="First Name" required="required" cssClass="form-control text-box single-line"/>
+                            <form:input path="firstName" placeholder="First Name" cssClass="form-control text-box single-line"/>
                             <form:errors path="firstName" cssClass="error" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">Last name <font color='red'>*</font></label>
                         <div class="col-md-5">
-                            <form:input path="lastName" placeholder="Last Name" required="required" cssClass="form-control text-box single-line"/>
+                            <form:input path="lastName" placeholder="Last Name" cssClass="form-control text-box single-line"/>
                             <form:errors path="lastName" cssClass="error" />
                         </div>
                     </div>
@@ -51,27 +51,27 @@
                 <div class="form-group">
                     <label class="control-label col-md-3" for="Address">Address <font color='red'>*</font></label>
                     <div class="col-md-5">
-                        <form:textarea path="address" placeholder="Home address" required="required" cssClass="form-control text-box" rows="3" cols="5"/>
+                        <form:textarea path="address" placeholder="Home address" cssClass="form-control text-box" rows="3" cols="5"/>
                         <form:errors path="address" cssClass="error" />
                     </div>
                 </div>
 
             </div>
         </div>
-        <div id="Russian" class="tab-pane fade">
+            <div id="Russian" class="tab-pane fade"  style="border: 1px solid #fff;">
+                <br/>
             <div class="form-horizontal">
-                <hr/>
                 <div class="form-group">
                     <label class="control-label col-md-3">Имя <font color='red'>*</font></label>
                     <div class="col-md-5">
-                        <form:input path="firstNameRu" placeholder="Имя" required="required" cssClass="form-control text-box single-line"/>
+                        <form:input path="firstNameRu" placeholder="Имя" cssClass="form-control text-box single-line"/>
                         <form:errors path="firstNameRu" cssClass="error" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Фамилия <font color='red'>*</font></label>
                     <div class="col-md-5">
-                        <form:input path="lastNameRu" placeholder="Фамилия" required="required" cssClass="form-control text-box single-line"/>
+                        <form:input path="lastNameRu" placeholder="Фамилия" cssClass="form-control text-box single-line"/>
                         <form:errors path="lastNameRu" cssClass="error" />
                     </div>
                 </div>
@@ -85,27 +85,27 @@
                 <div class="form-group">
                     <label class="control-label col-md-3" for="Address">Адрес <font color='red'>*</font></label>
                     <div class="col-md-5">
-                        <form:textarea path="addressRu" placeholder="Адрес" required="required" cssClass="form-control text-box" rows="3" cols="5"/>
+                        <form:textarea path="addressRu" placeholder="Адрес" cssClass="form-control text-box" rows="3" cols="5"/>
                         <form:errors path="addressRu" cssClass="error" />
                     </div>
                 </div>
 
             </div>
         </div>
-        <div id="Uzbek" class="tab-pane fade">
-            <div class="form-horizontal">
-                <hr/>
+            <div id="Uzbek" class="tab-pane fade"  style="border: 1px solid #fff;">
+                <br/>
+                <div class="form-horizontal">
                 <div class="form-group">
                     <label class="control-label col-md-3">Ism <font color='red'>*</font></label>
                     <div class="col-md-5">
-                        <form:input path="firstNameUz" placeholder="Ism" required="required" cssClass="form-control text-box single-line"/>
+                        <form:input path="firstNameUz" placeholder="Ism" cssClass="form-control text-box single-line"/>
                         <form:errors path="firstNameUz" cssClass="error" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Familiya <font color='red'>*</font></label>
                     <div class="col-md-5">
-                        <form:input path="lastNameUz" placeholder="Familiya" required="required" cssClass="form-control text-box single-line"/>
+                        <form:input path="lastNameUz" placeholder="Familiya" cssClass="form-control text-box single-line"/>
                         <form:errors path="lastNameUz" cssClass="error" />
                     </div>
                 </div>
@@ -119,23 +119,21 @@
                 <div class="form-group">
                     <label class="control-label col-md-3" for="Address">Manzil </label>
                     <div class="col-md-5">
-                        <form:textarea path="addressUz" placeholder="Uy manzili" required="required" cssClass="form-control text-box" rows="3" cols="5"/>
+                        <form:textarea path="addressUz" placeholder="Uy manzili" cssClass="form-control text-box" rows="3" cols="5"/>
                         <form:errors path="addressUz" cssClass="error" />
                     </div>
                 </div>
 
             </div>
         </div>
-    </div>
+        </div>
 
-
-    <div class="form-horizontal">
-        <hr/>
-
+        <div class="form-horizontal">
+            <br/>
         <div class="form-group">
             <label class="control-label col-md-3">Date of Birth <font color='red'>*</font></label>
             <div class="col-md-5">
-                <form:input path="dateOfBirth" type="date" cssClass="form-control text-box single-line"/>
+                <form:input path="dateOfBirth" type="date" cssClass="form-control text-box single-line requiredDate"/>
                 <form:errors path="dateOfBirth" cssClass="error" />
             </div>
         </div>
@@ -171,7 +169,7 @@
         <label class="control-label col-md-3">Mobile Phone <font color='red'>*</font></label>
         <div class="col-md-5">
             <form:input path="mobilePhone" placeholder="Mobile phone number" type="tel"
-                        cssClass="form-control text-box single-line"/>
+                        cssClass="requiredPhone form-control text-box single-line"/>
             <form:errors path="mobilePhone" cssClass="error" />
         </div>
     </div>
@@ -179,8 +177,8 @@
         <div class="form-group">
             <label class="control-label col-md-3">Phone <font color='red'>*</font></label>
             <div class="col-md-5">
-                <form:input path="homePhone" placeholder="Home phone number" type="tel"
-                            cssClass="form-control text-box single-line"/>
+                <form:input path="homePhone" placeholder="Home phone number"
+                            cssClass="requiredPhone form-control text-box single-line"/>
                 <form:errors path="homePhone" cssClass="error" />
             </div>
         </div>
@@ -188,7 +186,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Hiring Date <font color='red'>*</font></label>
             <div class="col-md-5">
-                <form:input path="hiringDate" type="date" cssClass="form-control text-box single-line"/>
+                <form:input path="hiringDate" type="date" cssClass="form-control text-box single-line requiredDate"/>
                 <form:errors path="hiringDate" cssClass="error" />
             </div>
         </div>
@@ -252,7 +250,9 @@
     </div>
 </div>
 
-<script>
+            </form:form>
+
+            <script>
     var enableList = function () {
         if ($("#hasHead").is(":checked")) {
             $('#chiefId').prop('disabled', false);
@@ -264,8 +264,61 @@
     $(enableList);
     $("#hasHead").change(enableList);
 </script>
+            <script>
+                var requiredText = {
+                    required: true
+                };
+                $(document).ready(function() {
+                    $("#registrationVM").validate({
+                        rules : {
+                            'email': {
+                                required: true,
+                                email: true
+                            },
+                            'password': {
+                                required: true,
+                                minlength: 5
+                            },
+                            'repeatPassword' : {
+                                required : true,
+                                minlength: 5
+                            }
+                        },
 
-</form:form>
+                        // Make sure the form is submitted to the destination defined
+                        // in the "action" attribute of the form when valid
+/*                        submitHandler: function(form) {
+                            form.submit();
+                        }*/
+
+                    });
+                    $('.requiredDate').each(function() {
+                        $(this).rules('add', {
+                            required: true,
+                            date: true
+                        });
+                    });
+                    $('.requiredPhone').each(function() {
+                        $(this).rules('add', {
+                            required: true,
+                            phoneUS: true
+                            //matches:"\(?([+]?)([0-9]{5})\)?([ .-]?)([0-9]{3})([ .-]?)([0-9]{4})",
+                        });
+                    });
+                    $('.requiredNumeric').each(function() {
+                        $(this).rules('add', {
+                            required: true,
+                            numeric: true
+                            //matches:"\(?([+]?)([0-9]{5})\)?([ .-]?)([0-9]{3})([ .-]?)([0-9]{4})",
+                        });
+                    });
+
+                });
+            </script>
+
+        </div>
+    </div>
+</div>
 
 
 <%--<html>

@@ -12,18 +12,19 @@ import java.util.Collection;
 public class UsersEntity {
     private int id;
     private Date dateOfBirth;
-    private int departmentId;
+    private Integer departmentId;
     private String mobilePhone;
     private String homePhone;
     private String eMail;
     private String userName;
-    private int statusId;
+    private Integer statusId;
     private String passwordHash;
     private Date hiringDate;
     private Integer chiefId;
     private String personalEmail;
-    private boolean isPolitical;
+    private boolean inPoliticalParty;
     private String passport;
+    private boolean enabled;
     private Collection<CertificatesEntity> certificatesById;
     private Collection<DocumentsEntity> documentsesById;
     private Collection<EducationsEntity> educationsesById;
@@ -46,12 +47,23 @@ public class UsersEntity {
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "enabled")
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Basic
@@ -64,14 +76,15 @@ public class UsersEntity {
         this.personalEmail = personalEmail;
     }
 
+
     @Basic
-    @Column(name = "is_political", nullable = false)
-    public boolean isIsPolitical() {
-        return isPolitical;
+    @Column(name = "is_political")
+    public boolean isInPoliticalParty() {
+        return inPoliticalParty;
     }
 
-    public void setIsPolitical(boolean political) {
-        isPolitical = political;
+    public void setInPoliticalParty(boolean inPoliticalParty) {
+        this.inPoliticalParty = inPoliticalParty;
     }
 
     @Basic
@@ -400,4 +413,5 @@ public class UsersEntity {
     public void setWorksesById(Collection<WorksEntity> worksesById) {
         this.worksesById = worksesById;
     }
+
 }

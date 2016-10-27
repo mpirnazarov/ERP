@@ -3,6 +3,7 @@ package com.lgcns.erp.tapps.DbContext;
 import com.lgcns.erp.tapps.Enums.Language;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.tapps.model.StringResponse;
 import com.lgcns.erp.tapps.model.UserInfo;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -12,7 +13,9 @@ import org.hibernate.query.Query;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Rafatdin on 16.09.2016.
@@ -166,6 +169,118 @@ public class UserService {
 
     public static List<StatusLocalizationsEntity> getStatuses() {
         return getStatuses(3);
+    }
+
+    public static Map<Integer, String> getLanguageIdAndName()
+    {
+        Map<Integer,String> map = new LinkedHashMap<Integer, String>();
+
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("select distinct langLoc from LanguageLocalizationsEntity langLoc");
+            for(LanguageLocalizationsEntity langloc : (List<LanguageLocalizationsEntity>)query.list()){
+                map.put(langloc.getLanguageId(), langloc.getName());
+            }
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return map;
+    }
+
+    public static int insertUser(UsersEntity user){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            //Set foreign key items
+            user.setDepartmentsByDepartmentId(session.load(DepartmentsEntity.class, user.getDepartmentId()));
+            user.setStatusesByStatusId(session.load(StatusesEntity.class, user.getStatusId()));
+            user.setUsersByChiefId(session.load(UsersEntity.class, user.getChiefId()));
+
+            //Save the object in database
+            session.save(user);
+
+           /* Query insertQuery = session.createSQLQuery(""+
+                    "INSERT INTO public.users "+
+                    "(date_of_Birth, department_id, mobile_phone, home_phone, e_mail,"+
+                    "user_name, status_id, password_hash, hiring_date, chief_id, personal_email, is_political, passport, enabled)"+
+                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+            );
+            insertQuery.setParameter(0, user.getDateOfBirth());
+            insertQuery.setParameter(1, user.getDepartmentId());
+            insertQuery.setParameter(2, user.getMobilePhone());
+            insertQuery.setParameter(3, user.getHomePhone());
+            insertQuery.setParameter(4, user.geteMail());
+            insertQuery.setParameter(5, user.getUserName());
+            insertQuery.setParameter(6, user.getStatusId());
+            insertQuery.setParameter(7, user.getPasswordHash());
+            insertQuery.setParameter(8, user.getHiringDate());
+            insertQuery.setParameter(9, user.getChiefId());
+            insertQuery.setParameter(10, user.getPersonalEmail());
+            insertQuery.setParameter(11, user.isInPoliticalParty());
+            insertQuery.setParameter(12, user.getPassport());
+            insertQuery.setParameter(13, user.isEnabled());
+            insertQuery.executeUpdate();*/
+
+
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return user.getId();
+    }
+
+    public static void insertUserLoc(List<UserLocalizationsEntity> userLocs){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            //Save the objects in database
+            for(UserLocalizationsEntity temp : userLocs){
+                temp.setLanguagesByLanguageId(session.load(LanguagesEntity.class, temp.getLanguageId()));
+                temp.setUsersByUserId(session.load(UsersEntity.class, temp.getUserId()));
+                session.save(temp);
+
+                /*Query insertQuery = session.createSQLQuery(""+
+                        "INSERT INTO public.user_localizations "+
+                        "(last_name, first_name, father_name, address, user_id, language_id) "+
+                        "VALUES (?,?,?,?,?,?)"
+                );
+                insertQuery.setParameter(0, temp.getLastName());
+                insertQuery.setParameter(1, temp.getFirstName());
+                insertQuery.setParameter(2, temp.getFatherName());
+                insertQuery.setParameter(3, temp.getAddress());
+                insertQuery.setParameter(4, temp.getUserId());
+                insertQuery.setParameter(5, temp.getLanguageId());
+                insertQuery.executeUpdate();*/
+            }
+
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
     }
 
 }

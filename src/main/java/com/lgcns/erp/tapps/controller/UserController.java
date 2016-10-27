@@ -2,6 +2,7 @@ package com.lgcns.erp.tapps.controller;
 
 
 import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.LoginViewModel;
@@ -14,6 +15,7 @@ import com.lgcns.erp.tapps.viewModel.usermenu.TrainViewModel;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.memory.UserMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -66,10 +68,12 @@ public class UserController {
     }
 
     @RequestMapping (value = "/User/Register", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView Register(@ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel ){
+    @ResponseBody public ModelAndView Register(/*@ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel */){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("user/register");
-        mav.addObject("registrationVM", registrationViewModel);
+
+        RegistrationViewModel rvm = new RegistrationViewModel(UserService.getLanguageIdAndName());
+        mav.addObject("registrationVM", rvm);
         Map<Integer, String> heads = new LinkedHashMap<Integer, String>();      //return data
 
         Collection<UsersEntity> usersWithInfo = UserService.getDirectHeads();   //Getting list of users with localization info
@@ -110,9 +114,46 @@ public class UserController {
         mav.setViewName("user/register");
         mav.addObject("registrationVM", registrationViewModel);
         if(bindingResult.hasErrors()){
+            Map<Integer, String> heads = new LinkedHashMap<Integer, String>();      //return data
+
+            Collection<UsersEntity> usersWithInfo = UserService.getDirectHeads();   //Getting list of users with localization info
+            Iterator itr = usersWithInfo.iterator();                                //info for iterator
+            UsersEntity userTemp;                                                   //info for iterator
+            UserLocalizationsEntity userLocTemp;                                    //info for iterator
+
+            while (itr.hasNext()) {
+                Object[] obj = (Object[]) itr.next();
+                userTemp =  (UsersEntity)obj[0];
+                userLocTemp =  (UserLocalizationsEntity)obj[1];
+                if(userLocTemp != null)
+                    heads.put(userTemp.getId(),userLocTemp.getFirstName() + " " + userLocTemp.getFirstName());
+                else
+                    heads.put(userTemp.getId(),userTemp.getUserName());
+            }
+            mav.addObject("heads", heads);
+
+
+            Map<Integer, String> departments = new LinkedHashMap<Integer, String>();        //Getting departments and adding to model and view
+            for (DepartmentLocalizationsEntity depLoc : UserService.getDepartments()){
+                departments.put(depLoc.getDepartmentId(),depLoc.getName());
+            }
+            mav.addObject("departments", departments);
+
+            Map<Integer, String> statuses = new LinkedHashMap<Integer, String>();           //Getting statuses and adding to model and view
+            for (StatusLocalizationsEntity statLoc : UserService.getStatuses()){
+                statuses.put(statLoc.getStatusId(),statLoc.getName());
+            }
+            mav.addObject("statuses", statuses);
             return mav;
         }
 
+        //adding user and userLocalization info into DB
+        int userId = UserService.insertUser(UserMapper.mapRegModelToUserInfo(registrationViewModel));
+        UserService.insertUserLoc(UserMapper.mapRegModelToUserLocInfo(registrationViewModel,userId));
+
+
+        mav = new ModelAndView();
+        mav.setViewName("Home/hrmenu/Userslist");
         return mav;
     }
 

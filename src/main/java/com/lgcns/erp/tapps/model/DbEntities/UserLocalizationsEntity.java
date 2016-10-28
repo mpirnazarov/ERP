@@ -19,6 +19,7 @@ public class UserLocalizationsEntity {
     private LanguagesEntity languagesByLanguageId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public int getId() {
         return id;

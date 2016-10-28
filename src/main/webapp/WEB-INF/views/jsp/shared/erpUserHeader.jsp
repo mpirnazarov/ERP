@@ -17,9 +17,11 @@
     <spring:url value="/resources/core/css/style.css" var="styleCss" />
     <spring:url value="/resources/core/css/bootstrap.css" var="bootstrapCss" />
     <spring:url value="/resources/core/js/jquery-1.12.4.min.js" var="jquery" />
+    <spring:url value="/resources/core/js/jquery.validate.js" var="jqueryValidation" />
     <link rel="stylesheet" href="${normalizeCss}" />
     <link rel='stylesheet prefetch' href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="${styleCss}" />
     <script src="${jquery}"></script>
+    <script src="${jqueryValidation}"></script>
 </head>
 <body>

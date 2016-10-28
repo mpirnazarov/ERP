@@ -12,15 +12,19 @@ import java.util.Collection;
 public class UsersEntity {
     private int id;
     private Date dateOfBirth;
-    private int departmentId;
+    private Integer departmentId;
     private String mobilePhone;
     private String homePhone;
     private String eMail;
     private String userName;
-    private int statusId;
+    private Integer statusId;
     private String passwordHash;
     private Date hiringDate;
     private Integer chiefId;
+    private String personalEmail;
+    private boolean inPoliticalParty;
+    private String passport;
+    private boolean enabled;
     private Collection<CertificatesEntity> certificatesById;
     private Collection<DocumentsEntity> documentsesById;
     private Collection<EducationsEntity> educationsesById;
@@ -43,6 +47,7 @@ public class UsersEntity {
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -50,6 +55,48 @@ public class UsersEntity {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Basic
+    @Column(name = "enabled")
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Basic
+    @Column(name = "personal_email", nullable = false)
+    public String getPersonalEmail() {
+        return personalEmail;
+    }
+
+    public void setPersonalEmail(String personalEmail) {
+        this.personalEmail = personalEmail;
+    }
+
+
+    @Basic
+    @Column(name = "is_political")
+    public boolean isInPoliticalParty() {
+        return inPoliticalParty;
+    }
+
+    public void setInPoliticalParty(boolean inPoliticalParty) {
+        this.inPoliticalParty = inPoliticalParty;
+    }
+
+    @Basic
+    @Column(name = "passport", nullable = false)
+    public String getPassport() {
+        return passport;
+    }
+
+    public void setPassport(String passport) {
+        this.passport = passport;
+    }
+
 
     @Basic
     @Column(name = "date_of_birth", nullable = false)
@@ -169,6 +216,8 @@ public class UsersEntity {
         if (passwordHash != null ? !passwordHash.equals(that.passwordHash) : that.passwordHash != null) return false;
         if (hiringDate != null ? !hiringDate.equals(that.hiringDate) : that.hiringDate != null) return false;
         if (chiefId != null ? !chiefId.equals(that.chiefId) : that.chiefId != null) return false;
+        if (personalEmail != null ? !personalEmail.equals(that.personalEmail) : that.personalEmail!=null) return false;
+        if (passport != null ? !passport.equals(that.passport) : that.passport!=null) return false;
 
         return true;
     }
@@ -186,6 +235,8 @@ public class UsersEntity {
         result = 31 * result + (passwordHash != null ? passwordHash.hashCode() : 0);
         result = 31 * result + (hiringDate != null ? hiringDate.hashCode() : 0);
         result = 31 * result + (chiefId != null ? chiefId.hashCode() : 0);
+        result = 31 * result + (personalEmail != null ? personalEmail.hashCode() : 0);
+        result = 31 * result + (passport != null ? passport.hashCode() : 0);
         return result;
     }
 
@@ -362,4 +413,5 @@ public class UsersEntity {
     public void setWorksesById(Collection<WorksEntity> worksesById) {
         this.worksesById = worksesById;
     }
+
 }

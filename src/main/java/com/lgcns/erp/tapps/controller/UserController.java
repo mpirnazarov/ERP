@@ -1,7 +1,7 @@
 package com.lgcns.erp.tapps.controller;
 
 
-import com.lgcns.erp.tapps.DAO.UserProfileDAO;
+//import com.lgcns.erp.tapps.DAO.UserProfileDAO;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.DepartmentLocalizationsEntity;
@@ -121,10 +121,8 @@ public class UserController {
         return mav;
     }
 
-
-    @RequestMapping(value = "/User/Profile", method = RequestMethod.GET)
-    @ResponseBody
-    public ModelAndView Profile(Principal principal) {
+/*    @RequestMapping (value = "/User/Profile", method = RequestMethod.GET)
+    @ResponseBody public ModelAndView Profile(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/IndexUser");
 
@@ -140,11 +138,14 @@ public class UserController {
         }
 
 
+
+
         mav.addObject("userProfile", userProfile);
 
 
+
         return mav;
-    }
+    }*/
 
     @RequestMapping(value = "/User/Profile/Appointment", method = RequestMethod.GET)
     @ResponseBody

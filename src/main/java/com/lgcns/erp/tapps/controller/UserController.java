@@ -1,6 +1,7 @@
 package com.lgcns.erp.tapps.controller;
 
 
+import com.lgcns.erp.tapps.DAO.UserProfileDAO;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
@@ -14,16 +15,16 @@ import com.lgcns.erp.tapps.viewModel.usermenu.JobexpViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.TrainViewModel;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.security.Principal;
+import java.util.*;
 
 
 /**
@@ -96,11 +97,28 @@ public class UserController {
     }
 
     @RequestMapping (value = "/User/Profile", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView Profile(){
+    @ResponseBody public ModelAndView Profile(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/IndexUser");
-        ProfileViewModel profileViewModel = new ProfileViewModel();
-        mav.addObject("profileVM", profileViewModel);
+
+
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext("spring-module.xml");
+        UserProfileDAO userProfileDAO = (UserProfileDAO) context.getBean("userProfileDAO");
+        ProfileViewModel userProfile = userProfileDAO.findByUserName(principal.getName());
+        try {
+            System.out.println(userProfile.toString());
+        } catch (Exception e){
+            System.out.println(e.getStackTrace());
+        }
+
+
+
+
+        mav.addObject("userProfile", userProfile);
+
+
+
         return mav;
     }
 
@@ -109,9 +127,11 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/AppointmentRec");
         AppointmentrecViewModel appointmentrecViewModel = new AppointmentrecViewModel();
+
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
         return mav;
     }
+
     @RequestMapping (value = "/User/Profile/Edu", method = RequestMethod.GET)
     @ResponseBody public ModelAndView Edu(){
         ModelAndView mav = new ModelAndView();

@@ -318,3 +318,43 @@ body a {
 body a:hover {
   color: #ffffff;
 }
+/* styles for validation helpers */
+.field-validation-error {
+  color: #b94a48;
+}
+
+.field-validation-valid {
+  display: none;
+}
+
+input.input-validation-error {
+  border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+  border: 0 none;
+}
+
+.validation-summary-errors {
+  color: #b94a48;
+}
+
+.validation-summary-valid {
+  display: none;
+}
+input.invalid, textarea.invalid{
+  border: 2px solid red;
+}
+
+input.valid, textarea.valid{
+  border: 2px solid green;
+}
+.error{
+  display: none;
+  margin-left: 10px;
+}
+
+.error_show{
+  color: red;
+  margin-left: 10px;
+}

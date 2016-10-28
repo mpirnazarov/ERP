@@ -1,10 +1,13 @@
 package com.lgcns.erp.tapps.viewModel;
 
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
-import org.apache.tools.ant.taskdefs.email.EmailAddress;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.*;
@@ -30,20 +33,37 @@ public class RegistrationViewModel {
         }
     }
 
-
+    @Valid
     private List<RegistrationLocInfo> RegistrationLocInfos;
+
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date DateOfBirth;
     private int DepartmentId;
+
+    @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$",message="{invalid.phonenumber}")
     private String MobilePhone;
     private String HomePhone;
-    private EmailAddress Email;
-    private EmailAddress CompanyEmail;
+
+    @NotEmpty
+    @Email
+    private String Email;
+
+    @NotEmpty
+    @Email
+    private String CompanyEmail;
     private String UserName;
+
+    @NotEmpty
     private String Password;
+
+    @NotEmpty
     private String RepeatPassword;
+
     private int StatusId;
     private int ChiefId;
+
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date HiringDate;
     private boolean IsInPoliticalParty;
@@ -115,18 +135,17 @@ public class RegistrationViewModel {
         HomePhone = homePhone;
     }
 
-    @NotNull(message = "Personal Email is required")
-    public EmailAddress getEmail() {
+    public String getEmail() {
         return Email;
     }
 
-    public void setEmail(EmailAddress email) {
+    public void setEmail(String email) {
         Email = email;
     }
 
-    public EmailAddress getCompanyEmail() {return CompanyEmail;}
+    public String getCompanyEmail() {return CompanyEmail;}
 
-    public void setCompanyEmail(EmailAddress companyEmail) {CompanyEmail = companyEmail;}
+    public void setCompanyEmail(String companyEmail) {CompanyEmail = companyEmail;}
 
     public String getUserName() {
         return UserName;
@@ -135,7 +154,6 @@ public class RegistrationViewModel {
     public void setUserName(String userName) {
         UserName = userName;
     }
-
     public String getPassword() {
         return Password;
     }

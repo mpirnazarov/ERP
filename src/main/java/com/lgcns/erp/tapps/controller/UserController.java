@@ -4,7 +4,10 @@ package com.lgcns.erp.tapps.controller;
 import com.lgcns.erp.tapps.DAO.UserProfileDAO;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.mapper.UserMapper;
-import com.lgcns.erp.tapps.model.DbEntities.*;
+import com.lgcns.erp.tapps.model.DbEntities.DepartmentLocalizationsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.StatusLocalizationsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.LoginViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
@@ -18,21 +21,19 @@ import org.json.simple.JSONObject;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.memory.UserMap;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import sun.awt.image.ImageWatched;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 /**
@@ -103,7 +104,7 @@ public class UserController {
             mav.addObject("heads", getDirectHeadIdAndName());
             mav.addObject("departments", getDepartmentsIdAndName());
             mav.addObject("statuses", getStatusesIdAndName());
-            mav.addObject("org.springframework.validation.BindingResult.registrationVM",bindingResult);
+            mav.addObject("org.springframework.validation.BindingResult.registrationVM", bindingResult);
             //redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registrationVM", bindingResult);
             //redirectAttributes.addFlashAttribute("registrationVM", registrationViewModel);
             //return "redirect:/";
@@ -120,11 +121,10 @@ public class UserController {
         return mav;
     }
 
+
     @RequestMapping(value = "/User/Profile", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView Profile() {
-    @RequestMapping (value = "/User/Profile", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView Profile(Principal principal){
+    public ModelAndView Profile(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/IndexUser");
 
@@ -135,15 +135,12 @@ public class UserController {
         ProfileViewModel userProfile = userProfileDAO.findByUserName(principal.getName());
         try {
             System.out.println(userProfile.toString());
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getStackTrace());
         }
 
 
-
-
         mav.addObject("userProfile", userProfile);
-
 
 
         return mav;

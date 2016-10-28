@@ -53,6 +53,8 @@
           <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-core:1.1" />
           <element id="library" level="project" name="Maven: org.apache.ant:ant:1.8.1" />
           <element id="library" level="project" name="Maven: org.apache.ant:ant-launcher:1.8.1" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:3.2.13.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:3.2.13.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:3.2.3.RELEASE" />
           <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:3.2.3.RELEASE" />

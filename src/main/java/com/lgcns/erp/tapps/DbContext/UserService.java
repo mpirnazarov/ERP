@@ -1,9 +1,6 @@
 package com.lgcns.erp.tapps.DbContext;
 
-import com.lgcns.erp.tapps.Enums.Language;
 import com.lgcns.erp.tapps.model.DbEntities.*;
-import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
-import com.lgcns.erp.tapps.model.StringResponse;
 import com.lgcns.erp.tapps.model.UserInfo;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -117,6 +114,56 @@ public class UserService {
         }
 
         return list;
+    }
+
+    public static UsersEntity getUserByUsername(String username)
+    {
+        UsersEntity user=null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UsersEntity users where users.userName = :username");//" inner join user.usersByUserId");//" on user.id = userLoc.userId where userLoc.languageId = :languageId");
+            query.setParameter("username", username);
+            user = (UsersEntity)query.getSingleResult();
+
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return user;
+    }
+
+    public static List<UserLocalizationsEntity> getUserLocByUserId(int userId)
+    {
+        List list = null;
+        UserLocalizationsEntity userLoc=null;
+        List<UserLocalizationsEntity> userLocalizationsEntities=null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserLocalizationsEntity userLoc where userLoc.userId = :userId");
+            query.setParameter("userId", userId);
+            //userLoc = (UserLocalizationsEntity) query.getSingleResult();
+            userLocalizationsEntities = query.getResultList();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return userLocalizationsEntities;
     }
 
 
@@ -283,4 +330,49 @@ public class UserService {
         }
     }
 
+    public static UserInRolesEntity getPositionId(int userId) {
+        UserInRolesEntity userInRoles = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserInRolesEntity locs where locs.userId = :userId");
+            query.setParameter("userId",userId);
+            userInRoles = (UserInRolesEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return userInRoles;
+    }
+
+    public static RoleLocalizationsEntity getPosition(UserInRolesEntity userInRoles) {
+        RoleLocalizationsEntity roleLoc = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserInRolesEntity locs where locs.userId = :userId");
+            query.setParameter("userId", userInRoles.getId());
+            userInRoles = (UserInRolesEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return roleLoc;
+    }
 }

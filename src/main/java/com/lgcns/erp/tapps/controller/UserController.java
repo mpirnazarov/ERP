@@ -4,10 +4,7 @@ package com.lgcns.erp.tapps.controller;
 import com.lgcns.erp.tapps.DAO.UserProfileDAO;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.mapper.UserMapper;
-import com.lgcns.erp.tapps.model.DbEntities.DepartmentLocalizationsEntity;
-import com.lgcns.erp.tapps.model.DbEntities.StatusLocalizationsEntity;
-import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
-import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.LoginViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
@@ -30,10 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -132,7 +126,7 @@ public class UserController {
         ApplicationContext context =
                 new ClassPathXmlApplicationContext("spring-module.xml");
         UserProfileDAO userProfileDAO = (UserProfileDAO) context.getBean("userProfileDAO");
-        ProfileViewModel userProfile = userProfileDAO.findByUserName(principal.getName());
+        ProfileViewModel userProfile = getProfileByUsername(principal); //userProfileDAO.findByUserName(principal.getName());
         try {
             System.out.println(userProfile.toString());
         } catch (Exception e) {
@@ -222,6 +216,31 @@ public class UserController {
             statuses.put(statLoc.getStatusId(), statLoc.getName());
         }
         return statuses;
+    }
+
+    private ProfileViewModel getProfileByUsername(Principal principal){
+        ProfileViewModel returning = new ProfileViewModel();
+
+        // Getting data from users db
+        UsersEntity user = UserService.getUserByUsername(principal.getName());
+
+        // Getting its localization data
+        List<UserLocalizationsEntity> userLocalizationsEntities = UserService.getUserLocByUserId(user.getId());
+        for (UserLocalizationsEntity ul:
+            userLocalizationsEntities ) {
+            returning.addData1(user.getId(), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
+        }
+
+        //Getting department name
+        returning.setDepartment(UserService.getDepartments().get(3).getName());
+
+        //Getting Position from user_in_roles
+        UserInRolesEntity userInRoles =  UserService.getPositionId(user.getId());
+        RoleLocalizationsEntity roleLoc = UserService.getPosition(userInRoles);
+        //returning.setPosition();
+        //Getting Joint Type
+
+        return returning;
     }
 
 }

@@ -18,8 +18,6 @@ import com.lgcns.erp.tapps.viewModel.usermenu.JobexpViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.TrainViewModel;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -105,9 +103,6 @@ public class UserController {
             mav.addObject("departments", getDepartmentsIdAndName());
             mav.addObject("statuses", getStatusesIdAndName());
             mav.addObject("org.springframework.validation.BindingResult.registrationVM", bindingResult);
-            //redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registrationVM", bindingResult);
-            //redirectAttributes.addFlashAttribute("registrationVM", registrationViewModel);
-            //return "redirect:/";
             return mav;
         }
 

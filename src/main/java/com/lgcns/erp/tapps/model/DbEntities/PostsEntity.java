@@ -1,7 +1,6 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.Collection;
 
 /**
@@ -11,11 +10,7 @@ import java.util.Collection;
 @Table(name = "posts", schema = "public", catalog = "LgErpSystem")
 public class PostsEntity {
     private int id;
-    private int userId;
-    private Date dateFrom;
     private Collection<PostLocalizationsEntity> postLocalizationsesById;
-    private UsersEntity usersByUserId;
-    private Collection<UserInPostsEntity> userInPostsesById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -27,26 +22,6 @@ public class PostsEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    @Basic
-    @Column(name = "date_from", nullable = false)
-    public Date getDateFrom() {
-        return dateFrom;
-    }
-
-    public void setDateFrom(Date dateFrom) {
-        this.dateFrom = dateFrom;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,8 +30,6 @@ public class PostsEntity {
         PostsEntity that = (PostsEntity) o;
 
         if (id != that.id) return false;
-        if (userId != that.userId) return false;
-        if (dateFrom != null ? !dateFrom.equals(that.dateFrom) : that.dateFrom != null) return false;
 
         return true;
     }
@@ -64,8 +37,6 @@ public class PostsEntity {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + userId;
-        result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
         return result;
     }
 
@@ -76,24 +47,5 @@ public class PostsEntity {
 
     public void setPostLocalizationsesById(Collection<PostLocalizationsEntity> postLocalizationsesById) {
         this.postLocalizationsesById = postLocalizationsesById;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    public UsersEntity getUsersByUserId() {
-        return usersByUserId;
-    }
-
-    public void setUsersByUserId(UsersEntity usersByUserId) {
-        this.usersByUserId = usersByUserId;
-    }
-
-    @OneToMany(mappedBy = "postsByPostId")
-    public Collection<UserInPostsEntity> getUserInPostsesById() {
-        return userInPostsesById;
-    }
-
-    public void setUserInPostsesById(Collection<UserInPostsEntity> userInPostsesById) {
-        this.userInPostsesById = userInPostsesById;
     }
 }

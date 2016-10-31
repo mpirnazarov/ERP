@@ -309,30 +309,9 @@ public class UserService {
         }
     }
 
-    public static UserInRolesEntity getPositionId(int userId) {
-        UserInRolesEntity userInRoles = null;
-        Session session = HibernateUtility.getSessionFactory().openSession();
-        Transaction transaction = null;
 
-        try {
-            transaction = session.beginTransaction();
-            Query query = session.createQuery("from UserInRolesEntity locs where locs.userId = :userId");
-            query.setParameter("userId",userId);
-            userInRoles = (UserInRolesEntity) query.getSingleResult();
-            transaction.commit();
-        }
-        catch (HibernateException e) {
-            transaction.rollback();
-            e.printStackTrace();
-        }
-        finally {
-            session.close();
-        }
 
-        return userInRoles;
-    }
-
-    public static RoleLocalizationsEntity getPosition(UserInRolesEntity userInRoles) {
+    public static RoleLocalizationsEntity getPosition(UsersEntity userInRoles) {
         RoleLocalizationsEntity roleLoc = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -341,7 +320,7 @@ public class UserService {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from UserInRolesEntity locs where locs.userId = :userId");
             query.setParameter("userId", userInRoles.getId());
-            userInRoles = (UserInRolesEntity) query.getSingleResult();
+            userInRoles = (UsersEntity) query.getSingleResult();
             transaction.commit();
         }
         catch (HibernateException e) {
@@ -353,6 +332,81 @@ public class UserService {
         }
 
         return roleLoc;
+    }
+
+
+
+    public static RoleLocalizationsEntity getRoleLoc(UsersEntity usersEntity) {
+        RoleLocalizationsEntity roleLoc = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from RoleLocalizationsEntity locs where locs.roleId = :roleId");
+            query.setParameter("roleId", usersEntity.getId());
+            //query.setParameter("roleId", userInRoles.getRoleId());
+            roleLoc = (RoleLocalizationsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return roleLoc;
+
+    }
+
+    public static List<FamilyInfosEntity> getFamilyInfos() {
+
+        return null;
+    }
+
+    public static UserInPostsEntity getJointType(UsersEntity user) {
+        UserInPostsEntity userInPostsEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserInPostsEntity locs where locs.userId = :userId");
+            query.setParameter("userId", user.getId());
+            //query.setParameter("roleId", userInRoles.getRoleId());
+            userInPostsEntity = (UserInPostsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return userInPostsEntity;
+    }
+
+    public static PostLocalizationsEntity getJobTitle(int postId, int languageId) {
+        PostLocalizationsEntity postLocalizationEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from PostLocalizationsEntity locs where locs.postId = :postId and locs.languageId=:languageId");
+            query.setParameter("postId", postId);
+            query.setParameter("languageId", languageId);
+            //query.setParameter("roleId", userInRoles.getRoleId());
+            postLocalizationEntity = (PostLocalizationsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return postLocalizationEntity;
     }
 
     public static List<RoleLocalizationsEntity> getRolesLoc(int languageId) {

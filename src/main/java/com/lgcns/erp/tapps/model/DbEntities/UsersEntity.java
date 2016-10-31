@@ -45,7 +45,6 @@ public class UsersEntity {
     private Collection<WorkloadEntity> workloadsById;
     private Collection<WorksEntity> worksesById;
     private Boolean isPolitical;
-    private String isInPoliticalParty;
     private Date birthPlace;
     private Collection<UserInPostsEntity> userInPostsesById;
 
@@ -299,15 +298,6 @@ public class UsersEntity {
     }
 
     @OneToMany(mappedBy = "usersByUserId")
-    public Collection<PostsEntity> getPostsesById() {
-        return postsesById;
-    }
-
-    public void setPostsesById(Collection<PostsEntity> postsesById) {
-        this.postsesById = postsesById;
-    }
-
-    @OneToMany(mappedBy = "usersByUserId")
     public Collection<SalaryHistoriesEntity> getSalaryHistoriesById() {
         return salaryHistoriesById;
     }
@@ -420,23 +410,13 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "is_political", nullable = true, length = 50)
+    @Column(name = "is_political", nullable = true, length = 50, insertable=false, updatable=false)
     public Boolean getPolitical() {
         return isPolitical;
     }
 
     public void setPolitical(Boolean political) {
         isPolitical = political;
-    }
-
-    @Basic
-    @Column(name = "is_political", nullable = true)
-    public String getIsInPoliticalParty() {
-        return isInPoliticalParty;
-    }
-
-    public void setIsInPoliticalParty(String isInPoliticalParty) {
-        this.isInPoliticalParty = isInPoliticalParty;
     }
 
     @Basic

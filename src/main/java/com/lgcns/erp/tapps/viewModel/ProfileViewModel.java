@@ -1,6 +1,7 @@
 package com.lgcns.erp.tapps.viewModel;
 
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Created by Dell on 24-Oct-16.
@@ -51,6 +52,45 @@ public class ProfileViewModel {
     private String jobTitle;
     private String passportNumber;
     private int languageId;
+    private Date dateOfBirth;
+
+    public String getPersonalEmail() {
+        return personalEmail;
+    }
+
+    public void setPersonalEmail(String personalEmail) {
+        this.personalEmail = personalEmail;
+    }
+
+    public String getCompanyEmail() {
+        return companyEmail;
+    }
+
+    public void setCompanyEmail(String companyEmail) {
+        this.companyEmail = companyEmail;
+    }
+
+    public String getHomePhone() {
+        return homePhone;
+    }
+
+    public void setHomePhone(String homePhone) {
+        this.homePhone = homePhone;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
+
+    private String personalEmail;
+    private String companyEmail;
+    private String homePhone;
+    private String mobilePhone;
+
 
     public String[] getLastName() {
         return lastName;
@@ -150,5 +190,13 @@ public class ProfileViewModel {
         this.fathersName[language_id-1] = father_name;
         this.address[language_id-1] = address;
         this.languageId = language_id;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }

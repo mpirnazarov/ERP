@@ -53,7 +53,6 @@
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.WorksEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.UserInPostsEntity"/>
-        <mapping class="com.lgcns.erp.tapps.model.DbEntities.UserRolesEntity"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

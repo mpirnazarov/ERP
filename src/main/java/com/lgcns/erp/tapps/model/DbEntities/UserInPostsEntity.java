@@ -29,7 +29,7 @@ public class UserInPostsEntity {
     }
 
     @Basic
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
     public int getUserId() {
         return userId;
     }
@@ -59,7 +59,7 @@ public class UserInPostsEntity {
     }
 
     @Basic
-    @Column(name = "post_id", nullable = false)
+    @Column(name = "post_id", nullable = false, insertable = false, updatable = false)
     public int getPostId() {
         return postId;
     }

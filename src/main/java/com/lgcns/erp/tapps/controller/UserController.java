@@ -2,7 +2,9 @@ package com.lgcns.erp.tapps.controller;
 
 
 //import com.lgcns.erp.tapps.DAO.UserProfileDAO;
+
 import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.tapps.Enums.Appoint;
 import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
@@ -114,6 +116,29 @@ public class UserController {
         return mav;
     }
 
+    @RequestMapping (value = "/User/Profile", method = RequestMethod.GET)
+    @ResponseBody public ModelAndView Profile(Principal principal){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/IndexUser");
+
+
+        ProfileViewModel userProfile = getProfileByUsername(principal); //userProfileDAO.findByUserName(principal.getName());
+        try {
+            System.out.println(userProfile.toString());
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        }
+
+
+
+
+        mav.addObject("userProfile", userProfile);
+
+
+
+        return mav;
+    }
+
     @RequestMapping(value = "/User/Profile/Appointment", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView Appointmentrec() {
@@ -217,10 +242,41 @@ public class UserController {
         returning.setDepartment(UserService.getDepartments().get(3).getName());
 
         //Getting Position from user_in_roles
-        UserInRolesEntity userInRoles =  UserService.getPositionId(user.getId());
-        RoleLocalizationsEntity roleLoc = UserService.getPosition(userInRoles);
-        //returning.setPosition();
+        returning.setPosition(UserService.getRoleLoc(user).getName());
+
         //Getting Joint Type
+        returning.setJointType(Appoint.values()[UserService.getJointType(user).getAppointType()].toString());
+
+        //Getting status
+        returning.setStatus(UserService.getStatuses().get(3).getName());
+
+        //Getting job title
+        int postId =  UserService.getJointType(user).getPostId();
+        returning.setJobTitle(UserService.getJobTitle(postId, 3).getName());
+
+        //RoleLocalizationsEntity roleLoc = UserService.getPosition(userInRoles);
+        //returning.setPosition();
+
+        //Getting passport number
+        returning.setPassportNumber(user.getPassport());
+
+        //Getting Date of Birth
+        returning.setDateOfBirth(user.getDateOfBirth());
+
+        //Getting Home phone
+        returning.setHomePhone(user.getHomePhone());
+
+        //Getting Mobile Phone
+        returning.setMobilePhone(user.getMobilePhone());
+
+        //Getting company e-mail
+        returning.setCompanyEmail(user.geteMail());
+
+        //Getting personal e-mail
+        returning.setPersonalEmail(user.getPersonalEmail());
+
+        //Getting family information
+        List<FamilyInfosEntity> familyInfosEntities = UserService.getFamilyInfos();
 
         return returning;
     }

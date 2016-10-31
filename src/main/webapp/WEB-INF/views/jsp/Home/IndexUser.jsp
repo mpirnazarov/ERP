@@ -14,12 +14,11 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2">
-            <h1 class="page-header">${userprofile.firstname} ${userprofile.lastname}'s profile</h1>
+            <h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>
 
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#headerinfo">Header information</a></li>
     <li><a data-toggle="tab" href="#personalinfo">Personal information</a></li>
-    <li><a data-toggle="tab" href="#workingplace">Working place</a></li>
     <li><a data-toggle="tab" href="#familyinfo">Family information</a></li>
 </ul>
             <div class="tab-content">
@@ -81,22 +80,14 @@
         <h3>Personal information</h3>
         <div class="form-horizontal">
             <div class="form-group"><label class="control-label col-md-3">Birth place: </label><div class="col-md-3"><c:out value="${}"></c:out></div></div>
-            <div class="form-group"><label class="control-label col-md-3">Date of Birth: </label><div class="col-md-3"><c:out value="${}"></c:out></div></div>
-            <div class="form-group"><label class="control-label col-md-3">Home phone: </label><div class="col-md-3"><c:out value="${}"></c:out></div></div>
-            <div class="form-group"><label class="control-label col-md-3">Mobile phone: </label><div class="col-md-3"><c:out value="${}"></c:out></div></div>
-            <div class="form-group"><label class="control-label col-md-3">E-mail (company): </label><div class="col-md-3"><c:out value="${}"></c:out></div></div>
-            <div class="form-group"><label class="control-label col-md-3">E-mail (personal): </label><div class="col-md-3"><c:out value="${}"></c:out></div></div>
+            <div class="form-group"><label class="control-label col-md-3">Date of Birth: </label><div class="col-md-3"><c:out value="${userProfile.dateOfBirth}"></c:out></div></div>
+            <div class="form-group"><label class="control-label col-md-3">Home phone: </label><div class="col-md-3"><c:out value="${userProfile.homePhone}"></c:out></div></div>
+            <div class="form-group"><label class="control-label col-md-3">Mobile phone: </label><div class="col-md-3"><c:out value="${userProfile.mobilePhone}"></c:out></div></div>
+            <div class="form-group"><label class="control-label col-md-3">E-mail (company): </label><div class="col-md-3"><c:out value="${userProfile.companyEmail}"></c:out></div></div>
+            <div class="form-group"><label class="control-label col-md-3">E-mail (personal): </label><div class="col-md-3"><c:out value="${userProfile.personalEmail}"></c:out></div></div>
         </div>
     </div>
-                <!--General info/Working place Tab-->
-    <div id="workingplace" class="tab-pane fade">
-        <h3>Working place</h3>
-        <div class="form-horizontal">
-            <div class="form-group"><label class="control-label col-md-3">Address: </label><div class="col-md-3"><c:out value="${}"></c:out></div></div>
-            <div class="form-group"><label class="control-label col-md-3">Phone: </label><div class="col-md-3"><c:out value="${}"></c:out></div></div>
-            <div class="form-group"><label class="control-label col-md-3">Hiring date: </label><div class="col-md-3"><c:out value="${}"></c:out></div></div>
-            </div>
-    </div>
+
                 <!--General info/Family info Tab-->
     <div id="familyinfo" class="tab-pane fade">
         <h3>Family information</h3>

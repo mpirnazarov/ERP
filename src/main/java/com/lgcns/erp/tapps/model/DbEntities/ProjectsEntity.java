@@ -22,6 +22,14 @@ public class ProjectsEntity {
     private Collection<UserInProjectsEntity> userInProjectsesById;
     private Collection<WorkloadEntity> workloadsById;
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Id
     @Column(name = "id", nullable = false)
     public int getId() {
@@ -33,7 +41,7 @@ public class ProjectsEntity {
     }
 
     @Basic
-    @Column(name = "code", nullable = false)
+    @Column(name = "code", nullable = false, length = 100)
     public int getCode() {
         return code;
     }
@@ -63,7 +71,7 @@ public class ProjectsEntity {
     }
 
     @Basic
-    @Column(name = "type", nullable = false, precision = 0)
+    @Column(name = "type", nullable = false, precision = 0, length = 10)
     public BigInteger getType() {
         return type;
     }

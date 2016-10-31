@@ -2,20 +2,21 @@ package com.lgcns.erp.tapps.model.DbEntities;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Collection;
 
 /**
- * Created by Rafatdin on 06.10.2016.
+ * Created by Rafatdin on 31.10.2016.
  */
 @Entity
-@Table(name = "posts", schema = "public", catalog = "LgErpSystem")
-public class PostsEntity {
+@Table(name = "user_in_posts", schema = "public", catalog = "LgErpSystem")
+public class UserInPostsEntity {
     private int id;
     private int userId;
     private Date dateFrom;
-    private Collection<PostLocalizationsEntity> postLocalizationsesById;
+    private int appointType;
+    private int postId;
+    private Date dateEnd;
     private UsersEntity usersByUserId;
-    private Collection<UserInPostsEntity> userInPostsesById;
+    private PostsEntity postsByPostId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -28,7 +29,7 @@ public class PostsEntity {
     }
 
     @Basic
-    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
+    @Column(name = "user_id", nullable = false)
     public int getUserId() {
         return userId;
     }
@@ -47,16 +48,49 @@ public class PostsEntity {
         this.dateFrom = dateFrom;
     }
 
+    @Basic
+    @Column(name = "appoint_type", nullable = false)
+    public int getAppointType() {
+        return appointType;
+    }
+
+    public void setAppointType(int appointType) {
+        this.appointType = appointType;
+    }
+
+    @Basic
+    @Column(name = "post_id", nullable = false)
+    public int getPostId() {
+        return postId;
+    }
+
+    public void setPostId(int postId) {
+        this.postId = postId;
+    }
+
+    @Basic
+    @Column(name = "date_end", nullable = true)
+    public Date getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PostsEntity that = (PostsEntity) o;
+        UserInPostsEntity that = (UserInPostsEntity) o;
 
         if (id != that.id) return false;
         if (userId != that.userId) return false;
+        if (appointType != that.appointType) return false;
+        if (postId != that.postId) return false;
         if (dateFrom != null ? !dateFrom.equals(that.dateFrom) : that.dateFrom != null) return false;
+        if (dateEnd != null ? !dateEnd.equals(that.dateEnd) : that.dateEnd != null) return false;
 
         return true;
     }
@@ -66,16 +100,10 @@ public class PostsEntity {
         int result = id;
         result = 31 * result + userId;
         result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
+        result = 31 * result + appointType;
+        result = 31 * result + postId;
+        result = 31 * result + (dateEnd != null ? dateEnd.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "postsByPostId")
-    public Collection<PostLocalizationsEntity> getPostLocalizationsesById() {
-        return postLocalizationsesById;
-    }
-
-    public void setPostLocalizationsesById(Collection<PostLocalizationsEntity> postLocalizationsesById) {
-        this.postLocalizationsesById = postLocalizationsesById;
     }
 
     @ManyToOne
@@ -88,12 +116,13 @@ public class PostsEntity {
         this.usersByUserId = usersByUserId;
     }
 
-    @OneToMany(mappedBy = "postsByPostId")
-    public Collection<UserInPostsEntity> getUserInPostsesById() {
-        return userInPostsesById;
+    @ManyToOne
+    @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
+    public PostsEntity getPostsByPostId() {
+        return postsByPostId;
     }
 
-    public void setUserInPostsesById(Collection<UserInPostsEntity> userInPostsesById) {
-        this.userInPostsesById = userInPostsesById;
+    public void setPostsByPostId(PostsEntity postsByPostId) {
+        this.postsByPostId = postsByPostId;
     }
 }

@@ -17,6 +17,7 @@ public class UserLocalizationsEntity {
     private int languageId;
     private UsersEntity usersByUserId;
     private LanguagesEntity languagesByLanguageId;
+    private String birthPlace;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -119,7 +120,7 @@ public class UserLocalizationsEntity {
         return result;
     }
 
-    @ManyToOne (fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public UsersEntity getUsersByUserId() {
         return usersByUserId;
@@ -137,5 +138,15 @@ public class UserLocalizationsEntity {
 
     public void setLanguagesByLanguageId(LanguagesEntity languagesByLanguageId) {
         this.languagesByLanguageId = languagesByLanguageId;
+    }
+
+    @Basic
+    @Column(name = "birth_place", nullable = true, length = 100)
+    public String getBirthPlace() {
+        return birthPlace;
+    }
+
+    public void setBirthPlace(String birthPlace) {
+        this.birthPlace = birthPlace;
     }
 }

@@ -25,6 +25,7 @@ public class UsersEntity {
     private boolean inPoliticalParty;
     private String passport;
     private boolean enabled;
+    private Integer roleId;
     private Collection<CertificatesEntity> certificatesById;
     private Collection<DocumentsEntity> documentsesById;
     private Collection<EducationsEntity> educationsesById;
@@ -44,6 +45,11 @@ public class UsersEntity {
     private Collection<VocationStatusEntity> vocationStatusesById;
     private Collection<WorkloadEntity> workloadsById;
     private Collection<WorksEntity> worksesById;
+    private Boolean isPolitical;
+    private String isInPoliticalParty;
+    private Date birthPlace;
+    private Collection<UserInPostsEntity> userInPostsesById;
+
 
     @Id
     @Column(name = "id", nullable = false)
@@ -57,7 +63,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "enabled")
+    @Column(name = "enabled", nullable = false)
     public boolean isEnabled() {
         return enabled;
     }
@@ -67,7 +73,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "personal_email", nullable = false)
+    @Column(name = "personal_email", nullable = true, length = 50)
     public String getPersonalEmail() {
         return personalEmail;
     }
@@ -75,7 +81,6 @@ public class UsersEntity {
     public void setPersonalEmail(String personalEmail) {
         this.personalEmail = personalEmail;
     }
-
 
     @Basic
     @Column(name = "is_political")
@@ -88,7 +93,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "passport", nullable = false)
+    @Column(name = "passport", nullable = true, length = 20)
     public String getPassport() {
         return passport;
     }
@@ -96,7 +101,6 @@ public class UsersEntity {
     public void setPassport(String passport) {
         this.passport = passport;
     }
-
 
     @Basic
     @Column(name = "date_of_birth", nullable = false)
@@ -119,7 +123,17 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "mobile_phone", nullable = false, length = 20)
+    @Column(name = "role_id", nullable = true, insertable = false, updatable = false)
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    @Basic
+    @Column(name = "mobile_phone", nullable = true, length = 20)
     public String getMobilePhone() {
         return mobilePhone;
     }
@@ -331,15 +345,6 @@ public class UsersEntity {
     }
 
     @OneToMany(mappedBy = "usersByUserId")
-    public Collection<UserInRolesEntity> getUserInRolesById() {
-        return userInRolesById;
-    }
-
-    public void setUserInRolesById(Collection<UserInRolesEntity> userInRolesById) {
-        this.userInRolesById = userInRolesById;
-    }
-
-    @OneToMany(mappedBy = "usersByUserId", fetch = FetchType.EAGER)
     public Collection<UserLocalizationsEntity> getUserLocalizationsesById() {
         return userLocalizationsesById;
     }
@@ -414,4 +419,42 @@ public class UsersEntity {
         this.worksesById = worksesById;
     }
 
+    @Basic
+    @Column(name = "is_political", nullable = true, length = 50)
+    public Boolean getPolitical() {
+        return isPolitical;
+    }
+
+    public void setPolitical(Boolean political) {
+        isPolitical = political;
+    }
+
+    @Basic
+    @Column(name = "is_political", nullable = true)
+    public String getIsInPoliticalParty() {
+        return isInPoliticalParty;
+    }
+
+    public void setIsInPoliticalParty(String isInPoliticalParty) {
+        this.isInPoliticalParty = isInPoliticalParty;
+    }
+
+    @Basic
+    @Column(name = "birth_place", nullable = true)
+    public Date getBirthPlace() {
+        return birthPlace;
+    }
+
+    public void setBirthPlace(Date birthPlace) {
+        this.birthPlace = birthPlace;
+    }
+
+    @OneToMany(mappedBy = "usersByUserId")
+    public Collection<UserInPostsEntity> getUserInPostsesById() {
+        return userInPostsesById;
+    }
+
+    public void setUserInPostsesById(Collection<UserInPostsEntity> userInPostsesById) {
+        this.userInPostsesById = userInPostsesById;
+    }
 }

@@ -92,7 +92,7 @@ public class DocumentsEntity {
         return result;
     }
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public UsersEntity getUsersByUserId() {
         return usersByUserId;

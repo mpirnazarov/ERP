@@ -36,8 +36,8 @@
     <schema id="10" parent="3" name="public">
       <object-id>2200</object-id>
       <visible>1</visible>
-      <introspection-state-number>1081</introspection-state-number>
-      <introspection-timestamp>2016-10-31.09:09:24.137</introspection-timestamp>
+      <introspection-state-number>1102</introspection-state-number>
+      <introspection-timestamp>2016-10-31.11:53:24.822</introspection-timestamp>
     </schema>
     <schema id="11" parent="3" name="pg_catalog">
       <object-id>11</object-id>
@@ -344,7 +344,7 @@
     </table>
     <table id="88" parent="10" name="certificates">
       <object-id>17321</object-id>
-      <state-number>937</state-number>
+      <state-number>1095</state-number>
     </table>
     <table id="89" parent="10" name="contact_in_projects">
       <object-id>16886</object-id>
@@ -428,7 +428,7 @@
     </table>
     <table id="109" parent="10" name="post_localizations">
       <object-id>17213</object-id>
-      <state-number>1059</state-number>
+      <state-number>1096</state-number>
     </table>
     <table id="110" parent="10" name="posts">
       <object-id>17285</object-id>
@@ -480,7 +480,7 @@
     </table>
     <table id="122" parent="10" name="user_in_posts">
       <object-id>33204</object-id>
-      <state-number>1071</state-number>
+      <state-number>1102</state-number>
     </table>
     <table id="123" parent="10" name="user_in_projects">
       <object-id>16905</object-id>
@@ -1389,8 +1389,8 @@ certificate_id</columns>
       <data-type>boolean|0</data-type>
     </column>
     <column id="300" parent="88" name="number">
-      <state-number>937</state-number>
-      <data-type>integer|0</data-type>
+      <state-number>1095</state-number>
+      <data-type>varchar(50)|0</data-type>
     </column>
     <index id="301" parent="88" name="certificates_pkey">
       <object-id>17325</object-id>
@@ -2827,88 +2827,87 @@ language_id</columns>
       <data-type>integer|0</data-type>
       <default-expression>nextval(&apos;&quot;user_in_languages_Id_seq&quot;&apos;::regclass)</default-expression>
     </column>
-    <column id="550" parent="121" name="member_name">
-      <state-number>769</state-number>
-      <mandatory>1</mandatory>
-      <data-type>varchar(50)|0</data-type>
-    </column>
-    <column id="551" parent="121" name="user_id">
+    <column id="550" parent="121" name="user_id">
       <state-number>666</state-number>
       <mandatory>1</mandatory>
       <data-type>integer|0</data-type>
     </column>
-    <column id="552" parent="121" name="language_id">
+    <column id="551" parent="121" name="language_id">
       <state-number>666</state-number>
       <mandatory>1</mandatory>
       <data-type>integer|0</data-type>
     </column>
-    <column id="553" parent="121" name="listening">
+    <column id="552" parent="121" name="listening">
       <state-number>769</state-number>
       <data-type>varchar(50)|0</data-type>
     </column>
-    <column id="554" parent="121" name="writing">
+    <column id="553" parent="121" name="writing">
       <state-number>769</state-number>
       <data-type>varchar(50)|0</data-type>
     </column>
-    <column id="555" parent="121" name="speaking">
+    <column id="554" parent="121" name="speaking">
       <state-number>769</state-number>
       <data-type>varchar(50)|0</data-type>
     </column>
-    <column id="556" parent="121" name="reading">
+    <column id="555" parent="121" name="reading">
       <state-number>769</state-number>
       <data-type>varchar(50)|0</data-type>
     </column>
-    <index id="557" parent="121" name="user_in_languages_pkey">
+    <index id="556" parent="121" name="user_in_languages_pkey">
       <object-id>17417</object-id>
       <columns>id</columns>
       <desc-columns></desc-columns>
       <unique>1</unique>
     </index>
-    <key id="558" parent="121" name="user_in_languages_pkey">
+    <key id="557" parent="121" name="user_in_languages_pkey">
       <object-id>17418</object-id>
       <columns>id</columns>
       <underlying-index>user_in_languages_pkey</underlying-index>
       <primary>1</primary>
     </key>
-    <foreign-key id="559" parent="121" name="fk_user_in_languages_get_userid">
+    <foreign-key id="558" parent="121" name="fk_user_in_languages_get_userid">
       <object-id>17498</object-id>
       <columns>user_id</columns>
       <ref-key>~.users.users_pkey</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <foreign-key id="560" parent="121" name="fk_language_get_lenid">
+    <foreign-key id="559" parent="121" name="fk_language_get_lenid">
       <object-id>17623</object-id>
       <columns>language_id</columns>
       <ref-key>~.languages.languages_pkey</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <column id="561" parent="122" name="id">
+    <column id="560" parent="122" name="id">
       <state-number>1062</state-number>
       <mandatory>1</mandatory>
       <data-type>integer|0</data-type>
       <default-expression>nextval(&apos;user_in_posts_id_seq&apos;::regclass)</default-expression>
     </column>
-    <column id="562" parent="122" name="user_id">
+    <column id="561" parent="122" name="user_id">
       <state-number>1062</state-number>
       <mandatory>1</mandatory>
       <data-type>integer|0</data-type>
     </column>
-    <column id="563" parent="122" name="date_from">
+    <column id="562" parent="122" name="date_from">
       <state-number>1062</state-number>
       <mandatory>1</mandatory>
       <data-type>date|0</data-type>
     </column>
-    <column id="564" parent="122" name="appoint_type">
+    <column id="563" parent="122" name="appoint_type">
       <state-number>1068</state-number>
       <mandatory>1</mandatory>
       <data-type>integer|0</data-type>
     </column>
-    <column id="565" parent="122" name="post_id">
+    <column id="564" parent="122" name="post_id">
       <state-number>1071</state-number>
       <mandatory>1</mandatory>
       <data-type>integer|0</data-type>
+    </column>
+    <column id="565" parent="122" name="date_end">
+      <state-number>1102</state-number>
+      <data-type>date|0</data-type>
     </column>
     <index id="566" parent="122" name="user_in_posts_pkey">
       <object-id>33208</object-id>

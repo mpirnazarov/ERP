@@ -1,7 +1,7 @@
 package com.lgcns.erp.hr.viewModel.WorkloadViewModels;
 
-import com.lgcns.erp.tapps.entities.ProjectEntity;
-import com.lgcns.erp.tapps.entities.WorkloadEntity;
+import com.lgcns.erp.tapps.model.DbEntities.ProjectsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
 
 import java.util.Date;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class CalendarReturningModel {
     private Date Monday;
-    private List<ProjectEntity> Projects;
+    private List<ProjectsEntity> Projects;
     private List<WorkloadEntity> Workloads;
 
     public Date getMonday() {
@@ -22,11 +22,11 @@ public class CalendarReturningModel {
         Monday = monday;
     }
 
-    public List<ProjectEntity> getProjects() {
+    public List<ProjectsEntity> getProjects() {
         return Projects;
     }
 
-    public void setProjects(List<ProjectEntity> projects) {
+    public void setProjects(List<ProjectsEntity> projects) {
         Projects = projects;
     }
 

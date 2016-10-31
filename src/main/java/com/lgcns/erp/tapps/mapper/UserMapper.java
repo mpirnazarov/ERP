@@ -22,13 +22,13 @@ public class UserMapper {
         user.setDepartmentId(model.getDepartmentId());
         user.setMobilePhone(model.getMobilePhone());
         user.setHomePhone(model.getHomePhone());
-        user.seteMail(model.getCompanyEmail().toString());
+        user.seteMail(model.getCompanyEmail());
         user.setUserName(model.getUserName());
         user.setStatusId(model.getStatusId());
         user.setPasswordHash(passwordEncoder.encode(model.getPassword()));
         user.setHiringDate(new Date(model.getHiringDate().getTime()));
         user.setChiefId(model.getChiefId());
-        user.setPersonalEmail(model.getEmail().toString());
+        user.setPersonalEmail(model.getEmail());
         user.setInPoliticalParty(model.isIsInPoliticalParty());
         user.setPassport(model.getPassportNumber());
         user.setEnabled(true);

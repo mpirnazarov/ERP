@@ -1,6 +1,7 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 /**
  * Created by Rafatdin on 06.10.2016.
@@ -17,6 +18,7 @@ public class SalaryHistoriesEntity {
     private int currencyId;
     private UsersEntity usersByUserId;
     private CurrenciesEntity currenciesByCurrencyId;
+    private Date date;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -141,5 +143,15 @@ public class SalaryHistoriesEntity {
 
     public void setCurrenciesByCurrencyId(CurrenciesEntity currenciesByCurrencyId) {
         this.currenciesByCurrencyId = currenciesByCurrencyId;
+    }
+
+    @Basic
+    @Column(name = "date", nullable = false)
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

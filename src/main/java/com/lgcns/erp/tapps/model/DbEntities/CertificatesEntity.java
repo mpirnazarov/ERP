@@ -17,6 +17,7 @@ public class CertificatesEntity {
     private Boolean isPass;
     private Collection<CertificateLocalizationsEntity> certificateLocalizationsesById;
     private UsersEntity usersByUserId;
+    private String number;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -111,5 +112,15 @@ public class CertificatesEntity {
 
     public void setUsersByUserId(UsersEntity usersByUserId) {
         this.usersByUserId = usersByUserId;
+    }
+
+    @Basic
+    @Column(name = "number", nullable = true, length = 50)
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 }

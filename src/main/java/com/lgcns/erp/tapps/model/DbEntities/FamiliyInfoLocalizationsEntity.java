@@ -16,6 +16,7 @@ public class FamiliyInfoLocalizationsEntity {
     private int languageId;
     private FamilyInfosEntity familyInfosByFamilyInfoid;
     private LanguagesEntity languagesByLanguageId;
+    private String jobTitle;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -123,5 +124,15 @@ public class FamiliyInfoLocalizationsEntity {
 
     public void setLanguagesByLanguageId(LanguagesEntity languagesByLanguageId) {
         this.languagesByLanguageId = languagesByLanguageId;
+    }
+
+    @Basic
+    @Column(name = "job_title", nullable = true, length = 100)
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
     }
 }

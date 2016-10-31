@@ -1,6 +1,7 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Collection;
 
 /**
@@ -14,6 +15,7 @@ public class FamilyInfosEntity {
     private String passport;
     private Collection<FamiliyInfoLocalizationsEntity> familiyInfoLocalizationsesById;
     private UsersEntity usersByUserId;
+    private Date dateOfBirth;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -84,5 +86,15 @@ public class FamilyInfosEntity {
 
     public void setUsersByUserId(UsersEntity usersByUserId) {
         this.usersByUserId = usersByUserId;
+    }
+
+    @Basic
+    @Column(name = "date_of_birth", nullable = true)
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }

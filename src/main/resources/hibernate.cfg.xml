@@ -3,31 +3,9 @@
         "-//Hibernate/Hibernate Configuration DTD//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-   <!-- <session-factory>
-        <property name="connection.url">jdbc:postgresql://192.168.1.77:5432/ErpSystem</property>
-        <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.username">user_erp</property>
-        <property name="connection.password">P@ssw0rd</property>
-        <mapping class="com.lgcns.erp.tapps.entities.NotificationTypeEntity"/>
-        <mapping class="com.lgcns.erp.tapps.entities.PositionEntity"/>
-        <mapping class="com.lgcns.erp.tapps.entities.ProjectEntity"/>
-        <mapping class="com.lgcns.erp.tapps.entities.ProjectLogEntity"/>
-        <mapping class="com.lgcns.erp.tapps.entities.RoleEntity"/>
-        <mapping class="com.lgcns.erp.tapps.entities.UserLogEntity"/>
-        <mapping class="com.lgcns.erp.tapps.entities.UserInfoEntity"/>
-        <mapping class="com.lgcns.erp.tapps.entities.WorkloadEntity"/>
-        <mapping class="com.lgcns.erp.tapps.entities.WorkloadTypeEntity"/>
-        <mapping class="com.lgcns.erp.tapps.entities.AccessEntity"/>
-        <mapping class="com.lgcns.erp.tapps.entities.CustomerEntity"/>
-        <mapping class="com.lgcns.erp.tapps.entities.NotificationEntity"/>
-        &lt;!&ndash; DB schema will be updated if needed &ndash;&gt;
-        &lt;!&ndash; <property name="hbm2ddl.auto">update</property> &ndash;&gt;
-    </session-factory>-->
     <session-factory>
         <property name="connection.url">jdbc:postgresql://192.168.1.77:5432/LgErpSystem</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.username">user_erp</property>
-        <property name="connection.password">P@ssw0rd</property>
 
         <property name="show_sql">true</property>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.CertificateLocalizationsEntity"/>
@@ -73,6 +51,8 @@
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.WorkLocalizationsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.WorksEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.UserInPostsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.UserRolesEntity"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

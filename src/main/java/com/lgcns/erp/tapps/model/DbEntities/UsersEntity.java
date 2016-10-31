@@ -36,7 +36,6 @@ public class UsersEntity {
     private Collection<TrainingsEntity> trainingsesById;
     private Collection<UserInLanguagesEntity> userInLanguagesById;
     private Collection<UserInProjectsEntity> userInProjectsesById;
-    private Collection<UserInRolesEntity> userInRolesById;
     private Collection<UserLocalizationsEntity> userLocalizationsesById;
     private DepartmentsEntity departmentsByDepartmentId;
     private StatusesEntity statusesByStatusId;
@@ -123,7 +122,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "role_id", nullable = true, insertable = false, updatable = false)
+    @Column(name = "role_id", nullable = true)
     public Integer getRoleId() {
         return roleId;
     }
@@ -409,6 +408,7 @@ public class UsersEntity {
     public void setWorkloadsById(Collection<WorkloadEntity> workloadsById) {
         this.workloadsById = workloadsById;
     }
+
 
     @OneToMany(mappedBy = "usersByUserId")
     public Collection<WorksEntity> getWorksesById() {

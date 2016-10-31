@@ -12,23 +12,16 @@ import java.util.Collection;
 @Table(name = "projects", schema = "public", catalog = "LgErpSystem")
 public class ProjectsEntity {
     private int id;
-    private int code;
+    private String code;
     private Date startDate;
     private Date endDate;
-    private BigInteger type;
+    private String type;
     private BigInteger status;
     private Collection<ContactInProjectsEntity> contactInProjectsesById;
     private Collection<ProjectLocalizationsEntity> projectLocalizationsesById;
     private Collection<UserInProjectsEntity> userInProjectsesById;
     private Collection<WorkloadEntity> workloadsById;
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     @Id
     @Column(name = "id", nullable = false)
@@ -42,13 +35,14 @@ public class ProjectsEntity {
 
     @Basic
     @Column(name = "code", nullable = false, length = 100)
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
+
 
     @Basic
     @Column(name = "start_date", nullable = false)
@@ -72,11 +66,11 @@ public class ProjectsEntity {
 
     @Basic
     @Column(name = "type", nullable = false, precision = 0, length = 10)
-    public BigInteger getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(BigInteger type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -110,7 +104,7 @@ public class ProjectsEntity {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + code;
+        result = 31 * result + (code != null ? code.hashCode() : 0);
         result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
         result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);

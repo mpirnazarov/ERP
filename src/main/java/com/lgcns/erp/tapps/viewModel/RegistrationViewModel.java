@@ -17,6 +17,8 @@ import java.util.*;
  */
 public class RegistrationViewModel {
 
+
+
     public RegistrationViewModel(){
         new RegistrationViewModel(UserService.getLanguageIdAndName());
     }
@@ -68,6 +70,7 @@ public class RegistrationViewModel {
     private Date HiringDate;
     private boolean IsInPoliticalParty;
     private String PassportNumber;
+    private Integer RoleId;
 
 
     public List<RegistrationLocInfo> getRegistrationLocInfos() {
@@ -190,5 +193,11 @@ public class RegistrationViewModel {
         HiringDate = hiringDate;
     }
 
+    public Integer getRoleId() {
+        return RoleId;
+    }
 
+    public void setRoleId(Integer roleId) {
+        RoleId = roleId;
+    }
 }

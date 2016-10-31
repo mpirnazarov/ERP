@@ -74,7 +74,7 @@
                                                     cssClass="form-control text-box single-line"/>
                                     </div>
                                 </div>
-                                <div class="form-group ${requestScope['org.springframework.validation.BindingResult.user'].hasFieldErrors('fathersName') ? 'error' : ''}">
+                                <div class="form-group">
                                     <label class="control-label col-md-3">Father's name </label>
                                     <div class="col-md-5">
                                         <form:input path="registrationLocInfos[${i.index}].fathersName"
@@ -94,6 +94,15 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Birth place </label>
+                                    <div class="col-md-5">
+                                        <form:input path="registrationLocInfos[${i.index}].birthPlace"
+                                                    name="registrationVM.registrationLocInfos[${i.index}].birthPlace"
+                                                    placeholder="Birth place"
+                                                    cssClass="form-control text-box single-line"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </c:forEach>
@@ -309,6 +318,7 @@
 
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label class="control-label col-md-3">Username <font color='red'>*</font></label>
                         <div class="col-md-5">
@@ -317,7 +327,13 @@
                             <form:errors path="UserName" cssClass="error field-validation-error"/>
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Department <font color='red'>*</font></label>
+                        <div class="col-md-5">
+                            <form:select path="roleId" items="${roles}"
+                                         cssClass="form-control text-box single-line"/>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">Password <font color='red'>*</font></label>
                         <div class="col-md-5">

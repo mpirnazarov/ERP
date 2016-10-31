@@ -81,8 +81,12 @@ public class UserController {
         Map<Integer, String> statuses = getStatusesIdAndName();
         mav.addObject("statuses", statuses);
 
+        Map<Integer, String> roles = getRolesIdAndName();
+        mav.addObject("roles", roles);
+
         return mav;
     }
+
 
 
     @RequestMapping(value = "/User/Register", method = RequestMethod.POST)
@@ -109,32 +113,6 @@ public class UserController {
         mav.setViewName("Home/hrmenu/Userslist");
         return mav;
     }
-
-/*    @RequestMapping (value = "/User/Profile", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView Profile(Principal principal){
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/IndexUser");
-
-
-        ApplicationContext context =
-                new ClassPathXmlApplicationContext("spring-module.xml");
-        UserProfileDAO userProfileDAO = (UserProfileDAO) context.getBean("userProfileDAO");
-        ProfileViewModel userProfile = getProfileByUsername(principal); //userProfileDAO.findByUserName(principal.getName());
-        try {
-            System.out.println(userProfile.toString());
-        } catch (Exception e) {
-            System.out.println(e.getStackTrace());
-        }
-
-
-
-
-        mav.addObject("userProfile", userProfile);
-
-
-
-        return mav;
-    }*/
 
     @RequestMapping(value = "/User/Profile/Appointment", method = RequestMethod.GET)
     @ResponseBody
@@ -214,6 +192,14 @@ public class UserController {
         return statuses;
     }
 
+    private Map<Integer, String> getRolesIdAndName() {
+        Map<Integer, String> roles = new LinkedHashMap<Integer, String>();           //Getting statuses and adding to model and view
+        for (RoleLocalizationsEntity roleLoc : UserService.getRolesLoc()) {
+            roles.put(roleLoc.getRoleId(), roleLoc.getName());
+        }
+        return roles;
+    }
+
     private ProfileViewModel getProfileByUsername(Principal principal){
         ProfileViewModel returning = new ProfileViewModel();
 
@@ -238,5 +224,6 @@ public class UserController {
 
         return returning;
     }
+
 
 }

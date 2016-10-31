@@ -1,5 +1,6 @@
 package com.lgcns.erp.tapps.DbContext;
 
+import com.lgcns.erp.tapps.Enums.Language;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
 import org.hibernate.HibernateException;
@@ -352,5 +353,29 @@ public class UserService {
         }
 
         return roleLoc;
+    }
+
+    public static List<RoleLocalizationsEntity> getRolesLoc(int languageId) {
+        List<RoleLocalizationsEntity> roles = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from RoleLocalizationsEntity roleLoc where lenguageId = :langId");
+            query.setParameter("langId", languageId);
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return roles;
+    }
+    public static List<RoleLocalizationsEntity> getRolesLoc(){
+        return getRolesLoc(Language.eng.getCode());
     }
 }

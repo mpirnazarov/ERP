@@ -17,6 +17,7 @@ public class RegistrationLocInfo{
 
     @NotEmpty
     private String Address;
+    private String BirthPlace;
 
     public String getLanguageCode() {
         return LanguageCode;
@@ -66,4 +67,11 @@ public class RegistrationLocInfo{
         Address = address;
     }
 
+    public String getBirthPlace() {
+        return BirthPlace;
+    }
+
+    public void setBirthPlace(String birthPlace) {
+        BirthPlace = birthPlace;
+    }
 }

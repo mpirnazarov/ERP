@@ -31,6 +31,7 @@ public class UserMapper {
         user.setPersonalEmail(model.getEmail());
         user.setInPoliticalParty(model.isIsInPoliticalParty());
         user.setPassport(model.getPassportNumber());
+        user.setRoleId(model.getRoleId());
         user.setEnabled(true);
 
         return user;

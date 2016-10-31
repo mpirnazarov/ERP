@@ -15,7 +15,7 @@
         <ul class="nav sidebar-nav">
             <li class="sidebar-brand">
                 <a href="#">
-                    Admin menu
+                    Welcome ${username}!
                 </a>
             </li>
             <li>

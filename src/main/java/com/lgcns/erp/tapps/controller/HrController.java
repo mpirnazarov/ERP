@@ -74,4 +74,12 @@ public class HrController {
         mav.addObject("hrtrainVM", hrtrainViewModel);
         return mav;
     }
+    @RequestMapping (value = "/Hr/Profile/Userslist", method = RequestMethod.GET)
+    @ResponseBody public ModelAndView HrUserslist(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/hrmenu/Userslist");
+        HrUserslistViewModel hrUserslistViewModel = new HrUserslistViewModel();
+        mav.addObject("hrUserslistVM", hrUserslistViewModel);
+        return mav;
+    }
 }

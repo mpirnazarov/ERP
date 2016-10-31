@@ -23,6 +23,33 @@
             <div class="tab-content">
                 <div id="jobexp" class="tab-pane fade in active">
                     <h3>Job experience</h3>
+                    <!--Job experience table-->
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Organization</th>
+                            <th>Position</th>
+                            <th>Start date</th>
+                            <th>End date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%--<c:forEach items="${jobexpList}" var="jobexp" varStatus="status">--%>
+                        <tr>
+                            <td>Row 1 Data 1</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                        </tr>
+                        <tr>
+                            <td>Row 2 Data 1</td>
+                            <td>Row 2 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                        </tr>
+                        <%--</c:forEach>--%>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

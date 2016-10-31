@@ -257,28 +257,6 @@ public class UserService {
             //Save the object in database
             session.save(user);
 
-           /* Query insertQuery = session.createSQLQuery(""+
-                    "INSERT INTO public.users "+
-                    "(date_of_Birth, department_id, mobile_phone, home_phone, e_mail,"+
-                    "user_name, status_id, password_hash, hiring_date, chief_id, personal_email, is_political, passport, enabled)"+
-                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-            );
-            insertQuery.setParameter(0, user.getDateOfBirth());
-            insertQuery.setParameter(1, user.getDepartmentId());
-            insertQuery.setParameter(2, user.getMobilePhone());
-            insertQuery.setParameter(3, user.getHomePhone());
-            insertQuery.setParameter(4, user.geteMail());
-            insertQuery.setParameter(5, user.getUserName());
-            insertQuery.setParameter(6, user.getStatusId());
-            insertQuery.setParameter(7, user.getPasswordHash());
-            insertQuery.setParameter(8, user.getHiringDate());
-            insertQuery.setParameter(9, user.getChiefId());
-            insertQuery.setParameter(10, user.getPersonalEmail());
-            insertQuery.setParameter(11, user.isInPoliticalParty());
-            insertQuery.setParameter(12, user.getPassport());
-            insertQuery.setParameter(13, user.isEnabled());
-            insertQuery.executeUpdate();*/
-
 
             //Commit the transaction
             transaction.commit();

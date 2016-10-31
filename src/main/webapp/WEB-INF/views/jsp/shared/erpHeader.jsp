@@ -20,6 +20,7 @@
         <spring:url value="/resources/core/js/notify.min.js" var="notifyMinJs" />
         <spring:url value="/resources/core/js/bootstrap.js" var="bootstrapJs" />
         <spring:url value="/resources/core/js/respond.js" var="respondJs" />
+        <link rel="icon" href="/resources/images/lg-2-multi-size.ico" type="image/x-icon">
         <script src="${jquery}"></script>
         <script src="${notifyMinJs}"></script>
         <script src="${bootstrapJs}"></script>

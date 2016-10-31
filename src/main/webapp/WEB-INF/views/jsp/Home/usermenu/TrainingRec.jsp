@@ -23,6 +23,42 @@
             <div class="tab-content">
                 <div id="train" class="tab-pane fade in active">
                     <h3>Trainings</h3>
+                    <!--Trainings table-->
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Certificate</th>
+                            <th>Organization</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Number of hours</th>
+                            <th>Mark</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%--<c:forEach items="${trainList}" var="train" varStatus="status">--%>
+                        <tr>
+                            <td>Row 1 Data 1</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                        </tr>
+                        <tr>
+                            <td>Row 2 Data 1</td>
+                            <td>Row 2 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                        </tr>
+                        <%--</c:forEach>--%>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

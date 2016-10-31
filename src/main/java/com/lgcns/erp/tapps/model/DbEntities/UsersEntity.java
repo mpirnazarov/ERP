@@ -45,7 +45,6 @@ public class UsersEntity {
     private Collection<WorkloadEntity> workloadsById;
     private Collection<WorksEntity> worksesById;
     private Boolean isPolitical;
-    private Date birthPlace;
     private Collection<UserInPostsEntity> userInPostsesById;
 
 
@@ -417,16 +416,6 @@ public class UsersEntity {
 
     public void setPolitical(Boolean political) {
         isPolitical = political;
-    }
-
-    @Basic
-    @Column(name = "birth_place", nullable = true)
-    public Date getBirthPlace() {
-        return birthPlace;
-    }
-
-    public void setBirthPlace(Date birthPlace) {
-        this.birthPlace = birthPlace;
     }
 
     @OneToMany(mappedBy = "usersByUserId")

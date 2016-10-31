@@ -1,5 +1,4 @@
-<%@ page import="com.lgcns.erp.tapps.viewModel.RegistrationViewModel" %>
-<%@ page import="com.lgcns.erp.tapps.viewModel.RegistrationLocInfo" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Rafatdin
   Date: 03.10.2016
@@ -55,7 +54,7 @@
                              style="border: 1px solid #fff;">
                             <br/>
                             <div class="form-horizontal">
-                                <div class="form-group ${requestScope['org.springframework.validation.BindingResult.user'].hasFieldErrors('FirstName') ? 'error' : ''}">
+                                <div class="form-group">
                                     <label class="control-label col-md-3">First name in ${locInfo.languageCode} <font
                                             color='red'>*</font></label>
                                     <div class="col-md-5">
@@ -63,34 +62,38 @@
                                                     name="registrationVM.registrationLocInfos[${i.index}].firstName"
                                                     required="required" placeholder="First Name"
                                                     cssClass="form-control text-box single-line"/>
+                                        <form:errors path="RegistrationLocInfos[${i.index}].FirstName" cssClass="error field-validation-error"/>
                                     </div>
                                 </div>
-                                <div class="form-group ${requestScope['org.springframework.validation.BindingResult.user'].hasFieldErrors('lastName') ? 'error' : ''}">
+                                <div class="form-group">
                                     <label class="control-label col-md-3">Last name <font color='red'>*</font></label>
                                     <div class="col-md-5">
                                         <form:input path="registrationLocInfos[${i.index}].lastName"
                                                     name="registrationVM.registrationLocInfos[${i.index}].lastName"
                                                     required="required" placeholder="Last Name"
                                                     cssClass="form-control text-box single-line"/>
+                                        <form:errors path="RegistrationLocInfos[${i.index}].LastName" cssClass="error field-validation-error"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Father's name </label>
                                     <div class="col-md-5">
-                                        <form:input path="registrationLocInfos[${i.index}].fathersName"
+                                        <form:input path="registrationLocInfos[${i.index}].FathersName"
                                                     name="registrationVM.registrationLocInfos[${i.index}].fathersName"
                                                     placeholder="Father's name"
                                                     cssClass="form-control text-box single-line"/>
+                                        <form:errors path="RegistrationLocInfos[${i.index}].FathersName" cssClass="error field-validation-error"/>
                                     </div>
                                 </div>
-                                <div class="form-group ${requestScope['org.springframework.validation.BindingResult.user'].hasFieldErrors('address') ? 'error' : ''}">
+                                <div class="form-group">
                                     <label class="control-label col-md-3">Address <font
                                             color='red'>*</font></label>
                                     <div class="col-md-5">
-                                        <form:textarea path="registrationLocInfos[${i.index}].address"
+                                        <form:textarea path="registrationLocInfos[${i.index}].Address"
                                                        name="registrationVM.registrationLocInfos[${i.index}].address"
                                                        required="required" placeholder="Home address"
                                                        cssClass="form-control text-box" rows="3" cols="5"/>
+                                        <form:errors path="RegistrationLocInfos[${i.index}].Address" cssClass="error field-validation-error"/>
                                     </div>
                                 </div>
 
@@ -101,6 +104,7 @@
                                                     name="registrationVM.registrationLocInfos[${i.index}].birthPlace"
                                                     placeholder="Birth place"
                                                     cssClass="form-control text-box single-line"/>
+                                        <form:errors path="RegistrationLocInfos[${i.index}].BirthPlace" cssClass="error field-validation-error"/>
                                     </div>
                                 </div>
                             </div>
@@ -251,6 +255,7 @@
                         <div class="col-md-5">
                             <form:input path="passportNumber" placeholder="AA01234567"
                                         cssClass="form-control single-line"/>
+                            <form:errors path="PassportNumber" cssClass="error field-validation-error"/>
                         </div>
                     </div>
                     <div class="form-group  ${requestScope['org.springframework.validation.BindingResult.user'].hasFieldErrors('email') ? 'error' : ''}">
@@ -258,13 +263,15 @@
                         <div class="col-md-5">
                             <form:input path="email" placeholder="Personal email address" type="email"
                                         cssClass="form-control single-line"/>
+                            <form:errors path="Email" cssClass="error field-validation-error"/>
                         </div>
                     </div>
-                    <div class="form-group ${requestScope['org.springframework.validation.BindingResult.user'].hasFieldErrors('mobilePhone') ? 'error' : ''}">
+                    <div class="form-group ${requestScope['org.springframework.validation.BindingResult.user'].hasFieldErrors('MobilePhone') ? 'error' : ''}">
                         <label class="control-label col-md-3">Mobile Phone </label>
                         <div class="col-md-5">
                             <form:input path="mobilePhone" placeholder="Mobile phone number" type="tel"
                                         cssClass="telPhone form-control text-box single-line"/>
+                            <form:errors path="MobilePhone" cssClass="error field-validation-error"/>
                         </div>
                     </div>
 
@@ -273,7 +280,7 @@
                         <div class="col-md-5">
                             <form:input path="homePhone" placeholder="Home phone number"
                                         cssClass="telPhone form-control text-box single-line"/>
-                            <form:errors path="HiringDate" cssClass="error field-validation-error"/>
+                            <form:errors path="HomePhone" cssClass="error field-validation-error"/>
                         </div>
                     </div>
 
@@ -328,7 +335,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3">Department <font color='red'>*</font></label>
+                        <label class="control-label col-md-3">System role <font color='red'>*</font></label>
                         <div class="col-md-5">
                             <form:select path="roleId" items="${roles}"
                                          cssClass="form-control text-box single-line"/>

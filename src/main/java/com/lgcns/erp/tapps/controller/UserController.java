@@ -102,6 +102,7 @@ public class UserController {
             mav.addObject("heads", getDirectHeadIdAndName());
             mav.addObject("departments", getDepartmentsIdAndName());
             mav.addObject("statuses", getStatusesIdAndName());
+            mav.addObject("roles", getRolesIdAndName());
             mav.addObject("org.springframework.validation.BindingResult.registrationVM", bindingResult);
             return mav;
         }

@@ -43,7 +43,7 @@ public class RegistrationViewModel {
     private Date DateOfBirth;
     private int DepartmentId;
 
-    @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$",message="{invalid.phonenumber}")
+    @Pattern(regexp="^\\(?(\\d{5})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$|",message="Phone number should be of (99893)123-4567 format")
     private String MobilePhone;
     private String HomePhone;
 

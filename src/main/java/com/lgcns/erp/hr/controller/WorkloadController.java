@@ -19,7 +19,7 @@ import java.util.Date;
 @Controller
 public class WorkloadController {
 
-    @RequestMapping(value = "/Workload", method = RequestMethod.GET)
+    @RequestMapping(value = "/Workload/Index", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView Calendar(Principal principal) {
         ModelAndView mav = new ModelAndView();

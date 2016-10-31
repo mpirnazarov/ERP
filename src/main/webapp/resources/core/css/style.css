@@ -348,7 +348,6 @@ input.valid, textarea.valid{
   border: 2px solid green;
 }
 .error{
-  display: none;
   margin-left: 10px;
 }
 

@@ -417,6 +417,7 @@ public class UserService {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from RoleLocalizationsEntity roleLoc where lenguageId = :langId");
             query.setParameter("langId", languageId);
+            roles = (List<RoleLocalizationsEntity>)query.list();
             transaction.commit();
         }
         catch (HibernateException e) {

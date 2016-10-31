@@ -15,11 +15,13 @@
         <ul class="nav sidebar-nav">
             <li class="sidebar-brand">
                 <a href="#">
-                    Profile menu
+                    Welcome ${username}!
                 </a>
+
                 <!--Profile picture-->
-                <img src="${profilePicture.url}" style="width:45%;" class="w3-round"><br>
             </li>
+            <%--<img src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"><br>--%>
+            <img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>
             <li>
                 <a href="/User/Profile"><i class="fa fa-fw fa-home"></i> General information</a>
             </li>

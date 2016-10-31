@@ -152,7 +152,7 @@
 						</div>
 
 						<div>
-							<img src="/resources/images/Arial.png" alt="logo" style="width:100%; height:100%; margin-left:10px">
+							<img src="/resources/images/ERPnew.png" alt="logo" style="width:100%; height:100%; margin-left:10px">
 						</div>
 
 						<p>Copyright &copy; <%=(new SimpleDateFormat("yyyy").format(new java.util.Date())).toString()%> All rights reserved</p>

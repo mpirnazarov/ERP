@@ -24,10 +24,69 @@
             <div class="tab-content">
                 <div id="appointmentsummary" class="tab-pane fade in active">
                     <h3>Appointment summary</h3>
+                    <!--Appointment summary table-->
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Appointment date</th>
+                            <th>Appointment type</th>
+                            <th>Department</th>
+                            <th>Role</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%--<c:forEach items="${appointmentList}" var="appointment" varStatus="status">--%>
+                        <tr>
+                            <td>Row 1 Data 1</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                        </tr>
+                        <tr>
+                            <td>Row 2 Data 1</td>
+                            <td>Row 2 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                        </tr>
+                        <%--</c:forEach>--%>
+                        </tbody>
+                    </table>
                 </div>
                 <div id="salarydet" class="tab-pane fade">
                     <h3>Salary details</h3>
-                    <p>Some content in menu 1.</p>
+                    <!--Salary details table-->
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount(before taxes)</th>
+                            <th>NDFL</th>
+                            <th>INPS</th>
+                            <th>PF</th>
+                            <th>Amount(after taxes)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%--<c:forEach items="${appointmentList}" var="appointment" varStatus="status">--%>
+                        <tr>
+                            <td>Row 1 Data 1</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                        </tr>
+                        <tr>
+                            <td>Row 2 Data 1</td>
+                            <td>Row 2 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                        </tr>
+                        <%--</c:forEach>--%>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

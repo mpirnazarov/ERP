@@ -287,15 +287,13 @@ html {
   z-index: 1;
 }
 
-#profilePictures {
-  width: 630px;
+.img-circle {
+    border-radius: 50%;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #09aacc;
 }
 
-.profilePicture {
-  float: right;
-  width: 200px;
-  margin: 5px;
-}
 /* SOME DEMO STYLES - NOT REQUIRED */
 body,
 html {

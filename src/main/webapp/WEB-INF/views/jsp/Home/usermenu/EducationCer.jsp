@@ -25,14 +25,99 @@
             <div class="tab-content">
                 <div id="edu" class="tab-pane fade in active">
                     <h3>Educations</h3>
+                    <!--Educations table-->
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Name of school</th>
+                            <th>Major</th>
+                            <th>Degree</th>
+                            <th>First year</th>
+                            <th>Last year</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%--<c:forEach items="${eduList}" var="edu" varStatus="status">--%>
+                        <tr>
+                            <td>Row 1 Data 1</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                        </tr>
+                        <tr>
+                            <td>Row 2 Data 1</td>
+                            <td>Row 2 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                        </tr>
+                        <%--</c:forEach>--%>
+                        </tbody>
+                    </table>
                 </div>
                 <div id="langsum" class="tab-pane fade">
                     <h3>Language summary</h3>
-                    <p>Some content in menu 1.</p>
+                    <!--Language summary table-->
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Language</th>
+                            <th>Listening</th>
+                            <th>Reading</th>
+                            <th>Writing</th>
+                            <th>Speaking</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%--<c:forEach items="${languageList}" var="language" varStatus="status">--%>
+                        <tr>
+                            <td>Row 1 Data 1</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                        </tr>
+                        <tr>
+                            <td>Row 2 Data 1</td>
+                            <td>Row 2 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                        </tr>
+                        <%--</c:forEach>--%>
+                        </tbody>
+                    </table>
                 </div>
                 <div id="cersum" class="tab-pane fade">
                     <h3>Certificates</h3>
-                    <p>Some content in menu 1.</p>
+                    <!--Certificates table-->
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Organization</th>
+                            <th>Date</th>
+                            <th>Mark</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%--<c:forEach items="${cerList}" var="cer" varStatus="status">--%>
+                        <tr>
+                            <td>Row 1 Data 1</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                        </tr>
+                        <tr>
+                            <td>Row 2 Data 1</td>
+                            <td>Row 2 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                            <td>Row 1 Data 2</td>
+                        </tr>
+                        <%--</c:forEach>--%>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

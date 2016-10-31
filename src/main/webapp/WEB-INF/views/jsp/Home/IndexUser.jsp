@@ -14,7 +14,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2">
-            <h1 class="page-header">User profile</h1>
+            <h1 class="page-header">${userprofile.firstname} ${userprofile.lastname}'s profile</h1>
 
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#headerinfo">Header information</a></li>

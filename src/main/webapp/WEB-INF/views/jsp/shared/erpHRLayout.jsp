@@ -15,7 +15,7 @@
         <ul class="nav sidebar-nav">
             <li class="sidebar-brand">
                 <a href="#">
-                    HR menu
+                    Welcome ${username}!
                 </a>
             </li>
             <li class="dropdown">
@@ -31,7 +31,7 @@
             </ul>
             </li>
             <li>
-                <a href="#"><i class="fa fa-fw fa-home"></i> Users</a>
+                <a href="/Hr/Profile/Userslist"><i class="fa fa-fw fa-user"></i> Users</a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-fw fa-folder"></i> Projects</a>

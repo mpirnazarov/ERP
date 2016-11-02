@@ -39,7 +39,7 @@
                     <label class="control-label col-md-3">Last name: </label><div class="col-md-3"><c:out value="${userProfile.lastName[2]}"></c:out></div></div>
                 <div class="form-group"><label class="control-label col-md-3">First name: </label><div class="col-md-3"><c:out value="${userProfile.firstName[2]}"></c:out></div></div>
                 <div class="form-group"><label class="control-label col-md-3">Fathers name: </label><div class="col-md-3"><c:out value="${userProfile.fathersName[2]}"></c:out></div></div>
-                <div class="form-group"><label class="control-label col-md-3">Address: </label><div class="col-md-3"><c:out value="${userProfile.address[2]}"></c:out></div></div>
+                <div class="form-group"><label class="control-label col-md-3">Address: </label><div class="col-lg-5"><c:out value="${userProfile.address[2]}"></c:out></div></div>
             </div>
         </div>
             <div id="ru" class="tab-pane fade">
@@ -66,12 +66,16 @@
         <hr/>
         <!--Other information-->
         <div class="form-horizontal">
+            <div class="form-group"><label class="control-label col-md-3">User ID: </label><div class="col-md-3"><c:out value="${userProfile.id}"></c:out></div></div>
             <div class="form-group"><label class="control-label col-md-3">Department: </label><div class="col-md-3"><c:out value="${userProfile.department}"></c:out></div></div>
             <div class="form-group"><label class="control-label col-md-3">Position: </label><div class="col-md-3"><c:out value="${userProfile.position}"></c:out></div></div>
             <div class="form-group"><label class="control-label col-md-3">Joint type: </label><div class="col-md-3"><c:out value="${userProfile.jointType}"></c:out></div></div>
             <div class="form-group"><label class="control-label col-md-3">Status: </label><div class="col-md-3"><c:out value="${userProfile.status}"></c:out></div></div>
             <div class="form-group"><label class="control-label col-md-3">Job title: </label><div class="col-md-3"><c:out value="${userProfile.jobTitle}"></c:out></div></div>
             <div class="form-group"><label class="control-label col-md-3">Passport Number: </label><div class="col-md-3"><c:out value="${userProfile.passportNumber}"></c:out></div></div>
+            <div class="form-group"><label class="control-label col-md-3">Entry date: </label><div class="col-md-3"><c:out value="${userProfile.entryDate}"></c:out></div></div>
+            <div class="form-group"><label class="control-label col-md-3">Vacation days: </label><div class="col-md-3"><c:out value="${userProfile.vacationDaysLeft}/${userProfile.vacationDaysAll}"></c:out></div></div>
+
         </div>
 
     </div>
@@ -79,7 +83,7 @@
     <div id="personalinfo" class="tab-pane fade">
         <h3>Personal information</h3>
         <div class="form-horizontal">
-            <div class="form-group"><label class="control-label col-md-3">Birth place: </label><div class="col-md-3"><c:out value="${}"></c:out></div></div>
+            <div class="form-group"><label class="control-label col-md-3">Birth place: </label><div class="col-md-3"><c:out value="${userProfile.birthPlace}"></c:out></div></div>
             <div class="form-group"><label class="control-label col-md-3">Date of Birth: </label><div class="col-md-3"><c:out value="${userProfile.dateOfBirth}"></c:out></div></div>
             <div class="form-group"><label class="control-label col-md-3">Home phone: </label><div class="col-md-3"><c:out value="${userProfile.homePhone}"></c:out></div></div>
             <div class="form-group"><label class="control-label col-md-3">Mobile phone: </label><div class="col-md-3"><c:out value="${userProfile.mobilePhone}"></c:out></div></div>
@@ -98,27 +102,18 @@
                 <th>Relation</th>
                 <th>Full name</th>
                 <th>Date of birth</th>
-                <th>Passport</th>
                 <th>Duties</th>
             </tr>
             </thead>
             <tbody>
-            <%--<c:forEach items="${familyList}" var="family" varStatus="status">--%>
+            <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                 <tr>
-                    <td>Row 1 Data 1</td>
-                    <td>Row 1 Data 2</td>
-                    <td>Row 1 Data 2</td>
-                    <td>Row 1 Data 2</td>
-                    <td>Row 1 Data 2</td>
+                    <td>${family.relation}</td>
+                    <td>${family.fullName}</td>
+                    <td>${family.dateOfBirth}</td>
+                    <td>${family.jobTitle}</td>
                 </tr>
-                <tr>
-                    <td>Row 2 Data 1</td>
-                    <td>Row 2 Data 2</td>
-                    <td>Row 1 Data 2</td>
-                    <td>Row 1 Data 2</td>
-                    <td>Row 1 Data 2</td>
-                </tr>
-            <%--</c:forEach>--%>
+            </c:forEach>
             </tbody>
         </table>
     </div>

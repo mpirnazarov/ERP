@@ -1,7 +1,10 @@
 package com.lgcns.erp.tapps.viewModel;
 
+import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
+
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Dell on 24-Oct-16.
@@ -9,7 +12,6 @@ import java.util.Date;
 public class ProfileViewModel {
 
     public ProfileViewModel(int id, String first_name, String last_name, String father_name, String address, int language_id) {
-        System.out.println(id +" "+ first_name+" "+last_name+" "+father_name+" "+address+" "+language_id);
         this.id = id;
         this.firstName[language_id-1] = first_name;
         this.lastName[language_id-1] = last_name;
@@ -53,6 +55,20 @@ public class ProfileViewModel {
     private String passportNumber;
     private int languageId;
     private Date dateOfBirth;
+    private Date entryDate;
+    private int vacationDaysAll;
+    private int vacationDaysLeft;
+    private String birthPlace;
+
+    public List<FamilyMember> getFamilyLoc() {
+        return familyLoc;
+    }
+
+    public void setFamilyLoc(List<FamilyMember> familyLoc) {
+        this.familyLoc = familyLoc;
+    }
+
+    List<FamilyMember> familyLoc;
 
     public String getPersonalEmail() {
         return personalEmail;
@@ -183,7 +199,6 @@ public class ProfileViewModel {
     }
 
     public void addData1(int id, String first_name, String last_name, String father_name, String address, int language_id) {
-        System.out.println(id +" "+ first_name+" "+last_name+" "+father_name+" "+address+" "+language_id);
         this.id = id;
         this.firstName[language_id-1] = first_name;
         this.lastName[language_id-1] = last_name;
@@ -198,5 +213,38 @@ public class ProfileViewModel {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getBirthPlace() {
+        return birthPlace;
+    }
+
+    public void setBirthPlace(String birthPlace) {
+        this.birthPlace = birthPlace;
+    }
+
+
+    public Date getEntryDate() {
+        return entryDate;
+    }
+
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
+    }
+
+    public int getVacationDaysAll() {
+        return vacationDaysAll;
+    }
+
+    public void setVacationDaysAll(int vacationDaysAll) {
+        this.vacationDaysAll = vacationDaysAll;
+    }
+
+    public int getVacationDaysLeft() {
+        return vacationDaysLeft;
+    }
+
+    public void setVacationDaysLeft(int vacationDaysLeft) {
+        this.vacationDaysLeft = vacationDaysLeft;
     }
 }

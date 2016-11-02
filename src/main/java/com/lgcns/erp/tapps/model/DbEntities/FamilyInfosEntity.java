@@ -12,7 +12,6 @@ import java.util.Collection;
 public class FamilyInfosEntity {
     private int id;
     private int userId;
-    private String passport;
     private Collection<FamiliyInfoLocalizationsEntity> familiyInfoLocalizationsesById;
     private UsersEntity usersByUserId;
     private Date dateOfBirth;
@@ -37,16 +36,6 @@ public class FamilyInfosEntity {
         this.userId = userId;
     }
 
-    @Basic
-    @Column(name = "passport", nullable = true, length = 20)
-    public String getPassport() {
-        return passport;
-    }
-
-    public void setPassport(String passport) {
-        this.passport = passport;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -56,7 +45,6 @@ public class FamilyInfosEntity {
 
         if (id != that.id) return false;
         if (userId != that.userId) return false;
-        if (passport != null ? !passport.equals(that.passport) : that.passport != null) return false;
 
         return true;
     }
@@ -65,7 +53,6 @@ public class FamilyInfosEntity {
     public int hashCode() {
         int result = id;
         result = 31 * result + userId;
-        result = 31 * result + (passport != null ? passport.hashCode() : 0);
         return result;
     }
 

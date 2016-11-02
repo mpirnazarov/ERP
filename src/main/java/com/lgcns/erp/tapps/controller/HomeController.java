@@ -17,7 +17,7 @@ public class HomeController {
     public ModelAndView printWelcome(ModelMap model) {
 
         model.addAttribute("message", "Spring 3 MVC Hello World"); //Need to check whether the user is logged in or not
-        return new ModelAndView("forward:/User/Profile");
+        return new ModelAndView("forward: /User/Profile");
 
     }
 

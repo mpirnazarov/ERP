@@ -41,7 +41,7 @@ public class SalaryHistoriesEntity {
     }
 
     @Basic
-    @Column(name = "salary_inc_tax", nullable = false)
+    @Column(name = "salary_before", nullable = false)
     public int getSalaryIncTax() {
         return salaryIncTax;
     }
@@ -51,7 +51,7 @@ public class SalaryHistoriesEntity {
     }
 
     @Basic
-    @Column(name = "ndfl", nullable = false, precision = 0)
+    @Column(name = "pit", nullable = false, precision = 0)
     public double getNdfl() {
         return ndfl;
     }

@@ -9,13 +9,12 @@ import javax.persistence.*;
 @Table(name = "user_in_languages", schema = "public", catalog = "LgErpSystem")
 public class UserInLanguagesEntity {
     private int id;
-    private String memberName;
     private int userId;
     private int languageId;
-    private String listening;
-    private String writing;
-    private String speaking;
-    private String reading;
+    private int listening;
+    private int writing;
+    private int speaking;
+    private int reading;
     private UsersEntity usersByUserId;
     private LanguagesEntity languagesByLanguageId;
 
@@ -29,15 +28,6 @@ public class UserInLanguagesEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "member_name", nullable = false, length = 50)
-    public String getMemberName() {
-        return memberName;
-    }
-
-    public void setMemberName(String memberName) {
-        this.memberName = memberName;
-    }
 
     @Basic
     @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
@@ -61,41 +51,41 @@ public class UserInLanguagesEntity {
 
     @Basic
     @Column(name = "listening", nullable = true, length = 50)
-    public String getListening() {
+    public int getListening() {
         return listening;
     }
 
-    public void setListening(String listening) {
+    public void setListening(int listening) {
         this.listening = listening;
     }
 
     @Basic
     @Column(name = "writing", nullable = true, length = 50)
-    public String getWriting() {
+    public int getWriting() {
         return writing;
     }
 
-    public void setWriting(String writing) {
+    public void setWriting(int writing) {
         this.writing = writing;
     }
 
     @Basic
     @Column(name = "speaking", nullable = true, length = 50)
-    public String getSpeaking() {
+    public int getSpeaking() {
         return speaking;
     }
 
-    public void setSpeaking(String speaking) {
+    public void setSpeaking(int speaking) {
         this.speaking = speaking;
     }
 
     @Basic
     @Column(name = "reading", nullable = true, length = 50)
-    public String getReading() {
+    public int getReading() {
         return reading;
     }
 
-    public void setReading(String reading) {
+    public void setReading(int reading) {
         this.reading = reading;
     }
 
@@ -106,14 +96,6 @@ public class UserInLanguagesEntity {
 
         UserInLanguagesEntity that = (UserInLanguagesEntity) o;
 
-        if (id != that.id) return false;
-        if (userId != that.userId) return false;
-        if (languageId != that.languageId) return false;
-        if (memberName != null ? !memberName.equals(that.memberName) : that.memberName != null) return false;
-        if (listening != null ? !listening.equals(that.listening) : that.listening != null) return false;
-        if (writing != null ? !writing.equals(that.writing) : that.writing != null) return false;
-        if (speaking != null ? !speaking.equals(that.speaking) : that.speaking != null) return false;
-        if (reading != null ? !reading.equals(that.reading) : that.reading != null) return false;
 
         return true;
     }
@@ -121,13 +103,8 @@ public class UserInLanguagesEntity {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (memberName != null ? memberName.hashCode() : 0);
         result = 31 * result + userId;
         result = 31 * result + languageId;
-        result = 31 * result + (listening != null ? listening.hashCode() : 0);
-        result = 31 * result + (writing != null ? writing.hashCode() : 0);
-        result = 31 * result + (speaking != null ? speaking.hashCode() : 0);
-        result = 31 * result + (reading != null ? reading.hashCode() : 0);
         return result;
     }
 

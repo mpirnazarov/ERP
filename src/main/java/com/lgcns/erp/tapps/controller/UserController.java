@@ -1,20 +1,16 @@
 package com.lgcns.erp.tapps.controller;
 
-
-//import com.lgcns.erp.tapps.DAO.UserProfileDAO;
-
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.Enums.Appoint;
+import com.lgcns.erp.tapps.Enums.Language;
+import com.lgcns.erp.tapps.Enums.Language_Ranking;
 import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.LoginViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
-import com.lgcns.erp.tapps.viewModel.usermenu.AppointmentrecViewModel;
-import com.lgcns.erp.tapps.viewModel.usermenu.EduViewModel;
-import com.lgcns.erp.tapps.viewModel.usermenu.JobexpViewModel;
-import com.lgcns.erp.tapps.viewModel.usermenu.TrainViewModel;
+import com.lgcns.erp.tapps.viewModel.usermenu.*;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
@@ -27,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.Date;
 import java.util.*;
 
 
@@ -122,30 +119,18 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/IndexUser");
 
-
         ProfileViewModel userProfile = getProfileByUsername(principal); //userProfileDAO.findByUserName(principal.getName());
-        try {
-            System.out.println(userProfile.toString());
-        } catch (Exception e) {
-            System.out.println(e.getStackTrace());
-        }
-
-
-
 
         mav.addObject("userProfile", userProfile);
-
-
-
         return mav;
     }
 
     @RequestMapping(value = "/User/Profile/Appointment", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView Appointmentrec() {
+    public ModelAndView Appointmentrec(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/AppointmentRec");
-        AppointmentrecViewModel appointmentrecViewModel = new AppointmentrecViewModel();
+        List<AppointmentrecViewModel> appointmentrecViewModel = getAppointmentByUsername(principal);
 
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
         return mav;
@@ -154,13 +139,15 @@ public class UserController {
 
     @RequestMapping(value = "/User/Profile/Edu", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView Edu() {
+    public ModelAndView Edu(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/EducationCer");
-        EduViewModel eduViewModel = new EduViewModel();
+        EduViewModel eduViewModel = getEducationByUsername(principal);
+
         mav.addObject("eduVM", eduViewModel);
         return mav;
     }
+
 
     @RequestMapping(value = "/User/Profile/Jobexp", method = RequestMethod.GET)
     @ResponseBody
@@ -246,13 +233,13 @@ public class UserController {
         returning.setPosition(UserService.getRoleLoc(user).getName());
 
         //Getting Joint Type
-        returning.setJointType(Appoint.values()[UserService.getJointType(user).getAppointType()].toString());
+        returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getAppointType()-1].toString());
 
         //Getting status
         returning.setStatus(UserService.getStatuses().get(3).getName());
 
         //Getting job title
-        int postId =  UserService.getJointType(user).getPostId();
+        int postId =  getMax(UserService.getUserInPost(user)).getPostId();
         returning.setJobTitle(UserService.getJobTitle(postId, 3).getName());
 
         //RoleLocalizationsEntity roleLoc = UserService.getPosition(userInRoles);
@@ -260,6 +247,10 @@ public class UserController {
 
         //Getting passport number
         returning.setPassportNumber(user.getPassport());
+
+        //Getting birth place
+        //System.out.println("Birth Place: " + UserService.getUserLocalizations(user).getBirthPlace());
+        returning.setBirthPlace(UserService.getUserLocalizations(user).getBirthPlace().toString());
 
         //Getting Date of Birth
         returning.setDateOfBirth(user.getDateOfBirth());
@@ -277,10 +268,99 @@ public class UserController {
         returning.setPersonalEmail(user.getPersonalEmail());
 
         //Getting family information
-        List<FamilyInfosEntity> familyInfosEntities = UserService.getFamilyInfos();
+        List<FamilyInfosEntity> familyInfosEntities = UserService.getFamilyInfos(user);
+        List<FamilyMember> familyMembers = new LinkedList<FamilyMember>();
+        for (FamilyInfosEntity fie :
+                familyInfosEntities) {
+            FamiliyInfoLocalizationsEntity familyLoc2 = UserService.getFamilyInfosLoc(fie, 3);
+            familyMembers.add(new FamilyMember(familyLoc2.getRelation(), familyLoc2.getLastName()+" "+familyLoc2.getFirstName(), fie.getDateOfBirth(), familyLoc2.getJobTitle()));
+        }
+        returning.setFamilyLoc(familyMembers);
 
+        //Getting and setting entry date
+        returning.setEntryDate(user.getHiringDate());
+
+        // (MUST BE FINISHED!) Getting and setting vacation days
+        returning.setVacationDaysLeft(0);
+        returning.setVacationDaysAll(12);
         return returning;
     }
 
+
+    private List<AppointmentrecViewModel> getAppointmentByUsername(Principal principal) {
+        List<AppointmentrecViewModel> returning = new LinkedList<AppointmentrecViewModel>();
+
+        // Getting data from users db
+        UsersEntity user = UserService.getUserByUsername(principal.getName());
+
+        List<UserInPostsEntity> usersInPost = UserService.getUserInPost(user);
+
+        UserInPostsEntity userInPost = usersInPost.get(0);
+
+        for (UserInPostsEntity uip :
+                usersInPost) {
+            returning.add(new AppointmentrecViewModel(uip.getDateFrom(), Appoint.values()[uip.getAppointType() - 1].toString(), UserService.getDepartments().get(user.getDepartmentId()).getName(), UserService.getJobTitle(uip.getPostId(), 3).getName()));
+        }
+        /*// Setting appoint date
+        returning.setAppointDate(userInPost.getDateFrom());
+
+        // Setting appoint type
+        returning.setAppointmentType(Appoint.values()[userInPost.getAppointType()-1].toString());
+
+        // Setting department
+        returning.setDepartment(UserService.getDepartments().get(user.getDepartmentId()).getName());
+
+        //Setting Role (Post)
+        returning.setRole(UserService.getJobTitle(userInPost.getPostId(), 3).getName());
+*/
+        return returning;
+    }
+
+    private EduViewModel getEducationByUsername(Principal principal) {
+        EduViewModel eduReturn = new EduViewModel();
+        EducationLocalizationsEntity eduLoc = null;
+        UsersEntity user = UserService.getUserByUsername(principal.getName());
+
+        // Getting and setting Educations module
+        List<EducationsEntity> educations = UserService.getEducationsByUsername(user);
+        for (EducationsEntity edu:
+             educations) {
+            eduLoc = UserService.getEducationLocalization(edu, 3);
+            eduReturn.addEducation(eduLoc.getName(), eduLoc.getMajor(), eduLoc.getDegree(), edu.getStartDate(), edu.getEndDate());
+        }
+
+        // Getting and setting Language Summary module
+        List<UserInLanguagesEntity> languageSummaries = UserService.getUserInLanguages(user);
+        for (UserInLanguagesEntity lan :
+                languageSummaries) {
+            eduReturn.addLanguageSummary(Language.values()[lan.getLanguageId()-1].toString(), Language_Ranking.values()[lan.getListening()-1].toString(), Language_Ranking.values()[lan.getReading()].toString(), Language_Ranking.values()[lan.getWriting()].toString(), Language_Ranking.values()[lan.getSpeaking()].toString());
+        }
+
+        // Getting and setting Certificates module
+        List<CertificatesEntity> certificatesEntities = UserService.getCertificates(user);
+        for (CertificatesEntity cert :
+                certificatesEntities) {
+            CertificateLocalizationsEntity certificatesLocEntitie = UserService.getCertificatesLoc(cert, 3);
+            System.out.println(certificatesLocEntitie.getName()+" "+certificatesLocEntitie.getOrganization()+" "+cert.getDateTime()+" "+cert.getMark());
+            eduReturn.addCertificate(certificatesLocEntitie.getName(), certificatesLocEntitie.getOrganization(), cert.getDateTime(),cert.getMark());
+        }
+
+        return eduReturn;
+    }
+
+    private UserInPostsEntity getMax(List<UserInPostsEntity> usersInPost) {
+        UserInPostsEntity uip = new UserInPostsEntity();
+        long num = 0;
+
+        uip.setDateFrom(new Date(num));
+        for (UserInPostsEntity up :
+                usersInPost) {
+            if(up.getDateFrom().compareTo(uip.getDateFrom())>0)
+            {
+                uip=up;
+            }
+        }
+        return uip;
+    }
 
 }

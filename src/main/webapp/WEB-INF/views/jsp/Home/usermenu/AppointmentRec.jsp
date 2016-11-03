@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
   Created by IntelliJ IDEA.
   User: Dell
   Date: 25-Oct-16
@@ -9,6 +9,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Appointment Record"/>
+<%
+/*    ProfileViewModel a = (ProfileViewModel)request.getAttribute("userProfile");
+    request.setAttribute("ProfileModel", (a.getFirstName()[0]).toString());*/
+%>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
 <div class="container">
@@ -35,20 +39,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <%--<c:forEach items="${appointmentList}" var="appointment" varStatus="status">--%>
+                        <c:forEach items="${appointmentrecVM}" var="appointment" varStatus="status">
                         <tr>
-                            <td>Row 1 Data 1</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
+                            <td>${appointment.appointDate}</td>
+                            <td>${appointment.appointmentType}</td>
+                            <td>${appointment.department}</td>
+                            <td>${appointment.role}</td>
                         </tr>
-                        <tr>
-                            <td>Row 2 Data 1</td>
-                            <td>Row 2 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                        </tr>
-                        <%--</c:forEach>--%>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>

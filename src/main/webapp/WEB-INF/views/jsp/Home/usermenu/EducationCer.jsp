@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
   Created by IntelliJ IDEA.
   User: Dell
   Date: 25-Oct-16
@@ -9,6 +9,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Education certificates"/>
+<%
+/*    ProfileViewModel a = (ProfileViewModel)request.getAttribute("userProfile");
+    request.setAttribute("ProfileModel", (a.getFirstName()).toString());*/
+%>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
 <div class="container">
@@ -37,22 +41,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <%--<c:forEach items="${eduList}" var="edu" varStatus="status">--%>
+                        <c:forEach items="${eduVM.educationsList}" var="eduList" varStatus="status">
                         <tr>
-                            <td>Row 1 Data 1</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
+                            <td>${eduList.name}</td>
+                            <td>${eduList.major}</td>
+                            <td>${eduList.degree}</td>
+                            <td>${eduList.startDate}</td>
+                            <td>${eduList.endDate}</td>
                         </tr>
-                        <tr>
-                            <td>Row 2 Data 1</td>
-                            <td>Row 2 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                        </tr>
-                        <%--</c:forEach>--%>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -70,22 +67,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <%--<c:forEach items="${languageList}" var="language" varStatus="status">--%>
+                        <c:forEach items="${eduVM.languageSummaryList}" var="language" varStatus="status">
                         <tr>
-                            <td>Row 1 Data 1</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
+                            <td>${language.language}</td>
+                            <td>${language.listening}</td>
+                            <td>${language.reading}</td>
+                            <td>${language.writing}</td>
+                            <td>${language.speaking}</td>
                         </tr>
-                        <tr>
-                            <td>Row 2 Data 1</td>
-                            <td>Row 2 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                        </tr>
-                        <%--</c:forEach>--%>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -102,20 +92,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <%--<c:forEach items="${cerList}" var="cer" varStatus="status">--%>
+                        <c:forEach items="${eduVM.certificateList}" var="cer" varStatus="status">
                         <tr>
-                            <td>Row 1 Data 1</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
+                            <td>${cer.name}</td>
+                            <td>${cer.organization}</td>
+                            <td>${cer.dateTime}</td>
+                            <td>${cer.mark}</td>
                         </tr>
-                        <tr>
-                            <td>Row 2 Data 1</td>
-                            <td>Row 2 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                        </tr>
-                        <%--</c:forEach>--%>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -123,4 +107,5 @@
         </div>
     </div>
 </div>
+<% request.setAttribute("foo", "bar"); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

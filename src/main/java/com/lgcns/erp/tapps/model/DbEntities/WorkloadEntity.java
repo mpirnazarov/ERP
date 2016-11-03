@@ -15,7 +15,7 @@ public class WorkloadEntity {
     private Integer projectId;
     private Date date;
     private int duration;
-    private BigInteger workloadType;
+    private Integer workloadType;
     private UsersEntity usersByUserId;
     private ProjectsEntity projectsByProjectId;
 
@@ -71,11 +71,11 @@ public class WorkloadEntity {
 
     @Basic
     @Column(name = "workload_type", nullable = false, precision = 0)
-    public BigInteger getWorkloadType() {
+    public Integer getWorkloadType() {
         return workloadType;
     }
 
-    public void setWorkloadType(BigInteger workloadType) {
+    public void setWorkloadType(Integer workloadType) {
         this.workloadType = workloadType;
     }
 

@@ -11,8 +11,9 @@ import java.sql.Date;
 public class SalaryHistoriesEntity {
     private int id;
     private int userId;
-    private int salaryIncTax;
-    private double ndfl;
+    private int salaryBefore;
+    private int salaryAfter;
+    private double pit;
     private double inps;
     private double pf;
     private int currencyId;
@@ -41,23 +42,33 @@ public class SalaryHistoriesEntity {
     }
 
     @Basic
-    @Column(name = "salary_inc_tax", nullable = false)
-    public int getSalaryIncTax() {
-        return salaryIncTax;
+    @Column(name = "salary_before", nullable = false)
+    public int getSalaryBefore() {
+        return salaryBefore;
     }
 
-    public void setSalaryIncTax(int salaryIncTax) {
-        this.salaryIncTax = salaryIncTax;
+    public void setSalaryBefore(int salaryIncTax) {
+        this.salaryBefore = salaryIncTax;
     }
 
     @Basic
-    @Column(name = "ndfl", nullable = false, precision = 0)
-    public double getNdfl() {
-        return ndfl;
+    @Column(name = "salary_after", nullable = false)
+    public int getSalaryAfter() {
+        return salaryAfter;
     }
 
-    public void setNdfl(double ndfl) {
-        this.ndfl = ndfl;
+    public void setSalaryAfter(int salaryIncTax) {
+        this.salaryAfter = salaryIncTax;
+    }
+
+    @Basic
+    @Column(name = "pit", nullable = false, precision = 0)
+    public double getPit() {
+        return pit;
+    }
+
+    public void setPit(double ndfl) {
+        this.pit = ndfl;
     }
 
     @Basic
@@ -99,8 +110,8 @@ public class SalaryHistoriesEntity {
 
         if (id != that.id) return false;
         if (userId != that.userId) return false;
-        if (salaryIncTax != that.salaryIncTax) return false;
-        if (Double.compare(that.ndfl, ndfl) != 0) return false;
+        if (salaryBefore != that.salaryBefore) return false;
+        if (Double.compare(that.pit, pit) != 0) return false;
         if (Double.compare(that.inps, inps) != 0) return false;
         if (Double.compare(that.pf, pf) != 0) return false;
         if (currencyId != that.currencyId) return false;
@@ -114,8 +125,8 @@ public class SalaryHistoriesEntity {
         long temp;
         result = id;
         result = 31 * result + userId;
-        result = 31 * result + salaryIncTax;
-        temp = Double.doubleToLongBits(ndfl);
+        result = 31 * result + salaryBefore;
+        temp = Double.doubleToLongBits(pit);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(inps);
         result = 31 * result + (int) (temp ^ (temp >>> 32));

@@ -121,7 +121,7 @@ public class ProjectsEntity {
         this.contactInProjectsesById = contactInProjectsesById;
     }
 
-    @OneToMany(mappedBy = "projectsByProjectId")
+    @OneToMany(mappedBy = "projectsByProjectId", fetch = FetchType.EAGER)
     public Collection<ProjectLocalizationsEntity> getProjectLocalizationsesById() {
         return projectLocalizationsesById;
     }

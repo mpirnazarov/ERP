@@ -4,11 +4,13 @@ import com.lgcns.erp.hr.enums.WorkloadType;
 import com.lgcns.erp.tapps.model.DbEntities.ProjectsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UserInProjectsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +20,7 @@ import java.util.List;
 public class WorkloadServices {
     public static List<ProjectsEntity> getUsersAllProjects(int userId, Date from, Date to) {
         List<UserInProjectsEntity> list = null;
-        List<ProjectsEntity> projectsList = null;
+        List<ProjectsEntity> projectsList = new ArrayList<ProjectsEntity>();
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {

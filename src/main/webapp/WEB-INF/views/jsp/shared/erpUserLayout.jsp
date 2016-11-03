@@ -9,7 +9,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div id="wrapper">
-    <div class="overlay"></div>
+    <div class="sidebar"></div>
 
 
     <!-- Sidebar -->

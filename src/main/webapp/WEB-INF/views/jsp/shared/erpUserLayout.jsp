@@ -1,3 +1,4 @@
+<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
@@ -10,12 +11,13 @@
 <div id="wrapper">
     <div class="overlay"></div>
 
+
     <!-- Sidebar -->
     <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
         <ul class="nav sidebar-nav">
             <li class="sidebar-brand">
                 <a href="#">
-                    Welcome ${username}!
+                    Welcome <%= request.getAttribute("ProfileModel") %>
                 </a>
 
                 <!--Profile picture-->

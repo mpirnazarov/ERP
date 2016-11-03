@@ -1,5 +1,7 @@
 package com.lgcns.erp.tapps.viewModel.usermenu;
 
+import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+
 import java.util.Date;
 
 /**
@@ -11,6 +13,7 @@ public class AppointmentrecViewModel {
     private String appointmentType;
     private String department;
     private String role;
+    private UsersEntity user;
 
     public AppointmentrecViewModel(Date dateFrom, String appointmentType, String department, String role) {
         this.appointDate=dateFrom;

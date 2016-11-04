@@ -18,6 +18,7 @@
                     Welcome ${username}!
                 </a>
             </li>
+            <img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>
             <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> Home <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
@@ -38,6 +39,16 @@
             </li>
             <li>
                 <a href="#"><i class="fa fa-fw fa-file-o"></i> Evaluation</a>
+            </li>
+            <li>
+                <a href="/Hr/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
+            </li>
+            <hr/>
+            <li>
+                <a href="#"><i class="fa fa-fw fa-cog"></i> Change password</a>
+            </li>
+            <li>
+                <a href="/logout"><i class="fa fa-fw fa-close"></i> Logout</a>
             </li>
         </ul>
     </nav>

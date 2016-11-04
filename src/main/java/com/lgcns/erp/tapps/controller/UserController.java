@@ -168,6 +168,15 @@ public class UserController {
         mav.addObject("trainVM", trainViewModel);
         return mav;
     }
+    @RequestMapping(value = "/User/Profile/Docs", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView Docs() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/usermenu/Docs");
+        DocsViewModel docsViewModel = new DocsViewModel();
+        mav.addObject("docsVM", docsViewModel);
+        return mav;
+    }
 
     private Map<Integer, String> getDirectHeadIdAndName() {
         Map<Integer, String> heads = new LinkedHashMap<Integer, String>();
@@ -233,7 +242,7 @@ public class UserController {
         returning.setPosition(UserService.getRoleLoc(user).getName());
 
         //Getting Joint Type
-        returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getAppointType()-1].toString());
+        returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType()-1].toString());
 
         //Getting status
         returning.setStatus(UserService.getStatuses().get(3).getName());
@@ -299,7 +308,7 @@ public class UserController {
 
         for (UserInPostsEntity uip :
                 usersInPost) {
-            returning.add(new AppointmentrecViewModel(uip.getDateFrom(), Appoint.values()[uip.getAppointType() - 1].toString(), UserService.getDepartments().get(user.getDepartmentId()).getName(), UserService.getJobTitle(uip.getPostId(), 3).getName()));
+            returning.add(new AppointmentrecViewModel(uip.getDateFrom(), Appoint.values()[uip.getContractType() - 1].toString(), UserService.getDepartments().get(user.getDepartmentId()).getName(), UserService.getJobTitle(uip.getPostId(), 3).getName()));
         }
         /*// Setting appoint date
         returning.setAppointDate(userInPost.getDateFrom());

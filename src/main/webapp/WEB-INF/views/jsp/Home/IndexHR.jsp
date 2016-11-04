@@ -19,7 +19,6 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#headerinfo">Header information</a></li>
                 <li><a data-toggle="tab" href="#personalinfo">Personal information</a></li>
-                <li><a data-toggle="tab" href="#workingplace">Working place</a></li>
                 <li><a data-toggle="tab" href="#familyinfo">Family information</a></li>
             </ul>
             <div class="tab-content">
@@ -69,13 +68,14 @@
                                         <label class="control-label col-md-3">Familiya: </label><div class="col-lg-5"><c:out value="${}"></c:out></div></div>
                                     <div class="form-group"><label class="control-label col-md-3">Ism: </label><div class="col-lg-5"><c:out value="${}"></c:out></div></div>
                                     <div class="form-group"><label class="control-label col-md-3">Sharf: </label><div class="col-lg-5"><c:out value="${}"></c:out></div></div>
-                                    <div class="form-group"><label class="control-label col-md-3">Adres: </label><div class="col-lg-5"><c:out value="${}"></c:out></div></div>
+                                    <div class="form-group"><label class="control-label col-md-3">Manzil: </label><div class="col-lg-5"><c:out value="${}"></c:out></div></div>
                                 </div>
                             </div>
                         </div>
                         <hr/>
                         <!--Other information-->
                         <div class="form-horizontal">
+                            <div class="form-group"><label class="control-label col-md-3">User ID: </label><div class="col-lg-5"><c:out value="${}"></c:out></div></div>
                             <div class="form-group"><label class="control-label col-md-3">Department: </label><div class="col-lg-5"><c:out value="${}"></c:out></div></div>
                             <div class="form-group"><label class="control-label col-md-3">Position: </label><div class="col-lg-5"><c:out value="${}"></c:out></div></div>
                             <div class="form-group"><label class="control-label col-md-3">Joint type: </label><div class="col-lg-5"><c:out value="${}"></c:out></div></div>
@@ -97,37 +97,100 @@
                             <div class="form-group"><label class="control-label col-md-3">E-mail (personal): </label><div class="col-lg-5"><c:out value="${}"></c:out></div></div>
                         </div>
                     </div>
-                    <!--General info/Working place Tab-->
-                    <div id="workingplace" class="tab-pane fade">
-                        <h3>Working place</h3>
-                        <div class="form-horizontal">
-                            <div class="form-group"><label class="control-label col-md-3">Address: </label><div class="col-lg-5"><c:out value="${}"></c:out></div></div>
-                            <div class="form-group"><label class="control-label col-md-3">Phone: </label><div class="col-lg-5"><c:out value="${}"></c:out></div></div>
-                            <div class="form-group"><label class="control-label col-md-3">Hiring date: </label><div class="col-lg-5"><c:out value="${}"></c:out></div></div>
-                        </div>
-                    </div>
                     <!--General info/Family info Tab-->
                     <div id="familyinfo" class="tab-pane fade">
                         <h3>Family information</h3>
-                        <!--Family table-->
-                        <table>
-                            <tr>
-                                <th>Relation</th>
-                                <th>Full name</th>
-                                <th>Date of birth</th>
-                                <th>Passport</th>
-                                <th>Duties</th>
-                            </tr>
-                            <c:forEach items="${familyList}" var="family" varStatus="status">
-                                <tr>
-                                    <td>${}</td>
-                                    <td>${}</td>
-                                    <td>${}</td>
-                                    <td>${}</td>
-                                    <td>${}</td>
-                                </tr>
-                            </c:forEach>
-                        </table>
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#fien">EN</a></li>
+                            <li><a data-toggle="tab" href="#firu">RU</a></li>
+                            <li><a data-toggle="tab" href="#fiuz">UZ</a></li>
+                        </ul>
+                        <!--English, Russian, Uzbek (Localizations)-->
+                        <div class="tab-content">
+                            <div id="fien" class="tab-pane fade in active">
+                                <p>In english</p>
+                                <div class="form-horizontal">
+                                    <!--Family table-->
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Relation</th>
+                                            <th>Full name</th>
+                                            <th>Date of birth</th>
+                                            <th>Passport</th>
+                                            <th>Duties</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
+                                            <tr>
+                                                <td>${family.relation}</td>
+                                                <td>${family.fullName}</td>
+                                                <td>${family.dateOfBirth}</td>
+                                                <td>${family.jobTitle}</td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div id="firu" class="tab-pane fade in active">
+                                <p>На русском</p>
+                                <div class="form-horizontal">
+                                    <!--Family table-->
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Родство</th>
+                                            <th>Ф.И.О.</th>
+                                            <th>Дата рождения</th>
+                                            <th>Паспортные данные</th>
+                                            <th>Вид деятельности</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
+                                            <tr>
+                                                <td>${family.relation}</td>
+                                                <td>${family.fullName}</td>
+                                                <td>${family.dateOfBirth}</td>
+                                                <td>${family.jobTitle}</td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="fiuz" class="tab-pane fade in active">
+                                <p>O'zbekchada</p>
+                                <div class="form-horizontal">
+                                    <!--Family table-->
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Qarindoshligi</th>
+                                            <th>F.I.Sh.</th>
+                                            <th>Tug'ilgan sanasi</th>
+                                            <th>Pasport</th>
+                                            <th>Faoliyati</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
+                                            <tr>
+                                                <td>${family.relation}</td>
+                                                <td>${family.fullName}</td>
+                                                <td>${family.dateOfBirth}</td>
+                                                <td>${family.jobTitle}</td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
                     </div>
         </div>
     </div>

@@ -18,9 +18,10 @@
 
     <h1>LG CNS UZBEKISTAN</h1>
     <h2>Login</h2>
-    <form method="post">
-        <input type="text" name="u" placeholder="Username" required="required" />
-        <input type="password" name="p" placeholder="Password" required="required" />
+    <form action="<c:url value='/j_spring_security_check' />" method='POST'>
+
+        <input type="text" name="username" placeholder="Username" required="required" />
+        <input type="password" name="password" placeholder="Password" required="required" />
         <div class="checkbox">
             <label>
                 <input type="checkbox"> Remember me

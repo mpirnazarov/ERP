@@ -82,4 +82,13 @@ public class HrController {
         mav.addObject("hrUserslistVM", hrUserslistViewModel);
         return mav;
     }
+    @RequestMapping(value = "/Hr/Profile/Docs", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView Docs() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/hrmenu/Docs");
+        DocsViewModel docsViewModel = new DocsViewModel();
+        mav.addObject("docsVM", docsViewModel);
+        return mav;
+    }
 }

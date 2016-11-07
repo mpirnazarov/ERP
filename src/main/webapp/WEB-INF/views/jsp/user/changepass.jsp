@@ -17,33 +17,25 @@
         <div class="col-lg-8 col-lg-offset-2">
             <h1 class="page-header">Change password</h1>
             <div class="form-horizontal">
-                <div class="form-group">
-                    <label class="control-label col-md-3">Old password: <font color='red'>*</font></label>
-                    <div class="col-md-5">
-                        <form:password path="oldPassword" placeholder="Old Password"
-                                       cssClass="form-control text-box single-line"/>
-                        <form:errors path="OldPassword" cssClass="error field-validation-error"/>
+                <form action="<c:url value='/user_changepass' />" method='POST'>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Old password: <font color='red'>*</font></label>
+                        <input type="password" name="Oldpassword" placeholder="Old Password" required="required" />
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3">Password: <font color='red'>*</font></label>
-                    <div class="col-md-5">
-                        <form:password path="password" placeholder="Password"
-                                       cssClass="form-control text-box single-line"/>
-                        <form:errors path="Password" cssClass="error field-validation-error"/>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Password: <font color='red'>*</font></label>
+                        <input type="password" name="password" placeholder="Password" required="required" />
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-3">Repeat password: <font color='red'>*</font></label>
-                    <div class="col-md-5">
-                        <form:password path="repeatPassword" placeholder="Repeat Password"
-                                       cssClass="form-control text-box single-line"/>
-                        <form:errors path="RepeatPassword" cssClass="error field-validation-error"/>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Repeat password: <font color='red'>*</font></label>
+                        <input type="password" name="Repeatpassword" placeholder="Repeat Password" required="required" />
                     </div>
-                </div>
-                </div>
+                    <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Change password</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

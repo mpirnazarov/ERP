@@ -17,8 +17,8 @@
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
 <%@ page import="org.apache.commons.io.output.*" %>
 <%
-    /*    ProfileViewModel a = (ProfileViewModel)request.getAttribute("userProfile");
-        request.setAttribute("ProfileModel", (a.getFirstName()[0]).toString());*/
+    String a = request.getAttribute("name").toString();
+    request.setAttribute("ProfileModel", a);
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>

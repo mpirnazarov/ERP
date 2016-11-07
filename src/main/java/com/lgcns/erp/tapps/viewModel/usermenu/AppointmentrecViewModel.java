@@ -1,57 +1,41 @@
 package com.lgcns.erp.tapps.viewModel.usermenu;
 
-import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.tapps.model.DbEntities.SalaryHistoriesEntity;
+import com.lgcns.erp.tapps.viewModel.usermenu.Appointment.AppointmentSummary;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Muslimbek on 25-Oct-16.
  */
 
 public class AppointmentrecViewModel {
-    private Date appointDate;
-    private String appointmentType;
-    private String department;
-    private String role;
-    private UsersEntity user;
+    private List<AppointmentSummary> appointmentSummaries;
+    private List<SalaryHistoriesEntity> salaryDetails;
 
-    public AppointmentrecViewModel(Date dateFrom, String appointmentType, String department, String role) {
-        this.appointDate=dateFrom;
-        this.appointmentType=appointmentType;
-        this.department = department;
-        this.role = role;
+    public AppointmentrecViewModel() {
+        appointmentSummaries = new LinkedList<AppointmentSummary>();
+        salaryDetails = new LinkedList<SalaryHistoriesEntity>();
+    }
+    public void addAppointSummary(Date appointDate, String appointmentType, String department, String role) {
+        appointmentSummaries.add(new AppointmentSummary(appointDate, appointmentType, department, role));
     }
 
-
-    public void setAppointDate(Date appointDate) {
-        this.appointDate = appointDate;
-    }
-    public Date getAppointDate() {
-        return appointDate;
+    public List<AppointmentSummary> getAppointmentSummaries() {
+        return appointmentSummaries;
     }
 
-
-    public String getAppointmentType() {
-        return appointmentType;
+    public void setAppointmentSummaries(List<AppointmentSummary> appointmentSummaries) {
+        this.appointmentSummaries = appointmentSummaries;
     }
 
-    public void setAppointmentType(String appointmentType) {
-        this.appointmentType = appointmentType;
+    public List<SalaryHistoriesEntity> getSalaryDetails() {
+        return salaryDetails;
     }
 
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public void setSalaryDetails(List<SalaryHistoriesEntity> salaryDetails) {
+        this.salaryDetails = salaryDetails;
     }
 }

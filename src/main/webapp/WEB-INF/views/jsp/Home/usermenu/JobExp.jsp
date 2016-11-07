@@ -10,8 +10,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Job experience"/>
 <%
-/*    ProfileViewModel a = (ProfileViewModel)request.getAttribute("userProfile");
-    request.setAttribute("ProfileModel", (a.getFirstName()).toString());*/
+    String a = request.getAttribute("name").toString();
+    request.setAttribute("ProfileModel", a);
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
@@ -38,20 +38,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <%--<c:forEach items="${jobexpList}" var="jobexp" varStatus="status">--%>
+                        <c:forEach items="${jobexpVM}" var="jobexp" varStatus="status">
                         <tr>
-                            <td>Row 1 Data 1</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
+                            <td>${jobexp.organization}</td>
+                            <td>${jobexp.position}</td>
+                            <td>${jobexp.startDate}</td>
+                            <td>${jobexp.endDate}</td>
                         </tr>
-                        <tr>
-                            <td>Row 2 Data 1</td>
-                            <td>Row 2 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                        </tr>
-                        <%--</c:forEach>--%>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>

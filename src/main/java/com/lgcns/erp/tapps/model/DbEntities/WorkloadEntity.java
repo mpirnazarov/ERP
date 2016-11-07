@@ -1,7 +1,6 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.sql.Date;
 
 /**
@@ -21,6 +20,7 @@ public class WorkloadEntity {
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -51,12 +51,12 @@ public class WorkloadEntity {
 
     @Basic
     @Column(name = "date", nullable = false)
-    public Date getDate() {
+    public java.util.Date getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate(java.util.Date date) {
+        this.date = new Date(date.getTime());
     }
 
     @Basic

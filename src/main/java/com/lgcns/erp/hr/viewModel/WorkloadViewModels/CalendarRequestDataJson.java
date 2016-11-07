@@ -1,5 +1,6 @@
 package com.lgcns.erp.hr.viewModel.WorkloadViewModels;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ public class CalendarRequestDataJson implements Serializable{
     @JsonProperty("Monday")
     private Date Monday;
     @JsonProperty("WeekDate")
-    private String WeekDate;
+    private int WeekDate;
     @JsonProperty("WorkloadName")
     private String WorkloadName;
     @JsonProperty("WorkloadType")
@@ -36,11 +37,11 @@ public class CalendarRequestDataJson implements Serializable{
         Monday = monday;
     }
 
-    public String getWeekDate() {
+    public int getWeekDate() {
         return WeekDate;
     }
 
-    public void setWeekDate(String weekDate) {
+    public void setWeekDate(int weekDate) {
         WeekDate = weekDate;
     }
 

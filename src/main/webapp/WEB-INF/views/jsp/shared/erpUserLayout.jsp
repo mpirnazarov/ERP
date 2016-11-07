@@ -57,7 +57,7 @@
                 <a href="/User/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-fw fa-gears"></i> Change password</a>
+                <a href="/User/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
             </li>
             <li>
                 <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>

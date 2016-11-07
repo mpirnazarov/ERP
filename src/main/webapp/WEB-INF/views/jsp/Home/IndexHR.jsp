@@ -101,9 +101,9 @@
                     <div id="familyinfo" class="tab-pane fade">
                         <h3>Family information</h3>
                         <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#fien">EN</a></li>
-                            <li><a data-toggle="tab" href="#firu">RU</a></li>
-                            <li><a data-toggle="tab" href="#fiuz">UZ</a></li>
+                            <li class="active"><a data-toggle="tab" id="fienref" href="#fien">EN</a></li>
+                            <li><a data-toggle="tab" id="firuref" href="#firu">RU</a></li>
+                            <li><a data-toggle="tab" id="fiuzref" href="#fiuz">UZ</a></li>
                         </ul>
                         <!--English, Russian, Uzbek (Localizations)-->
                         <div class="tab-content">
@@ -190,10 +190,17 @@
                                 </div>
                             </div>
                         </div>
-                        <hr/>
                     </div>
         </div>
     </div>
 </div>
 </div>
+    <script>
+        $(document).ready(function () {
+            $("#firuref").trigger('click');
+            document.getElementById("firuref").click();
+            $("#fienref").trigger('click');
+            document.getElementById("fienref").click();
+        });
+    </script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

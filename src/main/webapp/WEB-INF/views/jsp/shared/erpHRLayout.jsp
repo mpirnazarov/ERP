@@ -20,7 +20,7 @@
             </li>
             <img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>
             <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> Home <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-home"></i> Home <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
             <li class="dropdown-header">Information about HR</li>
             <li><a href="/Hr/Profile">General information</a></li>
@@ -32,7 +32,7 @@
             </ul>
             </li>
             <li>
-                <a href="/Hr/Profile/Userslist"><i class="fa fa-fw fa-user"></i> Users</a>
+                <a href="/Hr/Profile/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-fw fa-folder"></i> Projects</a>
@@ -45,10 +45,10 @@
             </li>
             <hr/>
             <li>
-                <a href="#"><i class="fa fa-fw fa-cog"></i> Change password</a>
+                <a href="#"><i class="fa fa-fw fa-gears"></i> Change password</a>
             </li>
             <li>
-                <a href="/logout"><i class="fa fa-fw fa-close"></i> Logout</a>
+                <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
             </li>
         </ul>
     </nav>

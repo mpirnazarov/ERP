@@ -24,5 +24,18 @@
     <link rel="stylesheet" href="${styleCss}" />
     <script src="${jquery}"></script>
     <script src="${jqueryValidation}"></script>
+    <style>
+        .error {
+            color: #ff0000;
+        }
+
+        .errorblock {
+            color: #000;
+            background-color: #ffEEEE;
+            border: 3px solid #ff0000;
+            padding: 8px;
+            margin: 16px;
+        }
+    </style>
 </head>
 <body>

@@ -12,10 +12,33 @@
 
 	<context:component-scan base-package="com.lgcns.erp.tapps.controller, com.lgcns.erp.hr.controller" />
 
+	<bean
+			class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
+
+	<bean id="multipartResolver"
+		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
+	<bean class="com.lgcns.erp.tapps.controller.FileUploadController">
+		<property name="formView" value="FileUploadForm" />
+		<property name="successView" value="FileUploadSuccess" />
+
+		<!-- Map a validator -->
+		<property name="validator">
+			<bean class="com.lgcns.erp.tapps.controller.FileUploadValidator" />
+		</property>
+	</bean>
+
+	<!-- Register the Customer.properties -->
+	<bean id="messageSource"
+		  class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="message" />
+	</bean>
+
 	<bean id="viewResolver"	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/jsp/"/>
 		<property name="suffix" value=".jsp"/>
 	</bean>
+
 
     <!--<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>

@@ -8,7 +8,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <c:set var="pageTitle" scope="request" value="Documents"/>
+<%@ page import="java.io.*,java.util.*, javax.servlet.*" %>
+<%@ page import="javax.servlet.http.*" %>
+<%@ page import="org.apache.commons.fileupload.*" %>
+<%@ page import="org.apache.commons.fileupload.disk.*" %>
+<%@ page import="org.apache.commons.fileupload.servlet.*" %>
+<%@ page import="org.apache.commons.io.output.*" %>
 <%
     /*    ProfileViewModel a = (ProfileViewModel)request.getAttribute("userProfile");
         request.setAttribute("ProfileModel", (a.getFirstName()[0]).toString());*/
@@ -37,6 +44,19 @@
                 </c:forEach>
                 </tbody>
             </table>
+
+            <h3>File Upload:</h3>
+            <form:form method="POST" commandName="fileUploadForm"
+                       enctype="multipart/form-data">
+
+                <form:errors path="*" cssClass="errorblock" element="div" />
+
+                Please select a file to upload : <input type="file" name="file" />
+                <input type="submit" value="upload" />
+                <span><form:errors path="file" cssClass="error" />
+		</span>
+
+            </form:form>
         </div>
     </div>
 </div>

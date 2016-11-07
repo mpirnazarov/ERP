@@ -16,22 +16,32 @@
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2">
             <h1 class="page-header">Change password</h1>
+            <br/>
             <div class="form-horizontal">
                 <form action="<c:url value='/user_changepass' />" method='POST'>
                     <div class="form-group">
-                        <label class="control-label col-md-3">Old password: <font color='red'>*</font></label>
-                        <input type="password" name="Oldpassword" placeholder="Old Password" required="required" />
+                        <label class="control-label col-md-3">Old password <font color='red'>*</font></label>
+                        <div class="col-md-5">
+                            <input type="password" name="Oldpassword" placeholder="Old Password" required="required" class="form-control text-box single-line" />
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3">Password: <font color='red'>*</font></label>
-                        <input type="password" name="password" placeholder="Password" required="required" />
+                        <label class="control-label col-md-3">Password <font color='red'>*</font></label>
+                        <div class="col-md-5">
+                            <input type="password" name="password" placeholder="Password" required="required" class="form-control text-box single-line" />
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3">Repeat password: <font color='red'>*</font></label>
-                        <input type="password" name="Repeatpassword" placeholder="Repeat Password" required="required" />
+                        <label class="control-label col-md-3">Repeat password <font color='red'>*</font></label>
+                    <div class="col-md-5">
+                        <input type="password" name="Repeatpassword" placeholder="Repeat Password" required="required" class="form-control text-box single-line" />
+                    </div>
                     </div>
                     <div class="form-group">
+                        <div class="control-label col-md-3"></div>
+                    <div class="col-md-5">
                     <button type="submit" class="btn btn-primary btn-block">Change password</button>
+                    </div>
                     </div>
                 </form>
             </div>

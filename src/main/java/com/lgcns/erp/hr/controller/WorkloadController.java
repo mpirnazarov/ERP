@@ -8,18 +8,21 @@ import com.lgcns.erp.tapps.DbContext.WorkloadServices;
 import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.LoginViewModel;
+import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -32,13 +35,17 @@ public class WorkloadController {
     @RequestMapping(value = "/Workload/Index", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView Calendar(Principal principal) {
+        return CalendarDefault(principal, new Date());
+    }
+
+    private ModelAndView CalendarDefault(Principal principal, Date monday){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("workload/calendar");
 
         int userId = UserService.getUserByUsername(principal.getName()).getId();
 
         CalendarReturningModel model = new CalendarReturningModel();
-        model.setMonday(getMonday(new Date()));
+        model.setMonday(getMonday(monday));
         model.setProjects(WorkloadServices.getUsersAllProjects(userId, model.getMonday(), addDays(model.getMonday(), 7)));
         model.setWorkloads(WorkloadServices.getWorkloadsByUserid(userId, model.getMonday(), addDays(model.getMonday(), 7)));
 
@@ -108,6 +115,21 @@ public class WorkloadController {
             return response;
         }
 
+    @RequestMapping(value = "/Workload/DiffCalendar", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView DiffCalendar(Principal principal, String today){
+        try{
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = formatter.parse(today);
+
+            return CalendarDefault(principal, date);
+        }catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+        return new ModelAndView("redirect:/Workload/Index");
+
+    }
 
     private Date getMonday(Date today) {
         Calendar c = Calendar.getInstance();

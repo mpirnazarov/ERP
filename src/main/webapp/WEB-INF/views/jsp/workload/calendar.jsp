@@ -50,29 +50,27 @@
 
 
     <div class="table-responsive">
+        <%
+            int tabindex = 1;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            CalendarReturningModel model = (CalendarReturningModel) request.getAttribute("model");
+            Calendar c = Calendar.getInstance();
+            c.setTime(model.getMonday());
+            c.add(Calendar.DATE, -7);
+            Date tempDatePrev = c.getTime();
+            c.setTime(model.getMonday());
+            c.add(Calendar.DATE, 7);
+            Date tempDateNext = c.getTime();
+
+        %>
+
         <table class="table table-bordered">
-            <%
-                float monTotal = 0, tueTotal = 0, wedTotal = 0, thuTotal = 0, friTotal = 0, satTotal = 0, sunTotal = 0;
-                int tabindex = 1;
-            %>
             <thead>
             <tr>
                 <th colspan="2">
                     <div style="text-align:center"><h3>Week</h3></div>
                 </th>
 
-                <%
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-                    CalendarReturningModel model = (CalendarReturningModel) request.getAttribute("model");
-                    Calendar c = Calendar.getInstance();
-                    c.setTime(model.getMonday());
-                    c.add(Calendar.DATE, -7);
-                    Date tempDatePrev = c.getTime();
-                    c.setTime(model.getMonday());
-                    c.add(Calendar.DATE, 7);
-                    Date tempDateNext = c.getTime();
-
-                %>
                 <th id="previous">
                     <div style="text-align:center">
                         <form action="/Workload/DiffCalendar" method="get">
@@ -276,6 +274,10 @@
 
 
 <script>
+
+    $(document).ready(function () {
+       calculateTotals();
+    });
     var globalTabIndex = 1;
 
     $(window).keydown(function (event) {

@@ -39,8 +39,8 @@
     <schema id="11" parent="3" name="public">
       <object-id>2200</object-id>
       <visible>1</visible>
-      <introspection-state-number>1248</introspection-state-number>
-      <introspection-timestamp>2016-11-07.09:36:16.986</introspection-timestamp>
+      <introspection-state-number>1425</introspection-state-number>
+      <introspection-timestamp>2016-11-08.10:36:25.849</introspection-timestamp>
     </schema>
     <schema id="12" parent="3" name="pg_catalog">
       <object-id>11</object-id>
@@ -3342,67 +3342,84 @@ language_id</columns>
       <desc-columns></desc-columns>
       <unique>1</unique>
     </index>
-    <key id="644" parent="130" name="workload_pkey">
+    <index id="644" parent="130" name="workload uniqueness">
+      <object-id>41512</object-id>
+      <columns>user_id
+project_id
+date
+workload_type</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <key id="645" parent="130" name="workload_pkey">
       <object-id>17462</object-id>
       <columns>id</columns>
       <underlying-index>workload_pkey</underlying-index>
       <primary>1</primary>
     </key>
-    <foreign-key id="645" parent="130" name="fk_workload_get_userid">
+    <key id="646" parent="130" name="workload uniqueness">
+      <object-id>41513</object-id>
+      <columns>user_id
+project_id
+date
+workload_type</columns>
+      <underlying-index>workload\u0020uniqueness</underlying-index>
+    </key>
+    <foreign-key id="647" parent="130" name="fk_workload_get_userid">
       <object-id>17488</object-id>
       <columns>user_id</columns>
       <ref-key>~.users.users_pkey</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <foreign-key id="646" parent="130" name="fk_workload_get_projectid">
+    <foreign-key id="648" parent="130" name="fk_workload_get_projectid">
       <object-id>17563</object-id>
       <columns>project_id</columns>
       <ref-key>~.projects.projects_pkey</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <column id="647" parent="131" name="id">
+    <column id="649" parent="131" name="id">
       <state-number>742</state-number>
       <mandatory>1</mandatory>
       <data-type>integer|0</data-type>
       <default-expression>nextval(&apos;works_id_seq&apos;::regclass)</default-expression>
     </column>
-    <column id="648" parent="131" name="user_id">
+    <column id="650" parent="131" name="user_id">
       <state-number>742</state-number>
       <mandatory>1</mandatory>
       <data-type>integer|0</data-type>
     </column>
-    <column id="649" parent="131" name="start_date">
+    <column id="651" parent="131" name="start_date">
       <state-number>742</state-number>
       <mandatory>1</mandatory>
       <data-type>date|0</data-type>
     </column>
-    <column id="650" parent="131" name="end_date">
+    <column id="652" parent="131" name="end_date">
       <state-number>1228</state-number>
       <data-type>date|0</data-type>
     </column>
-    <column id="651" parent="131" name="comments">
+    <column id="653" parent="131" name="comments">
       <state-number>742</state-number>
       <data-type>text|0</data-type>
     </column>
-    <column id="652" parent="131" name="contract_type">
+    <column id="654" parent="131" name="contract_type">
       <state-number>1227</state-number>
       <data-type>integer|0</data-type>
     </column>
-    <index id="653" parent="131" name="works_pkey">
+    <index id="655" parent="131" name="works_pkey">
       <object-id>17308</object-id>
       <columns>id</columns>
       <desc-columns></desc-columns>
       <unique>1</unique>
     </index>
-    <key id="654" parent="131" name="works_pkey">
+    <key id="656" parent="131" name="works_pkey">
       <object-id>17309</object-id>
       <columns>id</columns>
       <underlying-index>works_pkey</underlying-index>
       <primary>1</primary>
     </key>
-    <foreign-key id="655" parent="131" name="fk_works_get_userid">
+    <foreign-key id="657" parent="131" name="fk_works_get_userid">
       <object-id>17513</object-id>
       <columns>user_id</columns>
       <ref-key>~.users.users_pkey</ref-key>

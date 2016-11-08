@@ -26,6 +26,13 @@
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2">
             <h1 class="page-header">Documents</h1>
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#listofdocs">List of documents</a></li>
+                <li><a data-toggle="tab" href="#gen">Generatable documents</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="listofdocs" class="tab-pane fade in active">
+                    <h3>List of documents</h3>
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -57,6 +64,36 @@
 		</span>
 
             </form:form>
+                </div>
+                <div id="gen" class="tab-pane fade">
+                    <h3>Generatable documents</h3>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Document name</th>
+                            <th>Document language</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%--<c:forEach items="${}" var="doc" varStatus="status">--%>
+                            <tr>
+                                <td>sdfsdfsdf</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Choose language
+                                            <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">EN</a></li>
+                                            <li><a href="#">RU</a></li>
+                                            <li><a href="#">UZ</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        <%--</c:forEach>--%>
+                        </tbody>
+                    </table>
+                </div>
         </div>
     </div>
 </div>

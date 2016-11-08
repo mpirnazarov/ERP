@@ -191,10 +191,11 @@ public class UserController {
 
     @RequestMapping(value = "User/changepass", method = RequestMethod.GET)
     public ModelAndView ChangePass(){
-        ModelAndView model = new ModelAndView();
-        model.setViewName("user/changepass");
-
-        return model;
+        ModelAndView mav = new ModelAndView();
+        ChangepassViewModel changepassViewModel = new ChangepassViewModel ();
+        mav.setViewName("user/changepass");
+        mav.addObject("changepassVM", changepassViewModel);
+        return mav;
     }
 
     private Map<Integer, String> getDirectHeadIdAndName() {

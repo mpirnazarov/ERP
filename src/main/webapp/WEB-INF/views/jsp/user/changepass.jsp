@@ -48,4 +48,28 @@
         </div>
     </div>
 </div>
+<script>
+    jQuery.validator.addMethod("exactlength", function (value, element, param) {
+        return this.optional(element) || value.length == param;
+    }, jQuery.format("Please enter exactly {0} characters."));
+
+    $(document).ready(function () {
+        $("#changepassVM").validate({
+            rules: {
+                'password': {
+                    required: true,
+                    minlength: 5
+                },
+                'repeatPassword': {
+                    required: true,
+                    equalTo: "#password"
+                },
+            },
+            messages: {
+                'repeatPassword': {
+                    equalTo: "Your passwords do not match"
+                }
+            }
+    });
+</script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

@@ -18,7 +18,7 @@
             <h1 class="page-header">Change password</h1>
             <br/>
             <div class="form-horizontal">
-                <form action="<c:url value='/user_changepass' />" method='POST'>
+                <%--<form action="<c:url value='/user_changepass' />" method='POST'>
                     <div class="form-group">
                         <label class="control-label col-md-3">Old password <font color='red'>*</font></label>
                         <div class="col-md-5">
@@ -43,16 +43,49 @@
                     <button type="submit" class="btn btn-primary btn-block">Change password</button>
                     </div>
                     </div>
-                </form>
+                </form>--%>
+                    <form:form modelAttribute="changepassVM" cssClass="form-horizontal" method="post" action="/User/changepass">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Old password <font color='red'>*</font></label>
+                            <div class="col-md-5">
+                                <form:password path="oldPassword" placeholder="Old Password"
+                                               cssClass="form-control text-box single-line"/>
+                                <form:errors path="OldPassword" cssClass="error field-validation-error"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Password <font color='red'>*</font></label>
+                            <div class="col-md-5">
+                                <form:password path="password" placeholder="Password"
+                                               cssClass="form-control text-box single-line"/>
+                                <form:errors path="Password" cssClass="error field-validation-error"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Repeat password <font color='red'>*</font></label>
+                            <div class="col-md-5">
+                                <form:password path="repeatPassword" placeholder="Repeat Password"
+                                               cssClass="form-control text-box single-line"/>
+                                <form:errors path="RepeatPassword" cssClass="error field-validation-error"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <input type="submit" value="Register" class="btn btn-default"/>
+                                <input type="button" onclick="location.href='/User'" value="Cancel"
+                                       class="btn btn-default"/>
+                            </div>
+                        </div>
+                    </form:form>
             </div>
         </div>
     </div>
 </div>
 <script>
-    jQuery.validator.addMethod("exactlength", function (value, element, param) {
-        return this.optional(element) || value.length == param;
-    }, jQuery.format("Please enter exactly {0} characters."));
-
     $(document).ready(function () {
         $("#changepassVM").validate({
             rules: {
@@ -70,6 +103,7 @@
                     equalTo: "Your passwords do not match"
                 }
             }
-    });
+        });
+    })
 </script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

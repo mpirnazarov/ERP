@@ -10,8 +10,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Trainings"/>
 <%
-/*    ProfileViewModel a = (ProfileViewModel)request.getAttribute("userProfile");
-    request.setAttribute("ProfileModel", (a.getFirstName()).toString());*/
+    String a = request.getAttribute("name").toString();
+    request.setAttribute("ProfileModel", a);
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
@@ -41,26 +41,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <%--<c:forEach items="${trainList}" var="train" varStatus="status">--%>
+                        <c:forEach items="${trainVM}" var="train" varStatus="status">
                         <tr>
-                            <td>Row 1 Data 1</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
+                            <td>${train.name}</td>
+                            <td>${train.certificateId}</td>
+                            <td>${train.organization}</td>
+                            <td>${train.dateFrom}</td>
+                            <td>${train.dateTo}</td>
+                            <td>${train.numberOfHours}</td>
+                            <td>${train.mark}</td>
                         </tr>
-                        <tr>
-                            <td>Row 2 Data 1</td>
-                            <td>Row 2 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                        </tr>
-                        <%--</c:forEach>--%>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>

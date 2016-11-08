@@ -1,4 +1,5 @@
-<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="com.lgcns.erp.tapps.viewModel.usermenu.AppointmentrecViewModel" %><%--
   Created by IntelliJ IDEA.
   User: Dell
   Date: 25-Oct-16
@@ -10,9 +11,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Appointment Record"/>
 <%
-/*    ProfileViewModel a = (ProfileViewModel)request.getAttribute("userProfile");
-    request.setAttribute("ProfileModel", (a.getFirstName()[0]).toString());*/
+    String a = request.getAttribute("name").toString();
+    request.setAttribute("ProfileModel", a);
 %>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
 <div class="container">
@@ -39,7 +41,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${appointmentrecVM}" var="appointment" varStatus="status">
+                        <c:forEach items="${appointmentrecVM.appointmentSummaries}" var="appointment" varStatus="status">
                         <tr>
                             <td>${appointment.appointDate}</td>
                             <td>${appointment.appointmentType}</td>
@@ -58,31 +60,23 @@
                         <tr>
                             <th>Date</th>
                             <th>Amount(before taxes)</th>
-                            <th>NDFL</th>
+                            <th>PIT</th>
                             <th>INPS</th>
                             <th>PF</th>
                             <th>Amount(after taxes)</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <%--<c:forEach items="${appointmentList}" var="appointment" varStatus="status">--%>
+                        <c:forEach items="${appointmentrecVM.salaryDetails}" var="salary" varStatus="status">
                         <tr>
-                            <td>Row 1 Data 1</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
+                            <td>${salary.date}</td>
+                            <td>${salary.salaryBefore}</td>
+                            <td>${salary.pit}%</td>
+                            <td>${salary.inps}%</td>
+                            <td>${salary.pf}%</td>
+                            <td>${salary.salaryAfter}</td>
                         </tr>
-                        <tr>
-                            <td>Row 2 Data 1</td>
-                            <td>Row 2 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                            <td>Row 1 Data 2</td>
-                        </tr>
-                        <%--</c:forEach>--%>
+                       </c:forEach>
                         </tbody>
                     </table>
                 </div>

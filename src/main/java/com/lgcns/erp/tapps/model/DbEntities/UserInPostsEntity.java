@@ -12,7 +12,7 @@ public class UserInPostsEntity {
     private int id;
     private int userId;
     private Date dateFrom;
-    private int appointType;
+    private int contractType;
     private int postId;
     private Date dateEnd;
     private UsersEntity usersByUserId;
@@ -50,13 +50,13 @@ public class UserInPostsEntity {
     }
 
     @Basic
-    @Column(name = "appoint_type", nullable = false)
-    public int getAppointType() {
-        return appointType;
+    @Column(name = "contract_type", nullable = false)
+    public int getContractType() {
+        return contractType;
     }
 
-    public void setAppointType(int appointType) {
-        this.appointType = appointType;
+    public void setContractType(int contractType) {
+        this.contractType = contractType;
     }
 
     @Basic
@@ -88,7 +88,7 @@ public class UserInPostsEntity {
 
         if (id != that.id) return false;
         if (userId != that.userId) return false;
-        if (appointType != that.appointType) return false;
+        if (contractType != that.contractType) return false;
         if (postId != that.postId) return false;
         if (dateFrom != null ? !dateFrom.equals(that.dateFrom) : that.dateFrom != null) return false;
         if (dateEnd != null ? !dateEnd.equals(that.dateEnd) : that.dateEnd != null) return false;
@@ -101,7 +101,7 @@ public class UserInPostsEntity {
         int result = id;
         result = 31 * result + userId;
         result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
-        result = 31 * result + appointType;
+        result = 31 * result + contractType;
         result = 31 * result + postId;
         result = 31 * result + (dateEnd != null ? dateEnd.hashCode() : 0);
         return result;

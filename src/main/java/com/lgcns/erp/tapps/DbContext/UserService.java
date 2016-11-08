@@ -451,15 +451,15 @@ public class UserService {
         return getRolesLoc(Language.eng.getCode());
     }
 
-    public static UserLocalizationsEntity getUserLocalizations(UsersEntity user) {
-        UserLocalizationsEntity userLoc = null;
+    public static List<UserLocalizationsEntity> getUserLocalizations(UsersEntity user) {
+        List<UserLocalizationsEntity> userLoc = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from UserLocalizationsEntity roleLoc where userId = :userId and languageId=3");
+            Query query = session.createQuery("from UserLocalizationsEntity roleLoc where userId = :userId");
             query.setParameter("userId", user.getId());
-            userLoc = (UserLocalizationsEntity) query.getSingleResult();
+            userLoc =  query.list();
             transaction.commit();
         }
         catch (HibernateException e) {
@@ -495,16 +495,15 @@ public class UserService {
 
     }
 
-    public static FamiliyInfoLocalizationsEntity getFamilyInfosLoc(FamilyInfosEntity familyInfosEntities, int languageId) {
-        FamiliyInfoLocalizationsEntity userLoc = null;
+    public static List<FamiliyInfoLocalizationsEntity> getFamilyInfosLoc(FamilyInfosEntity familyInfosEntities) {
+        List<FamiliyInfoLocalizationsEntity> userLoc = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from FamiliyInfoLocalizationsEntity famLoc where familyInfoid = :userId and languageId=:languageId");
+            Query query = session.createQuery("from FamiliyInfoLocalizationsEntity famLoc where familyInfoid = :userId");
             query.setParameter("userId", familyInfosEntities.getId());
-            query.setParameter("languageId", languageId);
-            userLoc = (FamiliyInfoLocalizationsEntity) query.getSingleResult();
+            userLoc = query.list();
             transaction.commit();
         }
         catch (HibernateException e) {
@@ -628,5 +627,113 @@ public class UserService {
         }
 
         return certificatesLoc;
+    }
+
+    public static List<SalaryHistoriesEntity> getSalaryHistories(UsersEntity user) {
+        List<SalaryHistoriesEntity> salaryHistories = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from SalaryHistoriesEntity where userId = :userId");
+            query.setParameter("userId", user.getId());
+            salaryHistories = query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return salaryHistories;
+    }
+
+    public static List<WorksEntity> getWorksEntity(UsersEntity user) {
+        List<WorksEntity> worksEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from WorksEntity where userId = :userId");
+            query.setParameter("userId", user.getId());
+            worksEntity = query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return worksEntity;
+    }
+
+    public static WorkLocalizationsEntity getWorkLocal(WorksEntity we) {
+        WorkLocalizationsEntity workLocal = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from WorkLocalizationsEntity where workId = :workId and languageId=3");
+            query.setParameter("workId", we.getId());
+            workLocal = (WorkLocalizationsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return workLocal;
+    }
+
+    public static List<TrainingsEntity> getTrainingsEntity(UsersEntity user) {
+        List<TrainingsEntity> trainingsEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from TrainingsEntity where userId = :userId");
+            query.setParameter("userId", user.getId());
+            trainingsEntity = query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return trainingsEntity;
+    }
+
+    public static TrainingLocalizationsEntity getTrainingLoc(TrainingsEntity trainEn) {
+        TrainingLocalizationsEntity trainLoc = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from TrainingLocalizationsEntity where trainingId = :trainId and languageId=3");
+            query.setParameter("trainId", trainEn.getId());
+            trainLoc = (TrainingLocalizationsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return trainLoc;
     }
 }

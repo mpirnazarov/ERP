@@ -9,8 +9,11 @@ body {
 }
 body,
 html {
-  height: 100%;
-  background-color: #8892d3;
+  height: auto;
+  background: #466368;
+  background: -webkit-linear-gradient(#648880, #293f50);
+  background:    -moz-linear-gradient(#648880, #293f50);
+  background:         linear-gradient(#648880, #293f50);
 }
 .nav .open > a {
   background-color: transparent;
@@ -297,7 +300,10 @@ html {
 /* SOME DEMO STYLES - NOT REQUIRED */
 body,
 html {
-  background-color: rgba(136, 146, 211, 1);
+  background: #466368;
+  background: -webkit-linear-gradient(#648880, #293f50);
+  background:    -moz-linear-gradient(#648880, #293f50);
+  background:         linear-gradient(#648880, #293f50);
 }
 body h1,
 body h2,
@@ -311,7 +317,6 @@ body blockquote {
 }
 body a {
   color: rgba(255, 255, 255, 0.8);
-  text-decoration: underline;
 }
 body a:hover {
   color: #ffffff;

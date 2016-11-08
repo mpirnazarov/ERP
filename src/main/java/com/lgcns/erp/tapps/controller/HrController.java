@@ -9,10 +9,6 @@ import com.lgcns.erp.tapps.viewModel.HR.*;
 import com.lgcns.erp.tapps.viewModel.LoginViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
-import com.lgcns.erp.tapps.viewModel.usermenu.AppointmentrecViewModel;
-import com.lgcns.erp.tapps.viewModel.usermenu.EduViewModel;
-import com.lgcns.erp.tapps.viewModel.usermenu.JobexpViewModel;
-import com.lgcns.erp.tapps.viewModel.usermenu.TrainViewModel;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
@@ -80,6 +76,15 @@ public class HrController {
         mav.setViewName("Home/hrmenu/Userslist");
         HrUserslistViewModel hrUserslistViewModel = new HrUserslistViewModel();
         mav.addObject("hrUserslistVM", hrUserslistViewModel);
+        return mav;
+    }
+    @RequestMapping(value = "/Hr/Profile/Docs", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView Docs() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/hrmenu/Docs");
+        DocsViewModel docsViewModel = new DocsViewModel();
+        mav.addObject("docsVM", docsViewModel);
         return mav;
     }
 }

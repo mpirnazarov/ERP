@@ -2987,8 +2987,6 @@ select[multiple].input-lg {
 @media (min-width: 768px) {
   .form-horizontal .control-label {
     text-align: right;
-    margin-bottom: 0;
-    padding-top: 11px;
   }
 }
 .form-horizontal .has-feedback .form-control-feedback {
@@ -3004,6 +3002,8 @@ select[multiple].input-lg {
   .form-horizontal .form-group-sm .control-label {
     padding-top: 6px;
     font-size: 13px;
+    background-color: white;
+    color: white;
   }
 }
 .btn {
@@ -6787,7 +6787,7 @@ body {
 }
 table a:not(.btn),
 .table a:not(.btn) {
-  text-decoration: underline;
+  text-decoration: none;
 }
 table .dropdown-menu a,
 .table .dropdown-menu a {

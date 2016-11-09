@@ -42,17 +42,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${}" var="doc" varStatus="status">
+                <c:forEach items="${docsVM}" var="doc" varStatus="status">
                     <tr>
-                        <td>${}</td>
-                        <td>${}</td>
-                        <td>${}</td>
+                        <td>${doc.name}</td>
+                        <td>${doc.type}</td>
+                        <td><a href="Docs/download?id=<c:out value="${doc.docId}"/>">download</a></td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
 
-            <h3>File Upload:</h3>
+            <%--<h3>File Upload:</h3>
             <form:form method="POST" commandName="fileUploadForm"
                        enctype="multipart/form-data">
 
@@ -61,9 +61,9 @@
                 Please select a file to upload : <input type="file" name="file" />
                 <input type="submit" value="upload" />
                 <span><form:errors path="file" cssClass="error" />
-		</span>
+                </span>
 
-            </form:form>
+            </form:form>--%>
                 </div>
                 <div id="gen" class="tab-pane fade">
                     <h3>Generatable documents</h3>

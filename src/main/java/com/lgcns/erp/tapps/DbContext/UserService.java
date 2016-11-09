@@ -539,7 +539,7 @@ public class UserService {
     }
 
     public static EducationLocalizationsEntity getEducationLocalization(EducationsEntity edu, int languageId) {
-       EducationLocalizationsEntity eduLoc = null;
+        EducationLocalizationsEntity eduLoc = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -735,5 +735,70 @@ public class UserService {
             session.close();
         }
         return trainLoc;
+    }
+
+    public static void updatePassword(UsersEntity user, String hashedPassword) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update UsersEntity set passwordHash = :password where id = :userid");
+            query.setParameter("userid", user.getId());
+            query.setParameter("password", hashedPassword);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static List<DocumentsEntity> getDocuments(UsersEntity user) {
+        List<DocumentsEntity> documentsEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from DocumentsEntity where userId = :userId");
+            query.setParameter("userId", user.getId());
+            documentsEntity = query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return documentsEntity;
+    }
+
+    public static DocumentsEntity getDocumentById(int id, UsersEntity user) {
+        DocumentsEntity documentsEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from DocumentsEntity where userId = :userId and id = :docId");
+            query.setParameter("docId", id);
+            query.setParameter("userId", user.getId());
+            documentsEntity = (DocumentsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return documentsEntity;
     }
 }

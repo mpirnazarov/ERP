@@ -16,14 +16,19 @@ import com.lgcns.erp.tapps.viewModel.usermenu.personalInfo.BirthPlace;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
+import java.io.*;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.security.Principal;
 import java.sql.Date;
 import java.util.*;
@@ -182,11 +187,62 @@ public class UserController {
     public ModelAndView Docs(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/Docs");
-        DocsViewModel docsViewModel = new DocsViewModel();
+        List<DocsViewModel> docsViewModel = getDocuments(principal);
         String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
         mav.addObject("name", name);
         mav.addObject("docsVM", docsViewModel);
         return mav;
+    }
+
+    @RequestMapping(value = "/User/Profile/Docs/download", method = RequestMethod.GET)
+    public String DocDownload(HttpServletResponse response, Principal principal, @RequestParam("id") int id) throws IOException {
+        System.out.println("ID: " + id);
+
+
+        File file = null;
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        String filePath = UserService.getDocumentById(id, user).getLink();
+        file = new File(filePath);
+        System.out.println("Path: " + file.getAbsolutePath());
+
+        if(!file.exists()){
+            String errorMessage = "Sorry. The file you are looking for does not exist";
+            System.out.println(errorMessage);
+            OutputStream outputStream = response.getOutputStream();
+            outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
+            outputStream.close();
+            return "redirect: /User/Profile/Docs/";
+        }
+
+        String mimeType= URLConnection.guessContentTypeFromName(file.getName());
+        if(mimeType==null){
+            System.out.println("mimetype is not detectable, will take default");
+            mimeType = "application/octet-stream";
+        }
+
+        System.out.println("mimetype : "+mimeType);
+
+        response.setContentType(mimeType);
+
+        /* "Content-Disposition : inline" will show viewable types [like images/text/pdf/anything viewable by browser] right on browser
+            while others(zip e.g) will be directly downloaded [may provide save as popup, based on your browser setting.]*/
+        response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() +"\""));
+
+
+        /* "Content-Disposition : attachment" will be directly download, may provide save as popup, based on your browser setting*/
+        //response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
+
+        response.setContentLength((int)file.length());
+
+        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+        //Copy bytes from source to destination(outputstream in this example), closes both streams.
+        FileCopyUtils.copy(inputStream, response.getOutputStream());
+
+
+
+        return "redirect: /User/Profile/Docs/";
     }
 
     @RequestMapping(value = "User/changepass", method = RequestMethod.GET)
@@ -196,6 +252,22 @@ public class UserController {
         mav.setViewName("user/changepass");
         mav.addObject("changepassVM", changepassViewModel);
         return mav;
+    }
+
+    @RequestMapping(value = "user_changepass", method = RequestMethod.POST)
+    public String ChangePass2(Principal principal, @RequestParam("Oldpassword") String oldPass, @RequestParam("password") String pass, @RequestParam("Repeatpassword") String repPass){
+        ModelAndView model = new ModelAndView();
+        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(pass);
+        System.out.println(pass);
+        String passwordNow = UserService.getUserByUsername(principal.getName()).getPasswordHash();
+        if(passwordEncoder.matches(oldPass, passwordNow)){
+            UserService.updatePassword(user, hashedPassword);
+            System.out.println("Password updated!");
+        }else
+            System.out.println("Passwords do not match!!!");
+        return "redirect: /";
     }
 
     private Map<Integer, String> getDirectHeadIdAndName() {
@@ -251,7 +323,7 @@ public class UserController {
         List<UserLocalizationsEntity> userLocalizationsEntities = UserService.getUserLocByUserId(user.getId());
 
         for (UserLocalizationsEntity ul:
-            userLocalizationsEntities ) {
+                userLocalizationsEntities ) {
             returning.addData1(user.getId(), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
         }
         //Getting department name
@@ -318,15 +390,11 @@ public class UserController {
         }
         returning.setFamilyLoc(familyMembers);
 
-
-
-
         // (MUST BE FINISHED!) Getting and setting vacation days
         returning.setVacationDaysLeft(0);
         returning.setVacationDaysAll(12);
         return returning;
     }
-
 
     private AppointmentrecViewModel getAppointmentByUsername(Principal principal) {
         AppointmentrecViewModel returning = new AppointmentrecViewModel();
@@ -357,7 +425,7 @@ public class UserController {
         // Getting and setting Educations module
         List<EducationsEntity> educations = UserService.getEducationsByUsername(user);
         for (EducationsEntity edu:
-             educations) {
+                educations) {
             eduLoc = UserService.getEducationLocalization(edu, 3);
             eduReturn.addEducation(eduLoc.getName(), eduLoc.getMajor(), eduLoc.getDegree(), edu.getStartDate(), edu.getEndDate());
         }
@@ -379,7 +447,6 @@ public class UserController {
         }
         return eduReturn;
     }
-
 
     private List<JobexpViewModel> getJobExperience(Principal principal) {
         List<JobexpViewModel> jobExpViewModels = new LinkedList<JobexpViewModel>();
@@ -405,6 +472,20 @@ public class UserController {
         }
         return trainViewModels;
     }
+
+    private List<DocsViewModel> getDocuments(Principal principal) {
+        List<DocsViewModel> docsViewModels = new LinkedList<DocsViewModel>();
+        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        List<DocumentsEntity> documents = UserService.getDocuments(user);
+        for (DocumentsEntity docs :
+                documents) {
+            docsViewModels.add(new DocsViewModel(docs.getId(), docs.getName(), String.valueOf(docs.getDocumentType())));
+
+        }
+
+        return docsViewModels;
+    }
+
 
 
     private UserInPostsEntity getMax(List<UserInPostsEntity> usersInPost) {

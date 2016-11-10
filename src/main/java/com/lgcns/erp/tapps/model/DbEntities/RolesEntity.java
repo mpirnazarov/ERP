@@ -1,5 +1,8 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -51,7 +54,8 @@ public class RolesEntity {
         this.permissionInRolesById = permissionInRolesById;
     }
 
-    @OneToMany(mappedBy = "rolesByRoleId")
+    @OneToMany(mappedBy = "rolesByRoleId", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     public Collection<RoleLocalizationsEntity> getRoleLocalizationsesById() {
         return roleLocalizationsesById;
     }

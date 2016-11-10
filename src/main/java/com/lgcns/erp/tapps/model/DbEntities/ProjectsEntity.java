@@ -1,5 +1,8 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.sql.Date;
@@ -16,7 +19,7 @@ public class ProjectsEntity {
     private Date startDate;
     private Date endDate;
     private String type;
-    private BigInteger status;
+    private Integer status;
     private Collection<ContactInProjectsEntity> contactInProjectsesById;
     private Collection<ProjectLocalizationsEntity> projectLocalizationsesById;
     private Collection<UserInProjectsEntity> userInProjectsesById;
@@ -77,11 +80,11 @@ public class ProjectsEntity {
 
     @Basic
     @Column(name = "status", nullable = false, precision = 0)
-    public BigInteger getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(BigInteger status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -123,6 +126,7 @@ public class ProjectsEntity {
     }
 
     @OneToMany(mappedBy = "projectsByProjectId", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     public Collection<ProjectLocalizationsEntity> getProjectLocalizationsesById() {
         return projectLocalizationsesById;
     }

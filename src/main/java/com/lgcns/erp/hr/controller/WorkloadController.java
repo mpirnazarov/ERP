@@ -3,22 +3,17 @@ package com.lgcns.erp.hr.controller;
 import com.lgcns.erp.hr.enums.WorkloadType;
 import com.lgcns.erp.hr.viewModel.WorkloadViewModels.CalendarRequestDataJson;
 import com.lgcns.erp.hr.viewModel.WorkloadViewModels.CalendarReturningModel;
+import com.lgcns.erp.tapps.DbContext.ProjectServices;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.DbContext.WorkloadServices;
 import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
-import com.lgcns.erp.tapps.model.UserInfo;
-import com.lgcns.erp.tapps.viewModel.LoginViewModel;
-import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
@@ -46,7 +41,7 @@ public class WorkloadController {
 
         CalendarReturningModel model = new CalendarReturningModel();
         model.setMonday(getMonday(monday));
-        model.setProjects(WorkloadServices.getUsersAllProjects(userId, model.getMonday(), addDays(model.getMonday(), 7)));
+        model.setProjects(ProjectServices.getUsersAllProjects(userId, model.getMonday(), addDays(model.getMonday(), 7)));
         model.setWorkloads(WorkloadServices.getWorkloadsByUserid(userId, model.getMonday(), addDays(model.getMonday(), 7)));
 
         mav.addObject("model", model);

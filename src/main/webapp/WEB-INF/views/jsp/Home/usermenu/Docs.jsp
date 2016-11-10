@@ -33,7 +33,7 @@
             <div class="tab-content">
                 <div id="listofdocs" class="tab-pane fade in active">
                     <h3>List of documents</h3>
-            <table class="table table-hover">
+            <table class="table">
                 <thead>
                 <tr>
                     <th>Document name</th>

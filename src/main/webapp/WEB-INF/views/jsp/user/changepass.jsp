@@ -75,7 +75,7 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-3 col-md-9">
-                                <input type="submit" value="Register" class="btn btn-default"/>
+                                <input type="submit" value="Change password" class="btn btn-default"/>
                                 <input type="button" onclick="location.href='/User'" value="Cancel"
                                        class="btn btn-default"/>
                             </div>

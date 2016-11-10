@@ -23,18 +23,18 @@
                 <!--Profile picture-->
             </li>
             <%--<img src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"><br>--%>
-            <img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>
+            <img class="img-circle" src="resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>
             <li>
-                <a href="/User/Profile"><i class="fa fa-fw fa-info-circle"></i> General information</a>
+                <a href="User/Profile"><i class="fa fa-fw fa-info-circle"></i> General information</a>
             </li>
             <li>
-                <a href="/User/Profile/Appointment"><i class="fa fa-fw fa-hand-pointer-o"></i> Appointment record</a>
+                <a href="User/Profile/Appointment"><i class="fa fa-fw fa-hand-pointer-o"></i> Appointment record</a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-fw fa-calendar-o"></i> Workload</a>
             </li>
             <li>
-                <a href="/User/Profile/Edu"><i class="fa fa-fw fa-graduation-cap"></i> Education certificate</a>
+                <a href="User/Profile/Edu"><i class="fa fa-fw fa-graduation-cap"></i> Education certificate</a>
             </li>
             <%--<li class="dropdown">--%>
                 <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> Dropdown <span class="caret"></span></a>--%>
@@ -48,19 +48,19 @@
                 <%--</ul>--%>
             <%--</li>--%>
             <li>
-                <a href="/User/Profile/Jobexp"><i class="fa fa-fw fa-briefcase"></i> Job experience</a>
+                <a href="User/Profile/Jobexp"><i class="fa fa-fw fa-briefcase"></i> Job experience</a>
             </li>
             <li>
-                <a href="/User/Profile/Train"><i class="fa fa-fw fa-book"></i> Training record</a>
+                <a href="User/Profile/Train"><i class="fa fa-fw fa-book"></i> Training record</a>
             </li>
             <li>
-                <a href="/User/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
+                <a href="User/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
             </li>
             <li>
-                <a href="/User/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
+                <a href="User/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
             </li>
             <li>
-                <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
+                <a href="logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
             </li>
         </ul>
     </nav>

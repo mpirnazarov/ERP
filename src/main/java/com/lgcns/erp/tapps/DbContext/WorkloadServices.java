@@ -3,12 +3,15 @@ package com.lgcns.erp.tapps.DbContext;
 import com.lgcns.erp.hr.enums.WorkloadType;
 import com.lgcns.erp.tapps.model.DbEntities.ProjectsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UserInProjectsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,32 +19,6 @@ import java.util.List;
  * Created by Rafatdin on 31.10.2016.
  */
 public class WorkloadServices {
-    public static List<ProjectsEntity> getUsersAllProjects(int userId, Date from, Date to) {
-        List<UserInProjectsEntity> list = null;
-        List<ProjectsEntity> projectsList = null;
-        Session session = HibernateUtility.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            Query query = session.createQuery("from UserInProjectsEntity uip where uip.userId= :userId and uip.dateFrom<= :fromDate and uip.dateTo>=:toDate");
-            query.setParameter("userId", userId);
-            query.setParameter("fromDate", from);
-            query.setParameter("toDate", to);
-            list = (List<UserInProjectsEntity>) query.list();
-            transaction.commit();
-
-            for (UserInProjectsEntity uip : list) {
-                projectsList.add(uip.getProjectsByProjectId());
-            }
-        } catch (HibernateException e) {
-            transaction.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-
-        return projectsList;
-    }
 
     public static List<WorkloadEntity> getWorkloadsByUserid(int userId) {
         List<WorkloadEntity> list = null;
@@ -84,5 +61,65 @@ public class WorkloadServices {
         }
 
         return list;
+    }
+
+    public static boolean saveOrUpdateWorklad(WorkloadEntity workload) {
+        boolean done = false;
+        WorkloadEntity tempWorkload;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            workload.setUsersByUserId(session.load(UsersEntity.class, workload.getUserId()));
+            workload.setProjectsByProjectId(session.load(ProjectsEntity.class, workload.getProjectId()));
+
+            Query query = session.createQuery("from WorkloadEntity workloads where userId = :userId and date= :date and projectId = :projectId and workloadType = :workloadType");
+            query.setParameter("userId", workload.getUserId());
+            query.setParameter("date", workload.getDate());
+            query.setParameter("projectId", workload.getProjectId());
+            query.setParameter("workloadType", workload.getWorkloadType());
+            if (!query.getResultList().isEmpty()) {
+                tempWorkload = (WorkloadEntity) query.getSingleResult();
+                if(workload.getDuration()==0)
+                    session.delete(tempWorkload);
+                else {
+                    tempWorkload.setDuration(workload.getDuration());
+                    session.update(tempWorkload);
+                }
+                done = true;
+            }
+            else if(workload.getDuration()!=0){
+                session.save(workload);
+            }
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+            done = false;
+        } finally {
+            session.close();
+        }
+        return done;
+    }
+
+    public static boolean isAccessibleOnDate(Date date, int projectId, int userId) {
+        boolean accessible = false;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserInProjectsEntity where userId = :userId and projectId = :projectId and dateTo >= :date and dateFrom <= :date");
+            query.setParameter("userId", userId);
+            query.setParameter("date", date);
+            query.setParameter("projectId", projectId);
+            accessible = !query.getResultList().isEmpty();
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return accessible;
     }
 }

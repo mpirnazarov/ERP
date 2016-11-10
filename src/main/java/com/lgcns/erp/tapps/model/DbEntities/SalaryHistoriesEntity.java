@@ -21,9 +21,9 @@ public class SalaryHistoriesEntity {
     private CurrenciesEntity currenciesByCurrencyId;
     private Date date;
 
-
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -43,23 +43,23 @@ public class SalaryHistoriesEntity {
     }
 
     @Basic
-    @Column(name = "salary_after", nullable = false)
-    public int getSalaryAfter() {
-        return salaryAfter;
-    }
-
-    public void setSalaryAfter(int salaryAfter) {
-        this.salaryAfter = salaryAfter;
-    }
-
-    @Basic
     @Column(name = "salary_before", nullable = false)
     public int getSalaryBefore() {
         return salaryBefore;
     }
 
-    public void setSalaryBefore(int salaryBefore) {
-        this.salaryBefore = salaryBefore;
+    public void setSalaryBefore(int salaryIncTax) {
+        this.salaryBefore = salaryIncTax;
+    }
+
+    @Basic
+    @Column(name = "salary_after", nullable = false)
+    public int getSalaryAfter() {
+        return salaryAfter;
+    }
+
+    public void setSalaryAfter(int salaryIncTax) {
+        this.salaryAfter = salaryIncTax;
     }
 
     @Basic
@@ -69,7 +69,7 @@ public class SalaryHistoriesEntity {
     }
 
     public void setPit(double ndfl) {
-        this.pit = pit;
+        this.pit = ndfl;
     }
 
     @Basic
@@ -112,7 +112,6 @@ public class SalaryHistoriesEntity {
         if (id != that.id) return false;
         if (userId != that.userId) return false;
         if (salaryBefore != that.salaryBefore) return false;
-        if (salaryAfter != that.salaryAfter) return false;
         if (Double.compare(that.pit, pit) != 0) return false;
         if (Double.compare(that.inps, inps) != 0) return false;
         if (Double.compare(that.pf, pf) != 0) return false;
@@ -128,7 +127,6 @@ public class SalaryHistoriesEntity {
         result = id;
         result = 31 * result + userId;
         result = 31 * result + salaryBefore;
-        result = 31 * result + salaryAfter;
         temp = Double.doubleToLongBits(pit);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(inps);

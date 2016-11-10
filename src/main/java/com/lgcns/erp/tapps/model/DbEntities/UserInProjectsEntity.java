@@ -17,9 +17,11 @@ public class UserInProjectsEntity {
     private Timestamp dateTo;
     private UsersEntity usersByUserId;
     private ProjectsEntity projectsByProjectId;
+    private RolesEntity rolesByProjectId;
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -125,4 +127,16 @@ public class UserInProjectsEntity {
     public void setProjectsByProjectId(ProjectsEntity projectsByProjectId) {
         this.projectsByProjectId = projectsByProjectId;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
+    public RolesEntity getRolesByProjectId() {
+        return rolesByProjectId;
+    }
+
+    public void setRolesByProjectId(RolesEntity rolesByProjectId) {
+        this.rolesByProjectId = rolesByProjectId;
+    }
+
+
 }

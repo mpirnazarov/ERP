@@ -14,9 +14,10 @@
     request.setAttribute("ProfileModel", a);
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
+        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
+        <div class="col-sm-9 col-lg-10">
         <div class="col-lg-8 col-lg-offset-2">
             <h1 class="page-header">Education Certificate</h1>
 
@@ -107,5 +108,6 @@
         </div>
     </div>
 </div>
+    </div>
 <% request.setAttribute("foo", "bar"); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

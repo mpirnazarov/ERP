@@ -16,9 +16,11 @@
     <spring:url value="/resources/core/css/normalize.css" var="normalizeCss" />
     <spring:url value="/resources/core/css/style.css" var="styleCss" />
     <spring:url value="/resources/core/css/bootstrap.css" var="bootstrapCss" />
+    <spring:url value="/resources/core/css/navbar-fixed-side.css" var="navbar" />
     <spring:url value="/resources/core/css/bootstrap.min.css" var="bootstrapminCss" />
     <spring:url value="/resources/core/js/jquery-1.12.4.min.js" var="jquery" />
     <spring:url value="/resources/core/js/jquery.validate.js" var="jqueryValidation" />
+    <link rel="stylesheet" href="${navbar}" />
     <link rel="icon" href="/resources/images/lg-2-multi-size.ico" type="image/x-icon">
     <link rel="stylesheet" href="${normalizeCss}" />
     <link rel="stylesheet" href="${bootstrapminCss}" />

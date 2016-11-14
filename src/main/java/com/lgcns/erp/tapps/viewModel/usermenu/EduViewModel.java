@@ -43,7 +43,7 @@ public class EduViewModel {
     languageSummaryList.add(new LanguageSummary(language, listening, reading, writing, speaking));
     }
 
-    public void addCertificate(String name, String organization, Date dateTime, String mark) {
-        certificateList.add(new Certificates(name, organization, dateTime, mark));
+    public void addCertificate(String name, String organization, String number, Date dateTime, String mark) {
+        certificateList.add(new Certificates(name, organization, number, dateTime, mark));
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class ProfileViewModel {
 
-    public ProfileViewModel(int id, String first_name, String last_name, String father_name, String address, int language_id) {
+    public ProfileViewModel(String id, String first_name, String last_name, String father_name, String address, int language_id) {
         this.id = id;
         this.firstName[language_id-1] = first_name;
         this.lastName[language_id-1] = last_name;
@@ -26,7 +26,7 @@ public class ProfileViewModel {
         this.address = new String[3];
     }
 
-    private int id;
+    private String id;
     private String[] lastName;
     private String[] firstName;
     private String[] fathersName;
@@ -41,6 +41,7 @@ public class ProfileViewModel {
     private Date entryDate;
     private int vacationDaysAll;
     private int vacationDaysLeft;
+    private String isPolitical;
     private PersonalInformationViewModel personalInfo;
     private List<FamilyMember> familyLoc;
 
@@ -136,15 +137,15 @@ public class ProfileViewModel {
     }
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public void addData1(int id, String first_name, String last_name, String father_name, String address, int language_id) {
+    public void addData1(String id, String first_name, String last_name, String father_name, String address, int language_id) {
         this.id = id;
         this.firstName[language_id-1] = first_name;
         this.lastName[language_id-1] = last_name;
@@ -183,5 +184,13 @@ public class ProfileViewModel {
 
     public PersonalInformationViewModel getPersonalInfo() {
         return personalInfo;
+    }
+
+    public String getIsPolitical() {
+        return isPolitical;
+    }
+
+    public void setPolitical(String political) {
+        isPolitical = political;
     }
 }

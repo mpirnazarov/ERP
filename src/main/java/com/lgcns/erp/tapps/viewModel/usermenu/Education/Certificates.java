@@ -9,12 +9,14 @@ public class Certificates {
 
     private String name;
     private String organization;
+    private String number;
     private Date dateTime;
     private String mark;
 
-    public Certificates(String name, String organization, Date dateTime, String mark) {
+    public Certificates(String name, String organization, String number, Date dateTime, String mark) {
         this.name = name;
         this.organization = organization;
+        this.number = number;
         this.dateTime = dateTime;
         this.mark = mark;
     }
@@ -49,5 +51,13 @@ public class Certificates {
 
     public void setMark(String mark) {
         this.mark = mark;
+    }
+
+    public String getNumber() {
+        return this.number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 }

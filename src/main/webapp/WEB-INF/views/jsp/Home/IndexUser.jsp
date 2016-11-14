@@ -19,7 +19,7 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-lg-10">
         <div class="col-lg-8 col-lg-offset-2">
-            <h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>
+            <h1 class="page-header">General Information</h1>
 
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#headerinfo">Header information</a></li>
@@ -106,6 +106,9 @@
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Joint type: </label>
                             <div class="col-lg-5"><c:out value="${userProfile.jointType}"></c:out></div>
+                        </div>
+                        <div class="form-group"><label class="control-label col-md-3">Is political: </label>
+                            <div class="col-lg-5"><c:out value="${userProfile.isPolitical}"></c:out></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Status: </label>
                             <div class="col-lg-5"><c:out value="${userProfile.status}"></c:out></div>
@@ -227,7 +230,7 @@
                             <p>In english</p>
                             <div class="form-horizontal">
                                 <!--Family table-->
-                                <table class="table table-hover">
+                                <table class="table">
                                     <thead>
                                     <tr>
                                         <th>Relation</th>
@@ -253,7 +256,7 @@
                             <p>На русском</p>
                             <div class="form-horizontal">
                                 <!--Family table-->
-                                <table class="table table-hover">
+                                <table class="table">
                                     <thead>
                                     <tr>
                                         <th>Родство</th>
@@ -279,7 +282,7 @@
                             <p>O'zbekchada</p>
                             <div class="form-horizontal">
                                 <!--Family table-->
-                                <table class="table table-hover">
+                                <table class="table">
                                     <thead>
                                     <tr>
                                         <th>Qarindoshligi</th>

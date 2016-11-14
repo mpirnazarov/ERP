@@ -30,7 +30,10 @@
                 <a href="/User/Profile/Appointment"><i class="fa fa-fw fa-hand-pointer-o"></i> Appointment record</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-fw fa-calendar-o"></i> Workload</a>
+                <a href="/User/Profile/Salary"><i class="fa fa-fw fa-hand-pointer-o"></i> Salary details</a>
+            </li>
+            <li>
+                <a href="/Workload/Index"><i class="fa fa-fw fa-calendar-o"></i> Workload</a>
             </li>
             <li>
                 <a href="/User/Profile/Edu"><i class="fa fa-fw fa-graduation-cap"></i> Education certificate</a>

@@ -10,17 +10,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="pageTitle" scope="request" value="Home"/>
-<%
+<%--<%
     ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
     request.setAttribute("ProfileModel", a.getFirstName()[2]);
-%>
+%>--%>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-lg-10">
         <div class="col-lg-8 col-lg-offset-2">
-            <h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>
+            <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
 
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#headerinfo">Header information</a></li>

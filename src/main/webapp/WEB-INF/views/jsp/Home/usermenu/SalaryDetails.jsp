@@ -1,5 +1,6 @@
 <%@ page import="java.text.DecimalFormat" %>
-<%@ page import="com.lgcns.erp.tapps.viewModel.usermenu.AppointmentrecViewModel" %><%--
+<%@ page import="com.lgcns.erp.tapps.viewModel.usermenu.AppointmentrecViewModel" %>
+<%--
   Created by IntelliJ IDEA.
   User: Dell
   Date: 25-Oct-16
@@ -9,12 +10,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="pageTitle" scope="request" value="Appointment Record"/>
+<c:set var="pageTitle" scope="request" value="Salary details"/>
 <%
     String a = request.getAttribute("name").toString();
     request.setAttribute("ProfileModel", a);
 %>
-
 <script type="text/javascript">
     function printpage() {
         //Get the print button and put it into a variable
@@ -33,35 +33,37 @@
     }
 </script>
 
-
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="container-fluid">
+<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
+<div class="container">
     <div class="row">
-        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-lg-10">
         <div class="col-lg-8 col-lg-offset-2">
-            <h1 class="page-header" id="appRec">Appointment Record</h1>
+            <h1 class="page-header" id="appRec">Salary Details</h1>
             <div class="tab-content">
-                <div id="appointmentsummary" class="tab-pane fade in active">
-                    <h3>Appointment summary</h3>
+                <div id="salarydet" class="tab-pane fade in active">
+                    <h3>Salary details</h3>
                     <!--Appointment summary table-->
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Appointment date</th>
-                            <th>Appointment type</th>
-                            <th>Department</th>
-                            <th>Role</th>
+                            <th>Date</th>
+                            <th>Amount(before taxes)</th>
+                            <th>PIT</th>
+                            <th>INPS</th>
+                            <th>PF</th>
+                            <th>Amount(after taxes)</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${appointmentrecVM.appointmentSummaries}" var="appointment" varStatus="status">
-                        <tr>
-                            <td>${appointment.appointDate}</td>
-                            <td>${appointment.appointmentType}</td>
-                            <td>${appointment.department}</td>
-                            <td>${appointment.role}</td>
-                        </tr>
+                        <c:forEach items="${salaryVM}" var="salary" varStatus="status">
+                            <tr>
+                                <td>${salary.date}</td>
+                                <td>${salary.net}</td>
+                                <td>${salary.pit}%</td>
+                                <td>${salary.inps}%</td>
+                                <td>${salary.pf}%</td>
+                                <td>${salary.gross}</td>
+                            </tr>
                         </c:forEach>
                         </tbody>
                     </table>
@@ -70,6 +72,5 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

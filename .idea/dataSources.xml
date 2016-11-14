@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="PostgreSQL - postgres@lgcns" uuid="d2f4e28f-ce79-428e-a2cd-8042be013bb5">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://192.168.1.77:5432/ErpSystem</jdbc-url>
-    </data-source>
     <data-source source="LOCAL" name="hibernate.cfg.xml/Hibernate" uuid="3a577676-5194-4803-abcd-c846401b7995">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
@@ -15,7 +9,7 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://192.168.1.77:5432/LgErpSystem</jdbc-url>
     </data-source>
-    <data-source source="LOCAL" name="PostgreSQL - LgErpSystem@192.168.1.77" uuid="800e8b7c-6a25-44d7-97df-c0ed0bde929f">
+    <data-source source="LOCAL" name="PostgreSQL - LgErpSystem@192.168.1.77 [2]" uuid="42ff7a68-36c9-4f30-bba8-f5531b04dcc2">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>

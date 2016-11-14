@@ -15,11 +15,14 @@
 </head>
 <body>
 <div class="login">
-
     <h1>LG CNS UZBEKISTAN</h1>
     <h2>Login</h2>
+    <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+        <font color="red">
+            <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
+        </font>
+    </c:if>
     <form action="<c:url value='/j_spring_security_check' />" method='POST'>
-
         <input type="text" name="username" placeholder="Username" required="required" />
         <input type="password" name="password" placeholder="Password" required="required" />
         <div class="checkbox">

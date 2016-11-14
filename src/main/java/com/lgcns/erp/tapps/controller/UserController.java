@@ -31,6 +31,7 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.security.Principal;
 import java.sql.Date;
+import java.text.NumberFormat;
 import java.util.*;
 
 
@@ -144,6 +145,19 @@ public class UserController {
         return mav;
     }
 
+    @RequestMapping(value = "/User/Profile/Salary", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView SalaryRec(Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/usermenu/SalaryDetails");
+        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        List<SalaryVewModel> salaryVewModel = getSalaryByUser(user);
+
+        String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
+        mav.addObject("name", name);
+        mav.addObject("salaryVM", salaryVewModel);
+        return mav;
+    }
 
     @RequestMapping(value = "/User/Profile/Edu", method = RequestMethod.GET)
     @ResponseBody
@@ -324,13 +338,19 @@ public class UserController {
 
         for (UserLocalizationsEntity ul:
                 userLocalizationsEntities ) {
-            returning.addData1(user.getId(), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
+            returning.addData1(String.format("%05d", user.getId()), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
         }
         //Getting department name
         returning.setDepartment(UserService.getDepartments().get(3).getName());
 
         //Getting Position from user_in_roles
         returning.setPosition(UserService.getRoleLoc(user).getName());
+
+        //Getting is political
+        if (user.getPolitical())
+            returning.setPolitical("Yes");
+        else
+            returning.setPolitical("No");
 
         //Getting Joint Type
         returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType()-1].toString());
@@ -410,11 +430,21 @@ public class UserController {
                 usersInPost) {
             returning.addAppointSummary(uip.getDateFrom(), Appoint.values()[uip.getContractType() - 1].toString(), UserService.getDepartments().get(user.getDepartmentId()).getName(), UserService.getJobTitle(uip.getPostId(), 3).getName());
         }
-
-        List<SalaryHistoriesEntity> salaryHistoriesEntityList = UserService.getSalaryHistories(user);
-        returning.setSalaryDetails(salaryHistoriesEntityList);
-
         return returning;
+    }
+
+
+    private List<SalaryVewModel> getSalaryByUser(UsersEntity user) {
+        List<SalaryHistoriesEntity> salariesHistory = UserService.getSalaryHistories(user);
+        List<SalaryVewModel> salaries = new LinkedList<SalaryVewModel>();
+        NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+
+        for (SalaryHistoriesEntity salary :
+                salariesHistory) {
+            salaries.add(new SalaryVewModel(String.format("%,d", salary.getSalaryBefore()), String.format("%,d", salary.getSalaryAfter()), salary.getDate(), salary.getPit(), salary.getInps(), salary.getPf()));
+        }
+        return salaries;
+
     }
 
     private EduViewModel getEducationByUsername(Principal principal) {
@@ -442,8 +472,7 @@ public class UserController {
         for (CertificatesEntity cert :
                 certificatesEntities) {
             CertificateLocalizationsEntity certificatesLocEntitie = UserService.getCertificatesLoc(cert, 3);
-            System.out.println(certificatesLocEntitie.getName()+" "+certificatesLocEntitie.getOrganization()+" "+cert.getDateTime()+" "+cert.getMark());
-            eduReturn.addCertificate(certificatesLocEntitie.getName(), certificatesLocEntitie.getOrganization(), cert.getDateTime(),cert.getMark());
+            eduReturn.addCertificate(certificatesLocEntitie.getName(), certificatesLocEntitie.getOrganization(), cert.getNumber(), cert.getDateTime(),cert.getMark());
         }
         return eduReturn;
     }

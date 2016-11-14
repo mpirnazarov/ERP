@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataSource name="PostgreSQL - LgErpSystem@192.168.1.77">
+<dataSource name="PostgreSQL - LgErpSystem@192.168.1.77 [2]">
   <database-model serializer="dbm" rdbms="POSTGRES" format-version="2.6">
     <database id="1" name="LgErpSystem">
       <object-id>16793</object-id>
@@ -18,7 +18,7 @@
       <object-id>2200</object-id>
       <visible>1</visible>
       <introspection-state-number>1493</introspection-state-number>
-      <introspection-timestamp>2016-11-09.16:00:18.951</introspection-timestamp>
+      <introspection-timestamp>2016-11-10.12:22:12.728</introspection-timestamp>
     </schema>
     <schema id="6" parent="1" name="pg_catalog">
       <object-id>11</object-id>
@@ -2020,7 +2020,7 @@ language_id</columns>
     </foreign-key>
     <foreign-key id="384" parent="89" name="fk_get_post_id">
       <object-id>41372</object-id>
-      <columns>contract_type</columns>
+      <columns>post_id</columns>
       <ref-key>~.posts.posts_pkey</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
@@ -2291,7 +2291,7 @@ id</columns>
     </foreign-key>
     <foreign-key id="434" parent="93" name="fk_user_get_roleid">
       <object-id>41392</object-id>
-      <columns>?</columns>
+      <columns>role_id</columns>
       <ref-key>~.roles.roles_pkey</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>

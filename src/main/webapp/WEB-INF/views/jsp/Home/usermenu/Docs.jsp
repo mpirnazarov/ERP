@@ -29,7 +29,7 @@
             <h1 class="page-header">Documents</h1>
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#listofdocs">List of documents</a></li>
-                <li><a data-toggle="tab" href="#gen">Generatable documents</a></li>
+                <%--<li><a data-toggle="tab" href="#gen">Generatable documents</a></li>--%>
             </ul>
             <div class="tab-content">
                 <div id="listofdocs" class="tab-pane fade in active">
@@ -66,7 +66,7 @@
 
             </form:form>--%>
                 </div>
-                <div id="gen" class="tab-pane fade">
+                <%--<div id="gen" class="tab-pane fade">
                     <h3>Generatable documents</h3>
                     <table class="table">
                         <thead>
@@ -76,7 +76,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <%--<c:forEach items="${}" var="doc" varStatus="status">--%>
+                        &lt;%&ndash;<c:forEach items="${}" var="doc" varStatus="status">&ndash;%&gt;
                             <tr>
                                 <td>sdfsdfsdf</td>
                                 <td>
@@ -91,10 +91,10 @@
                                     </div>
                                 </td>
                             </tr>
-                        <%--</c:forEach>--%>
+                        &lt;%&ndash;</c:forEach>&ndash;%&gt;
                         </tbody>
                     </table>
-                </div>
+                </div>--%>
         </div>
     </div>
 </div>

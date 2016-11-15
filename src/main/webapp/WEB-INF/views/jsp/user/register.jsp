@@ -19,13 +19,6 @@
             <form:form modelAttribute="registrationVM" cssClass="form-horizontal" method="post" action="/User/Register">
 
                 <div class="tab-content">
-                        <%--                    <c:forEach var="sentence" items="${registrationVM.registrationLocInfos}" varStatus="i">
-                                                Name in ${sentence.languageCode}
-                                                <form:input type="text"
-                                                                    name="registrationVM.registrationLocInfos[${i.index}].firstName"
-                                                                    path="registrationLocInfos[${i.index}].firstName"
-                                                        />
-                                            </c:forEach>--%>
                     <ul class="nav nav-tabs">
                         <c:forEach items="${registrationVM.registrationLocInfos}" var="locInfo" varStatus="i">
                             <li ${i.first ? 'class="active"' : ''}>

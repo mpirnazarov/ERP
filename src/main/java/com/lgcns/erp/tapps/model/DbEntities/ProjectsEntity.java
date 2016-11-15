@@ -20,8 +20,11 @@ public class ProjectsEntity {
     private Date endDate;
     private String type;
     private Integer status;
+    private Float moneyUzs;
+    private Float moneyUsd;
+    private String name;
+    private Integer customerId;
     private Collection<ContactInProjectsEntity> contactInProjectsesById;
-    private Collection<ProjectLocalizationsEntity> projectLocalizationsesById;
     private Collection<UserInProjectsEntity> userInProjectsesById;
     private Collection<WorkloadEntity> workloadsById;
 
@@ -35,6 +38,26 @@ public class ProjectsEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "money_uzs", nullable = false, length = 100)
+    public Float getMoneyUzs() {
+        return moneyUzs;
+    }
+
+    public void setMoneyUzs(Float moneyUzs) {
+        this.moneyUzs = moneyUzs;
+    }
+
+    @Basic
+    @Column(name = "money_usd", nullable = false, length = 100)
+    public Float getMoneyUsd() {
+        return moneyUsd;
+    }
+
+    public void setMoneyUsd(Float moneyUsd) {
+        this.moneyUsd = moneyUsd;
     }
 
     @Basic
@@ -88,6 +111,22 @@ public class ProjectsEntity {
         this.status = status;
     }
 
+    @Basic
+    @Column(name = "name", nullable = false)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Basic
+    @Column(name = "customerid", nullable = false)
+    public Integer getCustomerId() {return customerId;}
+
+    public void setCustomerId(Integer customerId) {this.customerId = customerId;}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -123,16 +162,6 @@ public class ProjectsEntity {
 
     public void setContactInProjectsesById(Collection<ContactInProjectsEntity> contactInProjectsesById) {
         this.contactInProjectsesById = contactInProjectsesById;
-    }
-
-    @OneToMany(mappedBy = "projectsByProjectId", fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
-    public Collection<ProjectLocalizationsEntity> getProjectLocalizationsesById() {
-        return projectLocalizationsesById;
-    }
-
-    public void setProjectLocalizationsesById(Collection<ProjectLocalizationsEntity> projectLocalizationsesById) {
-        this.projectLocalizationsesById = projectLocalizationsesById;
     }
 
     @OneToMany(mappedBy = "projectsByProjectId")

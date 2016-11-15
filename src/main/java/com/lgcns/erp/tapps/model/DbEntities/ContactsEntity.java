@@ -13,8 +13,8 @@ public class ContactsEntity {
     private Integer organizationId;
     private String mobilePhone;
     private String workPhone;
+    private String name;
     private Collection<ContactInProjectsEntity> contactInProjectsesById;
-    private Collection<ContactLocalizationsEntity> contactLocalizationsesById;
     private OrganizationEntity organizationByOrganizationId;
 
     @Id
@@ -58,6 +58,12 @@ public class ContactsEntity {
         this.workPhone = workPhone;
     }
 
+    @Basic
+    @Column(name = "name", nullable = true, length = 200)
+    public String getName() {return name;}
+
+    public void setName(String name) {this.name = name;}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -90,15 +96,6 @@ public class ContactsEntity {
 
     public void setContactInProjectsesById(Collection<ContactInProjectsEntity> contactInProjectsesById) {
         this.contactInProjectsesById = contactInProjectsesById;
-    }
-
-    @OneToMany(mappedBy = "contactsByContactId")
-    public Collection<ContactLocalizationsEntity> getContactLocalizationsesById() {
-        return contactLocalizationsesById;
-    }
-
-    public void setContactLocalizationsesById(Collection<ContactLocalizationsEntity> contactLocalizationsesById) {
-        this.contactLocalizationsesById = contactLocalizationsesById;
     }
 
     @ManyToOne

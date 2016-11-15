@@ -244,6 +244,32 @@ public class UserService {
         return map;
     }
 
+
+    public static List<UserLocalizationsEntity> getAllUserLocs() {
+        return getAllUserLocs(3);
+    }
+    public static List<UserLocalizationsEntity> getAllUserLocs(int language) {
+        List<UserLocalizationsEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserLocalizationsEntity loc where loc.languageId = :language");
+            query.setParameter("language", language);
+            list = (List<UserLocalizationsEntity>)query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return list;
+    }
+
     public static int insertUser(UsersEntity user){
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -272,29 +298,17 @@ public class UserService {
         return user.getId();
     }
 
-    public static void insertUserLoc(List<UserLocalizationsEntity> userLocs){
+    public static void insertUserLoc(List<UserLocalizationsEntity> locs){
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             //Save the objects in database
-            for(UserLocalizationsEntity temp : userLocs){
+
+            for(UserLocalizationsEntity temp : locs){
                 temp.setLanguagesByLanguageId(session.load(LanguagesEntity.class, temp.getLanguageId()));
                 temp.setUsersByUserId(session.load(UsersEntity.class, temp.getUserId()));
                 session.save(temp);
-
-                /*Query insertQuery = session.createSQLQuery(""+
-                        "INSERT INTO public.user_localizations "+
-                        "(last_name, first_name, father_name, address, user_id, language_id) "+
-                        "VALUES (?,?,?,?,?,?)"
-                );
-                insertQuery.setParameter(0, temp.getLastName());
-                insertQuery.setParameter(1, temp.getFirstName());
-                insertQuery.setParameter(2, temp.getFatherName());
-                insertQuery.setParameter(3, temp.getAddress());
-                insertQuery.setParameter(4, temp.getUserId());
-                insertQuery.setParameter(5, temp.getLanguageId());
-                insertQuery.executeUpdate();*/
             }
 
             //Commit the transaction

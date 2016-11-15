@@ -11,15 +11,12 @@ import java.util.Collection;
 public class LanguagesEntity {
     private int id;
     private Collection<CertificateLocalizationsEntity> certificateLocalizationsesById;
-    private Collection<ContactLocalizationsEntity> contactLocalizationsesById;
     private Collection<CurrnecyLocalizationsEntity> currnecyLocalizationsesById;
     private Collection<DepartmentLocalizationsEntity> departmentLocalizationsesById;
     private Collection<EducationLocalizationsEntity> educationLocalizationsesById;
     private Collection<FamiliyInfoLocalizationsEntity> familiyInfoLocalizationsesById;
     private Collection<LanguageLocalizationsEntity> languageLocalizationsesById;
-    private Collection<OrganizationLocalizationsEntity> organizationLocalizationsesById;
     private Collection<PermissionLocalizationsEntity> permissionLocalizationsesById;
-    private Collection<ProjectLocalizationsEntity> projectLocalizationsesById;
     private Collection<RoleLocalizationsEntity> roleLocalizationsesById;
     private Collection<StatusLocalizationsEntity> statusLocalizationsesById;
     private Collection<TrainingLocalizationsEntity> trainingLocalizationsesById;
@@ -61,15 +58,6 @@ public class LanguagesEntity {
 
     public void setCertificateLocalizationsesById(Collection<CertificateLocalizationsEntity> certificateLocalizationsesById) {
         this.certificateLocalizationsesById = certificateLocalizationsesById;
-    }
-
-    @OneToMany(mappedBy = "languagesByLenguageId")
-    public Collection<ContactLocalizationsEntity> getContactLocalizationsesById() {
-        return contactLocalizationsesById;
-    }
-
-    public void setContactLocalizationsesById(Collection<ContactLocalizationsEntity> contactLocalizationsesById) {
-        this.contactLocalizationsesById = contactLocalizationsesById;
     }
 
     @OneToMany(mappedBy = "languagesByLanguageId")
@@ -118,15 +106,6 @@ public class LanguagesEntity {
     }
 
     @OneToMany(mappedBy = "languagesByLanguageId")
-    public Collection<OrganizationLocalizationsEntity> getOrganizationLocalizationsesById() {
-        return organizationLocalizationsesById;
-    }
-
-    public void setOrganizationLocalizationsesById(Collection<OrganizationLocalizationsEntity> organizationLocalizationsesById) {
-        this.organizationLocalizationsesById = organizationLocalizationsesById;
-    }
-
-    @OneToMany(mappedBy = "languagesByLanguageId")
     public Collection<PermissionLocalizationsEntity> getPermissionLocalizationsesById() {
         return permissionLocalizationsesById;
     }
@@ -135,14 +114,6 @@ public class LanguagesEntity {
         this.permissionLocalizationsesById = permissionLocalizationsesById;
     }
 
-    @OneToMany(mappedBy = "languagesByLanguageId")
-    public Collection<ProjectLocalizationsEntity> getProjectLocalizationsesById() {
-        return projectLocalizationsesById;
-    }
-
-    public void setProjectLocalizationsesById(Collection<ProjectLocalizationsEntity> projectLocalizationsesById) {
-        this.projectLocalizationsesById = projectLocalizationsesById;
-    }
 
     @OneToMany(mappedBy = "languagesByLenguageId")
     public Collection<RoleLocalizationsEntity> getRoleLocalizationsesById() {

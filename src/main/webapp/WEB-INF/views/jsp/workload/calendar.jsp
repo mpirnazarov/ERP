@@ -6,7 +6,7 @@
 <%@ page import="java.util.Calendar" %>
 <%@ page import="com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity" %>
 <%@ page import="com.lgcns.erp.tapps.model.DbEntities.ProjectsEntity" %>
-<%@ page import="com.lgcns.erp.tapps.model.DbEntities.ProjectLocalizationsEntity" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Rafatdin
   Date: 31.10.2016
@@ -235,8 +235,7 @@
                 tabindex += 28;
                 for (ProjectsEntity project : model.getProjects()) {
                     out.print(getEmptyRow());
-                    ProjectLocalizationsEntity temp = (ProjectLocalizationsEntity) project.getProjectLocalizationsesById().toArray()[0];
-                    out.print(generateProject(model, project.getCode(), temp.getName(), project.getId(), tabindex, false));
+                    out.print(generateProject(model, project.getCode(), project.getName(), project.getId(), tabindex, false));
                     tabindex += 28;
                 }
             %>

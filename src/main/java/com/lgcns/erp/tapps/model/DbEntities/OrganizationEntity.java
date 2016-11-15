@@ -11,8 +11,9 @@ import java.util.Collection;
 public class OrganizationEntity {
     private int id;
     private Integer tin;
+    private String address;
+    private String name;
     private Collection<ContactsEntity> contactsesById;
-    private Collection<OrganizationLocalizationsEntity> organizationLocalizationsesById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -34,6 +35,18 @@ public class OrganizationEntity {
     public void setTin(Integer tin) {
         this.tin = tin;
     }
+
+    @Basic
+    @Column(name = "address", nullable = true)
+    public String getAddress() {return address;}
+
+    public void setAddress(String address) {this.address = address;}
+
+    @Basic
+    @Column(name = "name", nullable = true)
+    public String getName() {return name;}
+
+    public void setName(String name) {this.name = name;}
 
     @Override
     public boolean equals(Object o) {
@@ -64,12 +77,4 @@ public class OrganizationEntity {
         this.contactsesById = contactsesById;
     }
 
-    @OneToMany(mappedBy = "organizationByOrganizationId")
-    public Collection<OrganizationLocalizationsEntity> getOrganizationLocalizationsesById() {
-        return organizationLocalizationsesById;
-    }
-
-    public void setOrganizationLocalizationsesById(Collection<OrganizationLocalizationsEntity> organizationLocalizationsesById) {
-        this.organizationLocalizationsesById = organizationLocalizationsesById;
-    }
 }

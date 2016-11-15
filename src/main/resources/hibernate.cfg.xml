@@ -12,7 +12,6 @@
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.CertificateLocalizationsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.CertificatesEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.ContactInProjectsEntity"/>
-        <mapping class="com.lgcns.erp.tapps.model.DbEntities.ContactLocalizationsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.ContactsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.CurrenciesEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.CurrnecyLocalizationsEntity"/>
@@ -26,14 +25,12 @@
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.LanguageLocalizationsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.LanguagesEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.OrganizationEntity"/>
-        <mapping class="com.lgcns.erp.tapps.model.DbEntities.OrganizationLocalizationsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.PermissionInRolesEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.PermissionLocalizationsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.PermissionsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.PersonalEvalutionsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.PostLocalizationsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.PostsEntity"/>
-        <mapping class="com.lgcns.erp.tapps.model.DbEntities.ProjectLocalizationsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.ProjectsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.RoleLocalizationsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.RolesEntity"/>

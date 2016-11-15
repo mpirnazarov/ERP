@@ -51,7 +51,7 @@ public class UserInProjectsEntity {
     }
 
     @Basic
-    @Column(name = "role_id", nullable = false, insertable = false, updatable = false)
+    @Column(name = "role_id", nullable = false)
     public int getRoleId() {
         return roleId;
     }
@@ -126,16 +126,6 @@ public class UserInProjectsEntity {
 
     public void setProjectsByProjectId(ProjectsEntity projectsByProjectId) {
         this.projectsByProjectId = projectsByProjectId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
-    public RolesEntity getRolesByProjectId() {
-        return rolesByProjectId;
-    }
-
-    public void setRolesByProjectId(RolesEntity rolesByProjectId) {
-        this.rolesByProjectId = rolesByProjectId;
     }
 
 

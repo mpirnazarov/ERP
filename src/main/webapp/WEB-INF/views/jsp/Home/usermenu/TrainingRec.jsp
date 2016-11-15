@@ -8,27 +8,50 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script type="text/javascript">
+    function printpage() {
+        //Get the print button and put it into a variable
+        var printButton = document.getElementById("printpagebutton");
+        printButton.style.visibility = 'hidden';
+        printButton = document.getElementById("training");
+        printButton.style.visibility = 'hidden';
+        printButton = document.getElementById("trainings");
+        printButton.style.visibility = 'hidden';
+        //Print the page content
+        window.print()
+        //Set the print button to 'visible' again
+        //[Delete this line if you want it to stay hidden after printing]
+        var printButton = document.getElementById("printpagebutton");
+        printButton.style.visibility = 'visible';
+        printButton = document.getElementById("training");
+        printButton.style.visibility = 'visible';
+        printButton = document.getElementById("training");
+        printButton.style.visibility = 'visible';
+    }
+
+</script>
 <c:set var="pageTitle" scope="request" value="Trainings"/>
 <%
     String a = request.getAttribute("name").toString();
     request.setAttribute("ProfileModel", a);
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
+        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
+        <div class="col-sm-9 col-lg-10">
         <div class="col-lg-8 col-lg-offset-2">
-            <h1 class="page-header">Training record</h1>
+            <h1 class="page-header" id="training">Training record</h1>
 
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#train">Trainings</a></li>
+                <li class="active" id="trainings"><a data-toggle="tab" href="#train">Trainings</a></li>
             </ul>
 
             <div class="tab-content">
                 <div id="train" class="tab-pane fade in active">
                     <h3>Trainings</h3>
                     <!--Trainings table-->
-                    <table class="table table-hover">
+                    <table class="table">
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -54,9 +77,11 @@
                         </c:forEach>
                         </tbody>
                     </table>
+                    <input id="printpagebutton" type="button" style="color: #0c0c0c" value="Print this page" onclick="printpage()"/>
                 </div>
             </div>
         </div>
     </div>
 </div>
+    </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

@@ -14,9 +14,10 @@
         request.setAttribute("ProfileModel", (a.getFirstName()[0]).toString());*/
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
+        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
+        <div class="col-sm-9 col-lg-10">
         <div class="col-lg-8 col-lg-offset-2">
             <h1 class="page-header">Documents</h1>
             <table class="table table-hover">
@@ -40,4 +41,5 @@
         </div>
     </div>
 </div>
+    </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

@@ -6,6 +6,11 @@
 body {
   position: relative;
   overflow-x: hidden;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.4;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #FFFFFF;
 }
 body,
 html {

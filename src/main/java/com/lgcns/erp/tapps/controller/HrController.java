@@ -1,27 +1,12 @@
 package com.lgcns.erp.tapps.controller;
 
 
-import com.lgcns.erp.tapps.DbContext.UserService;
-import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
-import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
-import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.HR.*;
-import com.lgcns.erp.tapps.viewModel.LoginViewModel;
-import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
-import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.json.simple.JSONObject;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.*;
 
 /**
  * Created by Dell on 26-Oct-16.
@@ -85,6 +70,14 @@ public class HrController {
         mav.setViewName("Home/hrmenu/Docs");
         DocsViewModel docsViewModel = new DocsViewModel();
         mav.addObject("docsVM", docsViewModel);
+        return mav;
+    }
+    @RequestMapping (value = "/Hr/edit/geninfo", method = RequestMethod.GET)
+    @ResponseBody public ModelAndView GenInfo(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/geninfo");
+        HrJobexpViewModel hrjobexpViewModel = new HrJobexpViewModel();
+        mav.addObject("hrjobexpVM", hrjobexpViewModel);
         return mav;
     }
 }

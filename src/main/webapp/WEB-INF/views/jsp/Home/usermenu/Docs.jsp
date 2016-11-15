@@ -21,19 +21,20 @@
     request.setAttribute("ProfileModel", a);
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
+        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
+        <div class="col-sm-9 col-lg-10">
         <div class="col-lg-8 col-lg-offset-2">
             <h1 class="page-header">Documents</h1>
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#listofdocs">List of documents</a></li>
-                <li><a data-toggle="tab" href="#gen">Generatable documents</a></li>
+                <%--<li><a data-toggle="tab" href="#gen">Generatable documents</a></li>--%>
             </ul>
             <div class="tab-content">
                 <div id="listofdocs" class="tab-pane fade in active">
                     <h3>List of documents</h3>
-            <table class="table table-hover">
+            <table class="table">
                 <thead>
                 <tr>
                     <th>Document name</th>
@@ -65,7 +66,7 @@
 
             </form:form>--%>
                 </div>
-                <div id="gen" class="tab-pane fade">
+                <%--<div id="gen" class="tab-pane fade">
                     <h3>Generatable documents</h3>
                     <table class="table">
                         <thead>
@@ -75,7 +76,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <%--<c:forEach items="${}" var="doc" varStatus="status">--%>
+                        &lt;%&ndash;<c:forEach items="${}" var="doc" varStatus="status">&ndash;%&gt;
                             <tr>
                                 <td>sdfsdfsdf</td>
                                 <td>
@@ -90,11 +91,12 @@
                                     </div>
                                 </td>
                             </tr>
-                        <%--</c:forEach>--%>
+                        &lt;%&ndash;</c:forEach>&ndash;%&gt;
                         </tbody>
                     </table>
-                </div>
+                </div>--%>
         </div>
     </div>
 </div>
+            </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

@@ -42,16 +42,15 @@
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Last name: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.lastName[2]}"></c:out></div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-3">First name: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.firstName[2]}"></c:out></div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-3">Fathers name: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.fathersName[2]}"></c:out></div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-3">Address: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.address[2]}"></c:out></div>
+                                    <div class="col-md-2"><c:out value="${userProfile.lastName[2]}"></c:out></div>
+                                    <label class="control-label col-md-3">First name: </label>
+                                        <div class="col-md-2"><c:out value="${userProfile.firstName[2]}"></c:out></div>
+                                    </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Fathers name: </label>
+                                    <div class="col-md-2"><c:out value="${userProfile.fathersName[2]}"></c:out></div>
+                                    <label class="control-label col-md-3">Address: </label>
+                                    <div class="col-md-4"><c:out value="${userProfile.address[2]}"></c:out></div>
                                 </div>
                             </div>
                         </div>
@@ -60,16 +59,14 @@
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Фамилия: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.lastName[0]}"></c:out></div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-3">Имя: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.firstName[0]}"></c:out></div>
+                                    <div class="col-md-2"><c:out value="${userProfile.lastName[0]}"></c:out></div>
+                                    <label class="control-label col-md-3">Имя: </label>
+                                    <div class="col-md-2"><c:out value="${userProfile.firstName[0]}"></c:out></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-3">Отчество: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.fathersName[0]}"></c:out></div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-3">Адрес: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.address[0]}"></c:out></div>
+                                    <div class="col-md-2"><c:out value="${userProfile.fathersName[0]}"></c:out></div>
+                                    <label class="control-label col-md-3">Адрес: </label>
+                                    <div class="col-md-4"><c:out value="${userProfile.address[0]}"></c:out></div>
                                 </div>
                             </div>
                         </div>
@@ -78,16 +75,14 @@
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Familiya: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.lastName[1]}"></c:out></div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-3">Ism: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.firstName[1]}"></c:out></div>
+                                    <div class="col-md-2"><c:out value="${userProfile.lastName[1]}"></c:out></div>
+                                    <label class="control-label col-md-3">Ism: </label>
+                                    <div class="col-md-2"><c:out value="${userProfile.firstName[1]}"></c:out></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-3">Sharf: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.fathersName[1]}"></c:out></div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-3">Manzil: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.address[1]}"></c:out></div>
+                                    <div class="col-md-2"><c:out value="${userProfile.fathersName[1]}"></c:out></div>
+                                    <label class="control-label col-md-3">Manzil: </label>
+                                    <div class="col-md-4"><c:out value="${userProfile.address[1]}"></c:out></div>
                                 </div>
                             </div>
                         </div>
@@ -96,31 +91,27 @@
                     <!--Other information-->
                     <div class="form-horizontal">
                         <div class="form-group"><label class="control-label col-md-3">User ID: </label>
-                            <div class="col-lg-5"><c:out value="${userProfile.id}"></c:out></div>
+                            <div class="col-sm-2"><c:out value="${userProfile.id}"></c:out></div>
+                            <label class="control-label col-md-3">Passport Number: </label>
+                            <div class="col-sm-2"><c:out value="${userProfile.passportNumber}"></c:out></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Department: </label>
-                            <div class="col-lg-5"><c:out value="${userProfile.department}"></c:out></div>
-                        </div>
-                        <div class="form-group"><label class="control-label col-md-3">Position: </label>
-                            <div class="col-lg-5"><c:out value="${userProfile.position}"></c:out></div>
+                            <div class="col-sm-2"><c:out value="${userProfile.department}"></c:out></div>
+                            <label class="control-label col-md-3">Job title: </label>
+                            <div class="col-sm-2"><c:out value="${userProfile.jobTitle}"></c:out></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Joint type: </label>
-                            <div class="col-lg-5"><c:out value="${userProfile.jointType}"></c:out></div>
+                            <div class="col-sm-2"><c:out value="${userProfile.jointType}"></c:out></div>
+                            <label class="control-label col-md-3">Entry date: </label>
+                            <div class="col-sm-2"><c:out value="${userProfile.entryDate}"></c:out></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Is political: </label>
                             <div class="col-lg-5"><c:out value="${userProfile.isPolitical}"></c:out></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Status: </label>
-                            <div class="col-lg-5"><c:out value="${userProfile.status}"></c:out></div>
-                        </div>
-                        <div class="form-group"><label class="control-label col-md-3">Job title: </label>
-                            <div class="col-lg-5"><c:out value="${userProfile.jobTitle}"></c:out></div>
-                        </div>
-                        <div class="form-group"><label class="control-label col-md-3">Passport Number: </label>
-                            <div class="col-lg-5"><c:out value="${userProfile.passportNumber}"></c:out></div>
-                        </div>
-                        <div class="form-group"><label class="control-label col-md-3">Entry date: </label>
-                            <div class="col-lg-5"><c:out value="${userProfile.entryDate}"></c:out></div>
+                            <div class="col-sm-2"><c:out value="${userProfile.status}"></c:out></div>
+                            <label class="control-label col-md-3">Position: </label>
+                            <div class="col-sm-2"><c:out value="${userProfile.position}"></c:out></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Vacation days: </label>
                             <div class="col-lg-5"><c:out

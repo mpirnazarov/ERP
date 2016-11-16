@@ -16,9 +16,15 @@
 <%@ page import="org.apache.commons.fileupload.disk.*" %>
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
 <%@ page import="org.apache.commons.io.output.*" %>
+<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %>
 <%
-    String a = request.getAttribute("name").toString();
-    request.setAttribute("ProfileModel", a);
+    String b = request.getAttribute("name").toString();
+    request.setAttribute("ProfileModel", b);
+%>
+<%
+    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
+    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
+    request.setAttribute("JobTitle", a.getJobTitle());
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
@@ -26,7 +32,8 @@
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-lg-10">
         <div class="col-lg-8 col-lg-offset-2">
-            <h1 class="page-header">Documents</h1>
+            <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
+            <h2 class="page-header">Documents</h2>
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#listofdocs">List of documents</a></li>
                 <%--<li><a data-toggle="tab" href="#gen">Generatable documents</a></li>--%>

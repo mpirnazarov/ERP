@@ -11,7 +11,8 @@
 <c:set var="pageTitle" scope="request" value="Home"/>
 <%
     ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
-    request.setAttribute("ProfileModel", a.getFirstName()[2]);
+    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
+    request.setAttribute("JobTitle", a.getJobTitle());
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
@@ -19,7 +20,8 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-lg-10">
         <div class="col-lg-8 col-lg-offset-2">
-            <h1 class="page-header">General Information</h1>
+            <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
+            <h2 class="page-header">General Information</h2>
 
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#headerinfo">Header information</a></li>

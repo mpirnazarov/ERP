@@ -24,7 +24,7 @@
             <li class="dropdown-header">Information about HR</li>
             <li><a href="/Hr/Profile">General information</a></li>
             <li><a href="/Hr/Profile/Appointment">Appointment record</a></li>
-            <li><a href="#">Workload</a></li>
+            <li><a href="/Hr/Profile/Salary">Salary details</a></li>
             <li><a href="/Hr/Profile/Edu">Education certificate</a></li>
             <li><a href="/Hr/Profile/Jobexp">Job experience</a></li>
             <li><a href="/Hr/Profile/Train">Training record</a></li>

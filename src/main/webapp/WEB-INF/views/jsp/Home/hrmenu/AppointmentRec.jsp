@@ -23,18 +23,30 @@
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
             <h2 class="page-header">Appointment Record</h2>
 
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#appointmentsummary">Appointment summary</a></li>
-                <li><a data-toggle="tab" href="#salarydet">Salary details</a></li>
-            </ul>
-
             <div class="tab-content">
                 <div id="appointmentsummary" class="tab-pane fade in active">
-                    <h3>Appointment summary</h3>
-                </div>
-                <div id="salarydet" class="tab-pane fade">
-                    <h3>Salary details</h3>
-                    <p>Some content in menu 1.</p>
+                    <!--Appointment summary table-->
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Appointment date</th>
+                            <th>Appointment type</th>
+                            <th>Department</th>
+                            <th>Role</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${appointmentrecVM.appointmentSummaries}" var="appointment" varStatus="status">
+                            <tr>
+                                <td>${appointment.appointDate}</td>
+                                <td>${appointment.appointmentType}</td>
+                                <td>${appointment.department}</td>
+                                <td>${appointment.role}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <input id="printpagebutton" type="button"  style="color: #0c0c0c; visibility:hidden;" value="Print this page" onclick="printpage()"/>
                 </div>
             </div>
         </div>

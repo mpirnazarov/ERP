@@ -140,7 +140,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <input id="printpagebutton" type="button" style="color: #0c0c0c" value="Print this page" onclick="printpage()"/>
+                    <input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;" value="Print this page" onclick="printpage()"/>
                 </div>
             </div>
         </div>

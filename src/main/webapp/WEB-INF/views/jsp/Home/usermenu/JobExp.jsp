@@ -47,13 +47,9 @@
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
             <h2 class="page-header">Job Experience</h2>
 
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#jobexp">Job experience</a></li>
-            </ul>
 
             <div class="tab-content">
                 <div id="jobexp" class="tab-pane fade in active">
-                    <h3 id="jobex">Job experience</h3>
                     <!--Job experience table-->
                     <table class="table">
                         <thead>

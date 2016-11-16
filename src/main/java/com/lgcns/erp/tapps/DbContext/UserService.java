@@ -801,4 +801,25 @@ public class UserService {
 
         return documentsEntity;
     }
+
+    public static List<UsersEntity> getUsersEntity() {
+        List<UsersEntity> usersEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UsersEntity ");
+            usersEntity = query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return usersEntity;
+    }
 }

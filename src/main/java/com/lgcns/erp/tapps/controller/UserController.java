@@ -178,7 +178,6 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/JobExp");
         List<JobexpViewModel> jobexpViewModel = getJobExperience(principal);
-        String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
         ProfileViewModel userProfile = getProfileByUsername(principal);
         mav.addObject("userProfile", userProfile);
         mav.addObject("jobexpVM", jobexpViewModel);
@@ -331,7 +330,7 @@ public class UserController {
         return roles;
     }
 
-    private ProfileViewModel getProfileByUsername(Principal principal){
+    public static ProfileViewModel getProfileByUsername(Principal principal){
         ProfileViewModel returning = new ProfileViewModel();
 
         // Getting data from users db
@@ -419,7 +418,7 @@ public class UserController {
         return returning;
     }
 
-    private AppointmentrecViewModel getAppointmentByUsername(Principal principal) {
+    public static AppointmentrecViewModel getAppointmentByUsername(Principal principal) {
         AppointmentrecViewModel returning = new AppointmentrecViewModel();
 
         // Getting data from users db
@@ -437,7 +436,7 @@ public class UserController {
     }
 
 
-    private List<SalaryVewModel> getSalaryByUser(UsersEntity user) {
+    public static List<SalaryVewModel> getSalaryByUser(UsersEntity user) {
         List<SalaryHistoriesEntity> salariesHistory = UserService.getSalaryHistories(user);
         List<SalaryVewModel> salaries = new LinkedList<SalaryVewModel>();
         NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
@@ -450,7 +449,7 @@ public class UserController {
 
     }
 
-    private EduViewModel getEducationByUsername(Principal principal) {
+    public static EduViewModel getEducationByUsername(Principal principal) {
         EduViewModel eduReturn = new EduViewModel();
         EducationLocalizationsEntity eduLoc = null;
         UsersEntity user = UserService.getUserByUsername(principal.getName());
@@ -480,7 +479,7 @@ public class UserController {
         return eduReturn;
     }
 
-    private List<JobexpViewModel> getJobExperience(Principal principal) {
+    public static List<JobexpViewModel> getJobExperience(Principal principal) {
         List<JobexpViewModel> jobExpViewModels = new LinkedList<JobexpViewModel>();
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<WorksEntity> worksEntity = UserService.getWorksEntity(user);
@@ -493,7 +492,7 @@ public class UserController {
         return jobExpViewModels;
     }
 
-    private List<TrainViewModel> getTrainingRecord(Principal principal) {
+    public static List<TrainViewModel> getTrainingRecord(Principal principal) {
         List<TrainViewModel> trainViewModels = new LinkedList<TrainViewModel>();
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<TrainingsEntity> trainings = UserService.getTrainingsEntity(user);
@@ -520,7 +519,7 @@ public class UserController {
 
 
 
-    private UserInPostsEntity getMax(List<UserInPostsEntity> usersInPost) {
+    public static UserInPostsEntity getMax(List<UserInPostsEntity> usersInPost) {
         UserInPostsEntity uip = new UserInPostsEntity();
         long num = 0;
 
@@ -534,5 +533,6 @@ public class UserController {
         }
         return uip;
     }
+
 
 }

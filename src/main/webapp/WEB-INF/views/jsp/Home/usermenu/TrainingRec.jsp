@@ -36,10 +36,7 @@
 
 </script>
 <c:set var="pageTitle" scope="request" value="Trainings"/>
-<%
-    String a = request.getAttribute("name").toString();
-    request.setAttribute("ProfileModel", a);
-%>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">

@@ -12,10 +12,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Appointment Record"/>
 <%
-    String b = request.getAttribute("name").toString();
-    request.setAttribute("ProfileModel", b);
-%>
-<%
     ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
     request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
     request.setAttribute("JobTitle", a.getJobTitle());
@@ -71,7 +67,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <input id="printpagebutton" type="button" style="color: #0c0c0c" value="Print this page" onclick="printpage()"/>
+                    <input id="printpagebutton" type="button"  style="color: #0c0c0c" value="Print this page" onclick="printpage()"/>
                 </div>
             </div>
         </div>

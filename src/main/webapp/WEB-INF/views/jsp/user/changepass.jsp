@@ -1,4 +1,6 @@
-<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
+<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %>
+
+<%--
   Created by IntelliJ IDEA.
   User: Dell
   Date: 07-Nov-16
@@ -76,7 +78,7 @@
                         <div class="form-group">
                             <div class="col-md-offset-3 col-md-9">
                                 <input type="submit" value="Change password" class="btn btn-default"/>
-                                <input type="button" onclick="location.href='/User'" value="Cancel"
+                                <input type="button" onclick="location.href='/User/changepass'" value="Cancel"
                                        class="btn btn-default"/>
                             </div>
                         </div>

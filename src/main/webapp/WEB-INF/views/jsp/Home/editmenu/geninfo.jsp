@@ -9,12 +9,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<c:set var="pageTitle" scope="request" value="Home"/>
+<%--<c:set var="pageTitle" scope="request" value="Home"/>--%>
 <%--<%
     ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
     request.setAttribute("ProfileModel", a.getFirstName()[2]);
 %>--%>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
+
 <div class="container-fluid">
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
@@ -126,8 +127,8 @@
                                                               path=""/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Department: </label>
-                            <div class="col-lg-5"><form:select path="departmentId" items="${departments}"
-                                                               cssClass="form-control text-box single-line"/></div>
+                            <%--<div class="col-lg-5"><form:select path="departmentId" items="${departments}"
+                                                               cssClass="form-control text-box single-line"/></div>--%>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Position: </label>
                             <div class="col-lg-5"><form:input placeholder="Position"
@@ -135,15 +136,15 @@
                                                               path=""/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Joint type: </label>
-                            <div class="col-lg-5"><c:out value="${userProfile.jointType}"></c:out></div>
+                            <div class="col-lg-5"><%--<c:out value="${userProfile.jointType}"></c:out>--%></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Status: </label>
-                            <div class="col-lg-5"><c:out value="${userProfile.status}"></c:out></div>
+                            <div class="col-lg-5"><%--<c:out value="${userProfile.status}"></c:out>--%></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Job title: </label>
                             <div class="col-lg-5"><form:input placeholder="Job title"
                                                               cssClass="form-control text-box single-line"
-                                                              path=""/></div>
+                                                              path=" "/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Passport Number: </label>
                             <div class="col-lg-5">
@@ -160,8 +161,7 @@
                             </div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Vacation days: </label>
-                            <div class="col-lg-5"><c:out
-                                    value="${userProfile.vacationDaysLeft}/${userProfile.vacationDaysAll}"></c:out></div>
+                            <div class="col-lg-5"><c:out value=""></c:out></div>
                         </div>
 
                     </div>
@@ -181,23 +181,22 @@
                             <p>In english</p>
                             <div class="form-horizontal">
                                 <div class="form-group"><label class="control-label col-md-4">Birth place: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.birthPlace.get(2).birthPlace}"></c:out></div>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.birthPlace.get(2).birthPlace}"></c:out>--%></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">Date of Birth: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.dateOfBirth}"></c:out></div>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.dateOfBirth}"></c:out>--%></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">Home phone: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.homePhone}"></c:out></div>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.homePhone}"></c:out>--%></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">Mobile phone: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.mobilePhone}"></c:out></div>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.mobilePhone}"></c:out>--%></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">E-mail (company): </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.emailCompany}"></c:out></div>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.emailCompany}"></c:out>--%></div>
                                 </div>
-                                <div class="form-group"><label class="control-label col-md-4">E-mail
-                                    (personal): </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.emailPersonal}"></c:out></div>
+                                <div class="form-group"><label class="control-label col-md-4">E-mail (personal): </label>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.emailPersonal}"></c:out>--%></div>
                                 </div>
                             </div>
                         </div>
@@ -205,24 +204,22 @@
                             <p>На русском</p>
                             <div class="form-horizontal">
                                 <div class="form-group"><label class="control-label col-md-4">Место рождения: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.birthPlace.get(0).birthPlace}"></c:out></div>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.birthPlace.get(0).birthPlace}"></c:out>--%></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">Дата рождения: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.dateOfBirth}"></c:out></div>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.dateOfBirth}"></c:out>--%></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">Домашний телефон: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.homePhone}"></c:out></div>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.homePhone}"></c:out>--%></div>
                                 </div>
-                                <div class="form-group"><label class="control-label col-md-4">Мобильный
-                                    телефон: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.mobilePhone}"></c:out></div>
+                                <div class="form-group"><label class="control-label col-md-4">Мобильный телефон: </label>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.mobilePhone}"></c:out>--%></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">E-mail (рабочий): </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.emailCompany}"></c:out></div>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.emailCompany}"></c:out>--%></div>
                                 </div>
-                                <div class="form-group"><label class="control-label col-md-4">E-mail
-                                    (персональный): </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.emailPersonal}"></c:out></div>
+                                <div class="form-group"><label class="control-label col-md-4">E-mail (персональный): </label>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.emailPersonal}"></c:out>--%></div>
                                 </div>
                             </div>
                         </div>
@@ -230,24 +227,22 @@
                             <p>O'zbekchada</p>
                             <div class="form-horizontal">
                                 <div class="form-group"><label class="control-label col-md-4">Tug'ilgan joyi: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.birthPlace.get(1).birthPlace}"></c:out></div>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.birthPlace.get(1).birthPlace}"></c:out>--%></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">Tug'ilgan sanasi: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.dateOfBirth}"></c:out></div>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.dateOfBirth}"></c:out>--%></div>
                                 </div>
-                                <div class="form-group"><label class="control-label col-md-4">Uy telefon
-                                    raqami: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.homePhone}"></c:out></div>
+                                <div class="form-group"><label class="control-label col-md-4">Uy telefon raqami: </label>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.homePhone}"></c:out>--%></div>
                                 </div>
-                                <div class="form-group"><label class="control-label col-md-4">Uyali aloqa
-                                    raqami: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.mobilePhone}"></c:out></div>
+                                <div class="form-group"><label class="control-label col-md-4">Uyali aloqa raqami: </label>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.mobilePhone}"></c:out>--%></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">E-mail (ish): </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.emailCompany}"></c:out></div>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.emailCompany}"></c:out>--%></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">E-mail (shaxsiy): </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.emailPersonal}"></c:out></div>
+                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.emailPersonal}"></c:out>--%></div>
                                 </div>
                             </div>
                         </div>
@@ -277,14 +272,14 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
+                                   <%-- <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td>${family.relation[2]}</td>
                                             <td>${family.fullName[2]}</td>
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[2]}</td>
                                         </tr>
-                                    </c:forEach>
+                                    </c:forEach>--%>
                                     </tbody>
                                 </table>
                             </div>
@@ -303,14 +298,14 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
+                                    <%--<c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td>${family.relation[0]}</td>
                                             <td>${family.fullName[0]}</td>
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[0]}</td>
                                         </tr>
-                                    </c:forEach>
+                                    </c:forEach>--%>
                                     </tbody>
                                 </table>
                             </div>
@@ -329,14 +324,14 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
+                                    <%--<c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td>${family.relation[1]}</td>
                                             <td>${family.fullName[1]}</td>
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[1]}</td>
                                         </tr>
-                                    </c:forEach>
+                                    </c:forEach>--%>
                                     </tbody>
                                 </table>
                             </div>

@@ -1,56 +1,55 @@
-<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
+<%@ page import="com.lgcns.erp.hr.enums.ProjectStatus" %>
+<%@ page import="com.lgcns.erp.tapps.model.DbEntities.UserInProjectsEntity" %><%--
   Created by IntelliJ IDEA.
-  User: Dell
-  Date: 25-Oct-16
-  Time: 3:29 PM
+  User: Muslimbek
+  Date: 08.11.2016
+  Time: 17:42
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="pageTitle" scope="request" value="List of Users"/>
-<%
-    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
-    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
-    request.setAttribute("JobTitle", a.getJobTitle());
-%>
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="kendo" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="pageTitle" scope="request" value="Users List"/>
+<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
-        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-lg-10">
+<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
+    <div class="col-sm-9 col-lg-10">
         <div class="col-lg-8 col-lg-offset-2">
-            <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
-            <h2 class="page-header">List of Users</h2>
-<!--Users list table-->
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Position</th>
-        <th>Edit | Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    <%--<c:forEach items="${appointmentList}" var="appointment" varStatus="status">--%>
-    <tr>
-        <td>Row 1 Data 1</td>
-        <td>Row 1 Data 2</td>
-        <td>Row 1 Data 2</td>
-        <td>Row 1 Data 2</td>
-    </tr>
-    <tr>
-        <td>Row 2 Data 1</td>
-        <td>Row 2 Data 2</td>
-        <td>Row 1 Data 2</td>
-        <td>Row 1 Data 2</td>
-    </tr>
-    <%--</c:forEach>--%>
-    </tbody>
-</table>
-            </div>
-        </div>
+            <h1 class="page-header">HR profile</h1>
+    <div class="table-responsive">
+        <table id="myTable" class="display table">
+            <thead>
+            <tr>
+                <th>Lastname</th>
+                <th>Username</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${hrUserslistVM}" var="user">
+                <tr>
+                    <td><c:out value="${user.lastName}"/></td>
+                    <td><c:out value="${user.firstName}"/></td>
+
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
     </div>
     </div>
+<script>
+    $(document).ready(function(){
+        $('#myTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'excel', 'pdf', 'print'
+            ]
+        });
+    });
+</script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

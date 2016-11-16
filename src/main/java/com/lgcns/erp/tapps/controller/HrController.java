@@ -2,11 +2,15 @@ package com.lgcns.erp.tapps.controller;
 
 
 import com.lgcns.erp.tapps.viewModel.HR.*;
+import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Dell on 26-Oct-16.
@@ -59,7 +63,9 @@ public class HrController {
     @ResponseBody public ModelAndView HrUserslist(){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/hrmenu/Userslist");
-        HrUserslistViewModel hrUserslistViewModel = new HrUserslistViewModel();
+        List<HrUserslistViewModel> hrUserslistViewModel = new LinkedList<HrUserslistViewModel>();
+        hrUserslistViewModel.add(new HrUserslistViewModel("Muslimbek", "Pirnazarov"));
+        hrUserslistViewModel.add(new HrUserslistViewModel("Jasurbek", "Shaykhov"));
         mav.addObject("hrUserslistVM", hrUserslistViewModel);
         return mav;
     }
@@ -78,6 +84,14 @@ public class HrController {
         mav.setViewName("Home/editmenu/geninfo");
         HrJobexpViewModel hrjobexpViewModel = new HrJobexpViewModel();
         mav.addObject("hrjobexpVM", hrjobexpViewModel);
+        return mav;
+    }
+    @RequestMapping (value = "/Hr/edit/test", method = RequestMethod.GET)
+    @ResponseBody public ModelAndView testInfo(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/testinfo");
+        ProfileViewModel profileViewModel = new ProfileViewModel();
+        mav.addObject("testVM", profileViewModel);
         return mav;
     }
 }

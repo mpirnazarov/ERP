@@ -127,9 +127,9 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/IndexUser");
 
-        ProfileViewModel userProfile = getProfileByUsername(principal); //userProfileDAO.findByUserName(principal.getName());
-
+        ProfileViewModel userProfile = getProfileByUsername(principal);
         mav.addObject("userProfile", userProfile);
+
         return mav;
     }
 
@@ -139,8 +139,8 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/AppointmentRec");
         AppointmentrecViewModel appointmentrecViewModel = getAppointmentByUsername(principal);
-        String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
-        mav.addObject("name", name);
+        ProfileViewModel userProfile = getProfileByUsername(principal);
+        mav.addObject("userProfile", userProfile);
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
         return mav;
     }
@@ -153,8 +153,8 @@ public class UserController {
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<SalaryVewModel> salaryVewModel = getSalaryByUser(user);
 
-        String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
-        mav.addObject("name", name);
+        ProfileViewModel userProfile = getProfileByUsername(principal);
+        mav.addObject("userProfile", userProfile);
         mav.addObject("salaryVM", salaryVewModel);
         return mav;
     }
@@ -165,8 +165,8 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/EducationCer");
         EduViewModel eduViewModel = getEducationByUsername(principal);
-        String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
-        mav.addObject("name", name);
+        ProfileViewModel userProfile = getProfileByUsername(principal);
+        mav.addObject("userProfile", userProfile);
         mav.addObject("eduVM", eduViewModel);
         return mav;
     }
@@ -179,7 +179,8 @@ public class UserController {
         mav.setViewName("Home/usermenu/JobExp");
         List<JobexpViewModel> jobexpViewModel = getJobExperience(principal);
         String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
-        mav.addObject("name", name);
+        ProfileViewModel userProfile = getProfileByUsername(principal);
+        mav.addObject("userProfile", userProfile);
         mav.addObject("jobexpVM", jobexpViewModel);
         return mav;
     }
@@ -190,8 +191,8 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/TrainingRec");
         List<TrainViewModel> trainViewModel = getTrainingRecord(principal);
-        String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
-        mav.addObject("name", name);
+        ProfileViewModel userProfile = getProfileByUsername(principal);
+        mav.addObject("userProfile", userProfile);
         mav.addObject("trainVM", trainViewModel);
         return mav;
     }
@@ -202,8 +203,8 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/Docs");
         List<DocsViewModel> docsViewModel = getDocuments(principal);
-        String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
-        mav.addObject("name", name);
+        ProfileViewModel userProfile = getProfileByUsername(principal);
+        mav.addObject("userProfile", userProfile);
         mav.addObject("docsVM", docsViewModel);
         return mav;
     }
@@ -260,10 +261,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "User/changepass", method = RequestMethod.GET)
-    public ModelAndView ChangePass(){
+    public ModelAndView ChangePass(Principal principal){
         ModelAndView mav = new ModelAndView();
         ChangepassViewModel changepassViewModel = new ChangepassViewModel ();
         mav.setViewName("user/changepass");
+        ProfileViewModel userProfile = getProfileByUsername(principal);
+        mav.addObject("userProfile", userProfile);
         mav.addObject("changepassVM", changepassViewModel);
         return mav;
     }

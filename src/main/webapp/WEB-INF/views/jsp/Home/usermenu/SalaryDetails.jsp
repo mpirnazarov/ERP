@@ -13,10 +13,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Salary details"/>
 <%
-    String b = request.getAttribute("name").toString();
-    request.setAttribute("ProfileModel", b);
-%>
-<%
     ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
     request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
     request.setAttribute("JobTitle", a.getJobTitle());

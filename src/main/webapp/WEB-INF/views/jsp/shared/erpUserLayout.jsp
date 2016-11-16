@@ -23,6 +23,8 @@
 
             <%--<img src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"><br>--%>
             <img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>
+            <hr/>
+            HR
             <li>
                 <a href="/User/Profile"><i class="fa fa-fw fa-info-circle"></i> General information</a>
             </li>
@@ -30,10 +32,7 @@
                 <a href="/User/Profile/Appointment"><i class="fa fa-fw fa-hand-pointer-o"></i> Appointment record</a>
             </li>
             <li>
-                <a href="/User/Profile/Salary"><i class="fa fa-fw fa-hand-pointer-o"></i> Salary details</a>
-            </li>
-            <li>
-                <a href="/Workload/Index"><i class="fa fa-fw fa-calendar-o"></i> Workload</a>
+                <a href="/User/Profile/Salary"><i class="fa fa-fw fa-money"></i> Salary details</a>
             </li>
             <li>
                 <a href="/User/Profile/Edu"><i class="fa fa-fw fa-graduation-cap"></i> Education certificate</a>
@@ -58,6 +57,13 @@
             <li>
                 <a href="/User/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
             </li>
+            <hr/>
+            TAPPS
+            <li>
+                <a href="/Workload/Index"><i class="fa fa-fw fa-calendar-o"></i> Workload</a>
+            </li>
+            <hr/>
+            Settings
             <li>
                 <a href="/User/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
             </li>

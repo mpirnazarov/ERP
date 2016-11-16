@@ -17,10 +17,10 @@
 <div class="container-fluid">
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
-    <div class="col-sm-9 col-lg-10">
-        <div class="col-lg-8 col-lg-offset-2">
-            <h1 class="page-header">HR profile</h1>
-    <div class="table-responsive">
+        <div class="col-sm-9 col-lg-10">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h1 class="page-header">HR profile</h1>
+            <div class="table-responsive">
         <table id="myTable" class="display table">
             <thead>
             <tr>
@@ -39,9 +39,9 @@
             </tbody>
         </table>
     </div>
+        </div>
+    </div>
 </div>
-    </div>
-    </div>
 <script>
     $(document).ready(function(){
         $('#myTable').DataTable({

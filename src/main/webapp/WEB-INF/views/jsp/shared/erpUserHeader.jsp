@@ -20,12 +20,16 @@
     <spring:url value="/resources/core/css/bootstrap.min.css" var="bootstrapminCss" />
     <spring:url value="/resources/core/js/jquery-1.12.4.min.js" var="jquery" />
     <spring:url value="/resources/core/js/jquery.validate.js" var="jqueryValidation" />
+    <spring:url value="/resources/core/css/bootstrap-select.min.css" var="bootstrapminselectCss" />
+    <spring:url value="/resources/core/js/bootstrap-select.min.js" var="bootstrapselect" />
     <link rel="stylesheet" href="${navbar}" />
     <link rel="icon" href="/resources/images/lg-2-multi-size.ico" type="image/x-icon">
     <link rel="stylesheet" href="${normalizeCss}" />
     <link rel="stylesheet" href="${bootstrapminCss}" />
     <%--<link rel='stylesheet prefetch' href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">--%>
     <link rel="stylesheet" href="${styleCss}" />
+    <link rel="stylesheet" href="${bootstrapminselectCss}" />
+    <script src="${bootstrapselect}"></script>
     <script src="${jquery}"></script>
     <script src="${jqueryValidation}"></script>
     <style>

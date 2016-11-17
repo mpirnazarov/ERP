@@ -24,16 +24,19 @@
         <table id="myTable" class="display table">
             <thead>
             <tr>
+                <th>Firstname</th>
                 <th>Lastname</th>
+                <th>Email</th>
                 <th>Username</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${hrUserslistVM}" var="user">
                 <tr>
-                    <td><c:out value="${user.lastName}"/></td>
-                    <td><c:out value="${user.firstName}"/></td>
-
+                    <td><c:out value="${user.firstName[2]}"/></td>
+                    <td><c:out value="${user.lastName[2]}"/></td>
+                    <td><c:out value="${user.personalInfo.emailCompany}"/></td>
+                    <td><c:out value="${user.username}"/></td>
                 </tr>
             </c:forEach>
             </tbody>

@@ -2,17 +2,12 @@ package com.lgcns.erp.tapps.controller;
 
 
 import com.lgcns.erp.tapps.DbContext.UserService;
-import com.lgcns.erp.tapps.Enums.Appoint;
-import com.lgcns.erp.tapps.model.DbEntities.FamiliyInfoLocalizationsEntity;
-import com.lgcns.erp.tapps.model.DbEntities.FamilyInfosEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
-import com.lgcns.erp.tapps.viewModel.HR.*;
 import com.lgcns.erp.tapps.viewModel.HR.DocsViewModel;
-import com.lgcns.erp.tapps.viewModel.PersonalInformationViewModel;
+import com.lgcns.erp.tapps.viewModel.HR.HrJobexpViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.*;
-import com.lgcns.erp.tapps.viewModel.usermenu.personalInfo.BirthPlace;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -97,10 +92,8 @@ public class HrController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/hrmenu/Userslist");
         List<ProfileViewModel> users = getUsers();
-        List<HrUserslistViewModel> hrUserslistViewModel = new LinkedList<HrUserslistViewModel>();
-        hrUserslistViewModel.add(new HrUserslistViewModel("Muslimbek", "Pirnazarov"));
-        hrUserslistViewModel.add(new HrUserslistViewModel("Jasurbek", "Shaykhov"));
-        mav.addObject("hrUserslistVM", hrUserslistViewModel);
+
+        mav.addObject("hrUserslistVM", users);
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
         mav.addObject("userProfile", userProfile);
         return mav;
@@ -141,21 +134,23 @@ public class HrController {
         List<ProfileViewModel> returning = new LinkedList<ProfileViewModel>();
         ProfileViewModel userProfile;
         List<UsersEntity> usersEntityList = UserService.getUsersEntity();
+
+
         for (UsersEntity userEntity:
              usersEntityList) {
-
 
             userProfile = new ProfileViewModel();
             // Getting data from users db
             UsersEntity user = UserService.getUserByUsername(userEntity.getUserName());
             // Getting its localization data
+            userProfile.setUsername(userEntity.getUserName());
             List<UserLocalizationsEntity> userLocalizationsEntities = UserService.getUserLocByUserId(user.getId());
 
             for (UserLocalizationsEntity ul :
                     userLocalizationsEntities) {
                 userProfile.addData1(String.format("%05d", user.getId()), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
             }
-            //Getting department name
+            /*//Getting department name
             userProfile.setDepartment(UserService.getDepartments().get(3).getName());
 
             //Getting Position from user_in_roles
@@ -228,7 +223,7 @@ public class HrController {
 
             // (MUST BE FINISHED!) Getting and setting vacation days
             userProfile.setVacationDaysLeft(0);
-            userProfile.setVacationDaysAll(12);
+            userProfile.setVacationDaysAll(12);*/
             returning.add(userProfile);
         }
         return returning;

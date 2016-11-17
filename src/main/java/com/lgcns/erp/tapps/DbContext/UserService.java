@@ -808,7 +808,7 @@ public class UserService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from UsersEntity ");
+            Query query = session.createQuery("from UsersEntity where id=1 or id=2");
             usersEntity = query.list();
             transaction.commit();
         }

@@ -42,6 +42,7 @@ public class ProfileViewModel {
     private int vacationDaysAll;
     private int vacationDaysLeft;
     private String isPolitical;
+    private String username;
     private PersonalInformationViewModel personalInfo;
     private List<FamilyMember> familyLoc;
 
@@ -192,5 +193,13 @@ public class ProfileViewModel {
 
     public void setPolitical(String political) {
         isPolitical = political;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

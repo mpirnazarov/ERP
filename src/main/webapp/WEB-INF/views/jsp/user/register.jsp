@@ -51,7 +51,7 @@
                                      name="registrationVM.registrationLocInfos[${i.index}].languageCode"
                                      value="${locInfo.languageCode}"/>
                         <div id="<c:out value="${locInfo.languageCode}"/>" class="tab-pane fade in active"
-                             style="border: 1px solid #fff;">
+                            style="border: 1px solid #fff;">
                             <br/>
                             <div class="form-horizontal">
                                 <div class="form-group">

@@ -123,8 +123,9 @@ public class HrController {
     @ResponseBody public ModelAndView testInfo(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/editmenu/testinfo");
-        ProfileViewModel profileViewModel = new ProfileViewModel();
-        mav.addObject("testVM", profileViewModel);
+        List<ProfileViewModel> users = getUsers();
+
+        mav.addObject("users", users);
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
         mav.addObject("userProfile", userProfile);
         return mav;
@@ -133,7 +134,7 @@ public class HrController {
     public static List<ProfileViewModel> getUsers() {
         List<ProfileViewModel> returning = new LinkedList<ProfileViewModel>();
         ProfileViewModel userProfile;
-        List<UsersEntity> usersEntityList = UserService.getUsersEntity();
+        List<UsersEntity> usersEntityList = UserService.getAllUsers();
 
 
         for (UsersEntity userEntity:

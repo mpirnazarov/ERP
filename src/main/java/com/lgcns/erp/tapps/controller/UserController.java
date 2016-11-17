@@ -270,7 +270,7 @@ public class UserController {
         return mav;
     }
 
-    @RequestMapping(value = "user_changepass", method = RequestMethod.POST)
+    @RequestMapping(value = "User/changepass", method = RequestMethod.POST)
     public String ChangePass2(Principal principal, @RequestParam("Oldpassword") String oldPass, @RequestParam("password") String pass, @RequestParam("Repeatpassword") String repPass){
         ModelAndView model = new ModelAndView();
         UsersEntity user = UserService.getUserByUsername(principal.getName());

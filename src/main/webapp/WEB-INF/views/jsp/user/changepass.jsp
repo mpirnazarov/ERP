@@ -51,27 +51,27 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Old password <font color='red'>*</font></label>
                             <div class="col-md-5">
-                                <form:password path="oldPassword" placeholder="Old Password"
+                                <form:password path="Oldpassword" placeholder="Old Password"
                                                cssClass="form-control text-box single-line"/>
-                                <form:errors path="OldPassword" cssClass="error field-validation-error"/>
+                                <form:errors path="Oldpassword" cssClass="error field-validation-error"/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-md-3">Password <font color='red'>*</font></label>
                             <div class="col-md-5">
-                                <form:password path="password" placeholder="Password"
+                                <form:password path="password" placeholder="password"
                                                cssClass="form-control text-box single-line"/>
-                                <form:errors path="Password" cssClass="error field-validation-error"/>
+                                <form:errors path="password" cssClass="error field-validation-error"/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-md-3">Repeat password <font color='red'>*</font></label>
                             <div class="col-md-5">
-                                <form:password path="repeatPassword" placeholder="Repeat Password"
+                                <form:password path="Repeatpassword" placeholder="Repeat Password"
                                                cssClass="form-control text-box single-line"/>
-                                <form:errors path="RepeatPassword" cssClass="error field-validation-error"/>
+                                <form:errors path="Repeatpassword" cssClass="error field-validation-error"/>
                             </div>
                         </div>
 

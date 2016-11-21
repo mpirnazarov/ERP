@@ -5,6 +5,7 @@
   Time: 12:39 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -28,7 +29,8 @@
                 <li><a data-toggle="tab" href="#personalinfo">Personal information</a></li>
                 <li><a data-toggle="tab" href="#familyinfo">Family information</a></li>
             </ul>
-            <div class="tab-content">
+            <form:form commandName="user" cssClass="form-horizontal" method="post" action="/Hr/user/${person.id}/update/geninfo">
+                <div class="tab-content">
                 <!--General info/Header information Tab-->
                 <div id="headerinfo" class="tab-pane fade in active">
                     <h3>Header information</h3>
@@ -46,22 +48,22 @@
                                     <label class="control-label col-md-3">Last name: </label>
                                     <div class="col-lg-5"><form:input placeholder="Last name"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path=""/></div>
+                                                                      path="lastName[2]" value="${person.lastName[2]}"/></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-3">First name: </label>
                                     <div class="col-lg-5"><form:input placeholder="First name"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path=""/></div>
+                                                                      path="firstName[2]" value="${person.firstName[2]}"/></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-3">Fathers name: </label>
                                     <div class="col-lg-5"><form:input placeholder="Fathers name"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path=""/></div>
+                                                                      path="fathersName[2]" value="${person.fathersName[2]}"/></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-3">Address: </label>
                                     <div class="col-lg-5"><form:input placeholder="Address"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path=""/></div>
+                                                                      path="address[2]" value="${person.address[2]}"/></div>
                                 </div>
                             </div>
                         </div>
@@ -72,22 +74,22 @@
                                     <label class="control-label col-md-3">Фамилия: </label>
                                     <div class="col-lg-5"><form:input placeholder="Фамилия"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path=""/></div>
+                                                                      path="lastName[0]" value="${person.lastName[0]}"/></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-3">Имя: </label>
                                     <div class="col-lg-5"><form:input placeholder="Имя"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path=""/></div>
+                                                                      path="firstName[0]" value="${person.firstName[0]}"/></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-3">Отчество: </label>
                                     <div class="col-lg-5"><form:input placeholder="Отчество"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path=""/></div>
+                                                                      path="fathersName[0]" value="${person.fathersName[0]}"/></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-3">Адрес: </label>
                                     <div class="col-lg-5"><form:input placeholder="Адрес"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path=""/></div>
+                                                                      path="address[0]" value="${person.address[0]}"/></div>
                                 </div>
                             </div>
                         </div>
@@ -98,22 +100,22 @@
                                     <label class="control-label col-md-3">Familiya: </label>
                                     <div class="col-lg-5"><form:input placeholder="Familiya"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path=""/></div>
+                                                                      path="lastName[1]" value="${person.lastName[1]}"/></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-3">Ism: </label>
                                     <div class="col-lg-5"><form:input placeholder="Ism"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path=""/></div>
+                                                                      path="firstName[1]" value="${person.firstName[0]}"/></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-3">Sharf: </label>
                                     <div class="col-lg-5"><form:input placeholder="Sharf"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path=""/></div>
+                                                                      path="fathersName[1]" value="${person.fathersName[1]}"/></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-3">Manzil: </label>
                                     <div class="col-lg-5"><form:input placeholder="Manzil"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path=""/></div>
+                                                                      path="address[1]" value="${person.address[1]}"/></div>
                                 </div>
                             </div>
                         </div>
@@ -124,49 +126,49 @@
                         <div class="form-group"><label class="control-label col-md-3">User ID: </label>
                             <div class="col-lg-5"><form:input placeholder="User ID"
                                                               cssClass="form-control text-box single-line"
-                                                              path=""/></div>
+                                                              path="id" value="${person.id}"/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Department: </label>
-                            <%--<div class="col-lg-5"><form:select path="departmentId" items="${departments}"
-                                                               cssClass="form-control text-box single-line"/></div>--%>
+                            <div class="col-lg-5"><form:select path="department" items="${departments}"
+                                                               cssClass="form-control text-box single-line"/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Position: </label>
-                            <div class="col-lg-5"><form:input placeholder="Position"
-                                                              cssClass="form-control text-box single-line"
-                                                              path=""/></div>
+                            <div class="col-lg-5"><form:select path="position" items="${positions}"
+                                                               cssClass="form-control text-box single-line"/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Joint type: </label>
-                            <div class="col-lg-5"><%--<c:out value="${userProfile.jointType}"></c:out>--%></div>
+                            <div class="col-lg-5"><form:select path="jointType" items="${jointType}"
+                                                               cssClass="form-control text-box single-line"/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Status: </label>
-                            <div class="col-lg-5"><%--<c:out value="${userProfile.status}"></c:out>--%></div>
+                            <div class="col-lg-5"><form:select path="status" items="${statuses}"
+                                                               cssClass="form-control text-box single-line"/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Job title: </label>
-                            <div class="col-lg-5"><form:input placeholder="Job title"
-                                                              cssClass="form-control text-box single-line"
-                                                              path=" "/></div>
+                            <div class="col-lg-5"><form:select path="jobTitle" items="${jobTitles}"
+                                                               cssClass="form-control text-box single-line"/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Passport Number: </label>
                             <div class="col-lg-5">
-                                <form:input path="passportNumber" placeholder="AA01234567"
+                                <form:input path="passportNumber" placeholder="AA01234567" value="${person.passportNumber}"
                                             cssClass="form-control single-line"/>
                                 <form:errors path="PassportNumber" cssClass="error field-validation-error"/>
                             </div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Entry date: </label>
                             <div class="col-lg-5">
-                                <form:input path="hiringDate" type="date"
+                                <form:input path="entryDate" type="date" value="${person.entryDate}"
                                             cssClass="form-control text-box single-line requiredDate"/>
-                                <form:errors path="HiringDate" cssClass="error field-validation-error"/>
+                                <form:errors path="entryDate" cssClass="error field-validation-error"/>
                             </div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Vacation days: </label>
-                            <div class="col-lg-5"><c:out value=""></c:out></div>
+                            <div class="col-lg-5"><c:out value="${person.vacationDaysLeft} / ${person.vacationDaysAll}"></c:out></div>
                         </div>
-
                     </div>
-
+                    <input type="submit" value="Submit"/>
                 </div>
+
                 <!--General info/Personal info Tab-->
                 <div id="personalinfo" class="tab-pane fade">
                     <h3>Personal information</h3>
@@ -181,22 +183,43 @@
                             <p>In english</p>
                             <div class="form-horizontal">
                                 <div class="form-group"><label class="control-label col-md-4">Birth place: </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.birthPlace.get(2).birthPlace}"></c:out>--%></div>
+                                    <div class="col-lg-5"><form:input cssClass="form-control text-box single-line"
+                                                                      path="personalInfo.birthPlace[2]" value="${person.personalInfo.birthPlace[2]}" /></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">Date of Birth: </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.dateOfBirth}"></c:out>--%></div>
+                                    <div class="col-lg-5">
+                                        <form:input path="personalInfo.dateOfBirth" type="date" value="${person.personalInfo.dateOfBirth}"
+                                                    cssClass="form-control text-box single-line requiredDate"/>
+                                        <%--<form:errors path="dateOfBirth" cssClass="error field-validation-error"/>--%>
+                                    </div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">Home phone: </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.homePhone}"></c:out>--%></div>
+                                    <div class="col-lg-5">
+                                        <form:input path="personalInfo.homePhone" placeholder="998971234546" value="${person.personalInfo.homePhone}"
+                                               cssClass="form-control single-line"/>
+                                        <%--<form:errors path="personalInfo.homePhone" cssClass="error field-validation-error"/>--%>
+                                    </div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">Mobile phone: </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.mobilePhone}"></c:out>--%></div>
+                                    <div class="col-lg-5">
+                                        <form:input path="personalInfo.mobilePhone" placeholder="998971234546" value="${person.personalInfo.mobilePhone}"
+                                                    cssClass="form-control single-line"/>
+                                        <%--<form:errors path="personalInfo.PassportNumber" cssClass="error field-validation-error"/>--%>
+                                    </div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">E-mail (company): </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.emailCompany}"></c:out>--%></div>
+                                    <div class="col-lg-5">
+                                        <form:input path="personalInfo.emailCompany" placeholder="test@lgcns.uz" value="${person.personalInfo.emailCompany}"
+                                                    cssClass="form-control single-line"/>
+                                        <%--<form:errors path="personalInfo.emailCompany" cssClass="error field-validation-error"/>--%>
+                                    </div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">E-mail (personal): </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.emailPersonal}"></c:out>--%></div>
+                                    <div class="col-lg-5">
+                                        <form:input path="personalInfo.emailPersonal" placeholder="test@lgcns.uz" value="${person.personalInfo.emailPersonal}"
+                                                    cssClass="form-control single-line"/>
+                                        <%--<form:errors path="personalInfo.emailPersonal" cssClass="error field-validation-error"/>--%>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -204,10 +227,9 @@
                             <p>На русском</p>
                             <div class="form-horizontal">
                                 <div class="form-group"><label class="control-label col-md-4">Место рождения: </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.birthPlace.get(0).birthPlace}"></c:out>--%></div>
-                                </div>
+                                    <div class="col-lg-5"><form:input cssClass="form-control text-box single-line"
+                                          path="personalInfo.birthPlace[0]" value="${person.personalInfo.birthPlace[0]}" /></div>
                                 <div class="form-group"><label class="control-label col-md-4">Дата рождения: </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.dateOfBirth}"></c:out>--%></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">Домашний телефон: </label>
                                     <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.homePhone}"></c:out>--%></div>
@@ -227,7 +249,9 @@
                             <p>O'zbekchada</p>
                             <div class="form-horizontal">
                                 <div class="form-group"><label class="control-label col-md-4">Tug'ilgan joyi: </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.birthPlace.get(1).birthPlace}"></c:out>--%></div>
+                                    <div class="col-lg-5"><form:input placeholder="Birth place:"
+                                                                      cssClass="form-control text-box single-line"
+                                                                      path="personalInfo.birthPlace[1]" value="${person.personalInfo.birthPlace[1]}" /></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">Tug'ilgan sanasi: </label>
                                     <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.dateOfBirth}"></c:out>--%></div>
@@ -339,10 +363,11 @@
                     </div>
                 </div>
             </div>
+            </form:form>
         </div>
         </div>
     </div>
-
+</div>
     <script>
         $(document).ready(function () {
             $("#firuref").trigger('click');

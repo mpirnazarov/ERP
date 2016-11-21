@@ -270,8 +270,8 @@ public class UserController {
         return mav;
     }
 
-    @RequestMapping(value = "User/changepass", method = RequestMethod.POST)
-    public String ChangePass2(Principal principal, @RequestParam("Oldpassword") String oldPass, @RequestParam("password") String pass, @RequestParam("Repeatpassword") String repPass){
+    @RequestMapping(value = "user_changepass", method = RequestMethod.POST)
+    public String ChangePass2(Principal principal, @RequestParam("oldPassword") String oldPass, @RequestParam("password") String pass, @RequestParam("repeatPassword") String repPass){
         ModelAndView model = new ModelAndView();
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -393,7 +393,7 @@ public class UserController {
 
         returning.setPersonalInfo(personalInfo);
 
-        List<BirthPlace> bPlace  = returning.getPersonalInfo().getBirthPlace();
+        String[] bPlace  = returning.getPersonalInfo().getBirthPlace();
 
         //Getting family information
         List<FamilyInfosEntity> familyInfosEntities = UserService.getFamilyInfos(user);

@@ -16,57 +16,54 @@
 %>--%>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
+<div class="container-fluid">
+    <div class="row">
+        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
+        <div class="col-sm-9 col-lg-10">
+            <div class="col-lg-8 col-lg-offset-2">
+                <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
 
-<body>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#headerinfo">Header information</a></li>
+                    <li><a data-toggle="tab" href="#personalinfo">Personal information</a></li>
+                    <li><a data-toggle="tab" href="#familyinfo">Family information</a></li>
+                </ul>
+                <form:form commandName="user" cssClass="form-horizontal" method="post" action="/Hr/edit/test">
+                        <div class="tab-content">
+                    <!--General info/Header information Tab-->
+                    <div id="headerinfo" class="tab-pane fade in active">
+                        <h3>Header information</h3>
 
-<div class="container">
+                        <hr/>
+                        <!--Other information-->
+                        <div class="form-horizontal">
+                            <div class="form-group"><label class="control-label col-md-3">User ID: </label>
+                                <div class="col-lg-5"><form:input placeholder="User ID"
+                                                                  cssClass="form-control text-box single-line"
+                                                                  path="id"/></div>
+                            </div>
+                            <div class="form-group"><label class="control-label col-md-3">First name: </label>
+                                <div class="col-lg-5"><form:input placeholder="First name"
+                                                                  cssClass="form-control text-box single-line"
+                                                                  path="firstName" value="${person.firstName}"/></div>
+                            </div>
+                            <input type="submit" value="Submit"/>
+                        </div>
 
-    <c:if test="${not empty msg}">
-        <div class="alert alert-${css} alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <strong>${msg}</strong>
+                    </div>
+
+                </div>
+                </form:form>
+            </div>
         </div>
-    </c:if>
+    </div>
 
-    <h1>All Users</h1>
-
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>#ID</th>
-            <th>Name</th>
-            <th>LastName</th>
-            <th>Email</th>
-            <th>Username</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-
-        <c:forEach var="user" items="${users}">
-            <tr>
-                <td>
-                        ${user.id}
-                </td>
-                <td>${user.firstName[2]}</td>
-                <td>${user.lastName[2]}</td>
-                <td>${user.personalInfo.emailCompany}</td>
-                <td>${user.username}</td>
-                <td>
-                    <spring:url value="/users/${user.id}" var="userUrl" />
-                    <spring:url value="/users/${user.id}/delete" var="deleteUrl" />
-                    <spring:url value="/users/${user.id}/update" var="updateUrl" />
-
-                    <button class="btn btn-info" onclick="location.href='${userUrl}'">Query</button>
-                    <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
-                    <button class="btn btn-danger" onclick="this.disabled=true;post('${deleteUrl}')">Delete</button></td>
-            </tr>
-        </c:forEach>
-    </table>
-
-</div>
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>
-
-</body>
+    <script>
+        $(document).ready(function () {
+            $("#firuref").trigger('click');
+            document.getElementById("firuref").click();
+            $("#fienref").trigger('click');
+            document.getElementById("fienref").click();
+        });
+    </script>
+    <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

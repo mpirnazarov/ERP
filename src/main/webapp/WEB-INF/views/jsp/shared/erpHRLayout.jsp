@@ -31,7 +31,7 @@
             </ul>
             </li>
             <li>
-                <a href="/Hr/Profile/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>
+                <a href="/Hr/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-fw fa-folder"></i> Projects</a>
@@ -44,7 +44,7 @@
             </li>
             <hr/>
             <li>
-                <a href="#"><i class="fa fa-fw fa-gears"></i> Change password</a>
+                <a href="/Hr/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
             </li>
             <li>
                 <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>

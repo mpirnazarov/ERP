@@ -21,22 +21,31 @@
             <div class="col-lg-8 col-lg-offset-2">
                 <h1 class="page-header">HR profile</h1>
             <div class="table-responsive">
-        <table id="myTable" class="display table">
+        <table id="myTable" class="display table" cellspacing="0" width="100%">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Firstname</th>
                 <th>Lastname</th>
-                <th>Email</th>
                 <th>Username</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${hrUserslistVM}" var="user">
                 <tr>
+                    <td><c:out value="${user.id}"/></td>
                     <td><c:out value="${user.firstName[2]}"/></td>
                     <td><c:out value="${user.lastName[2]}"/></td>
-                    <td><c:out value="${user.personalInfo.emailCompany}"/></td>
                     <td><c:out value="${user.username}"/></td>
+                    <td>
+                        <spring:url value="/Hr/user/${user.id}" var="userUrl" />
+                        <spring:url value="/Hr/user/${user.id}/delete" var="disableUrl" />
+                        <spring:url value="/Hr/user/${user.id}/update/geninfo" var="updateUrl" />
+
+                        <button class="btn btn-info" onclick="location.href='${userUrl}'">Query</button>
+                        <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
+                        <button class="btn btn-danger" onclick="this.disabled=true;post('${disableUrl}')">Disable</button></td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -48,9 +57,12 @@
 <script>
     $(document).ready(function(){
         $('#myTable').DataTable({
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             dom: 'Bfrtip',
+            select: true,
             buttons: [
-                'copy', 'excel', 'pdf', 'print'
+                'copy', 'excel', 'pdf', 'print',
+
             ]
         });
     });

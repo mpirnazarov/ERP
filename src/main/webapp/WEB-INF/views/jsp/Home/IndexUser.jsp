@@ -137,7 +137,7 @@
                             <p>In english</p>
                             <div class="form-horizontal">
                                 <div class="form-group"><label class="control-label col-md-4">Birth place: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.birthPlace.get(2).birthPlace}"></c:out></div>
+                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.birthPlace[2]}"></c:out></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">Date of Birth: </label>
                                     <div class="col-lg-5"><c:out value="${userProfile.personalInfo.dateOfBirth}"></c:out></div>
@@ -161,7 +161,7 @@
                             <p>На русском</p>
                             <div class="form-horizontal">
                                 <div class="form-group"><label class="control-label col-md-4">Место рождения: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.birthPlace.get(0).birthPlace}"></c:out></div>
+                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.birthPlace[0]}"></c:out></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">Дата рождения: </label>
                                     <div class="col-lg-5"><c:out value="${userProfile.personalInfo.dateOfBirth}"></c:out></div>
@@ -186,7 +186,7 @@
                             <p>O'zbekchada</p>
                             <div class="form-horizontal">
                                 <div class="form-group"><label class="control-label col-md-4">Tug'ilgan joyi: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.birthPlace.get(1).birthPlace}"></c:out></div>
+                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.birthPlace[1]}"></c:out></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-4">Tug'ilgan sanasi: </label>
                                     <div class="col-lg-5"><c:out value="${userProfile.personalInfo.dateOfBirth}"></c:out></div>

@@ -49,7 +49,7 @@
                                         <div class="col-md-2"><c:out value="${userProfile.firstName[2]}"></c:out></div>
                                     </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-3">Fathers name: </label>
+                                    <label class="control-label col-md-3">Father's name: </label>
                                     <div class="col-md-2"><c:out value="${userProfile.fathersName[2]}"></c:out></div>
                                     <label class="control-label col-md-3">Address: </label>
                                     <div class="col-md-4"><c:out value="${userProfile.address[2]}"></c:out></div>
@@ -102,9 +102,9 @@
                             <label class="control-label col-md-3">Job title: </label>
                             <div class="col-sm-2"><c:out value="${userProfile.jobTitle}"></c:out></div>
                         </div>
-                        <div class="form-group"><label class="control-label col-md-3">Joint type: </label>
+                        <div class="form-group"><label class="control-label col-md-3">Work type: </label>
                             <div class="col-sm-2"><c:out value="${userProfile.jointType}"></c:out></div>
-                            <label class="control-label col-md-3">Entry date: </label>
+                            <label class="control-label col-md-3">Hiring date: </label>
                             <div class="col-sm-2"><c:out value="${userProfile.entryDate}"></c:out></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Is political: </label>
@@ -112,7 +112,7 @@
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Status: </label>
                             <div class="col-sm-2"><c:out value="${userProfile.status}"></c:out></div>
-                            <label class="control-label col-md-3">Position: </label>
+                            <label class="control-label col-md-3">Role: </label>
                             <div class="col-sm-2"><c:out value="${userProfile.position}"></c:out></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Vacation days: </label>
@@ -142,17 +142,16 @@
                                 <div class="form-group"><label class="control-label col-md-4">Date of Birth: </label>
                                     <div class="col-lg-5"><c:out value="${userProfile.personalInfo.dateOfBirth}"></c:out></div>
                                 </div>
-                                <div class="form-group"><label class="control-label col-md-4">Home phone: </label>
-                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.homePhone}"></c:out></div>
-                                </div>
                                 <div class="form-group"><label class="control-label col-md-4">Mobile phone: </label>
                                     <div class="col-lg-5"><c:out value="${userProfile.personalInfo.mobilePhone}"></c:out></div>
                                 </div>
-                                <div class="form-group"><label class="control-label col-md-4">E-mail (company): </label>
+                                <div class="form-group"><label class="control-label col-md-4">Home phone: </label>
+                                    <div class="col-lg-5"><c:out value="${userProfile.personalInfo.homePhone}"></c:out></div>
+                                </div>
+                                <div class="form-group"><label class="control-label col-md-4">E-mail (corporative): </label>
                                     <div class="col-lg-5"><c:out value="${userProfile.personalInfo.emailCompany}"></c:out></div>
                                 </div>
-                                <div class="form-group"><label class="control-label col-md-4">E-mail
-                                    (personal): </label>
+                                <div class="form-group"><label class="control-label col-md-4">E-mail (personal): </label>
                                     <div class="col-lg-5"><c:out value="${userProfile.personalInfo.emailPersonal}"></c:out></div>
                                 </div>
                             </div>

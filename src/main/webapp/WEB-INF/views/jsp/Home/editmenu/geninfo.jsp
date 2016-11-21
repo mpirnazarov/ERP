@@ -166,7 +166,11 @@
                             <div class="col-lg-5"><c:out value="${person.vacationDaysLeft} / ${person.vacationDaysAll}"></c:out></div>
                         </div>
                     </div>
-                    <input type="submit" value="Submit"/>
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9">
+                            <input type="submit" value="Save" class="btn btn-default"/>
+                        </div>
+                    </div>
                 </div>
 
                 <!--General info/Personal info Tab-->
@@ -186,41 +190,6 @@
                                     <div class="col-lg-5"><form:input cssClass="form-control text-box single-line"
                                                                       path="personalInfo.birthPlace[2]" value="${person.personalInfo.birthPlace[2]}" /></div>
                                 </div>
-                                <div class="form-group"><label class="control-label col-md-4">Date of Birth: </label>
-                                    <div class="col-lg-5">
-                                        <form:input path="personalInfo.dateOfBirth" type="date" value="${person.personalInfo.dateOfBirth}"
-                                                    cssClass="form-control text-box single-line requiredDate"/>
-                                        <%--<form:errors path="dateOfBirth" cssClass="error field-validation-error"/>--%>
-                                    </div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-4">Home phone: </label>
-                                    <div class="col-lg-5">
-                                        <form:input path="personalInfo.homePhone" placeholder="998971234546" value="${person.personalInfo.homePhone}"
-                                               cssClass="form-control single-line"/>
-                                        <%--<form:errors path="personalInfo.homePhone" cssClass="error field-validation-error"/>--%>
-                                    </div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-4">Mobile phone: </label>
-                                    <div class="col-lg-5">
-                                        <form:input path="personalInfo.mobilePhone" placeholder="998971234546" value="${person.personalInfo.mobilePhone}"
-                                                    cssClass="form-control single-line"/>
-                                        <%--<form:errors path="personalInfo.PassportNumber" cssClass="error field-validation-error"/>--%>
-                                    </div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-4">E-mail (company): </label>
-                                    <div class="col-lg-5">
-                                        <form:input path="personalInfo.emailCompany" placeholder="test@lgcns.uz" value="${person.personalInfo.emailCompany}"
-                                                    cssClass="form-control single-line"/>
-                                        <%--<form:errors path="personalInfo.emailCompany" cssClass="error field-validation-error"/>--%>
-                                    </div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-4">E-mail (personal): </label>
-                                    <div class="col-lg-5">
-                                        <form:input path="personalInfo.emailPersonal" placeholder="test@lgcns.uz" value="${person.personalInfo.emailPersonal}"
-                                                    cssClass="form-control single-line"/>
-                                        <%--<form:errors path="personalInfo.emailPersonal" cssClass="error field-validation-error"/>--%>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div id="piru" class="tab-pane fade">
@@ -229,22 +198,9 @@
                                 <div class="form-group"><label class="control-label col-md-4">Место рождения: </label>
                                     <div class="col-lg-5"><form:input cssClass="form-control text-box single-line"
                                           path="personalInfo.birthPlace[0]" value="${person.personalInfo.birthPlace[0]}" /></div>
-                                <div class="form-group"><label class="control-label col-md-4">Дата рождения: </label>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-4">Домашний телефон: </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.homePhone}"></c:out>--%></div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-4">Мобильный телефон: </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.mobilePhone}"></c:out>--%></div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-4">E-mail (рабочий): </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.emailCompany}"></c:out>--%></div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-4">E-mail (персональный): </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.emailPersonal}"></c:out>--%></div>
-                                </div>
                             </div>
                         </div>
+                            </div>
                         <div id="piuz" class="tab-pane fade">
                             <p>O'zbekchada</p>
                             <div class="form-horizontal">
@@ -253,24 +209,53 @@
                                                                       cssClass="form-control text-box single-line"
                                                                       path="personalInfo.birthPlace[1]" value="${person.personalInfo.birthPlace[1]}" /></div>
                                 </div>
-                                <div class="form-group"><label class="control-label col-md-4">Tug'ilgan sanasi: </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.dateOfBirth}"></c:out>--%></div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-4">Uy telefon raqami: </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.homePhone}"></c:out>--%></div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-4">Uyali aloqa raqami: </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.mobilePhone}"></c:out>--%></div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-4">E-mail (ish): </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.emailCompany}"></c:out>--%></div>
-                                </div>
-                                <div class="form-group"><label class="control-label col-md-4">E-mail (shaxsiy): </label>
-                                    <div class="col-lg-5"><%--<c:out value="${userProfile.personalInfo.emailPersonal}"></c:out>--%></div>
-                                </div>
                             </div>
                         </div>
                     </div>
+                    <hr/>
+                    <div class="form-horizontal">
+                        <div class="form-group"><label class="control-label col-md-4">Date of Birth: </label>
+                            <div class="col-lg-5">
+                                <form:input path="personalInfo.dateOfBirth" type="date" value="${person.personalInfo.dateOfBirth}"
+                                            cssClass="form-control text-box single-line requiredDate"/>
+                                    <%--<form:errors path="dateOfBirth" cssClass="error field-validation-error"/>--%>
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="control-label col-md-4">Home phone: </label>
+                            <div class="col-lg-5">
+                                <form:input path="personalInfo.homePhone" placeholder="998971234546" value="${person.personalInfo.homePhone}"
+                                            cssClass="form-control single-line"/>
+                                    <%--<form:errors path="personalInfo.homePhone" cssClass="error field-validation-error"/>--%>
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="control-label col-md-4">Mobile phone: </label>
+                            <div class="col-lg-5">
+                                <form:input path="personalInfo.mobilePhone" placeholder="998971234546" value="${person.personalInfo.mobilePhone}"
+                                            cssClass="form-control single-line"/>
+                                    <%--<form:errors path="personalInfo.PassportNumber" cssClass="error field-validation-error"/>--%>
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="control-label col-md-4">E-mail (company): </label>
+                            <div class="col-lg-5">
+                                <form:input path="personalInfo.emailCompany" placeholder="test@lgcns.uz" value="${person.personalInfo.emailCompany}"
+                                            cssClass="form-control single-line"/>
+                                    <%--<form:errors path="personalInfo.emailCompany" cssClass="error field-validation-error"/>--%>
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="control-label col-md-4">E-mail (personal): </label>
+                            <div class="col-lg-5">
+                                <form:input path="personalInfo.emailPersonal" placeholder="test@lgcns.uz" value="${person.personalInfo.emailPersonal}"
+                                            cssClass="form-control single-line"/>
+                                    <%--<form:errors path="personalInfo.emailPersonal" cssClass="error field-validation-error"/>--%>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-9">
+                                <input type="submit" value="Save" class="btn btn-default"/>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <!--General info/Family info Tab-->
                 <div id="familyinfo" class="tab-pane fade">

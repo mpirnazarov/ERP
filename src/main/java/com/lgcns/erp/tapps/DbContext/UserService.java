@@ -141,8 +141,7 @@ public class UserService {
         return user;
     }
 
-    public static List<UserLocalizationsEntity> getUserLocByUserId(int userId)
-    {
+    public static List<UserLocalizationsEntity> getUserLocByUserId(int userId){
         List list = null;
         UserLocalizationsEntity userLoc=null;
         List<UserLocalizationsEntity> userLocalizationsEntities=null;

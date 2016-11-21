@@ -42,7 +42,7 @@
                 <tr>
                     <th>Document name</th>
                     <th>Document type</th>
-                    <th>Download</th>
+                    <th><i class="fa fa-fw fa-download"></i></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -50,7 +50,7 @@
                     <tr>
                         <td>${doc.name}</td>
                         <td>${doc.type}</td>
-                        <td><a href="Docs/download?id=<c:out value="${doc.docId}"/>">download</a></td>
+                        <td><a href="Docs/download?id=<c:out value="${doc.docId}"/>"><i class="fa fa-fw fa-download"></i></a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

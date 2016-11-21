@@ -10,7 +10,6 @@ import com.lgcns.erp.tapps.viewModel.PersonalInformationViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.*;
 import com.lgcns.erp.tapps.viewModel.usermenu.personalInfo.BirthPlace;
-import com.mkyong.ClassTest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -190,23 +189,7 @@ public class HrController {
 
     }
 
-    @RequestMapping (value = "/Hr/edit/test", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView testInfo(Principal principal, Model model, @ModelAttribute("user") ClassTest person){
-        ModelAndView mav = new ModelAndView();
-        person.setFirstName("Muslimbek Pirnazarov123");
-        model.addAttribute("person", person);
 
-
-        mav.setViewName("Home/editmenu/testinfo");
-        return mav;
-    }
-
-
-    @RequestMapping (value = "/Hr/edit/test", method = RequestMethod.POST)
-    @ResponseBody public void testInfo2(Principal principal, @ModelAttribute ClassTest test){
-        System.out.println( test.getId() + "  " + test.getFirstName());
-
-    }
 
     @RequestMapping(value = "Hr/changepass", method = RequestMethod.GET)
     public ModelAndView ChangePass(Principal principal){

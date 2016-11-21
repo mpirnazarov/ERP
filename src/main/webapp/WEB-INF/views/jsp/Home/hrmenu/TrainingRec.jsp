@@ -56,8 +56,8 @@
                                 <th>Name</th>
                                 <th>Certificate</th>
                                 <th>Organization</th>
-                                <th>From</th>
-                                <th>To</th>
+                                <th>Entry date</th>
+                                <th>Finish date</th>
                                 <th>Number of hours</th>
                                 <th>Mark</th>
                             </tr>

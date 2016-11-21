@@ -72,8 +72,8 @@
                             <th>Name of school</th>
                             <th>Major</th>
                             <th>Degree</th>
-                            <th>First year</th>
-                            <th>Last year</th>
+                            <th>Entry date</th>
+                            <th>Graduate date</th>
                         </tr>
                         </thead>
                         <tbody>

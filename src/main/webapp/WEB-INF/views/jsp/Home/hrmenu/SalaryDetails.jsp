@@ -51,11 +51,11 @@
                         <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Amount(before taxes)</th>
+                            <th>Gross salary</th>
                             <th>PIT</th>
                             <th>INPS</th>
                             <th>PF</th>
-                            <th>Amount(after taxes)</th>
+                            <th>Net salary</th>
                         </tr>
                         </thead>
                         <tbody>

@@ -1,6 +1,6 @@
 <%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
   Created by IntelliJ IDEA.
-  User: Dell
+  User: Jasur Shaykhov
   Date: 25-Oct-16
   Time: 3:29 PM
   To change this template use File | Settings | File Templates.

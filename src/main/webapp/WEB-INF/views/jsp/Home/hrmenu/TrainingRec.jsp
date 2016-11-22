@@ -37,7 +37,7 @@
 </script>
 <c:set var="pageTitle" scope="request" value="Trainings"/>
 
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRHeader.jsp"></jsp:include>
+<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>

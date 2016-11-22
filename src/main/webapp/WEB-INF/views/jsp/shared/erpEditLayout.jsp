@@ -18,8 +18,8 @@
             </div>
             <ul class="nav navbar-nav">
             <img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>
-            <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-home"></i> Home <span class="caret"></span></a>
+            <li>
+                <a href="/Hr/Profile"><i class="fa fa-fw fa-home"></i> Home</a>
             </li>
             <li>
                 <a href="/Hr/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>

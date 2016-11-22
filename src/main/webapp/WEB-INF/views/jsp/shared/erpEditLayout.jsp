@@ -20,15 +20,6 @@
             <img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>
             <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-home"></i> Home <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-            <li class="dropdown-header">Information about HR</li>
-            <li><a href="/Hr/Profile">General information</a></li>
-            <li><a href="/Hr/Profile/Appointment">Appointment record</a></li>
-            <li><a href="/Hr/Profile/Salary">Salary details</a></li>
-            <li><a href="/Hr/Profile/Edu">Education certificate</a></li>
-            <li><a href="/Hr/Profile/Jobexp">Job experience</a></li>
-            <li><a href="/Hr/Profile/Train">Training record</a></li>
-            </ul>
             </li>
             <li>
                 <a href="/Hr/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>

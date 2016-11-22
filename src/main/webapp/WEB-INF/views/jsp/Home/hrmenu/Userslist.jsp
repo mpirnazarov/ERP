@@ -21,6 +21,11 @@
             <div class="col-lg-8 col-lg-offset-2">
                 <h1 class="page-header">HR profile</h1>
             <div class="table-responsive">
+
+                    <div class="col-lg-offset-10 col-xs-1">
+                        <input type="submit" value="New User" class="btn btn-success"/>
+                    </div>
+        <br/>
         <table id="myTable" class="display table" cellspacing="0" width="100%">
             <thead>
             <tr>
@@ -51,6 +56,7 @@
             </tbody>
         </table>
     </div>
+
         </div>
     </div>
 </div>

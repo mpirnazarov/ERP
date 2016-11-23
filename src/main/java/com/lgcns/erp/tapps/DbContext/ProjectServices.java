@@ -83,7 +83,7 @@ public class ProjectServices {
         return project.getId();
     }
 
-    public static void insertProjectMember(int projectId, int userId, ProjectRole role){
+    public static void insertProjectMember(int projectId, int userId, ProjectRole role, Date dateFrom, Date dateTo){
         UserInProjectsEntity uipInfo = new UserInProjectsEntity();
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -92,6 +92,8 @@ public class ProjectServices {
             uipInfo.setProjectsByProjectId(session.load(ProjectsEntity.class, projectId));
             uipInfo.setUsersByUserId(session.load(UsersEntity.class, userId));
             uipInfo.setRoleId(role.getValue());
+            uipInfo.setDateFrom(dateFrom);
+            uipInfo.setDateTo(dateTo);
             session.save(uipInfo);
             transaction.commit();
         }

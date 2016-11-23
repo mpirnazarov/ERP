@@ -19,6 +19,7 @@ public class ProjectMapper {
         project.setMoneyUsd(model.getMoneyUsd());
         project.setMoneyUzs(model.getMoneyUzs());
         project.setName(model.getName());
+        project.setCustomerId(model.getCustomerId());
         return project;
     }
 }

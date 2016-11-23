@@ -17,8 +17,8 @@
 <div class="container-fluid">
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-lg-10">
-        <div class="col-lg-8 col-lg-offset-2">
+        <div class="col-md-9 col-md-10">
+        <div class="col-md-8 col-md-offset-2">
             <h1 class="page-header">General Information</h1>
 
             <ul class="nav nav-tabs">

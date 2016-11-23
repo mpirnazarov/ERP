@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataSource name="PostgreSQL - LgErpSystem@192.168.1.77">
+<dataSource name="PostgreSQL - LgErpSystem@192.168.1.77 [2]">
   <database-model serializer="dbm" rdbms="POSTGRES" format-version="2.6">
     <database id="1" name="LgErpSystem">
       <object-id>16793</object-id>

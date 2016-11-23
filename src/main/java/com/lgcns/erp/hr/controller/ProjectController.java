@@ -28,8 +28,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/Projects")
-public class ProjectController
-{
+public class ProjectController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView Project(Principal principal) {
@@ -43,14 +42,14 @@ public class ProjectController
 
     @RequestMapping(value = "/Create", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView Create (){
+    public ModelAndView Create() {
         ModelAndView mav = new ModelAndView("projects/create");
 
         ProjectCreateForm createVM = new ProjectCreateForm();
         List<ProjectCreate> viewModelList = new ArrayList<ProjectCreate>(4);
         ProjectCreate viewModel;
         String nextProjectCode = ProjectServices.getNextCode();
-        for(int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             viewModel = new ProjectCreate();
             viewModel.setCode(nextProjectCode);
             viewModel.setType(getCodeOrder(i));
@@ -66,11 +65,10 @@ public class ProjectController
     }
 
 
-
     @RequestMapping(value = "/Create", method = RequestMethod.POST)
     @ResponseBody
     public ModelAndView CreatePost(@Valid @ModelAttribute("createVM") ProjectCreateForm viewModel, BindingResult bindingResult, Principal principal,
-                                     RedirectAttributes redirectAttributes){
+                                   RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView("projects/create");
         mav.addObject("createVM", viewModel);
         if (bindingResult.hasErrors()) {
@@ -83,10 +81,11 @@ public class ProjectController
         //adding project and projectLocalization info into DB
         for (ProjectCreate projectModel : viewModel.getProjects()) {
             int projectId = ProjectServices.insertProject(ProjectMapper.mapViewModelToEntity(projectModel));
-            ProjectServices.insertProjectMember(projectId, UserService.getUserByUsername(principal.getName()).getId(), ProjectRole.Manager);
+            ProjectServices.insertProjectMember(projectId, UserService.getUserByUsername(principal.getName()).getId(), ProjectRole.Manager, projectModel.getStartDate(), projectModel.getEndDate());
         }
-        return new ModelAndView("projects/index");
+        return new ModelAndView("redirect:/Projects");
     }
+
     private Map<Integer, String> getContactsIdAndName() {
         Map<Integer, String> contacts = new LinkedHashMap<Integer, String>();        //Getting contacts and to add to model and view
         for (ContactsEntity contact : ContactServices.getAllContacts()) {
@@ -94,20 +93,27 @@ public class ProjectController
         }
         return contacts;
     }
+
     private Map<Integer, String> getUsersIdAndName() {
         Map<Integer, String> users = new LinkedHashMap<Integer, String>();
-        for(UserLocalizationsEntity loc : UserService.getAllUserLocs()){
-            users.put(loc.getId(), loc.getFirstName() +" "+loc.getLastName());
+        for (UserLocalizationsEntity loc : UserService.getAllUserLocs()) {
+            users.put(loc.getId(), loc.getFirstName() + " " + loc.getLastName());
         }
         return users;
     }
+
     private String getCodeOrder(int i) {
-    switch (i){
-        case 0: return "R";
-        case 1: return "H";
-        case 2: return "M";
-        case 3: return "B";
-        default: return "-";
+        switch (i) {
+            case 0:
+                return "R";
+            case 1:
+                return "H";
+            case 2:
+                return "M";
+            case 3:
+                return "B";
+            default:
+                return "-";
+        }
     }
-}
 }

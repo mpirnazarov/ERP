@@ -1,7 +1,7 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by Rafatdin on 06.10.2016.
@@ -13,11 +13,10 @@ public class UserInProjectsEntity {
     private int userId;
     private int projectId;
     private int roleId;
-    private Timestamp dateFrom;
-    private Timestamp dateTo;
+    private Date dateFrom;
+    private Date dateTo;
     private UsersEntity usersByUserId;
     private ProjectsEntity projectsByProjectId;
-    private RolesEntity rolesByProjectId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -62,21 +61,21 @@ public class UserInProjectsEntity {
 
     @Basic
     @Column(name = "date_from", nullable = false)
-    public Timestamp getDateFrom() {
+    public Date getDateFrom() {
         return dateFrom;
     }
 
-    public void setDateFrom(Timestamp dateFrom) {
+    public void setDateFrom(Date dateFrom) {
         this.dateFrom = dateFrom;
     }
 
     @Basic
     @Column(name = "date_to", nullable = false)
-    public Timestamp getDateTo() {
+    public Date getDateTo() {
         return dateTo;
     }
 
-    public void setDateTo(Timestamp dateTo) {
+    public void setDateTo(Date dateTo) {
         this.dateTo = dateTo;
     }
 

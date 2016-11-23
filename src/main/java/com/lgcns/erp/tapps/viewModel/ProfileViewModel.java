@@ -1,7 +1,9 @@
 package com.lgcns.erp.tapps.viewModel;
 
 import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -38,10 +40,13 @@ public class ProfileViewModel {
     private String jobTitle;
     private String passportNumber;
     private int languageId;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date entryDate;
     private int vacationDaysAll;
     private int vacationDaysLeft;
     private String isPolitical;
+    private String username;
     private PersonalInformationViewModel personalInfo;
     private List<FamilyMember> familyLoc;
 
@@ -192,5 +197,38 @@ public class ProfileViewModel {
 
     public void setPolitical(String political) {
         isPolitical = political;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return "ProfileViewModel{" +
+                "id='" + id + '\'' +
+                ", lastName=" + Arrays.toString(lastName) +
+                ", firstName=" + Arrays.toString(firstName) +
+                ", fathersName=" + Arrays.toString(fathersName) +
+                ", address=" + Arrays.toString(address) +
+                ", department='" + department + '\'' +
+                ", position='" + position + '\'' +
+                ", jointType='" + jointType + '\'' +
+                ", status='" + status + '\'' +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", passportNumber='" + passportNumber + '\'' +
+                ", languageId=" + languageId +
+                ", entryDate=" + entryDate +
+                ", vacationDaysAll=" + vacationDaysAll +
+                ", vacationDaysLeft=" + vacationDaysLeft +
+                ", isPolitical='" + isPolitical + '\'' +
+                ", username='" + username + '\'' +
+                ", personalInfo=" + personalInfo +
+                ", familyLoc=" + familyLoc +
+                '}';
     }
 }

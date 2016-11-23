@@ -32,7 +32,9 @@
     <spring:url value="/resources/core/css/bootstrap.css" var="bootstrapCss"/>
     <spring:url value="/resources/core/js/jquery-1.12.4.min.js" var="jquery"/>
     <spring:url value="/resources/core/js/jquery.validate.js" var="jqueryValidation"/>
+    <spring:url value="/resources/core/css/navbar-fixed-side.css" var="navbar" />
     <link rel="icon" href="/resources/images/lg-2-multi-size.ico" type="image/x-icon">
+    <link rel="stylesheet" href="${navbar}" />
     <link rel="stylesheet" href="${normalizeCss}"/>
     <link rel='stylesheet prefetch' href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="${styleCss}"/>
@@ -40,10 +42,10 @@
     <script src="${jquery}"></script>
     <script src="${jqueryValidation}"></script>
 </head>
-
 <body>
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
-<div class="container">
+<div class="container-fluid">
+    <div class="row">
+        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
     <h2>Calendar</h2>
 
     <span class="hidden" id="mondayHidden"><fmt:formatDate value="${model.monday}" pattern="yyyy-MM-dd"/></span>
@@ -271,7 +273,7 @@
     </div>
 </div>
 
-
+</div>
 <script>
 
     $(document).ready(function () {

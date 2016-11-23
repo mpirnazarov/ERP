@@ -73,13 +73,13 @@ public class UserService {
         return sb.toString();
     }
 
-    static List<UsersEntity> getAllUsers(){
+    public static List<UsersEntity> getAllUsers(){
         List<UsersEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from UsersEntity ");
+            Query query = session.createQuery("from UsersEntity");
             list = (List<UsersEntity>)query.list();
             transaction.commit();
         }
@@ -141,8 +141,7 @@ public class UserService {
         return user;
     }
 
-    public static List<UserLocalizationsEntity> getUserLocByUserId(int userId)
-    {
+    public static List<UserLocalizationsEntity> getUserLocByUserId(int userId){
         List list = null;
         UserLocalizationsEntity userLoc=null;
         List<UserLocalizationsEntity> userLocalizationsEntities=null;
@@ -815,4 +814,51 @@ public class UserService {
 
         return documentsEntity;
     }
+
+    public static UsersEntity getUserById(int id) {
+
+        UsersEntity usersEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UsersEntity where id = :userId");
+            query.setParameter("userId", id);
+            usersEntity = (UsersEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return usersEntity;
+    }
+
+    public static List<PostLocalizationsEntity> getPostLocalizations(int language) {
+        List<PostLocalizationsEntity> postLocalizations = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from PostLocalizationsEntity where languageId=:language");
+            query.setParameter("language", language);
+            postLocalizations = query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return postLocalizations;
+    }
+
+
 }

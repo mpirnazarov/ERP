@@ -269,8 +269,8 @@ th {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../fonts/glyphicons-halflings-regular.eot');
-  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('/resources/core/fonts/glyphicons-halflings-regular.eot');
+  src: url('/resources/core/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('/resources/core/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('/resources/core/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/resources/core/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('/resources/core/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
   position: relative;
@@ -1418,6 +1418,11 @@ a.bg-danger:focus {
   margin: 42px 0 21px;
   border-bottom: 1px solid #e6e6e6;
 }
+.page-head {
+  padding-bottom: 9.5px;
+  margin: 42px 0 21px;
+}
+
 ul,
 ol {
   margin-top: 0;

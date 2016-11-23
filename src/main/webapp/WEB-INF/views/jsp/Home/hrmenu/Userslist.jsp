@@ -1,50 +1,75 @@
-<%--
+<%@ page import="com.lgcns.erp.hr.enums.ProjectStatus" %>
+<%@ page import="com.lgcns.erp.tapps.model.DbEntities.UserInProjectsEntity" %><%--
   Created by IntelliJ IDEA.
-  User: Dell
-  Date: 25-Oct-16
-  Time: 3:29 PM
+  User: Muslimbek
+  Date: 08.11.2016
+  Time: 17:42
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="pageTitle" scope="request" value="List of Users"/>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="kendo" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="pageTitle" scope="request" value="Users List"/>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
-        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
+<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-lg-10">
-        <div class="col-lg-8 col-lg-offset-2">
-            <h1 class="page-header">Full list of users</h1>
-<!--Users list table-->
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Position</th>
-        <th>Edit | Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    <%--<c:forEach items="${appointmentList}" var="appointment" varStatus="status">--%>
-    <tr>
-        <td>Row 1 Data 1</td>
-        <td>Row 1 Data 2</td>
-        <td>Row 1 Data 2</td>
-        <td>Row 1 Data 2</td>
-    </tr>
-    <tr>
-        <td>Row 2 Data 1</td>
-        <td>Row 2 Data 2</td>
-        <td>Row 1 Data 2</td>
-        <td>Row 1 Data 2</td>
-    </tr>
-    <%--</c:forEach>--%>
-    </tbody>
-</table>
-            </div>
+            <div class="col-lg-8 col-lg-offset-2">
+                <h1 class="page-header">HR profile</h1>
+            <div class="table-responsive">
+                    <div class="col-lg-offset-10 col-xs-1">
+                        <a href="/Hr/Register" class="btn btn-success" role="button">New User</a>
+                    </div>
+        <br/>
+        <table id="myTable" class="display table" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Username</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${hrUserslistVM}" var="user">
+                <tr>
+                    <td><c:out value="${user.id}"/></td>
+                    <td><c:out value="${user.firstName[2]}"/></td>
+                    <td><c:out value="${user.lastName[2]}"/></td>
+                    <td><c:out value="${user.username}"/></td>
+                    <td>
+                        <spring:url value="/Hr/user/${user.id}" var="userUrl" />
+                        <spring:url value="/Hr/user/${user.id}/delete" var="disableUrl" />
+                        <spring:url value="/Hr/user/${user.id}/update/geninfo" var="updateUrl" />
+
+                        <button class="btn btn-info" onclick="location.href='${userUrl}'">Query</button>
+                        <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
+                        <button class="btn btn-danger" onclick="this.disabled=true;post('${disableUrl}')">Disable</button></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+
         </div>
     </div>
-    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('#myTable').DataTable({
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            dom: 'Bfrtip',
+            select: true,
+            buttons: [
+                'copy', 'excel', 'pdf', 'print',
+
+            ]
+        });
+    });
+</script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

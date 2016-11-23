@@ -1,5 +1,6 @@
 <%@ page import="java.text.DecimalFormat" %>
-<%@ page import="com.lgcns.erp.tapps.viewModel.usermenu.AppointmentrecViewModel" %><%--
+<%@ page import="com.lgcns.erp.tapps.viewModel.usermenu.AppointmentrecViewModel" %>
+<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
   Created by IntelliJ IDEA.
   User: Dell
   Date: 25-Oct-16
@@ -11,10 +12,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Appointment Record"/>
 <%
-    String a = request.getAttribute("name").toString();
-    request.setAttribute("ProfileModel", a);
+    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
+    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
+    request.setAttribute("JobTitle", a.getJobTitle());
 %>
-
 <script type="text/javascript">
     function printpage() {
         //Get the print button and put it into a variable
@@ -40,7 +41,8 @@
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-lg-10">
         <div class="col-lg-8 col-lg-offset-2">
-            <h1 class="page-header" id="appRec">Appointment Record</h1>
+            <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
+            <h2 class="page-header">Appointment Record</h2>
             <div class="tab-content">
                 <div id="appointmentsummary" class="tab-pane fade in active">
                     <h3>Appointment summary</h3>
@@ -65,7 +67,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <input id="printpagebutton" type="button" style="color: #0c0c0c" value="Print this page" onclick="printpage()"/>
+                    <input id="printpagebutton" type="button"  style="color: #0c0c0c; visibility:hidden;" value="Print this page" onclick="printpage()"/>
                 </div>
             </div>
         </div>

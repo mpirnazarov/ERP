@@ -1,4 +1,6 @@
-<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
+<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %>
+
+<%--
   Created by IntelliJ IDEA.
   User: Dell
   Date: 07-Nov-16
@@ -44,7 +46,7 @@
                     </div>
                     </div>
                 </form>--%>
-                    <form:form modelAttribute="changepassVM" cssClass="form-horizontal" method="post" action="/User/changepass">
+                    <form:form modelAttribute="changepassVM" cssClass="form-horizontal" method="post" action="/user_changepass">
 
                         <div class="form-group">
                             <label class="control-label col-md-3">Old password <font color='red'>*</font></label>
@@ -76,7 +78,7 @@
                         <div class="form-group">
                             <div class="col-md-offset-3 col-md-9">
                                 <input type="submit" value="Change password" class="btn btn-default"/>
-                                <input type="button" onclick="location.href='/User'" value="Cancel"
+                                <input type="button" onclick="location.href='/User/changepass'" value="Cancel"
                                        class="btn btn-default"/>
                             </div>
                         </div>

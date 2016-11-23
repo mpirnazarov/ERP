@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
   Created by IntelliJ IDEA.
   User: Dell
   Date: 25-Oct-16
@@ -9,26 +9,44 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Appointment Record"/>
+<%
+    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
+    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
+    request.setAttribute("JobTitle", a.getJobTitle());
+%>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-lg-10">
         <div class="col-lg-8 col-lg-offset-2">
-            <h1 class="page-header">Appointment Record</h1>
-
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#appointmentsummary">Appointment summary</a></li>
-                <li><a data-toggle="tab" href="#salarydet">Salary details</a></li>
-            </ul>
+            <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
+            <h2 class="page-header">Appointment Record</h2>
 
             <div class="tab-content">
                 <div id="appointmentsummary" class="tab-pane fade in active">
-                    <h3>Appointment summary</h3>
-                </div>
-                <div id="salarydet" class="tab-pane fade">
-                    <h3>Salary details</h3>
-                    <p>Some content in menu 1.</p>
+                    <!--Appointment summary table-->
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Appointment date</th>
+                            <th>Appointment type</th>
+                            <th>Department</th>
+                            <th>Role</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${appointmentrecVM.appointmentSummaries}" var="appointment" varStatus="status">
+                            <tr>
+                                <td>${appointment.appointDate}</td>
+                                <td>${appointment.appointmentType}</td>
+                                <td>${appointment.department}</td>
+                                <td>${appointment.role}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <input id="printpagebutton" type="button"  style="color: #0c0c0c; visibility:hidden;" value="Print this page" onclick="printpage()"/>
                 </div>
             </div>
         </div>

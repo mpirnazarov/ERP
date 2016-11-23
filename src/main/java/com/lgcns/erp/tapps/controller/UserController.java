@@ -127,9 +127,9 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/IndexUser");
 
-        ProfileViewModel userProfile = getProfileByUsername(principal); //userProfileDAO.findByUserName(principal.getName());
-
+        ProfileViewModel userProfile = getProfileByUsername(principal);
         mav.addObject("userProfile", userProfile);
+
         return mav;
     }
 
@@ -139,8 +139,8 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/AppointmentRec");
         AppointmentrecViewModel appointmentrecViewModel = getAppointmentByUsername(principal);
-        String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
-        mav.addObject("name", name);
+        ProfileViewModel userProfile = getProfileByUsername(principal);
+        mav.addObject("userProfile", userProfile);
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
         return mav;
     }
@@ -153,8 +153,8 @@ public class UserController {
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<SalaryVewModel> salaryVewModel = getSalaryByUser(user);
 
-        String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
-        mav.addObject("name", name);
+        ProfileViewModel userProfile = getProfileByUsername(principal);
+        mav.addObject("userProfile", userProfile);
         mav.addObject("salaryVM", salaryVewModel);
         return mav;
     }
@@ -165,8 +165,8 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/EducationCer");
         EduViewModel eduViewModel = getEducationByUsername(principal);
-        String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
-        mav.addObject("name", name);
+        ProfileViewModel userProfile = getProfileByUsername(principal);
+        mav.addObject("userProfile", userProfile);
         mav.addObject("eduVM", eduViewModel);
         return mav;
     }
@@ -178,8 +178,8 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/JobExp");
         List<JobexpViewModel> jobexpViewModel = getJobExperience(principal);
-        String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
-        mav.addObject("name", name);
+        ProfileViewModel userProfile = getProfileByUsername(principal);
+        mav.addObject("userProfile", userProfile);
         mav.addObject("jobexpVM", jobexpViewModel);
         return mav;
     }
@@ -190,8 +190,8 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/TrainingRec");
         List<TrainViewModel> trainViewModel = getTrainingRecord(principal);
-        String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
-        mav.addObject("name", name);
+        ProfileViewModel userProfile = getProfileByUsername(principal);
+        mav.addObject("userProfile", userProfile);
         mav.addObject("trainVM", trainViewModel);
         return mav;
     }
@@ -202,8 +202,8 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/Docs");
         List<DocsViewModel> docsViewModel = getDocuments(principal);
-        String name = UserService.getUserLocalizations(UserService.getUserByUsername(principal.getName())).get(2).getFirstName();
-        mav.addObject("name", name);
+        ProfileViewModel userProfile = getProfileByUsername(principal);
+        mav.addObject("userProfile", userProfile);
         mav.addObject("docsVM", docsViewModel);
         return mav;
     }
@@ -260,16 +260,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "User/changepass", method = RequestMethod.GET)
-    public ModelAndView ChangePass(){
+    public ModelAndView ChangePass(Principal principal){
         ModelAndView mav = new ModelAndView();
         ChangepassViewModel changepassViewModel = new ChangepassViewModel ();
         mav.setViewName("user/changepass");
+        ProfileViewModel userProfile = getProfileByUsername(principal);
+        mav.addObject("userProfile", userProfile);
         mav.addObject("changepassVM", changepassViewModel);
         return mav;
     }
 
     @RequestMapping(value = "user_changepass", method = RequestMethod.POST)
-    public String ChangePass2(Principal principal, @RequestParam("Oldpassword") String oldPass, @RequestParam("password") String pass, @RequestParam("Repeatpassword") String repPass){
+    public String ChangePass2(Principal principal, @RequestParam("oldPassword") String oldPass, @RequestParam("password") String pass, @RequestParam("repeatPassword") String repPass){
         ModelAndView model = new ModelAndView();
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -328,7 +330,7 @@ public class UserController {
         return roles;
     }
 
-    private ProfileViewModel getProfileByUsername(Principal principal){
+    public static ProfileViewModel getProfileByUsername(Principal principal){
         ProfileViewModel returning = new ProfileViewModel();
 
         // Getting data from users db
@@ -391,7 +393,7 @@ public class UserController {
 
         returning.setPersonalInfo(personalInfo);
 
-        List<BirthPlace> bPlace  = returning.getPersonalInfo().getBirthPlace();
+        String[] bPlace  = returning.getPersonalInfo().getBirthPlace();
 
         //Getting family information
         List<FamilyInfosEntity> familyInfosEntities = UserService.getFamilyInfos(user);
@@ -416,7 +418,7 @@ public class UserController {
         return returning;
     }
 
-    private AppointmentrecViewModel getAppointmentByUsername(Principal principal) {
+    public static AppointmentrecViewModel getAppointmentByUsername(Principal principal) {
         AppointmentrecViewModel returning = new AppointmentrecViewModel();
 
         // Getting data from users db
@@ -434,7 +436,7 @@ public class UserController {
     }
 
 
-    private List<SalaryVewModel> getSalaryByUser(UsersEntity user) {
+    public static List<SalaryVewModel> getSalaryByUser(UsersEntity user) {
         List<SalaryHistoriesEntity> salariesHistory = UserService.getSalaryHistories(user);
         List<SalaryVewModel> salaries = new LinkedList<SalaryVewModel>();
         NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
@@ -447,7 +449,7 @@ public class UserController {
 
     }
 
-    private EduViewModel getEducationByUsername(Principal principal) {
+    public static EduViewModel getEducationByUsername(Principal principal) {
         EduViewModel eduReturn = new EduViewModel();
         EducationLocalizationsEntity eduLoc = null;
         UsersEntity user = UserService.getUserByUsername(principal.getName());
@@ -477,7 +479,7 @@ public class UserController {
         return eduReturn;
     }
 
-    private List<JobexpViewModel> getJobExperience(Principal principal) {
+    public static List<JobexpViewModel> getJobExperience(Principal principal) {
         List<JobexpViewModel> jobExpViewModels = new LinkedList<JobexpViewModel>();
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<WorksEntity> worksEntity = UserService.getWorksEntity(user);
@@ -490,7 +492,7 @@ public class UserController {
         return jobExpViewModels;
     }
 
-    private List<TrainViewModel> getTrainingRecord(Principal principal) {
+    public static List<TrainViewModel> getTrainingRecord(Principal principal) {
         List<TrainViewModel> trainViewModels = new LinkedList<TrainViewModel>();
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<TrainingsEntity> trainings = UserService.getTrainingsEntity(user);
@@ -517,7 +519,7 @@ public class UserController {
 
 
 
-    private UserInPostsEntity getMax(List<UserInPostsEntity> usersInPost) {
+    public static UserInPostsEntity getMax(List<UserInPostsEntity> usersInPost) {
         UserInPostsEntity uip = new UserInPostsEntity();
         long num = 0;
 
@@ -531,5 +533,6 @@ public class UserController {
         }
         return uip;
     }
+
 
 }

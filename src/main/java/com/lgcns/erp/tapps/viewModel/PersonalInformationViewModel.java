@@ -1,35 +1,40 @@
 package com.lgcns.erp.tapps.viewModel;
 
-import com.lgcns.erp.tapps.viewModel.usermenu.personalInfo.BirthPlace;
+import org.hibernate.validator.constraints.Email;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Muslimbek on 11/4/2016.
  */
 public class PersonalInformationViewModel {
-    private List<BirthPlace> birthPlace;
+    private String[] birthPlace;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
     private String homePhone;
     private String mobilePhone;
+    @Email
     private String emailCompany;
+    @Email
     private String emailPersonal;
+    int i=0;
 
     public PersonalInformationViewModel() {
-        this.birthPlace = new LinkedList<BirthPlace>();
+        this.birthPlace = new String[3];
+        i=0;
     }
 
     public void addBirthPlace(String birthPlace, int languageId) {
-        this.birthPlace.add(new BirthPlace(birthPlace, languageId));
+        this.birthPlace[languageId-1] = birthPlace;
+
     }
 
-    public List<BirthPlace> getBirthPlace() {
+    public String[] getBirthPlace() {
         return birthPlace;
     }
 
-    public void setBirthPlace(List<BirthPlace> birthPlace) {
+    public void setBirthPlace(String[] birthPlace) {
         this.birthPlace = birthPlace;
     }
 

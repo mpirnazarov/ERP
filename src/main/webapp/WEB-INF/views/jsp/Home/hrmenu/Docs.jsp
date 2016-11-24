@@ -10,7 +10,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Documents"/>
 <%
-    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
+    ProfileViewModel a = (ProfileViewModel) request.getAttribute("person");
     request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
     request.setAttribute("JobTitle", a.getJobTitle());
 %>

@@ -225,8 +225,55 @@ public class HrController {
 
            return mav;
        }
-       else if(path.compareTo("")==0){
+       else if(path.compareTo("Docs")==0){
+            System.out.println(path);
+            mav.setViewName("Home/editmenu/Docs");
+            ProfileViewModel userProfile = getProfileById(id);
+            person = userProfile;
+            model.addAttribute("person",  person);
+            // Getting list of departments and send to view
+            Map<Integer, String> deps = new HashMap<Integer, String>();
+            for (DepartmentLocalizationsEntity dep :
+                UserService.getDepartments(3)) {
+                deps.put(dep.getId(), dep.getName());
+            }
+            model.addAttribute("departments",  deps);
 
+            //Getting positions list from RoleLocalizations
+            Map<Integer, String> positions = new HashMap<Integer, String>();
+            for (RoleLocalizationsEntity pos :
+                UserService.getRolesLoc()) {
+                positions.put(pos.getId(), pos.getName());
+            }
+            model.addAttribute("positions",  positions);
+
+            //Getting jobTitles list from RoleLocalizations
+            Map<Integer, String> jobTitles = new HashMap<Integer, String>();
+            for (PostLocalizationsEntity pos :
+                UserService.getPostLocalizations(3)) {
+                jobTitles.put(pos.getId(), pos.getName());
+            }
+            model.addAttribute("jobTitles",  jobTitles);
+
+            //Getting jobTitles list from RoleLocalizations
+            Map<Integer, String> statuses = new HashMap<Integer, String>();
+            int i=0;
+            for (StatusLocalizationsEntity statusesEntity :
+                UserService.getStatuses()) {
+                statuses.put(statusesEntity.getId(), statusesEntity.getName());
+            }
+            model.addAttribute("statuses",  statuses);
+
+            // Setting list of joint types
+            Map<Integer, String> jointType = new HashMap<Integer, String>();
+            for (Appoint a :
+                Appoint.values()) {
+                jointType.put(a.getValue(), a.name());
+            }
+
+            model.addAttribute("jointType", jointType);
+
+            return mav;
 
        }
        else{

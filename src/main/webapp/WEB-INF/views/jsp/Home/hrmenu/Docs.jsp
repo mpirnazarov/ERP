@@ -54,6 +54,7 @@
                                         <option value="1/${user.key}/">${user.value}</option>
                                     </c:forEach>
                                 </select>
+                                </form>
                         </td>
                         <td><a href="1/${requestScope.user2}/"><i class="fa fa-fw fa-download"></i></a></td>
                     </tr>

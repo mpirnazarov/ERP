@@ -1,6 +1,7 @@
 package com.lgcns.erp.tapps.controller;
 
 
+import com.lgcns.erp.tapps.DbContext.DocxDocumentMergerAndConverter;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.Enums.Appoint;
 import com.lgcns.erp.tapps.mapper.UserMapper;
@@ -12,6 +13,8 @@ import com.lgcns.erp.tapps.viewModel.PersonalInformationViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.*;
+import fr.opensagres.xdocreport.core.XDocReportException;
+import fr.opensagres.xdocreport.template.TemplateEngineKind;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,10 +25,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by Dell on 26-Oct-16.
@@ -163,6 +169,14 @@ public class HrController {
     @RequestMapping(value = "/Hr/Profile/Docs", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView Docs(Principal principal) {
+        ProfileViewModel user = getProfileById(UserService.getUserByUsername(principal.getName()).getId());
+        try {
+            generateCertificate(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (XDocReportException e) {
+            e.printStackTrace();
+        }
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/hrmenu/Docs");
         DocsViewModel docsViewModel = new DocsViewModel();
@@ -171,6 +185,29 @@ public class HrController {
         mav.addObject("userProfile", userProfile);
         return mav;
     }
+
+    private void generateCertificate(ProfileViewModel user) throws IOException, XDocReportException {
+        String templatePath = "C:/files/template/Certification_of_Employment.docx";
+        Map<String, Object> nonImageVariableMap = new HashMap<String, Object>();
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMMMMMMM dd");
+        Calendar calendar = new GregorianCalendar(2013,10,28);
+        nonImageVariableMap.put("date_now", sdf.format(calendar.getTime()));
+        nonImageVariableMap.put("name", "Bakir Maksumov");
+        nonImageVariableMap.put("jobTitle", "CEO");
+        nonImageVariableMap.put("hiringDate", "01.01.2016");
+        Map<String, String> imageVariablesWithPathMap =new HashMap<String, String>();
+        imageVariablesWithPathMap.put("header_image_logo", "C:/0001.jpg");
+        System.out.println("Writing file from template");
+        DocxDocumentMergerAndConverter docxDocumentMergerAndConverter = new DocxDocumentMergerAndConverter();
+        byte[] mergedOutput = docxDocumentMergerAndConverter.mergeAndGenerateOutput(templatePath, TemplateEngineKind.Freemarker, nonImageVariableMap, imageVariablesWithPathMap);
+        assertNotNull(mergedOutput);
+        FileOutputStream os = new FileOutputStream("C:/files/"+System.nanoTime()+".docx");
+        os.write(mergedOutput);
+        os.flush();
+        os.close();
+    }
+
     @RequestMapping(value = "/Hr/user/{id}/update/{path}", method = RequestMethod.GET)
     @ResponseBody public ModelAndView UpdateInfo(Principal principal, Model model, @ModelAttribute("user") ProfileViewModel person, @PathVariable("id") int id, @PathVariable("path") String path){
         ModelAndView mav = new ModelAndView();
@@ -555,7 +592,7 @@ public class HrController {
         UserInPostsEntity uip = new UserInPostsEntity();
         long num = 0;
 
-        uip.setDateFrom(new Date(num));
+        uip.setDateFrom((java.sql.Date) new Date(num));
         for (UserInPostsEntity up :
                 usersInPost) {
             if(up.getDateFrom().compareTo(uip.getDateFrom())>0)

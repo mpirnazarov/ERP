@@ -22,19 +22,19 @@
         <div class="col-lg-8 col-lg-offset-2">
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
             <h2 class="page-header">Documents</h2>
-            <table class="table table-default">
+            <table id="tableid" class="testgrid">
                 <thead>
                 <tr>
-                    <th>Document name</th>
-                    <th>Document type</th>
-                    <th>Username</th>
+                    <th class="editablegrid-name" data-title="Document name"><a style="cursor: pointer;">Document name</a></th>
+                    <th class="editablegrid-type" data-title="Document type"><a style="cursor: pointer;">Document type</a></th>
+                    <th class="editablegrid-username" data-title="Username"><a style="cursor: pointer;">Username</a></th>
                     <th><i class="fa fa-fw fa-download"></i></th>
                 </tr>
                 </thead>
                 <tbody>
                 <%--<c:forEach items="${}" var="doc" varStatus="status">--%>
                     <tr>
-                        <td>Information about Salary</td>
+                        <td class="editablegrid-name" data-title="Document name">Information about Salary</td>
                         <td>Document</td>
                         <td>
                             <%--<div class="dropdown">--%>
@@ -54,6 +54,28 @@
                         </td>
                         <td><i class="fa fa-fw fa-download"></i></td>
                     </tr>
+
+                    <tr>
+                    <td class="editablegrid-name" data-title="Document name">Zet</td>
+                    <td>Document</td>
+                    <td>
+                        <%--<div class="dropdown">--%>
+                        <%--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select employee--%>
+                        <%--<span class="caret"></span></button>--%>
+                        <%--<ul class="dropdown-menu">--%>
+                        <%--<li><a href="#">Jasur Shaykhov</a></li>--%>
+                        <%--<li><a href="#">Muslimbek Pirnazarov</a></li>--%>
+                        <%--</ul>--%>
+                        <%--</div>--%>
+                        <select class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>
+                            <option value="volvo">Muslimbek</option>
+                            <option value="saab">Jessi</option>
+                            <option value="mercedes">Pakirrreeee</option>
+                            <option value="audi">Akkkkkbaaaal</option>
+                        </select>
+                    </td>
+                    <td><i class="fa fa-fw fa-download"></i></td>
+                </tr>
                 <%--</c:forEach>--%>
                 </tbody>
             </table>

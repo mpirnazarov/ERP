@@ -234,10 +234,10 @@
                                     <tbody>
                                     <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
-                                            <td>${family.relation[2]}</td>
-                                            <td>${family.fullName[2]}</td>
-                                            <td>${family.dateOfBirth}</td>
-                                            <td>${family.jobTitle[2]}</td>
+                                            <td><div contenteditable="true">${family.relation[2]}</div></td>
+                                            <td><div contenteditable="true">${family.fullName[2]}</div></td>
+                                            <td><div contenteditable="true">${family.dateOfBirth}</div></td>
+                                            <td><div contenteditable="true">${family.jobTitle[2]}</div></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -260,10 +260,10 @@
                                     <tbody>
                                     <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
-                                            <td>${family.relation[0]}</td>
-                                            <td>${family.fullName[0]}</td>
-                                            <td>${family.dateOfBirth}</td>
-                                            <td>${family.jobTitle[0]}</td>
+                                            <td><div contenteditable="true">${family.relation[0]}</div></td>
+                                            <td><div contenteditable="true">${family.fullName[0]}</div></td>
+                                            <td><div contenteditable="true">${family.dateOfBirth}</div></td>
+                                            <td><div contenteditable="true">${family.jobTitle[0]}</div></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -286,10 +286,10 @@
                                     <tbody>
                                     <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
-                                            <td>${family.relation[1]}</td>
-                                            <td>${family.fullName[1]}</td>
-                                            <td>${family.dateOfBirth}</td>
-                                            <td>${family.jobTitle[1]}</td>
+                                            <td><div contenteditable="true">${family.relation[1]}</div></td>
+                                            <td><div contenteditable="true">${family.fullName[1]}</div></td>
+                                            <td><div class="date" contenteditable="true">${family.dateOfBirth}</div></td>
+                                            <td><div contenteditable="true">${family.jobTitle[1]}</div></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>

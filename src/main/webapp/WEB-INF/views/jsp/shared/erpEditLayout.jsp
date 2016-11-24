@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="col-sm-3 col-lg-2">
     <!-- Sidebar -->
-    <nav class="navbar navbar-inverse navbar-fixed-side" id="inner-content">
+    <nav class="navbar navbar-inverse navbar-fixed-side">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
@@ -71,16 +71,6 @@
     </nav>
 </div>
     <!-- /#sidebar-wrapper -->
-<script>
-    $(function(){
-        $('#inner-content').slimScroll({
-            height: '500px',
-            railVisible: true,
-            allowPageScroll: false,
-            alwaysVisible: true
-        });
-    });
-</script>
 <%--<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--%>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 

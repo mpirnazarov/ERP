@@ -22,7 +22,7 @@
                 <!--Profile picture-->
 
             <%--<img src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"><br>--%>
-            <img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>
+            <img class="img-circle" src="/resources/images/1.jpg"/>
             <hr/>
             HR
             <li>

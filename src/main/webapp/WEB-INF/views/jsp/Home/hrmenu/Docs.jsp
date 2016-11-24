@@ -14,7 +14,6 @@
     request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
     request.setAttribute("JobTitle", a.getJobTitle());
 %>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
@@ -38,10 +37,19 @@
                         <td>Information about Salary</td>
                         <td>Document</td>
                         <td>
-                                <select class="selectpicker show-tick" data-live-search="true">
-                                    <option data-tokens="jas">Jasur Shaykhov</option>
-                                    <option data-tokens="muslimbek">Muslimbek Pirnazarov</option>
-                                    <option data-tokens="bakir">Bakir Maksumov</option>
+                            <%--<div class="dropdown">--%>
+                                <%--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select employee--%>
+                                    <%--<span class="caret"></span></button>--%>
+                                <%--<ul class="dropdown-menu">--%>
+                                    <%--<li><a href="#">Jasur Shaykhov</a></li>--%>
+                                    <%--<li><a href="#">Muslimbek Pirnazarov</a></li>--%>
+                                <%--</ul>--%>
+                            <%--</div>--%>
+                                <select class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>
+                                    <option value="volvo">Muslimbek</option>
+                                    <option value="saab">Jessi</option>
+                                    <option value="mercedes">Pakirrreeee</option>
+                                    <option value="audi">Akkkkkbaaaal</option>
                                 </select>
                         </td>
                         <td><i class="fa fa-fw fa-download"></i></td>
@@ -53,5 +61,14 @@
     </div>
 </div>
     </div>
-
+<%--<spring:url value="/resources/core/css/bootstrap-select.min.css" var="bootstrapminselectCss" />--%>
+<%--<spring:url value="/resources/core/js/bootstrap-select.min.js" var="bootstrapselect" />--%>
+<%--<link rel="stylesheet" href="${bootstrapminselectCss}" />--%>
+<%--<script src="${bootstrapselect}"></script>--%>
+<%--<script>--%>
+        <%--$('.selectpicker').selectpicker({--%>
+            <%--style: 'btn-info',--%>
+            <%--size: 4--%>
+        <%--});--%>
+<%--</script>--%>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

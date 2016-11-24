@@ -55,20 +55,27 @@
                 </c:forEach>
                 </tbody>
             </table>
-
-            <%--<h3>File Upload:</h3>
-            <form:form method="POST" commandName="fileUploadForm"
-                       enctype="multipart/form-data">
-
-                <form:errors path="*" cssClass="errorblock" element="div" />
-
-                Please select a file to upload : <input type="file" name="file" />
-                <input type="submit" value="upload" />
-                <span><form:errors path="file" cssClass="error" />
-                </span>
-
-            </form:form>--%>
+                    <div>
+                    <form name="uploadingForm" enctype="multipart/form-data" action="/Hr/user/${id}/UploadPic/" method="POST">
+                        <p>
+                            <input id="fileInput" type="file" name="uploadingFiles" onchange="updateSize();" multiple>
+                            selected files: <span id="fileNum">0</span>;
+                            total size: <span id="fileSize">0</span>
+                        </p>
+                        <p>
+                            <input type="submit" class="btn btn-success" value="Upload file">
+                        </p>
+                    </form>
+                    <%--<div>--%>
+                        <%--<div>Uploaded files:</div>--%>
+                        <%--<#list files as file>--%>
+                            <%--<div>--%>
+                                <%--${file.getName()}--%>
+                            <%--</div>--%>
+                        <%--</#list>--%>
+                    <%--</div>--%>
                 </div>
+                    </div>
                 <%--<div id="gen" class="tab-pane fade">
                     <h3>Generatable documents</h3>
                     <table class="table">
@@ -102,4 +109,24 @@
     </div>
 </div>
             </div>
+    <script>
+        function updateSize() {
+            var nBytes = 0,
+                    oFiles = document.getElementById("fileInput").files,
+                    nFiles = oFiles.length;
+            for (var nFileId = 0; nFileId < nFiles; nFileId++) {
+                nBytes += oFiles[nFileId].size;
+            }
+
+            var sOutput = nBytes + " bytes";
+            // optional code for multiples approximation
+            for (var aMultiples = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"], nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {
+                sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple] + " (" + nBytes + " bytes)";
+            }
+            // end of optional code
+
+            document.getElementById("fileNum").innerHTML = nFiles;
+            document.getElementById("fileSize").innerHTML = sOutput;
+        }
+    </script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

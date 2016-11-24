@@ -297,9 +297,12 @@ html {
 
 .img-circle {
     border-radius: 50%;
-    border-width: 5px;
+    border-width: 1px;
     border-style: solid;
-    border-color: #09aacc;
+    border-color: #ffffff;
+    margin-left: 25%;
+    max-width:45%;
+    max-height: 10%;
 }
 
 /* SOME DEMO STYLES - NOT REQUIRED */

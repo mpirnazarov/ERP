@@ -175,55 +175,53 @@ public class HrController {
     @ResponseBody public ModelAndView UpdateInfo(Principal principal, Model model, @ModelAttribute("user") ProfileViewModel person, @PathVariable("id") int id, @PathVariable("path") String path){
         ModelAndView mav = new ModelAndView();
         System.out.print("Path: ");
-       if(path.compareTo("Geninfo")==0) {
-           System.out.println(path);
-           mav.setViewName("Home/editmenu/geninfo");
-           ProfileViewModel userProfile = getProfileById(id);
-           person = userProfile;
-           model.addAttribute("person",  person);
-           // Getting list of departments and send to view
-           Map<Integer, String> deps = new HashMap<Integer, String>();
-           for (DepartmentLocalizationsEntity dep :
-                   UserService.getDepartments(3)) {
+        if(path.compareTo("Geninfo")==0) {
+            System.out.println(path);
+            mav.setViewName("Home/editmenu/geninfo");
+            ProfileViewModel userProfile = getProfileById(id);
+            person = userProfile;
+            model.addAttribute("person",  person);
+            // Getting list of departments and send to view
+            Map<Integer, String> deps = new HashMap<Integer, String>();
+            for (DepartmentLocalizationsEntity dep :
+                UserService.getDepartments(3)) {
                 deps.put(dep.getId(), dep.getName());
-           }
-           model.addAttribute("departments",  deps);
+            }
+            model.addAttribute("departments",  deps);
 
-           //Getting positions list from RoleLocalizations
-           Map<Integer, String> positions = new HashMap<Integer, String>();
-           for (RoleLocalizationsEntity pos :
-                   UserService.getRolesLoc()) {
-               positions.put(pos.getId(), pos.getName());
-           }
-           model.addAttribute("positions",  positions);
+            //Getting positions list from RoleLocalizations
+            Map<Integer, String> positions = new HashMap<Integer, String>();
+            for (RoleLocalizationsEntity pos :
+                UserService.getRolesLoc()) {
+                positions.put(pos.getId(), pos.getName());
+            }
+            model.addAttribute("positions",  positions);
 
-           //Getting jobTitles list from RoleLocalizations
-           Map<Integer, String> jobTitles = new HashMap<Integer, String>();
-           for (PostLocalizationsEntity pos :
-                   UserService.getPostLocalizations(3)) {
-               jobTitles.put(pos.getId(), pos.getName());
-           }
-           model.addAttribute("jobTitles",  jobTitles);
+            //Getting jobTitles list from RoleLocalizations
+            Map<Integer, String> jobTitles = new HashMap<Integer, String>();
+            for (PostLocalizationsEntity pos :
+                UserService.getPostLocalizations(3)) {
+                jobTitles.put(pos.getId(), pos.getName());
+            }
+            model.addAttribute("jobTitles",  jobTitles);
 
-           //Getting jobTitles list from RoleLocalizations
-           Map<Integer, String> statuses = new HashMap<Integer, String>();
-           int i=0;
-           for (StatusLocalizationsEntity statusesEntity :
-                   UserService.getStatuses()) {
-               statuses.put(statusesEntity.getId(), statusesEntity.getName());
-           }
-           model.addAttribute("statuses",  statuses);
+            //Getting jobTitles list from RoleLocalizations
+            Map<Integer, String> statuses = new HashMap<Integer, String>();
+            int i=0;
+            for (StatusLocalizationsEntity statusesEntity :
+                UserService.getStatuses()) {
+                statuses.put(statusesEntity.getId(), statusesEntity.getName());
+            }
+            model.addAttribute("statuses",  statuses);
 
-           // Setting list of joint types
-           Map<Integer, String> jointType = new HashMap<Integer, String>();
-           for (Appoint a :
-                   Appoint.values()) {
-               jointType.put(a.getValue(), a.name());
-           } 
-
-           model.addAttribute("jointType", jointType);
-
-           return mav;
+            // Setting list of joint types
+            Map<Integer, String> jointType = new HashMap<Integer, String>();
+            for (Appoint a :
+                Appoint.values()) {
+                jointType.put(a.getValue(), a.name());
+            }
+            model.addAttribute("jointType", jointType);
+            return mav;
        }
        else if(path.compareTo("Docs")==0){
             System.out.println(path);
@@ -301,7 +299,7 @@ public class HrController {
         model.addAttribute("files", file.listFiles());
         ModelAndView mav = new ModelAndView();
         mav.addObject("id", id);
-        mav.setViewName("Home/hrmenu/Uploading");
+        mav.setViewName("Home/hrmenu/FileUploadForm");
         return mav;
     }
 

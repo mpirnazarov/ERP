@@ -19,7 +19,7 @@
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 
-<div class="container-fluid" id="inner-content">
+<div class="container-fluid" id="page">
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpEditLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-lg-10">
@@ -369,4 +369,12 @@
             document.getElementById("fienref").click();
             });
     </script>
+<script>
+    $('page').slimScroll({
+        position: 'right',
+        height: '150px',
+        railVisible: true,
+        alwaysVisible: true
+    });
+</script>
     <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

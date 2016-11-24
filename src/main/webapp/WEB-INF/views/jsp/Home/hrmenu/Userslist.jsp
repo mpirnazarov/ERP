@@ -45,7 +45,7 @@
                     <td>
                         <spring:url value="/Hr/user/${user.id}" var="userUrl" />
                         <spring:url value="/Hr/user/${user.id}/delete" var="disableUrl" />
-                        <spring:url value="/Hr/user/${user.id}/update/geninfo" var="updateUrl" />
+                        <spring:url value="/Hr/user/${user.id}/update/Geninfo" var="updateUrl" />
 
                         <button class="btn btn-info" onclick="location.href='${userUrl}'">Query</button>
                         <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
@@ -65,9 +65,9 @@
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             dom: 'Bfrtip',
             select: true,
+            "order": [[ 0, "desc" ]],
             buttons: [
                 'copy', 'excel', 'pdf', 'print',
-
             ]
         });
     });

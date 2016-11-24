@@ -45,7 +45,7 @@ public class ProfileViewModel {
     private Date entryDate;
     private int vacationDaysAll;
     private int vacationDaysLeft;
-    private String isPolitical;
+    private boolean isPolitical;
     private String username;
     private PersonalInformationViewModel personalInfo;
     private List<FamilyMember> familyLoc;
@@ -191,11 +191,11 @@ public class ProfileViewModel {
         return personalInfo;
     }
 
-    public String getIsPolitical() {
+    public boolean getIsPolitical() {
         return isPolitical;
     }
 
-    public void setPolitical(String political) {
+    public void setPolitical(boolean political) {
         isPolitical = political;
     }
 

@@ -18,15 +18,7 @@
 	<bean id="multipartResolver"
 		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
-	<bean class="com.lgcns.erp.tapps.controller.FileUploadController">
-		<property name="formView" value="FileUploadForm" />
-		<property name="successView" value="FileUploadSuccess" />
 
-		<!-- Map a validator -->
-		<property name="validator">
-			<bean class="com.lgcns.erp.tapps.controller.FileUploadValidator" />
-		</property>
-	</bean>
 
 	<!-- Register the Customer.properties -->
 	<bean id="messageSource"
@@ -38,6 +30,7 @@
 		<property name="prefix" value="/WEB-INF/views/jsp/"/>
 		<property name="suffix" value=".jsp"/>
 	</bean>
+
 
 
     <!--<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">

@@ -17,7 +17,7 @@
                 </a>
             </div>
             <ul class="nav navbar-nav">
-            <img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>
+            <img class="img-circle" src="/resources/images/${id}.jpg" style="width:45%; margin-left: 25%"/>
                 <hr/>
             HR
             <li>
@@ -38,25 +38,25 @@
             <hr/>
             User's profile
                 <li>
-                    <a href="/User/Profile"><i class="fa fa-fw fa-info-circle"></i> General information</a>
+                    <a href="./Geninfo"><i class="fa fa-fw fa-info-circle"></i> General information</a>
                 </li>
                 <li>
-                    <a href="/User/Profile/Appointment"><i class="fa fa-fw fa-hand-pointer-o"></i> Appointment record</a>
+                    <a href="./Salary"><i class="fa fa-fw fa-money"></i> Salary details</a>
                 </li>
                 <li>
-                    <a href="/User/Profile/Salary"><i class="fa fa-fw fa-money"></i> Salary details</a>
+                    <a href="./Edu"><i class="fa fa-fw fa-graduation-cap"></i> Education certificate</a>
                 </li>
                 <li>
-                    <a href="/User/Profile/Edu"><i class="fa fa-fw fa-graduation-cap"></i> Education certificate</a>
+                    <a href="./Jobexp"><i class="fa fa-fw fa-briefcase"></i> Job experience</a>
                 </li>
                 <li>
-                    <a href="/User/Profile/Jobexp"><i class="fa fa-fw fa-briefcase"></i> Job experience</a>
+                    <a href="./Train"><i class="fa fa-fw fa-book"></i> Training record</a>
                 </li>
                 <li>
-                    <a href="/User/Profile/Train"><i class="fa fa-fw fa-book"></i> Training record</a>
+                    <a href="./Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
                 </li>
                 <li>
-                    <a href="/User/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
+                    <a href="../UploadPic"><i class="fa fa-fw fa-file"></i> Change Picture</a>
                 </li>
             <hr/>
                 Settings

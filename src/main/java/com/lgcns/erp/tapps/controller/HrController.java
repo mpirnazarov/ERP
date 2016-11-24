@@ -3,31 +3,88 @@ package com.lgcns.erp.tapps.controller;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.Enums.Appoint;
+import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.*;
+import com.lgcns.erp.tapps.validator.UserFormValidator;
 import com.lgcns.erp.tapps.viewModel.HR.DocsViewModel;
 import com.lgcns.erp.tapps.viewModel.HR.HrJobexpViewModel;
 import com.lgcns.erp.tapps.viewModel.PersonalInformationViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
+import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.*;
-import com.lgcns.erp.tapps.viewModel.usermenu.personalInfo.BirthPlace;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Dell on 26-Oct-16.
  */
 @Controller
 public class HrController {
+
+    private UserFormValidator validator;
+    public static final String uploadingdir = "C://files/photos/";
+
+    @RequestMapping(value = "/Hr/Register", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView Register(/*@ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel */) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("user/register");
+
+        RegistrationViewModel rvm = new RegistrationViewModel(UserService.getLanguageIdAndName());
+        mav.addObject("registrationVM", rvm);
+
+        Map<Integer, String> heads = getDirectHeadIdAndName();
+        mav.addObject("heads", heads);
+
+        Map<Integer, String> departments = getDepartmentsIdAndName();
+        mav.addObject("departments", departments);
+
+        Map<Integer, String> statuses = getStatusesIdAndName();
+        mav.addObject("statuses", statuses);
+
+        Map<Integer, String> roles = getRolesIdAndName();
+        mav.addObject("roles", roles);
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/Hr/Register", method = RequestMethod.POST)
+    @ResponseBody
+    public ModelAndView RegisterPost(@Valid @ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel, BindingResult bindingResult,
+                                     RedirectAttributes redirectAttributes) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("user/register");
+        mav.addObject("registrationVM", registrationViewModel);
+        if (bindingResult.hasErrors()) {
+            mav.addObject("heads", getDirectHeadIdAndName());
+            mav.addObject("departments", getDepartmentsIdAndName());
+            mav.addObject("statuses", getStatusesIdAndName());
+            mav.addObject("roles", getRolesIdAndName());
+            mav.addObject("org.springframework.validation.BindingResult.registrationVM", bindingResult);
+            return mav;
+        }
+
+        //adding user and userLocalization info into DB
+        int userId = UserService.insertUser(UserMapper.mapRegModelToUserInfo(registrationViewModel));
+        UserService.insertUserLoc(UserMapper.mapRegModelToUserLocInfo(registrationViewModel, userId));
+
+
+        mav = new ModelAndView();
+        mav.setViewName("Home/hrmenu/Userslist");
+        return mav;
+    }
 
     @RequestMapping (value = "/Hr/Profile", method = RequestMethod.GET)
     @ResponseBody public ModelAndView Hrprofile(Principal principal){
@@ -118,7 +175,7 @@ public class HrController {
     @ResponseBody public ModelAndView UpdateInfo(Principal principal, Model model, @ModelAttribute("user") ProfileViewModel person, @PathVariable("id") int id, @PathVariable("path") String path){
         ModelAndView mav = new ModelAndView();
         System.out.print("Path: ");
-       if(path.compareTo("geninfo")==0) {
+       if(path.compareTo("Geninfo")==0) {
            System.out.println(path);
            mav.setViewName("Home/editmenu/geninfo");
            ProfileViewModel userProfile = getProfileById(id);
@@ -183,13 +240,36 @@ public class HrController {
         return mav;
     }
 
-    @RequestMapping (value = "/Hr/user/{id}/update/{path}", method = RequestMethod.POST )
-    @ResponseBody public void UpdateInfo(Principal principal,  @ModelAttribute @Validated ProfileViewModel person){
-        System.out.println( person.toString());
-
+    @RequestMapping ( value = "/Hr/user/{id}/update/{path}", method = RequestMethod.POST )
+    @ResponseBody public String UpdateInfo(Principal principal, @Valid @ModelAttribute  ProfileViewModel person, @PathVariable String path, BindingResult result, @PathVariable("id") int id){
+        if(result.hasErrors()) {
+            return "Hr/user/"+id+"/update"+path;
+        }
+        updateDBGenInfo(person);
+        return null;
+    }
+    @RequestMapping("/Hr/user/{id}/UploadPic")
+    public ModelAndView uploading(Model model, @PathVariable("id") int id) {
+        File file = new File(uploadingdir);
+        model.addAttribute("files", file.listFiles());
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("id", id);
+        mav.setViewName("Home/hrmenu/Uploading");
+        return mav;
     }
 
-
+    @RequestMapping(value = "/Hr/user/{id}/UploadPic", method = RequestMethod.POST)
+    public String uploadingPost(@RequestParam("uploadingFiles") MultipartFile[] uploadingFiles, @PathVariable("id") int id) throws IOException {
+        String sId=null;
+        sId = String.format("%04d", id);
+        for(MultipartFile uploadedFile : uploadingFiles) {
+            String sId2 =sId + ".jpg";
+            File file = new File("../webapps/ROOT/resources/images/" + sId2);
+            uploadedFile.transferTo(file);
+            System.out.printf(file.getAbsolutePath());
+        }
+        return "redirect:/Hr/user/"+sId+"/update/geninfo/";
+    }
 
     @RequestMapping(value = "Hr/changepass", method = RequestMethod.GET)
     public ModelAndView ChangePass(Principal principal){
@@ -202,7 +282,20 @@ public class HrController {
         return mav;
     }
 
+    public static int updateDBGenInfo(ProfileViewModel person) {
+        int res = 0;
+        try {
+            UserService.updateUsersEntity(person);
+            res = UserService.updateUsersLocEntityEn(person);
+            res = UserService.updateUsersLocEntityRu(person);
+            res = UserService.updateUsersLocEntityUz(person);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            return res;
+        }
 
+    }
 
     public static List<ProfileViewModel> getUsers() {
         List<ProfileViewModel> returning = new LinkedList<ProfileViewModel>();
@@ -338,9 +431,9 @@ public class HrController {
         //Getting is political
         try {
             if (user.getPolitical())
-                returning.setPolitical("Yes");
+                returning.setPolitical(true);
             else
-                returning.setPolitical("No");
+                returning.setPolitical(false);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -427,6 +520,51 @@ public class HrController {
         }
         return uip;
     }
+
+    private Map<Integer, String> getDirectHeadIdAndName() {
+        Map<Integer, String> heads = new LinkedHashMap<Integer, String>();
+        Collection<UsersEntity> usersWithInfo = UserService.getDirectHeads();   //Getting list of users with localization info
+        Iterator itr = usersWithInfo.iterator();                                //info for iterator
+        UsersEntity userTemp;                                                   //info for iterator
+        UserLocalizationsEntity userLocTemp;                                    //info for iterator
+
+        while (itr.hasNext()) {
+            Object[] obj = (Object[]) itr.next();
+            userTemp = (UsersEntity) obj[0];
+            userLocTemp = (UserLocalizationsEntity) obj[1];
+            if (userLocTemp != null)
+                heads.put(userTemp.getId(), userLocTemp.getFirstName() + " " + userLocTemp.getFirstName());
+            else
+                heads.put(userTemp.getId(), userTemp.getUserName());
+        }
+
+        return heads;
+    }
+
+    private Map<Integer, String> getDepartmentsIdAndName() {
+        Map<Integer, String> departments = new LinkedHashMap<Integer, String>();        //Getting departments and adding to model and view
+        for (DepartmentLocalizationsEntity depLoc : UserService.getDepartments()) {
+            departments.put(depLoc.getDepartmentId(), depLoc.getName());
+        }
+        return departments;
+    }
+
+    private Map<Integer, String> getStatusesIdAndName() {
+        Map<Integer, String> statuses = new LinkedHashMap<Integer, String>();           //Getting statuses and adding to model and view
+        for (StatusLocalizationsEntity statLoc : UserService.getStatuses()) {
+            statuses.put(statLoc.getStatusId(), statLoc.getName());
+        }
+        return statuses;
+    }
+
+    private Map<Integer, String> getRolesIdAndName() {
+        Map<Integer, String> roles = new LinkedHashMap<Integer, String>();           //Getting statuses and adding to model and view
+        for (RoleLocalizationsEntity roleLoc : UserService.getRolesLoc()) {
+            roles.put(roleLoc.getRoleId(), roleLoc.getName());
+        }
+        return roles;
+    }
+
 
 }
 

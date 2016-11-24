@@ -3,6 +3,7 @@ package com.lgcns.erp.tapps.DbContext;
 import com.lgcns.erp.tapps.Enums.Language;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
+import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -861,4 +862,111 @@ public class UserService {
     }
 
 
+    public static void updateUsersEntity(ProfileViewModel person) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update UsersEntity set dateOfBirth = :dateOfBirth, departmentId = :departmentId, mobilePhone = :mobilePhone, " +
+                    "homePhone = :homePhone, eMail = :companyEmail, personalEmail = :personalEmail, statusId = :statusId, hiringDate=:hiringDate, " +
+                    "political = :isPolitical, passport =:passport, roleId = :roleId  where id = :userid");
+            query.setParameter("userid", Integer.parseInt(person.getId()));
+            query.setParameter("dateOfBirth", person.getPersonalInfo().getDateOfBirth());
+            query.setParameter("departmentId", Integer.parseInt(person.getDepartment()));
+            query.setParameter("mobilePhone", person.getPersonalInfo().getMobilePhone());
+            query.setParameter("homePhone", person.getPersonalInfo().getHomePhone());
+            query.setParameter("companyEmail", person.getPersonalInfo().getEmailCompany());
+            query.setParameter("personalEmail", person.getPersonalInfo().getEmailPersonal());
+            query.setParameter("statusId", Integer.parseInt(person.getStatus()));
+            query.setParameter("hiringDate", person.getEntryDate());
+            query.setParameter("isPolitical", person.getIsPolitical());
+            query.setParameter("passport", person.getPassportNumber());
+            query.setParameter("roleId", Integer.parseInt(person.getPosition()));
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static int updateUsersLocEntityEn(ProfileViewModel person) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update UserLocalizationsEntity set lastName = :lastName, firstName = :firstName, " +
+                    "fatherName = :fathersName, address = :address, birthPlace = :birthPlace where id = :userid and languageId = 3");
+            query.setParameter("userid", Integer.parseInt(person.getId()));
+            query.setParameter("lastName", person.getLastName()[2]);
+            query.setParameter("firstName", person.getFirstName()[2]);
+            query.setParameter("fathersName", person.getFathersName()[2]);
+            query.setParameter("address", person.getAddress()[2]);
+            query.setParameter("birthPlace", person.getPersonalInfo().getBirthPlace()[2]);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return 0;
+    }
+    public static int updateUsersLocEntityRu(ProfileViewModel person) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update UserLocalizationsEntity set lastName = :lastName, firstName = :firstName, " +
+                    "fatherName = :fathersName, address = :address, birthPlace = :birthPlace where id = :userid and languageId = 1");
+            query.setParameter("userid", Integer.parseInt(person.getId()));
+            query.setParameter("lastName", person.getLastName()[2]);
+            query.setParameter("firstName", person.getFirstName()[2]);
+            query.setParameter("fathersName", person.getFathersName()[2]);
+            query.setParameter("address", person.getAddress()[2]);
+            query.setParameter("birthPlace", person.getPersonalInfo().getBirthPlace()[2]);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return 0;
+    }
+    public static int updateUsersLocEntityUz(ProfileViewModel person) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update UserLocalizationsEntity set lastName = :lastName, firstName = :firstName, " +
+                    "fatherName = :fathersName, address = :address, birthPlace = :birthPlace where id = :userid and languageId = 2");
+            query.setParameter("userid", Integer.parseInt(person.getId()));
+            query.setParameter("lastName", person.getLastName()[2]);
+            query.setParameter("firstName", person.getFirstName()[2]);
+            query.setParameter("fathersName", person.getFathersName()[2]);
+            query.setParameter("address", person.getAddress()[2]);
+            query.setParameter("birthPlace", person.getPersonalInfo().getBirthPlace()[2]);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return 0;
+    }
 }

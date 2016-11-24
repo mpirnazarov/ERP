@@ -4,28 +4,22 @@ import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.Enums.Appoint;
 import com.lgcns.erp.tapps.Enums.Language;
 import com.lgcns.erp.tapps.Enums.Language_Ranking;
-import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.LoginViewModel;
 import com.lgcns.erp.tapps.viewModel.PersonalInformationViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
-import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.*;
-import com.lgcns.erp.tapps.viewModel.usermenu.personalInfo.BirthPlace;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.*;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
@@ -70,64 +64,17 @@ public class UserController {
         return response;
     }
 
-    @RequestMapping(value = "/User/Register", method = RequestMethod.GET)
-    @ResponseBody
-    public ModelAndView Register(/*@ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel */) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("user/register");
-
-        RegistrationViewModel rvm = new RegistrationViewModel(UserService.getLanguageIdAndName());
-        mav.addObject("registrationVM", rvm);
-
-        Map<Integer, String> heads = getDirectHeadIdAndName();
-        mav.addObject("heads", heads);
-
-        Map<Integer, String> departments = getDepartmentsIdAndName();
-        mav.addObject("departments", departments);
-
-        Map<Integer, String> statuses = getStatusesIdAndName();
-        mav.addObject("statuses", statuses);
-
-        Map<Integer, String> roles = getRolesIdAndName();
-        mav.addObject("roles", roles);
-
-        return mav;
-    }
-
-
-
-    @RequestMapping(value = "/User/Register", method = RequestMethod.POST)
-    @ResponseBody
-    public ModelAndView RegisterPost(@Valid @ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel, BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("user/register");
-        mav.addObject("registrationVM", registrationViewModel);
-        if (bindingResult.hasErrors()) {
-            mav.addObject("heads", getDirectHeadIdAndName());
-            mav.addObject("departments", getDepartmentsIdAndName());
-            mav.addObject("statuses", getStatusesIdAndName());
-            mav.addObject("roles", getRolesIdAndName());
-            mav.addObject("org.springframework.validation.BindingResult.registrationVM", bindingResult);
-            return mav;
-        }
-
-        //adding user and userLocalization info into DB
-        int userId = UserService.insertUser(UserMapper.mapRegModelToUserInfo(registrationViewModel));
-        UserService.insertUserLoc(UserMapper.mapRegModelToUserLocInfo(registrationViewModel, userId));
-
-
-        mav = new ModelAndView();
-        mav.setViewName("Home/hrmenu/Userslist");
-        return mav;
-    }
-
     @RequestMapping (value = "/User/Profile", method = RequestMethod.GET)
     @ResponseBody public ModelAndView Profile(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/IndexUser");
+        ProfileViewModel userProfile=null;
+        try {
+            userProfile = getProfileByUsername(principal);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
-        ProfileViewModel userProfile = getProfileByUsername(principal);
         mav.addObject("userProfile", userProfile);
 
         return mav;
@@ -286,50 +233,6 @@ public class UserController {
         return "redirect: /";
     }
 
-    private Map<Integer, String> getDirectHeadIdAndName() {
-        Map<Integer, String> heads = new LinkedHashMap<Integer, String>();
-        Collection<UsersEntity> usersWithInfo = UserService.getDirectHeads();   //Getting list of users with localization info
-        Iterator itr = usersWithInfo.iterator();                                //info for iterator
-        UsersEntity userTemp;                                                   //info for iterator
-        UserLocalizationsEntity userLocTemp;                                    //info for iterator
-
-        while (itr.hasNext()) {
-            Object[] obj = (Object[]) itr.next();
-            userTemp = (UsersEntity) obj[0];
-            userLocTemp = (UserLocalizationsEntity) obj[1];
-            if (userLocTemp != null)
-                heads.put(userTemp.getId(), userLocTemp.getFirstName() + " " + userLocTemp.getFirstName());
-            else
-                heads.put(userTemp.getId(), userTemp.getUserName());
-        }
-
-        return heads;
-    }
-
-    private Map<Integer, String> getDepartmentsIdAndName() {
-        Map<Integer, String> departments = new LinkedHashMap<Integer, String>();        //Getting departments and adding to model and view
-        for (DepartmentLocalizationsEntity depLoc : UserService.getDepartments()) {
-            departments.put(depLoc.getDepartmentId(), depLoc.getName());
-        }
-        return departments;
-    }
-
-    private Map<Integer, String> getStatusesIdAndName() {
-        Map<Integer, String> statuses = new LinkedHashMap<Integer, String>();           //Getting statuses and adding to model and view
-        for (StatusLocalizationsEntity statLoc : UserService.getStatuses()) {
-            statuses.put(statLoc.getStatusId(), statLoc.getName());
-        }
-        return statuses;
-    }
-
-    private Map<Integer, String> getRolesIdAndName() {
-        Map<Integer, String> roles = new LinkedHashMap<Integer, String>();           //Getting statuses and adding to model and view
-        for (RoleLocalizationsEntity roleLoc : UserService.getRolesLoc()) {
-            roles.put(roleLoc.getRoleId(), roleLoc.getName());
-        }
-        return roles;
-    }
-
     public static ProfileViewModel getProfileByUsername(Principal principal){
         ProfileViewModel returning = new ProfileViewModel();
 
@@ -350,9 +253,9 @@ public class UserController {
 
         //Getting is political
         if (user.getPolitical())
-            returning.setPolitical("Yes");
+            returning.setPolitical(true);
         else
-            returning.setPolitical("No");
+            returning.setPolitical(false);
 
         //Getting Joint Type
         returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType()-1].toString());
@@ -517,8 +420,6 @@ public class UserController {
         return docsViewModels;
     }
 
-
-
     public static UserInPostsEntity getMax(List<UserInPostsEntity> usersInPost) {
         UserInPostsEntity uip = new UserInPostsEntity();
         long num = 0;
@@ -533,6 +434,5 @@ public class UserController {
         }
         return uip;
     }
-
 
 }

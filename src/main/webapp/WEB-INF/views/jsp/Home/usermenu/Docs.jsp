@@ -67,12 +67,12 @@
                         </p>
                     </form>
                     <%--<div>--%>
-                        <%--<div>Uploaded files:</div>--%>
-                        <%--<#list files as file>--%>
-                            <%--<div>--%>
-                                <%--${file.getName()}--%>
-                            <%--</div>--%>
-                        <%--</#list>--%>
+                    <%--<div>Uploaded files:</div>--%>
+                    <%--<#list files as file>--%>
+                    <%--<div>--%>
+                    <%--${file.getName()}--%>
+                    <%--</div>--%>
+                    <%--</#list>--%>
                     <%--</div>--%>
                 </div>
                     </div>

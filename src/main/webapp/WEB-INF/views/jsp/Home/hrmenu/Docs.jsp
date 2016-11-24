@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="pageTitle" scope="request" value="Documents"/>
 <%
     ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
@@ -22,6 +23,7 @@
         <div class="col-lg-8 col-lg-offset-2">
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
             <h2 class="page-header">Documents</h2>
+            <form:form cssClass="form-horizontal" method="post" action="/Hr/Profile/Docs">
             <table class="table table-default">
                 <thead>
                 <tr>
@@ -34,8 +36,8 @@
                 <tbody>
                 <%--<c:forEach items="${}" var="doc" varStatus="status">--%>
                     <tr>
-                        <td>Information about Salary</td>
-                        <td>Document</td>
+                        <td>Certification of Employment</td>
+                        <td>Docx</td>
                         <td>
                             <%--<div class="dropdown">--%>
                                 <%--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select employee--%>
@@ -45,18 +47,20 @@
                                     <%--<li><a href="#">Muslimbek Pirnazarov</a></li>--%>
                                 <%--</ul>--%>
                             <%--</div>--%>
-                                <select class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>
-                                    <option value="volvo">Muslimbek</option>
-                                    <option value="saab">Jessi</option>
-                                    <option value="mercedes">Pakirrreeee</option>
-                                    <option value="audi">Akkkkkbaaaal</option>
+                                <form name="jump2">
+                                <select name="user2" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>
+                                    OnChange="location.href=jump2.user2.options[selectedIndex].value">
+                                    <c:forEach items="${users}" var="user" varStatus="status">
+                                        <option value="1/${user.key}/">${user.value}</option>
+                                    </c:forEach>
                                 </select>
                         </td>
-                        <td><i class="fa fa-fw fa-download"></i></td>
+                        <td><a href="1/${requestScope.user2}/"><i class="fa fa-fw fa-download"></i></a></td>
                     </tr>
                 <%--</c:forEach>--%>
                 </tbody>
             </table>
+            </form:form>
             <div>
                 <form name="uploadingForm" enctype="multipart/form-data" action="/Hr/user/${id}/UploadPic/" method="POST">
                     <p>

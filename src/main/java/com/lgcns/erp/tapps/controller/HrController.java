@@ -166,9 +166,9 @@ public class HrController {
         mav.addObject("userProfile", userProfile);
         return mav;
     }
-    @RequestMapping(value = "/Hr/Profile/Docs", method = RequestMethod.GET)
+    @RequestMapping(value = "/Hr/Docs", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView Docs(Principal principal) {
+    public ModelAndView Docs(Principal principal,Model model, @ModelAttribute("user")  Hashtable<Integer, String> users) {
         ProfileViewModel user = getProfileById(UserService.getUserByUsername(principal.getName()).getId());
         try {
             generateCertificate(user);
@@ -180,7 +180,16 @@ public class HrController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/hrmenu/Docs");
         DocsViewModel docsViewModel = new DocsViewModel();
-        mav.addObject("docsVM", docsViewModel);
+        users = new Hashtable<Integer, String>();
+        for (UserLocalizationsEntity user2 :
+                UserService.getAllUserLocs()) {
+            if (user2.getLanguageId()==3)
+            {
+                users.put(user2.getId(), user2.getFirstName() + " " + user2.getLastName());
+            }
+        }
+        mav.addObject("users", users);
+        model.addAttribute("users", users);
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
         mav.addObject("userProfile", userProfile);
         return mav;
@@ -190,12 +199,12 @@ public class HrController {
         String templatePath = "C:/files/template/Certification_of_Employment.docx";
         Map<String, Object> nonImageVariableMap = new HashMap<String, Object>();
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMMMMMMM dd");
-        Calendar calendar = new GregorianCalendar(2013,10,28);
-        nonImageVariableMap.put("date_now", sdf.format(calendar.getTime()));
-        nonImageVariableMap.put("name", "Bakir Maksumov");
-        nonImageVariableMap.put("jobTitle", "CEO");
-        nonImageVariableMap.put("hiringDate", "01.01.2016");
+        nonImageVariableMap.put("date_now", new SimpleDateFormat("d MMMMMMMM yyyy", Locale.ENGLISH).format(date));
+
+        nonImageVariableMap.put("name", user.getFirstName()[2] + " "+ user.getLastName()[2]);
+        nonImageVariableMap.put("jobTitle", user.getJobTitle());
+        System.out.printf("Entry date: " + user.getEntryDate());
+        nonImageVariableMap.put("hiringDate", new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(user.getEntryDate()));
         Map<String, String> imageVariablesWithPathMap =new HashMap<String, String>();
         imageVariablesWithPathMap.put("header_image_logo", "C:/0001.jpg");
         System.out.println("Writing file from template");
@@ -592,7 +601,7 @@ public class HrController {
         UserInPostsEntity uip = new UserInPostsEntity();
         long num = 0;
 
-        uip.setDateFrom((java.sql.Date) new Date(num));
+        uip.setDateFrom( new java.sql.Date(num));
         for (UserInPostsEntity up :
                 usersInPost) {
             if(up.getDateFrom().compareTo(uip.getDateFrom())>0)

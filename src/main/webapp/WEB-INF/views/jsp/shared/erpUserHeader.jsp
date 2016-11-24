@@ -23,16 +23,29 @@
     <spring:url value="/resources/core/js/jquery.slimscroll.min.js" var="slimScroll"/>
     <spring:url value="/resources/core/css/datatablesCombined.min.css" var="allInOneCss"/>
     <spring:url value="/resources/core/js/datatablesCombined.min.js" var="allInOneJs"/>
+    <spring:url value="/resources/core/css/editablegrid.css" var="editableCss"/>
+    <spring:url value="/resources/core/js/editable/editablegrid.js" var="editablegridJs"/>
+    <spring:url value="/resources/core/js/editable/editablegrid_charts.js" var="editablegridChart"/>
+    <spring:url value="/resources/core/js/editable/editablegrid_charts_ofc.js" var="editablegridChartsofc"/>
+    <spring:url value="/resources/core/js/editable/editablegrid_editors.js" var="editablegridEditors"/>
+    <spring:url value="/resources/core/js/editable/editablegrid_renderers.js" var="editablegridRenderers"/>
+    <spring:url value="/resources/core/js/editable/editablegrid_utils.js" var="editablegridUtils"/>
+    <spring:url value="/resources/core/js/editable/editablegrid_validators.js" var="editablegridValidators"/>
     <script src="${jquery}"></script>
     <link rel="stylesheet" href="${navbar}" />
+    <link rel="stylesheet" href="${editableCss}" />
     <link rel="icon" href="/resources/images/lg-2-multi-size.ico" type="image/x-icon">
     <link rel="stylesheet" href="${normalizeCss}" />
     <link rel="stylesheet" href="${bootstrapminCss}" />
     <%--<link rel='stylesheet prefetch' href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">--%>
     <link rel="stylesheet" href="${styleCss}" />
-
-    <script src="${slimScroll}"></script>
-
+    <script src="${editablegridJs}"></script>
+    <script src="${editablegridChart}"></script>
+    <script src="${editablegridChartsofc}"></script>
+    <script src="${editablegridEditors}"></script>
+    <script src="${editablegridRenderers}"></script>
+    <script src="${editablegridUtils}"></script>
+    <script src="${editablegridValidators}"></script>
     <script src="${jqueryValidation}"></script>
     <link rel="stylesheet" type="text/css" href="${allInOneCss}"/>
     <script type="text/javascript" src="${allInOneJs}"></script>

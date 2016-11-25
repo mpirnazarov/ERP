@@ -309,7 +309,7 @@ public class UserController {
             FamilyMember familyMember = new FamilyMember(familyLoc2.size());
             for (FamiliyInfoLocalizationsEntity faInLoEn :
                     familyLoc2) {
-                familyMember.add(faInLoEn.getRelation(), faInLoEn.getLastName()+" "+faInLoEn.getFirstName(), fie.getDateOfBirth(), faInLoEn.getJobTitle(), faInLoEn.getLanguageId());
+                familyMember.add(faInLoEn.getRelation(), faInLoEn.getLastName()+" "+faInLoEn.getFirstName(), fie.getDateOfBirth(), faInLoEn.getJobTitle(), faInLoEn.getLanguageId(), faInLoEn.getFamilyInfoid());
                 // System.out.println( familyMember.getRelation()[faInLoEn.getLanguageId()-1]+ " " + familyMember.getFullName()[faInLoEn.getLanguageId()-1] + " " + familyMember.getDateOfBirth() + " " + familyMember.getJobTitle()[faInLoEn.getLanguageId()-1]);
             }familyMembers.add(familyMember);
         }

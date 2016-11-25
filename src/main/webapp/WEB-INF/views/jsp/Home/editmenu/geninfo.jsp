@@ -294,6 +294,7 @@
                                             <td>${family.fullName[2]}</td>
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[2]}</td>
+                                            <td><a href="./Geninfo/updateFam/${family.id}/">Edit</a></td>
                                             <c:set var="count" value="${count + 1}" scope="page"/>
                                         </tr>
                                     </c:forEach>

@@ -11,17 +11,21 @@ public class FamilyMember {
     private Date dateOfBirth;
     private String[] jobTitle;
 
+
+    private int id;
+
      public FamilyMember(int num) {
         this.relation = new String[num];
         this.fullName = new String[num];
         this.jobTitle = new String[num];
     }
 
-    public void add(String relation, String fullName, Date dateOfBirth, String jobTitle, int languageId) {
+    public void add(String relation, String fullName, Date dateOfBirth, String jobTitle, int languageId, int familyInfoid) {
         this.relation[languageId-1] = relation;
         this.fullName[languageId-1] = fullName;
         this.dateOfBirth = dateOfBirth;
         this.jobTitle[languageId-1] = jobTitle;
+        this.id = familyInfoid;
     }
 
     public String[] getFullName() {
@@ -36,6 +40,15 @@ public class FamilyMember {
     }
     public String[] getRelation() {
         return relation;
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 

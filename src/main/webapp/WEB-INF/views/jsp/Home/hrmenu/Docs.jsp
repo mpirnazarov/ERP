@@ -48,10 +48,9 @@
                                 <%--</ul>--%>
                             <%--</div>--%>
                                 <form name="jump2">
-                                <select name="user2" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>
-                                    OnChange="location.href=jump2.user2.options[selectedIndex].value">
+                                <select name="user2" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onchange="if (this.value) window.location.href=this.value"><span class="caret"></span>
                                     <c:forEach items="${users}" var="user" varStatus="status">
-                                        <option value="1/${user.key}/">${user.value}</option>
+                                        <option value="Generate/1/${user.key}/">${user.value}</option>
                                     </c:forEach>
                                 </select>
                                 </form>
@@ -62,26 +61,6 @@
                 </tbody>
             </table>
             </form:form>
-            <div>
-                <form name="uploadingForm" enctype="multipart/form-data" action="/Hr/user/${id}/UploadPic/" method="POST">
-                    <p>
-                        <input id="fileInput" type="file" name="uploadingFiles" onchange="updateSize();" multiple>
-                        selected files: <span id="fileNum">0</span>;
-                        total size: <span id="fileSize">0</span>
-                    </p>
-                    <p>
-                        <input type="submit" class="btn btn-success" value="Upload file">
-                    </p>
-                </form>
-                <%--<div>--%>
-                <%--<div>Uploaded files:</div>--%>
-                <%--<#list files as file>--%>
-                <%--<div>--%>
-                <%--${file.getName()}--%>
-                <%--</div>--%>
-                <%--</#list>--%>
-                <%--</div>--%>
-            </div>
         </div>
     </div>
 </div>
@@ -104,6 +83,11 @@
 
         document.getElementById("fileNum").innerHTML = nFiles;
         document.getElementById("fileSize").innerHTML = sOutput;
+    }
+
+    function changeTest () {
+        var Index = document.menuForm.select1.options[document.menuForm.select1.selectedIndex].value;
+        document.testStar.src = imageArray[Index]; document.testStar.alt = altArray[Index];
     }
 </script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

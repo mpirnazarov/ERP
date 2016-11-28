@@ -70,7 +70,7 @@ public class UserController {
         mav.setViewName("Home/IndexUser");
         ProfileViewModel userProfile=null;
         try {
-            userProfile = getProfileByUsername(principal);
+            userProfile = getProfileByUsername(principal.getName());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -86,7 +86,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/AppointmentRec");
         AppointmentrecViewModel appointmentrecViewModel = getAppointmentByUsername(principal);
-        ProfileViewModel userProfile = getProfileByUsername(principal);
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
         return mav;
@@ -100,7 +100,7 @@ public class UserController {
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<SalaryVewModel> salaryVewModel = getSalaryByUser(user);
 
-        ProfileViewModel userProfile = getProfileByUsername(principal);
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("salaryVM", salaryVewModel);
         return mav;
@@ -112,7 +112,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/EducationCer");
         EduViewModel eduViewModel = getEducationByUsername(principal);
-        ProfileViewModel userProfile = getProfileByUsername(principal);
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("eduVM", eduViewModel);
         return mav;
@@ -125,7 +125,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/JobExp");
         List<JobexpViewModel> jobexpViewModel = getJobExperience(principal);
-        ProfileViewModel userProfile = getProfileByUsername(principal);
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("jobexpVM", jobexpViewModel);
         return mav;
@@ -137,7 +137,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/TrainingRec");
         List<TrainViewModel> trainViewModel = getTrainingRecord(principal);
-        ProfileViewModel userProfile = getProfileByUsername(principal);
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("trainVM", trainViewModel);
         return mav;
@@ -149,7 +149,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/Docs");
         List<DocsViewModel> docsViewModel = getDocuments(principal);
-        ProfileViewModel userProfile = getProfileByUsername(principal);
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("docsVM", docsViewModel);
         return mav;
@@ -211,7 +211,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         ChangepassViewModel changepassViewModel = new ChangepassViewModel ();
         mav.setViewName("user/changepass");
-        ProfileViewModel userProfile = getProfileByUsername(principal);
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("changepassVM", changepassViewModel);
         return mav;
@@ -233,11 +233,11 @@ public class UserController {
         return "redirect: /";
     }
 
-    public static ProfileViewModel getProfileByUsername(Principal principal){
+    public static ProfileViewModel getProfileByUsername(String userName){
         ProfileViewModel returning = new ProfileViewModel();
 
         // Getting data from users db
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = UserService.getUserByUsername(userName);
         // Getting its localization data
         List<UserLocalizationsEntity> userLocalizationsEntities = UserService.getUserLocByUserId(user.getId());
 
@@ -250,6 +250,9 @@ public class UserController {
 
         //Getting Position from user_in_roles
         returning.setPosition(UserService.getRoleLoc(user).getName());
+
+        // Getting isEnabled variable
+        returning.setEnabled(user.isEnabled());
 
         //Getting is political
         if (user.getPolitical())

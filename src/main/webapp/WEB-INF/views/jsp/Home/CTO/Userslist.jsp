@@ -21,9 +21,7 @@
             <div class="col-lg-8 col-lg-offset-2">
                 <h1 class="page-header">Userslist</h1>
             <div class="table-responsive">
-                    <div class="col-lg-offset-10 col-xs-1">
-                        <a href="/Hr/Register" class="btn btn-success" role="button">New User</a>
-                    </div>
+
         <br/>
         <table id="myTable" class="display table" cellspacing="0" width="100%">
             <thead>
@@ -44,12 +42,7 @@
                     <td><c:out value="${user.username}"/></td>
                     <td>
                         <spring:url value="/Hr/user/${user.id}" var="userUrl" />
-                        <spring:url value="/Hr/user/${user.id}/delete" var="disableUrl" />
-                        <spring:url value="/Hr/user/${user.id}/update/Geninfo" var="updateUrl" />
-
-                        <button class="btn btn-info" onclick="location.href='${userUrl}'">Query</button>
-                        <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
-                        <button class="btn btn-danger" onclick="this.disabled=true;post('${disableUrl}')">Disable</button></td>
+                        <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
                 </tr>
             </c:forEach>
             </tbody>

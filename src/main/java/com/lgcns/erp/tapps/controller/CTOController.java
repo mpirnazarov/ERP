@@ -7,6 +7,7 @@ import com.lgcns.erp.tapps.viewModel.PersonalInformationViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,13 +21,13 @@ import java.util.List;
  * Created by Muslimbek on 11/28/2016.
  */
 @Controller
-public class ChiefController {
+public class CTOController {
 
     @RequestMapping(value = "/CTO/Profile", method = RequestMethod.GET)
     public ModelAndView Hrprofile(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/IndexCTO");
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
@@ -38,7 +39,7 @@ public class ChiefController {
         mav.setViewName("Home/CTO/AppointmentRec");
         AppointmentrecViewModel appointmentrecViewModel = UserController.getAppointmentByUsername(principal);
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
@@ -50,7 +51,7 @@ public class ChiefController {
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(user);
 
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("salaryVM", salaryVewModel);
         return mav;
@@ -62,7 +63,7 @@ public class ChiefController {
         mav.setViewName("Home/CTO/EducationCer");
         EduViewModel hreduViewModel = UserController.getEducationByUsername(principal);
         mav.addObject("eduVM", hreduViewModel);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
@@ -72,7 +73,7 @@ public class ChiefController {
         mav.setViewName("Home/CTO/JobExp");
         List<JobexpViewModel> jobexpViewModel = UserController.getJobExperience(principal);
         mav.addObject("jobexpVM", jobexpViewModel);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
@@ -82,7 +83,7 @@ public class ChiefController {
         mav.setViewName("Home/CTO/TrainingRec");
         List<TrainViewModel> trainViewModel = UserController.getTrainingRecord(principal);
         mav.addObject("trainVM", trainViewModel);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
@@ -93,7 +94,7 @@ public class ChiefController {
         List<ProfileViewModel> users = getUsers();
 
         mav.addObject("hrUserslistVM", users);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
@@ -103,10 +104,32 @@ public class ChiefController {
         ModelAndView mav = new ModelAndView();
         ChangepassViewModel changepassViewModel = new ChangepassViewModel ();
         mav.setViewName("Home/CTO/changepass");
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("changepassVM", changepassViewModel);
         return mav;
+    }
+
+    @RequestMapping(value = "/CTO/user/{userId}/{path}", method = RequestMethod.GET)
+    public ModelAndView UpdateFamInfo(Principal principal, @PathVariable("userId") int userId, @PathVariable("path") String path){
+        if(path.compareTo("geninfo")==0) {
+            ModelAndView mav = new ModelAndView();
+            mav.setViewName("Home/CTO/userInfo/geninfo");
+            String username = UserService.getUsernameById(userId);
+            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
+            mav.addObject("userProfile", userProfile);
+            return mav;
+        }
+        if(path.compareTo("salary")==0) {
+            ModelAndView mav = new ModelAndView();
+            mav.setViewName("Home/CTO/userInfo/salary");
+            String username = UserService.getUsernameById(userId);
+            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
+            mav.addObject("userProfile", userProfile);
+            return mav;
+        }
+
+        return null;
     }
 
     public static List<ProfileViewModel> getUsers() {

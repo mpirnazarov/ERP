@@ -40,6 +40,7 @@ public class ProfileViewModel {
     private String jobTitle;
     private String passportNumber;
     private int languageId;
+    private boolean enabled;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date entryDate;
@@ -230,5 +231,13 @@ public class ProfileViewModel {
                 ", personalInfo=" + personalInfo +
                 ", familyLoc=" + familyLoc +
                 '}';
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

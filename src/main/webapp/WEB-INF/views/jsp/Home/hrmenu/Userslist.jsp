@@ -44,12 +44,19 @@
                     <td><c:out value="${user.username}"/></td>
                     <td>
                         <spring:url value="/Hr/user/${user.id}" var="userUrl" />
-                        <spring:url value="/Hr/user/${user.id}/delete" var="disableUrl" />
+                        <spring:url value="/Hr/user/${user.id}/disable/" var="disableUrl" />
+                        <spring:url value="/Hr/user/${user.id}/enable/" var="enableUrl" />
                         <spring:url value="/Hr/user/${user.id}/update/Geninfo" var="updateUrl" />
 
-                        <button class="btn btn-info" onclick="location.href='${userUrl}'">Query</button>
+                        <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
                         <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
-                        <button class="btn btn-danger" onclick="this.disabled=true;post('${disableUrl}')">Disable</button></td>
+                        <c:if test="${not user.enabled}">
+                            <button class="btn btn-success" onclick="location.href='${enableUrl}'">Enable</button></td>
+
+                        </c:if>
+                        <c:if test="${user.enabled}">
+                            <button class="btn btn-danger" onclick="location.href='${disableUrl}'">Disable</button></td>
+                        </c:if>
                 </tr>
             </c:forEach>
             </tbody>

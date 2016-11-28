@@ -30,7 +30,7 @@
                     <th>Document name</th>
                     <th>Document type</th>
                     <th>Username</th>
-                    <th><i class="fa fa-fw fa-download"></i></th>
+                    <%--<th><i class="fa fa-fw fa-download"></i></th>--%>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,6 +49,7 @@
                             <%--</div>--%>
                                 <form name="jump2">
                                 <select name="user2" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onchange="if (this.value) window.location.href=this.value"><span class="caret"></span>
+                                    <option value="NONE">--- Select ---</option>
                                     <c:forEach items="${users}" var="user" varStatus="status">
                                         <option value="Generate/1/${user.key}/">${user.value}</option>
                                     </c:forEach>
@@ -70,6 +71,7 @@
                             <%--</div>--%>
                         <form name="jump2">
                             <select name="user2" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onchange="if (this.value) window.location.href=this.value"><span class="caret"></span>
+                                <option value="NONE">--- Select ---</option>
                                 <c:forEach items="${users}" var="user" varStatus="status">
                                     <option value="Generate/2/${user.key}/">${user.value}</option>
                                 </c:forEach>
@@ -91,6 +93,7 @@
                             <%--</div>--%>
                         <form name="jump2">
                             <select name="user2" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onchange="if (this.value) window.location.href=this.value"><span class="caret"></span>
+                                <option value="NONE">--- Select ---</option>
                                 <c:forEach items="${users}" var="user" varStatus="status">
                                     <option value="Generate/3/${user.key}/">${user.value}</option>
                                 </c:forEach>

@@ -969,4 +969,67 @@ public class UserService {
         }
         return 0;
     }
+
+    public static UsersEntity disableUser(int id) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update UsersEntity set enabled = 'false' where id = :userid");
+            query.setParameter("userid", id);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return null;
+    }
+
+    public static void enableUser(int id) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update UsersEntity set enabled = 'true' where id = :userid");
+            query.setParameter("userid", id);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+    }
+
+    public static String getUsernameById(int userId) {
+
+        String username=null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("select userName from UsersEntity where id = :userId");
+            query.setParameter("userId", userId);
+            username = (String) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return username;
+    }
 }

@@ -95,7 +95,7 @@ public class HrController {
     @ResponseBody public ModelAndView Hrprofile(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/IndexHR");
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
@@ -106,7 +106,7 @@ public class HrController {
         mav.setViewName("Home/hrmenu/AppointmentRec");
         AppointmentrecViewModel appointmentrecViewModel = UserController.getAppointmentByUsername(principal);
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
@@ -118,7 +118,7 @@ public class HrController {
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(user);
 
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("salaryVM", salaryVewModel);
         return mav;
@@ -130,7 +130,7 @@ public class HrController {
         mav.setViewName("Home/hrmenu/EducationCer");
         EduViewModel hreduViewModel = UserController.getEducationByUsername(principal);
         mav.addObject("eduVM", hreduViewModel);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
@@ -140,7 +140,7 @@ public class HrController {
         mav.setViewName("Home/hrmenu/JobExp");
         List<JobexpViewModel> jobexpViewModel = UserController.getJobExperience(principal);
         mav.addObject("jobexpVM", jobexpViewModel);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
@@ -150,7 +150,7 @@ public class HrController {
         mav.setViewName("Home/hrmenu/TrainingRec");
         List<TrainViewModel> trainViewModel = UserController.getTrainingRecord(principal);
         mav.addObject("trainVM", trainViewModel);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
@@ -161,7 +161,7 @@ public class HrController {
         List<ProfileViewModel> users = getUsers();
 
         mav.addObject("hrUserslistVM", users);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
@@ -181,7 +181,7 @@ public class HrController {
         }
         mav.addObject("users", users);
         model.addAttribute("users", users);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
@@ -260,6 +260,8 @@ public class HrController {
             model.addAttribute("jointType", jointType);
             return mav;
        }
+
+
        else if(path.compareTo("Docs")==0){
             System.out.println(path);
             mav.setViewName("Home/editmenu/Docs");
@@ -317,7 +319,7 @@ public class HrController {
         mav.setViewName("Home/editmenu/geninfo");
         HrJobexpViewModel hrjobexpViewModel = new HrJobexpViewModel();
         mav.addObject("hrjobexpVM", hrjobexpViewModel);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
@@ -333,7 +335,6 @@ public class HrController {
         return mav;
     }
 
-
     @RequestMapping ( value = "/Hr/user/{id}/update/{path}", method = RequestMethod.POST )
     @ResponseBody public String UpdateInfo(Principal principal, @Valid @ModelAttribute  ProfileViewModel person, @PathVariable String path, BindingResult result, @PathVariable("id") int id){
         if(result.hasErrors()) {
@@ -341,6 +342,20 @@ public class HrController {
         }
         updateDBGenInfo(person);
         return null;
+    }
+
+    @RequestMapping ( value = "/Hr/user/{id}/disable/", method = RequestMethod.GET )
+    public String DisableUser(Principal principal, @PathVariable("id") int id){
+
+        UserService.disableUser(id);
+        return "redirect: /Hr/Userslist";
+    }
+
+    @RequestMapping ( value = "/Hr/user/{id}/enable/", method = RequestMethod.GET )
+    public String EnableUser(Principal principal, @PathVariable("id") int id){
+
+        UserService.enableUser(id);
+        return "redirect: /Hr/Userslist";
     }
 
     @RequestMapping ( value = "/Hr/Generate/{docId}/{userId}/", method = RequestMethod.GET )
@@ -394,7 +409,7 @@ public class HrController {
         ModelAndView mav = new ModelAndView();
         ChangepassViewModel changepassViewModel = new ChangepassViewModel ();
         mav.setViewName("user/changepass");
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("changepassVM", changepassViewModel);
         return mav;
@@ -432,6 +447,7 @@ public class HrController {
             PersonalInformationViewModel personalInformationViewModel = new PersonalInformationViewModel();
             personalInformationViewModel.setEmailCompany(userEntity.geteMail());
             userProfile.setPersonalInfo(personalInformationViewModel);
+            userProfile.setEnabled(user.isEnabled());
             for (UserLocalizationsEntity ul :
                     userLocalizationsEntities) {
                 userProfile.addData1(String.format("%05d", user.getId()), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());

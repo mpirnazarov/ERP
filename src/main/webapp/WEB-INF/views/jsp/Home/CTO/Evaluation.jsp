@@ -31,6 +31,7 @@
                 <th>Lastname</th>
                 <th>Username</th>
                 <th>Action</th>
+                <th>Grade</th>
             </tr>
             </thead>
             <tbody>

@@ -3,6 +3,7 @@ package com.lgcns.erp.tapps.DbContext;
 import com.lgcns.erp.tapps.Enums.Language;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
+import com.lgcns.erp.tapps.viewModel.CTO.Form;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -11,6 +12,7 @@ import org.hibernate.query.Query;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -357,7 +359,7 @@ public class UserService {
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from RoleLocalizationsEntity locs where locs.roleId = :roleId");
-            query.setParameter("roleId", usersEntity.getId());
+            query.setParameter("roleId", usersEntity.getRoleId());
             //query.setParameter("roleId", userInRoles.getRoleId());
             roleLoc = (RoleLocalizationsEntity) query.getSingleResult();
             transaction.commit();
@@ -1031,5 +1033,61 @@ public class UserService {
         }
 
         return username;
+    }
+
+    public static int getIdByUsername(String name) {
+        int id = 0;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("select id from UsersEntity where userName = :userName");
+            query.setParameter("userName", name);
+            id = (Integer) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return id;
+    }
+
+    public static void insertEvaluation(Form f, int id) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            int gr=0;
+            if (f.getGrade().compareTo("S")==0){
+                gr=1;
+            }else if(f.getGrade().compareTo("A")==0)
+                gr=2;
+            else if (f.getGrade().compareTo("B")==0)
+                gr=3;
+            else if (f.getGrade().compareTo("C")==0)
+                gr=4;
+            else if (f.getGrade().compareTo("D")==0)
+                gr=5;
+            transaction = session.beginTransaction();
+            PersonalEvalutionsEntity evalutionsEntity = new PersonalEvalutionsEntity();
+            evalutionsEntity.setUserId(Integer.parseInt(f.getId()));
+            evalutionsEntity.setGrade(gr);
+            evalutionsEntity.setDate(new Date(2016,01,26));
+            evalutionsEntity.setComments(f.getComments());
+            evalutionsEntity.setEvaluatorId(id);
+
+            session.save(evalutionsEntity);
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
     }
 }

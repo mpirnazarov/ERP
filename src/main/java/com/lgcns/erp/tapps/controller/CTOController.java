@@ -3,10 +3,14 @@ package com.lgcns.erp.tapps.controller;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.tapps.viewModel.CTO.Form;
+import com.lgcns.erp.tapps.viewModel.CTO.FormModel;
 import com.lgcns.erp.tapps.viewModel.PersonalInformationViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -135,23 +139,46 @@ public class CTOController {
         return null;
     }
 
-    @RequestMapping ( value = "/Hr/Evaluate/{userId}/{grade}", method = RequestMethod.POST )
-    public String UpdateEvaluation(Principal principal, @PathVariable("userId") int id, @PathVariable("grade") String grade){
-
-        /*updateDBGenInfo(person);*/
+    @RequestMapping ( value = "/CTO/Evaluation", method = RequestMethod.POST )
+    public String UpdateEvaluation(Model model, FormModel form, BindingResult result, Principal principal){
+        System.out.println(form.getForms().toString());
+        int id = UserService.getIdByUsername(principal.getName());
+        insertEvaluations(form, id);
         return null;
     }
 
+    private void insertEvaluations(FormModel form, int id) {
+        for (Form f:
+             form.getForms()) {
+            if(f.getGrade().compareTo(" ")!=0){
+                System.out.println("Grade: "+f.getGrade());
+                UserService.insertEvaluation(f, id);
+            }
+        }
+    }
+
     @RequestMapping (value = "/CTO/Evaluation", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView CTOUserslist(Principal principal){
+    public ModelAndView  CTOUserslist(Model model, Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/CTO/Evaluation");
         List<ProfileViewModel> users = getUsers();
+        List<Form> users2 = new LinkedList<Form>();
+        Form f=new Form();
+        for (ProfileViewModel pvm :
+                users) {
+            f=new Form();
+            f.setFirstName(pvm.getFirstName()[2]);
+            f.setLastName(pvm.getLastName()[2]);
+            f.setId(pvm.getId());
+            users2.add(f);
+        }
+        FormModel formModel = new FormModel();
+        formModel.setForms(users2);
 
-        mav.addObject("hrUserslistVM", users);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
-        return mav;
+        model.addAttribute("form", formModel);
+        mav.addObject("hrUserslistVM", users2);
+        System.out.println(formModel.getForms().get(0).getGrades());
+        return new ModelAndView("Home/CTO/Evaluation" , "formModel", formModel);
     }
 
 

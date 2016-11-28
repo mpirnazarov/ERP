@@ -4,7 +4,7 @@ import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Arrays;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 /**

@@ -156,9 +156,15 @@
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Is Political: <font color='red'>*</font></label>
                             <div class="col-lg-5">
-                                <form:checkbox path="isPolitical" value="${person.isPolitical}"/>
-                                <%--<form:errors path="PassportNumber" cssClass="error field-validation-error"/>--%>
+                                <c:if test="${person.isPolitical}">
+                                    <form:checkbox path="isPolitical" CHECKED="checked" />
+                                </c:if>
+                                <c:if test="${!person.isPolitical}">
+                                    <form:checkbox path="isPolitical"  />
+                                </c:if>
                             </div>
+                                <%--<form:errors path="PassportNumber" cssClass="error field-validation-error"/>--%>
+
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Entry date: <font color='red'>*</font></label>
                             <div class="col-lg-5">

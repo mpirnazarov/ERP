@@ -15,6 +15,8 @@ public class PersonalEvalutionsEntity {
     private Date date;
     private int evaluatorId;
     private UsersEntity usersByUserId;
+    private String comments;
+
 
     @Id
     @Column(name = "id", nullable = false)
@@ -101,5 +103,15 @@ public class PersonalEvalutionsEntity {
 
     public void setUsersByUserId(UsersEntity usersByUserId) {
         this.usersByUserId = usersByUserId;
+    }
+
+    @Basic
+    @Column(name = "comments", nullable = false)
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

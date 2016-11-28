@@ -23,49 +23,50 @@
             <div class="table-responsive">
 
         <br/>
-        <table id="myTable" class="display table" cellspacing="0" width="100%">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Comments</th>
-                <th>Grade</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${hrUserslistVM}" var="user">
+        <form:form method="POST" modelAttribute="formModel">
+            <table id="myTable" class="display table" cellspacing="0" width="100%">
+                <thead>
                 <tr>
-                    <td><c:out value="${user.id}"/></td>
-                    <td><c:out value="${user.firstName[2]}"/></td>
-                    <td><c:out value="${user.lastName[2]}"/></td>
-                    <%--<td>
-                        <spring:url value="/CTO/user/${user.id}/geninfo" var="userUrl" />
-                        <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
-                    </td>--%>
-                    <%--<td><textarea  placeholder="Comments" cssClass="form-control text-box" rows="3" cols="1"/></td>--%>
-                    <td> </td>
-                    <td>
-                        <select class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <option value="NONE">--- Select ---</option>
-                            <option>S</option>
-                            <option>A</option>
-                            <option>B</option>
-                            <option>C</option>
-                            <option>D</option>
-                        </select>
-
-                    </td>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Comments</th>
+                    <th>Grade</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <c:forEach items="${formModel.forms}" var="forms" varStatus="status">
+                    <tr>
+                        <form:hidden path="forms[${status.index}].id" />
+                        <td><c:out value="${forms.id}"/></td>
+                        <td><c:out value="${forms.firstName}"/></td>
+                        <td><c:out value="${forms.lastName}"/></td>
+                        <%--<td>
+                            <spring:url value="/CTO/user/${user.id}/geninfo" var="userUrl" />
+                            <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
+                        </td>--%>
+                        <td><form:textarea path="forms[${status.index}].comments" placeholder="Comments" cssClass="form-control text-box" rows="3" cols="15"/></td>
+                        <td>
+                            <form:select class="btn btn-default dropdown-toggle" data-toggle="dropdown" path="forms[${status.index}].grade">
+                                <form:option value=" " label="...." />
+                                <form:options items="${forms.grades}"></form:options>
+
+                            </form:select>
+
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+
+            <td><input type="submit" name="submit" value="Submit"></td>
+        </form:form>
     </div>
 
         </div>
     </div>
 </div>
-<script>
+<%--<script>
     $(document).ready(function(){
         $('#myTable').DataTable({
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -77,5 +78,5 @@
             ]
         });
     });
-</script>
+</script>--%>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

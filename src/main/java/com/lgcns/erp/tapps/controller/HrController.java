@@ -324,6 +324,18 @@ public class HrController {
         return mav;
     }
 
+    @RequestMapping ( value = "/Hr/user/{id}/update/{path}", method = RequestMethod.POST )
+    public String UpdateInfo(Principal principal, @Valid @ModelAttribute  ProfileViewModel person, @PathVariable String path, BindingResult result, @PathVariable("id") String id){
+        System.out.println(person.getPassportNumber());
+        if(result.hasErrors()) {
+            return "Hr/user/"+id+"/update"+path;
+        }
+
+
+        updateDBGenInfo(person);
+        return "redirect: /Hr/user/"+id+"/update/"+path;
+    }
+
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/updateFam/{famId}/", method = RequestMethod.GET)
     public String UpdateFamInfo(Model model, @PathVariable("userId") int userId, @PathVariable("famId") int famId){
@@ -363,14 +375,7 @@ public class HrController {
         return familyMember;
     }
 
-    @RequestMapping ( value = "/Hr/user/{id}/update/{path}", method = RequestMethod.POST )
-    @ResponseBody public String UpdateInfo(Principal principal, @Valid @ModelAttribute  ProfileViewModel person, @PathVariable String path, BindingResult result, @PathVariable("id") int id){
-        if(result.hasErrors()) {
-            return "Hr/user/"+id+"/update"+path;
-        }
-        updateDBGenInfo(person);
-        return null;
-    }
+
 
     @RequestMapping ( value = "/Hr/user/{id}/disable/", method = RequestMethod.GET )
     public String DisableUser(Principal principal, @PathVariable("id") int id){
@@ -445,6 +450,7 @@ public class HrController {
 
     public static int updateDBGenInfo(ProfileViewModel person) {
         int res = 0;
+        System.out.println("Person print: " + person);
         try {
             UserService.updateUsersEntity(person);
             res = UserService.updateUsersLocEntityEn(person);
@@ -563,7 +569,6 @@ public class HrController {
     // Getting user from ID
     public static ProfileViewModel getProfileById(int id){
         ProfileViewModel returning = new ProfileViewModel();
-
         // Getting data from users db
         UsersEntity user = UserService.getUserById(id);
 
@@ -580,41 +585,42 @@ public class HrController {
         }catch (Exception e){
             e.printStackTrace();
         }
-
         //Getting Position from user_in_roles
         try {
             returning.setPosition(UserService.getRoleLoc(user).getName());
         }catch (Exception e){
             e.printStackTrace();
         }
-
         //Getting is political
         try {
-            if (user.getPolitical())
-                returning.setPolitical(true);
-            else
-                returning.setPolitical(false);
+            returning.setPolitical(user.getPolitical());
+
         }catch (Exception e){
             e.printStackTrace();
         }
         try {
 
-            //Getting Joint Type
+            /*//Getting Joint Type
             returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());
-
+*/
             //Getting status
-            returning.setStatus(UserService.getStatuses().get(3).getName());
+            List<StatusLocalizationsEntity> statuses = UserService.getStatuses();
+            for (StatusLocalizationsEntity st :
+                    statuses) {
+                if(st.getStatusId()==user.getStatusId())
+                    System.out.printf(st.getName());
+            }
+            /*returning.setStatus();*/
 
             //Getting job title
-            int postId = getMax(UserService.getUserInPost(user)).getPostId();
-            returning.setJobTitle(UserService.getJobTitle(postId, 3).getName());
+            /*int postId = getMax(UserService.getUserInPost(user)).getPostId();
+            returning.setJobTitle(UserService.getJobTitle(postId, 3).getName());*/
 
             //RoleLocalizationsEntity roleLoc = UserService.getPosition(userInRoles);
             //returning.setPosition();
 
             //Getting passport number
             returning.setPassportNumber(user.getPassport());
-
             //Getting and setting entry date
             returning.setEntryDate(user.getHiringDate());
 

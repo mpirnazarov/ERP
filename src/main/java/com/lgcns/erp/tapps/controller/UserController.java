@@ -235,92 +235,96 @@ public class UserController {
 
     public static ProfileViewModel getProfileByUsername(String userName){
         ProfileViewModel returning = new ProfileViewModel();
+        try {
+            // Getting data from users db
+            UsersEntity user = UserService.getUserByUsername(userName);
+            // Getting its localization data
+            List<UserLocalizationsEntity> userLocalizationsEntities = UserService.getUserLocByUserId(user.getId());
 
-        // Getting data from users db
-        UsersEntity user = UserService.getUserByUsername(userName);
-        // Getting its localization data
-        List<UserLocalizationsEntity> userLocalizationsEntities = UserService.getUserLocByUserId(user.getId());
+            for (UserLocalizationsEntity ul :
+                    userLocalizationsEntities) {
+                returning.addData1(String.format("%05d", user.getId()), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
+            }
+            //Getting department name
+            returning.setDepartment(UserService.getDepartments().get(3).getName());
 
-        for (UserLocalizationsEntity ul:
-                userLocalizationsEntities ) {
-            returning.addData1(String.format("%05d", user.getId()), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
+            //Getting Position from user_in_roles
+            returning.setPosition(UserService.getRoleLoc(user).getName());
+
+            // Getting isEnabled variable
+            returning.setEnabled(user.isEnabled());
+
+            //Getting is political
+            if (user.getPolitical())
+                returning.setPolitical(true);
+            else
+                returning.setPolitical(false);
+
+            //Getting Joint Type
+            returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());
+
+            //Getting status
+            returning.setStatus(UserService.getStatuses().get(3).getName());
+
+            //Getting job title
+            int postId = getMax(UserService.getUserInPost(user)).getPostId();
+            returning.setJobTitle(UserService.getJobTitle(postId, 3).getName());
+
+            //RoleLocalizationsEntity roleLoc = UserService.getPosition(userInRoles);
+            //returning.setPosition();
+
+            //Getting passport number
+            returning.setPassportNumber(user.getPassport());
+
+            //Getting and setting entry date
+            returning.setEntryDate(user.getHiringDate());
+
+            PersonalInformationViewModel personalInfo = new PersonalInformationViewModel();
+
+            //Getting birth place
+            //System.out.println("Birth Place: " + UserService.getUserLocalizations(user).getBirthPlace());
+            //returning.setBirthPlace(UserService.getUserLocalizations(user).getBirthPlace().toString());
+            int i = 0;
+            for (UserLocalizationsEntity userLoc :
+                    UserService.getUserLocalizations(user)) {
+                personalInfo.addBirthPlace(userLoc.getBirthPlace(), userLoc.getLanguageId());
+            }
+
+
+            personalInfo.setDateOfBirth(user.getDateOfBirth());
+            personalInfo.setHomePhone(user.getHomePhone());
+            personalInfo.setMobilePhone(user.getMobilePhone());
+            personalInfo.setEmailCompany(user.geteMail());
+            personalInfo.setEmailPersonal(user.getPersonalEmail());
+
+            returning.setPersonalInfo(personalInfo);
+
+            String[] bPlace = returning.getPersonalInfo().getBirthPlace();
+
+            //Getting family information
+            List<FamilyInfosEntity> familyInfosEntities = UserService.getFamilyInfos(user);
+            List<FamilyMember> familyMembers = new LinkedList<FamilyMember>();
+            List<FamiliyInfoLocalizationsEntity> familyLoc2;
+            for (FamilyInfosEntity fie :
+                    familyInfosEntities) {
+                familyLoc2 = UserService.getFamilyInfosLoc(fie);
+
+                FamilyMember familyMember = new FamilyMember(familyLoc2.size());
+                for (FamiliyInfoLocalizationsEntity faInLoEn :
+                        familyLoc2) {
+                    familyMember.add(faInLoEn.getRelation(), faInLoEn.getLastName() + " " + faInLoEn.getFirstName(), fie.getDateOfBirth(), faInLoEn.getJobTitle(), faInLoEn.getLanguageId(), faInLoEn.getFamilyInfoid());
+                    // System.out.println( familyMember.getRelation()[faInLoEn.getLanguageId()-1]+ " " + familyMember.getFullName()[faInLoEn.getLanguageId()-1] + " " + familyMember.getDateOfBirth() + " " + familyMember.getJobTitle()[faInLoEn.getLanguageId()-1]);
+                }
+                familyMembers.add(familyMember);
+            }
+            returning.setFamilyLoc(familyMembers);
+
+            // (MUST BE FINISHED!) Getting and setting vacation days
+            returning.setVacationDaysLeft(0);
+            returning.setVacationDaysAll(12);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        //Getting department name
-        returning.setDepartment(UserService.getDepartments().get(3).getName());
-
-        //Getting Position from user_in_roles
-        returning.setPosition(UserService.getRoleLoc(user).getName());
-
-        // Getting isEnabled variable
-        returning.setEnabled(user.isEnabled());
-
-        //Getting is political
-        if (user.getPolitical())
-            returning.setPolitical(true);
-        else
-            returning.setPolitical(false);
-
-        //Getting Joint Type
-        returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType()-1].toString());
-
-        //Getting status
-        returning.setStatus(UserService.getStatuses().get(3).getName());
-
-        //Getting job title
-        int postId =  getMax(UserService.getUserInPost(user)).getPostId();
-        returning.setJobTitle(UserService.getJobTitle(postId, 3).getName());
-
-        //RoleLocalizationsEntity roleLoc = UserService.getPosition(userInRoles);
-        //returning.setPosition();
-
-        //Getting passport number
-        returning.setPassportNumber(user.getPassport());
-
-        //Getting and setting entry date
-        returning.setEntryDate(user.getHiringDate());
-
-        PersonalInformationViewModel personalInfo = new PersonalInformationViewModel();
-
-        //Getting birth place
-        //System.out.println("Birth Place: " + UserService.getUserLocalizations(user).getBirthPlace());
-        //returning.setBirthPlace(UserService.getUserLocalizations(user).getBirthPlace().toString());
-        int i=0;
-        for (UserLocalizationsEntity userLoc :
-                UserService.getUserLocalizations(user)) {
-            personalInfo.addBirthPlace(userLoc.getBirthPlace(), userLoc.getLanguageId());
-        }
-
-
-        personalInfo.setDateOfBirth(user.getDateOfBirth());
-        personalInfo.setHomePhone(user.getHomePhone());
-        personalInfo.setMobilePhone(user.getMobilePhone());
-        personalInfo.setEmailCompany(user.geteMail());
-        personalInfo.setEmailPersonal(user.getPersonalEmail());
-
-        returning.setPersonalInfo(personalInfo);
-
-        String[] bPlace  = returning.getPersonalInfo().getBirthPlace();
-
-        //Getting family information
-        List<FamilyInfosEntity> familyInfosEntities = UserService.getFamilyInfos(user);
-        List<FamilyMember> familyMembers = new LinkedList<FamilyMember>();
-        List<FamiliyInfoLocalizationsEntity> familyLoc2;
-        for (FamilyInfosEntity fie :
-                familyInfosEntities) {
-            familyLoc2 = UserService.getFamilyInfosLoc(fie);
-
-            FamilyMember familyMember = new FamilyMember(familyLoc2.size());
-            for (FamiliyInfoLocalizationsEntity faInLoEn :
-                    familyLoc2) {
-                familyMember.add(faInLoEn.getRelation(), faInLoEn.getLastName()+" "+faInLoEn.getFirstName(), fie.getDateOfBirth(), faInLoEn.getJobTitle(), faInLoEn.getLanguageId(), faInLoEn.getFamilyInfoid());
-                // System.out.println( familyMember.getRelation()[faInLoEn.getLanguageId()-1]+ " " + familyMember.getFullName()[faInLoEn.getLanguageId()-1] + " " + familyMember.getDateOfBirth() + " " + familyMember.getJobTitle()[faInLoEn.getLanguageId()-1]);
-            }familyMembers.add(familyMember);
-        }
-        returning.setFamilyLoc(familyMembers);
-
-        // (MUST BE FINISHED!) Getting and setting vacation days
-        returning.setVacationDaysLeft(0);
-        returning.setVacationDaysAll(12);
         return returning;
     }
 

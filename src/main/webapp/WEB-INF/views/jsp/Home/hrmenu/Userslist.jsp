@@ -1,5 +1,6 @@
 <%@ page import="com.lgcns.erp.hr.enums.ProjectStatus" %>
-<%@ page import="com.lgcns.erp.tapps.model.DbEntities.UserInProjectsEntity" %><%--
+<%@ page import="com.lgcns.erp.tapps.model.DbEntities.UserInProjectsEntity" %>
+<%--
   Created by IntelliJ IDEA.
   User: Muslimbek
   Date: 08.11.2016

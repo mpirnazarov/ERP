@@ -41,7 +41,7 @@
                     <td><c:out value="${user.lastName[2]}"/></td>
                     <td><c:out value="${user.username}"/></td>
                     <td>
-                        <spring:url value="/Hr/user/${user.id}" var="userUrl" />
+                        <spring:url value="/CTO/user/${user.id}/geninfo" var="userUrl" />
                         <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
                 </tr>
             </c:forEach>

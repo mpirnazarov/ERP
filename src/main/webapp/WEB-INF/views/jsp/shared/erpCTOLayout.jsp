@@ -37,7 +37,7 @@
                 <a href="#"><i class="fa fa-fw fa-folder"></i> Projects</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-fw fa-file-o"></i> Evaluation</a>
+                <a href="/CTO/Evaluation"><i class="fa fa-fw fa-file-o"></i> Evaluation</a>
             </li>
             <li>
                 <a href="/CTO/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>

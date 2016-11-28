@@ -142,14 +142,18 @@ public class CTOController {
         return null;
     }
 
-    @RequestMapping ( value = "/Hr/Evaluate/", method = RequestMethod.GET )
-    public ModelAndView EvaluateUser(Principal principal){
+    @RequestMapping (value = "/CTO/Evaluation", method = RequestMethod.GET)
+    @ResponseBody public ModelAndView CTOUserslist(Principal principal){
         ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/CTO/Evaluation");
         List<ProfileViewModel> users = getUsers();
-        mav.setViewName("Home/CTO/evaluate");
-        mav.addObject("users", users);
+
+        mav.addObject("hrUserslistVM", users);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
         return mav;
     }
+
 
     public static List<ProfileViewModel> getUsers() {
         List<ProfileViewModel> returning = new LinkedList<ProfileViewModel>();

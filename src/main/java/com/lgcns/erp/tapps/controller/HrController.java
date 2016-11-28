@@ -86,7 +86,6 @@ public class HrController {
         int userId = UserService.insertUser(UserMapper.mapRegModelToUserInfo(registrationViewModel));
         UserService.insertUserLoc(UserMapper.mapRegModelToUserLocInfo(registrationViewModel, userId));
 
-
         mav = new ModelAndView();
         mav.setViewName("Home/hrmenu/Userslist");
         return mav;
@@ -328,9 +327,9 @@ public class HrController {
     @ResponseBody public ModelAndView UpdateFamInfo(Principal principal, Model model, @ModelAttribute("user") ProfileViewModel person, @PathVariable("userId") int userId, @PathVariable("famId") int famId){
 
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/editmenu/geninfo");
-        //FamilyMember userProfile = getUserFamily(userId, famId);
-        //mav.addObject("userProfile", userProfile);
+        mav.setViewName("Home/editmenu/faminfo");
+        /*FamilyMember userProfile = getUserFamily(userId, famId);
+        mav.addObject("userProfile", userProfile);*/
         return mav;
     }
 
@@ -347,10 +346,12 @@ public class HrController {
     @RequestMapping ( value = "/Hr/Generate/{docId}/{userId}/", method = RequestMethod.GET )
     public String GenerateDoc(Principal principal, @PathVariable("docId") int docId, @PathVariable("userId") int userId){
         ProfileViewModel user = getProfileById(userId);
+        System.out.printf("Generating document: "+docId);
         try {
             if (docId==1)
                 generateCertificate(user);
             else if(docId==2) {
+                System.out.printf("Generating Decree terminate");
                 generateDecreeTerminate(user);
             }
             else if(docId==3){
@@ -622,44 +623,54 @@ public class HrController {
     }
 
     private void generateDecreeFamilyTicket(ProfileViewModel user) throws IOException, XDocReportException {
-        String templatePath = "C:/files/template/Certification_of_Employment.docx";
+        String templatePath = "C:/files/template/Decree_family_ticket.docx";
         Map<String, Object> nonImageVariableMap = new HashMap<String, Object>();
         Date date = new Date();
         nonImageVariableMap.put("date_now", new SimpleDateFormat("d MMMMMMMM yyyy", Locale.ENGLISH).format(date));
 
         nonImageVariableMap.put("name", user.getFirstName()[2] + " "+ user.getLastName()[2]);
         nonImageVariableMap.put("jobTitle", user.getJobTitle());
-        System.out.printf("Entry date: " + user.getEntryDate());
-        nonImageVariableMap.put("hiringDate", new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(user.getEntryDate()));
+        String familyMembers_en = "";
+        for (FamilyMember famMember:
+                user.getFamilyLoc()) {
+            familyMembers_en += ", "+famMember.getRelation()[2] + "(" + famMember.getFullName()[2]+")";
+        }
+        String familyMembers_ru = "";
+        for (FamilyMember famMember:
+                user.getFamilyLoc()) {
+            familyMembers_ru += famMember.getRelation()[0] + "(" + famMember.getFullName()[2]+"), ";
+        }
+        nonImageVariableMap.put("jobTitle", user.getJobTitle());
+        nonImageVariableMap.put("familyMembers_en", familyMembers_en);
+        nonImageVariableMap.put("familyMembers_ru", familyMembers_ru);
         Map<String, String> imageVariablesWithPathMap =new HashMap<String, String>();
         imageVariablesWithPathMap.put("header_image_logo", "C:/0001.jpg");
         System.out.println("Writing file from template");
         DocxDocumentMergerAndConverter docxDocumentMergerAndConverter = new DocxDocumentMergerAndConverter();
         byte[] mergedOutput = docxDocumentMergerAndConverter.mergeAndGenerateOutput(templatePath, TemplateEngineKind.Freemarker, nonImageVariableMap, imageVariablesWithPathMap);
         assertNotNull(mergedOutput);
-        FileOutputStream os = new FileOutputStream("C:/files/Certification_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx");
+        FileOutputStream os = new FileOutputStream("C:/files/Decree_family_ticket_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx");
         os.write(mergedOutput);
         os.flush();
         os.close();
     }
 
     private void generateDecreeTerminate(ProfileViewModel user) throws IOException, XDocReportException {
-        String templatePath = "C:/files/template/Certification_of_Employment.docx";
+        String templatePath = "C:/files/template/Decree_terminate.docx";
         Map<String, Object> nonImageVariableMap = new HashMap<String, Object>();
         Date date = new Date();
         nonImageVariableMap.put("date_now", new SimpleDateFormat("d MMMMMMMM yyyy", Locale.ENGLISH).format(date));
 
-        nonImageVariableMap.put("name", user.getFirstName()[2] + " "+ user.getLastName()[2]);
+        nonImageVariableMap.put("nameEn", user.getFirstName()[2] + " "+ user.getLastName()[2]);
+        nonImageVariableMap.put("nameRu", user.getFirstName()[0] + " "+ user.getLastName()[0]);
         nonImageVariableMap.put("jobTitle", user.getJobTitle());
-        System.out.printf("Entry date: " + user.getEntryDate());
-        nonImageVariableMap.put("hiringDate", new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(user.getEntryDate()));
         Map<String, String> imageVariablesWithPathMap =new HashMap<String, String>();
         imageVariablesWithPathMap.put("header_image_logo", "C:/0001.jpg");
         System.out.println("Writing file from template");
         DocxDocumentMergerAndConverter docxDocumentMergerAndConverter = new DocxDocumentMergerAndConverter();
         byte[] mergedOutput = docxDocumentMergerAndConverter.mergeAndGenerateOutput(templatePath, TemplateEngineKind.Freemarker, nonImageVariableMap, imageVariablesWithPathMap);
         assertNotNull(mergedOutput);
-        FileOutputStream os = new FileOutputStream("C:/files/Certification_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx");
+        FileOutputStream os = new FileOutputStream("C:/files/Decree_terminate_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx");
         os.write(mergedOutput);
         os.flush();
         os.close();

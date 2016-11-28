@@ -40,7 +40,7 @@
                 <a href="#"><i class="fa fa-fw fa-file-o"></i> Evaluation</a>
             </li>
             <li>
-                <a href="/Hr/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
+                <a href="/Hr/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
             </li>
             <hr/>
             <li>

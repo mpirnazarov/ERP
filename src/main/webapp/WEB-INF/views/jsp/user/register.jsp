@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2">
             <h1 class="page-header">New User Registration</h1>
-            <form:form modelAttribute="registrationVM" cssClass="form-horizontal" method="post" action="/User/Register">
+            <form:form modelAttribute="registrationVM" cssClass="form-horizontal" method="post" action="/Hr/Register">
 
                 <div class="tab-content">
                     <ul class="nav nav-tabs">

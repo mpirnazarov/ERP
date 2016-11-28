@@ -294,36 +294,6 @@
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[2]}</td>
                                             <td><a href="./Geninfo/updateFam/${family.id}/" class="btn btn-default">Edit</a>
-
-                                                        <div class="form-horizontal">
-                                                            <div class="form-group">
-                                                                <label class="control-label col-md-3">Relation: <font color='red'>*</font></label>
-                                                                <div class="col-lg-5"><form:input placeholder="Relation" required="true"
-                                                                                                  cssClass="form-control text-box single-line"
-                                                                                                  path="family.relation[2]" value="${family.relation[2]}"/></div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="control-label col-md-3">Full name: <font color='red'>*</font></label>
-                                                                <div class="col-lg-5"><form:input placeholder="Full name" required="true"
-                                                                                                  cssClass="form-control text-box single-line"
-                                                                                                  path="family.fullName[2]" value="${family.fullName[2]}"/></div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="control-label col-md-4">Date of Birth: <font color='red'>*</font></label>
-                                                                <div class="col-lg-5"><form:input path="family.dateOfBirth" type="date" value="${family.dateOfBirth}"
-                                                                                                  cssClass="form-control text-box single-line requiredDate"/>
-                                                                        <%--<form:errors path="dateOfBirth" cssClass="error field-validation-error"/>--%>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="control-label col-md-3">Job title: <font color='red'>*</font></label>
-                                                                <div class="col-lg-5"><form:input placeholder="Job title" required="true"
-                                                                                                  cssClass="form-control text-box single-line"
-                                                                                                  path="family.jobTitle[2]" value="${family.jobTitle[2]}"/></div>
-                                                            </div>
-                                                        </div>
-
-
                                             </td>
                                             <c:set var="count" value="${count + 1}" scope="page"/>
                                         </tr>

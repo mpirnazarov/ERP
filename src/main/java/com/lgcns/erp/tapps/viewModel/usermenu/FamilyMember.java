@@ -51,5 +51,19 @@ public class FamilyMember {
         this.id = id;
     }
 
+    public void setRelation(String[] relation) {
+        this.relation = relation;
+    }
 
+    public void setFullName(String[] fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setJobTitle(String[] jobTitle) {
+        this.jobTitle = jobTitle;
+    }
 }

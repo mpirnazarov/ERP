@@ -55,8 +55,49 @@
                                 </select>
                                 </form>
                         </td>
-                        <td><a href="1/${requestScope.user2}/"><i class="fa fa-fw fa-download"></i></a></td>
                     </tr>
+                <tr>
+                    <td>Decree terminate</td>
+                    <td>Docx</td>
+                    <td>
+                            <%--<div class="dropdown">--%>
+                            <%--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select employee--%>
+                            <%--<span class="caret"></span></button>--%>
+                            <%--<ul class="dropdown-menu">--%>
+                            <%--<li><a href="#">Jasur Shaykhov</a></li>--%>
+                            <%--<li><a href="#">Muslimbek Pirnazarov</a></li>--%>
+                            <%--</ul>--%>
+                            <%--</div>--%>
+                        <form name="jump2">
+                            <select name="user2" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onchange="if (this.value) window.location.href=this.value"><span class="caret"></span>
+                                <c:forEach items="${users}" var="user" varStatus="status">
+                                    <option value="Generate/2/${user.key}/">${user.value}</option>
+                                </c:forEach>
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Decree for family ticket</td>
+                    <td>Docx</td>
+                    <td>
+                            <%--<div class="dropdown">--%>
+                            <%--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select employee--%>
+                            <%--<span class="caret"></span></button>--%>
+                            <%--<ul class="dropdown-menu">--%>
+                            <%--<li><a href="#">Jasur Shaykhov</a></li>--%>
+                            <%--<li><a href="#">Muslimbek Pirnazarov</a></li>--%>
+                            <%--</ul>--%>
+                            <%--</div>--%>
+                        <form name="jump2">
+                            <select name="user2" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onchange="if (this.value) window.location.href=this.value"><span class="caret"></span>
+                                <c:forEach items="${users}" var="user" varStatus="status">
+                                    <option value="Generate/3/${user.key}/">${user.value}</option>
+                                </c:forEach>
+                            </select>
+                        </form>
+                    </td>
+                </tr>
                 <%--</c:forEach>--%>
                 </tbody>
             </table>

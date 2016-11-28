@@ -19,12 +19,6 @@
         <div class="col-sm-9 col-lg-10">
         <div class="col-lg-8 col-lg-offset-2">
             <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
-
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#headerinfo">EN</a></li>
-                <li><a data-toggle="tab" href="#personalinfo">Personal information</a></li>
-                <li><a data-toggle="tab" href="#familyinfo">Family information</a></li>
-            </ul>
             <form:form  commandName="family" cssClass="form-horizontal" method="post" action="/Hr/user/${person.id}/update/faminfo">
                     <!--General info/Family info Tab-->
                     <h3>Family information</h3>
@@ -107,12 +101,19 @@
                     </div>
                     <div class="form-horizontal">
                         <div class="form-group">
-                    <label class="control-label col-md-4">Date of Birth: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:input path="dateOfBirth" type="date" value="${family.dateOfBirth}"
+                            <label class="control-label col-md-3">Date of Birth: <font color='red'>*</font></label>
+                                <div class="col-lg-5"><form:input path="dateOfBirth" type="date" value="${family.dateOfBirth}"
                                                       cssClass="form-control text-box single-line requiredDate"/>
 
+                                </div>
+                        </div>
+                    <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <input type="submit" value="Save" class="btn btn-default"/>
+                                <input type="button" onclick="location.href='/Hr/user/${id}/update/${path}'" value="Cancel"
+                                       class="btn btn-default"/>
+                            </div>
                     </div>
-                </div>
                     </div>
             </form:form>
         </div>

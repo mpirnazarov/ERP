@@ -44,6 +44,17 @@
                         <spring:url value="/CTO/user/${user.id}/geninfo" var="userUrl" />
                         <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
                     </td>
+                    <td>
+                        <select class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <option value="NONE">--- Select ---</option>
+                            <option>S</option>
+                            <option>A</option>
+                            <option>B</option>
+                            <option>C</option>
+                            <option>D</option>
+                        </select>
+
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

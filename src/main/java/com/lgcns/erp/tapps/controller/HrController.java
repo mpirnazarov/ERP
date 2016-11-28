@@ -326,13 +326,41 @@ public class HrController {
 
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/updateFam/{famId}/", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView UpdateFamInfo(Principal principal, Model model, @ModelAttribute("user") ProfileViewModel person, @PathVariable("userId") int userId, @PathVariable("famId") int famId){
+    public String UpdateFamInfo(Model model, @PathVariable("userId") int userId, @PathVariable("famId") int famId){
 
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/editmenu/faminfo");
-        /*FamilyMember userProfile = getUserFamily(userId, famId);
-        mav.addObject("userProfile", userProfile);*/
-        return mav;
+        FamilyMember familyProfile = getUserFamily(userId, famId);
+        System.out.println(familyProfile);
+
+        model.addAttribute("userProfile", familyProfile);
+        return "Home/editmenu/faminfo";
+    }
+
+    private FamilyMember getUserFamily(int userId, int famId) {
+        FamilyMember familyMember = new FamilyMember(3);
+        UsersEntity usersEntity = UserService.getUserById(userId);
+        List<FamilyInfosEntity> famMem = UserService.getFamilyInfos(usersEntity);
+        for (FamilyInfosEntity fam :
+                famMem) {
+            if(fam.getId()==famId) {
+                familyMember.setDateOfBirth(fam.getDateOfBirth());
+                familyMember.setId(fam.getId());
+                List<FamiliyInfoLocalizationsEntity> famLoc = UserService.getFamilyInfosLoc(famId);
+                String[] fullName = new String[3];
+                String[] jobTitle = new String[3];
+                String[] relation = new String[3];
+
+                for (FamiliyInfoLocalizationsEntity fLoc :
+                        famLoc) {
+                    fullName[fLoc.getLanguageId()-1] = fLoc.getFirstName()+" "+fLoc.getLastName();
+                    jobTitle[fLoc.getLanguageId()-1] = fLoc.getJobTitle();
+                    relation[fLoc.getLanguageId()-1] = fLoc.getRelation();
+                }
+                familyMember.setFullName(fullName);
+                familyMember.setJobTitle(jobTitle);
+                familyMember.setRelation(relation);
+            }
+        }
+        return familyMember;
     }
 
     @RequestMapping ( value = "/Hr/user/{id}/update/{path}", method = RequestMethod.POST )
@@ -618,7 +646,7 @@ public class HrController {
             List<FamiliyInfoLocalizationsEntity> familyLoc2;
             for (FamilyInfosEntity fie :
                     familyInfosEntities) {
-                familyLoc2 = UserService.getFamilyInfosLoc(fie);
+                familyLoc2 = UserService.getFamilyInfosLoc(fie.getId());
 
                 FamilyMember familyMember = new FamilyMember(familyLoc2.size());
                 for (FamiliyInfoLocalizationsEntity faInLoEn :

@@ -1,6 +1,7 @@
 package com.lgcns.erp.tapps.viewModel.usermenu;
 
 import java.sql.Date;
+import java.util.Arrays;
 
 /**
  * Created by Muslimbek on 10/31/2016.
@@ -65,5 +66,16 @@ public class FamilyMember {
 
     public void setJobTitle(String[] jobTitle) {
         this.jobTitle = jobTitle;
+    }
+
+    @Override
+    public String toString() {
+        return "FamilyMember{" +
+                "relation=" + Arrays.toString(relation) +
+                ", fullName=" + Arrays.toString(fullName) +
+                ", dateOfBirth=" + dateOfBirth +
+                ", jobTitle=" + Arrays.toString(jobTitle) +
+                ", id=" + id +
+                '}';
     }
 }

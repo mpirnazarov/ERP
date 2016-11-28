@@ -509,14 +509,14 @@ public class UserService {
 
     }
 
-    public static List<FamiliyInfoLocalizationsEntity> getFamilyInfosLoc(FamilyInfosEntity familyInfosEntities) {
+    public static List<FamiliyInfoLocalizationsEntity> getFamilyInfosLoc(int familyInfosEntities) {
         List<FamiliyInfoLocalizationsEntity> userLoc = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from FamiliyInfoLocalizationsEntity famLoc where familyInfoid = :userId");
-            query.setParameter("userId", familyInfosEntities.getId());
+            query.setParameter("userId", familyInfosEntities);
             userLoc = query.list();
             transaction.commit();
         }

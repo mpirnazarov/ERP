@@ -135,6 +135,22 @@ public class CTOController {
         return null;
     }
 
+    @RequestMapping ( value = "/Hr/Evaluate/{userId}/{grade}", method = RequestMethod.POST )
+    public String UpdateEvaluation(Principal principal, @PathVariable("userId") int id, @PathVariable("grade") String grade){
+
+        /*updateDBGenInfo(person);*/
+        return null;
+    }
+
+    @RequestMapping ( value = "/Hr/Evaluate/", method = RequestMethod.GET )
+    public ModelAndView EvaluateUser(Principal principal){
+        ModelAndView mav = new ModelAndView();
+        List<ProfileViewModel> users = getUsers();
+        mav.setViewName("Home/CTO/evaluate");
+        mav.addObject("users", users);
+        return mav;
+    }
+
     public static List<ProfileViewModel> getUsers() {
         List<ProfileViewModel> returning = new LinkedList<ProfileViewModel>();
         ProfileViewModel userProfile;

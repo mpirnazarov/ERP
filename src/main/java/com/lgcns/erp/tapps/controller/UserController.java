@@ -307,7 +307,7 @@ public class UserController {
             List<FamiliyInfoLocalizationsEntity> familyLoc2;
             for (FamilyInfosEntity fie :
                     familyInfosEntities) {
-                familyLoc2 = UserService.getFamilyInfosLoc(fie);
+                familyLoc2 = UserService.getFamilyInfosLoc(fie.getId());
 
                 FamilyMember familyMember = new FamilyMember(familyLoc2.size());
                 for (FamiliyInfoLocalizationsEntity faInLoEn :

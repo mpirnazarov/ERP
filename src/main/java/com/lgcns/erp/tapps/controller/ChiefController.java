@@ -22,20 +22,20 @@ import java.util.List;
 @Controller
 public class ChiefController {
 
-    @RequestMapping(value = "/Chief/Profile", method = RequestMethod.GET)
+    @RequestMapping(value = "/CTO/Profile", method = RequestMethod.GET)
     public ModelAndView Hrprofile(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/IndexChief");
+        mav.setViewName("Home/IndexCTO");
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
         mav.addObject("userProfile", userProfile);
         return mav;
     }
 
-    @RequestMapping (value = "/Chief/Profile/Appointment", method = RequestMethod.GET)
+    @RequestMapping (value = "/CTO/Profile/Appointment", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView HrAppointmentrec(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/chiefMenu/AppointmentRec");
+        mav.setViewName("Home/CTO/AppointmentRec");
         AppointmentrecViewModel appointmentrecViewModel = UserController.getAppointmentByUsername(principal);
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
@@ -43,10 +43,10 @@ public class ChiefController {
         return mav;
     }
 
-    @RequestMapping (value = "/Chief/Profile/Salary", method = RequestMethod.GET)
+    @RequestMapping (value = "/CTO/Profile/Salary", method = RequestMethod.GET)
     @ResponseBody public ModelAndView HrSalaryrec(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/chiefMenu/SalaryDetails");
+        mav.setViewName("Home/CTO/SalaryDetails");
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(user);
 
@@ -56,40 +56,40 @@ public class ChiefController {
         return mav;
     }
 
-    @RequestMapping (value = "/Chief/Profile/Edu", method = RequestMethod.GET)
+    @RequestMapping (value = "/CTO/Profile/Edu", method = RequestMethod.GET)
     @ResponseBody public ModelAndView HrEdu(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/chiefMenu/EducationCer");
+        mav.setViewName("Home/CTO/EducationCer");
         EduViewModel hreduViewModel = UserController.getEducationByUsername(principal);
         mav.addObject("eduVM", hreduViewModel);
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
         mav.addObject("userProfile", userProfile);
         return mav;
     }
-    @RequestMapping (value = "/Chief/Profile/Jobexp", method = RequestMethod.GET)
+    @RequestMapping (value = "/CTO/Profile/Jobexp", method = RequestMethod.GET)
     @ResponseBody public ModelAndView HrJobexp(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/chiefMenu/JobExp");
+        mav.setViewName("Home/CTO/JobExp");
         List<JobexpViewModel> jobexpViewModel = UserController.getJobExperience(principal);
         mav.addObject("jobexpVM", jobexpViewModel);
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
         mav.addObject("userProfile", userProfile);
         return mav;
     }
-    @RequestMapping (value = "/Chief/Profile/Train", method = RequestMethod.GET)
+    @RequestMapping (value = "/CTO/Profile/Train", method = RequestMethod.GET)
     @ResponseBody public ModelAndView HrTrain(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/chiefMenu/TrainingRec");
+        mav.setViewName("Home/CTO/TrainingRec");
         List<TrainViewModel> trainViewModel = UserController.getTrainingRecord(principal);
         mav.addObject("trainVM", trainViewModel);
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
         mav.addObject("userProfile", userProfile);
         return mav;
     }
-    @RequestMapping (value = "/Chief/Userslist", method = RequestMethod.GET)
+    @RequestMapping (value = "/CTO/Userslist", method = RequestMethod.GET)
     @ResponseBody public ModelAndView HrUserslist(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/chiefMenu/Userslist");
+        mav.setViewName("Home/CTO/Userslist");
         List<ProfileViewModel> users = getUsers();
 
         mav.addObject("hrUserslistVM", users);
@@ -98,11 +98,11 @@ public class ChiefController {
         return mav;
     }
 
-    @RequestMapping(value = "chiefMenu/changepass", method = RequestMethod.GET)
+    @RequestMapping(value = "CTO/changepass", method = RequestMethod.GET)
     public ModelAndView ChangePass(Principal principal){
         ModelAndView mav = new ModelAndView();
         ChangepassViewModel changepassViewModel = new ChangepassViewModel ();
-        mav.setViewName("user/changepass");
+        mav.setViewName("Home/CTO/changepass");
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal);
         mav.addObject("userProfile", userProfile);
         mav.addObject("changepassVM", changepassViewModel);

@@ -115,8 +115,8 @@
                         </tbody>
                     </table>
 
-                    <div style="border: dashed #ffffff; width: 25%; right: 0; bottom: 0; position: fixed;">
-                        <h3 style="text-align: center">Hint.</h3>
+                    <div style="border: solid #ffffff; width: 25%; right: 0; bottom: 0; position: fixed; border-radius: 10px;">
+                        <h3 style="text-align: center">Hint:</h3>
                         <h4 style="margin-left: 50px">A1 and A2 - Basic</h4>
                         <h4 style="margin-left: 50px">B1 and B2 - Independent</h4>
                         <h4 style="margin-left: 50px">C1 and C2 - Proficient</h4>

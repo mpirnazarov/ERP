@@ -331,7 +331,7 @@ public class HrController {
         FamilyMember familyProfile = getUserFamily(userId, famId);
         System.out.println(familyProfile);
 
-        model.addAttribute("userProfile", familyProfile);
+        model.addAttribute("family", familyProfile);
         return "Home/editmenu/faminfo";
     }
 

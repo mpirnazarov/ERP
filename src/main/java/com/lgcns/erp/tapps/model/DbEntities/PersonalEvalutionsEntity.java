@@ -13,7 +13,7 @@ public class PersonalEvalutionsEntity {
     private int userId;
     private int grade;
     private Date date;
-    private String evaluatorId;
+    private int evaluatorId;
     private UsersEntity usersByUserId;
 
     @Id
@@ -59,11 +59,11 @@ public class PersonalEvalutionsEntity {
 
     @Basic
     @Column(name = "evaluator_id", nullable = false, length = 10)
-    public String getEvaluatorId() {
+    public int getEvaluatorId() {
         return evaluatorId;
     }
 
-    public void setEvaluatorId(String evaluatorId) {
+    public void setEvaluatorId(int evaluatorId) {
         this.evaluatorId = evaluatorId;
     }
 
@@ -78,7 +78,7 @@ public class PersonalEvalutionsEntity {
         if (userId != that.userId) return false;
         if (grade != that.grade) return false;
         if (date != null ? !date.equals(that.date) : that.date != null) return false;
-        if (evaluatorId != null ? !evaluatorId.equals(that.evaluatorId) : that.evaluatorId != null) return false;
+        if (evaluatorId != that.evaluatorId) return false;
 
         return true;
     }
@@ -89,7 +89,7 @@ public class PersonalEvalutionsEntity {
         result = 31 * result + userId;
         result = 31 * result + grade;
         result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (evaluatorId != null ? evaluatorId.hashCode() : 0);
+        result = 31 * result + evaluatorId;
         return result;
     }
 

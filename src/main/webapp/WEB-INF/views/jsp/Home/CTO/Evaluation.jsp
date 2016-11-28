@@ -27,10 +27,9 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Username</th>
-                <th>Action</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Comments</th>
                 <th>Grade</th>
             </tr>
             </thead>
@@ -40,11 +39,12 @@
                     <td><c:out value="${user.id}"/></td>
                     <td><c:out value="${user.firstName[2]}"/></td>
                     <td><c:out value="${user.lastName[2]}"/></td>
-                    <td><c:out value="${user.username}"/></td>
-                    <td>
+                    <%--<td>
                         <spring:url value="/CTO/user/${user.id}/geninfo" var="userUrl" />
                         <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
-                    </td>
+                    </td>--%>
+                    <%--<td><textarea  placeholder="Comments" cssClass="form-control text-box" rows="3" cols="1"/></td>--%>
+                    <td> </td>
                     <td>
                         <select class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             <option value="NONE">--- Select ---</option>

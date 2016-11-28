@@ -25,7 +25,7 @@
                 <li><a data-toggle="tab" href="#personalinfo">Personal information</a></li>
                 <li><a data-toggle="tab" href="#familyinfo">Family information</a></li>
             </ul>
-            <form:form commandName="user" cssClass="form-horizontal" method="post" action="/Hr/user/${person.id}/update/faminfo">
+            <form:form  commandName="family" cssClass="form-horizontal" method="post" action="/Hr/user/${person.id}/update/faminfo">
                     <!--General info/Family info Tab-->
                     <h3>Family information</h3>
                     <ul class="nav nav-tabs">
@@ -42,19 +42,19 @@
                                                                 <label class="control-label col-md-3">Relation: <font color='red'>*</font></label>
                                                                 <div class="col-lg-5"><form:input placeholder="Relation" required="true"
                                                                                                   cssClass="form-control text-box single-line"
-                                                                                                  path="family.relation[2]" value="${family.relation[2]}"/></div>
+                                                                                                  path="relation[2]" value="${family.relation[2]}"/></div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="control-label col-md-3">Full name: <font color='red'>*</font></label>
                                                                 <div class="col-lg-5"><form:input placeholder="Full name" required="true"
                                                                                                   cssClass="form-control text-box single-line"
-                                                                                                  path="family.fullName[2]" value="${family.fullName[2]}"/></div>
+                                                                                                  path="fullName[2]" value="${family.fullName[2]}"/></div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="control-label col-md-3">Job title: <font color='red'>*</font></label>
                                                                 <div class="col-lg-5"><form:input placeholder="Job title" required="true"
                                                                                                   cssClass="form-control text-box single-line"
-                                                                                                  path="family.jobTitle[2]" value="${family.jobTitle[2]}"/></div>
+                                                                                                  path="jobTitle[2]" value="${family.jobTitle[2]}"/></div>
                                                             </div>
                             </div>
                         </div>
@@ -65,19 +65,19 @@
                                     <label class="control-label col-md-3">Relation: <font color='red'>*</font></label>
                                     <div class="col-lg-5"><form:input placeholder="Relation" required="true"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path="family.relation[0]" value="${family.relation[0]}"/></div>
+                                                                      path="relation[0]" value="${family.relation[0]}"/></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Full name: <font color='red'>*</font></label>
                                     <div class="col-lg-5"><form:input placeholder="Full name" required="true"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path="family.fullName[0]" value="${family.fullName[0]}"/></div>
+                                                                      path="fullName[0]" value="${family.fullName[0]}"/></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Job title: <font color='red'>*</font></label>
                                     <div class="col-lg-5"><form:input placeholder="Job title" required="true"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path="family.jobTitle[0]" value="${family.jobTitle[0]}"/></div>
+                                                                      path="jobTitle[0]" value="${family.jobTitle[0]}"/></div>
                                 </div>
                             </div>
                         </div>
@@ -88,19 +88,19 @@
                                     <label class="control-label col-md-3">Relation: <font color='red'>*</font></label>
                                     <div class="col-lg-5"><form:input placeholder="Relation" required="true"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path="family.relation[1]" value="${family.relation[1]}"/></div>
+                                                                      path="relation[1]" value="${family.relation[1]}"/></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Full name: <font color='red'>*</font></label>
                                     <div class="col-lg-5"><form:input placeholder="Full name" required="true"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path="family.fullName[1]" value="${family.fullName[1]}"/></div>
+                                                                      path="fullName[1]" value="${family.fullName[1]}"/></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Job title: <font color='red'>*</font></label>
                                     <div class="col-lg-5"><form:input placeholder="Job title" required="true"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path="family.jobTitle[1]" value="${family.jobTitle[1]}"/></div>
+                                                                      path="jobTitle[1]" value="${family.jobTitle[1]}"/></div>
                                 </div>
                             </div>
                         </div>
@@ -108,9 +108,9 @@
                     <div class="form-horizontal">
                         <div class="form-group">
                     <label class="control-label col-md-4">Date of Birth: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:input path="family.dateOfBirth" type="date" value="${family.dateOfBirth}"
+                    <div class="col-lg-5"><form:input path="dateOfBirth" type="date" value="${family.dateOfBirth}"
                                                       cssClass="form-control text-box single-line requiredDate"/>
-                            <%--<form:errors path="dateOfBirth" cssClass="error field-validation-error"/>--%>
+
                     </div>
                 </div>
                     </div>

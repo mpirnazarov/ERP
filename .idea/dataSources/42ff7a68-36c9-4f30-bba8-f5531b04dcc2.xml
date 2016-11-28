@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2016-11-23.19:49:53.922</IntrospectionTimestamp>
-      <IntrospectionStateNumber>1727</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2016-11-28.16:12:38.330</IntrospectionTimestamp>
+      <IntrospectionStateNumber>1789</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -310,7 +310,7 @@
     </table>
     <table id="68" parent="3" name="personal_evalutions">
       <ObjectId>16966</ObjectId>
-      <StateNumber>870</StateNumber>
+      <StateNumber>1789</StateNumber>
     </table>
     <table id="69" parent="3" name="post_localizations">
       <ObjectId>17213</ObjectId>
@@ -1663,9 +1663,9 @@ language_id</ColNames>
     </column>
     <column id="320" parent="68" name="evaluator_id">
       <Position>6</Position>
-      <DataType>varchar(10)|0</DataType>
+      <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>847</StateNumber>
+      <StateNumber>1789</StateNumber>
     </column>
     <index id="321" parent="68" name="personal_evalutions_pkey">
       <ObjectId>16970</ObjectId>

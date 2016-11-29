@@ -211,11 +211,12 @@ public class HrController {
     @RequestMapping(value = "/Hr/user/{id}/update/{path}", method = RequestMethod.GET)
     @ResponseBody public ModelAndView UpdateInfo(Principal principal, Model model, @ModelAttribute("user") ProfileViewModel person, @PathVariable("id") int id, @PathVariable("path") String path){
         ModelAndView mav = new ModelAndView();
+        ProfileViewModel userProfile = getProfileById(id);
         System.out.print("Path: ");
         if(path.compareTo("Geninfo")==0) {
             System.out.println(path);
             mav.setViewName("Home/editmenu/geninfo");
-            ProfileViewModel userProfile = getProfileById(id);
+            userProfile = getProfileById(id);
             person = userProfile;
             model.addAttribute("person",  person);
             // Getting list of departments and send to view
@@ -260,12 +261,18 @@ public class HrController {
             model.addAttribute("jointType", jointType);
             return mav;
         }
+        if(path.compareTo("Salary")==0) {
+            mav.setViewName("Home/editmenu/salary");
+            List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(UserService.getUserById(id));
+            model.addAttribute("salaryType", salaryVewModel);
+            return mav;
+        }
 
 
         else if(path.compareTo("Docs")==0){
             System.out.println(path);
             mav.setViewName("Home/editmenu/Docs");
-            ProfileViewModel userProfile = getProfileById(id);
+
             person = userProfile;
             model.addAttribute("person",  person);
             // Getting list of departments and send to view
@@ -319,14 +326,13 @@ public class HrController {
         mav.setViewName("Home/editmenu/geninfo");
         HrJobexpViewModel hrjobexpViewModel = new HrJobexpViewModel();
         mav.addObject("hrjobexpVM", hrjobexpViewModel);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+         userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
     }
 
     @RequestMapping ( value = "/Hr/user/{id}/update/{path}", method = RequestMethod.POST )
     public String UpdateInfo(Principal principal, @Valid @ModelAttribute  ProfileViewModel person, @PathVariable String path, BindingResult result, @PathVariable("id") String id){
-        System.out.println(person.getPassportNumber());
         if(result.hasErrors()) {
             return "Hr/user/"+id+"/update"+path;
         }
@@ -353,6 +359,15 @@ public class HrController {
         UserService.updateUsersFamilyInfoLocEn(familyProfile);
         UserService.updateUsersFamilyInfoLocRu(familyProfile);
         UserService.updateUsersFamilyInfoLocUz(familyProfile);
+        System.out.println("I am working here");
+        return "redirect: /Hr/user/"+userId+"/update/Geninfo";
+    }
+    @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/deleteFam/{famId}/", method = RequestMethod.GET)
+    public String DeleteFamInfoPost(Model model, FamilyMember familyProfile, @PathVariable("userId") String userId, @PathVariable("famId") String famId){
+
+        UserService.deleteUsersFamilyInfoLoc(famId);
+        UserService.deleteUsersFamilyInfo(famId);
+
         System.out.println("I am working here");
         return "redirect: /Hr/user/"+userId+"/update/Geninfo";
     }
@@ -490,6 +505,7 @@ public class HrController {
             res = UserService.updateUsersLocEntityEn(person);
             res = UserService.updateUsersLocEntityRu(person);
             res = UserService.updateUsersLocEntityUz(person);
+
         }catch (Exception e){
             e.printStackTrace();
         }finally {

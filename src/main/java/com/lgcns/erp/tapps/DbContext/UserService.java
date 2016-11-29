@@ -5,6 +5,7 @@ import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.CTO.Form;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
+import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -1073,13 +1074,99 @@ public class UserService {
                 gr=5;
             transaction = session.beginTransaction();
             PersonalEvalutionsEntity evalutionsEntity = new PersonalEvalutionsEntity();
-            evalutionsEntity.setUserId(Integer.parseInt(f.getId()));
+            evalutionsEntity.setUserId(id);
             evalutionsEntity.setGrade(gr);
             evalutionsEntity.setDate(new Date(2016,01,26));
             evalutionsEntity.setComments(f.getComments());
             evalutionsEntity.setEvaluatorId(id);
 
             session.save(evalutionsEntity);
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void updateUsersFamilyInfo(FamilyMember familyProfile) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update FamilyInfosEntity set dateOfBirth = :dateOfBirth where id = :famId");
+            query.setParameter("dateOfBirth", familyProfile.getDateOfBirth());
+            query.setParameter("famId", familyProfile.getId());
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+    public static void updateUsersFamilyInfoLocEn(FamilyMember familyProfile) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update FamiliyInfoLocalizationsEntity set lastName = :lastName, firstName=:firstName, relation=:relation, jobTitle=:jobTitle where familyInfoid = :famId and languageId=3");
+            query.setParameter("lastName", familyProfile.getLastName()[2]);
+            query.setParameter("firstName", familyProfile.getFirstName()[2]);
+            query.setParameter("relation", familyProfile.getRelation()[2]);
+            query.setParameter("jobTitle", familyProfile.getJobTitle()[2]);
+            query.setParameter("famId", familyProfile.getId());
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+    public static void updateUsersFamilyInfoLocRu(FamilyMember familyProfile) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update FamiliyInfoLocalizationsEntity set lastName = :lastName, firstName=:firstName, relation=:relation, jobTitle=:jobTitle where familyInfoid = :famId and languageId=1");
+            query.setParameter("lastName", familyProfile.getLastName()[0]);
+            query.setParameter("firstName", familyProfile.getFirstName()[0]);
+            query.setParameter("relation", familyProfile.getRelation()[0]);
+            query.setParameter("jobTitle", familyProfile.getJobTitle()[0]);
+            query.setParameter("famId", familyProfile.getId());
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+    public static void updateUsersFamilyInfoLocUz(FamilyMember familyProfile) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update FamiliyInfoLocalizationsEntity set lastName = :lastName, firstName=:firstName, relation=:relation, jobTitle=:jobTitle where familyInfoid = :famId and languageId=2");
+            query.setParameter("lastName", familyProfile.getLastName()[1]);
+            query.setParameter("firstName", familyProfile.getFirstName()[1]);
+            query.setParameter("relation", familyProfile.getRelation()[1]);
+            query.setParameter("jobTitle", familyProfile.getJobTitle()[1]);
+            query.setParameter("famId", familyProfile.getId());
+            query.executeUpdate();
             transaction.commit();
         }
         catch (HibernateException e) {

@@ -235,7 +235,7 @@
                                     <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td><div contenteditable="true">${family.relation[2]}</div></td>
-                                            <td><div contenteditable="true">${family.fullName[2]}</div></td>
+                                            <td><div contenteditable="true">${family.firstName[2]} ${family.lastName[2]}</div></td>
                                             <td><div contenteditable="true">${family.dateOfBirth}</div></td>
                                             <td><div contenteditable="true">${family.jobTitle[2]}</div></td>
                                         </tr>
@@ -261,7 +261,7 @@
                                     <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td><div contenteditable="true">${family.relation[0]}</div></td>
-                                            <td><div contenteditable="true">${family.fullName[0]}</div></td>
+                                            <td><div contenteditable="true">${family.firstName[0]} ${family.lastName[0]}</div></td>
                                             <td><div contenteditable="true">${family.dateOfBirth}</div></td>
                                             <td><div contenteditable="true">${family.jobTitle[0]}</div></td>
                                         </tr>
@@ -287,7 +287,7 @@
                                     <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td><div contenteditable="true">${family.relation[1]}</div></td>
-                                            <td><div contenteditable="true">${family.fullName[1]}</div></td>
+                                            <td><div contenteditable="true">${family.firstName[1]} ${family.lastName[1]}</div></td>
                                             <td><div class="date" contenteditable="true">${family.dateOfBirth}</div></td>
                                             <td><div contenteditable="true">${family.jobTitle[1]}</div></td>
                                         </tr>

@@ -221,7 +221,7 @@ public class HrController {
             // Getting list of departments and send to view
             Map<Integer, String> deps = new HashMap<Integer, String>();
             for (DepartmentLocalizationsEntity dep :
-                UserService.getDepartments(3)) {
+                    UserService.getDepartments(3)) {
                 deps.put(dep.getId(), dep.getName());
             }
             model.addAttribute("departments",  deps);
@@ -229,7 +229,7 @@ public class HrController {
             //Getting positions list from RoleLocalizations
             Map<Integer, String> positions = new HashMap<Integer, String>();
             for (RoleLocalizationsEntity pos :
-                UserService.getRolesLoc()) {
+                    UserService.getRolesLoc()) {
                 positions.put(pos.getId(), pos.getName());
             }
             model.addAttribute("positions",  positions);
@@ -237,7 +237,7 @@ public class HrController {
             //Getting jobTitles list from RoleLocalizations
             Map<Integer, String> jobTitles = new HashMap<Integer, String>();
             for (PostLocalizationsEntity pos :
-                UserService.getPostLocalizations(3)) {
+                    UserService.getPostLocalizations(3)) {
                 jobTitles.put(pos.getId(), pos.getName());
             }
             model.addAttribute("jobTitles",  jobTitles);
@@ -246,7 +246,7 @@ public class HrController {
             Map<Integer, String> statuses = new HashMap<Integer, String>();
             int i=0;
             for (StatusLocalizationsEntity statusesEntity :
-                UserService.getStatuses()) {
+                    UserService.getStatuses()) {
                 statuses.put(statusesEntity.getId(), statusesEntity.getName());
             }
             model.addAttribute("statuses",  statuses);
@@ -254,15 +254,15 @@ public class HrController {
             // Setting list of joint types
             Map<Integer, String> jointType = new HashMap<Integer, String>();
             for (Appoint a :
-                Appoint.values()) {
+                    Appoint.values()) {
                 jointType.put(a.getValue(), a.name());
             }
             model.addAttribute("jointType", jointType);
             return mav;
-       }
+        }
 
 
-       else if(path.compareTo("Docs")==0){
+        else if(path.compareTo("Docs")==0){
             System.out.println(path);
             mav.setViewName("Home/editmenu/Docs");
             ProfileViewModel userProfile = getProfileById(id);
@@ -271,7 +271,7 @@ public class HrController {
             // Getting list of departments and send to view
             Map<Integer, String> deps = new HashMap<Integer, String>();
             for (DepartmentLocalizationsEntity dep :
-                UserService.getDepartments(3)) {
+                    UserService.getDepartments(3)) {
                 deps.put(dep.getId(), dep.getName());
             }
             model.addAttribute("departments",  deps);
@@ -279,7 +279,7 @@ public class HrController {
             //Getting positions list from RoleLocalizations
             Map<Integer, String> positions = new HashMap<Integer, String>();
             for (RoleLocalizationsEntity pos :
-                UserService.getRolesLoc()) {
+                    UserService.getRolesLoc()) {
                 positions.put(pos.getId(), pos.getName());
             }
             model.addAttribute("positions",  positions);
@@ -287,7 +287,7 @@ public class HrController {
             //Getting jobTitles list from RoleLocalizations
             Map<Integer, String> jobTitles = new HashMap<Integer, String>();
             for (PostLocalizationsEntity pos :
-                UserService.getPostLocalizations(3)) {
+                    UserService.getPostLocalizations(3)) {
                 jobTitles.put(pos.getId(), pos.getName());
             }
             model.addAttribute("jobTitles",  jobTitles);
@@ -296,7 +296,7 @@ public class HrController {
             Map<Integer, String> statuses = new HashMap<Integer, String>();
             int i=0;
             for (StatusLocalizationsEntity statusesEntity :
-                UserService.getStatuses()) {
+                    UserService.getStatuses()) {
                 statuses.put(statusesEntity.getId(), statusesEntity.getName());
             }
             model.addAttribute("statuses",  statuses);
@@ -304,7 +304,7 @@ public class HrController {
             // Setting list of joint types
             Map<Integer, String> jointType = new HashMap<Integer, String>();
             for (Appoint a :
-                Appoint.values()) {
+                    Appoint.values()) {
                 jointType.put(a.getValue(), a.name());
             }
 
@@ -312,10 +312,10 @@ public class HrController {
 
             return mav;
 
-       }
-       else{
+        }
+        else{
 
-       }
+        }
         mav.setViewName("Home/editmenu/geninfo");
         HrJobexpViewModel hrjobexpViewModel = new HrJobexpViewModel();
         mav.addObject("hrjobexpVM", hrjobexpViewModel);
@@ -338,13 +338,23 @@ public class HrController {
 
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/updateFam/{famId}/", method = RequestMethod.GET)
-    public String UpdateFamInfo(Model model, @PathVariable("userId") int userId, @PathVariable("famId") int famId){
+    public ModelAndView UpdateFamInfo(Model model, @PathVariable("userId") int userId, @PathVariable("famId") int famId){
 
         FamilyMember familyProfile = getUserFamily(userId, famId);
-        System.out.println(familyProfile);
+        //System.out.println(familyProfile);
 
-        model.addAttribute("family", familyProfile);
-        return "Home/editmenu/faminfo";
+        return new ModelAndView("Home/editmenu/faminfo" , "family", familyProfile);
+    }
+    @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/updateFam/{famId}/", method = RequestMethod.POST)
+    public String UpdateFamInfoPost(Model model, FamilyMember familyProfile, @PathVariable("userId") String userId, @PathVariable("famId") String famId){
+
+        System.out.println("Family member: " + familyProfile);
+        UserService.updateUsersFamilyInfo(familyProfile);
+        UserService.updateUsersFamilyInfoLocEn(familyProfile);
+        UserService.updateUsersFamilyInfoLocRu(familyProfile);
+        UserService.updateUsersFamilyInfoLocUz(familyProfile);
+        System.out.println("I am working here");
+        return "redirect: /Hr/user/"+userId+"/update/Geninfo";
     }
 
     private FamilyMember getUserFamily(int userId, int famId) {
@@ -357,17 +367,20 @@ public class HrController {
                 familyMember.setDateOfBirth(fam.getDateOfBirth());
                 familyMember.setId(fam.getId());
                 List<FamiliyInfoLocalizationsEntity> famLoc = UserService.getFamilyInfosLoc(famId);
-                String[] fullName = new String[3];
+                String[] lastName = new String[3];
+                String[] firstName = new String[3];
                 String[] jobTitle = new String[3];
                 String[] relation = new String[3];
 
                 for (FamiliyInfoLocalizationsEntity fLoc :
                         famLoc) {
-                    fullName[fLoc.getLanguageId()-1] = fLoc.getFirstName()+" "+fLoc.getLastName();
+                    lastName[fLoc.getLanguageId()-1] = fLoc.getLastName();
+                    firstName[fLoc.getLanguageId()-1] = fLoc.getFirstName();
                     jobTitle[fLoc.getLanguageId()-1] = fLoc.getJobTitle();
                     relation[fLoc.getLanguageId()-1] = fLoc.getRelation();
                 }
-                familyMember.setFullName(fullName);
+                familyMember.setLastName(lastName);
+                familyMember.setFirstName(firstName);
                 familyMember.setJobTitle(jobTitle);
                 familyMember.setRelation(relation);
             }
@@ -450,7 +463,6 @@ public class HrController {
 
     public static int updateDBGenInfo(ProfileViewModel person) {
         int res = 0;
-        System.out.println("Person print: " + person);
         try {
             UserService.updateUsersEntity(person);
             res = UserService.updateUsersLocEntityEn(person);
@@ -471,7 +483,7 @@ public class HrController {
 
 
         for (UsersEntity userEntity:
-             usersEntityList) {
+                usersEntityList) {
             userProfile = new ProfileViewModel();
             // Getting data from users db
             UsersEntity user = UserService.getUserByUsername(userEntity.getUserName());
@@ -657,7 +669,7 @@ public class HrController {
                 FamilyMember familyMember = new FamilyMember(familyLoc2.size());
                 for (FamiliyInfoLocalizationsEntity faInLoEn :
                         familyLoc2) {
-                    familyMember.add(faInLoEn.getRelation(), faInLoEn.getLastName() + " " + faInLoEn.getFirstName(), fie.getDateOfBirth(), faInLoEn.getJobTitle(), faInLoEn.getLanguageId(), faInLoEn.getFamilyInfoid());
+                    familyMember.add(faInLoEn.getRelation(), faInLoEn.getLastName(), faInLoEn.getFirstName(), fie.getDateOfBirth(), faInLoEn.getJobTitle(), faInLoEn.getLanguageId(), faInLoEn.getFamilyInfoid());
                     // System.out.println( familyMember.getRelation()[faInLoEn.getLanguageId()-1]+ " " + familyMember.getFullName()[faInLoEn.getLanguageId()-1] + " " + familyMember.getDateOfBirth() + " " + familyMember.getJobTitle()[faInLoEn.getLanguageId()-1]);
                 }
                 familyMembers.add(familyMember);
@@ -683,12 +695,12 @@ public class HrController {
         String familyMembers_en = "";
         for (FamilyMember famMember:
                 user.getFamilyLoc()) {
-            familyMembers_en += ", "+famMember.getRelation()[2] + "(" + famMember.getFullName()[2]+")";
+            familyMembers_en += ", "+famMember.getRelation()[2] + "(" + famMember.getLastName()[2]+" " + famMember.getFirstName()[2]+")";
         }
         String familyMembers_ru = "";
         for (FamilyMember famMember:
                 user.getFamilyLoc()) {
-            familyMembers_ru += famMember.getRelation()[0] + "(" + famMember.getFullName()[2]+"), ";
+            familyMembers_ru += famMember.getRelation()[0] + "(" + famMember.getLastName()[2]+" " + famMember.getFirstName()[2]+"), ";
         }
         nonImageVariableMap.put("jobTitle", user.getJobTitle());
         nonImageVariableMap.put("familyMembers_en", familyMembers_en);

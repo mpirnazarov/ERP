@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2016-11-28.21:56:09.052</IntrospectionTimestamp>
-      <IntrospectionStateNumber>1790</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2016-11-29.12:27:16.831</IntrospectionTimestamp>
+      <IntrospectionStateNumber>1894</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -267,7 +267,7 @@
     </table>
     <table id="68" parent="3" name="personal_evalutions">
       <ObjectId>16966</ObjectId>
-      <StateNumber>1790</StateNumber>
+      <StateNumber>1894</StateNumber>
     </table>
     <table id="69" parent="3" name="post_localizations">
       <ObjectId>17213</ObjectId>
@@ -335,7 +335,7 @@
     </table>
     <table id="85" parent="3" name="users">
       <ObjectId>16913</ObjectId>
-      <StateNumber>1790</StateNumber>
+      <StateNumber>1894</StateNumber>
     </table>
     <table id="86" parent="3" name="vocation_status">
       <ObjectId>17411</ObjectId>
@@ -1149,32 +1149,27 @@ language_id</ColNames>
     <column id="232" parent="68" name="user_id">
       <Position>2</Position>
       <DataType>integer|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>682</StateNumber>
+      <StateNumber>1873</StateNumber>
     </column>
     <column id="233" parent="68" name="grade">
       <Position>3</Position>
       <DataType>integer|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>682</StateNumber>
+      <StateNumber>1811</StateNumber>
     </column>
     <column id="234" parent="68" name="date">
       <Position>4</Position>
       <DataType>date|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>682</StateNumber>
+      <StateNumber>1809</StateNumber>
     </column>
     <column id="235" parent="68" name="evaluator_id">
       <Position>6</Position>
       <DataType>integer|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>1789</StateNumber>
+      <StateNumber>1812</StateNumber>
     </column>
     <column id="236" parent="68" name="comments">
       <Position>7</Position>
       <DataType>varchar(200)|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>1790</StateNumber>
+      <StateNumber>1813</StateNumber>
     </column>
     <index id="237" parent="68" name="personal_evalutions_pkey">
       <ObjectId>16970</ObjectId>
@@ -1187,8 +1182,8 @@ language_id</ColNames>
       <UnderlyingIndexName>personal_evalutions_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="239" parent="68" name="fk_personal_get_userid">
-      <ObjectId>17463</ObjectId>
+    <foreign-key id="239" parent="68" name="fk_get_user_id">
+      <ObjectId>57817</ObjectId>
       <ColNames>user_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefKeyName>users_pkey</RefKeyName>

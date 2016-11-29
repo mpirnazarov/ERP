@@ -141,7 +141,6 @@ public class CTOController {
 
     @RequestMapping ( value = "/CTO/Evaluation", method = RequestMethod.POST )
     public String UpdateEvaluation(Model model, FormModel form, BindingResult result, Principal principal){
-        System.out.println(form.getForms().toString());
         int id = UserService.getIdByUsername(principal.getName());
         insertEvaluations(form, id);
         return null;
@@ -149,7 +148,7 @@ public class CTOController {
 
     private void insertEvaluations(FormModel form, int id) {
         for (Form f:
-             form.getForms()) {
+                form.getForms()) {
             if(f.getGrade().compareTo(" ")!=0){
                 System.out.println("Grade: "+f.getGrade());
                 UserService.insertEvaluation(f, id);
@@ -159,8 +158,6 @@ public class CTOController {
 
     @RequestMapping (value = "/CTO/Evaluation", method = RequestMethod.GET)
     public ModelAndView  CTOUserslist(Model model, Principal principal){
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/CTO/Evaluation");
         List<ProfileViewModel> users = getUsers();
         List<Form> users2 = new LinkedList<Form>();
         Form f=new Form();
@@ -176,8 +173,6 @@ public class CTOController {
         formModel.setForms(users2);
 
         model.addAttribute("form", formModel);
-        mav.addObject("hrUserslistVM", users2);
-        System.out.println(formModel.getForms().get(0).getGrades());
         return new ModelAndView("Home/CTO/Evaluation" , "formModel", formModel);
     }
 

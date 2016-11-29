@@ -296,7 +296,7 @@
                                     <c:forEach items="${person.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td>${family.relation[2]}</td>
-                                            <td>${family.fullName[2]}</td>
+                                            <td>${family.firstName[2]} ${family.lastName[2]}</td>
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[2]}</td>
                                             <td><a href="./Geninfo/updateFam/${family.id}/" class="btn btn-primary">Add</a>
@@ -323,14 +323,18 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <%--<c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
+                                    <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td>${family.relation[0]}</td>
-                                            <td>${family.fullName[0]}</td>
+                                            <td>${family.firstName[0]} ${family.lastName[0]}</td>
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[0]}</td>
+                                            <td><a href="./Geninfo/updateFam/${family.id}/" class="btn btn-primary">Add</a>
+                                                <a href="./Geninfo/updateFam/${family.id}/" class="btn btn-default">Edit</a>
+                                            </td>
+                                            <c:set var="count" value="${count + 1}" scope="page"/>
                                         </tr>
-                                    </c:forEach>--%>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -349,14 +353,18 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <%--<c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
+                                    <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td>${family.relation[1]}</td>
-                                            <td>${family.fullName[1]}</td>
+                                            <td>${family.firstName[1]} ${family.lastName[1]}</td>
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[1]}</td>
+                                            <td><a href="./Geninfo/updateFam/${family.id}/" class="btn btn-primary">Add</a>
+                                                <a href="./Geninfo/updateFam/${family.id}/" class="btn btn-default">Edit</a>
+                                            </td>
+                                            <c:set var="count" value="${count + 1}" scope="page"/>
                                         </tr>
-                                    </c:forEach>--%>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>

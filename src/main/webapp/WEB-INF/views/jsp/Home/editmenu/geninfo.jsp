@@ -368,7 +368,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-sm-9"><a href="#" class="btn btn-primary">Add</a></div>
+                        <div class="col-sm-9"><a href="./Geninfo/addFam" class="btn btn-primary">Add</a></div>
                     </div>
                 </div>
             </div>

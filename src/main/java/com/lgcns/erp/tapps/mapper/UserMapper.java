@@ -1,9 +1,12 @@
 package com.lgcns.erp.tapps.mapper;
 
+import com.lgcns.erp.tapps.model.DbEntities.FamiliyInfoLocalizationsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.FamilyInfosEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.viewModel.RegistrationLocInfo;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
+import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.Date;
@@ -53,5 +56,25 @@ public class UserMapper {
             returning.add(locEntity);
         }
         return returning;
+    }
+
+    public static FamilyInfosEntity mapAddFamily(FamilyMember familyProfile, String userId) {
+        FamilyInfosEntity familyInfosEntity = new FamilyInfosEntity();
+        familyInfosEntity.setDateOfBirth(familyProfile.getDateOfBirth());
+        familyInfosEntity.setUserId(Integer.parseInt(userId));
+        System.out.println("USER ID MAPPER: " + familyInfosEntity.getUserId());
+        return familyInfosEntity;
+    }
+
+    public static FamiliyInfoLocalizationsEntity mapAddFamilyLoc(FamilyMember familyProfile, int id, int langId) {
+        FamiliyInfoLocalizationsEntity familiyInfoLocalizationsEntity = new FamiliyInfoLocalizationsEntity();
+        familiyInfoLocalizationsEntity.setFirstName(familyProfile.getFirstName()[langId-1]);
+        familiyInfoLocalizationsEntity.setLastName(familyProfile.getLastName()[langId-1]);
+        familiyInfoLocalizationsEntity.setJobTitle(familyProfile.getJobTitle()[langId-1]);
+        familiyInfoLocalizationsEntity.setRelation(familyProfile.getRelation()[langId-1]);
+        familiyInfoLocalizationsEntity.setFamilyInfoid(id);
+        familiyInfoLocalizationsEntity.setLanguageId(langId);
+        System.out.println("MAPPER: "+id + " "+langId);
+        return familiyInfoLocalizationsEntity;
     }
 }

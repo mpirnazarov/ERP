@@ -26,7 +26,7 @@
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="control-label col-md-3">Date: <font color='red'>*</font></label>
-                                <div class="col-lg-5"><form:input path="salaryDate" type="date" value="${}"
+                                <div class="col-lg-5"><form:input path="salaryDate" type="date"
                                                                   cssClass="form-control text-box single-line requiredDate"/>
 
                                 </div>
@@ -53,7 +53,7 @@
                         </div>
                 <div class="form-group">
                     <div class="col-md-offset-3 col-md-9">
-                        <input type="submit" value="Save" class="btn btn-default"/>
+                        <input type="submit" value="Add" class="btn btn-default"/>
                         <input type="button" onclick="location.href='/Hr/user/${id}/update/${path}'" value="Cancel"
                                class="btn btn-default"/>
                     </div>

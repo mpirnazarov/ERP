@@ -19,7 +19,7 @@
         <div class="col-sm-9 col-lg-10">
         <div class="col-lg-8 col-lg-offset-2">
             <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
-            <form:form  commandName="family" cssClass="form-horizontal" method="post" action="/Hr/user/${person.id}/update/faminfo">
+            <form:form  commandName="family" cssClass="form-horizontal" method="post">
                     <!--General info/Family info Tab-->
                     <h3>Family information</h3>
                     <ul class="nav nav-tabs">
@@ -32,6 +32,7 @@
                         <div id="fien" class="tab-pane fade in active">
                             <p>In english</p>
                             <div class="form-horizontal">
+                                <form:hidden path="id"/>
                                                             <div class="form-group">
                                                                 <label class="control-label col-md-3">Relation: <font color='red'>*</font></label>
                                                                 <div class="col-lg-5"><form:input placeholder="Relation" required="true"
@@ -39,10 +40,16 @@
                                                                                                   path="relation[2]" value="${family.relation[2]}"/></div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label class="control-label col-md-3">Full name: <font color='red'>*</font></label>
-                                                                <div class="col-lg-5"><form:input placeholder="Full name" required="true"
+                                                                <label class="control-label col-md-3">Last name: <font color='red'>*</font></label>
+                                                                <div class="col-lg-5"><form:input placeholder="Last name" required="true"
                                                                                                   cssClass="form-control text-box single-line"
-                                                                                                  path="fullName[2]" value="${family.fullName[2]}"/></div>
+                                                                                                  path="lastName[2]" value="${family.lastName[2]}"/></div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">First name: <font color='red'>*</font></label>
+                                                                <div class="col-lg-5"><form:input placeholder="First name" required="true"
+                                                                                                  cssClass="form-control text-box single-line"
+                                                                                                  path="firstName[2]" value="${family.firstName[2]}"/></div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="control-label col-md-3">Job title: <font color='red'>*</font></label>
@@ -62,10 +69,16 @@
                                                                       path="relation[0]" value="${family.relation[0]}"/></div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-3">Full name: <font color='red'>*</font></label>
-                                    <div class="col-lg-5"><form:input placeholder="Full name" required="true"
+                                    <label class="control-label col-md-3">Last name: <font color='red'>*</font></label>
+                                    <div class="col-lg-5"><form:input placeholder="Last name" required="true"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path="fullName[0]" value="${family.fullName[0]}"/></div>
+                                                                      path="lastName[0]" value="${family.lastName[0]}"/></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">First name: <font color='red'>*</font></label>
+                                    <div class="col-lg-5"><form:input placeholder="First name" required="true"
+                                                                      cssClass="form-control text-box single-line"
+                                                                      path="firstName[0]" value="${family.firstName[0]}"/></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Job title: <font color='red'>*</font></label>
@@ -85,10 +98,17 @@
                                                                       path="relation[1]" value="${family.relation[1]}"/></div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-3">Full name: <font color='red'>*</font></label>
-                                    <div class="col-lg-5"><form:input placeholder="Full name" required="true"
+                                    <label class="control-label col-md-3">Last name: <font color='red'>*</font></label>
+                                    <div class="col-lg-5"><form:input placeholder="Last name" required="true"
                                                                       cssClass="form-control text-box single-line"
-                                                                      path="fullName[1]" value="${family.fullName[1]}"/></div>
+                                                                      path="lastName[1]" value="${family.lastName[1]}"/></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">First name: <font color='red'>*</font></label>
+                                    <div class="col-lg-5"><form:input placeholder="First name" required="true"
+                                                                      cssClass="form-control text-box single-line"
+                                                                      path="firstName[1]" value="${family.firstName[1]}"/></div>
+                                </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Job title: <font color='red'>*</font></label>
@@ -107,13 +127,13 @@
 
                                 </div>
                         </div>
-                    <div class="form-group">
-                            <div class="col-md-offset-3 col-md-9">
-                                <input type="submit" value="Save" class="btn btn-default"/>
-                                <input type="button" onclick="location.href='/Hr/user/${id}/update/${path}'" value="Cancel"
-                                       class="btn btn-default"/>
-                            </div>
-                    </div>
+                        <div class="form-group">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <input type="submit" value="Save" class="btn btn-default"/>
+                                    <input type="button" onclick="location.href='/Hr/user/${id}/update/${path}'" value="Cancel"
+                                           class="btn btn-default"/>
+                                </div>
+                        </div>
                     </div>
             </form:form>
         </div>

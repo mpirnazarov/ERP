@@ -71,6 +71,7 @@ public class UserController {
         ProfileViewModel userProfile=null;
         try {
             userProfile = getProfileByUsername(principal.getName());
+            System.out.println(userProfile);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -261,7 +262,7 @@ public class UserController {
                 returning.setPolitical(false);
 
             //Getting Joint Type
-            returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());
+            //returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());
 
             //Getting status
             returning.setStatus(UserService.getStatuses().get(3).getName());

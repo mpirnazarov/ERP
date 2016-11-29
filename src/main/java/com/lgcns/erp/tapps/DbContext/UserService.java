@@ -1177,4 +1177,103 @@ public class UserService {
             session.close();
         }
     }
+
+    public static int insertUsersFamilyInfo(FamilyInfosEntity familyInfosEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            //Set foreign key items
+            familyInfosEntity.setUsersByUserId(session.load(UsersEntity.class, familyInfosEntity.getUserId()));
+
+            //Save the object in database
+            session.save(familyInfosEntity);
+
+
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return familyInfosEntity.getId();
+    }
+
+    public static void insertUsersFamilyInfoLocEn(FamiliyInfoLocalizationsEntity familiyInfoLocalizationsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            //Set foreign key items
+            familiyInfoLocalizationsEntity.setFamilyInfosByFamilyInfoid(session.load(FamilyInfosEntity.class, familiyInfoLocalizationsEntity.getFamilyInfoid()));
+            familiyInfoLocalizationsEntity.setLanguagesByLanguageId(session.load(LanguagesEntity.class, familiyInfoLocalizationsEntity.getLanguageId()));
+            //Save the object in database
+            session.save(familiyInfoLocalizationsEntity);
+
+
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+    public static void insertUsersFamilyInfoLocRu(FamiliyInfoLocalizationsEntity familiyInfoLocalizationsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            //Set foreign key items
+            familiyInfoLocalizationsEntity.setFamilyInfosByFamilyInfoid(session.load(FamilyInfosEntity.class, familiyInfoLocalizationsEntity.getFamilyInfoid()));
+            familiyInfoLocalizationsEntity.setLanguagesByLanguageId(session.load(LanguagesEntity.class, familiyInfoLocalizationsEntity.getLanguageId()));
+            //Save the object in database
+            session.save(familiyInfoLocalizationsEntity);
+
+
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+    public static void insertUsersFamilyInfoLocUz(FamiliyInfoLocalizationsEntity familiyInfoLocalizationsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            //Set foreign key items
+            familiyInfoLocalizationsEntity.setFamilyInfosByFamilyInfoid(session.load(FamilyInfosEntity.class, familiyInfoLocalizationsEntity.getFamilyInfoid()));
+            familiyInfoLocalizationsEntity.setLanguagesByLanguageId(session.load(LanguagesEntity.class, familiyInfoLocalizationsEntity.getLanguageId()));
+            //Save the object in database
+            session.save(familiyInfoLocalizationsEntity);
+
+
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
 }

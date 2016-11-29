@@ -357,6 +357,28 @@ public class HrController {
         return "redirect: /Hr/user/"+userId+"/update/Geninfo";
     }
 
+    @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/addFam", method = RequestMethod.GET)
+    public ModelAndView addFamGet(Model model, @PathVariable("userId") int userId){
+        ModelAndView mav = new ModelAndView();
+        FamilyMember familyProfile = new FamilyMember();
+        model.addAttribute("family", familyProfile);
+        mav.setViewName("Home/editmenu/newfaminfo");
+        return mav;
+    }
+    @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/addFam", method = RequestMethod.POST)
+    public String addFamPost(Model model, FamilyMember familyProfile, @PathVariable("userId") String userId){
+
+        System.out.println("Family member: " + familyProfile);
+        int id = UserService.insertUsersFamilyInfo(UserMapper.mapAddFamily(familyProfile, userId));
+
+        System.out.println("ID: "+id);
+        UserService.insertUsersFamilyInfoLocEn(UserMapper.mapAddFamilyLoc(familyProfile, id, 3));
+        UserService.insertUsersFamilyInfoLocRu(UserMapper.mapAddFamilyLoc(familyProfile, id, 1));
+        UserService.insertUsersFamilyInfoLocUz(UserMapper.mapAddFamilyLoc(familyProfile, id, 2));
+        System.out.println("I am working here");
+        return "redirect: /Hr/user/"+userId+"/update/Geninfo";
+    }
+
     private FamilyMember getUserFamily(int userId, int famId) {
         FamilyMember familyMember = new FamilyMember(3);
         UsersEntity usersEntity = UserService.getUserById(userId);

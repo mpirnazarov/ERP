@@ -114,7 +114,36 @@
                         </c:forEach>
                         </tbody>
                     </table>
-
+                    <h3>Language scores</h3>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Score</th>
+                            <th>Degree</th>
+                            <th>Organization</th>
+                            <th>Acquistion Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%--<c:forEach items="${eduVM.languageSummaryList}" var="language" varStatus="status">--%>
+                        <tr>
+                            <td>IELTS</td>
+                            <td>9.0</td>
+                            <td></td>
+                            <td>British Council</td>
+                            <td>2016-11-29</td>
+                        </tr>
+                        <tr>
+                            <td>TOEFL</td>
+                            <td>95</td>
+                            <td></td>
+                            <td>TOEFL Academy</td>
+                            <td>2016-11-29</td>
+                        </tr>
+                        <%--</c:forEach>--%>
+                        </tbody>
+                    </table>
                     <div style="border: solid #ffffff; width: 25%; right: 0; bottom: 0; position: fixed; border-radius: 10px;">
                         <h3 style="text-align: center">Hint:</h3>
                         <h4 style="margin-left: 50px">A1 and A2 - Basic</h4>

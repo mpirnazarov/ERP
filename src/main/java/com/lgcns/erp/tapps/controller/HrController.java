@@ -215,7 +215,7 @@ public class HrController {
         System.out.print("Path: ");
         if(path.compareTo("Geninfo")==0) {
             System.out.println(path);
-            mav.setViewName("Home/editmenu/geninfo");
+            mav.setViewName("Home/editmenu/edit/geninfo");
             userProfile = getProfileById(id);
             person = userProfile;
             model.addAttribute("person",  person);
@@ -323,7 +323,7 @@ public class HrController {
         else{
 
         }
-        mav.setViewName("Home/editmenu/geninfo");
+        mav.setViewName("Home/editmenu/edit/geninfo");
         HrJobexpViewModel hrjobexpViewModel = new HrJobexpViewModel();
         mav.addObject("hrjobexpVM", hrjobexpViewModel);
          userProfile = UserController.getProfileByUsername(principal.getName());
@@ -349,7 +349,7 @@ public class HrController {
         FamilyMember familyProfile = getUserFamily(userId, famId);
         //System.out.println(familyProfile);
 
-        return new ModelAndView("Home/editmenu/faminfo" , "family", familyProfile);
+        return new ModelAndView("Home/editmenu/edit/faminfo", "family", familyProfile);
     }
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/updateFam/{famId}/", method = RequestMethod.POST)
     public String UpdateFamInfoPost(Model model, FamilyMember familyProfile, @PathVariable("userId") String userId, @PathVariable("famId") String famId){
@@ -377,7 +377,7 @@ public class HrController {
         ModelAndView mav = new ModelAndView();
         FamilyMember familyProfile = new FamilyMember();
         model.addAttribute("family", familyProfile);
-        mav.setViewName("Home/editmenu/newfaminfo");
+        mav.setViewName("Home/editmenu/new/newfaminfo");
         return mav;
     }
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/addFam", method = RequestMethod.POST)

@@ -299,8 +299,7 @@
                                             <td>${family.firstName[2]} ${family.lastName[2]}</td>
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[2]}</td>
-                                            <td><a href="./Geninfo/updateFam/${family.id}/" class="btn btn-primary">Add</a>
-                                                <a href="./Geninfo/updateFam/${family.id}/" class="btn btn-default">Edit</a>
+                                            <td><a href="./Geninfo/updateFam/${family.id}/" class="btn btn-default">Edit</a>
                                             </td>
                                             <c:set var="count" value="${count + 1}" scope="page"/>
                                         </tr>
@@ -369,6 +368,7 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="col-sm-9"><a href="#" class="btn btn-primary">Add</a></div>
                     </div>
                 </div>
             </div>

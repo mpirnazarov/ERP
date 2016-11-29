@@ -1276,4 +1276,43 @@ public class UserService {
             session.close();
         }
     }
+
+    public static void deleteUsersFamilyInfoLoc(String famId) {
+
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("delete from FamiliyInfoLocalizationsEntity where familyInfoid = :famId");
+            query.setParameter("famId", Integer.parseInt(famId));
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void deleteUsersFamilyInfo(String famId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("delete from FamilyInfosEntity where id = :famId");
+            query.setParameter("famId", Integer.parseInt(famId));
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
 }

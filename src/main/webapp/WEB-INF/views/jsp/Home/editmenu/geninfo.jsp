@@ -289,6 +289,7 @@
                                         <th>Full name</th>
                                         <th>Date of birth</th>
                                         <th>Duties</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -300,6 +301,7 @@
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[2]}</td>
                                             <td><a href="./Geninfo/updateFam/${family.id}/" class="btn btn-default">Edit</a>
+                                            <a href="./Geninfo/deleteFam/${family.id}/" class="btn btn-danger">Delete</a>
                                             </td>
                                             <c:set var="count" value="${count + 1}" scope="page"/>
                                         </tr>

@@ -7,6 +7,7 @@
 --%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -30,7 +31,7 @@
     <link rel="stylesheet" href="${navbar}" />
     <link rel="stylesheet" href="${scrollCss}" />
         <link rel="stylesheet" href="${editableCss}" />
-    <link rel="icon" href="/resources/images/lg-2-multi-size.ico" type="image/x-icon">
+    <link rel="icon" type="image/x-icon" href="<s:url value="/resources/images/favicon.ico"/>"/>
     <link rel="stylesheet" href="${normalizeCss}" />
     <link rel="stylesheet" href="${bootstrapminCss}" />
     <link rel="stylesheet" type="text/css" href="${allInOneCss}"/>

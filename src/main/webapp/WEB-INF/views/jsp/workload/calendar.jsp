@@ -18,6 +18,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="s" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Manage Workload"/>
 
 <html>
@@ -33,7 +34,7 @@
     <spring:url value="/resources/core/js/jquery-1.12.4.min.js" var="jquery"/>
     <spring:url value="/resources/core/js/jquery.validate.js" var="jqueryValidation"/>
     <spring:url value="/resources/core/css/navbar-fixed-side.css" var="navbar" />
-    <link rel="icon" href="/resources/images/lg-2-multi-size.ico" type="image/x-icon">
+    <link rel="icon" type="image/x-icon" href="<s:url value="/resources/images/favicon.ico"/>"/>
     <link rel="stylesheet" href="${navbar}" />
     <link rel="stylesheet" href="${normalizeCss}"/>
     <link rel='stylesheet prefetch' href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">

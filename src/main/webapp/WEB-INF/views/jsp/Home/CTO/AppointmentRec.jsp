@@ -1,6 +1,6 @@
 <%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
   Created by IntelliJ IDEA.
-  User: Dell
+  User: JAS SHAYKHOV
   Date: 25-Oct-16
   Time: 3:29 PM
   To change this template use File | Settings | File Templates.
@@ -53,26 +53,4 @@
     </div>
 </div>
     </div>
-<script>
-    /*menu handler*/
-    $(function(){
-        function stripTrailingSlash(str) {
-            if(str.substr(-1) == '/') {
-                return str.substr(0, str.length - 1);
-            }
-            return str;
-        }
-
-        var url = window.location.pathname;
-        var activePage = stripTrailingSlash(url);
-
-        $('.nav li a').each(function(){
-            var currentPage = stripTrailingSlash($(this).attr('href'));
-
-            if (activePage == currentPage) {
-                $(this).parent().addClass('active');
-            }
-        });
-    });
-</script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

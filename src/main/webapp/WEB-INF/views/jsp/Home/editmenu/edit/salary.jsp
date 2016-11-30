@@ -16,7 +16,7 @@
 <div class="container-fluid" id="page">
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpEditLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-lg-10">
+        <div class="col-sm-9 col-md-offset-1">
             <div class="col-lg-8 col-lg-offset-2">
                 <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
             <form:form  modelAttribute="salaryVM" cssClass="form-horizontal" method="post" >
@@ -74,27 +74,4 @@
         document.getElementById("fienref").click();
     });
 </script>
-<script>
-    /*menu handler*/
-    $(function(){
-        function stripTrailingSlash(str) {
-            if(str.substr(-1) == '/') {
-                return str.substr(0, str.length - 1);
-            }
-            return str;
-        }
-
-        var url = window.location.pathname;
-        var activePage = stripTrailingSlash(url);
-
-        $('.nav li a').each(function(){
-            var currentPage = stripTrailingSlash($(this).attr('href'));
-
-            if (activePage == currentPage) {
-                $(this).parent().addClass('active');
-            }
-        });
-    });
-</script>
-
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

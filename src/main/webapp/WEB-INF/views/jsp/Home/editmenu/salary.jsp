@@ -34,7 +34,7 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
+<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpEditLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
             <div class="col-lg-8 col-lg-offset-2">
                 <h1>${fullName} ${jobTitle}</h1>
@@ -72,26 +72,4 @@
         </div>
     </div>
 </div>
-<script>
-    /*menu handler*/
-    $(function(){
-        function stripTrailingSlash(str) {
-            if(str.substr(-1) == '/') {
-                return str.substr(0, str.length - 1);
-            }
-            return str;
-        }
-
-        var url = window.location.pathname;
-        var activePage = stripTrailingSlash(url);
-
-        $('.nav li a').each(function(){
-            var currentPage = stripTrailingSlash($(this).attr('href'));
-
-            if (activePage == currentPage) {
-                $(this).parent().addClass('active');
-            }
-        });
-    });
-</script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

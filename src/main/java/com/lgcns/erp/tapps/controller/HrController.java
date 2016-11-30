@@ -250,7 +250,6 @@ public class HrController {
     @RequestMapping(value = "/Hr/user/{userId}/update/Salary/updateSal/{salId}", method = RequestMethod.GET)
     public ModelAndView updateSalary(Model model, @PathVariable("userId") String userId, @PathVariable("salId") int salId){
 
-        System.out.println("You can find me!!!");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/editmenu/edit/salary");
 

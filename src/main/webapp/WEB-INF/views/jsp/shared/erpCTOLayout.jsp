@@ -7,9 +7,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="col-sm-3 col-lg-2">
+<div class="col-md-2 userNavMenu">
     <!-- Sidebar -->
-    <nav class="navbar navbar-inverse navbar-fixed-side">
+    <nav class="navbar navbar-inverse navbar-fixed-side __scrollBar">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
@@ -17,7 +17,9 @@
                 </a>
             </div>
             <ul class="nav navbar-nav">
-            <img class="img-circle" src="/resources/images/${id}.jpg" style="width:45%; margin-left: 25%"/>
+                <div class="userImgBox">
+                    <img class="userimg" src="/resources/images/users/choi.jpg">
+                </div>
             <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-home"></i> Home <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">

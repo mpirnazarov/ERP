@@ -17,16 +17,18 @@
                 </a>
             </div>
             <ul class="nav navbar-nav">
-                <div class="userImgBox">
-                    <img class="userimg" src="/resources/images/users/choi.jpg">
-                </div>
-                <hr/>
+                <%--<object class="img-circle" data="/resources/images/${id}.jpg" style="width:45%; margin-left: 25%">--%>
+                    <%--<img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>--%>
+                <%--</object>--%>
+                    <div class="userImgBox">
+                        <img class="userimg" src="/resources/images/users/choi.jpg">
+                    </div>
             HR System
             <li>
-                <a href="/Hr/Profile"><i class="fa fa-fw fa-home"></i> Home</a>
+                <a href="/${}/Profile"><i class="fa fa-fw fa-home"></i> Home</a>
             </li>
             <li>
-                <a href="/Hr/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>
+                <a href="/${}/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-fw fa-folder"></i> Projects</a>
@@ -35,10 +37,10 @@
                 <a href="#"><i class="fa fa-fw fa-file-o"></i> Evaluation</a>
             </li>
             <li>
-                <a href="/Hr/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
+                <a href="//Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
             </li>
             <hr/>
-            User's profile
+                User's profile
                 <li>
                     <a href="./Geninfo"><i class="fa fa-fw fa-info-circle"></i> General information</a>
                 </li>
@@ -63,7 +65,7 @@
             <hr/>
                 Settings
             <li>
-                <a href="/Hr/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
+                <a href="//changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
             </li>
             <li>
                 <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
@@ -73,6 +75,7 @@
     </nav>
 </div>
     <!-- /#sidebar-wrapper -->
+
 <%--<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--%>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 

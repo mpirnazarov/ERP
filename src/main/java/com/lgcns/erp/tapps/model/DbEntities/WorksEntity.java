@@ -15,6 +15,7 @@ public class WorksEntity {
     private Date startDate;
     private Date endDate;
     private String comments;
+    private int contractType;
     private Collection<WorkLocalizationsEntity> workLocalizationsesById;
     private UsersEntity usersByUserId;
 
@@ -67,6 +68,16 @@ public class WorksEntity {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    @Basic
+    @Column(name = "contract_type", nullable = true, length = -1)
+    public int getContractType() {
+        return contractType;
+    }
+
+    public void setContractType(int contractType) {
+        this.contractType = contractType;
     }
 
     @Override

@@ -1,12 +1,11 @@
 package com.lgcns.erp.tapps.mapper;
 
-import com.lgcns.erp.tapps.model.DbEntities.FamiliyInfoLocalizationsEntity;
-import com.lgcns.erp.tapps.model.DbEntities.FamilyInfosEntity;
-import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
-import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.viewModel.RegistrationLocInfo;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
+import com.lgcns.erp.tapps.viewModel.usermenu.JobexpViewModel;
+import com.lgcns.erp.tapps.viewModel.usermenu.SalaryVewModel;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.Date;
@@ -62,7 +61,6 @@ public class UserMapper {
         FamilyInfosEntity familyInfosEntity = new FamilyInfosEntity();
         familyInfosEntity.setDateOfBirth(familyProfile.getDateOfBirth());
         familyInfosEntity.setUserId(Integer.parseInt(userId));
-        System.out.println("USER ID MAPPER: " + familyInfosEntity.getUserId());
         return familyInfosEntity;
     }
 
@@ -74,7 +72,37 @@ public class UserMapper {
         familiyInfoLocalizationsEntity.setRelation(familyProfile.getRelation()[langId-1]);
         familiyInfoLocalizationsEntity.setFamilyInfoid(id);
         familiyInfoLocalizationsEntity.setLanguageId(langId);
-        System.out.println("MAPPER: "+id + " "+langId);
         return familiyInfoLocalizationsEntity;
+    }
+
+    public static SalaryHistoriesEntity mapSalaryEntity(SalaryVewModel salaryVewModel, String userId) {
+        SalaryHistoriesEntity salaryHistoriesEntity = new SalaryHistoriesEntity();
+        salaryHistoriesEntity.setUserId(Integer.parseInt(userId));
+        salaryHistoriesEntity.setDate(salaryVewModel.getDate());
+        salaryHistoriesEntity.setCurrencyId(1);
+        salaryHistoriesEntity.setInps(salaryVewModel.getInps());
+        salaryHistoriesEntity.setPf(salaryVewModel.getPf());
+        salaryHistoriesEntity.setPit(salaryVewModel.getPit());
+        salaryHistoriesEntity.setSalaryAfter(Integer.parseInt(salaryVewModel.getNet()));
+        salaryHistoriesEntity.setSalaryBefore(Integer.parseInt(salaryVewModel.getGross()));
+        return salaryHistoriesEntity;
+    }
+
+    public static WorksEntity mapAddWorks(JobexpViewModel jobexpViewModel, String userId) {
+        WorksEntity worksEntity = new WorksEntity();
+        worksEntity.setUserId(Integer.parseInt(userId));
+        worksEntity.setEndDate(jobexpViewModel.getEndDate());
+        worksEntity.setStartDate(jobexpViewModel.getStartDate());
+        worksEntity.setContractType(jobexpViewModel.getContractType());
+        return worksEntity;
+    }
+
+    public static WorkLocalizationsEntity mapAddWorksLoc(JobexpViewModel jobexpViewModel, int id) {
+        WorkLocalizationsEntity workLocalizationsEntity = new WorkLocalizationsEntity();
+        workLocalizationsEntity.setLanguageId(3);
+        workLocalizationsEntity.setOrganization(jobexpViewModel.getOrganization());
+        workLocalizationsEntity.setWorkId(id);
+        workLocalizationsEntity.setPost(jobexpViewModel.getPosition());
+        return workLocalizationsEntity;
     }
 }

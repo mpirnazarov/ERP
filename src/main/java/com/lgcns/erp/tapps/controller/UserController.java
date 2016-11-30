@@ -86,7 +86,7 @@ public class UserController {
     public ModelAndView Appointmentrec(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/AppointmentRec");
-        AppointmentrecViewModel appointmentrecViewModel = getAppointmentByUsername(principal);
+        AppointmentrecViewModel appointmentrecViewModel = getAppointmentByUsername(principal.getName());
         ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
@@ -125,7 +125,7 @@ public class UserController {
     public ModelAndView Jobexp(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/JobExp");
-        List<JobexpViewModel> jobexpViewModel = getJobExperience(principal);
+        List<JobexpViewModel> jobexpViewModel = getJobExperience(principal.getName());
         ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("jobexpVM", jobexpViewModel);
@@ -329,11 +329,11 @@ public class UserController {
         return returning;
     }
 
-    public static AppointmentrecViewModel getAppointmentByUsername(Principal principal) {
+    public static AppointmentrecViewModel getAppointmentByUsername(String userName) {
         AppointmentrecViewModel returning = new AppointmentrecViewModel();
 
         // Getting data from users db
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = UserService.getUserByUsername(userName);
 
         List<UserInPostsEntity> usersInPost = UserService.getUserInPost(user);
 
@@ -390,15 +390,15 @@ public class UserController {
         return eduReturn;
     }
 
-    public static List<JobexpViewModel> getJobExperience(Principal principal) {
+    public static List<JobexpViewModel> getJobExperience(String userName) {
         List<JobexpViewModel> jobExpViewModels = new LinkedList<JobexpViewModel>();
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = UserService.getUserByUsername(userName);
         List<WorksEntity> worksEntity = UserService.getWorksEntity(user);
 
         for (WorksEntity we :
                 worksEntity) {
             WorkLocalizationsEntity wle = UserService.getWorkLocal(we);
-            jobExpViewModels.add(new JobexpViewModel(wle.getOrganization(), wle.getPost(), we.getStartDate(), we.getEndDate()));
+            jobExpViewModels.add(new JobexpViewModel(wle.getOrganization(), wle.getPost(), we.getStartDate(), we.getEndDate(), 3));
         }
         return jobExpViewModels;
     }

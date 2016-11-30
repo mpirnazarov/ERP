@@ -41,7 +41,7 @@ public class CTOController {
     public ModelAndView HrAppointmentrec(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/CTO/AppointmentRec");
-        AppointmentrecViewModel appointmentrecViewModel = UserController.getAppointmentByUsername(principal);
+        AppointmentrecViewModel appointmentrecViewModel = UserController.getAppointmentByUsername(principal.getName());
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
@@ -75,7 +75,7 @@ public class CTOController {
     @ResponseBody public ModelAndView HrJobexp(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/CTO/JobExp");
-        List<JobexpViewModel> jobexpViewModel = UserController.getJobExperience(principal);
+        List<JobexpViewModel> jobexpViewModel = UserController.getJobExperience(principal.getName());
         mav.addObject("jobexpVM", jobexpViewModel);
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);

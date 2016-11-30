@@ -22,6 +22,10 @@ public class SalaryVewModel {
         this.pf = pf;
     }
 
+    public SalaryVewModel() {
+
+    }
+
     public String getNet() {
         return net;
     }

@@ -903,12 +903,13 @@ public class UserService {
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("update UserLocalizationsEntity set lastName = :lastName, firstName = :firstName, " +
-                    "fatherName = :fathersName, address = :address, birthPlace = :birthPlace where id = :userid and languageId = 3");
+                    "fatherName = :fathersName, address = :address, birthPlace = :birthPlace where userId = :userid and languageId = 3");
             query.setParameter("userid", Integer.parseInt(person.getId()));
             query.setParameter("lastName", person.getLastName()[2]);
             query.setParameter("firstName", person.getFirstName()[2]);
             query.setParameter("fathersName", person.getFathersName()[2]);
             query.setParameter("address", person.getAddress()[2]);
+            System.out.println("BirthPlace: "+person.getPersonalInfo().getBirthPlace()[2]);
             query.setParameter("birthPlace", person.getPersonalInfo().getBirthPlace()[2]);
             query.executeUpdate();
             transaction.commit();
@@ -928,13 +929,13 @@ public class UserService {
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("update UserLocalizationsEntity set lastName = :lastName, firstName = :firstName, " +
-                    "fatherName = :fathersName, address = :address, birthPlace = :birthPlace where id = :userid and languageId = 1");
+                    "fatherName = :fathersName, address = :address, birthPlace = :birthPlace where userId = :userid and languageId = 1");
             query.setParameter("userid", Integer.parseInt(person.getId()));
-            query.setParameter("lastName", person.getLastName()[2]);
-            query.setParameter("firstName", person.getFirstName()[2]);
-            query.setParameter("fathersName", person.getFathersName()[2]);
-            query.setParameter("address", person.getAddress()[2]);
-            query.setParameter("birthPlace", person.getPersonalInfo().getBirthPlace()[2]);
+            query.setParameter("lastName", person.getLastName()[0]);
+            query.setParameter("firstName", person.getFirstName()[0]);
+            query.setParameter("fathersName", person.getFathersName()[0]);
+            query.setParameter("address", person.getAddress()[0]);
+            query.setParameter("birthPlace", person.getPersonalInfo().getBirthPlace()[0]);
             query.executeUpdate();
             transaction.commit();
         }
@@ -953,13 +954,13 @@ public class UserService {
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("update UserLocalizationsEntity set lastName = :lastName, firstName = :firstName, " +
-                    "fatherName = :fathersName, address = :address, birthPlace = :birthPlace where id = :userid and languageId = 2");
+                    "fatherName = :fathersName, address = :address, birthPlace = :birthPlace where userId = :userid and languageId = 2");
             query.setParameter("userid", Integer.parseInt(person.getId()));
-            query.setParameter("lastName", person.getLastName()[2]);
-            query.setParameter("firstName", person.getFirstName()[2]);
-            query.setParameter("fathersName", person.getFathersName()[2]);
-            query.setParameter("address", person.getAddress()[2]);
-            query.setParameter("birthPlace", person.getPersonalInfo().getBirthPlace()[2]);
+            query.setParameter("lastName", person.getLastName()[1]);
+            query.setParameter("firstName", person.getFirstName()[1]);
+            query.setParameter("fathersName", person.getFathersName()[1]);
+            query.setParameter("address", person.getAddress()[1]);
+            query.setParameter("birthPlace", person.getPersonalInfo().getBirthPlace()[1]);
             query.executeUpdate();
             transaction.commit();
         }
@@ -1305,6 +1306,128 @@ public class UserService {
             Query query = session.createQuery("delete from FamilyInfosEntity where id = :famId");
             query.setParameter("famId", Integer.parseInt(famId));
             query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void insertSalary(SalaryHistoriesEntity salaryHistoriesEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            //Set foreign key items
+            salaryHistoriesEntity.setUsersByUserId(session.load(UsersEntity.class, salaryHistoriesEntity.getUserId()));
+            salaryHistoriesEntity.setCurrenciesByCurrencyId(session.load(CurrenciesEntity.class, salaryHistoriesEntity.getCurrencyId()));
+            //Save the object in database
+            session.save(salaryHistoriesEntity);
+
+
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static SalaryHistoriesEntity getSalary(int salId) {
+        SalaryHistoriesEntity salaryHistoriesEntity=null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from SalaryHistoriesEntity where id = :salId");
+            query.setParameter("salId", salId);
+            salaryHistoriesEntity = (SalaryHistoriesEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return salaryHistoriesEntity;
+        }
+
+    public static void updateSalaryPost(SalaryHistoriesEntity salaryVewModel, int salId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update SalaryHistoriesEntity set salaryBefore = :gross, pit=:pit, inps=:inps, pf=:pf, date=:date, salaryAfter=:net  where id = :id");
+            query.setParameter("gross", salaryVewModel.getSalaryBefore());
+            query.setParameter("pit", salaryVewModel.getPit());
+            query.setParameter("inps", salaryVewModel.getInps());
+            query.setParameter("pf", salaryVewModel.getPf());
+
+            query.setParameter("date", salaryVewModel.getDate());
+            query.setParameter("net", salaryVewModel.getSalaryAfter());
+            query.setParameter("id", salId);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static int insertWorks(WorksEntity worksEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            //Set foreign key items
+            worksEntity.setUsersByUserId(session.load(UsersEntity.class, worksEntity.getUserId()));
+            //Save the object in database
+            session.save(worksEntity);
+
+
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return worksEntity.getId();
+    }
+
+    public static void insertWorksLoc(WorkLocalizationsEntity workLocalizationsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            //Set foreign key items
+            workLocalizationsEntity.setWorksByWorkId(session.load(WorksEntity.class, workLocalizationsEntity.getWorkId()));
+            workLocalizationsEntity.setLanguagesByLanguageId(session.load(LanguagesEntity.class, workLocalizationsEntity.getLanguageId()));
+            //Save the object in database
+            session.save(workLocalizationsEntity);
+
+
+            //Commit the transaction
             transaction.commit();
         }
         catch (HibernateException e) {

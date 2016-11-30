@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2016-11-29.12:27:16.831</IntrospectionTimestamp>
-      <IntrospectionStateNumber>1894</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2016-11-30.12:29:17.892</IntrospectionTimestamp>
+      <IntrospectionStateNumber>1937</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -209,9 +209,9 @@
       <ObjectId>17245</ObjectId>
       <StateNumber>848</StateNumber>
     </table>
-    <table id="54" parent="3" name="currnecy_localizations">
+    <table id="54" parent="3" name="currency_localizations">
       <ObjectId>17180</ObjectId>
-      <StateNumber>837</StateNumber>
+      <StateNumber>1937</StateNumber>
     </table>
     <table id="55" parent="3" name="department_localizations">
       <ObjectId>17164</ObjectId>
@@ -599,26 +599,21 @@ language_id</ColNames>
     </index>
     <key id="135" parent="54" name="currnecy_localizations_pkey">
       <ObjectId>17185</ObjectId>
-      <ColNames>id</ColNames>
       <UnderlyingIndexName>currnecy_localizations_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
     <key id="136" parent="54" name="currency_id&amp;language_id">
       <ObjectId>25044</ObjectId>
-      <ColNames>currency_id
-language_id</ColNames>
       <UnderlyingIndexName>currency_id&amp;language_id</UnderlyingIndexName>
     </key>
     <foreign-key id="137" parent="54" name="fk_currency_get_curid">
       <ObjectId>17603</ObjectId>
-      <ColNames>currency_id</ColNames>
       <RefTableName>currencies</RefTableName>
       <RefKeyName>currencies_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
     <foreign-key id="138" parent="54" name="fk_currency_get_langid">
       <ObjectId>17693</ObjectId>
-      <ColNames>language_id</ColNames>
       <RefTableName>languages</RefTableName>
       <RefKeyName>languages_pkey</RefKeyName>
       <RefColNames>id</RefColNames>

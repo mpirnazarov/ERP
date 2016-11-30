@@ -44,7 +44,7 @@
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
             <div class="col-lg-8 col-lg-offset-2">
-                <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
+                <h1>${fullName} ${jobTitle}</h1>
                 <h2 class="page-header">Job Experience</h2>
                         <!--Job experience table-->
                         <table class="table">
@@ -70,7 +70,7 @@
                             </tbody>
                         </table>
                         <input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;" value="Print this page" onclick="printpage()"/>
-                        <a href="" class="btn btn-primary">Add</a>
+                        <a href="./Jobexp/add" class="btn btn-primary">Add</a>
                     </div>
                 </div>
             </div>

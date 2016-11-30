@@ -12,14 +12,16 @@ public class SalaryVewModel {
     private double pit;
     private double inps;
     private double pf;
+    private int id;
 
-    public SalaryVewModel(String net, String gross, Date date, double pit, double inps, double pf) {
+    public SalaryVewModel(String net, String gross, Date date, double pit, double inps, double pf, int id) {
         this.net = net;
         this.gross = gross;
         this.date = date;
         this.pit = pit;
         this.inps = inps;
         this.pf = pf;
+        this.id = id;
     }
 
     public SalaryVewModel() {
@@ -72,5 +74,13 @@ public class SalaryVewModel {
 
     public void setPf(double pf) {
         this.pf = pf;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

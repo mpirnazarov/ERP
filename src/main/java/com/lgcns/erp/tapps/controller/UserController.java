@@ -354,7 +354,7 @@ public class UserController {
 
         for (SalaryHistoriesEntity salary :
                 salariesHistory) {
-            salaries.add(new SalaryVewModel(String.format("%,d", salary.getSalaryBefore()), String.format("%,d", salary.getSalaryAfter()), salary.getDate(), salary.getPit(), salary.getInps(), salary.getPf()));
+            salaries.add(new SalaryVewModel(String.format("%,d", salary.getSalaryBefore()), String.format("%,d", salary.getSalaryAfter()), salary.getDate(), salary.getPit(), salary.getInps(), salary.getPf(), salary.getId()));
         }
         return salaries;
 

@@ -12,11 +12,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Salary details"/>
-<%
-    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
-    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
-    request.setAttribute("JobTitle", a.getJobTitle());
-%>
+
 <script type="text/javascript">
     function printpage() {
         //Get the print button and put it into a variable
@@ -39,9 +35,9 @@
 <div class="container-fluid">
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-md-offset-1">
+        <div class="col-sm-9 col-lg-10">
             <div class="col-lg-8 col-lg-offset-2">
-                <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
+                <h1>${fullName} ${jobTitle}</h1>
                 <h2 class="page-header">Salary Details</h2>
                     <!--Appointment summary table-->
                     <table class="table">
@@ -60,18 +56,18 @@
                         <c:forEach items="${salaryVM}" var="salary" varStatus="status">
                             <tr>
                                 <td>${salary.date}</td>
-                                <td>${salary.net}</td>
+                                <td>${salary.gross}</td>
                                 <td>${salary.pit}%</td>
                                 <td>${salary.inps}%</td>
                                 <td>${salary.pf}%</td>
-                                <td>${salary.gross}</td>
-                                <td><a href="./Geninfo/updateSal/${salary.id}/" class="btn btn-default">Edit</a></td>
+                                <td>${salary.net}</td>
+                                <td><a href="./Salary/updateSal/${salary.id}" class="btn btn-default">Edit</a></td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
                     <input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;" value="Print this page" onclick="printpage()"/>
-                    <a href="" class="btn btn-primary">Add</a>
+                    <a href="./Salary/addSal" class="btn btn-primary">Add</a>
             </div>
         </div>
     </div>

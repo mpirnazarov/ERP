@@ -35,7 +35,7 @@
 <div class="container-fluid">
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-lg-10">
+        <div class="col-sm-9 col-md-offset-1">
             <div class="col-lg-8 col-lg-offset-2">
                 <h1>${fullName} ${jobTitle}</h1>
                 <h2 class="page-header">Salary Details</h2>

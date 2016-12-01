@@ -73,14 +73,74 @@ public class HrController {
         return mav;
     }
 
-    @RequestMapping(value = "/Hr/Register", method = RequestMethod.POST)
-    @ResponseBody
-    public ModelAndView RegisterPost(@Valid @ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel, BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = "/Hr/user/{userId}/{path}", method = RequestMethod.GET)
+    public ModelAndView UpdateFamInfo(Principal principal, @PathVariable("userId") int userId, @PathVariable("path") String path){
+        String username = UserService.getUsernameById(userId);
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("user/register");
+        mav.addObject("path", "Hr");
+        if(path.compareTo("Geninfo")==0) {
+
+            mav.setViewName("Home/IndexView");
+            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
+            System.out.println(userProfile.getFirstName()[2] + "  " + userProfile.getLastName()[2]);
+            mav.addObject("userProfile", userProfile);
+            return mav;
+        }
+        if(path.compareTo("Salary")==0) {
+            mav.setViewName("Home/viewmenu/SalaryDetails");
+            List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(username);
+            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
+            mav.addObject("userProfile", userProfile);
+            mav.addObject("salaryVM", salaryVewModel);
+            return mav;
+        }
+        if(path.compareTo("Edu")==0) {
+            mav.setViewName("Home/viewmenu/EducationCer");
+            EduViewModel eduViewModel = UserController.getEducationByUsername(username);
+            mav.addObject("eduVM", eduViewModel);
+
+            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
+            mav.addObject("userProfile", userProfile);
+
+            return mav;
+        }
+        if(path.compareTo("Jobexp")==0) {
+            mav.setViewName("Home/viewmenu/JobExp");
+            List<JobexpViewModel> jobExperience = UserController.getJobExperience(username);
+            mav.addObject("jobVM", jobExperience);
+
+            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
+            mav.addObject("userProfile", userProfile);
+
+            return mav;
+        }
+        if(path.compareTo("Train")==0) {
+            mav.setViewName("Home/viewmenu/TrainingRec");
+            List<TrainViewModel> trainViewModels = UserController.getTrainingRecord(username);
+            mav.addObject("trainVM", trainViewModels);
+            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
+            mav.addObject("userProfile", userProfile);
+            return mav;
+        }
+        if(path.compareTo("Docs")==0) {
+            mav.setViewName("Home/viewmenu/Docs");
+            List<com.lgcns.erp.tapps.viewModel.usermenu.DocsViewModel> docsViewModels = UserController.getDocuments(username);
+            mav.addObject("docsVM", docsViewModels);
+            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
+            mav.addObject("userProfile", userProfile);
+            return mav;
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/Hr/Register", method = RequestMethod.POST)
+    public ModelAndView RegisterPost(@Valid @ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel, BindingResult bindingResult,
+                                     RedirectAttributes redirectAttributes, Principal principal) {
+        ModelAndView mav = new ModelAndView();
         mav.addObject("registrationVM", registrationViewModel);
+        System.out.println("ERROR2!!!");
         if (bindingResult.hasErrors()) {
+            System.out.println("ERROR!!!");
             mav.addObject("heads", getDirectHeadIdAndName());
             mav.addObject("departments", getDepartmentsIdAndName());
             mav.addObject("statuses", getStatusesIdAndName());
@@ -94,8 +154,7 @@ public class HrController {
         UserService.insertUserLoc(UserMapper.mapRegModelToUserLocInfo(registrationViewModel, userId));
 
         mav = new ModelAndView();
-        mav.setViewName("Home/hrmenu/Userslist");
-        return mav;
+        return new ModelAndView("redirect:/Hr/Userslist");
     }
 
     @RequestMapping (value = "/Hr/Profile", method = RequestMethod.GET)
@@ -240,13 +299,14 @@ public class HrController {
     }
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Train/add", method = RequestMethod.GET)
-    public ModelAndView addTrain(Model model, @PathVariable("userId") int userId){
+    public ModelAndView addTrain(Principal principal, Model model, @PathVariable("userId") int userId){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/editmenu/new/train");
 
         TrainViewModel trainViewModel = new TrainViewModel();
         model.addAttribute("trainVM", trainViewModel);
-
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
         return mav;
     }
     @RequestMapping ( value = "/Hr/user/{userId}/update/Train/add", method = RequestMethod.POST )
@@ -258,11 +318,12 @@ public class HrController {
     }
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Train/edit/{trainId}", method = RequestMethod.GET)
-    public ModelAndView updateTrain(Model model, @PathVariable("userId") int userId, @PathVariable("trainId") int trainId){
+    public ModelAndView updateTrain(Principal principal, Model model, @PathVariable("userId") int userId, @PathVariable("trainId") int trainId){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/editmenu/edit/train");
         TrainViewModel trainViewModel = getTrainVM(trainId, userId);
-
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
         model.addAttribute("trainVM", trainViewModel);
         return mav;
     }
@@ -292,13 +353,14 @@ public class HrController {
 
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Salary/addSal", method = RequestMethod.GET)
-    public ModelAndView addSalary(Model model, @PathVariable("userId") int userId){
+    public ModelAndView addSalary(Principal principal, Model model, @PathVariable("userId") int userId){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/editmenu/new/salary");
 
         SalaryVewModel salaryVM = new SalaryVewModel();
         model.addAttribute("salaryVM", salaryVM);
-
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
         return mav;
     }
     @RequestMapping ( value = "/Hr/user/{userId}/update/Salary/addSal", method = RequestMethod.POST )
@@ -308,11 +370,12 @@ public class HrController {
     }
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Salary/updateSal/{salId}", method = RequestMethod.GET)
-    public ModelAndView updateSalary(Model model, @PathVariable("userId") String userId, @PathVariable("salId") int salId){
+    public ModelAndView updateSalary(Principal principal, Model model, @PathVariable("userId") String userId, @PathVariable("salId") int salId){
 
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/editmenu/edit/salary");
-
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
         SalaryHistoriesEntity salaryVM = UserService.getSalary(salId);
         model.addAttribute("salaryVM", salaryVM);
 
@@ -490,10 +553,14 @@ public class HrController {
         return "redirect: /Hr/user/"+id+"/update/"+path;
     }
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/updateFam/{famId}/", method = RequestMethod.GET)
-    public ModelAndView UpdateFamInfo(Model model, @PathVariable("userId") int userId, @PathVariable("famId") int famId){
+    public ModelAndView UpdateFamInfo(Principal principal, Model model, @PathVariable("userId") int userId, @PathVariable("famId") int famId){
         FamilyMember familyProfile = getUserFamily(userId, famId);
-
-        return new ModelAndView("Home/editmenu/edit/faminfo", "family", familyProfile);
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/edit/faminfo");
+        mav.addObject("family", familyProfile);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
+        return mav;
     }
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/updateFam/{famId}/", method = RequestMethod.POST)
     public String UpdateFamInfoPost(Model model, FamilyMember familyProfile, @PathVariable("userId") String userId, @PathVariable("famId") String famId){
@@ -514,10 +581,12 @@ public class HrController {
     }
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/addFam", method = RequestMethod.GET)
-    public ModelAndView addFamGet(Model model, @PathVariable("userId") int userId){
+    public ModelAndView addFamGet(Principal principal, Model model, @PathVariable("userId") int userId){
         ModelAndView mav = new ModelAndView();
         FamilyMember familyProfile = new FamilyMember();
         model.addAttribute("family", familyProfile);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
         mav.setViewName("Home/editmenu/new/newfaminfo");
         return mav;
     }

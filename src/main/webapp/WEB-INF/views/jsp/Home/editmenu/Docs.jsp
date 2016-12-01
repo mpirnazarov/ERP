@@ -40,8 +40,7 @@
                 </table>
                 <h3>Upload document</h3>
 
-                <form name="uploadingForm" enctype="multipart/form-data" action="/Hr/user/${id}/UploadPic/"
-                      method="POST">
+                <form name="uploadingForm" enctype="multipart/form-data" method="POST">
                     <div class="form-horizontal">
                         <div class="form-group">
                             <div class="col-md-5">

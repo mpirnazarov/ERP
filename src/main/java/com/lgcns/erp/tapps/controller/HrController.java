@@ -253,10 +253,11 @@ public class HrController {
     }
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Jobexp/add", method = RequestMethod.GET)
-    public ModelAndView addJob(Model model, @PathVariable("userId") int userId){
+    public ModelAndView addJob(Principal principal, Model model, @PathVariable("userId") int userId){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/editmenu/new/job");
-
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
         JobexpViewModel jobexpViewModel = new JobexpViewModel();
         model.addAttribute("jobexpVM", jobexpViewModel);
 
@@ -275,7 +276,7 @@ public class HrController {
     }
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Jobexp/updateJob/{jobId}", method = RequestMethod.GET)
-    public ModelAndView updateJob(Model model, @PathVariable("userId") int userId, @PathVariable("jobId") int jobId){
+    public ModelAndView updateJob(Principal principal, Model model, @PathVariable("userId") int userId, @PathVariable("jobId") int jobId){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/editmenu/edit/job");
 
@@ -288,7 +289,8 @@ public class HrController {
         jobexpViewModel.setOrganization(workLocalizationsEntity.getOrganization());
         jobexpViewModel.setPosition(workLocalizationsEntity.getPost());
         model.addAttribute("jobexpVM", jobexpViewModel);
-
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
         return mav;
     }
     @RequestMapping ( value = "/Hr/user/{userId}/update/Jobexp/updateJob/{jobId}", method = RequestMethod.POST )
@@ -389,6 +391,16 @@ public class HrController {
 
     private void addSalaryPost(SalaryVewModel salaryVewModel, String userId) {
         UserService.insertSalary(UserMapper.mapSalaryEntity(salaryVewModel, userId));
+    }
+
+    @RequestMapping(value = "/Hr/user/{id}/update/Docs", method = RequestMethod.POST)
+    public String uploadingFile(@RequestParam MultipartFile fileUpload, @PathVariable("id") int id) throws IOException {
+
+        File file = new File("C:/files/" + fileUpload.getOriginalFilename());
+
+
+        fileUpload.transferTo(file);
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/Hr/user/{id}/update/{path}", method = RequestMethod.GET)

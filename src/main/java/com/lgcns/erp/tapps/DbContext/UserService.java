@@ -644,14 +644,14 @@ public class UserService {
         return certificatesLoc;
     }
 
-    public static List<SalaryHistoriesEntity> getSalaryHistories(UsersEntity user) {
+    public static List<SalaryHistoriesEntity> getSalaryHistories(String userName) {
         List<SalaryHistoriesEntity> salaryHistories = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from SalaryHistoriesEntity where userId = :userId");
-            query.setParameter("userId", user.getId());
+            query.setParameter("userId", userName);
             salaryHistories = query.list();
             transaction.commit();
         }

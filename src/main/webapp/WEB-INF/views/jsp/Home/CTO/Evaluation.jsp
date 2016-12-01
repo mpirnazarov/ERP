@@ -18,7 +18,7 @@
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpCTOLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
-            <div class="col-lg-8 col-lg-offset-2">
+            <div class="col-lg-offset-2">
                 <h1 class="page-header">Userslist</h1>
             <div class="table-responsive">
 
@@ -48,7 +48,7 @@
                         <td><form:textarea path="forms[${status.index}].comments" placeholder="Comments" cssClass="form-control text-box" rows="3" cols="15"/></td>
                         <td>
                             <form:select class="btn btn-default dropdown-toggle" data-toggle="dropdown" path="forms[${status.index}].grade">
-                                <form:option value=" " label="...." />
+                                <form:option value="0" label="...." />
                                 <form:options items="${forms.grades}"></form:options>
 
                             </form:select>

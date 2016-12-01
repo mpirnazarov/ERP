@@ -54,8 +54,7 @@ public class CTOController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/CTO/SalaryDetails");
         UsersEntity user = UserService.getUserByUsername(principal.getName());
-        List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(user);
-
+        List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(user.getUserName());
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("salaryVM", salaryVewModel);
@@ -118,22 +117,23 @@ public class CTOController {
     @RequestMapping(value = "/CTO/user/{userId}/{path}", method = RequestMethod.GET)
     public ModelAndView UpdateFamInfo(Principal principal, @PathVariable("userId") int userId, @PathVariable("path") String path){
         System.out.println("ID: " + userId);
-        if(path.compareTo("geninfo")==0) {
+        String username = UserService.getUsernameById(userId);
+
+        if(path.compareTo("Geninfo")==0) {
             ModelAndView mav = new ModelAndView();
-            mav.setViewName("Home/CTO/userInfo/geninfo");
-            String username = UserService.getUsernameById(userId);
-            System.out.printf("I am still working");
+            mav.setViewName("Home/IndexView");
             ProfileViewModel userProfile = UserController.getProfileByUsername(username);
             System.out.println(userProfile.getFirstName()[2] + "  " + userProfile.getLastName()[2]);
             mav.addObject("userProfile", userProfile);
             return mav;
         }
-        if(path.compareTo("salary")==0) {
+        if(path.compareTo("Salary")==0) {
             ModelAndView mav = new ModelAndView();
-            mav.setViewName("Home/CTO/userInfo/salary");
-            String username = UserService.getUsernameById(userId);
+            mav.setViewName("Home/CTO/usermenu/SalaryDetails");
+            List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(username);
             ProfileViewModel userProfile = UserController.getProfileByUsername(username);
             mav.addObject("userProfile", userProfile);
+            mav.addObject("salaryVM", salaryVewModel);
             return mav;
         }
 
@@ -158,6 +158,7 @@ public class CTOController {
 
     @RequestMapping (value = "/CTO/Evaluation", method = RequestMethod.GET)
     public ModelAndView  CTOUserslist(Model model, Principal principal){
+        ModelAndView mav = new ModelAndView();
         List<ProfileViewModel> users = getUsers();
         List<Form> users2 = new LinkedList<Form>();
         Form f=new Form();
@@ -171,9 +172,11 @@ public class CTOController {
         }
         FormModel formModel = new FormModel();
         formModel.setForms(users2);
-
-        model.addAttribute("form", formModel);
-        return new ModelAndView("Home/CTO/Evaluation" , "formModel", formModel);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        model.addAttribute("formModel", formModel);
+        mav.addObject("userProfile", userProfile);
+        mav.setViewName("Home/CTO/Evaluation");
+        return mav;
     }
 
 

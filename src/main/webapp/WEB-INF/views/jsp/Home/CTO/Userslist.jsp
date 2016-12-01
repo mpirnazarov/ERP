@@ -18,7 +18,7 @@
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpCTOLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
-            <div class="col-lg-8 col-lg-offset-2">
+            <div class="col-lg-offset-2">
                 <h1 class="page-header">Userslist</h1>
             <div class="table-responsive">
 
@@ -41,7 +41,7 @@
                     <td><c:out value="${user.lastName[2]}"/></td>
                     <td><c:out value="${user.username}"/></td>
                     <td>
-                        <spring:url value="/CTO/user/${user.id}/geninfo" var="userUrl" />
+                        <spring:url value="/CTO/user/${user.id}/Geninfo" var="userUrl" />
                         <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
                     </td>
                 </tr>

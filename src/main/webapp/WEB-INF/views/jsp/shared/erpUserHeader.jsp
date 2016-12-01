@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
   Created by IntelliJ IDEA.
   User: Dell
   Date: 25-Oct-16
@@ -28,6 +28,7 @@
     <spring:url value="/resources/core/js/jquery.scrollbar.min.js" var="scrollJs"/>
     <spring:url value="/resources/core/js/main.js" var="main"/>
     <script src="${jquery}"></script>
+
     <link rel="stylesheet" href="${navbar}" />
     <link rel="stylesheet" href="${scrollCss}" />
         <link rel="stylesheet" href="${editableCss}" />
@@ -57,3 +58,9 @@
     </style>
 </head>
 <body class="__scrollBar">
+<%
+    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
+    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
+    request.setAttribute("FirstName", a.getFirstName()[2]);
+    request.setAttribute("JobTitle", a.getJobTitle());
+%>

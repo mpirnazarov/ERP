@@ -15,7 +15,7 @@
             <div class="container">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">
-                        Welcome <%= request.getAttribute("ProfileModel") %>
+                        Welcome <%= request.getAttribute("FirstName") %>
                     </a>
                 </div>
                 <ul class="nav navbar-nav">

@@ -121,7 +121,7 @@ public class HrController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/hrmenu/SalaryDetails");
         UsersEntity user = UserService.getUserByUsername(principal.getName());
-        List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(user);
+        List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(user.getUserName());
 
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
@@ -330,9 +330,10 @@ public class HrController {
     @ResponseBody public ModelAndView UpdateInfo(Principal principal, Model model, @ModelAttribute("user") ProfileViewModel person, @PathVariable("id") int id, @PathVariable("path") String path){
         ModelAndView mav = new ModelAndView();
         ProfileViewModel userProfile = getProfileById(id);
-
+        ProfileViewModel userProfile2 = UserController.getProfileByUsername(principal.getName());
         model.addAttribute("fullName", userProfile.getFirstName()[2] + " "+ userProfile.getLastName()[2]);
         model.addAttribute("jobTitle", userProfile.getJobTitle());
+        model.addAttribute("userProfile", userProfile2);
         if(path.compareTo("Geninfo")==0) {
             mav.setViewName("Home/editmenu/edit/geninfo");
             userProfile = getProfileById(id);
@@ -400,13 +401,12 @@ public class HrController {
             } catch (Exception e){
                 e.printStackTrace();
             }
-            model.addAttribute("userProfile", UserController.getProfileByUsername(userProfile.getUsername()));
             model.addAttribute("jobexpVM", jobexpViewModel);
             return mav;
         }
         else if(path.compareTo("Salary")==0) {
             mav.setViewName("Home/editmenu/salary");
-            List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(UserService.getUserById(id));
+            List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(UserService.getUserById(id).getUserName());
             model.addAttribute("salaryVM", salaryVewModel);
             return mav;
         }

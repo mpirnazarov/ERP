@@ -99,7 +99,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/SalaryDetails");
         UsersEntity user = UserService.getUserByUsername(principal.getName());
-        List<SalaryVewModel> salaryVewModel = getSalaryByUser(user);
+        List<SalaryVewModel> salaryVewModel = getSalaryByUser(user.getUserName());
 
         ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
@@ -153,6 +153,18 @@ public class UserController {
         ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("docsVM", docsViewModel);
+        return mav;
+    }
+
+    @RequestMapping(value = "/User/Profile/Project", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView Project(Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/usermenu/Project");
+       /* List<DocsViewModel> docsViewModel = getDocuments(principal);*/
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
+        /*mav.addObject("docsVM", docsViewModel);*/
         return mav;
     }
 
@@ -347,8 +359,8 @@ public class UserController {
     }
 
 
-    public static List<SalaryVewModel> getSalaryByUser(UsersEntity user) {
-        List<SalaryHistoriesEntity> salariesHistory = UserService.getSalaryHistories(user);
+    public static List<SalaryVewModel> getSalaryByUser(String userName) {
+        List<SalaryHistoriesEntity> salariesHistory = UserService.getSalaryHistories(userName);
         List<SalaryVewModel> salaries = new LinkedList<SalaryVewModel>();
         NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
 

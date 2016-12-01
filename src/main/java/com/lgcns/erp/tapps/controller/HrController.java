@@ -618,9 +618,9 @@ public class HrController {
     @RequestMapping(value = "/Hr/user/{id}/UploadPic", method = RequestMethod.POST)
     public String uploadingPost(@RequestParam MultipartFile fileUpload, @PathVariable("id") int id) throws IOException {
         String sId=null;
-        sId = String.format("%04d", id);
+        sId = String.format("%05d", id);
         String sId2 =sId + ".jpg";
-        File file = new File("../webapps/ROOT/resources/images/" + sId2);
+        File file = new File("../webapps/ROOT/resources/images/users/" + sId2);
         System.out.printf("ABSOLUTE PATH: " + file.getAbsolutePath());
 
 

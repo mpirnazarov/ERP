@@ -360,7 +360,8 @@ public class UserController {
 
 
     public static List<SalaryVewModel> getSalaryByUser(String userName) {
-        List<SalaryHistoriesEntity> salariesHistory = UserService.getSalaryHistories(userName);
+        int id = UserService.getUserIdByUsername(userName);
+        List<SalaryHistoriesEntity> salariesHistory = UserService.getSalaryHistories(id);
         List<SalaryVewModel> salaries = new LinkedList<SalaryVewModel>();
         NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
 

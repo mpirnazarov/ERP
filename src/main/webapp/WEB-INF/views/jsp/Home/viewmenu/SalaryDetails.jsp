@@ -38,10 +38,10 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
+<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpViewLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
             <div class="col-lg-8 col-lg-offset-2">
-                <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
+                <h1><%= request.getAttribute("FullName") %></h1>
                 <h2 class="page-header">Salary Details</h2>
             <div class="tab-content">
                 <div id="salarydet" class="tab-pane fade in active">

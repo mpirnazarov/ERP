@@ -49,7 +49,7 @@ public class HrController {
 
     @RequestMapping(value = "/Hr/Register", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView Register(/*@ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel */) {
+    public ModelAndView Register(Principal principal/*@ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel */) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("user/register");
 
@@ -68,6 +68,8 @@ public class HrController {
         Map<Integer, String> roles = getRolesIdAndName();
         mav.addObject("roles", roles);
 
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
         return mav;
     }
 

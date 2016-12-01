@@ -644,14 +644,14 @@ public class UserService {
         return certificatesLoc;
     }
 
-    public static List<SalaryHistoriesEntity> getSalaryHistories(String userName) {
+    public static List<SalaryHistoriesEntity> getSalaryHistories(int userId) {
         List<SalaryHistoriesEntity> salaryHistories = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from SalaryHistoriesEntity where userId = :userId");
-            query.setParameter("userId", userName);
+            query.setParameter("userId", userId);
             salaryHistories = query.list();
             transaction.commit();
         }
@@ -1530,5 +1530,27 @@ public class UserService {
         finally {
             session.close();
         }
+    }
+
+    public static int getUserIdByUsername(String userName) {
+        int id = 0;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("select id from UsersEntity where userName = :userName");
+            query.setParameter("userName", userName);
+            id = (Integer) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return id;
     }
 }

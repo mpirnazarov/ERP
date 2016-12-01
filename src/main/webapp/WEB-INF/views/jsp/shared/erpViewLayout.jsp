@@ -28,25 +28,25 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-home"></i> Home <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li class="dropdown-header">Information about HR</li>
-                            <li><a href="/Hr/Profile">General information</a></li>
-                            <li><a href="/Hr/Profile/Appointment">Appointment record</a></li>
-                            <li><a href="/Hr/Profile/Salary">Salary details</a></li>
-                            <li><a href="/Hr/Profile/Edu">Education certificate</a></li>
-                            <li><a href="/Hr/Profile/Jobexp">Job experience</a></li>
-                            <li><a href="/Hr/Profile/Train">Training record</a></li>
+                            <li><a href="/<%= request.getAttribute("path") %>/Profile">General information</a></li>
+                            <li><a href="/<%= request.getAttribute("path") %>/Profile/Appointment">Appointment record</a></li>
+                            <li><a href="/<%= request.getAttribute("path") %>/Profile/Salary">Salary details</a></li>
+                            <li><a href="/<%= request.getAttribute("path") %>/Profile/Edu">Education certificate</a></li>
+                            <li><a href="/<%= request.getAttribute("path") %>/Profile/Jobexp">Job experience</a></li>
+                            <li><a href="/<%= request.getAttribute("path") %>/Profile/Train">Training record</a></li>
                         </ul>
                     </li>
             <li>
-                <a href="/${}/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>
+                <a href="/<%= request.getAttribute("path") %>/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-fw fa-folder"></i> Projects</a>
+                <a href="/<%= request.getAttribute("path") %>/Projects"><i class="fa fa-fw fa-folder"></i> Projects</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-fw fa-file-o"></i> Evaluation</a>
+                <a href="/<%= request.getAttribute("path") %>/Evaluation"><i class="fa fa-fw fa-file-o"></i> Evaluation</a>
             </li>
             <li>
-                <a href="//Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
+                <a href="/<%= request.getAttribute("path") %>/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
             </li>
             <hr/>
                 User's profile
@@ -71,7 +71,7 @@
             <hr/>
                 Settings
             <li>
-                <a href="//changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
+                <a href="/<%= request.getAttribute("path") %>/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
             </li>
             <li>
                 <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>

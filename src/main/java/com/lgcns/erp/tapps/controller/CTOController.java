@@ -116,11 +116,11 @@ public class CTOController {
 
     @RequestMapping(value = "/CTO/user/{userId}/{path}", method = RequestMethod.GET)
     public ModelAndView UpdateFamInfo(Principal principal, @PathVariable("userId") int userId, @PathVariable("path") String path){
-        System.out.println("ID: " + userId);
         String username = UserService.getUsernameById(userId);
-
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("path", "CTO");
         if(path.compareTo("Geninfo")==0) {
-            ModelAndView mav = new ModelAndView();
+
             mav.setViewName("Home/IndexView");
             ProfileViewModel userProfile = UserController.getProfileByUsername(username);
             System.out.println(userProfile.getFirstName()[2] + "  " + userProfile.getLastName()[2]);
@@ -128,8 +128,7 @@ public class CTOController {
             return mav;
         }
         if(path.compareTo("Salary")==0) {
-            ModelAndView mav = new ModelAndView();
-            mav.setViewName("Home/CTO/usermenu/SalaryDetails");
+            mav.setViewName("Home/viewmenu/SalaryDetails");
             List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(username);
             ProfileViewModel userProfile = UserController.getProfileByUsername(username);
             mav.addObject("userProfile", userProfile);

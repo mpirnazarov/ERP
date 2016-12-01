@@ -49,7 +49,9 @@
                             <br/>
                             <div class="form-horizontal">
                                 <div class="form-group">
-                                    <p>${locInfo.languageCode}</p>
+                                    <div class="col-md-5"><p>${locInfo.languageCode}</p></div>
+                                    </div>
+                                <div class="form-group">
                                     <label class="control-label col-md-3">Last name <font color='red'>*</font></label>
                                     <div class="col-md-5">
                                         <form:input path="registrationLocInfos[${i.index}].lastName"

@@ -27,10 +27,27 @@
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
-        <div class="col-lg-8 col-lg-offset-2">
+        <div class="col-lg-offset-2">
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
             <h2 class="page-header">Project History</h2>
-
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Project name</th>
+                    <th>PM</th>
+                    <th>Description (Role)</th>
+                    <th>Period</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Single Portal of e-Government Services</td>
+                        <td>DAE-OC KIM</td>
+                        <td>Developer</td>
+                        <td>2016-11-01</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

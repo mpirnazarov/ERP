@@ -8,11 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
-    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
-    request.setAttribute("JobTitle", a.getJobTitle());
-%>
 <script type="text/javascript">
     function printpage() {
         //Get the print button and put it into a variable
@@ -40,10 +35,10 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
-        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
+        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpViewLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
-        <div class="col-lg-8 col-lg-offset-2">
-            <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
+        <div class="col-lg-offset-2">
+            <h1><%= request.getAttribute("FullName") %></h1>
             <h2 class="page-header">Training Record</h2>
 
 
@@ -57,7 +52,7 @@
                             <th>Name</th>
                             <th>Certificate</th>
                             <th>Organization</th>
-                            <th>Entry date</th>
+                            <th>Entry date (YYYY)</th>
                             <th>Finish date</th>
                             <th>Number of hours</th>
                             <th>Mark</th>

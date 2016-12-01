@@ -43,7 +43,7 @@
                 <a href="/<%= request.getAttribute("path") %>/Projects"><i class="fa fa-fw fa-folder"></i> Projects</a>
             </li>
             <li>
-                <a href="/<%= request.getAttribute("path") %>/Evaluation"><i class="fa fa-fw fa-file-o"></i> Evaluation</a>
+                <a href="/<%= request.getAttribute("path") %>/Evaluation"><i class="fa fa-fw fa-file-o"></i> Evaluation history</a>
             </li>
             <li>
                 <a href="/<%= request.getAttribute("path") %>/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>

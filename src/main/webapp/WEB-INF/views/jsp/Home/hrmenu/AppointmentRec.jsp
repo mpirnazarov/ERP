@@ -30,7 +30,7 @@
                         <thead>
                         <tr>
                             <th>Appointment date</th>
-                            <th>Appointment type</th>
+                            <th>Contract type</th>
                             <th>Department</th>
                             <th>Role</th>
                         </tr>

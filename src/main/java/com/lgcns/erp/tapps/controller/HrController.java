@@ -135,7 +135,7 @@ public class HrController {
     @ResponseBody public ModelAndView HrEdu(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/hrmenu/EducationCer");
-        EduViewModel hreduViewModel = UserController.getEducationByUsername(principal);
+        EduViewModel hreduViewModel = UserController.getEducationByUsername(principal.getName());
         mav.addObject("eduVM", hreduViewModel);
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
@@ -795,9 +795,8 @@ public class HrController {
 
             /*//Getting Joint Type
             returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());*/
-
-            returning.setJobTitle(UserService.getJobTitle(UserService.getUserInPost(user).get(0).getPostId(),3).getName());
-
+            if(UserService.getUserInPost(user).size()!=0)
+                returning.setJobTitle(UserService.getJobTitle(UserService.getUserInPost(user).get(0).getPostId(),3).getName());
             //Getting status
             List<StatusLocalizationsEntity> statuses = UserService.getStatuses();
             for (StatusLocalizationsEntity st :
@@ -870,7 +869,10 @@ public class HrController {
         nonImageVariableMap.put("date_now", new SimpleDateFormat("d MMMMMMMM yyyy", Locale.ENGLISH).format(date));
 
         nonImageVariableMap.put("name", user.getFirstName()[2] + " "+ user.getLastName()[2]);
-        nonImageVariableMap.put("jobTitle", user.getJobTitle());
+        if(user.getJobTitle()!=null)
+            nonImageVariableMap.put("jobTitle", user.getJobTitle());
+        else
+            nonImageVariableMap.put("jobTitle", "");
         System.out.printf("Entry date: " + user.getEntryDate());
         nonImageVariableMap.put("hiringDate", new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(user.getEntryDate()));
         Map<String, String> imageVariablesWithPathMap =new HashMap<String, String>();

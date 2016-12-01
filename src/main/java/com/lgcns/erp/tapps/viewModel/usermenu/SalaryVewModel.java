@@ -13,8 +13,9 @@ public class SalaryVewModel {
     private double inps;
     private double pf;
     private int id;
+    private int currency;
 
-    public SalaryVewModel(String net, String gross, Date date, double pit, double inps, double pf, int id) {
+    public SalaryVewModel(String gross, String net, Date date, double pit, double inps, double pf, int id, int currency) {
         this.net = net;
         this.gross = gross;
         this.date = date;
@@ -22,6 +23,7 @@ public class SalaryVewModel {
         this.inps = inps;
         this.pf = pf;
         this.id = id;
+        this.currency = currency;
     }
 
     public SalaryVewModel() {
@@ -82,5 +84,13 @@ public class SalaryVewModel {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(int currency) {
+        this.currency = currency;
     }
 }

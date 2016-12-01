@@ -25,7 +25,7 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
-        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
+        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpViewLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
         <div class="col-lg-8 col-lg-offset-2">
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
@@ -55,27 +55,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-                    <div>
-                    <form name="uploadingForm" enctype="multipart/form-data" action="/Hr/user/${id}/UploadPic/" method="POST">
-                        <p>
-                            <input id="fileInput" type="file" name="uploadingFiles" onchange="updateSize();" multiple>
-                            selected files: <span id="fileNum">0</span>;
-                            total size: <span id="fileSize">0</span>
-                        </p>
-                        <p>
-                            <input type="submit" class="btn btn-success" value="Upload file">
-                        </p>
-                    </form>
-                    <%--<div>--%>
-                    <%--<div>Uploaded files:</div>--%>
-                    <%--<#list files as file>--%>
-                    <%--<div>--%>
-                    <%--${file.getName()}--%>
-                    <%--</div>--%>
-                    <%--</#list>--%>
-                    <%--</div>--%>
                 </div>
-                    </div>
                 <%--<div id="gen" class="tab-pane fade">
                     <h3>Generatable documents</h3>
                     <table class="table">

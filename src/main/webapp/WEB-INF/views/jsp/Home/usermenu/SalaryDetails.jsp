@@ -62,11 +62,21 @@
                         <c:forEach items="${salaryVM}" var="salary" varStatus="status">
                             <tr>
                                 <td>${salary.date}</td>
-                                <td>${salary.net}</td>
+                                <c:if test="${salary.currency==1}">
+                                    <td>${salary.gross} UZS</td>
+                                </c:if>
+                                <c:if test="${salary.currency==2}">
+                                    <td>${salary.gross} USD</td>
+                                </c:if>
                                 <td>${salary.pit}%</td>
                                 <td>${salary.inps}%</td>
                                 <td>${salary.pf}%</td>
-                                <td>${salary.gross}</td>
+                                <c:if test="${salary.currency==1}">
+                                    <td>${salary.net} UZS</td>
+                                </c:if>
+                                <c:if test="${salary.currency==2}">
+                                    <td>${salary.net} USD</td>
+                                </c:if>
                             </tr>
                         </c:forEach>
                         </tbody>

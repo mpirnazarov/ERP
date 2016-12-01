@@ -112,7 +112,7 @@ public class UserController {
     public ModelAndView Edu(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/EducationCer");
-        EduViewModel eduViewModel = getEducationByUsername(principal);
+        EduViewModel eduViewModel = getEducationByUsername(principal.getName());
         ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("eduVM", eduViewModel);
@@ -149,7 +149,7 @@ public class UserController {
     public ModelAndView Docs(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/Docs");
-        List<DocsViewModel> docsViewModel = getDocuments(principal);
+        List<DocsViewModel> docsViewModel = getDocuments(principal.getName());
         ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("docsVM", docsViewModel);
@@ -274,14 +274,20 @@ public class UserController {
                 returning.setPolitical(false);
 
             //Getting Joint Type
-            returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());
+            if ((getMax(UserService.getUserInPost(user)).getContractType() - 1)>0)
+                returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());
 
             //Getting status
+            if(UserService.getStatuses().get(3).getName()!=null)
             returning.setStatus(UserService.getStatuses().get(3).getName());
 
             //Getting job title
-            int postId = getMax(UserService.getUserInPost(user)).getPostId();
-            returning.setJobTitle(UserService.getJobTitle(postId, 3).getName());
+            int postId=0;
+            if(getMax(UserService.getUserInPost(user)).getPostId()>0) {
+                postId = getMax(UserService.getUserInPost(user)).getPostId();
+                if(UserService.getJobTitle(postId, 3).getName()!=null)
+                    returning.setJobTitle(UserService.getJobTitle(postId, 3).getName());
+            }
 
             //RoleLocalizationsEntity roleLoc = UserService.getPosition(userInRoles);
             //returning.setPosition();
@@ -367,16 +373,16 @@ public class UserController {
 
         for (SalaryHistoriesEntity salary :
                 salariesHistory) {
-            salaries.add(new SalaryVewModel(String.format("%,d", salary.getSalaryAfter()), String.format("%,d", salary.getSalaryBefore()), salary.getDate(), salary.getPit(), salary.getInps(), salary.getPf(), salary.getId()));
+            salaries.add(new SalaryVewModel(String.format("%,d", salary.getSalaryBefore()), String.format("%,d", salary.getSalaryAfter()), salary.getDate(), salary.getPit(), salary.getInps(), salary.getPf(), salary.getId(), salary.getCurrencyId()));
         }
         return salaries;
 
     }
 
-    public static EduViewModel getEducationByUsername(Principal principal) {
+    public static EduViewModel getEducationByUsername(String userName) {
         EduViewModel eduReturn = new EduViewModel();
         EducationLocalizationsEntity eduLoc = null;
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = UserService.getUserByUsername(userName);
 
         // Getting and setting Educations module
         List<EducationsEntity> educations = UserService.getEducationsByUsername(user);
@@ -434,9 +440,9 @@ public class UserController {
         return trainViewModels;
     }
 
-    private List<DocsViewModel> getDocuments(Principal principal) {
+    public static List<DocsViewModel> getDocuments(String userName) {
         List<DocsViewModel> docsViewModels = new LinkedList<DocsViewModel>();
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = UserService.getUserByUsername(userName);
         List<DocumentsEntity> documents = UserService.getDocuments(user);
         for (DocumentsEntity docs :
                 documents) {

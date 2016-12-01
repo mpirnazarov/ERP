@@ -26,9 +26,7 @@ public class FileUploadController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String handleFileUpload(HttpServletRequest request,
 			@RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
-		
-		System.out.println("description: " + request.getParameter("description"));
-		
+
 		if (fileUpload != null && fileUpload.length > 0) {
 			for (CommonsMultipartFile aFile : fileUpload){
 				

@@ -9,6 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="pageTitle" scope="request" value="Upload picture"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
@@ -16,26 +17,25 @@
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpEditLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
-            <div class="col-lg-8 col-lg-offset-2">
+            <div class="col-lg-offset-2">
                 <h1>Upload your file</h1>
+                <h2 class="page-header">Upload form</h2>
                 <form method="post" action="/uploadFile" enctype="multipart/form-data">
-                    <table border="0">
-                        <tr>
-                            <td>Description:</td>
-                            <td><input type="text" name="description" size="50"/></td>
-                        </tr>
-                        <tr>
-                            <td>Pick file #1:</td>
-                            <td><input type="file" name="fileUpload" size="50"/></td>
-                        </tr>
-                        <tr>
-                            <td>Pick file #2:</td>
-                            <td><input type="file" name="fileUpload" size="50"/></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" align="center"><input type="submit" value="Upload"/></td>
-                        </tr>
-                    </table>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Choose picture: </label>
+                            <div class="col-md-5">
+                                <input type="file" class="single-line" name="fileUpload" size="50"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-5">
+                                <input class="btn btn-success" type="submit" value="Upload"/>
+                                <input class="btn btn-danger" type="button" onclick="history.back()" value="Cancel"/>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

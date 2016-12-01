@@ -604,12 +604,14 @@ public class HrController {
     }
 
     @RequestMapping("/Hr/user/{id}/UploadPic")
-    public ModelAndView uploading(Model model, @PathVariable("id") int id) {
+    public ModelAndView uploading(Principal principal, Model model, @PathVariable("id") int id) {
         File file = new File(uploadingdir);
         model.addAttribute("files", file.listFiles());
         ModelAndView mav = new ModelAndView();
         mav.addObject("id", id);
         mav.setViewName("Home/hrmenu/FileUploadForm");
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
         return mav;
     }
 

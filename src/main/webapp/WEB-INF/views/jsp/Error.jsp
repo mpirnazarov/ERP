@@ -12,11 +12,16 @@
 <c:set var="pageTitle" scope="request" value="Error"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
-        <h1>Sorry, something went wrong!</h1>
-        <h2>Please, contact to our developers</h2>
-        <h3><button type="button" name="back" onclick="history.back()">Back</button></h3>
+        <div class="col-lg-offset-3">
+                <img style="width: 30%; height: 30%" src="/resources/images/stop.png">
+            <h1>Sorry, something went wrong!</h1>
+            <h2>Please, contact to our developers</h2>
+            <h3>
+                <button class="btn btn-default" type="button" name="back" onclick="history.back()">Back</button>
+            </h3>
+        </div>
     </div>
 </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

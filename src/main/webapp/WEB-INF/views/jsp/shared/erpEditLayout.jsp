@@ -18,7 +18,7 @@
             </div>
             <ul class="nav navbar-nav">
                 <div class="userImgBox">
-                    <img class="userimg" src="/resources/images/users/choi.jpg">
+                    <img class="userimg" src="/resources/images/users/kamola.jpg">
                 </div>
                 <hr/>
             HR System
@@ -60,19 +60,19 @@
                 <li>
                     <a href="../UploadPic"><i class="fa fa-fw fa-file"></i> Change Picture</a>
                 </li>
-            <hr/>
+                <hr/>
                 Settings
-            <li>
-                <a href="/Hr/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
-            </li>
-            <li>
-                <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
-            </li>
-        </ul>
+                <li>
+                    <a href="/Hr/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
+                </li>
+                <li>
+                    <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
+                </li>
+            </ul>
         </div>
     </nav>
 </div>
-    <!-- /#sidebar-wrapper -->
+<!-- /#sidebar-wrapper -->
 <%--<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--%>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 

@@ -27,3 +27,15 @@ $(function(){
     });
 });
 });
+$(document).ready(function () {
+    $(".filingbutton").click(function (e) {
+        e.preventDefault();
+        var obj = $("#"+$(this).attr("data-target"));
+        var element = $(this);
+        obj.click();
+        obj.change(function () {
+            element.text($(this).val().replace(/^.*[\\\/]/, ''));
+        });
+    })
+
+});

@@ -25,7 +25,8 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Choose picture: </label>
                             <div class="col-md-5">
-                                <input type="file" class="single-line" name="fileUpload" size="50"/>
+                                <input type="file" class="single-line" id="choose" name="fileUpload" style="display: none;" size="50"/>
+                                <button type="button" data-target="choose" class="btn btn-default filingbutton">Choose file</button>
                             </div>
                         </div>
                         <div class="form-group">

@@ -23,7 +23,7 @@
 
                     <%--<img src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"><br>--%>
                     <div class="userImgBox">
-                        <img class="userimg" src="/resources/images/users/choi.jpg">
+                        <img class="userimg" src="/resources/images/users/<%= request.getAttribute("userId") %>.jpg">
                     </div>
                     <hr/>
                     HR System

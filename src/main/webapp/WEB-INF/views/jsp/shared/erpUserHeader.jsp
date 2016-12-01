@@ -28,7 +28,6 @@
     <spring:url value="/resources/core/js/jquery.scrollbar.min.js" var="scrollJs"/>
     <spring:url value="/resources/core/js/main.js" var="main"/>
     <script src="${jquery}"></script>
-
     <link rel="stylesheet" href="${navbar}" />
     <link rel="stylesheet" href="${scrollCss}" />
         <link rel="stylesheet" href="${editableCss}" />

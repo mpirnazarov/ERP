@@ -24,9 +24,18 @@
                         <img class="userimg" src="/resources/images/users/choi.jpg">
                     </div>
             HR System
-            <li>
-                <a href="/${}/Profile"><i class="fa fa-fw fa-home"></i> Home</a>
-            </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-home"></i> Home <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="dropdown-header">Information about HR</li>
+                            <li><a href="/Hr/Profile">General information</a></li>
+                            <li><a href="/Hr/Profile/Appointment">Appointment record</a></li>
+                            <li><a href="/Hr/Profile/Salary">Salary details</a></li>
+                            <li><a href="/Hr/Profile/Edu">Education certificate</a></li>
+                            <li><a href="/Hr/Profile/Jobexp">Job experience</a></li>
+                            <li><a href="/Hr/Profile/Train">Training record</a></li>
+                        </ul>
+                    </li>
             <li>
                 <a href="/${}/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>
             </li>
@@ -58,9 +67,6 @@
                 </li>
                 <li>
                     <a href="./Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
-                </li>
-                <li>
-                    <a href="../UploadPic"><i class="fa fa-fw fa-file"></i> Change Picture</a>
                 </li>
             <hr/>
                 Settings

@@ -20,7 +20,7 @@
             <div class="col-lg-offset-2">
                 <h1>Upload your file</h1>
                 <h2 class="page-header">Upload form</h2>
-                <form method="post" action="/uploadFile" enctype="multipart/form-data">
+                <form method="post"  enctype="multipart/form-data">
                     <div class="form-horizontal">
                         <div class="form-group">
                             <label class="control-label col-md-3">Choose picture: </label>

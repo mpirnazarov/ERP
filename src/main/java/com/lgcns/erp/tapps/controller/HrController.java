@@ -616,16 +616,16 @@ public class HrController {
     }
 
     @RequestMapping(value = "/Hr/user/{id}/UploadPic", method = RequestMethod.POST)
-    public String uploadingPost(@RequestParam("uploadingFiles") MultipartFile[] uploadingFiles, @PathVariable("id") int id) throws IOException {
+    public String uploadingPost(@RequestParam MultipartFile fileUpload, @PathVariable("id") int id) throws IOException {
         String sId=null;
         sId = String.format("%04d", id);
-        for(MultipartFile uploadedFile : uploadingFiles) {
-            String sId2 =sId + ".jpg";
-            File file = new File("../webapps/ROOT/resources/images/" + sId2);
-            uploadedFile.transferTo(file);
-            System.out.printf(file.getAbsolutePath());
-        }
-        return "redirect:/Hr/user/"+sId+"/update/geninfo/";
+        String sId2 =sId + ".jpg";
+        File file = new File("../webapps/ROOT/resources/images/" + sId2);
+        System.out.printf("ABSOLUTE PATH: " + file.getAbsolutePath());
+
+
+        fileUpload.transferTo(file);
+                return "redirect:/";
     }
 
     @RequestMapping(value = "Hr/changepass", method = RequestMethod.GET)

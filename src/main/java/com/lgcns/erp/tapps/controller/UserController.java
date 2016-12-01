@@ -168,6 +168,18 @@ public class UserController {
         return mav;
     }
 
+    @RequestMapping(value = "/User/Profile/Evaluation", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView Evaluation(Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/usermenu/Evaluation");
+       /* List<DocsViewModel> docsViewModel = getDocuments(principal);*/
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
+        /*mav.addObject("docsVM", docsViewModel);*/
+        return mav;
+    }
+
     @RequestMapping(value = "/User/Profile/Docs/download", method = RequestMethod.GET)
     public String DocDownload(HttpServletResponse response, Principal principal, @RequestParam("id") int id) throws IOException {
         System.out.println("ID: " + id);

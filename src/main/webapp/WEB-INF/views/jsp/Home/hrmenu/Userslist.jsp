@@ -44,7 +44,7 @@
                     <td><c:out value="${user.lastName[2]}"/></td>
                     <td><c:out value="${user.username}"/></td>
                     <td>
-                        <spring:url value="/Hr/user/${user.id}" var="userUrl" />
+                        <spring:url value="/Hr/user/${user.id}/Geninfo" var="userUrl" />
                         <spring:url value="/Hr/user/${user.id}/disable/" var="disableUrl" />
                         <spring:url value="/Hr/user/${user.id}/enable/" var="enableUrl" />
                         <spring:url value="/Hr/user/${user.id}/update/Geninfo" var="updateUrl" />

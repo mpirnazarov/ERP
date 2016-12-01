@@ -1,6 +1,7 @@
 package com.lgcns.erp.tapps.controller;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.viewModel.CTO.Form;
@@ -85,7 +86,7 @@ public class CTOController {
     @ResponseBody public ModelAndView HrTrain(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/CTO/TrainingRec");
-        List<TrainViewModel> trainViewModel = UserController.getTrainingRecord(principal);
+        List<TrainViewModel> trainViewModel = UserController.getTrainingRecord(principal.getName());
         mav.addObject("trainVM", trainViewModel);
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
@@ -149,9 +150,8 @@ public class CTOController {
     private void insertEvaluations(FormModel form, int id) {
         for (Form f:
                 form.getForms()) {
-            if(f.getGrade().compareTo(" ")!=0){
-                System.out.println("Grade: "+f.getGrade());
-                UserService.insertEvaluation(f, id);
+            if(f.getGrade() != 0){
+                UserService.insertEvaluation(UserMapper.mapCTOEvaluation(f, id));
             }
         }
     }

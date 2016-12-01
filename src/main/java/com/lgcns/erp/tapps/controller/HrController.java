@@ -15,6 +15,10 @@ import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.*;
 import fr.opensagres.xdocreport.core.XDocReportException;
 import fr.opensagres.xdocreport.template.TemplateEngineKind;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,9 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
@@ -148,7 +153,7 @@ public class HrController {
     @ResponseBody public ModelAndView HrTrain(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/hrmenu/TrainingRec");
-        List<TrainViewModel> trainViewModel = UserController.getTrainingRecord(principal);
+        List<TrainViewModel> trainViewModel = UserController.getTrainingRecord(principal.getName());
         mav.addObject("trainVM", trainViewModel);
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
@@ -186,28 +191,6 @@ public class HrController {
         return mav;
     }
 
-    private void generateCertificate(ProfileViewModel user) throws IOException, XDocReportException {
-        String templatePath = "C:/files/template/Certification_of_Employment.docx";
-        Map<String, Object> nonImageVariableMap = new HashMap<String, Object>();
-        Date date = new Date();
-        nonImageVariableMap.put("date_now", new SimpleDateFormat("d MMMMMMMM yyyy", Locale.ENGLISH).format(date));
-
-        nonImageVariableMap.put("name", user.getFirstName()[2] + " "+ user.getLastName()[2]);
-        nonImageVariableMap.put("jobTitle", user.getJobTitle());
-        System.out.printf("Entry date: " + user.getEntryDate());
-        nonImageVariableMap.put("hiringDate", new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(user.getEntryDate()));
-        Map<String, String> imageVariablesWithPathMap =new HashMap<String, String>();
-        imageVariablesWithPathMap.put("header_image_logo", "C:/0001.jpg");
-        System.out.println("Writing file from template");
-        DocxDocumentMergerAndConverter docxDocumentMergerAndConverter = new DocxDocumentMergerAndConverter();
-        byte[] mergedOutput = docxDocumentMergerAndConverter.mergeAndGenerateOutput(templatePath, TemplateEngineKind.Freemarker, nonImageVariableMap, imageVariablesWithPathMap);
-        assertNotNull(mergedOutput);
-        FileOutputStream os = new FileOutputStream("C:/files/Certification_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx");
-        os.write(mergedOutput);
-        os.flush();
-        os.close();
-    }
-
     @RequestMapping(value = "/Hr/user/{userId}/update/Jobexp/add", method = RequestMethod.GET)
     public ModelAndView addJob(Model model, @PathVariable("userId") int userId){
         ModelAndView mav = new ModelAndView();
@@ -224,12 +207,87 @@ public class HrController {
         addJobExp(jobexpViewModel, userId);
         return "redirect: /Hr/user/"+userId+"/update/Jobexp";
     }
-
     private void addJobExp(JobexpViewModel jobexpViewModel, String userId) {
         int id = UserService.insertWorks(UserMapper.mapAddWorks(jobexpViewModel, userId));
         UserService.insertWorksLoc(UserMapper.mapAddWorksLoc(jobexpViewModel, id));
         //UserService.insertUsersFamilyInfoLocEn(UserMapper.mapAddFamilyLoc(familyProfile, id, 3));
     }
+
+    @RequestMapping(value = "/Hr/user/{userId}/update/Jobexp/updateJob/{jobId}", method = RequestMethod.GET)
+    public ModelAndView updateJob(Model model, @PathVariable("userId") int userId, @PathVariable("jobId") int jobId){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/edit/job");
+
+        JobexpViewModel jobexpViewModel = new JobexpViewModel();
+        WorksEntity worksEntity = UserService.getWorkEntity(jobId);
+        WorkLocalizationsEntity workLocalizationsEntity = UserService.getWorkLocal(worksEntity);
+        jobexpViewModel.setStartDate(worksEntity.getStartDate());
+        jobexpViewModel.setEndDate(worksEntity.getEndDate());
+        jobexpViewModel.setContractType(worksEntity.getContractType());
+        jobexpViewModel.setOrganization(workLocalizationsEntity.getOrganization());
+        jobexpViewModel.setPosition(workLocalizationsEntity.getPost());
+        model.addAttribute("jobexpVM", jobexpViewModel);
+
+        return mav;
+    }
+    @RequestMapping ( value = "/Hr/user/{userId}/update/Jobexp/updateJob/{jobId}", method = RequestMethod.POST )
+    public String updateJobPost(Principal principal, @ModelAttribute  JobexpViewModel jobexpViewModel, BindingResult result, @PathVariable("userId") String userId){
+        System.out.println("Job Exp: " + jobexpViewModel.toString());
+        addJobExp(jobexpViewModel, userId);
+        return "redirect: /Hr/user/"+userId+"/update/Jobexp";
+    }
+
+    @RequestMapping(value = "/Hr/user/{userId}/update/Train/add", method = RequestMethod.GET)
+    public ModelAndView addTrain(Model model, @PathVariable("userId") int userId){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/new/train");
+
+        TrainViewModel trainViewModel = new TrainViewModel();
+        model.addAttribute("trainVM", trainViewModel);
+
+        return mav;
+    }
+    @RequestMapping ( value = "/Hr/user/{userId}/update/Train/add", method = RequestMethod.POST )
+    public String AddTrainPost(Principal principal, @ModelAttribute  TrainViewModel trainViewModel, BindingResult result, @PathVariable("userId") String userId){
+        int id = UserService.insertTrainings(UserMapper.mapTrainings(trainViewModel, userId));
+        System.out.println("ID= "+id);
+        UserService.insertTrainingLoc(UserMapper.mapTrainingLoc(trainViewModel, id));
+        return "redirect: /Hr/user/"+userId+"/update/Train";
+    }
+
+    @RequestMapping(value = "/Hr/user/{userId}/update/Train/edit/{trainId}", method = RequestMethod.GET)
+    public ModelAndView updateTrain(Model model, @PathVariable("userId") int userId, @PathVariable("trainId") int trainId){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/edit/train");
+        TrainViewModel trainViewModel = getTrainVM(trainId, userId);
+
+        model.addAttribute("trainVM", trainViewModel);
+        return mav;
+    }
+
+    private TrainViewModel getTrainVM(int trainId, int userId) {
+        TrainViewModel trainViewModel = new TrainViewModel();
+        TrainingsEntity trainingsEntity = UserService.getTrainingEntity(trainId);
+        TrainingLocalizationsEntity trainingLocalizationsEntity = UserService.getTrainingLoc(trainingsEntity);
+
+        // Creating TrainVM
+        trainViewModel.setName(trainingLocalizationsEntity.getName());
+        trainViewModel.setOrganization(trainingLocalizationsEntity.getOrganization());
+        trainViewModel.setDateFrom(trainingsEntity.getDateFrom());
+        trainViewModel.setDateTo(trainingsEntity.getDateTo());
+        trainViewModel.setNumberOfHours(trainingsEntity.getNumberOfHours());
+        trainViewModel.setMark(trainingsEntity.getMark());
+
+        return trainViewModel;
+    }
+
+    @RequestMapping ( value = "/Hr/user/{userId}/update/Train/edit/{trainId}", method = RequestMethod.POST )
+    public String updateTrainPost(Principal principal, @ModelAttribute  TrainViewModel trainViewModel, BindingResult result, @PathVariable("userId") String userId, @PathVariable("trainId") String trainId){
+        UserService.updateTrainVM(UserMapper.mapTrainings(trainViewModel, userId), Integer.parseInt(trainId));
+        return "redirect: /Hr/user/"+userId+"/update/Train";
+    }
+
+
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Salary/addSal", method = RequestMethod.GET)
     public ModelAndView addSalary(Model model, @PathVariable("userId") int userId){
@@ -350,6 +408,12 @@ public class HrController {
             mav.setViewName("Home/editmenu/salary");
             List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(UserService.getUserById(id));
             model.addAttribute("salaryVM", salaryVewModel);
+            return mav;
+        }
+        else if(path.compareTo("Train")==0) {
+            mav.setViewName("Home/editmenu/train");
+            List<TrainViewModel> trainingRecord = UserController.getTrainingRecord(userProfile.getUsername());
+            model.addAttribute("trainVM", trainingRecord);
             return mav;
         }
         else if(path.compareTo("Docs")==0){
@@ -514,18 +578,19 @@ public class HrController {
     }
 
     @RequestMapping ( value = "/Hr/Generate/{docId}/{userId}/", method = RequestMethod.GET )
-    public String GenerateDoc(Principal principal, @PathVariable("docId") int docId, @PathVariable("userId") int userId){
+    public ResponseEntity<byte[]> GenerateDoc(HttpServletRequest request, HttpServletResponse response, Principal principal, @PathVariable("docId") int docId, @PathVariable("userId") int userId){
         ProfileViewModel user = getProfileById(userId);
         System.out.printf("Generating document: "+docId);
+        ResponseEntity<byte[]> res=null;
         try {
-            if (docId==1)
-                generateCertificate(user);
+            if (docId==1){
+                 res = generateCertificate(user, response);
+                return res; }
             else if(docId==2) {
-                System.out.printf("Generating Decree terminate");
-                generateDecreeTerminate(user);
+                res = generateDecreeTerminate(user, response);
             }
             else if(docId==3){
-                generateDecreeFamilyTicket(user);
+                res = generateDecreeFamilyTicket(user, response);
             }
 
         } catch (IOException e) {
@@ -533,7 +598,7 @@ public class HrController {
         } catch (XDocReportException e) {
             e.printStackTrace();
         }
-        return "redirect:/Hr/Docs";
+        return res;
     }
 
     @RequestMapping("/Hr/user/{id}/UploadPic")
@@ -693,7 +758,7 @@ public class HrController {
         ProfileViewModel returning = new ProfileViewModel();
         // Getting data from users db
         UsersEntity user = UserService.getUserById(id);
-
+        returning.setUsername(user.getUserName());
         // Getting its localization data
         List<UserLocalizationsEntity> userLocalizationsEntities = UserService.getUserLocByUserId(user.getId());
 
@@ -725,8 +790,10 @@ public class HrController {
         try {
 
             /*//Getting Joint Type
-            returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());
-*/
+            returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());*/
+
+            returning.setJobTitle(UserService.getJobTitle(UserService.getUserInPost(user).get(0).getPostId(),3).getName());
+
             //Getting status
             List<StatusLocalizationsEntity> statuses = UserService.getStatuses();
             for (StatusLocalizationsEntity st :
@@ -792,7 +859,36 @@ public class HrController {
         return returning;
     }
 
-    private void generateDecreeFamilyTicket(ProfileViewModel user) throws IOException, XDocReportException {
+    private ResponseEntity<byte[]> generateCertificate(ProfileViewModel user, HttpServletResponse response) throws IOException, XDocReportException {
+        String templatePath = "C:/files/template/Certification_of_Employment.docx";
+        Map<String, Object> nonImageVariableMap = new HashMap<String, Object>();
+        Date date = new Date();
+        nonImageVariableMap.put("date_now", new SimpleDateFormat("d MMMMMMMM yyyy", Locale.ENGLISH).format(date));
+
+        nonImageVariableMap.put("name", user.getFirstName()[2] + " "+ user.getLastName()[2]);
+        nonImageVariableMap.put("jobTitle", user.getJobTitle());
+        System.out.printf("Entry date: " + user.getEntryDate());
+        nonImageVariableMap.put("hiringDate", new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(user.getEntryDate()));
+        Map<String, String> imageVariablesWithPathMap =new HashMap<String, String>();
+        imageVariablesWithPathMap.put("header_image_logo", "C:/0001.jpg");
+        System.out.println("Writing file from template");
+        DocxDocumentMergerAndConverter docxDocumentMergerAndConverter = new DocxDocumentMergerAndConverter();
+        byte[] mergedOutput = docxDocumentMergerAndConverter.mergeAndGenerateOutput(templatePath, TemplateEngineKind.Freemarker, nonImageVariableMap, imageVariablesWithPathMap);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/docx"));
+        String filePath = "C:/files/Certification_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx";
+        String filename = "Certification_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx";
+        headers.setContentDispositionFormData(filename, filename);
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        assertNotNull(mergedOutput);
+        ResponseEntity<byte[]> response2 = new ResponseEntity<byte[]>(mergedOutput, headers, HttpStatus.OK);
+
+        return response2;
+
+    }
+
+    private ResponseEntity<byte[]> generateDecreeFamilyTicket(ProfileViewModel user, HttpServletResponse response) throws IOException, XDocReportException {
         String templatePath = "C:/files/template/Decree_family_ticket.docx";
         Map<String, Object> nonImageVariableMap = new HashMap<String, Object>();
         Date date = new Date();
@@ -815,17 +911,22 @@ public class HrController {
         nonImageVariableMap.put("familyMembers_ru", familyMembers_ru);
         Map<String, String> imageVariablesWithPathMap =new HashMap<String, String>();
         imageVariablesWithPathMap.put("header_image_logo", "C:/0001.jpg");
-        System.out.println("Writing file from template");
         DocxDocumentMergerAndConverter docxDocumentMergerAndConverter = new DocxDocumentMergerAndConverter();
         byte[] mergedOutput = docxDocumentMergerAndConverter.mergeAndGenerateOutput(templatePath, TemplateEngineKind.Freemarker, nonImageVariableMap, imageVariablesWithPathMap);
         assertNotNull(mergedOutput);
-        FileOutputStream os = new FileOutputStream("C:/files/Decree_family_ticket_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx");
-        os.write(mergedOutput);
-        os.flush();
-        os.close();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/docx"));
+        String filename = "Decree_family_ticket_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx";
+        headers.setContentDispositionFormData(filename, filename);
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        assertNotNull(mergedOutput);
+        ResponseEntity<byte[]> response2 = new ResponseEntity<byte[]>(mergedOutput, headers, HttpStatus.OK);
+
+        return response2;
     }
 
-    private void generateDecreeTerminate(ProfileViewModel user) throws IOException, XDocReportException {
+    private ResponseEntity<byte[]> generateDecreeTerminate(ProfileViewModel user, HttpServletResponse response) throws IOException, XDocReportException {
         String templatePath = "C:/files/template/Decree_terminate.docx";
         Map<String, Object> nonImageVariableMap = new HashMap<String, Object>();
         Date date = new Date();
@@ -836,14 +937,19 @@ public class HrController {
         nonImageVariableMap.put("jobTitle", user.getJobTitle());
         Map<String, String> imageVariablesWithPathMap =new HashMap<String, String>();
         imageVariablesWithPathMap.put("header_image_logo", "C:/0001.jpg");
-        System.out.println("Writing file from template");
         DocxDocumentMergerAndConverter docxDocumentMergerAndConverter = new DocxDocumentMergerAndConverter();
         byte[] mergedOutput = docxDocumentMergerAndConverter.mergeAndGenerateOutput(templatePath, TemplateEngineKind.Freemarker, nonImageVariableMap, imageVariablesWithPathMap);
         assertNotNull(mergedOutput);
-        FileOutputStream os = new FileOutputStream("C:/files/Decree_terminate_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx");
-        os.write(mergedOutput);
-        os.flush();
-        os.close();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/docx"));
+        String filename = "Decree_terminate_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx";
+        headers.setContentDispositionFormData(filename, filename);
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        assertNotNull(mergedOutput);
+        ResponseEntity<byte[]> response2 = new ResponseEntity<byte[]>(mergedOutput, headers, HttpStatus.OK);
+
+        return response2;
     }
 
     public static UserInPostsEntity getMax(List<UserInPostsEntity> usersInPost) {

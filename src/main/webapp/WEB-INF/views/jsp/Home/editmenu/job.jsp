@@ -8,34 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
-    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
-    request.setAttribute("JobTitle", a.getJobTitle());
-%>
-<script type="text/javascript">
-    function printpage() {
-        //Get the print button and put it into a variable
-        var printButton = document.getElementById("printpagebutton");
-        printButton.style.visibility = 'hidden';
-        printButton = document.getElementById("jobex");
-        printButton.style.visibility = 'hidden';
-        printButton = document.getElementById("je");
-        printButton.style.visibility = 'hidden';
 
-        //Print the page content
-        window.print()
-        //Set the print button to 'visible' again
-        //[Delete this line if you want it to stay hidden after printing]
-        var printButton = document.getElementById("printpagebutton");
-        printButton.style.visibility = 'visible';
-        printButton = document.getElementById("jobex");
-        printButton.style.visibility = 'visible';
-        printButton = document.getElementById("je");
-        printButton.style.visibility = 'visible';
-    }
-
-</script>
 <c:set var="pageTitle" scope="request" value="Job experience"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
@@ -64,12 +37,11 @@
                                     <td>${jobexp.position}</td>
                                     <td>${jobexp.startDate}</td>
                                     <td>${jobexp.endDate}</td>
-                                    <td><a href="./jobexp/updateJob/${jobexp.id}/" class="btn btn-default">Edit</a></td>
+                                    <td><a href="./Jobexp/updateJob/${jobexp.id}" class="btn btn-default">Edit</a></td>
                                 </tr>
                             </c:forEach>
                             </tbody>
                         </table>
-                        <input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;" value="Print this page" onclick="printpage()"/>
                         <a href="./Jobexp/add" class="btn btn-primary">Add</a>
                     </div>
                 </div>

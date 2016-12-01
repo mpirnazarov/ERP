@@ -13,28 +13,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Salary details"/>
 
-<script type="text/javascript">
-    function printpage() {
-        //Get the print button and put it into a variable
-        var printButton = document.getElementById("printpagebutton");
-        printButton.style.visibility = 'hidden';
-        printButton = document.getElementById("appRec");
-        printButton.style.visibility = 'hidden';
-        //Print the page content
-        window.print()
-        //Set the print button to 'visible' again
-        //[Delete this line if you want it to stay hidden after printing]
-        var printButton = document.getElementById("printpagebutton");
-        printButton.style.visibility = 'visible';
-        printButton = document.getElementById("appRec");
-        printButton.style.visibility = 'visible';
-    }
-</script>
-
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpEditLayout.jsp"></jsp:include>
+        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpEditLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
             <div class="col-lg-8 col-lg-offset-2">
                 <h1>${fullName} ${jobTitle}</h1>
@@ -66,7 +48,6 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;" value="Print this page" onclick="printpage()"/>
                     <a href="./Salary/addSal" class="btn btn-primary">Add</a>
             </div>
         </div>

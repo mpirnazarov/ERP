@@ -52,7 +52,7 @@
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
-        <div class="col-lg-8 col-lg-offset-2">
+        <div class="col-lg-offset-2">
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
             <h2 class="page-header">Education Certificate</h2>
 
@@ -72,8 +72,8 @@
                             <th>Name of school</th>
                             <th>Major</th>
                             <th>Degree</th>
-                            <th>Entry date</th>
-                            <th>Graduate date</th>
+                            <th>Entry date (YYYY-MM-DD)</th>
+                            <th>Graduate date (YYYY-MM-DD)</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -122,7 +122,7 @@
                             <th>Score</th>
                             <th>Degree</th>
                             <th>Organization</th>
-                            <th>Acquistion Date</th>
+                            <th>Acquistion Date (YYYY-MM-DD)</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -161,7 +161,7 @@
                             <th>Name</th>
                             <th>Organization</th>
                             <th>Number</th>
-                            <th>Date</th>
+                            <th>Date (YYYY-MM-DD)</th>
                             <th>Mark</th>
                         </tr>
                         </thead>

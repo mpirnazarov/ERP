@@ -3,7 +3,6 @@ package com.lgcns.erp.tapps.DbContext;
 import com.lgcns.erp.tapps.Enums.Language;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
-import com.lgcns.erp.tapps.viewModel.CTO.Form;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
 import org.hibernate.HibernateException;
@@ -13,7 +12,6 @@ import org.hibernate.query.Query;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Date;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -1058,30 +1056,20 @@ public class UserService {
         return id;
     }
 
-    public static void insertEvaluation(Form f, int id) {
+    public static void insertEvaluation(PersonalEvalutionsEntity personalEvalutionsEntity) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
-            int gr=0;
-            if (f.getGrade().compareTo("S")==0){
-                gr=1;
-            }else if(f.getGrade().compareTo("A")==0)
-                gr=2;
-            else if (f.getGrade().compareTo("B")==0)
-                gr=3;
-            else if (f.getGrade().compareTo("C")==0)
-                gr=4;
-            else if (f.getGrade().compareTo("D")==0)
-                gr=5;
             transaction = session.beginTransaction();
-            PersonalEvalutionsEntity evalutionsEntity = new PersonalEvalutionsEntity();
-            evalutionsEntity.setUserId(id);
-            evalutionsEntity.setGrade(gr);
-            evalutionsEntity.setDate(new Date(2016,01,26));
-            evalutionsEntity.setComments(f.getComments());
-            evalutionsEntity.setEvaluatorId(id);
 
-            session.save(evalutionsEntity);
+            //Set foreign key items
+            personalEvalutionsEntity.setUsersByUserId(session.load(UsersEntity.class, personalEvalutionsEntity.getUserId()));
+
+            //Save the object in database
+            session.save(personalEvalutionsEntity);
+
+
+            //Commit the transaction
             transaction.commit();
         }
         catch (HibernateException e) {
@@ -1361,7 +1349,7 @@ public class UserService {
             session.close();
         }
         return salaryHistoriesEntity;
-        }
+    }
 
     public static void updateSalaryPost(SalaryHistoriesEntity salaryVewModel, int salId) {
         Session session = HibernateUtility.getSessionFactory().openSession();
@@ -1394,13 +1382,10 @@ public class UserService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-
             //Set foreign key items
             worksEntity.setUsersByUserId(session.load(UsersEntity.class, worksEntity.getUserId()));
             //Save the object in database
             session.save(worksEntity);
-
-
             //Commit the transaction
             transaction.commit();
         }
@@ -1419,15 +1404,123 @@ public class UserService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-
             //Set foreign key items
             workLocalizationsEntity.setWorksByWorkId(session.load(WorksEntity.class, workLocalizationsEntity.getWorkId()));
             workLocalizationsEntity.setLanguagesByLanguageId(session.load(LanguagesEntity.class, workLocalizationsEntity.getLanguageId()));
             //Save the object in database
             session.save(workLocalizationsEntity);
-
-
             //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static WorksEntity getWorkEntity(int jobId) {
+        WorksEntity worksEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from WorksEntity where id = :jobId");
+            query.setParameter("jobId", jobId);
+            worksEntity = (WorksEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return worksEntity;
+    }
+
+    public static int insertTrainings(TrainingsEntity trainingsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            //Set foreign key items
+            trainingsEntity.setUsersByUserId(session.load(UsersEntity.class, trainingsEntity.getUserId()));
+            //Save the object in database
+            session.save(trainingsEntity);
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return trainingsEntity.getId();
+    }
+
+    public static void insertTrainingLoc(TrainingLocalizationsEntity trainingLocalizationsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            //Set foreign key items
+            trainingLocalizationsEntity.setLanguagesByLanguageId(session.load(LanguagesEntity.class, trainingLocalizationsEntity.getLanguageId()));
+            trainingLocalizationsEntity.setTrainingsByTrainingId(session.load(TrainingsEntity.class, trainingLocalizationsEntity.getTrainingId()));
+            //Save the object in database
+            session.save(trainingLocalizationsEntity);
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static TrainingsEntity getTrainingEntity(int trainId) {
+        TrainingsEntity trainingsEntity=null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from TrainingsEntity where id = :trainId");
+            query.setParameter("trainId", trainId);
+            trainingsEntity = (TrainingsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return trainingsEntity;
+    }
+
+    public static void updateTrainVM(TrainingsEntity trainingsEntity, int trainId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update TrainingsEntity set dateFrom = :dateFrom, dateTo = :dateTo, " +
+                    "numberOfHours = :numberOfHours, mark = :mark where id = :id");
+            query.setParameter("id", trainId);
+            query.setParameter("dateFrom", trainingsEntity.getDateFrom());
+            query.setParameter("dateTo", trainingsEntity.getDateTo());
+            query.setParameter("numberOfHours", trainingsEntity.getNumberOfHours());
+            query.setParameter("mark", trainingsEntity.getMark());
+            query.executeUpdate();
             transaction.commit();
         }
         catch (HibernateException e) {

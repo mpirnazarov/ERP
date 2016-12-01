@@ -19,7 +19,7 @@
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
-            <div class="col-lg-8 col-lg-offset-2">
+            <div class="col-lg-offset-2">
                 <h1 class="page-header">HR profile</h1>
             <div class="table-responsive">
                     <div class="col-lg-offset-10 col-xs-1">

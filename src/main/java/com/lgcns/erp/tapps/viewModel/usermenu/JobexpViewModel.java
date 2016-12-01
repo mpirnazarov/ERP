@@ -13,15 +13,17 @@ public class JobexpViewModel {
     private Date startDate;
     private Date endDate;
     private int contractType;
+    private int id;
     private Map<Integer, String> contracts =null;
 
 
-    public JobexpViewModel(String organization, String post, Date startDate, Date endDate, int contractType) {
+    public JobexpViewModel(String organization, String post, Date startDate, Date endDate, int contractType, int id) {
         this.organization = organization;
         this.position = post;
         this.startDate = startDate;
         this.endDate = endDate;
         this.contractType = contractType;
+        this.id = id;
     }
 
     public JobexpViewModel() {
@@ -77,6 +79,14 @@ public class JobexpViewModel {
 
     public void setContracts(Map<Integer, String> contracts) {
         this.contracts = contracts;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

@@ -55,26 +55,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-                    <div>
-                    <form name="uploadingForm" enctype="multipart/form-data" action="/Hr/user/${id}/UploadPic/" method="POST">
-                        <p>
-                            <input id="fileInput" type="file" name="uploadingFiles" onchange="updateSize();" multiple>
-                            selected files: <span id="fileNum">0</span>;
-                            total size: <span id="fileSize">0</span>
-                        </p>
-                        <p>
-                            <input type="submit" class="btn btn-success" value="Upload file">
-                        </p>
-                    </form>
-                    <%--<div>--%>
-                    <%--<div>Uploaded files:</div>--%>
-                    <%--<#list files as file>--%>
-                    <%--<div>--%>
-                    <%--${file.getName()}--%>
-                    <%--</div>--%>
-                    <%--</#list>--%>
-                    <%--</div>--%>
-                </div>
+
                     </div>
                 <%--<div id="gen" class="tab-pane fade">
                     <h3>Generatable documents</h3>

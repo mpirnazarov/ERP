@@ -1,15 +1,18 @@
 package com.lgcns.erp.tapps.mapper;
 
 import com.lgcns.erp.tapps.model.DbEntities.*;
+import com.lgcns.erp.tapps.viewModel.CTO.Form;
 import com.lgcns.erp.tapps.viewModel.RegistrationLocInfo;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
 import com.lgcns.erp.tapps.viewModel.usermenu.JobexpViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.SalaryVewModel;
+import com.lgcns.erp.tapps.viewModel.usermenu.TrainViewModel;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -104,5 +107,38 @@ public class UserMapper {
         workLocalizationsEntity.setWorkId(id);
         workLocalizationsEntity.setPost(jobexpViewModel.getPosition());
         return workLocalizationsEntity;
+    }
+
+    public static TrainingsEntity mapTrainings(TrainViewModel trainViewModel, String userId) {
+        TrainingsEntity trainingsEntity = new TrainingsEntity();
+        trainingsEntity.setUserId(Integer.parseInt(userId));
+        trainingsEntity.setDateFrom(trainViewModel.getDateFrom());
+        trainingsEntity.setDateTo(trainViewModel.getDateTo());
+        trainingsEntity.setMark(trainViewModel.getMark());
+        trainingsEntity.setNumberOfHours(trainViewModel.getNumberOfHours());
+        return trainingsEntity;
+    }
+
+    public static TrainingLocalizationsEntity mapTrainingLoc(TrainViewModel trainViewModel, int id) {
+        TrainingLocalizationsEntity trainingLocalizationsEntity = new TrainingLocalizationsEntity();
+        trainingLocalizationsEntity.setOrganization(trainViewModel.getOrganization());
+        trainingLocalizationsEntity.setLanguageId(3);
+        trainingLocalizationsEntity.setName(trainViewModel.getName());
+        trainingLocalizationsEntity.setTrainingId(id);
+        return trainingLocalizationsEntity;
+    }
+
+    public static PersonalEvalutionsEntity mapCTOEvaluation(Form form, int id) {
+        PersonalEvalutionsEntity personalEvalutionsEntity = new PersonalEvalutionsEntity();
+
+        personalEvalutionsEntity.setUserId(Integer.parseInt(form.getId()));
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int month = Calendar.getInstance().get(Calendar.MONTH);
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        personalEvalutionsEntity.setDate(new Date(year,month,day));
+        personalEvalutionsEntity.setEvaluatorId(id);
+        personalEvalutionsEntity.setGrade(form.getGrade());
+
+        return personalEvalutionsEntity;
     }
 }

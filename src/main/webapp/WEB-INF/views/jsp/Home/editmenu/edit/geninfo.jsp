@@ -22,15 +22,15 @@
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpEditLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
-        <div class="col-lg-8 col-lg-offset-2">
+            <div class="col-lg-8 col-lg-offset-2">
             <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
-
+            <h1>${fullName} ${jobTitle}</h1>
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#headerinfo">Header information</a></li>
                 <li><a data-toggle="tab" href="#personalinfo">Personal information</a></li>
                 <li><a data-toggle="tab" href="#familyinfo">Family information</a></li>
             </ul>
-            <form:form commandName="user" cssClass="form-horizontal" method="post" action="/Hr/user/${person.id}/update/geninfo">
+            <form:form commandName="user" cssClass="form-horizontal" method="post" action="/Hr/user/${person.id}/update/Geninfo">
                 <div class="tab-content">
                 <!--General info/Header information Tab-->
                 <div id="headerinfo" class="tab-pane fade in active">
@@ -282,7 +282,7 @@
                             <p>In english</p>
                             <div class="form-horizontal">
                                 <!--Family table-->
-                                <table class="table table-hover">
+                                <table class="table">
                                     <thead>
                                     <tr>
                                         <th>Relation</th>
@@ -314,24 +314,25 @@
                             <p>На русском</p>
                             <div class="form-horizontal">
                                 <!--Family table-->
-                                <table class="table table-hover">
+                                <table class="table">
                                     <thead>
                                     <tr>
                                         <th>Родство</th>
                                         <th>Ф.И.О.</th>
                                         <th>Дата рождения</th>
                                         <th>Вид деятельности</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
+                                    <c:forEach items="${person.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td>${family.relation[0]}</td>
                                             <td>${family.firstName[0]} ${family.lastName[0]}</td>
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[0]}</td>
-                                            <td><a href="./Geninfo/updateFam/${family.id}/" class="btn btn-primary">Add</a>
-                                                <a href="./Geninfo/updateFam/${family.id}/" class="btn btn-default">Edit</a>
+                                            <td><a href="./Geninfo/updateFam/${family.id}/" class="btn btn-default">Edit</a>
+                                                <a href="./Geninfo/deleteFam/${family.id}/" class="btn btn-danger">Delete</a>
                                             </td>
                                             <c:set var="count" value="${count + 1}" scope="page"/>
                                         </tr>
@@ -344,24 +345,25 @@
                             <p>O'zbekchada</p>
                             <div class="form-horizontal">
                                 <!--Family table-->
-                                <table class="table table-hover">
+                                <table class="table">
                                     <thead>
                                     <tr>
                                         <th>Qarindoshligi</th>
                                         <th>F.I.Sh.</th>
                                         <th>Tug'ilgan sanasi</th>
                                         <th>Faoliyati</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
+                                    <c:forEach items="${person.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td>${family.relation[1]}</td>
                                             <td>${family.firstName[1]} ${family.lastName[1]}</td>
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[1]}</td>
-                                            <td><a href="./Geninfo/updateFam/${family.id}/" class="btn btn-primary">Add</a>
-                                                <a href="./Geninfo/updateFam/${family.id}/" class="btn btn-default">Edit</a>
+                                            <td><a href="./Geninfo/updateFam/${family.id}/" class="btn btn-default">Edit</a>
+                                                <a href="./Geninfo/deleteFam/${family.id}/" class="btn btn-danger">Delete</a>
                                             </td>
                                             <c:set var="count" value="${count + 1}" scope="page"/>
                                         </tr>

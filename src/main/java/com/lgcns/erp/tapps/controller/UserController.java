@@ -137,7 +137,7 @@ public class UserController {
     public ModelAndView Train(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/TrainingRec");
-        List<TrainViewModel> trainViewModel = getTrainingRecord(principal);
+        List<TrainViewModel> trainViewModel = getTrainingRecord(principal.getName());
         ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("trainVM", trainViewModel);
@@ -354,7 +354,7 @@ public class UserController {
 
         for (SalaryHistoriesEntity salary :
                 salariesHistory) {
-            salaries.add(new SalaryVewModel(String.format("%,d", salary.getSalaryBefore()), String.format("%,d", salary.getSalaryAfter()), salary.getDate(), salary.getPit(), salary.getInps(), salary.getPf(), salary.getId()));
+            salaries.add(new SalaryVewModel(String.format("%,d", salary.getSalaryAfter()), String.format("%,d", salary.getSalaryBefore()), salary.getDate(), salary.getPit(), salary.getInps(), salary.getPf(), salary.getId()));
         }
         return salaries;
 
@@ -392,25 +392,31 @@ public class UserController {
 
     public static List<JobexpViewModel> getJobExperience(String userName) {
         List<JobexpViewModel> jobExpViewModels = new LinkedList<JobexpViewModel>();
-        UsersEntity user = UserService.getUserByUsername(userName);
+        UsersEntity user = null;
+        try{
+            user = UserService.getUserByUsername(userName);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         List<WorksEntity> worksEntity = UserService.getWorksEntity(user);
 
         for (WorksEntity we :
                 worksEntity) {
             WorkLocalizationsEntity wle = UserService.getWorkLocal(we);
-            jobExpViewModels.add(new JobexpViewModel(wle.getOrganization(), wle.getPost(), we.getStartDate(), we.getEndDate(), 3));
+            jobExpViewModels.add(new JobexpViewModel(wle.getOrganization(), wle.getPost(), we.getStartDate(), we.getEndDate(), 3, we.getId()));
         }
         return jobExpViewModels;
     }
 
-    public static List<TrainViewModel> getTrainingRecord(Principal principal) {
+    public static List<TrainViewModel> getTrainingRecord(String userName) {
         List<TrainViewModel> trainViewModels = new LinkedList<TrainViewModel>();
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = UserService.getUserByUsername(userName);
         List<TrainingsEntity> trainings = UserService.getTrainingsEntity(user);
         for (TrainingsEntity trainEn :
                 trainings) {
             TrainingLocalizationsEntity trainLoc = UserService.getTrainingLoc(trainEn);
-            trainViewModels.add(new TrainViewModel(trainLoc.getName(), trainEn.getCertificateId(), trainLoc.getOrganization(), trainEn.getDateFrom(), trainEn.getDateTo(), trainEn.getNumberOfHours(), trainEn.getMark()));
+            trainViewModels.add(new TrainViewModel(trainLoc.getName(), trainEn.getCertificateId(), trainLoc.getOrganization(), trainEn.getDateFrom(), trainEn.getDateTo(), trainEn.getNumberOfHours(), trainEn.getMark(), trainEn.getId()));
         }
         return trainViewModels;
     }

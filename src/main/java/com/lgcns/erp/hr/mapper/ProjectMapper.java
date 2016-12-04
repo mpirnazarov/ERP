@@ -22,4 +22,19 @@ public class ProjectMapper {
         project.setCustomerId(model.getCustomerId());
         return project;
     }
+    public static ProjectCreate mapEntityToViewModel(ProjectsEntity entity, int managerId){
+        ProjectCreate viewModel = new ProjectCreate();
+        viewModel.setId(entity.getId());
+        viewModel.setCode(entity.getCode());
+        viewModel.setCustomerId(entity.getCustomerId());
+        viewModel.setManagerId(managerId);
+        viewModel.setStartDate(entity.getStartDate());
+        viewModel.setEndDate(entity.getEndDate());
+        viewModel.setStatus(entity.getStatus());
+        viewModel.setName(entity.getName());
+        viewModel.setType(entity.getType());
+        viewModel.setMoneyUzs(entity.getMoneyUzs());
+        viewModel.setMoneyUsd(entity.getMoneyUsd());
+        return viewModel;
+    }
 }

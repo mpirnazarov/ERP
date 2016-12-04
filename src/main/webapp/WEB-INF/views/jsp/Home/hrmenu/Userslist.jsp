@@ -18,8 +18,8 @@
 <div class="container-fluid">
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-lg-10">
-            <div class="col-lg-8 col-lg-offset-2">
+        <div class="col-sm-9 col-md-offset-1">
+            <div class="col-lg-offset-2">
                 <h1 class="page-header">HR profile</h1>
             <div class="table-responsive">
                     <div class="col-lg-offset-10 col-xs-1">
@@ -44,7 +44,7 @@
                     <td><c:out value="${user.lastName[2]}"/></td>
                     <td><c:out value="${user.username}"/></td>
                     <td>
-                        <spring:url value="/Hr/user/${user.id}" var="userUrl" />
+                        <spring:url value="/Hr/user/${user.id}/Geninfo" var="userUrl" />
                         <spring:url value="/Hr/user/${user.id}/disable/" var="disableUrl" />
                         <spring:url value="/Hr/user/${user.id}/enable/" var="enableUrl" />
                         <spring:url value="/Hr/user/${user.id}/update/Geninfo" var="updateUrl" />

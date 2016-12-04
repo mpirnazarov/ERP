@@ -19,7 +19,7 @@
 <div class="container-fluid">
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpCTOLayout.jsp"></jsp:include>
-    <div class="col-sm-9 col-lg-10">
+    <div class="col-sm-9 col-md-offset-1">
         <div class="col-lg-8 col-lg-offset-2">
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
             <h2 class="page-header">General Information</h2>
@@ -237,7 +237,7 @@
                                     <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td>${family.relation[2]}</td>
-                                            <td>${family.fullName[2]}</td>
+                                            <td>${family.firstName[2]} ${family.lastName[2]}</td>
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[2]}</td>
                                         </tr>
@@ -263,7 +263,7 @@
                                     <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td>${family.relation[0]}</td>
-                                            <td>${family.fullName[0]}</td>
+                                            <td>${family.firstName[0]} ${family.lastName[0]}</td>
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[0]}</td>
                                         </tr>
@@ -289,7 +289,7 @@
                                     <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td>${family.relation[1]}</td>
-                                            <td>${family.fullName[1]}</td>
+                                            <td>${family.firstName[1]} ${family.lastName[1]}</td>
                                             <td>${family.dateOfBirth}</td>
                                             <td>${family.jobTitle[1]}</td>
                                         </tr>

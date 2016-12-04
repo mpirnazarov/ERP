@@ -41,8 +41,8 @@
 <div class="container-fluid">
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-lg-10">
-        <div class="col-lg-8 col-lg-offset-2">
+        <div class="col-sm-9 col-md-offset-1">
+        <div class="col-lg-offset-2">
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
             <h2 class="page-header">Training Record</h2>
 
@@ -57,8 +57,8 @@
                             <th>Name</th>
                             <th>Certificate</th>
                             <th>Organization</th>
-                            <th>Entry date</th>
-                            <th>Finish date</th>
+                            <th>Entry date (YYYY-MM-DD)</th>
+                            <th>Finish date (YYYY-MM-DD)</th>
                             <th>Number of hours</th>
                             <th>Mark</th>
                         </tr>

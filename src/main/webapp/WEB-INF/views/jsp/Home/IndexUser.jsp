@@ -1,6 +1,6 @@
 <%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
   Created by IntelliJ IDEA.
-  User: Dell
+  User: JAS SHAYKHOV
   Date: 25-Oct-16
   Time: 12:39 PM
   To change this template use File | Settings | File Templates.
@@ -9,16 +9,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Home"/>
-<%
-    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
-    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
-    request.setAttribute("JobTitle", a.getJobTitle());
-%>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-lg-10">
+        <div class="col-sm-9 col-md-offset-1">
         <div class="col-lg-8 col-lg-offset-2">
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
             <h2 class="page-header">General Information</h2>
@@ -235,7 +231,7 @@
                                     <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td><div contenteditable="true">${family.relation[2]}</div></td>
-                                            <td><div contenteditable="true">${family.fullName[2]}</div></td>
+                                            <td><div contenteditable="true">${family.firstName[2]} ${family.lastName[2]}</div></td>
                                             <td><div contenteditable="true">${family.dateOfBirth}</div></td>
                                             <td><div contenteditable="true">${family.jobTitle[2]}</div></td>
                                         </tr>
@@ -261,7 +257,7 @@
                                     <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td><div contenteditable="true">${family.relation[0]}</div></td>
-                                            <td><div contenteditable="true">${family.fullName[0]}</div></td>
+                                            <td><div contenteditable="true">${family.firstName[0]} ${family.lastName[0]}</div></td>
                                             <td><div contenteditable="true">${family.dateOfBirth}</div></td>
                                             <td><div contenteditable="true">${family.jobTitle[0]}</div></td>
                                         </tr>
@@ -287,7 +283,7 @@
                                     <c:forEach items="${userProfile.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td><div contenteditable="true">${family.relation[1]}</div></td>
-                                            <td><div contenteditable="true">${family.fullName[1]}</div></td>
+                                            <td><div contenteditable="true">${family.firstName[1]} ${family.lastName[1]}</div></td>
                                             <td><div class="date" contenteditable="true">${family.dateOfBirth}</div></td>
                                             <td><div contenteditable="true">${family.jobTitle[1]}</div></td>
                                         </tr>

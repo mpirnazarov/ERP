@@ -11,9 +11,10 @@
 <c:set var="pageTitle" scope="request" value="User Register"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
+        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
+        <div class="col-sm-9 col-md-offset-1">
         <div class="col-lg-8 col-lg-offset-2">
             <h1 class="page-header">New User Registration</h1>
             <form:form modelAttribute="registrationVM" cssClass="form-horizontal" method="post" action="/Hr/Register">

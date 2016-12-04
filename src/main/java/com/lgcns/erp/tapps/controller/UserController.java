@@ -71,6 +71,7 @@ public class UserController {
         ProfileViewModel userProfile=null;
         try {
             userProfile = getProfileByUsername(principal.getName());
+            System.out.println(userProfile);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -85,7 +86,7 @@ public class UserController {
     public ModelAndView Appointmentrec(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/AppointmentRec");
-        AppointmentrecViewModel appointmentrecViewModel = getAppointmentByUsername(principal);
+        AppointmentrecViewModel appointmentrecViewModel = getAppointmentByUsername(principal.getName());
         ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
@@ -98,7 +99,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/SalaryDetails");
         UsersEntity user = UserService.getUserByUsername(principal.getName());
-        List<SalaryVewModel> salaryVewModel = getSalaryByUser(user);
+        List<SalaryVewModel> salaryVewModel = getSalaryByUser(user.getUserName());
 
         ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
@@ -111,7 +112,7 @@ public class UserController {
     public ModelAndView Edu(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/EducationCer");
-        EduViewModel eduViewModel = getEducationByUsername(principal);
+        EduViewModel eduViewModel = getEducationByUsername(principal.getName());
         ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("eduVM", eduViewModel);
@@ -124,7 +125,7 @@ public class UserController {
     public ModelAndView Jobexp(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/JobExp");
-        List<JobexpViewModel> jobexpViewModel = getJobExperience(principal);
+        List<JobexpViewModel> jobexpViewModel = getJobExperience(principal.getName());
         ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("jobexpVM", jobexpViewModel);
@@ -136,7 +137,7 @@ public class UserController {
     public ModelAndView Train(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/TrainingRec");
-        List<TrainViewModel> trainViewModel = getTrainingRecord(principal);
+        List<TrainViewModel> trainViewModel = getTrainingRecord(principal.getName());
         ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("trainVM", trainViewModel);
@@ -148,10 +149,34 @@ public class UserController {
     public ModelAndView Docs(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/Docs");
-        List<DocsViewModel> docsViewModel = getDocuments(principal);
+        List<DocsViewModel> docsViewModel = getDocuments(principal.getName());
         ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("docsVM", docsViewModel);
+        return mav;
+    }
+
+    @RequestMapping(value = "/User/Profile/Project", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView Project(Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/usermenu/Project");
+       /* List<DocsViewModel> docsViewModel = getDocuments(principal);*/
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
+        /*mav.addObject("docsVM", docsViewModel);*/
+        return mav;
+    }
+
+    @RequestMapping(value = "/User/Profile/Evaluation", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView Evaluation(Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/usermenu/Evaluation");
+       /* List<DocsViewModel> docsViewModel = getDocuments(principal);*/
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
+        /*mav.addObject("docsVM", docsViewModel);*/
         return mav;
     }
 
@@ -261,14 +286,20 @@ public class UserController {
                 returning.setPolitical(false);
 
             //Getting Joint Type
-            returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());
+            if ((getMax(UserService.getUserInPost(user)).getContractType() - 1)>0)
+                returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());
 
             //Getting status
+            if(UserService.getStatuses().get(3).getName()!=null)
             returning.setStatus(UserService.getStatuses().get(3).getName());
 
             //Getting job title
-            int postId = getMax(UserService.getUserInPost(user)).getPostId();
-            returning.setJobTitle(UserService.getJobTitle(postId, 3).getName());
+            int postId=0;
+            if(getMax(UserService.getUserInPost(user)).getPostId()>0) {
+                postId = getMax(UserService.getUserInPost(user)).getPostId();
+                if(UserService.getJobTitle(postId, 3).getName()!=null)
+                    returning.setJobTitle(UserService.getJobTitle(postId, 3).getName());
+            }
 
             //RoleLocalizationsEntity roleLoc = UserService.getPosition(userInRoles);
             //returning.setPosition();
@@ -307,12 +338,12 @@ public class UserController {
             List<FamiliyInfoLocalizationsEntity> familyLoc2;
             for (FamilyInfosEntity fie :
                     familyInfosEntities) {
-                familyLoc2 = UserService.getFamilyInfosLoc(fie);
+                familyLoc2 = UserService.getFamilyInfosLoc(fie.getId());
 
                 FamilyMember familyMember = new FamilyMember(familyLoc2.size());
                 for (FamiliyInfoLocalizationsEntity faInLoEn :
                         familyLoc2) {
-                    familyMember.add(faInLoEn.getRelation(), faInLoEn.getLastName() + " " + faInLoEn.getFirstName(), fie.getDateOfBirth(), faInLoEn.getJobTitle(), faInLoEn.getLanguageId(), faInLoEn.getFamilyInfoid());
+                    familyMember.add(faInLoEn.getRelation(), faInLoEn.getLastName() , faInLoEn.getFirstName(), fie.getDateOfBirth(), faInLoEn.getJobTitle(), faInLoEn.getLanguageId(), faInLoEn.getFamilyInfoid());
                     // System.out.println( familyMember.getRelation()[faInLoEn.getLanguageId()-1]+ " " + familyMember.getFullName()[faInLoEn.getLanguageId()-1] + " " + familyMember.getDateOfBirth() + " " + familyMember.getJobTitle()[faInLoEn.getLanguageId()-1]);
                 }
                 familyMembers.add(familyMember);
@@ -328,11 +359,11 @@ public class UserController {
         return returning;
     }
 
-    public static AppointmentrecViewModel getAppointmentByUsername(Principal principal) {
+    public static AppointmentrecViewModel getAppointmentByUsername(String userName) {
         AppointmentrecViewModel returning = new AppointmentrecViewModel();
 
         // Getting data from users db
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = UserService.getUserByUsername(userName);
 
         List<UserInPostsEntity> usersInPost = UserService.getUserInPost(user);
 
@@ -346,23 +377,24 @@ public class UserController {
     }
 
 
-    public static List<SalaryVewModel> getSalaryByUser(UsersEntity user) {
-        List<SalaryHistoriesEntity> salariesHistory = UserService.getSalaryHistories(user);
+    public static List<SalaryVewModel> getSalaryByUser(String userName) {
+        int id = UserService.getUserIdByUsername(userName);
+        List<SalaryHistoriesEntity> salariesHistory = UserService.getSalaryHistories(id);
         List<SalaryVewModel> salaries = new LinkedList<SalaryVewModel>();
         NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
 
         for (SalaryHistoriesEntity salary :
                 salariesHistory) {
-            salaries.add(new SalaryVewModel(String.format("%,d", salary.getSalaryBefore()), String.format("%,d", salary.getSalaryAfter()), salary.getDate(), salary.getPit(), salary.getInps(), salary.getPf()));
+            salaries.add(new SalaryVewModel(String.format("%,d", salary.getSalaryBefore()), String.format("%,d", salary.getSalaryAfter()), salary.getDate(), salary.getPit(), salary.getInps(), salary.getPf(), salary.getId(), salary.getCurrencyId()));
         }
         return salaries;
 
     }
 
-    public static EduViewModel getEducationByUsername(Principal principal) {
+    public static EduViewModel getEducationByUsername(String userName) {
         EduViewModel eduReturn = new EduViewModel();
         EducationLocalizationsEntity eduLoc = null;
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = UserService.getUserByUsername(userName);
 
         // Getting and setting Educations module
         List<EducationsEntity> educations = UserService.getEducationsByUsername(user);
@@ -389,34 +421,40 @@ public class UserController {
         return eduReturn;
     }
 
-    public static List<JobexpViewModel> getJobExperience(Principal principal) {
+    public static List<JobexpViewModel> getJobExperience(String userName) {
         List<JobexpViewModel> jobExpViewModels = new LinkedList<JobexpViewModel>();
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = null;
+        try{
+            user = UserService.getUserByUsername(userName);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         List<WorksEntity> worksEntity = UserService.getWorksEntity(user);
 
         for (WorksEntity we :
                 worksEntity) {
             WorkLocalizationsEntity wle = UserService.getWorkLocal(we);
-            jobExpViewModels.add(new JobexpViewModel(wle.getOrganization(), wle.getPost(), we.getStartDate(), we.getEndDate()));
+            jobExpViewModels.add(new JobexpViewModel(wle.getOrganization(), wle.getPost(), we.getStartDate(), we.getEndDate(), 3, we.getId()));
         }
         return jobExpViewModels;
     }
 
-    public static List<TrainViewModel> getTrainingRecord(Principal principal) {
+    public static List<TrainViewModel> getTrainingRecord(String userName) {
         List<TrainViewModel> trainViewModels = new LinkedList<TrainViewModel>();
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = UserService.getUserByUsername(userName);
         List<TrainingsEntity> trainings = UserService.getTrainingsEntity(user);
         for (TrainingsEntity trainEn :
                 trainings) {
             TrainingLocalizationsEntity trainLoc = UserService.getTrainingLoc(trainEn);
-            trainViewModels.add(new TrainViewModel(trainLoc.getName(), trainEn.getCertificateId(), trainLoc.getOrganization(), trainEn.getDateFrom(), trainEn.getDateTo(), trainEn.getNumberOfHours(), trainEn.getMark()));
+            trainViewModels.add(new TrainViewModel(trainLoc.getName(), trainEn.getCertificateId(), trainLoc.getOrganization(), trainEn.getDateFrom(), trainEn.getDateTo(), trainEn.getNumberOfHours(), trainEn.getMark(), trainEn.getId()));
         }
         return trainViewModels;
     }
 
-    private List<DocsViewModel> getDocuments(Principal principal) {
+    public static List<DocsViewModel> getDocuments(String userName) {
         List<DocsViewModel> docsViewModels = new LinkedList<DocsViewModel>();
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = UserService.getUserByUsername(userName);
         List<DocumentsEntity> documents = UserService.getDocuments(user);
         for (DocumentsEntity docs :
                 documents) {

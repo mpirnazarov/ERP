@@ -26,7 +26,7 @@
 <div class="container-fluid">
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpCTOLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-lg-10">
+        <div class="col-sm-9 col-md-offset-1">
         <div class="col-lg-8 col-lg-offset-2">
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
             <h2 class="page-header">Documents</h2>

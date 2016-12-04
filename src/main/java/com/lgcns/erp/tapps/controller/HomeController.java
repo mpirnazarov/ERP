@@ -1,11 +1,13 @@
 package com.lgcns.erp.tapps.controller;
 
+import com.lgcns.erp.tapps.DbContext.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.security.Principal;
 
 /**
  * Created by Rafatdin on 15.09.2016.
@@ -14,21 +16,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView printWelcome(ModelMap model) {
-
-        model.addAttribute("message", "Spring 3 MVC Hello World"); //Need to check whether the user is logged in or not
-        return new ModelAndView("forward: /User/Profile");
-
+    public ModelAndView printWelcome(Principal principal, ModelMap model) {
+        int roleId = UserService.getUserByUsername(principal.getName()).getRoleId();
+        if(roleId==1)
+            return new ModelAndView("forward: /CTO/Profile");
+        else if(roleId==2)
+            return new ModelAndView("forward: /User/Profile");
+        else
+            return new ModelAndView("forward: /Hr/Profile");
     }
 
-    @RequestMapping(value = "/hello/{name:.+}", method = RequestMethod.GET)
-    public ModelAndView hello(@PathVariable("name") String name) {
-
-        ModelAndView model = new ModelAndView();
-        model.setViewName("hello");
-        model.addObject("msg", name);
-
-        return model;
-
-    }
 }

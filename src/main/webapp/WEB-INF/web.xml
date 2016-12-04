@@ -3,7 +3,10 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
-	
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/jsp/Error.jsp</location>
+    </error-page>
 	<display-name>Spring3 MVC Application</display-name>
     <filter>
         <filter-name>encoding-filter</filter-name>

@@ -23,8 +23,8 @@ public class LoginController {
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
 
-    /* The user is logged in :) */
-            return new ModelAndView("forward:/hello/Muslimbek");
+            /* The user is logged in :) */
+            return new ModelAndView("forward:/");
         }
 
         ModelAndView model = new ModelAndView();

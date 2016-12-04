@@ -7,19 +7,21 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="col-sm-3 col-lg-2">
+<div class="col-md-2 userNavMenu">
     <!-- Sidebar -->
-    <nav class="navbar navbar-inverse navbar-fixed-side">
+    <nav class="navbar navbar-inverse navbar-fixed-side __scrollBar">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
-                    Welcome <%= request.getAttribute("ProfileModel") %>
+                    Welcome <%= request.getAttribute("FirstName") %>
                 </a>
             </div>
             <ul class="nav navbar-nav">
-            <img class="img-circle" src="/resources/images/${id}.jpg" style="width:45%; margin-left: 25%"/>
+                <div class="userImgBox">
+                    <img class="userimg" src="/resources/images/users/kamola.jpg">
+                </div>
                 <hr/>
-            HR
+            HR System
             <li>
                 <a href="/Hr/Profile"><i class="fa fa-fw fa-home"></i> Home</a>
             </li>
@@ -30,7 +32,7 @@
                 <a href="#"><i class="fa fa-fw fa-folder"></i> Projects</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-fw fa-file-o"></i> Evaluation</a>
+                <a href="#"><i class="fa fa-fw fa-file-o"></i> Evaluation history</a>
             </li>
             <li>
                 <a href="/Hr/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
@@ -58,19 +60,19 @@
                 <li>
                     <a href="../UploadPic"><i class="fa fa-fw fa-file"></i> Change Picture</a>
                 </li>
-            <hr/>
+                <hr/>
                 Settings
-            <li>
-                <a href="/Hr/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
-            </li>
-            <li>
-                <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
-            </li>
-        </ul>
+                <li>
+                    <a href="/Hr/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
+                </li>
+                <li>
+                    <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
+                </li>
+            </ul>
         </div>
     </nav>
 </div>
-    <!-- /#sidebar-wrapper -->
+<!-- /#sidebar-wrapper -->
 <%--<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--%>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 

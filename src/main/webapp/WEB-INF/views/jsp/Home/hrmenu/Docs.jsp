@@ -19,7 +19,7 @@
 <div class="container-fluid">
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-lg-10">
+        <div class="col-sm-9 col-md-offset-1">
         <div class="col-lg-8 col-lg-offset-2">
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
             <h2 class="page-header">Documents</h2>
@@ -29,7 +29,7 @@
                 <tr>
                     <th>Document name</th>
                     <th>Document type</th>
-                    <th>Username</th>
+                    <th>Name</th>
                     <%--<th><i class="fa fa-fw fa-download"></i></th>--%>
                 </tr>
                 </thead>
@@ -48,7 +48,7 @@
                                 <%--</ul>--%>
                             <%--</div>--%>
                                 <form name="jump2">
-                                <select name="user2" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onchange="if (this.value) window.location.href=this.value"><span class="caret"></span>
+                                <select name="user2" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" onchange="if (this.value) window.location.href=this.value"><span class="caret"></span>
                                     <option value="NONE">--- Select ---</option>
                                     <c:forEach items="${users}" var="user" varStatus="status">
                                         <option value="Generate/1/${user.key}/">${user.value}</option>
@@ -70,7 +70,7 @@
                             <%--</ul>--%>
                             <%--</div>--%>
                         <form name="jump2">
-                            <select name="user2" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onchange="if (this.value) window.location.href=this.value"><span class="caret"></span>
+                            <select name="user2" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" onchange="if (this.value) window.location.href=this.value"><span class="caret"></span>
                                 <option value="NONE">--- Select ---</option>
                                 <c:forEach items="${users}" var="user" varStatus="status">
                                     <option value="Generate/2/${user.key}/">${user.value}</option>
@@ -92,7 +92,7 @@
                             <%--</ul>--%>
                             <%--</div>--%>
                         <form name="jump2">
-                            <select name="user2" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onchange="if (this.value) window.location.href=this.value"><span class="caret"></span>
+                            <select name="user2" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" onchange="if (this.value) window.location.href=this.value"><span class="caret"></span>
                                 <option value="NONE">--- Select ---</option>
                                 <c:forEach items="${users}" var="user" varStatus="status">
                                     <option value="Generate/3/${user.key}/">${user.value}</option>

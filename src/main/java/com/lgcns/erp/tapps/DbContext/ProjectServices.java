@@ -2,15 +2,12 @@ package com.lgcns.erp.tapps.DbContext;
 
 
 import com.lgcns.erp.hr.enums.ProjectRole;
-import com.lgcns.erp.hr.mapper.ProjectMapper;
 import com.lgcns.erp.hr.viewModel.ProjectViewModel.ProjectCreate;
 import com.lgcns.erp.tapps.model.DbEntities.*;
-import org.apache.catalina.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.hibernate.query.criteria.internal.ValueHandlerFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -226,6 +223,24 @@ public class ProjectServices {
                 transaction.commit();
             }
             else throw new HibernateException("Record with given ProjectId and its manager is not found");
+        }
+        catch (HibernateException e) {
+            if(transaction!=null) transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void deleteProject(Integer id) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            ProjectsEntity project = session.get(ProjectsEntity.class, id);
+            session.delete(project);
+            transaction.commit();
         }
         catch (HibernateException e) {
             if(transaction!=null) transaction.rollback();

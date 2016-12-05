@@ -429,7 +429,8 @@ public class UserService {
             query.setParameter("postId", postId);
             query.setParameter("languageId", languageId);
             //query.setParameter("roleId", userInRoles.getRoleId());
-            postLocalizationEntity = (PostLocalizationsEntity) query.getSingleResult();
+            if(!query.list().isEmpty())
+                postLocalizationEntity = (PostLocalizationsEntity) query.getSingleResult();
             transaction.commit();
         }
         catch (HibernateException e) {

@@ -14,6 +14,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" scope="request" value="Projects"/>
+<c:set var="managerId" scope="request" value="<%= ProjectRole.Manager.getValue()%>"/>
 
 <spring:url value="/resources/core/css/normalize.css" var="normalizeCss"/>
 <spring:url value="/resources/core/css/style.css" var="styleCss"/>
@@ -44,7 +45,6 @@
 <body>--%>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-
 <link rel="stylesheet" type="text/css"
       href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css"/>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"/>
@@ -77,7 +77,7 @@
                         <td><fmt:formatDate value="${project.projectsByProjectId.startDate}" pattern="yyyy MMM dd"/> -
                             <fmt:formatDate value="${project.projectsByProjectId.endDate}" pattern="yyyy MMM dd"/></td>
                         <td>
-                            <%
+                                    <%
                                 UserInProjectsEntity project = (UserInProjectsEntity)pageContext.getAttribute("project");
                                 for(ProjectRole role : ProjectRole.values()){
                                     if(role.getValue() == project.getRoleId())
@@ -95,8 +95,13 @@
                                 }
                             %>
                         </td>
-                        <td><a class="btn btn-md btn-default .btn-md" href="/Project/Edit/<c:out value="${project.id}"/>">Edit</a></td>
-                        <td><a class="btn btn-md btn-default .btn-md" href="/Project/Delete/<c:out value="${project.id}"/>">Delete</a></td>
+                        <td><c:if test="${project.roleId == managerId}">
+                            <a class="btn btn-md btn-default .btn-md" href="/Projects/Edit/<c:out value="${project.projectId}"/>">Edit</a>
+                        </c:if></td>
+
+                        <td><c:if test="${project.roleId == managerId}">
+                            <a class="btn btn-md btn-default .btn-md" href="/Projects/Delete/<c:out value="${project.projectId}"/>">Delete</a>
+                        </c:if></td>
                     </tr>
                 </c:forEach>
                 </tbody>

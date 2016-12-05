@@ -59,8 +59,8 @@
 <body class="__scrollBar">
 <%
     ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
-    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
-    request.setAttribute("FirstName", a.getFirstName()[2]);
+    request.setAttribute("FullName", a.getFirstName()[0] + " " + a.getLastName()[0]);
+    request.setAttribute("FirstName", a.getFirstName()[0]);
     request.setAttribute("JobTitle", a.getJobTitle());
     request.setAttribute("userId", a.getId());
 %>

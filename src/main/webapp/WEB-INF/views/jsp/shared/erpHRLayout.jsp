@@ -7,17 +7,23 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="col-sm-3 col-lg-2">
+<div class="col-md-2 userNavMenu">
     <!-- Sidebar -->
-    <nav class="navbar navbar-inverse navbar-fixed-side">
+    <nav class="navbar navbar-inverse navbar-fixed-side __scrollBar">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
-                    Welcome <%= request.getAttribute("ProfileModel") %>
+                    Welcome <%= request.getAttribute("FirstName") %>
                 </a>
             </div>
             <ul class="nav navbar-nav">
-            <img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>
+                <%--<object class="img-circle" data="/resources/images/${id}.jpg" style="width:45%; margin-left: 25%">--%>
+                    <%--<img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>--%>
+                <%--</object>--%>
+                    <div class="userImgBox">
+                        <img class="userimg" src="/resources/images/users/kamola.jpg">
+                    </div>
+            HR System
             <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-home"></i> Home <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
@@ -33,16 +39,20 @@
             <li>
                 <a href="/Hr/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>
             </li>
+
             <li>
-                <a href="#"><i class="fa fa-fw fa-folder"></i> Projects</a>
+                <a href="#"><i class="fa fa-fw fa-file-o"></i> Evaluation history</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-fw fa-file-o"></i> Evaluation</a>
+                <a href="/Hr/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
             </li>
-            <li>
-                <a href="/Hr/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
-            </li>
+                <hr/>
+                TAPPS System
+                <li>
+                    <a href="#"><i class="fa fa-fw fa-folder"></i> Projects</a>
+                </li>
             <hr/>
+                Settings
             <li>
                 <a href="/Hr/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
             </li>

@@ -51,8 +51,8 @@
 <div class="container-fluid">
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-lg-10">
-        <div class="col-lg-8 col-lg-offset-2">
+        <div class="col-sm-9 col-md-offset-1">
+        <div class="col-lg-offset-2">
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
             <h2 class="page-header">Education Certificate</h2>
 
@@ -72,8 +72,8 @@
                             <th>Name of school</th>
                             <th>Major</th>
                             <th>Degree</th>
-                            <th>Entry date</th>
-                            <th>Graduate date</th>
+                            <th>Entry date (YYYY-MM-DD)</th>
+                            <th>Graduate date (YYYY-MM-DD)</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -114,6 +114,43 @@
                         </c:forEach>
                         </tbody>
                     </table>
+                    <h3>Language scores</h3>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Score</th>
+                            <th>Degree</th>
+                            <th>Organization</th>
+                            <th>Acquistion Date (YYYY-MM-DD)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%--<c:forEach items="${eduVM.languageSummaryList}" var="language" varStatus="status">--%>
+                        <tr>
+                            <td>IELTS</td>
+                            <td>9.0</td>
+                            <td></td>
+                            <td>British Council</td>
+                            <td>2016-11-29</td>
+                        </tr>
+                        <tr>
+                            <td>TOEFL</td>
+                            <td>95</td>
+                            <td></td>
+                            <td>TOEFL Academy</td>
+                            <td>2016-11-29</td>
+                        </tr>
+                        <%--</c:forEach>--%>
+                        </tbody>
+                    </table>
+                    <div style="border: solid #ffffff; width: 25%; right: 0; bottom: 0; position: fixed; border-radius: 10px;">
+                        <h3 style="text-align: center">Hint:</h3>
+                        <h4 style="margin-left: 50px">A1 and A2 - Basic</h4>
+                        <h4 style="margin-left: 50px">B1 and B2 - Independent</h4>
+                        <h4 style="margin-left: 50px">C1 and C2 - Proficient</h4>
+                        <div></div>
+                    </div>
                 </div>
                 <div id="cersum" class="tab-pane fade">
                     <h3 >Certificates</h3>
@@ -124,7 +161,7 @@
                             <th>Name</th>
                             <th>Organization</th>
                             <th>Number</th>
-                            <th>Date</th>
+                            <th>Date (YYYY-MM-DD)</th>
                             <th>Mark</th>
                         </tr>
                         </thead>

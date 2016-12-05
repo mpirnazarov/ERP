@@ -1,5 +1,6 @@
 <%@ page import="com.lgcns.erp.hr.enums.ProjectStatus" %>
-<%@ page import="com.lgcns.erp.tapps.model.DbEntities.UserInProjectsEntity" %><%--
+<%@ page import="com.lgcns.erp.tapps.model.DbEntities.UserInProjectsEntity" %>
+<%--
   Created by IntelliJ IDEA.
   User: Muslimbek
   Date: 08.11.2016
@@ -17,8 +18,8 @@
 <div class="container-fluid">
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-lg-10">
-            <div class="col-lg-8 col-lg-offset-2">
+        <div class="col-sm-9 col-md-offset-1">
+            <div class="col-lg-offset-2">
                 <h1 class="page-header">HR profile</h1>
             <div class="table-responsive">
                     <div class="col-lg-offset-10 col-xs-1">
@@ -43,13 +44,20 @@
                     <td><c:out value="${user.lastName[2]}"/></td>
                     <td><c:out value="${user.username}"/></td>
                     <td>
-                        <spring:url value="/Hr/user/${user.id}" var="userUrl" />
-                        <spring:url value="/Hr/user/${user.id}/delete" var="disableUrl" />
-                        <spring:url value="/Hr/user/${user.id}/update/geninfo" var="updateUrl" />
+                        <spring:url value="/Hr/user/${user.id}/Geninfo" var="userUrl" />
+                        <spring:url value="/Hr/user/${user.id}/disable/" var="disableUrl" />
+                        <spring:url value="/Hr/user/${user.id}/enable/" var="enableUrl" />
+                        <spring:url value="/Hr/user/${user.id}/update/Geninfo" var="updateUrl" />
 
-                        <button class="btn btn-info" onclick="location.href='${userUrl}'">Query</button>
+                        <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
                         <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
-                        <button class="btn btn-danger" onclick="this.disabled=true;post('${disableUrl}')">Disable</button></td>
+                        <c:if test="${not user.enabled}">
+                            <button class="btn btn-success" onclick="location.href='${enableUrl}'">Enable</button></td>
+
+                        </c:if>
+                        <c:if test="${user.enabled}">
+                            <button class="btn btn-danger" onclick="location.href='${disableUrl}'">Disable</button></td>
+                        </c:if>
                 </tr>
             </c:forEach>
             </tbody>
@@ -65,9 +73,9 @@
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             dom: 'Bfrtip',
             select: true,
+            "order": [[ 0, "desc" ]],
             buttons: [
                 'copy', 'excel', 'pdf', 'print',
-
             ]
         });
     });

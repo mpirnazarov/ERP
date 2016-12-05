@@ -26,7 +26,7 @@
 <div class="container-fluid">
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-lg-10">
+        <div class="col-sm-9 col-md-offset-1">
         <div class="col-lg-8 col-lg-offset-2">
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
             <h2 class="page-header">Documents</h2>
@@ -56,19 +56,7 @@
                 </tbody>
             </table>
 
-            <%--<h3>File Upload:</h3>
-            <form:form method="POST" commandName="fileUploadForm"
-                       enctype="multipart/form-data">
-
-                <form:errors path="*" cssClass="errorblock" element="div" />
-
-                Please select a file to upload : <input type="file" name="file" />
-                <input type="submit" value="upload" />
-                <span><form:errors path="file" cssClass="error" />
-                </span>
-
-            </form:form>--%>
-                </div>
+                    </div>
                 <%--<div id="gen" class="tab-pane fade">
                     <h3>Generatable documents</h3>
                     <table class="table">
@@ -102,4 +90,24 @@
     </div>
 </div>
             </div>
+    <script>
+        function updateSize() {
+            var nBytes = 0,
+                    oFiles = document.getElementById("fileInput").files,
+                    nFiles = oFiles.length;
+            for (var nFileId = 0; nFileId < nFiles; nFileId++) {
+                nBytes += oFiles[nFileId].size;
+            }
+
+            var sOutput = nBytes + " bytes";
+            // optional code for multiples approximation
+            for (var aMultiples = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"], nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {
+                sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple] + " (" + nBytes + " bytes)";
+            }
+            // end of optional code
+
+            document.getElementById("fileNum").innerHTML = nFiles;
+            document.getElementById("fileSize").innerHTML = sOutput;
+        }
+    </script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

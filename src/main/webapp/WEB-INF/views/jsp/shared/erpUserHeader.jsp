@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
   Created by IntelliJ IDEA.
   User: Dell
   Date: 25-Oct-16
@@ -7,6 +7,7 @@
 --%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -20,24 +21,27 @@
     <spring:url value="/resources/core/css/bootstrap.min.css" var="bootstrapminCss" />
     <spring:url value="/resources/core/js/jquery.min.js" var="jquery" />
     <spring:url value="/resources/core/js/jquery.validate.js" var="jqueryValidation" />
-    <spring:url value="/resources/core/css/bootstrap-select.min.css" var="bootstrapminselectCss" />
-    <spring:url value="/resources/core/js/bootstrap-select.min.js" var="bootstrapselect" />
     <spring:url value="/resources/core/js/jquery.slimscroll.min.js" var="slimScroll"/>
     <spring:url value="/resources/core/css/datatablesCombined.min.css" var="allInOneCss"/>
     <spring:url value="/resources/core/js/datatablesCombined.min.js" var="allInOneJs"/>
+    <spring:url value="/resources/core/css/jquery.scrollbar.css" var="scrollCss"/>
+    <spring:url value="/resources/core/js/jquery.scrollbar.min.js" var="scrollJs"/>
+    <spring:url value="/resources/core/js/main.js" var="main"/>
     <script src="${jquery}"></script>
     <link rel="stylesheet" href="${navbar}" />
-    <link rel="icon" href="/resources/images/lg-2-multi-size.ico" type="image/x-icon">
+    <link rel="stylesheet" href="${scrollCss}" />
+        <link rel="stylesheet" href="${editableCss}" />
+    <link rel="icon" type="image/x-icon" href="<s:url value="/resources/images/favicon.ico"/>"/>
     <link rel="stylesheet" href="${normalizeCss}" />
     <link rel="stylesheet" href="${bootstrapminCss}" />
-    <%--<link rel='stylesheet prefetch' href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">--%>
-    <link rel="stylesheet" href="${styleCss}" />
-    <link rel="stylesheet" href="${bootstrapminselectCss}" />
-    <script src="${slimScroll}"></script>
-    <script src="${bootstrapselect}"></script>
-    <script src="${jqueryValidation}"></script>
     <link rel="stylesheet" type="text/css" href="${allInOneCss}"/>
+    <link rel="stylesheet" href="${styleCss}" />
+<%--<link rel='stylesheet prefetch' href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">--%>
+    <script src="${main}"></script>
+    <script src="${jqueryValidation}"></script>
     <script type="text/javascript" src="${allInOneJs}"></script>
+    <script src="${scrollJs}"></script>
+
     <style>
         .error {
             color: #ff0000;
@@ -52,4 +56,11 @@
         }
     </style>
 </head>
-<body>
+<body class="__scrollBar">
+<%
+    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
+    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
+    request.setAttribute("FirstName", a.getFirstName()[2]);
+    request.setAttribute("JobTitle", a.getJobTitle());
+    request.setAttribute("userId", a.getId());
+%>

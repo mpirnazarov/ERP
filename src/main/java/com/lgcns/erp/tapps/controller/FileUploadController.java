@@ -1,42 +1,44 @@
 package com.lgcns.erp.tapps.controller;
 
-/**
- * Created by Dell on 04-Nov-16.
- */
-
-import com.lgcns.erp.tapps.model.FileUpload;
-import org.springframework.validation.BindException;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+
+@Controller
+@RequestMapping("/uploadFile")
+public class FileUploadController {
+	private String saveDirectory = "C:/files/";
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView handleFileUpload(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("Home/hrmenu/FileUploadForm");
+		return mav;
+	}
 
 
-public class FileUploadController extends SimpleFormController{
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public String handleFileUpload(HttpServletRequest request,
+			@RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+		System.out.println("111111111111111");
+		if (fileUpload != null && fileUpload.length > 0) {
+			for (CommonsMultipartFile aFile : fileUpload){
+				
+				System.out.println("Saving file: " + aFile.getOriginalFilename());
+				
+				if (!aFile.getOriginalFilename().equals("")) {
+					aFile.transferTo(new File(saveDirectory + aFile.getOriginalFilename()));
+				}
+			}
+		}
 
-    public FileUploadController(){
-        setCommandClass(FileUpload.class);
-        setCommandName("fileUploadForm");
-    }
-
-    @Override
-    protected ModelAndView onSubmit(HttpServletRequest request,
-                                    HttpServletResponse response, Object command, BindException errors)
-            throws Exception {
-
-        FileUpload file = (FileUpload)command;
-
-        MultipartFile multipartFile = file.getFile();
-
-        String fileName="";
-
-        if(multipartFile!=null){
-            fileName = multipartFile.getOriginalFilename();
-            //do whatever you want
-        }
-
-        return new ModelAndView("FileUploadSuccess","fileName",fileName);
-    }
+		// returns to the view "Result"
+		return "/";
+	}
 }

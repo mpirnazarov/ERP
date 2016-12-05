@@ -39,7 +39,7 @@
 <div class="container-fluid">
     <div class="row">
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-lg-10">
+        <div class="col-sm-9 col-md-offset-1">
             <div class="col-lg-8 col-lg-offset-2">
                 <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
                 <h2 class="page-header">Salary Details</h2>
@@ -50,7 +50,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Date</th>
+                            <th>Date (YYYY-MM-DD)</th>
                             <th>Gross salary</th>
                             <th>PIT</th>
                             <th>INPS</th>
@@ -62,11 +62,21 @@
                         <c:forEach items="${salaryVM}" var="salary" varStatus="status">
                             <tr>
                                 <td>${salary.date}</td>
-                                <td>${salary.net}</td>
+                                <c:if test="${salary.currency==1}">
+                                    <td>${salary.gross} UZS</td>
+                                </c:if>
+                                <c:if test="${salary.currency==2}">
+                                    <td>${salary.gross} USD</td>
+                                </c:if>
                                 <td>${salary.pit}%</td>
                                 <td>${salary.inps}%</td>
                                 <td>${salary.pf}%</td>
-                                <td>${salary.gross}</td>
+                                <c:if test="${salary.currency==1}">
+                                    <td>${salary.net} UZS</td>
+                                </c:if>
+                                <c:if test="${salary.currency==2}">
+                                    <td>${salary.net} USD</td>
+                                </c:if>
                             </tr>
                         </c:forEach>
                         </tbody>

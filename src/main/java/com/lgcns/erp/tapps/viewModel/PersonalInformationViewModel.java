@@ -1,9 +1,8 @@
 package com.lgcns.erp.tapps.viewModel;
 
-import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by Muslimbek on 11/4/2016.
@@ -14,9 +13,8 @@ public class PersonalInformationViewModel {
     private Date dateOfBirth;
     private String homePhone;
     private String mobilePhone;
-    @Email
+
     private String emailCompany;
-    @Email
     private String emailPersonal;
     int i=0;
 

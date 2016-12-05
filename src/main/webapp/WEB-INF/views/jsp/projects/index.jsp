@@ -27,7 +27,7 @@
     <title>${pageTitle} | ERP System</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="icon" href="/resources/images/lg-2-multi-size.ico" type="image/x-icon">
+    <link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css"/>

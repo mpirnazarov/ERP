@@ -15,18 +15,6 @@
 	<bean
 			class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
 
-	<bean id="multipartResolver"
-		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
-
-	<bean class="com.lgcns.erp.tapps.controller.FileUploadController">
-		<property name="formView" value="FileUploadForm" />
-		<property name="successView" value="FileUploadSuccess" />
-
-		<!-- Map a validator -->
-		<property name="validator">
-			<bean class="com.lgcns.erp.tapps.controller.FileUploadValidator" />
-		</property>
-	</bean>
 
 	<!-- Register the Customer.properties -->
 	<bean id="messageSource"
@@ -39,8 +27,27 @@
 		<property name="suffix" value=".jsp"/>
 	</bean>
 
+	<bean id="multipartResolver"
+		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- max upload size in bytes -->
+		<property name="maxUploadSize" value="20971520" /> <!-- 20MB -->
 
-    <!--<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<!-- max size of file in memory (in bytes) -->
+		<property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
+
+	</bean>
+
+	<bean
+			class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.lang.Exception">Error</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<!--<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>
     </bean>
 

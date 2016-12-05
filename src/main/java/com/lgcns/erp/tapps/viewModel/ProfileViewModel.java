@@ -40,12 +40,13 @@ public class ProfileViewModel {
     private String jobTitle;
     private String passportNumber;
     private int languageId;
+    private boolean enabled;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date entryDate;
     private int vacationDaysAll;
     private int vacationDaysLeft;
-    private String isPolitical;
+    private boolean isPolitical;
     private String username;
     private PersonalInformationViewModel personalInfo;
     private List<FamilyMember> familyLoc;
@@ -191,11 +192,11 @@ public class ProfileViewModel {
         return personalInfo;
     }
 
-    public String getIsPolitical() {
+    public boolean getIsPolitical() {
         return isPolitical;
     }
 
-    public void setPolitical(String political) {
+    public void setPolitical(boolean political) {
         isPolitical = political;
     }
 
@@ -230,5 +231,13 @@ public class ProfileViewModel {
                 ", personalInfo=" + personalInfo +
                 ", familyLoc=" + familyLoc +
                 '}';
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

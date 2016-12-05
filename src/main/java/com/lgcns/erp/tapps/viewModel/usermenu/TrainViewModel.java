@@ -10,7 +10,8 @@ public class TrainViewModel {
     private Integer certificateId, numberOfHours;
     private String organization;
     private Date dateFrom, dateTo;
-    public TrainViewModel(String name, Integer certificateId, String organization, Date dateFrom, Date dateTo, int numberOfHours, String mark) {
+    private int id;
+    public TrainViewModel(String name, Integer certificateId, String organization, Date dateFrom, Date dateTo, int numberOfHours, String mark, int id) {
         this.name = name;
         this.certificateId = certificateId;
         this.organization = organization;
@@ -18,6 +19,11 @@ public class TrainViewModel {
         this.dateTo = dateTo;
         this.numberOfHours = numberOfHours;
         this.mark = mark;
+        this.id=id;
+    }
+
+    public TrainViewModel() {
+
     }
 
     public String getName() {
@@ -74,5 +80,26 @@ public class TrainViewModel {
 
     public void setDateTo(Date dateTo) {
         this.dateTo = dateTo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "TrainViewModel{" +
+                "name='" + name + '\'' +
+                ", mark='" + mark + '\'' +
+                ", certificateId=" + certificateId +
+                ", numberOfHours=" + numberOfHours +
+                ", organization='" + organization + '\'' +
+                ", dateFrom=" + dateFrom +
+                ", dateTo=" + dateTo +
+                '}';
     }
 }

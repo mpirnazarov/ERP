@@ -191,11 +191,11 @@ public class UsersEntity {
 
     @Basic
     @Column(name = "hiring_date", nullable = false)
-    public Date getHiringDate() {
+    public java.sql.Date getHiringDate() {
         return hiringDate;
     }
 
-    public void setHiringDate(Date hiringDate) {
+    public void setHiringDate(java.sql.Date hiringDate) {
         this.hiringDate = hiringDate;
     }
 

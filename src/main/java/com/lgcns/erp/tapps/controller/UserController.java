@@ -4,28 +4,22 @@ import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.Enums.Appoint;
 import com.lgcns.erp.tapps.Enums.Language;
 import com.lgcns.erp.tapps.Enums.Language_Ranking;
-import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.LoginViewModel;
 import com.lgcns.erp.tapps.viewModel.PersonalInformationViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
-import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.*;
-import com.lgcns.erp.tapps.viewModel.usermenu.personalInfo.BirthPlace;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.*;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
@@ -70,64 +64,18 @@ public class UserController {
         return response;
     }
 
-    @RequestMapping(value = "/User/Register", method = RequestMethod.GET)
-    @ResponseBody
-    public ModelAndView Register(/*@ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel */) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("user/register");
-
-        RegistrationViewModel rvm = new RegistrationViewModel(UserService.getLanguageIdAndName());
-        mav.addObject("registrationVM", rvm);
-
-        Map<Integer, String> heads = getDirectHeadIdAndName();
-        mav.addObject("heads", heads);
-
-        Map<Integer, String> departments = getDepartmentsIdAndName();
-        mav.addObject("departments", departments);
-
-        Map<Integer, String> statuses = getStatusesIdAndName();
-        mav.addObject("statuses", statuses);
-
-        Map<Integer, String> roles = getRolesIdAndName();
-        mav.addObject("roles", roles);
-
-        return mav;
-    }
-
-
-
-    @RequestMapping(value = "/User/Register", method = RequestMethod.POST)
-    @ResponseBody
-    public ModelAndView RegisterPost(@Valid @ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel, BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("user/register");
-        mav.addObject("registrationVM", registrationViewModel);
-        if (bindingResult.hasErrors()) {
-            mav.addObject("heads", getDirectHeadIdAndName());
-            mav.addObject("departments", getDepartmentsIdAndName());
-            mav.addObject("statuses", getStatusesIdAndName());
-            mav.addObject("roles", getRolesIdAndName());
-            mav.addObject("org.springframework.validation.BindingResult.registrationVM", bindingResult);
-            return mav;
-        }
-
-        //adding user and userLocalization info into DB
-        int userId = UserService.insertUser(UserMapper.mapRegModelToUserInfo(registrationViewModel));
-        UserService.insertUserLoc(UserMapper.mapRegModelToUserLocInfo(registrationViewModel, userId));
-
-
-        mav = new ModelAndView();
-        mav.setViewName("Home/hrmenu/Userslist");
-        return mav;
-    }
-
     @RequestMapping (value = "/User/Profile", method = RequestMethod.GET)
     @ResponseBody public ModelAndView Profile(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/IndexUser");
+        ProfileViewModel userProfile=null;
+        try {
+            userProfile = getProfileByUsername(principal.getName());
+            System.out.println(userProfile);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
-        ProfileViewModel userProfile = getProfileByUsername(principal);
         mav.addObject("userProfile", userProfile);
 
         return mav;
@@ -138,8 +86,8 @@ public class UserController {
     public ModelAndView Appointmentrec(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/AppointmentRec");
-        AppointmentrecViewModel appointmentrecViewModel = getAppointmentByUsername(principal);
-        ProfileViewModel userProfile = getProfileByUsername(principal);
+        AppointmentrecViewModel appointmentrecViewModel = getAppointmentByUsername(principal.getName());
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
         return mav;
@@ -151,9 +99,9 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/SalaryDetails");
         UsersEntity user = UserService.getUserByUsername(principal.getName());
-        List<SalaryVewModel> salaryVewModel = getSalaryByUser(user);
+        List<SalaryVewModel> salaryVewModel = getSalaryByUser(user.getUserName());
 
-        ProfileViewModel userProfile = getProfileByUsername(principal);
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("salaryVM", salaryVewModel);
         return mav;
@@ -164,8 +112,8 @@ public class UserController {
     public ModelAndView Edu(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/EducationCer");
-        EduViewModel eduViewModel = getEducationByUsername(principal);
-        ProfileViewModel userProfile = getProfileByUsername(principal);
+        EduViewModel eduViewModel = getEducationByUsername(principal.getName());
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("eduVM", eduViewModel);
         return mav;
@@ -177,8 +125,8 @@ public class UserController {
     public ModelAndView Jobexp(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/JobExp");
-        List<JobexpViewModel> jobexpViewModel = getJobExperience(principal);
-        ProfileViewModel userProfile = getProfileByUsername(principal);
+        List<JobexpViewModel> jobexpViewModel = getJobExperience(principal.getName());
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("jobexpVM", jobexpViewModel);
         return mav;
@@ -189,8 +137,8 @@ public class UserController {
     public ModelAndView Train(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/TrainingRec");
-        List<TrainViewModel> trainViewModel = getTrainingRecord(principal);
-        ProfileViewModel userProfile = getProfileByUsername(principal);
+        List<TrainViewModel> trainViewModel = getTrainingRecord(principal.getName());
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("trainVM", trainViewModel);
         return mav;
@@ -201,10 +149,34 @@ public class UserController {
     public ModelAndView Docs(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/Docs");
-        List<DocsViewModel> docsViewModel = getDocuments(principal);
-        ProfileViewModel userProfile = getProfileByUsername(principal);
+        List<DocsViewModel> docsViewModel = getDocuments(principal.getName());
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("docsVM", docsViewModel);
+        return mav;
+    }
+
+    @RequestMapping(value = "/User/Profile/Project", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView Project(Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/usermenu/Project");
+       /* List<DocsViewModel> docsViewModel = getDocuments(principal);*/
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
+        /*mav.addObject("docsVM", docsViewModel);*/
+        return mav;
+    }
+
+    @RequestMapping(value = "/User/Profile/Evaluation", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView Evaluation(Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/usermenu/Evaluation");
+       /* List<DocsViewModel> docsViewModel = getDocuments(principal);*/
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
+        /*mav.addObject("docsVM", docsViewModel);*/
         return mav;
     }
 
@@ -264,7 +236,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         ChangepassViewModel changepassViewModel = new ChangepassViewModel ();
         mav.setViewName("user/changepass");
-        ProfileViewModel userProfile = getProfileByUsername(principal);
+        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("changepassVM", changepassViewModel);
         return mav;
@@ -286,143 +258,112 @@ public class UserController {
         return "redirect: /";
     }
 
-    private Map<Integer, String> getDirectHeadIdAndName() {
-        Map<Integer, String> heads = new LinkedHashMap<Integer, String>();
-        Collection<UsersEntity> usersWithInfo = UserService.getDirectHeads();   //Getting list of users with localization info
-        Iterator itr = usersWithInfo.iterator();                                //info for iterator
-        UsersEntity userTemp;                                                   //info for iterator
-        UserLocalizationsEntity userLocTemp;                                    //info for iterator
-
-        while (itr.hasNext()) {
-            Object[] obj = (Object[]) itr.next();
-            userTemp = (UsersEntity) obj[0];
-            userLocTemp = (UserLocalizationsEntity) obj[1];
-            if (userLocTemp != null)
-                heads.put(userTemp.getId(), userLocTemp.getFirstName() + " " + userLocTemp.getFirstName());
-            else
-                heads.put(userTemp.getId(), userTemp.getUserName());
-        }
-
-        return heads;
-    }
-
-    private Map<Integer, String> getDepartmentsIdAndName() {
-        Map<Integer, String> departments = new LinkedHashMap<Integer, String>();        //Getting departments and adding to model and view
-        for (DepartmentLocalizationsEntity depLoc : UserService.getDepartments()) {
-            departments.put(depLoc.getDepartmentId(), depLoc.getName());
-        }
-        return departments;
-    }
-
-    private Map<Integer, String> getStatusesIdAndName() {
-        Map<Integer, String> statuses = new LinkedHashMap<Integer, String>();           //Getting statuses and adding to model and view
-        for (StatusLocalizationsEntity statLoc : UserService.getStatuses()) {
-            statuses.put(statLoc.getStatusId(), statLoc.getName());
-        }
-        return statuses;
-    }
-
-    private Map<Integer, String> getRolesIdAndName() {
-        Map<Integer, String> roles = new LinkedHashMap<Integer, String>();           //Getting statuses and adding to model and view
-        for (RoleLocalizationsEntity roleLoc : UserService.getRolesLoc()) {
-            roles.put(roleLoc.getRoleId(), roleLoc.getName());
-        }
-        return roles;
-    }
-
-    public static ProfileViewModel getProfileByUsername(Principal principal){
+    public static ProfileViewModel getProfileByUsername(String userName){
         ProfileViewModel returning = new ProfileViewModel();
+        try {
+            // Getting data from users db
+            UsersEntity user = UserService.getUserByUsername(userName);
+            // Getting its localization data
+            List<UserLocalizationsEntity> userLocalizationsEntities = UserService.getUserLocByUserId(user.getId());
 
-        // Getting data from users db
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
-        // Getting its localization data
-        List<UserLocalizationsEntity> userLocalizationsEntities = UserService.getUserLocByUserId(user.getId());
+            for (UserLocalizationsEntity ul :
+                    userLocalizationsEntities) {
+                returning.addData1(String.format("%05d", user.getId()), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
+            }
+            //Getting department name
+            returning.setDepartment(UserService.getDepartments().get(3).getName());
 
-        for (UserLocalizationsEntity ul:
-                userLocalizationsEntities ) {
-            returning.addData1(String.format("%05d", user.getId()), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
+            //Getting Position from user_in_roles
+            returning.setPosition(UserService.getRoleLoc(user).getName());
+
+            // Getting isEnabled variable
+            returning.setEnabled(user.isEnabled());
+
+            //Getting is political
+            if (user.getPolitical())
+                returning.setPolitical(true);
+            else
+                returning.setPolitical(false);
+
+            //Getting Joint Type
+            if ((getMax(UserService.getUserInPost(user)).getContractType() - 1)>0)
+                returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());
+
+            //Getting status
+            if(UserService.getStatuses().get(3).getName()!=null)
+            returning.setStatus(UserService.getStatuses().get(3).getName());
+
+            //Getting job title
+            int postId=0;
+            if(getMax(UserService.getUserInPost(user)).getPostId()>0) {
+                postId = getMax(UserService.getUserInPost(user)).getPostId();
+                if(UserService.getJobTitle(postId, 3).getName()!=null)
+                    returning.setJobTitle(UserService.getJobTitle(postId, 3).getName());
+            }
+
+            //RoleLocalizationsEntity roleLoc = UserService.getPosition(userInRoles);
+            //returning.setPosition();
+
+            //Getting passport number
+            returning.setPassportNumber(user.getPassport());
+
+            //Getting and setting entry date
+            returning.setEntryDate(user.getHiringDate());
+
+            PersonalInformationViewModel personalInfo = new PersonalInformationViewModel();
+
+            //Getting birth place
+            //System.out.println("Birth Place: " + UserService.getUserLocalizations(user).getBirthPlace());
+            //returning.setBirthPlace(UserService.getUserLocalizations(user).getBirthPlace().toString());
+            int i = 0;
+            for (UserLocalizationsEntity userLoc :
+                    UserService.getUserLocalizations(user)) {
+                personalInfo.addBirthPlace(userLoc.getBirthPlace(), userLoc.getLanguageId());
+            }
+
+
+            personalInfo.setDateOfBirth(user.getDateOfBirth());
+            personalInfo.setHomePhone(user.getHomePhone());
+            personalInfo.setMobilePhone(user.getMobilePhone());
+            personalInfo.setEmailCompany(user.geteMail());
+            personalInfo.setEmailPersonal(user.getPersonalEmail());
+
+            returning.setPersonalInfo(personalInfo);
+
+            String[] bPlace = returning.getPersonalInfo().getBirthPlace();
+
+            //Getting family information
+            List<FamilyInfosEntity> familyInfosEntities = UserService.getFamilyInfos(user);
+            List<FamilyMember> familyMembers = new LinkedList<FamilyMember>();
+            List<FamiliyInfoLocalizationsEntity> familyLoc2;
+            for (FamilyInfosEntity fie :
+                    familyInfosEntities) {
+                familyLoc2 = UserService.getFamilyInfosLoc(fie.getId());
+
+                FamilyMember familyMember = new FamilyMember(familyLoc2.size());
+                for (FamiliyInfoLocalizationsEntity faInLoEn :
+                        familyLoc2) {
+                    familyMember.add(faInLoEn.getRelation(), faInLoEn.getLastName() , faInLoEn.getFirstName(), fie.getDateOfBirth(), faInLoEn.getJobTitle(), faInLoEn.getLanguageId(), faInLoEn.getFamilyInfoid());
+                    // System.out.println( familyMember.getRelation()[faInLoEn.getLanguageId()-1]+ " " + familyMember.getFullName()[faInLoEn.getLanguageId()-1] + " " + familyMember.getDateOfBirth() + " " + familyMember.getJobTitle()[faInLoEn.getLanguageId()-1]);
+                }
+                familyMembers.add(familyMember);
+            }
+            returning.setFamilyLoc(familyMembers);
+
+            // (MUST BE FINISHED!) Getting and setting vacation days
+            returning.setVacationDaysLeft(0);
+            returning.setVacationDaysAll(12);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        //Getting department name
-        returning.setDepartment(UserService.getDepartments().get(3).getName());
-
-        //Getting Position from user_in_roles
-        returning.setPosition(UserService.getRoleLoc(user).getName());
-
-        //Getting is political
-        if (user.getPolitical())
-            returning.setPolitical("Yes");
-        else
-            returning.setPolitical("No");
-
-        //Getting Joint Type
-        returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType()-1].toString());
-
-        //Getting status
-        returning.setStatus(UserService.getStatuses().get(3).getName());
-
-        //Getting job title
-        int postId =  getMax(UserService.getUserInPost(user)).getPostId();
-        returning.setJobTitle(UserService.getJobTitle(postId, 3).getName());
-
-        //RoleLocalizationsEntity roleLoc = UserService.getPosition(userInRoles);
-        //returning.setPosition();
-
-        //Getting passport number
-        returning.setPassportNumber(user.getPassport());
-
-        //Getting and setting entry date
-        returning.setEntryDate(user.getHiringDate());
-
-        PersonalInformationViewModel personalInfo = new PersonalInformationViewModel();
-
-        //Getting birth place
-        //System.out.println("Birth Place: " + UserService.getUserLocalizations(user).getBirthPlace());
-        //returning.setBirthPlace(UserService.getUserLocalizations(user).getBirthPlace().toString());
-        int i=0;
-        for (UserLocalizationsEntity userLoc :
-                UserService.getUserLocalizations(user)) {
-            personalInfo.addBirthPlace(userLoc.getBirthPlace(), userLoc.getLanguageId());
-        }
-
-
-        personalInfo.setDateOfBirth(user.getDateOfBirth());
-        personalInfo.setHomePhone(user.getHomePhone());
-        personalInfo.setMobilePhone(user.getMobilePhone());
-        personalInfo.setEmailCompany(user.geteMail());
-        personalInfo.setEmailPersonal(user.getPersonalEmail());
-
-        returning.setPersonalInfo(personalInfo);
-
-        String[] bPlace  = returning.getPersonalInfo().getBirthPlace();
-
-        //Getting family information
-        List<FamilyInfosEntity> familyInfosEntities = UserService.getFamilyInfos(user);
-        List<FamilyMember> familyMembers = new LinkedList<FamilyMember>();
-        List<FamiliyInfoLocalizationsEntity> familyLoc2;
-        for (FamilyInfosEntity fie :
-                familyInfosEntities) {
-            familyLoc2 = UserService.getFamilyInfosLoc(fie);
-
-            FamilyMember familyMember = new FamilyMember(familyLoc2.size());
-            for (FamiliyInfoLocalizationsEntity faInLoEn :
-                    familyLoc2) {
-                familyMember.add(faInLoEn.getRelation(), faInLoEn.getLastName()+" "+faInLoEn.getFirstName(), fie.getDateOfBirth(), faInLoEn.getJobTitle(), faInLoEn.getLanguageId());
-                // System.out.println( familyMember.getRelation()[faInLoEn.getLanguageId()-1]+ " " + familyMember.getFullName()[faInLoEn.getLanguageId()-1] + " " + familyMember.getDateOfBirth() + " " + familyMember.getJobTitle()[faInLoEn.getLanguageId()-1]);
-            }familyMembers.add(familyMember);
-        }
-        returning.setFamilyLoc(familyMembers);
-
-        // (MUST BE FINISHED!) Getting and setting vacation days
-        returning.setVacationDaysLeft(0);
-        returning.setVacationDaysAll(12);
         return returning;
     }
 
-    public static AppointmentrecViewModel getAppointmentByUsername(Principal principal) {
+    public static AppointmentrecViewModel getAppointmentByUsername(String userName) {
         AppointmentrecViewModel returning = new AppointmentrecViewModel();
 
         // Getting data from users db
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = UserService.getUserByUsername(userName);
 
         List<UserInPostsEntity> usersInPost = UserService.getUserInPost(user);
 
@@ -436,23 +377,24 @@ public class UserController {
     }
 
 
-    public static List<SalaryVewModel> getSalaryByUser(UsersEntity user) {
-        List<SalaryHistoriesEntity> salariesHistory = UserService.getSalaryHistories(user);
+    public static List<SalaryVewModel> getSalaryByUser(String userName) {
+        int id = UserService.getUserIdByUsername(userName);
+        List<SalaryHistoriesEntity> salariesHistory = UserService.getSalaryHistories(id);
         List<SalaryVewModel> salaries = new LinkedList<SalaryVewModel>();
         NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
 
         for (SalaryHistoriesEntity salary :
                 salariesHistory) {
-            salaries.add(new SalaryVewModel(String.format("%,d", salary.getSalaryBefore()), String.format("%,d", salary.getSalaryAfter()), salary.getDate(), salary.getPit(), salary.getInps(), salary.getPf()));
+            salaries.add(new SalaryVewModel(String.format("%,d", salary.getSalaryBefore()), String.format("%,d", salary.getSalaryAfter()), salary.getDate(), salary.getPit(), salary.getInps(), salary.getPf(), salary.getId(), salary.getCurrencyId()));
         }
         return salaries;
 
     }
 
-    public static EduViewModel getEducationByUsername(Principal principal) {
+    public static EduViewModel getEducationByUsername(String userName) {
         EduViewModel eduReturn = new EduViewModel();
         EducationLocalizationsEntity eduLoc = null;
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = UserService.getUserByUsername(userName);
 
         // Getting and setting Educations module
         List<EducationsEntity> educations = UserService.getEducationsByUsername(user);
@@ -479,34 +421,40 @@ public class UserController {
         return eduReturn;
     }
 
-    public static List<JobexpViewModel> getJobExperience(Principal principal) {
+    public static List<JobexpViewModel> getJobExperience(String userName) {
         List<JobexpViewModel> jobExpViewModels = new LinkedList<JobexpViewModel>();
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = null;
+        try{
+            user = UserService.getUserByUsername(userName);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         List<WorksEntity> worksEntity = UserService.getWorksEntity(user);
 
         for (WorksEntity we :
                 worksEntity) {
             WorkLocalizationsEntity wle = UserService.getWorkLocal(we);
-            jobExpViewModels.add(new JobexpViewModel(wle.getOrganization(), wle.getPost(), we.getStartDate(), we.getEndDate()));
+            jobExpViewModels.add(new JobexpViewModel(wle.getOrganization(), wle.getPost(), we.getStartDate(), we.getEndDate(), 3, we.getId()));
         }
         return jobExpViewModels;
     }
 
-    public static List<TrainViewModel> getTrainingRecord(Principal principal) {
+    public static List<TrainViewModel> getTrainingRecord(String userName) {
         List<TrainViewModel> trainViewModels = new LinkedList<TrainViewModel>();
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = UserService.getUserByUsername(userName);
         List<TrainingsEntity> trainings = UserService.getTrainingsEntity(user);
         for (TrainingsEntity trainEn :
                 trainings) {
             TrainingLocalizationsEntity trainLoc = UserService.getTrainingLoc(trainEn);
-            trainViewModels.add(new TrainViewModel(trainLoc.getName(), trainEn.getCertificateId(), trainLoc.getOrganization(), trainEn.getDateFrom(), trainEn.getDateTo(), trainEn.getNumberOfHours(), trainEn.getMark()));
+            trainViewModels.add(new TrainViewModel(trainLoc.getName(), trainEn.getCertificateId(), trainLoc.getOrganization(), trainEn.getDateFrom(), trainEn.getDateTo(), trainEn.getNumberOfHours(), trainEn.getMark(), trainEn.getId()));
         }
         return trainViewModels;
     }
 
-    private List<DocsViewModel> getDocuments(Principal principal) {
+    public static List<DocsViewModel> getDocuments(String userName) {
         List<DocsViewModel> docsViewModels = new LinkedList<DocsViewModel>();
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        UsersEntity user = UserService.getUserByUsername(userName);
         List<DocumentsEntity> documents = UserService.getDocuments(user);
         for (DocumentsEntity docs :
                 documents) {
@@ -516,8 +464,6 @@ public class UserController {
 
         return docsViewModels;
     }
-
-
 
     public static UserInPostsEntity getMax(List<UserInPostsEntity> usersInPost) {
         UserInPostsEntity uip = new UserInPostsEntity();
@@ -533,6 +479,5 @@ public class UserController {
         }
         return uip;
     }
-
 
 }

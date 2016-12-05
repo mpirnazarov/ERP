@@ -11,12 +11,13 @@
 <c:set var="pageTitle" scope="request" value="User Register"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
+        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
+        <div class="col-sm-9 col-md-offset-1">
         <div class="col-lg-8 col-lg-offset-2">
             <h1 class="page-header">New User Registration</h1>
-            <form:form modelAttribute="registrationVM" cssClass="form-horizontal" method="post" action="/User/Register">
+            <form:form modelAttribute="registrationVM" cssClass="form-horizontal" method="post" action="/Hr/Register">
 
                 <div class="tab-content">
                     <ul class="nav nav-tabs">
@@ -48,6 +49,7 @@
                             <br/>
                             <div class="form-horizontal">
                                 <div class="form-group">
+                                    <p>${locInfo.languageCode}</p>
                                     <label class="control-label col-md-3">Last name <font color='red'>*</font></label>
                                     <div class="col-md-5">
                                         <form:input path="registrationLocInfos[${i.index}].lastName"
@@ -58,7 +60,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-3">First name in ${locInfo.languageCode} <font
+                                    <label class="control-label col-md-3">First name<font
                                             color='red'>*</font></label>
                                     <div class="col-md-5">
                                         <form:input path="registrationLocInfos[${i.index}].firstName"

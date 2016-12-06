@@ -30,15 +30,15 @@
     <script src="${jquery}"></script>
     <link rel="stylesheet" href="${navbar}" />
     <link rel="stylesheet" href="${scrollCss}" />
-        <link rel="stylesheet" href="${editableCss}" />
+    <link rel="stylesheet" href="${editableCss}" />
     <link rel="icon" type="image/x-icon" href="<s:url value="/resources/images/favicon.ico"/>"/>
     <link rel="stylesheet" href="${normalizeCss}" />
     <link rel="stylesheet" href="${bootstrapminCss}" />
     <link rel="stylesheet" type="text/css" href="${allInOneCss}"/>
     <link rel="stylesheet" href="${styleCss}" />
 <%--<link rel='stylesheet prefetch' href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">--%>
-    <script src="${main}"></script>
     <script src="${jqueryValidation}"></script>
+    <script src="${main}"></script>
     <script type="text/javascript" src="${allInOneJs}"></script>
     <script src="${scrollJs}"></script>
 
@@ -59,8 +59,9 @@
 <body class="__scrollBar">
 <%
     ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
-    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
-    request.setAttribute("FirstName", a.getFirstName()[2]);
+    request.setAttribute("FullName", a.getFirstName()[0] + " " + a.getLastName()[0]);
+    request.setAttribute("SystemRole", a.getRoleId());
+    request.setAttribute("FirstName", a.getFirstName()[0]);
     request.setAttribute("JobTitle", a.getJobTitle());
     request.setAttribute("userId", a.getId());
 %>

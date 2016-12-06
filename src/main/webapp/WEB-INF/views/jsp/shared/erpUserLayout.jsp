@@ -69,7 +69,22 @@
                     <hr/>
                     TAPPS System
                     <li>
-                        <a href="/Workload/Index"><i class="fa fa-fw fa-calendar-o"></i> Workload</a>
+                        <a href="/Workload"><i class="fa fa-edit fa-fw"></i> Workload</a>
+                    </li>
+                    <li>
+                        <a href="/Projects"><i class="fa fa-file-powerpoint-o fa-fw"></i> Projects</a>
+                    </li>
+                    <li>
+                        <a href="/Monitor"><i class="fa fa-pie-chart fa-fw"></i> Monitor</a>
+                    </li>
+                    <li>
+                        <a href="/Roles"><i class="fa fa-male fa-fw"></i> Roles</a>
+                    </li>
+                    <li>
+                        <a href="/Appoint"><i class="fa fa-hand-o-up fa-fw"></i> Appoint</a>
+                    </li>
+                    <li>
+                        <a href="/Customers"><i class="fa fa-briefcase fa-fw"></i> Customers</a>
                     </li>
                     <hr/>
                     Settings

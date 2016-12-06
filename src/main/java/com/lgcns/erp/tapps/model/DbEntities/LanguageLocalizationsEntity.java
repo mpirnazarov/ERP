@@ -11,6 +11,7 @@ public class LanguageLocalizationsEntity {
     private int id;
     private String name;
     private int languageId;
+    private int localizationLanguage;
     private LanguagesEntity languagesByLanguageId;
 
     @Id
@@ -41,6 +42,16 @@ public class LanguageLocalizationsEntity {
 
     public void setLanguageId(int languageId) {
         this.languageId = languageId;
+    }
+
+    @Basic
+    @Column(name = "localization_lang_id", nullable = false)
+    public int getLocalizationLanguage() {
+        return localizationLanguage;
+    }
+
+    public void setLocalizationLanguage(int localizationLanguage) {
+        this.localizationLanguage = localizationLanguage;
     }
 
     @Override

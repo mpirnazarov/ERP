@@ -16,14 +16,14 @@ import java.security.Principal;
 @Controller
 public class HomeController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView printWelcome(Principal principal, ModelMap model) {
+    public String printWelcome(Principal principal, ModelMap model) {
         int roleId = UserService.getUserByUsername(principal.getName()).getRoleId();
         if(roleId==1)
-            return new ModelAndView("forward: /CTO/Profile");
+            return "forward: /CTO/Profile";
         else if(roleId==2)
-            return new ModelAndView("forward: /User/Profile");
+            return "forward: /User/Profile";
         else
-            return new ModelAndView("forward: /Hr/Profile");
+            return "forward: /Hr/Profile";
     }
 
 }

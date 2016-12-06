@@ -6,6 +6,7 @@ import com.lgcns.erp.hr.viewModel.WorkloadViewModels.CalendarReturningModel;
 import com.lgcns.erp.tapps.DbContext.ProjectServices;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.DbContext.WorkloadServices;
+import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
@@ -25,9 +26,10 @@ import java.util.Date;
  * Created by Rafatdin on 31.10.2016.
  */
 @Controller
+@RequestMapping("/Workload")
 public class WorkloadController {
 
-    @RequestMapping(value = "/Workload/Index", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView Calendar(Principal principal) {
         return CalendarDefault(principal, new Date());
@@ -46,10 +48,11 @@ public class WorkloadController {
 
         mav.addObject("model", model);
         mav.addObject("userRole", UserService.getUserByUsername(principal.getName()));
+        mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
 
-    @RequestMapping(value = "/Workload/ReceiveDataAjax", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/ReceiveDataAjax", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public JSONObject ReceiveDataAjax(@RequestBody String json, Principal principal) throws IOException {
 
@@ -110,7 +113,7 @@ public class WorkloadController {
             return response;
         }
 
-    @RequestMapping(value = "/Workload/DiffCalendar", method = RequestMethod.GET)
+    @RequestMapping(value = "/DiffCalendar", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView DiffCalendar(Principal principal, String today){
         try{
@@ -122,7 +125,7 @@ public class WorkloadController {
         {
             e.printStackTrace();
         }
-        return new ModelAndView("redirect:/Workload/Index");
+        return new ModelAndView("redirect:/Workload");
 
     }
 

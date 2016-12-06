@@ -39,6 +39,7 @@ public class ProfileViewModel {
     private String status;
     private String jobTitle;
     private String passportNumber;
+    private int roleId;
     private int languageId;
     private boolean enabled;
 
@@ -129,6 +130,13 @@ public class ProfileViewModel {
         return jobTitle;
     }
 
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;

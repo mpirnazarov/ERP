@@ -49,7 +49,9 @@
                             <br/>
                             <div class="form-horizontal">
                                 <div class="form-group">
-                                    <p>${locInfo.languageCode}</p>
+                                    <div class="col-md-5"><p>${locInfo.languageCode}</p></div>
+                                    </div>
+                                <div class="form-group">
                                     <label class="control-label col-md-3">Last name <font color='red'>*</font></label>
                                     <div class="col-md-5">
                                         <form:input path="registrationLocInfos[${i.index}].lastName"
@@ -106,128 +108,7 @@
                             </div>
                         </div>
                     </c:forEach>
-                        <%--<ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#English">English</a></li>
-                            <li><a data-toggle="tab" href="#Russian">Russian</a></li>
-                            <li><a data-toggle="tab" href="#Uzbek">Uzbek</a></li>
-                        </ul>
 
-                        <div id="English" class="tab-pane fade in active" style="border: 1px solid #fff;">
-                            <br/>
-                            <div class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">First name <font color='red'>*</font></label>
-                                    <div class="col-md-5">
-                                        <form:input path="firstName" required="required" placeholder="First Name"
-                                                    cssClass="form-control text-box single-line"/>
-                                        <form:errors path="firstName" cssClass="error"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Last name <font color='red'>*</font></label>
-                                    <div class="col-md-5">
-                                        <form:input path="lastName" required="required" placeholder="Last Name"
-                                                    cssClass="form-control text-box single-line"/>
-                                        <form:errors path="lastName" cssClass="error"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Father's name </label>
-                                    <div class="col-md-5">
-                                        <form:input path="fathersName" placeholder="Father's name"
-                                                    cssClass="form-control text-box single-line"/>
-                                        <form:errors path="fathersName" cssClass="error"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3" for="Address">Address <font
-                                            color='red'>*</font></label>
-                                    <div class="col-md-5">
-                                        <form:textarea path="address" required="required" placeholder="Home address"
-                                                       cssClass="form-control text-box" rows="3" cols="5"/>
-                                        <form:errors path="address" cssClass="error"/>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div id="Russian" class="tab-pane fade" style="border: 1px solid #fff;">
-                            <br/>
-                            <div class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Имя <font color='red'>*</font></label>
-                                    <div class="col-md-5">
-                                        <form:input path="firstNameRu" placeholder="Имя" required="required"
-                                                    cssClass="form-control text-box single-line"/>
-                                        <form:errors path="firstNameRu" cssClass="error"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Фамилия <font color='red'>*</font></label>
-                                    <div class="col-md-5">
-                                        <form:input path="lastNameRu" required="required" placeholder="Фамилия"
-                                                    cssClass="form-control text-box single-line"/>
-                                        <form:errors path="lastNameRu" cssClass="error"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Отчество </label>
-                                    <div class="col-md-5">
-                                        <form:input path="fathersNameRu" placeholder="Отчество"
-                                                    cssClass="form-control text-box single-line"/>
-                                        <form:errors path="fathersNameRu" cssClass="error"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3" for="Address">Адрес <font
-                                            color='red'>*</font></label>
-                                    <div class="col-md-5">
-                                        <form:textarea path="addressRu" required="required" placeholder="Адрес" cssClass="form-control text-box"
-                                                       rows="3" cols="5"/>
-                                        <form:errors path="addressRu" cssClass="error"/>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div id="Uzbek" class="tab-pane fade" style="border: 1px solid #fff;">
-                            <br/>
-                            <div class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Ism <font color='red'>*</font></label>
-                                    <div class="col-md-5">
-                                        <form:input path="firstNameUz" required="required" placeholder="Ism"
-                                                    cssClass="form-control text-box single-line"/>
-                                        <form:errors path="firstNameUz" cssClass="error"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Familiya <font color='red'>*</font></label>
-                                    <div class="col-md-5">
-                                        <form:input path="lastNameUz" required="required" placeholder="Familiya"
-                                                    cssClass="form-control text-box single-line"/>
-                                        <form:errors path="lastNameUz" cssClass="error"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Sharf <font color='red'>*</font></label>
-                                    <div class="col-md-5">
-                                        <form:input path="fathersNameUz" placeholder="Sharf" pattern="[a-z]"
-                                                    cssClass="form-control text-box single-line"/>
-                                        <form:errors path="fathersNameUz" cssClass="error"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3" for="Address">Manzil </label>
-                                    <div class="col-md-5">
-                                        <form:textarea path="addressUz" required="required" placeholder="Uy manzili"
-                                                       cssClass="form-control text-box" rows="3" cols="5"/>
-                                        <form:errors path="addressUz" cssClass="error"/>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>--%>
                 </div>
 
                 <div class="form-horizontal">
@@ -380,9 +261,6 @@
     $("#hasHead").change(enableList);
 </script>
 <script>
-    jQuery.validator.addMethod("exactlength", function (value, element, param) {
-        return this.optional(element) || value.length == param;
-    }, jQuery.format("Please enter exactly {0} characters."));
 
     $(document).ready(function () {
         $("#<c:out value='${secondLang}'/>").trigger('click');
@@ -447,5 +325,9 @@
             });
         });
     });
+    jQuery.validator.addMethod("exactlength", function (value, element, param) {
+        return this.optional(element) || value.length == param;
+    }, jQuery.format("Please enter exactly {0} characters."));
+
 </script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

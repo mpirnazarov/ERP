@@ -30,7 +30,24 @@
         <div class="col-lg-offset-2">
             <h1><%= request.getAttribute("FullName") %></h1>
             <h2 class="page-header">Project History</h2>
-
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Project name</th>
+                    <th>PM</th>
+                    <th>Description (Role)</th>
+                    <th>Period</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Single Portal of e-Government Services</td>
+                        <td>DAE-OC KIM</td>
+                        <td>Developer</td>
+                        <td>2016-11-01</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

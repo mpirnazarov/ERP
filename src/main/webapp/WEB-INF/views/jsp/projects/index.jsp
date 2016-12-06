@@ -16,21 +16,7 @@
 <c:set var="pageTitle" scope="request" value="Projects"/>
 <c:set var="managerId" scope="request" value="<%= ProjectRole.Manager.getValue()%>"/>
 
-
-
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<%--<link rel="stylesheet" type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css"/>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"/>
-<link rel="stylesheet" type="text/css"
-      href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css"/>--%>
-
-<spring:url value="/resources/core/css/normalize.css" var="normalizeCss"/>
-<spring:url value="/resources/core/css/style.css" var="styleCss"/>
-<spring:url value="/resources/core/css/datatablesCombined.min.css" var="allInOneCss"/>
-<spring:url value="/resources/core/js/datatablesCombined.min.js" var="allInOneJs"/>
-
-
 <div class="container-fluid">
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
@@ -38,13 +24,12 @@
             <div class=" col-lg-offset-2 col-lg-10">
                 <h1 class="page-header">Participating projects</h1>
                 <%
-                    if(((int)request.getAttribute("SystemRole")) == 1)
+                    if (((int) request.getAttribute("SystemRole")) == 1)
                         out.print("<div style=\"overflow: hidden\">\n" +
                                 "                    <input type=\"button\" value=\"Create new project\" class=\"btn btn-success\" style=\"float: left;\"  onclick=\"location.href='/Projects/Create'\">\n" +
                                 "                    <div style=\"clear: both;\">&nbsp;</div>\n" +
                                 "                </div>");
                 %>
-
 
                 <div class="table-responsive">
                     <table id="myTable" class="display table table-bordered">

@@ -21,22 +21,20 @@
     <spring:url value="/resources/core/css/bootstrap.min.css" var="bootstrapminCss" />
     <spring:url value="/resources/core/js/jquery.min.js" var="jquery" />
     <spring:url value="/resources/core/js/jquery.validate.js" var="jqueryValidation" />
-    <spring:url value="/resources/core/js/jquery.slimscroll.min.js" var="slimScroll"/>
     <spring:url value="/resources/core/css/datatablesCombined.min.css" var="allInOneCss"/>
     <spring:url value="/resources/core/js/datatablesCombined.min.js" var="allInOneJs"/>
+    <spring:url value="/resources/core/js/jquery.slimscroll.min.js" var="slimScroll"/>
     <spring:url value="/resources/core/css/jquery.scrollbar.css" var="scrollCss"/>
     <spring:url value="/resources/core/js/jquery.scrollbar.min.js" var="scrollJs"/>
     <spring:url value="/resources/core/js/main.js" var="main"/>
     <script src="${jquery}"></script>
     <link rel="stylesheet" href="${navbar}" />
     <link rel="stylesheet" href="${scrollCss}" />
-    <link rel="stylesheet" href="${editableCss}" />
     <link rel="icon" type="image/x-icon" href="<s:url value="/resources/images/favicon.ico"/>"/>
     <link rel="stylesheet" href="${normalizeCss}" />
     <link rel="stylesheet" href="${bootstrapminCss}" />
     <link rel="stylesheet" type="text/css" href="${allInOneCss}"/>
     <link rel="stylesheet" href="${styleCss}" />
-<%--<link rel='stylesheet prefetch' href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">--%>
     <script src="${jqueryValidation}"></script>
     <script src="${main}"></script>
     <script type="text/javascript" src="${allInOneJs}"></script>

@@ -91,19 +91,21 @@
                 </div>
             </div>
         </div>
-        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>
+    </div>
+</div>
+<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>
 
-        <script>
-            $(document).ready(function () {
-                $('#myTable').DataTable({
-                    dom: 'Bfrtip',
-                    buttons: [
-                        'copy', 'excel', 'pdf', 'print'
-                    ],
-                    aoColumnDefs: [{
-                        'bSortable': false,
-                        'aTargets': ['nosort']
-                    }]
-                });
-            });
-        </script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'excel', 'pdf', 'print'
+            ],
+            aoColumnDefs: [{
+                'bSortable': false,
+                'aTargets': ['nosort']
+            }]
+        });
+    });
+</script>

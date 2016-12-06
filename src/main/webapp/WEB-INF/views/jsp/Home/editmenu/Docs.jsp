@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="pageTitle" scope="request" value="Home"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
@@ -27,12 +28,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${docsVM}" var="doc" varStatus="status">
+                    <c:forEach items="${documents}" var="doc" varStatus="status">
                         <tr>
                             <td>${doc.name}</td>
-                            <td>${doc.type}</td>
-                            <td><a href="" class="btn btn-danger">Delete</a><a
-                                    href="Docs/download?id=<c:out value="${doc.docId}"/>"><i
+                            <td>${doc.documentType}</td>
+                            <td><a href="Docs/Del/<c:out value="${doc.id}"/>" class="btn btn-danger">Delete</a><a
+                                    href="Docs/Download/<c:out value="${doc.id}"/>"><i
                                     class="fa fa-fw fa-download"></i></a></td>
                         </tr>
                     </c:forEach>
@@ -40,33 +41,25 @@
                 </table>
                 <h3>Upload document</h3>
 
-                <form name="uploadingForm" enctype="multipart/form-data" method="POST">
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <div class="col-md-5">
-                                <input id="fileInput" class="single-line" type="file" name="uploadingFiles"
-                                       onchange="updateSize();"
-                                       multiple>
-                                selected files: <span id="fileNum">0</span>;
-                                total size: <span id="fileSize">0</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-5">
-                                <input type="submit" class="btn btn-success" value="Upload files">
+                <form:form method="POST" modelAttribute="fileBucket" enctype="multipart/form-data" class="form-horizontal">
+
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-3 control-lable" for="file">Upload a file</label>
+                            <div class="col-md-7">
+                                <form:input cssClass="form-control text-box" path="name" required="true"/>
+                                <form:input type="text" cssClass="form-control text-box" path="type" required="true"/>
+                                <form:input type="file" path="file" id="file" class="form-control input-sm" required="true"/>
                             </div>
                         </div>
                     </div>
-                </form>
 
-                <div>
-                    <div>Uploaded files:</div>
-                    <#list files as file>
-                        <div>
-                            ${file.getName()}
+                    <div class="row">
+                        <div class="form-actions floatRight">
+                            <input type="submit" value="Upload" class="btn btn-primary btn-sm">
                         </div>
-                    </#list>
-                </div>
+                    </div>
+                </form:form>
             </div>
         </div>
     </div>

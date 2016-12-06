@@ -2,6 +2,7 @@ package com.lgcns.erp.tapps.mapper;
 
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.viewModel.CTO.Form;
+import com.lgcns.erp.tapps.viewModel.HR.DocsViewModel;
 import com.lgcns.erp.tapps.viewModel.RegistrationLocInfo;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
@@ -140,5 +141,14 @@ public class UserMapper {
         personalEvalutionsEntity.setGrade(form.getGrade());
 
         return personalEvalutionsEntity;
+    }
+
+    public static DocumentsEntity mapDocuments(DocsViewModel docsViewModel) {
+        DocumentsEntity documentsEntity = new DocumentsEntity();
+        documentsEntity.setUserId(docsViewModel.getUserId());
+        documentsEntity.setDocumentType(docsViewModel.getDocumentType());
+        documentsEntity.setLink(docsViewModel.getLink());
+        documentsEntity.setName(docsViewModel.getName());
+        return documentsEntity;
     }
 }

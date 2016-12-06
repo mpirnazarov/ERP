@@ -19,7 +19,13 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
-        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
+        <%
+            if((int)(request.getAttribute("SystemRole"))==1)
+                out.print("<jsp:include flush=\"true\" page=\"/WEB-INF/views/jsp/shared/erpUserLayout.jsp\"></jsp:include>");
+            else if((int)(request.getAttribute("SystemRole"))==2)
+
+        %>
+
         <div class="col-md-offset-1 col-sm-10">
             <div class=" col-lg-offset-2 col-lg-10">
                 <h1 class="page-header">Participating projects</h1>

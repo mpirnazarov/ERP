@@ -62,4 +62,5 @@
     request.setAttribute("FirstName", a.getFirstName()[0]);
     request.setAttribute("JobTitle", a.getJobTitle());
     request.setAttribute("userId", a.getId());
+
 %>

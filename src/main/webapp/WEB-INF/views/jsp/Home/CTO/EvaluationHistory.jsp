@@ -21,32 +21,48 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
-        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
+        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpCTOLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
         <div class="col-lg-8 col-lg-offset-2">
             <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>
-            <h2 class="page-header">Documents</h2>
+            <h2 class="page-header">Evaluation</h2>
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#listofdocs">List of documents</a></li>
                 <%--<li><a data-toggle="tab" href="#gen">Generatable documents</a></li>--%>
             </ul>
             <div class="tab-content">
                 <div id="listofdocs" class="tab-pane fade in active">
-                    <h3>List of documents</h3>
+                    <h3>Evaluation</h3>
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Document name</th>
-                    <th>Document type</th>
-                    <th><i class="fa fa-fw fa-download"></i></th>
+                    <th>Date</th>
+                    <th>Comment</th>
+                    <th>Grade</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${docsVM}" var="doc" varStatus="status">
+                <c:forEach items="${evaluationsVM}" var="evaluation" varStatus="status">
                     <tr>
-                        <td>${doc.name}</td>
-                        <td>${doc.type}</td>
-                        <td><a href="Docs/download?id=<c:out value="${doc.docId}"/>"><i class="fa fa-fw fa-download"></i></a></td>
+                        <td>${evaluation.date}</td>
+                        <td>${evaluation.comments}</td>
+                        <td>
+                        <c:if test="${evaluation.grade=='1'}">
+                            S
+                        </c:if>
+                            <c:if test="${evaluation.grade=='2'}">
+                                A
+                            </c:if>
+                            <c:if test="${evaluation.grade=='3'}">
+                                B
+                            </c:if>
+                            <c:if test="${evaluation.grade=='4'}">
+                                C
+                            </c:if>
+                            <c:if test="${evaluation.grade=='5'}">
+                                D
+                            </c:if>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>

@@ -1577,4 +1577,66 @@ public class UserService {
 
         return documentsEntity;
     }
+
+    public static void insertDocumentUser(DocumentsEntity documentsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            //Set foreign key items
+            documentsEntity.setUsersByUserId(session.load(UsersEntity.class, documentsEntity.getUserId()));
+            //Save the object in database
+            session.save(documentsEntity);
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void deleteDocument(int docId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("delete from DocumentsEntity where id = :docId");
+            query.setParameter("docId", docId);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static List<PersonalEvalutionsEntity> getEvaluationsByUserId(int userIdByUsername) {
+        List<PersonalEvalutionsEntity> evalutionsEntities=null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from PersonalEvalutionsEntity userLoc where userId=:userId");//" inner join user.usersByUserId");//" on user.id = userLoc.userId where userLoc.languageId = :languageId");
+            query.setParameter("userId", userIdByUsername);
+            evalutionsEntities = (List<PersonalEvalutionsEntity>)query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return evalutionsEntities;
+    }
 }

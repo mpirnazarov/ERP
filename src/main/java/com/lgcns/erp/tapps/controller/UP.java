@@ -7,7 +7,6 @@ import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import org.springframework.web.servlet.ModelAndView;
-import sun.plugin.util.UserProfile;
 
 import java.security.Principal;
 
@@ -47,7 +46,7 @@ public class UP {
             }
         }
         userProfile = new ProfileViewModel();
-        userProfile.setId(String.valueOf(user.getId()));
+        userProfile.setId(String.valueOf(String.format("%05d", user.getId())));
         userProfile.setUsername(user.getUserName());
         userProfile.setFirstName(firstNames);
         userProfile.setLastName(lastNames);

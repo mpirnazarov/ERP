@@ -6,6 +6,7 @@ import com.lgcns.erp.tapps.Enums.Appoint;
 import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.validator.UserFormValidator;
+import com.lgcns.erp.tapps.viewModel.FileBucket;
 import com.lgcns.erp.tapps.viewModel.HR.DocsViewModel;
 import com.lgcns.erp.tapps.viewModel.HR.HrJobexpViewModel;
 import com.lgcns.erp.tapps.viewModel.PersonalInformationViewModel;
@@ -25,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,6 +39,8 @@ import javax.validation.Valid;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.*;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -236,6 +240,16 @@ public class HrController {
         mav.addObject("userProfile", userProfile);
         return mav;
     }
+
+    @RequestMapping(value = "/Hr/Profile/Evaluation", method = RequestMethod.GET)
+    public ModelAndView Evaluation(Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/hrmenu/Evaluation");
+        List<PersonalEvalutionsEntity> evaluations = UserService.getEvaluationsByUserId(UserService.getUserIdByUsername(principal.getName()));
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("evaluationsVM", evaluations);
+        return mav;
+    }
     @RequestMapping(value = "/Hr/Docs", method = RequestMethod.GET)
     public ModelAndView Docs(Principal principal, Model model) {
         ModelAndView mav = new ModelAndView();
@@ -244,13 +258,13 @@ public class HrController {
 
         List<DocumentsEntity> documentsEntities = UserService.getDocuments(UserService.getUserByUsername(principal.getName()));
         Map<Integer, String> documentsEntitiesFinal = new HashMap<Integer, String>();
-        Map<Integer, String> users = new HashMap<Integer, String>();
+
         for (DocumentsEntity docs :
                 documentsEntities) {
             if (docs.getDocumentType()==1)
                 documentsEntitiesFinal.put(docs.getId(), docs.getName());
         }
-
+        Map<Integer, String> users = new HashMap<Integer, String>();
         for (UserLocalizationsEntity user2 :
                 UserService.getAllUserLocs()) {
             if (user2.getLanguageId()==3)
@@ -409,14 +423,74 @@ public class HrController {
         UserService.insertSalary(UserMapper.mapSalaryEntity(salaryVewModel, userId));
     }
 
+    @RequestMapping(value = "/Hr/user/{id}/update/Docs/Download/{docId}")
+    public String downloadFile(Principal principal, HttpServletResponse response, @PathVariable("id") int id, @PathVariable("docId") int docId) throws IOException {
+        File file = null;
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        String filePath = UserService.getDocumentById(docId, id).getLink();
+        file = new File(filePath);
+
+        if(!file.exists()){
+            String errorMessage = "Sorry. The file you are looking for does not exist";
+            System.out.println(errorMessage);
+            OutputStream outputStream = response.getOutputStream();
+            outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
+            outputStream.close();
+            return "redirect: /Hr/Docs/";
+        }
+
+        String mimeType= URLConnection.guessContentTypeFromName(file.getName());
+        if(mimeType==null){
+            System.out.println("mimetype is not detectable, will take default");
+            mimeType = "application/octet-stream";
+        }
+
+        System.out.println("mimetype : "+mimeType);
+
+        response.setContentType(mimeType);
+
+        /* "Content-Disposition : inline" will show viewable types [like images/text/pdf/anything viewable by browser] right on browser
+            while others(zip e.g) will be directly downloaded [may provide save as popup, based on your browser setting.]*/
+        response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() +"\""));
+
+
+        /* "Content-Disposition : attachment" will be directly download, may provide save as popup, based on your browser setting*/
+        //response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
+
+        response.setContentLength((int)file.length());
+
+        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+        //Copy bytes from source to destination(outputstream in this example), closes both streams.
+        FileCopyUtils.copy(inputStream, response.getOutputStream());
+
+
+
+        return "redirect: /Hr/Docs/";
+    }
+    @RequestMapping(value = "/Hr/user/{id}/update/Docs/Del/{docId}")
+    public String deleteFile(Principal principal, @PathVariable("id") int id, @PathVariable("docId") int docId) throws IOException {
+        UserService.deleteDocument(docId);
+
+        return "redirect: /Hr/user/{id}/update/Docs/";
+    }
+
     @RequestMapping(value = "/Hr/user/{id}/update/Docs", method = RequestMethod.POST)
-    public String uploadingFile(@RequestParam MultipartFile fileUpload, @PathVariable("id") int id) throws IOException {
+    public String uploadingFile(FileBucket fileBucket, @PathVariable("id") int id) throws IOException {
 
-        File file = new File("C:/files/" + fileUpload.getOriginalFilename());
+        MultipartFile multipartFile = fileBucket.getFile();
 
+        //Now do something with file...
+        FileCopyUtils.copy(fileBucket.getFile().getBytes(), new File("C:/files/documents/" + fileBucket.getFile().getOriginalFilename()));
+        DocsViewModel docsViewModel = new DocsViewModel();
+        docsViewModel.setUserId(id);
+        docsViewModel.setDocumentType(fileBucket.getType());
+        docsViewModel.setLink("C:/files/documents/" + fileBucket.getFile().getOriginalFilename());
+        docsViewModel.setName(fileBucket.getName());
+        UserService.insertDocumentUser(UserMapper.mapDocuments(docsViewModel));
+        String fileName = multipartFile.getOriginalFilename();
+        return "redirect: /Hr/user/"+id+"/update/Docs";
 
-        fileUpload.transferTo(file);
-        return "redirect:/";
     }
 
     @RequestMapping(value = "/Hr/user/{id}/update/{path}", method = RequestMethod.GET)
@@ -515,47 +589,15 @@ public class HrController {
 
             person = userProfile;
             model.addAttribute("person",  person);
-            // Getting list of departments and send to view
-            Map<Integer, String> deps = new HashMap<Integer, String>();
-            for (DepartmentLocalizationsEntity dep :
-                    UserService.getDepartments(3)) {
-                deps.put(dep.getId(), dep.getName());
-            }
-            model.addAttribute("departments",  deps);
 
-            //Getting positions list from RoleLocalizations
-            Map<Integer, String> positions = new HashMap<Integer, String>();
-            for (RoleLocalizationsEntity pos :
-                    UserService.getRolesLoc()) {
-                positions.put(pos.getId(), pos.getName());
-            }
-            model.addAttribute("positions",  positions);
 
-            //Getting jobTitles list from RoleLocalizations
-            Map<Integer, String> jobTitles = new HashMap<Integer, String>();
-            for (PostLocalizationsEntity pos :
-                    UserService.getPostLocalizations(3)) {
-                jobTitles.put(pos.getId(), pos.getName());
-            }
-            model.addAttribute("jobTitles",  jobTitles);
+            List<DocumentsEntity> documentsEntities = UserService.getDocuments(UserService.getUserByUsername(UserService.getUsernameById(id)));
+            DocsViewModel docsViewModel = new DocsViewModel();
 
-            //Getting jobTitles list from RoleLocalizations
-            Map<Integer, String> statuses = new HashMap<Integer, String>();
-            int i=0;
-            for (StatusLocalizationsEntity statusesEntity :
-                    UserService.getStatuses()) {
-                statuses.put(statusesEntity.getId(), statusesEntity.getName());
-            }
-            model.addAttribute("statuses",  statuses);
-
-            // Setting list of joint types
-            Map<Integer, String> jointType = new HashMap<Integer, String>();
-            for (Appoint a :
-                    Appoint.values()) {
-                jointType.put(a.getValue(), a.name());
-            }
-
-            model.addAttribute("jointType", jointType);
+            model.addAttribute("docs", docsViewModel);
+            model.addAttribute("documents", documentsEntities);
+            FileBucket fileModel = new FileBucket();
+            model.addAttribute("fileBucket", fileModel);
 
             return mav;
 
@@ -572,7 +614,8 @@ public class HrController {
     }
 
     @RequestMapping ( value = "/Hr/user/{id}/update/{path}", method = RequestMethod.POST )
-    public String UpdateInfo(Principal principal, @Valid @ModelAttribute  ProfileViewModel person, @PathVariable String path, BindingResult result, @PathVariable("id") String id){
+    public String UpdateInfo(Principal principal, @Valid @ModelAttribute  ProfileViewModel person, FileBucket fileBucket, @PathVariable String path, BindingResult result, @PathVariable("id") String id) throws IOException {
+
         if(result.hasErrors()) {
             return "Hr/user/"+id+"/update"+path;
         }
@@ -761,12 +804,9 @@ public class HrController {
         String sId=null;
         sId = String.format("%05d", id);
         String sId2 =sId + ".jpg";
-        File file = new File("../webapps/ROOT/resources/images/users/" + sId2);
-        System.out.printf("ABSOLUTE PATH: " + file.getAbsolutePath());
-
-
+        File file = new File("C:/files/photos/" + sId2);
         fileUpload.transferTo(file);
-                return "redirect:/";
+        return "redirect:/";
     }
 
     @RequestMapping(value = "Hr/changepass", method = RequestMethod.GET)

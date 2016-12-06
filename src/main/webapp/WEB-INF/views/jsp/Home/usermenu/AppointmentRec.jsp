@@ -11,11 +11,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Appointment Record"/>
-<%
-    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
-    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
-    request.setAttribute("JobTitle", a.getJobTitle());
-%>
+
 <script type="text/javascript">
     function printpage() {
         //Get the print button and put it into a variable

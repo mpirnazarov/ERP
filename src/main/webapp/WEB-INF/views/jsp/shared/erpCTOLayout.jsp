@@ -31,6 +31,7 @@
                         <li><a href="/CTO/Profile/Edu">Education certificate</a></li>
                         <li><a href="/CTO/Profile/Jobexp">Job experience</a></li>
                         <li><a href="/CTO/Profile/Train">Training record</a></li>
+                        <li><a href="/CTO/Profile/Evaluation">Evaluation </a></li>
                     </ul>
                 </li>
                 <li>

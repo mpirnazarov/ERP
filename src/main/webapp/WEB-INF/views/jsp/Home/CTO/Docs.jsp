@@ -21,7 +21,7 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
-        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
+        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpCTOLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
             <div class="col-lg-offset-2">
                 <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %></h1>

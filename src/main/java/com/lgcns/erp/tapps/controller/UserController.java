@@ -26,7 +26,9 @@ import java.nio.charset.Charset;
 import java.security.Principal;
 import java.sql.Date;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -75,7 +77,7 @@ public class UserController {
             e.printStackTrace();
         }
 
-        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("userProfile", getProfileByUsername(principal.getName()));
         return mav;
     }
 
@@ -164,23 +166,20 @@ public class UserController {
     public ModelAndView Evaluation(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/Evaluation");
-       /* List<DocsViewModel> docsViewModel = getDocuments(principal);*/
+        List<PersonalEvalutionsEntity> evaluations = UserService.getEvaluationsByUserId(UserService.getUserIdByUsername(principal.getName()));
         mav = UP.includeUserProfile(mav, principal);
-        /*mav.addObject("docsVM", docsViewModel);*/
+        mav.addObject("evaluationsVM", evaluations);
         return mav;
     }
 
     @RequestMapping(value = "/User/Profile/Docs/download", method = RequestMethod.GET)
     public String DocDownload(HttpServletResponse response, Principal principal, @RequestParam("id") int id) throws IOException {
         System.out.println("ID: " + id);
-
-
         File file = null;
         ClassLoader classLoader = this.getClass().getClassLoader();
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         String filePath = UserService.getDocumentById(id, user.getId()).getLink();
         file = new File(filePath);
-        System.out.println("Path: " + file.getAbsolutePath());
 
         if(!file.exists()){
             String errorMessage = "Sorry. The file you are looking for does not exist";

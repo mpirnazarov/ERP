@@ -2,6 +2,7 @@ package com.lgcns.erp.tapps.controller;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.mapper.UserMapper;
+import com.lgcns.erp.tapps.model.DbEntities.PersonalEvalutionsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.viewModel.CTO.Form;
@@ -184,12 +185,22 @@ public class CTOController {
     }
 
     private void insertEvaluations(FormModel form, int id) {
-        for (Form f:
+        for (Form form1:
                 form.getForms()) {
-            if(f.getGrade() != 0){
-                UserService.insertEvaluation(UserMapper.mapCTOEvaluation(f, id));
+            if(form1.getGrade() != 0){
+                UserService.insertEvaluation(UserMapper.mapCTOEvaluation(form1, id));
             }
         }
+    }
+
+    @RequestMapping(value = "/CTO/Profile/Evaluation", method = RequestMethod.GET)
+    public ModelAndView Evaluation(Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/CTO/EvaluationHistory");
+        List<PersonalEvalutionsEntity> evaluations = UserService.getEvaluationsByUserId(UserService.getUserIdByUsername(principal.getName()));
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("evaluationsVM", evaluations);
+        return mav;
     }
 
     @RequestMapping (value = "/CTO/Evaluation", method = RequestMethod.GET)

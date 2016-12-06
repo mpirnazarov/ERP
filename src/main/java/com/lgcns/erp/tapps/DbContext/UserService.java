@@ -228,7 +228,7 @@ public class UserService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("select distinct langLoc from LanguageLocalizationsEntity langLoc where langLoc.languageId = :langId");
+            Query query = session.createQuery("select distinct langLoc from LanguageLocalizationsEntity langLoc where langLoc.localizationLanguage = :langId");
             query.setParameter("langId",Language.eng.getCode());
             for(LanguageLocalizationsEntity langloc : (List<LanguageLocalizationsEntity>)query.list()){
                 map.put(langloc.getLanguageId(), langloc.getName());

@@ -94,11 +94,16 @@
                                     return sdf.format(c.getTime());
                                 }
 
-                                String generateProject(CalendarReturningModel model, String projectCode, String projectName, Integer projectId, int tabindex, boolean defaultProject) {
+                                String generateProject(CalendarReturningModel model, String projectCode, String projectName, String projectType, Integer projectId, int tabindex, boolean defaultProject) {
                                     String returning = "" +
                                             "<tr>\n" +
-                                            "   <td class=\"td-head-default\" id=\"" + projectId + "\" rowspan=\"5\" style=\"vertical-align:middle;\">" + projectCode + "<br>" + projectName + "</td>\n" +
+                                            "   <td class=\"td-head-default\" id=\"" + projectId + "\" rowspan=\"5\" style=\"vertical-align:middle;\">" + projectCode;
+                                    if(projectType.length()!=0)
+                                        returning += " - "+ projectType;
+
+                                    returning+="<br>" + projectName + "</td>\n" +
                                             "</tr>";
+
                                     for (int i = 1; i < 5; i++) {
                                         int typeCode;
                                         String typeName;
@@ -147,8 +152,6 @@
 
                                             for (WorkloadEntity wl : model.getWorkloads()) {
                                                 if (sdf.format(wl.getDate()).equals(sdf.format(date1)) && wl.getWorkloadType().equals(typeCode) && wl.getProjectId() == projectId) {
-                                                    //monTotal += wl.getDuration();
-                                                    //out.write(wl.getDuration());
                                                     returning += String.valueOf(wl.getDuration());
                                                     break;
                                                 }
@@ -217,11 +220,11 @@
                         </thead>
                         <tbody id="tbody">
                         <%
-                            out.print(generateProject(model, "Team project", "", 0, 1, true));
+                            out.print(generateProject(model, "Team project", "", "", 0, 1, true));
                             tabindex += 28;
                             for (ProjectsEntity project : model.getProjects()) {
                                 out.print(getEmptyRow());
-                                out.print(generateProject(model, project.getCode(), project.getName(), project.getId(), tabindex, false));
+                                out.print(generateProject(model, project.getCode(), project.getName(), project.getType(), project.getId(), tabindex, false));
                                 tabindex += 28;
                             }
                         %>

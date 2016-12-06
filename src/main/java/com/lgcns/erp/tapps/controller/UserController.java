@@ -42,7 +42,6 @@ public class UserController {
 
         ModelAndView model = new ModelAndView();
         model.setViewName("login_new");
-
         return model;
     }
 
@@ -76,8 +75,7 @@ public class UserController {
             e.printStackTrace();
         }
 
-        mav.addObject("userProfile", userProfile);
-
+        mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
 
@@ -87,8 +85,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/AppointmentRec");
         AppointmentrecViewModel appointmentrecViewModel = getAppointmentByUsername(principal.getName());
-        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
         return mav;
     }
@@ -101,8 +98,7 @@ public class UserController {
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<SalaryVewModel> salaryVewModel = getSalaryByUser(user.getUserName());
 
-        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         mav.addObject("salaryVM", salaryVewModel);
         return mav;
     }
@@ -113,8 +109,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/EducationCer");
         EduViewModel eduViewModel = getEducationByUsername(principal.getName());
-        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         mav.addObject("eduVM", eduViewModel);
         return mav;
     }
@@ -126,8 +121,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/JobExp");
         List<JobexpViewModel> jobexpViewModel = getJobExperience(principal.getName());
-        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         mav.addObject("jobexpVM", jobexpViewModel);
         return mav;
     }
@@ -138,8 +132,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/TrainingRec");
         List<TrainViewModel> trainViewModel = getTrainingRecord(principal.getName());
-        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         mav.addObject("trainVM", trainViewModel);
         return mav;
     }
@@ -150,8 +143,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/Docs");
         List<DocsViewModel> docsViewModel = getDocuments(principal.getName());
-        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         mav.addObject("docsVM", docsViewModel);
         return mav;
     }
@@ -162,8 +154,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/Project");
        /* List<DocsViewModel> docsViewModel = getDocuments(principal);*/
-        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         /*mav.addObject("docsVM", docsViewModel);*/
         return mav;
     }
@@ -174,8 +165,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/Evaluation");
        /* List<DocsViewModel> docsViewModel = getDocuments(principal);*/
-        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         /*mav.addObject("docsVM", docsViewModel);*/
         return mav;
     }
@@ -236,8 +226,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         ChangepassViewModel changepassViewModel = new ChangepassViewModel ();
         mav.setViewName("user/changepass");
-        ProfileViewModel userProfile = getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         mav.addObject("changepassVM", changepassViewModel);
         return mav;
     }

@@ -17,28 +17,6 @@
 <c:set var="managerId" scope="request" value="<%= ProjectRole.Manager.getValue()%>"/>
 
 
-<%--<html>
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${pageTitle} | ERP System</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
-
-    <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="${allInOneCss}"/>
-
-    <link rel="stylesheet" href="${normalizeCss}"/>
-    <link rel="stylesheet" href="${styleCss}"/>
-    <script type="text/javascript" src="${allInOneJs}"></script>
-
-</head>
-<body>--%>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <%--<link rel="stylesheet" type="text/css"
@@ -59,6 +37,15 @@
         <div class="col-md-offset-1 col-sm-10">
             <div class=" col-lg-offset-2 col-lg-10">
                 <h1 class="page-header">Participating projects</h1>
+                <%
+                    if(((int)request.getAttribute("SystemRole")) == 1)
+                        out.print("<div style=\"overflow: hidden\">\n" +
+                                "                    <input type=\"button\" value=\"Create new project\" class=\"btn btn-success\" style=\"float: left;\"  onclick=\"location.href='/Projects/Create'\">\n" +
+                                "                    <div style=\"clear: both;\">&nbsp;</div>\n" +
+                                "                </div>");
+                %>
+
+
                 <div class="table-responsive">
                     <table id="myTable" class="display table table-bordered">
                         <thead>

@@ -57,6 +57,7 @@ public class UP {
         userProfile.setPolitical(user.isInPoliticalParty());
         userProfile.setPosition(UserService.getRoleLoc(user).getName());
         userProfile.setDepartment(UserService.getDepartments().get(3).getName());
+        userProfile.setRoleId(user.getRoleId());
         int postId = getMax(UserService.getUserInPost(user)).getPostId();
         if(UserService.getJobTitle(postId, Language.eng.getCode())!=null)
             userProfile.setJobTitle(UserService.getJobTitle(postId, 3).getName());

@@ -36,6 +36,8 @@ public class ProjectController {
         ModelAndView mav = new ModelAndView("projects/index");
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<UserInProjectsEntity> projects = ProjectServices.getUserInProjectsInfoByUserId(user.getId());
+        if(projects.isEmpty())
+            return new ModelAndView("redirect:/Projects/Error");
         mav.addObject("projects", projects);
         mav = UP.includeUserProfile(mav, principal);
         return mav;
@@ -159,9 +161,9 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/Delete", method = RequestMethod.POST)
-    public ModelAndView Delete(@Valid @ModelAttribute("viewModel") ProjectCreate viewModel, Principal principal) {
+    public ModelAndView Delete(@ModelAttribute("viewModel") ProjectCreate viewModel, Principal principal) {
         try {
-            ProjectServices.updateProject(viewModel.getId(), viewModel);
+            ProjectServices.deleteProject(viewModel.getId());
         }catch (Exception e){
             ModelAndView mav = new ModelAndView("projects/delete");
             mav.addObject("viewModel", viewModel);
@@ -172,10 +174,18 @@ public class ProjectController {
         }
         return new ModelAndView("redirect:/Projects");
     }
+    @RequestMapping(method = RequestMethod.GET, value = "/Error")
+    @ResponseBody
+    public ModelAndView Error(Principal principal) {
+        ModelAndView mav = new ModelAndView("projects/error");
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+
     private Map<Integer, String> getUsersIdAndName() {
         Map<Integer, String> users = new LinkedHashMap<Integer, String>();
         for (UserLocalizationsEntity loc : UserService.getAllUserLocs()) {
-            users.put(loc.getId(), loc.getFirstName() + " " + loc.getLastName());
+            users.put(loc.getUserId(), loc.getFirstName() + " " + loc.getLastName());
         }
         return users;
     }

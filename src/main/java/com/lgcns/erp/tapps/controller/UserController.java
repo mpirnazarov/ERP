@@ -178,7 +178,7 @@ public class UserController {
         File file = null;
         ClassLoader classLoader = this.getClass().getClassLoader();
         UsersEntity user = UserService.getUserByUsername(principal.getName());
-        String filePath = UserService.getDocumentById(id, user).getLink();
+        String filePath = UserService.getDocumentById(id, user.getId()).getLink();
         file = new File(filePath);
         System.out.println("Path: " + file.getAbsolutePath());
 

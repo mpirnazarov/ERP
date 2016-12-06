@@ -3,7 +3,7 @@ package com.lgcns.erp.tapps.viewModel;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import javax.xml.registry.infomodel.User;
+//import javax.xml.registry.infomodel.User;
 import java.io.Serializable;
 
 /**

@@ -48,6 +48,17 @@ public class CTOController {
         mav.addObject("userProfile", userProfile);
         return mav;
     }
+    @RequestMapping (value = "/CTO/Profile/Docs", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView CTODocs(Principal principal){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/CTO/Docs");
+        List<DocsViewModel> docsVM = UserController.getDocuments(principal.getName());
+        mav.addObject("docsVM", docsVM);
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
+        return mav;
+    }
 
     @RequestMapping (value = "/CTO/Profile/Salary", method = RequestMethod.GET)
     @ResponseBody public ModelAndView HrSalaryrec(Principal principal){

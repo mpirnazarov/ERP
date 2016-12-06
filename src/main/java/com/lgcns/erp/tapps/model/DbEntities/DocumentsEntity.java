@@ -1,7 +1,6 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 
 /**
  * Created by Rafatdin on 06.10.2016.
@@ -11,7 +10,7 @@ import java.math.BigInteger;
 public class DocumentsEntity {
     private int id;
     private int userId;
-    private BigInteger documentType;
+    private int documentType;
     private String link;
     private String name;
     private UsersEntity usersByUserId;
@@ -39,11 +38,11 @@ public class DocumentsEntity {
 
     @Basic
     @Column(name = "document_type", nullable = false, precision = 0)
-    public BigInteger getDocumentType() {
+    public int getDocumentType() {
         return documentType;
     }
 
-    public void setDocumentType(BigInteger documentType) {
+    public void setDocumentType(int documentType) {
         this.documentType = documentType;
     }
 
@@ -76,7 +75,6 @@ public class DocumentsEntity {
 
         if (id != that.id) return false;
         if (userId != that.userId) return false;
-        if (documentType != null ? !documentType.equals(that.documentType) : that.documentType != null) return false;
         if (link != null ? !link.equals(that.link) : that.link != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
 
@@ -87,7 +85,6 @@ public class DocumentsEntity {
     public int hashCode() {
         int result = id;
         result = 31 * result + userId;
-        result = 31 * result + (documentType != null ? documentType.hashCode() : 0);
         result = 31 * result + (link != null ? link.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;

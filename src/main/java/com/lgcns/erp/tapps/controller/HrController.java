@@ -1,6 +1,5 @@
 package com.lgcns.erp.tapps.controller;
 
-
 import com.lgcns.erp.tapps.DbContext.DocxDocumentMergerAndConverter;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.Enums.Appoint;
@@ -15,6 +14,11 @@ import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.*;
 import fr.opensagres.xdocreport.core.XDocReportException;
 import fr.opensagres.xdocreport.template.TemplateEngineKind;
+import org.apache.poi.xwpf.converter.core.FileImageExtractor;
+import org.apache.poi.xwpf.converter.core.FileURIResolver;
+import org.apache.poi.xwpf.converter.xhtml.XHTMLConverter;
+import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,8 +34,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import java.io.*;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -232,12 +237,20 @@ public class HrController {
         return mav;
     }
     @RequestMapping(value = "/Hr/Docs", method = RequestMethod.GET)
-    @ResponseBody
-    public ModelAndView Docs(Principal principal,Model model, @ModelAttribute("user")  Hashtable<Integer, String> users) {
+    public ModelAndView Docs(Principal principal, Model model) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/hrmenu/Docs");
         DocsViewModel docsViewModel = new DocsViewModel();
-        users = new Hashtable<Integer, String>();
+
+        List<DocumentsEntity> documentsEntities = UserService.getDocuments(UserService.getUserByUsername(principal.getName()));
+        Map<Integer, String> documentsEntitiesFinal = new HashMap<Integer, String>();
+        Map<Integer, String> users = new HashMap<Integer, String>();
+        for (DocumentsEntity docs :
+                documentsEntities) {
+            if (docs.getDocumentType()==1)
+                documentsEntitiesFinal.put(docs.getId(), docs.getName());
+        }
+
         for (UserLocalizationsEntity user2 :
                 UserService.getAllUserLocs()) {
             if (user2.getLanguageId()==3)
@@ -245,8 +258,11 @@ public class HrController {
                 users.put(user2.getUserId(), user2.getFirstName() + " " + user2.getLastName());
             }
         }
-        mav.addObject("users", users);
+
+        model.addAttribute("docs", docsViewModel);
+        model.addAttribute("documents", documentsEntitiesFinal);
         model.addAttribute("users", users);
+        mav.addObject("docs", docsViewModel);
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
@@ -660,7 +676,7 @@ public class HrController {
         return "redirect: /Hr/Userslist";
     }
 
-    @RequestMapping ( value = "/Hr/Generate/{docId}/{userId}/", method = RequestMethod.GET )
+/*    @RequestMapping ( value = "/Hr/Generate/{docId}/{userId}/save", method = RequestMethod.GET )
     public ResponseEntity<byte[]> GenerateDoc(HttpServletRequest request, HttpServletResponse response, Principal principal, @PathVariable("docId") int docId, @PathVariable("userId") int userId){
         ProfileViewModel user = getProfileById(userId);
         System.out.printf("Generating document: "+docId);
@@ -682,6 +698,50 @@ public class HrController {
             e.printStackTrace();
         }
         return res;
+    }*/
+    @RequestMapping ( value = "/Hr/Generate/{docId}/{userId}", method = RequestMethod.POST )
+    public ResponseEntity<byte[]> GenerateDoc(HttpServletRequest request, HttpServletResponse response, Principal principal, @PathVariable("docId") int docId, @PathVariable("userId") int userId){
+        ProfileViewModel user = getProfileById(userId);
+        System.out.printf("Printing document: "+docId);
+        ResponseEntity<byte[]> res=null;
+        try {
+            return generateDocument(user, docId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (XDocReportException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    @RequestMapping ( value = "/Hr/Generate", method = RequestMethod.POST, params = "Save")
+    public ResponseEntity<byte[]> GenerateSave(@ModelAttribute("docs") DocsViewModel docs, HttpServletRequest request, HttpServletResponse response, Principal principal){
+
+        ProfileViewModel user = UserController.getProfileByUsername(UserService.getUsernameById(docs.getUserId()));
+        ResponseEntity<byte[]> res=null;
+        try {
+            return generateDocument(user, docs.getDocId());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (XDocReportException e) {
+            e.printStackTrace();
+        }
+        return res;
+
+    }
+
+    @RequestMapping ( value = "/Hr/Generate", method = RequestMethod.POST, params = "Print")
+    public String GeneratePrint(@ModelAttribute("docs") DocsViewModel docs, HttpServletRequest request, HttpServletResponse response, Principal principal) throws IOException, XDocReportException {
+        ProfileViewModel user = UserController.getProfileByUsername(UserService.getUsernameById(docs.getUserId()));
+        String path = null;
+        try {
+            path = printDocument(user, docs.getDocId());
+        } catch (TransformerException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        return "redirect: /temp/"+path;
     }
 
     @RequestMapping("/Hr/user/{id}/UploadPic")
@@ -713,7 +773,7 @@ public class HrController {
     public ModelAndView ChangePass(Principal principal){
         ModelAndView mav = new ModelAndView();
         ChangepassViewModel changepassViewModel = new ChangepassViewModel ();
-        mav.setViewName("user/changepass");
+        mav.setViewName("Home/hrmenu/changepass");
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         mav.addObject("changepassVM", changepassViewModel);
@@ -943,29 +1003,75 @@ public class HrController {
         return returning;
     }
 
-    private ResponseEntity<byte[]> generateCertificate(ProfileViewModel user, HttpServletResponse response) throws IOException, XDocReportException {
-        String templatePath = "C:/files/template/Certification_of_Employment.docx";
+    private ResponseEntity<byte[]> generateDocument(ProfileViewModel user, int docId) throws IOException, XDocReportException {
+        DocumentsEntity documentsEntity = UserService.getDocumentByDocId(docId);
+        String fileName = documentsEntity.getName().replaceAll(" ", "_");
+
+        String templatePath = documentsEntity.getLink();
         Map<String, Object> nonImageVariableMap = new HashMap<String, Object>();
         Date date = new Date();
-        nonImageVariableMap.put("date_now", new SimpleDateFormat("d MMMMMMMM yyyy", Locale.ENGLISH).format(date));
 
-        nonImageVariableMap.put("name", user.getFirstName()[2] + " "+ user.getLastName()[2]);
+        // Saving data for generating document
+
+        nonImageVariableMap.put("dateNow", new SimpleDateFormat("d MMMMMMMM yyyy", Locale.ENGLISH).format(date));
+        if(user.getFirstName()[2]!=null || user.getLastName()[2]!=null)
+            nonImageVariableMap.put("nameEn", user.getFirstName()[2] + " "+ user.getLastName()[2]);
+        else
+            nonImageVariableMap.put("nameEn", " ");
+
+        if(user.getFirstName()[0]!=null || user.getLastName()[0]!=null)
+            nonImageVariableMap.put("nameRu", user.getFirstName()[0] + " "+ user.getLastName()[0]);
+        else
+            nonImageVariableMap.put("nameRu", " ");
+
+        if(user.getFirstName()[1]!=null || user.getLastName()[1]!=null)
+            nonImageVariableMap.put("nameUz", user.getFirstName()[1] + " "+ user.getLastName()[1]);
+        else
+            nonImageVariableMap.put("nameUz", " ");
+
         if(user.getJobTitle()!=null)
             nonImageVariableMap.put("jobTitle", user.getJobTitle());
         else
-            nonImageVariableMap.put("jobTitle", "");
+            nonImageVariableMap.put("jobTitle", " ");
         System.out.printf("Entry date: " + user.getEntryDate());
-        nonImageVariableMap.put("hiringDate", new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(user.getEntryDate()));
+
+        if(user.getEntryDate()!=null)
+            nonImageVariableMap.put("hiringDate", new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(user.getEntryDate()));
+        else
+            nonImageVariableMap.put("hiringDate", " ");
         Map<String, String> imageVariablesWithPathMap =new HashMap<String, String>();
-        imageVariablesWithPathMap.put("header_image_logo", "C:/0001.jpg");
+
+        String familyMembersEn = "";
+        for (FamilyMember famMember:
+                user.getFamilyLoc()) {
+            familyMembersEn += ", "+famMember.getRelation()[2] + "(" + famMember.getLastName()[2]+" " + famMember.getFirstName()[2]+")";
+        }
+        String familyMembersRu = "";
+        for (FamilyMember famMember:
+                user.getFamilyLoc()) {
+            familyMembersRu += famMember.getRelation()[0] + "(" + famMember.getLastName()[0]+" " + famMember.getFirstName()[0]+"), ";
+        }
+        String familyMembersUz = "";
+        for (FamilyMember famMember:
+                user.getFamilyLoc()) {
+            familyMembersUz += famMember.getRelation()[1] + "(" + famMember.getLastName()[1]+" " + famMember.getFirstName()[1]+"), ";
+        }
+
+
+        nonImageVariableMap.put("familyMembersEn", familyMembersEn);
+        nonImageVariableMap.put("familyMembersRu", familyMembersRu);
+        nonImageVariableMap.put("familyMembersUz", familyMembersUz);
+
+
         System.out.println("Writing file from template");
         DocxDocumentMergerAndConverter docxDocumentMergerAndConverter = new DocxDocumentMergerAndConverter();
         byte[] mergedOutput = docxDocumentMergerAndConverter.mergeAndGenerateOutput(templatePath, TemplateEngineKind.Freemarker, nonImageVariableMap, imageVariablesWithPathMap);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/docx"));
-        String filePath = "C:/files/Certification_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx";
-        String filename = "Certification_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx";
+
+        String filename = fileName+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx";
+
         headers.setContentDispositionFormData(filename, filename);
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         assertNotNull(mergedOutput);
@@ -975,69 +1081,105 @@ public class HrController {
 
     }
 
-    private ResponseEntity<byte[]> generateDecreeFamilyTicket(ProfileViewModel user, HttpServletResponse response) throws IOException, XDocReportException {
-        String templatePath = "C:/files/template/Decree_family_ticket.docx";
+    private String printDocument(ProfileViewModel user, int docId) throws IOException, XDocReportException, TransformerException, ParserConfigurationException {
+        DocumentsEntity documentsEntity = UserService.getDocumentByDocId(docId);
+        String fileName = documentsEntity.getName().replaceAll(" ", "_");
+
+        String templatePath = documentsEntity.getLink();
         Map<String, Object> nonImageVariableMap = new HashMap<String, Object>();
         Date date = new Date();
-        nonImageVariableMap.put("date_now", new SimpleDateFormat("d MMMMMMMM yyyy", Locale.ENGLISH).format(date));
 
-        nonImageVariableMap.put("name", user.getFirstName()[2] + " "+ user.getLastName()[2]);
-        nonImageVariableMap.put("jobTitle", user.getJobTitle());
-        String familyMembers_en = "";
+        // Saving data for generating document
+
+        nonImageVariableMap.put("dateNow", new SimpleDateFormat("d MMMMMMMM yyyy", Locale.ENGLISH).format(date));
+        if(user.getFirstName()[2]!=null || user.getLastName()[2]!=null)
+            nonImageVariableMap.put("nameEn", user.getFirstName()[2] + " "+ user.getLastName()[2]);
+        else
+            nonImageVariableMap.put("nameEn", " ");
+
+        if(user.getFirstName()[0]!=null || user.getLastName()[0]!=null)
+            nonImageVariableMap.put("nameRu", user.getFirstName()[0] + " "+ user.getLastName()[0]);
+        else
+            nonImageVariableMap.put("nameRu", " ");
+
+        if(user.getFirstName()[1]!=null || user.getLastName()[1]!=null)
+            nonImageVariableMap.put("nameUz", user.getFirstName()[1] + " "+ user.getLastName()[1]);
+        else
+            nonImageVariableMap.put("nameUz", " ");
+
+        if(user.getJobTitle()!=null)
+            nonImageVariableMap.put("jobTitle", user.getJobTitle());
+        else
+            nonImageVariableMap.put("jobTitle", " ");
+        System.out.printf("Entry date: " + user.getEntryDate());
+
+        if(user.getEntryDate()!=null)
+            nonImageVariableMap.put("hiringDate", new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(user.getEntryDate()));
+        else
+            nonImageVariableMap.put("hiringDate", " ");
+        Map<String, String> imageVariablesWithPathMap =new HashMap<String, String>();
+
+        String familyMembersEn = "";
         for (FamilyMember famMember:
                 user.getFamilyLoc()) {
-            familyMembers_en += ", "+famMember.getRelation()[2] + "(" + famMember.getLastName()[2]+" " + famMember.getFirstName()[2]+")";
+            familyMembersEn += ", "+famMember.getRelation()[2] + "(" + famMember.getLastName()[2]+" " + famMember.getFirstName()[2]+")";
         }
-        String familyMembers_ru = "";
+        String familyMembersRu = "";
         for (FamilyMember famMember:
                 user.getFamilyLoc()) {
-            familyMembers_ru += famMember.getRelation()[0] + "(" + famMember.getLastName()[2]+" " + famMember.getFirstName()[2]+"), ";
+            familyMembersRu += famMember.getRelation()[0] + "(" + famMember.getLastName()[0]+" " + famMember.getFirstName()[0]+"), ";
         }
-        nonImageVariableMap.put("jobTitle", user.getJobTitle());
-        nonImageVariableMap.put("familyMembers_en", familyMembers_en);
-        nonImageVariableMap.put("familyMembers_ru", familyMembers_ru);
-        Map<String, String> imageVariablesWithPathMap =new HashMap<String, String>();
-        imageVariablesWithPathMap.put("header_image_logo", "C:/0001.jpg");
+        String familyMembersUz = "";
+        for (FamilyMember famMember:
+                user.getFamilyLoc()) {
+            familyMembersUz += famMember.getRelation()[1] + "(" + famMember.getLastName()[1]+" " + famMember.getFirstName()[1]+"), ";
+        }
+
+
+        nonImageVariableMap.put("familyMembersEn", familyMembersEn);
+        nonImageVariableMap.put("familyMembersRu", familyMembersRu);
+        nonImageVariableMap.put("familyMembersUz", familyMembersUz);
+
+
+        System.out.println("Writing file from template");
         DocxDocumentMergerAndConverter docxDocumentMergerAndConverter = new DocxDocumentMergerAndConverter();
         byte[] mergedOutput = docxDocumentMergerAndConverter.mergeAndGenerateOutput(templatePath, TemplateEngineKind.Freemarker, nonImageVariableMap, imageVariablesWithPathMap);
-        assertNotNull(mergedOutput);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("application/docx"));
-        String filename = "Decree_family_ticket_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx";
-        headers.setContentDispositionFormData(filename, filename);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        String filename = fileName+"_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx";
         assertNotNull(mergedOutput);
-        ResponseEntity<byte[]> response2 = new ResponseEntity<byte[]>(mergedOutput, headers, HttpStatus.OK);
+        FileOutputStream os = new FileOutputStream("C:/files/temp/" + filename);
+        os.write(mergedOutput);
+        os.flush();
+        os.close();
 
-        return response2;
+
+
+
+
+
+        InputStream is = new FileInputStream(new File(
+                "C:/files/temp/"+filename));
+        XWPFDocument document = new XWPFDocument(is);
+
+        // 2) Prepare Html options
+        XHTMLOptions options = XHTMLOptions.create();
+        // Extract image
+        File imageFolder = new File( "C:/files/" );
+        imageFolder.getParentFile().mkdirs();
+        options.setExtractor( new FileImageExtractor( imageFolder ) );
+        // URI resolver
+        options.URIResolver( new FileURIResolver( imageFolder ) );
+
+        // 3) Convert XWPFDocument to HTML
+        OutputStream out = new FileOutputStream(new File(
+                "C:/files/temp/"+filename+".html"));
+        XHTMLConverter.getInstance().convert(document, out, options);
+
+       return filename+".html";
+
     }
 
-    private ResponseEntity<byte[]> generateDecreeTerminate(ProfileViewModel user, HttpServletResponse response) throws IOException, XDocReportException {
-        String templatePath = "C:/files/template/Decree_terminate.docx";
-        Map<String, Object> nonImageVariableMap = new HashMap<String, Object>();
-        Date date = new Date();
-        nonImageVariableMap.put("date_now", new SimpleDateFormat("d MMMMMMMM yyyy", Locale.ENGLISH).format(date));
 
-        nonImageVariableMap.put("nameEn", user.getFirstName()[2] + " "+ user.getLastName()[2]);
-        nonImageVariableMap.put("nameRu", user.getFirstName()[0] + " "+ user.getLastName()[0]);
-        nonImageVariableMap.put("jobTitle", user.getJobTitle());
-        Map<String, String> imageVariablesWithPathMap =new HashMap<String, String>();
-        imageVariablesWithPathMap.put("header_image_logo", "C:/0001.jpg");
-        DocxDocumentMergerAndConverter docxDocumentMergerAndConverter = new DocxDocumentMergerAndConverter();
-        byte[] mergedOutput = docxDocumentMergerAndConverter.mergeAndGenerateOutput(templatePath, TemplateEngineKind.Freemarker, nonImageVariableMap, imageVariablesWithPathMap);
-        assertNotNull(mergedOutput);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("application/docx"));
-        String filename = "Decree_terminate_"+user.getFirstName()[2] + "_"+ user.getLastName()[2]+"_"+new SimpleDateFormat("d-MMMMMMMM-yyyy", Locale.ENGLISH).format(date)+".docx";
-        headers.setContentDispositionFormData(filename, filename);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        assertNotNull(mergedOutput);
-        ResponseEntity<byte[]> response2 = new ResponseEntity<byte[]>(mergedOutput, headers, HttpStatus.OK);
-
-        return response2;
-    }
 
     public static UserInPostsEntity getMax(List<UserInPostsEntity> usersInPost) {
         UserInPostsEntity uip = new UserInPostsEntity();

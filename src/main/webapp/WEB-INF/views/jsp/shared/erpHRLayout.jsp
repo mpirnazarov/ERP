@@ -18,7 +18,7 @@
             </div>
             <ul class="nav navbar-nav">
                 <%--<object class="img-circle" data="/resources/images/${id}.jpg" style="width:45%; margin-left: 25%">--%>
-                <%--<img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>--%>
+                    <%--<img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>--%>
                 <%--</object>--%>
                 <div class="userImgBox">
                     <img class="userimg" src="/resources/images/users/kamola.jpg">

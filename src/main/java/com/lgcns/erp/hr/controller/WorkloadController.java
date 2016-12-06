@@ -6,6 +6,7 @@ import com.lgcns.erp.hr.viewModel.WorkloadViewModels.CalendarReturningModel;
 import com.lgcns.erp.tapps.DbContext.ProjectServices;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.DbContext.WorkloadServices;
+import com.lgcns.erp.tapps.controller.UserController;
 import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
@@ -46,6 +47,7 @@ public class WorkloadController {
 
         mav.addObject("model", model);
         mav.addObject("userRole", UserService.getUserByUsername(principal.getName()));
+        mav.addObject("userProfile", UserController.getProfileByUsername(principal.getName()));
         return mav;
     }
 

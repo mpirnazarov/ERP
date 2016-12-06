@@ -21,264 +21,248 @@
 <%@ taglib prefix="s" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Manage Workload"/>
 
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${pageTitle} | ERP System</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <spring:url value="/resources/core/css/normalize.css" var="normalizeCss"/>
-    <spring:url value="/resources/core/css/style.css" var="styleCss"/>
-    <spring:url value="/resources/core/css/fullcalendar.css" var="fullCalendar"/>
-    <spring:url value="/resources/core/css/bootstrap.css" var="bootstrapCss"/>
-    <spring:url value="/resources/core/js/jquery-1.12.4.min.js" var="jquery"/>
-    <spring:url value="/resources/core/js/jquery.validate.js" var="jqueryValidation"/>
-    <spring:url value="/resources/core/css/navbar-fixed-side.css" var="navbar" />
-    <link rel="icon" type="image/x-icon" href="<s:url value="/resources/images/favicon.ico"/>"/>
-    <link rel="stylesheet" href="${navbar}" />
-    <link rel="stylesheet" href="${normalizeCss}"/>
-    <link rel='stylesheet prefetch' href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${styleCss}"/>
-    <link rel="stylesheet" href="${fullCalendar}"/>
-    <script src="${jquery}"></script>
-    <script src="${jqueryValidation}"></script>
-</head>
-<body>
+<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
-    <h2>Calendar</h2>
+        <div class="col-md-offset-1 col-sm-10">
+            <div class=" col-lg-offset-2 col-lg-10">
+                <h1>Calendar</h1>
 
-    <span class="hidden" id="mondayHidden"><fmt:formatDate value="${model.monday}" pattern="yyyy-MM-dd"/></span>
+                <span class="hidden" id="mondayHidden"><fmt:formatDate value="${model.monday}"
+                                                                       pattern="yyyy-MM-dd"/></span>
 
 
-    <div class="table-responsive">
-        <%
-            int tabindex = 1;
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            CalendarReturningModel model = (CalendarReturningModel) request.getAttribute("model");
-            Calendar c = Calendar.getInstance();
-            c.setTime(model.getMonday());
-            c.add(Calendar.DATE, -7);
-            Date tempDatePrev = c.getTime();
-            c.setTime(model.getMonday());
-            c.add(Calendar.DATE, 7);
-            Date tempDateNext = c.getTime();
-
-        %>
-
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th colspan="2">
-                    <div style="text-align:center"><h3>Week</h3></div>
-                </th>
-
-                <th id="previous">
-                    <div style="text-align:center">
-                        <form action="/Workload/DiffCalendar" method="get">
-
-                            <input type="hidden" name="today" value="<%= sdf.format(tempDatePrev) %>"/>
-                            <button type="submit"><i class="fa fa-caret-left fa-3x"></i></button>
-
-                        </form>
-                    </div>
-                </th>
-                <th colspan="5">
-                    <div style="text-align:center"><h3><fmt:formatDate value="${model.monday}"
-                                                                       pattern="dd MMM yyy"/></h3></div>
-                </th>
-                <th id="next">
-                    <div style="text-align:center">
-                        <form action="/Workload/DiffCalendar" method="get">
-
-                            <input type="hidden" name="today" value="<%= sdf.format(tempDateNext) %>"/>
-                            <button type="submit"><i class="fa fa-caret-right fa-3x"></i></button>
-
-                        </form>
-                    </div>
-                </th>
-            </tr>
-            <tr id="weekDays" class="headers">
-                <td colspan="2" align="center">Days</td>
-                <%!
-                    String addDaysAndFormat(Date day, int daysToAdd, String format) {
+                <div class="table-responsive">
+                    <%
+                        int tabindex = 1;
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        CalendarReturningModel model = (CalendarReturningModel) request.getAttribute("model");
                         Calendar c = Calendar.getInstance();
-                        c.setTime(day);
-                        c.add(Calendar.DATE, daysToAdd);
-                        SimpleDateFormat sdf = new SimpleDateFormat(format);
+                        c.setTime(model.getMonday());
+                        c.add(Calendar.DATE, -7);
+                        Date tempDatePrev = c.getTime();
+                        c.setTime(model.getMonday());
+                        c.add(Calendar.DATE, 7);
+                        Date tempDateNext = c.getTime();
 
-                        return sdf.format(c.getTime());
-                    }
+                    %>
 
-                    String generateProject(CalendarReturningModel model, String projectCode, String projectName, Integer projectId, int tabindex, boolean defaultProject) {
-                        String returning = "" +
-                                "<tr>\n" +
-                                "   <td class=\"td-head-default\" id=\"" + projectId + "\" rowspan=\"5\" style=\"vertical-align:middle;\">" + projectCode + "<br>" + projectName + "</td>\n" +
-                                "</tr>";
-                        for (int i = 1; i < 5; i++) {
-                            int typeCode;
-                            String typeName;
-                            switch (i) {
-                                case 1: {
-                                    if (!defaultProject)
-                                        typeCode = WorkloadType.Work_Project.getValue();
-                                    else
-                                        typeCode = WorkloadType.Work_Administrative.getValue();
-                                    typeName = "Work";
-                                    break;
-                                }
-                                case 2: {
-                                    typeCode = WorkloadType.Training.getValue();
-                                    typeName = "Training";
-                                    break;
-                                }
-                                case 3: {
-                                    typeCode = WorkloadType.Sick_leave.getValue();
-                                    typeName = "Sick leave";
-                                    break;
-                                }
-                                case 4: {
-                                    typeCode = WorkloadType.Annual_leave.getValue();
-                                    typeName = "Annual";
-                                    break;
-                                }
-                                default: {
-                                    typeCode = WorkloadType.Work_Administrative.getValue();
-                                    typeName = "Default";
-                                }
-                            }
-                            returning += "<tr>\n" +
-                                    " <td class=\"hidden\"id=\"" + projectId + "\"></td>\n" +
-                                    " <td class=\"td-head-default\" id=\"" + typeName + "\">" + typeName + "</td>\n";
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th colspan="2">
+                                <div style="text-align:center"><h3>Week</h3></div>
+                            </th>
 
-                            for (int ii = 0; ii < 7; ii++) {
-                                returning += "" +
-                                        "<td class=\"duration\" data-tabindex=\"" + tabindex + "\" id=\"" + getDayId(ii) + "\">";
+                            <th id="previous">
+                                <div style="text-align:center">
+                                    <form action="/Workload/DiffCalendar" method="get">
 
-                                Calendar c = Calendar.getInstance();
-                                c.setTime(model.getMonday());
-                                c.add(Calendar.DATE, ii);
-                                Date date1 = c.getTime();
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                        <input type="hidden" name="today" value="<%= sdf.format(tempDatePrev) %>"/>
+                                        <button type="submit" class="btn btn-default"><i
+                                                class="fa fa-caret-left fa-3x"></i></button>
 
-                                for (WorkloadEntity wl : model.getWorkloads()) {
-                                    if (sdf.format(wl.getDate()).equals(sdf.format(date1)) && wl.getWorkloadType().equals(typeCode) && wl.getProjectId() == projectId) {
-                                        //monTotal += wl.getDuration();
-                                        //out.write(wl.getDuration());
-                                        returning += String.valueOf(wl.getDuration());
-                                        break;
+                                    </form>
+                                </div>
+                            </th>
+                            <th colspan="5">
+                                <div style="text-align:center"><h3><fmt:formatDate value="${model.monday}"
+                                                                                   pattern="dd MMM yyy"/></h3></div>
+                            </th>
+                            <th id="next">
+                                <div style="text-align:center">
+                                    <form action="/Workload/DiffCalendar" method="get">
+
+                                        <input type="hidden" name="today" value="<%= sdf.format(tempDateNext) %>"/>
+                                        <button type="submit" class="btn btn-default"><i
+                                                class="fa fa-caret-right fa-3x"></i></button>
+
+                                    </form>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr id="weekDays" class="headers">
+                            <td colspan="2" align="center">Days</td>
+                            <%!
+                                String addDaysAndFormat(Date day, int daysToAdd, String format) {
+                                    Calendar c = Calendar.getInstance();
+                                    c.setTime(day);
+                                    c.add(Calendar.DATE, daysToAdd);
+                                    SimpleDateFormat sdf = new SimpleDateFormat(format);
+
+                                    return sdf.format(c.getTime());
+                                }
+
+                                String generateProject(CalendarReturningModel model, String projectCode, String projectName, Integer projectId, int tabindex, boolean defaultProject) {
+                                    String returning = "" +
+                                            "<tr>\n" +
+                                            "   <td class=\"td-head-default\" id=\"" + projectId + "\" rowspan=\"5\" style=\"vertical-align:middle;\">" + projectCode + "<br>" + projectName + "</td>\n" +
+                                            "</tr>";
+                                    for (int i = 1; i < 5; i++) {
+                                        int typeCode;
+                                        String typeName;
+                                        switch (i) {
+                                            case 1: {
+                                                if (!defaultProject)
+                                                    typeCode = WorkloadType.Work_Project.getValue();
+                                                else
+                                                    typeCode = WorkloadType.Work_Administrative.getValue();
+                                                typeName = "Work";
+                                                break;
+                                            }
+                                            case 2: {
+                                                typeCode = WorkloadType.Training.getValue();
+                                                typeName = "Training";
+                                                break;
+                                            }
+                                            case 3: {
+                                                typeCode = WorkloadType.Sick_leave.getValue();
+                                                typeName = "Sick leave";
+                                                break;
+                                            }
+                                            case 4: {
+                                                typeCode = WorkloadType.Annual_leave.getValue();
+                                                typeName = "Annual";
+                                                break;
+                                            }
+                                            default: {
+                                                typeCode = WorkloadType.Work_Administrative.getValue();
+                                                typeName = "Default";
+                                            }
+                                        }
+                                        returning += "<tr>\n" +
+                                                " <td class=\"hidden\"id=\"" + projectId + "\"></td>\n" +
+                                                " <td class=\"td-head-default\" id=\"" + typeName + "\">" + typeName + "</td>\n";
+
+                                        for (int ii = 0; ii < 7; ii++) {
+                                            returning += "" +
+                                                    "<td class=\"duration\" data-tabindex=\"" + tabindex + "\" id=\"" + getDayId(ii) + "\">";
+
+                                            Calendar c = Calendar.getInstance();
+                                            c.setTime(model.getMonday());
+                                            c.add(Calendar.DATE, ii);
+                                            Date date1 = c.getTime();
+                                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                                            for (WorkloadEntity wl : model.getWorkloads()) {
+                                                if (sdf.format(wl.getDate()).equals(sdf.format(date1)) && wl.getWorkloadType().equals(typeCode) && wl.getProjectId() == projectId) {
+                                                    //monTotal += wl.getDuration();
+                                                    //out.write(wl.getDuration());
+                                                    returning += String.valueOf(wl.getDuration());
+                                                    break;
+                                                }
+                                            }
+                                            returning += "</td>\n";
+
+                                            tabindex++;
+                                        }
+                                        returning += "\n" +
+                                                "</tr>";
+                                    }
+
+
+                                    return returning;
+                                }
+
+                                String getDayId(int day) {
+                                    switch (day) {
+                                        case 0: {
+                                            return "monForTotal";
+                                        }
+                                        case 1: {
+                                            return "tueForTotal";
+                                        }
+                                        case 2: {
+                                            return "wedForTotal";
+                                        }
+                                        case 3: {
+                                            return "thuForTotal";
+                                        }
+                                        case 4: {
+                                            return "friForTotal";
+                                        }
+                                        case 5: {
+                                            return "satForTotal";
+                                        }
+                                        case 6: {
+                                            return "sunForTotal";
+                                        }
+                                        default:
+                                            return "noForTotal";
                                     }
                                 }
-                                returning += "</td>\n";
 
-                                tabindex++;
+                                String getEmptyRow() {
+                                    return "<tr>\n" +
+                                            "    <td class=\"td-space\" colspan=\"9\"></td>\n" +
+                                            "</tr>";
+                                }
+                            %>
+                            <td id="Mon" align="center">Mon<br/><%=addDaysAndFormat(model.getMonday(), 0, "dd MMMM")%>
+                            </td>
+                            <td id="Tue" align="center">Tue<br/><%=addDaysAndFormat(model.getMonday(), 1, "dd MMMM")%>
+                            </td>
+                            <td id="Wed" align="center">Wed<br/><%=addDaysAndFormat(model.getMonday(), 2, "dd MMMM")%>
+                            </td>
+                            <td id="Thu" align="center">Thu<br/><%=addDaysAndFormat(model.getMonday(), 3, "dd MMMM")%>
+                            </td>
+                            <td id="Fri" align="center">Fri<br/><%=addDaysAndFormat(model.getMonday(), 4, "dd MMMM")%>
+                            </td>
+                            <td id="Sat" align="center">Sat<br/><%=addDaysAndFormat(model.getMonday(), 5, "dd MMMM")%>
+                            </td>
+                            <td id="Sun" align="center">Sun<br/><%=addDaysAndFormat(model.getMonday(), 6, "dd MMMM")%>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        <%
+                            out.print(generateProject(model, "Team project", "", 0, 1, true));
+                            tabindex += 28;
+                            for (ProjectsEntity project : model.getProjects()) {
+                                out.print(getEmptyRow());
+                                out.print(generateProject(model, project.getCode(), project.getName(), project.getId(), tabindex, false));
+                                tabindex += 28;
                             }
-                            returning += "\n" +
-                                    "</tr>";
-                        }
+                        %>
+                        <tr class="headers">
+                            <td colspan="2" align="right">Total worked hours</td>
+                            <td id="totalMon">0</td>
+                            <td id="totalTue">0</td>
+                            <td id="totalWed">0</td>
+                            <td id="totalThu">0</td>
+                            <td id="totalFri">0</td>
+                            <td id="totalSat">0</td>
+                            <td id="totalSun">0</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <span class="hidden" id="lastTabIndex" data-tabindex=@(tabindex)></span>
+                </div>
 
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">TAPPS</h4>
+                            </div>
+                            <div class="modal-body">
+                                <span id="message">Your input cannot be more than 24 or less than 0.5 hours. Please try again.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                        return returning;
-                    }
-
-                    String getDayId(int day) {
-                        switch (day) {
-                            case 0: {
-                                return "monForTotal";
-                            }
-                            case 1: {
-                                return "tueForTotal";
-                            }
-                            case 2: {
-                                return "wedForTotal";
-                            }
-                            case 3: {
-                                return "thuForTotal";
-                            }
-                            case 4: {
-                                return "friForTotal";
-                            }
-                            case 5: {
-                                return "satForTotal";
-                            }
-                            case 6: {
-                                return "sunForTotal";
-                            }
-                            default:
-                                return "noForTotal";
-                        }
-                    }
-
-                    String getEmptyRow() {
-                        return "<tr>\n" +
-                                "    <td class=\"td-space\" colspan=\"9\"></td>\n" +
-                                "</tr>";
-                    }
-                %>
-                <td id="Mon" align="center">Mon<br/><%=addDaysAndFormat(model.getMonday(), 0, "dd MMMM")%>
-                </td>
-                <td id="Tue" align="center">Tue<br/><%=addDaysAndFormat(model.getMonday(), 1, "dd MMMM")%>
-                </td>
-                <td id="Wed" align="center">Wed<br/><%=addDaysAndFormat(model.getMonday(), 2, "dd MMMM")%>
-                </td>
-                <td id="Thu" align="center">Thu<br/><%=addDaysAndFormat(model.getMonday(), 3, "dd MMMM")%>
-                </td>
-                <td id="Fri" align="center">Fri<br/><%=addDaysAndFormat(model.getMonday(), 4, "dd MMMM")%>
-                </td>
-                <td id="Sat" align="center">Sat<br/><%=addDaysAndFormat(model.getMonday(), 5, "dd MMMM")%>
-                </td>
-                <td id="Sun" align="center">Sun<br/><%=addDaysAndFormat(model.getMonday(), 6, "dd MMMM")%>
-                </td>
-            </tr>
-            </thead>
-            <tbody id="tbody">
-            <%
-                out.print(generateProject(model, "Team project", "", 0, 1, true));
-                tabindex += 28;
-                for (ProjectsEntity project : model.getProjects()) {
-                    out.print(getEmptyRow());
-                    out.print(generateProject(model, project.getCode(), project.getName(), project.getId(), tabindex, false));
-                    tabindex += 28;
-                }
-            %>
-            <tr class="headers">
-                <td colspan="2" align="right">Total worked hours</td>
-                <td id="totalMon">0</td>
-                <td id="totalTue">0</td>
-                <td id="totalWed">0</td>
-                <td id="totalThu">0</td>
-                <td id="totalFri">0</td>
-                <td id="totalSat">0</td>
-                <td id="totalSun">0</td>
-            </tr>
-            </tbody>
-
-        </table>
-        <span class="hidden" id="lastTabIndex" data-tabindex=@(tabindex)></span>
-    </div>
-</div>
-
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">TAPPS</h4>
-            </div>
-            <div class="modal-body">
-                <span id="message">Your input cannot be more than 24 or less than 0.5 hours. Please try again.</span>
             </div>
         </div>
     </div>
 </div>
-
-</div>
 <script>
 
     $(document).ready(function () {
-       calculateTotals();
+        calculateTotals();
     });
     var globalTabIndex = 1;
 
@@ -639,15 +623,38 @@
         return dat;
     }
 </script>
-
-
 <style>
+    table {
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    td {
+        border: 1px solid #999;
+        padding: 0;
+    }
+
+    .duration {
+        max-width: 8em;
+        min-width: 7em;
+    }
+
+    .headers td, .td-head, .td-head-default {
+        padding: 1px 3px;
+        font-weight: bold;
+        vertical-align: middle;
+    }
+    .td-head, .td-head-default {
+        font-weight: lighter;
+    }
     input {
         border: none;
-        border-color: #ffffff;
+        border-color: #1a6ecc;
         font-size: 14px;
         padding: 0;
         width: inherit;
+        color: #0c0c0c;
+        text-align: center;
     }
 
     input:hover {
@@ -673,31 +680,6 @@
         -moz-box-sizing: border-box;
     }
 
-    table {
-        border-collapse: collapse;
-        text-align: center;
-    }
 
-    td {
-        border: 1px solid #999;
-        padding: 0;
-    }
-
-    .duration {
-        max-width: 8em;
-        min-width: 7em;
-    }
-
-    .headers td, .td-head, .td-head-default {
-        padding: 1px 3px;
-        font-weight: bold;
-        background-color: #eaeaea;
-        vertical-align: middle;
-    }
-
-    .td-head, .td-head-default {
-        font-weight: lighter;
-    }
 </style>
-
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

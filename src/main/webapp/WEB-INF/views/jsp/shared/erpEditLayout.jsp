@@ -18,7 +18,7 @@
             </div>
             <ul class="nav navbar-nav">
                 <div class="userImgBox">
-                    <img class="userimg" src="/resources/images/users/kamola.jpg">
+                    <img class="userimg" src="/image/<%= request.getAttribute("userId") %>.jpg">
                 </div>
                 <hr/>
             HR System

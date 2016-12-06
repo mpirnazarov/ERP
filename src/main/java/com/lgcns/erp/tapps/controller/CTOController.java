@@ -130,19 +130,20 @@ public class CTOController {
         String username = UserService.getUsernameById(userId);
         ModelAndView mav = new ModelAndView();
         mav.addObject("path", "CTO");
+        ProfileViewModel userProfile = UserController.getProfileByUsername(username);
+        mav.addObject("userProfileUser", userProfile);
+        ProfileViewModel userProfile2 = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile2);
         if(path.compareTo("Geninfo")==0) {
 
             mav.setViewName("Home/IndexView");
-            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
-            System.out.println(userProfile.getFirstName()[2] + "  " + userProfile.getLastName()[2]);
-            mav.addObject("userProfile", userProfile);
+
             return mav;
         }
         if(path.compareTo("Salary")==0) {
             mav.setViewName("Home/viewmenu/SalaryDetails");
             List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(username);
-            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
-            mav.addObject("userProfile", userProfile);
+
             mav.addObject("salaryVM", salaryVewModel);
             return mav;
         }
@@ -150,36 +151,26 @@ public class CTOController {
             mav.setViewName("Home/viewmenu/EducationCer");
             EduViewModel eduViewModel = UserController.getEducationByUsername(username);
             mav.addObject("eduVM", eduViewModel);
-
-            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
-            mav.addObject("userProfile", userProfile);
-
             return mav;
         }
         if(path.compareTo("Jobexp")==0) {
             mav.setViewName("Home/viewmenu/JobExp");
             List<JobexpViewModel> jobExperience = UserController.getJobExperience(username);
             mav.addObject("jobVM", jobExperience);
-
-            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
-            mav.addObject("userProfile", userProfile);
-
             return mav;
         }
         if(path.compareTo("Train")==0) {
             mav.setViewName("Home/viewmenu/TrainingRec");
             List<TrainViewModel> trainViewModels = UserController.getTrainingRecord(username);
             mav.addObject("trainVM", trainViewModels);
-            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
-            mav.addObject("userProfile", userProfile);
+
             return mav;
         }
         if(path.compareTo("Docs")==0) {
             mav.setViewName("Home/viewmenu/Docs");
             List<DocsViewModel> docsViewModels = UserController.getDocuments(username);
             mav.addObject("docsVM", docsViewModels);
-            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
-            mav.addObject("userProfile", userProfile);
+
             return mav;
         }
         return null;

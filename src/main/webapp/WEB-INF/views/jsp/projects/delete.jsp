@@ -11,7 +11,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="pageTitle" scope="request" value="Edit Project"/>
+<c:set var="pageTitle" scope="request" value="Delete Project"/>
 <c:set var="now" value="<%=new java.util.Date()%>"/>
 <fmt:formatDate value="${now}" var="nowFormatted" pattern="yyyy-MM-dd"/>
 <fmt:formatDate value="${viewModel.startDate}" var="yearOfProject" pattern="yyyy"/>
@@ -21,9 +21,9 @@
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
-            <h1 class="page-header">Edit Project</h1>
+            <h1 class="page-header">Delete Project</h1>
             <div class="col-lg-8 col-lg-offset-2">
-                <form:form modelAttribute="viewModel" cssClass="form-horizontal" method="post" action="/Projects/Edit"
+                <form:form modelAttribute="viewModel" cssClass="form-horizontal" method="post" action="/Projects/Delete"
                            id="myForm">
 
                     <br/>
@@ -45,28 +45,17 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Name <font color='red'>*</font></label>
                             <div class="col-lg-5">
-                                <form:input path="name"
+                                <form:input path="name" readonly="true"
                                             cssClass="form-control text-box single-line"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">Customer <font color='red'>*</font></label>
                             <div class="col-lg-5">
-                                <form:select path="customerId" id="custmerId"
-                                             cssClass="form-control text-box single-line">
-                                    <form:options items="${customers}"/>
-                                </form:select>
+                                <input type="text" value="${customer}" readonly class="form-control text-box single-line">
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Status <font color='red'>*</font></label>
-                            <div class="col-lg-5">
-                                <form:select path="status" id="status" cssClass="form-control text-box single-line">
-                                    <form:options items="${projectStatuses}"/>
-                                </form:select>
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">UZS amount</label>
                             <div class="col-lg-5">
@@ -77,30 +66,27 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Start Date <font color='red'>*</font></label>
                             <div class="col-lg-5">
-                                <form:input path="startDate" name="startDate" type="date"
+                                <form:input path="startDate" name="startDate" type="date" readonly="true"
                                             cssClass="form-control text-box single-line requiredDate"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">End Date <font color='red'>*</font></label>
                             <div class="col-lg-5">
-                                <form:input path="endDate" name="startDate" type="date"
+                                <form:input path="endDate" name="startDate" type="date" readonly="true"
                                             cssClass="form-control text-box single-line requiredDate"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">Manager <font color='red'>*</font></label>
                             <div class="col-lg-5">
-                                <form:select path="managerId" id="managerId"
-                                             cssClass="form-control text-box single-line">
-                                    <form:options items="${managers}"/>
-                                </form:select>
+                                <input type="text" value="${manager}" readonly class="form-control text-box single-line">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">USD amount</label>
                             <div class="col-lg-5">
-                                <form:input path="moneyUsd" type="number"
+                                <form:input path="moneyUsd" type="number" readonly="true"
                                             cssClass="form-control single-line"/>
                             </div>
                         </div>
@@ -109,8 +95,9 @@
                     <hr/>
 
                     <div class="form-group">
+                        <label class="control-label col-md-3">Are you sure to delete this record?</label>
                         <div class="col-md-offset-3 col-md-9">
-                            <input type="submit" value="Confirm" class="btn btn-info"/>
+                            <input type="submit" value="Confirm" class="btn btn-danger"/>
                             <input type="button" onclick="location.href='/Projects'" value="Cancel"
                                    class="btn btn-default"/>
                         </div>
@@ -120,31 +107,5 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">TAPPS</h4>
-            </div>
-            <div class="modal-body">
-                <span id="message">
-                    <c:forEach items="${errors}" var="error" varStatus="i">
-                        <c:out value="${error.defaultMessage.toString()}"/> <br/>
-                    </c:forEach>
-                </span>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-    $(document).ready(function () {
-        if ($.trim($('#message').text()) != '') {
-            $('#myModal').modal('show');
-        }
-    });
-</script>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

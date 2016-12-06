@@ -17,7 +17,7 @@
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpEditLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
-            <div class="col-lg-8 col-lg-offset-2">
+            <div class="col-lg-offset-2">
                 <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
             <form:form  modelAttribute="jobexpVM" cssClass="form-horizontal" method="post" >
 

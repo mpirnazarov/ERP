@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2016-12-01.08:33:36.270</IntrospectionTimestamp>
-      <IntrospectionStateNumber>1937</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2016-12-06.08:51:42.583</IntrospectionTimestamp>
+      <IntrospectionStateNumber>2086</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -223,7 +223,7 @@
     </table>
     <table id="57" parent="3" name="documents">
       <ObjectId>16947</ObjectId>
-      <StateNumber>908</StateNumber>
+      <StateNumber>2086</StateNumber>
     </table>
     <table id="58" parent="3" name="education_localizations">
       <ObjectId>17221</ObjectId>
@@ -682,30 +682,35 @@ language_id</ColNames>
       <Primary>1</Primary>
     </key>
     <column id="150" parent="57" name="id">
+      <Position>1</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>907</StateNumber>
       <DefaultExpression>nextval(&apos;&quot;documents_id _seq&quot;&apos;::regclass)</DefaultExpression>
     </column>
     <column id="151" parent="57" name="user_id">
+      <Position>2</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>679</StateNumber>
     </column>
     <column id="152" parent="57" name="document_type">
-      <DataType>numeric|0</DataType>
+      <Position>6</Position>
+      <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>779</StateNumber>
+      <StateNumber>2086</StateNumber>
     </column>
     <column id="153" parent="57" name="link">
+      <Position>7</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>779</StateNumber>
     </column>
     <column id="154" parent="57" name="name">
-      <DataType>varchar(20)|0</DataType>
+      <Position>8</Position>
+      <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>779</StateNumber>
+      <StateNumber>2082</StateNumber>
     </column>
     <index id="155" parent="57" name="documents_pkey">
       <ObjectId>16954</ObjectId>

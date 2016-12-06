@@ -794,7 +794,7 @@ public class UserService {
         return documentsEntity;
     }
 
-    public static DocumentsEntity getDocumentById(int id, UsersEntity user) {
+    public static DocumentsEntity getDocumentById(int id, int userId) {
         DocumentsEntity documentsEntity = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -802,7 +802,7 @@ public class UserService {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from DocumentsEntity where userId = :userId and id = :docId");
             query.setParameter("docId", id);
-            query.setParameter("userId", user.getId());
+            query.setParameter("userId", userId);
             documentsEntity = (DocumentsEntity) query.getSingleResult();
             transaction.commit();
         }
@@ -1552,5 +1552,27 @@ public class UserService {
         }
 
         return id;
+    }
+
+    public static DocumentsEntity getDocumentByDocId(int docId) {
+        DocumentsEntity documentsEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from DocumentsEntity where id = :docId");
+            query.setParameter("docId", docId);
+            documentsEntity = (DocumentsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return documentsEntity;
     }
 }

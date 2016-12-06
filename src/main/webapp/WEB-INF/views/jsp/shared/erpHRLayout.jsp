@@ -21,7 +21,8 @@
                     <%--<img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>--%>
                 <%--</object>--%>
                     <div class="userImgBox">
-                        <img class="userimg" src="/resources/images/users/kamola.jpg">
+                        <%--<img class="userimg" src="/resources/images/users/kamola.jpg">--%>
+                            <img class="userimg" src="/image/0096.jpg">
                     </div>
             HR System
             <li class="dropdown">

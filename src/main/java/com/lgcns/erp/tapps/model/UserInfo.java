@@ -1,6 +1,6 @@
 package com.lgcns.erp.tapps.model;
 
-import com.sun.istack.internal.Nullable;
+//import com.sun.istack.internal.Nullable;
 
 /**
  * Created by Rafatdin on 15.09.2016.

@@ -155,7 +155,7 @@ public class ProjectsEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "projectsByProjectId")
+    @OneToMany(mappedBy = "projectsByProjectId", cascade = CascadeType.ALL)
     public Collection<ContactInProjectsEntity> getContactInProjectsesById() {
         return contactInProjectsesById;
     }
@@ -164,7 +164,7 @@ public class ProjectsEntity {
         this.contactInProjectsesById = contactInProjectsesById;
     }
 
-    @OneToMany(mappedBy = "projectsByProjectId")
+    @OneToMany(mappedBy = "projectsByProjectId", cascade = CascadeType.ALL)
     public Collection<UserInProjectsEntity> getUserInProjectsesById() {
         return userInProjectsesById;
     }
@@ -173,7 +173,7 @@ public class ProjectsEntity {
         this.userInProjectsesById = userInProjectsesById;
     }
 
-    @OneToMany(mappedBy = "projectsByProjectId")
+    @OneToMany(mappedBy = "projectsByProjectId", cascade = CascadeType.ALL)
     public Collection<WorkloadEntity> getWorkloadsById() {
         return workloadsById;
     }

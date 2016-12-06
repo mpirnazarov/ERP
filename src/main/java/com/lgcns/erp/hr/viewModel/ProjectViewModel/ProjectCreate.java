@@ -19,6 +19,8 @@ import java.util.Map;
  */
 public class ProjectCreate {
 
+    private Integer Id;
+
     @NotEmpty(message = "Code cannot be empty")
     private String Code;
     @NotEmpty(message = "Name cannot be empty")
@@ -43,6 +45,14 @@ public class ProjectCreate {
     private Integer CustomerId;
     @NotNull(message = "The PM is not chosen")
     private Integer ManagerId;
+
+    public Integer getId() {
+        return Id;
+    }
+
+    public void setId(Integer id) {
+        Id = id;
+    }
 
     public Integer getManagerId() {
         return ManagerId;

@@ -1,21 +1,22 @@
 package com.lgcns.erp.hr.controller;
 
 import com.lgcns.erp.hr.enums.ProjectRole;
+import com.lgcns.erp.hr.enums.ProjectStatus;
 import com.lgcns.erp.hr.mapper.ProjectMapper;
 import com.lgcns.erp.hr.viewModel.ProjectViewModel.ProjectCreate;
 import com.lgcns.erp.hr.viewModel.ProjectViewModel.ProjectCreateForm;
 import com.lgcns.erp.tapps.DbContext.ContactServices;
 import com.lgcns.erp.tapps.DbContext.ProjectServices;
 import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.tapps.controller.UP;
+import com.lgcns.erp.tapps.controller.UserController;
 import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.*;
+import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -36,13 +37,13 @@ public class ProjectController {
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<UserInProjectsEntity> projects = ProjectServices.getUserInProjectsInfoByUserId(user.getId());
         mav.addObject("projects", projects);
-
+        mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
 
     @RequestMapping(value = "/Create", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView Create() {
+    public ModelAndView Create(Principal principal) {
         ModelAndView mav = new ModelAndView("projects/create");
 
         ProjectCreateForm createVM = new ProjectCreateForm();
@@ -61,15 +62,17 @@ public class ProjectController {
         mav.addObject("customers", getContactsIdAndName());
         mav.addObject("users", getUsersIdAndName());
 
+        mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
-
 
     @RequestMapping(value = "/Create", method = RequestMethod.POST)
     @ResponseBody
     public ModelAndView CreatePost(@Valid @ModelAttribute("createVM") ProjectCreateForm viewModel, BindingResult bindingResult, Principal principal,
                                    RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView("projects/create");
+        mav = UP.includeUserProfile(mav, principal);
+
         mav.addObject("createVM", viewModel);
         if (bindingResult.hasErrors()) {
             mav.addObject("customers", getContactsIdAndName());
@@ -81,7 +84,7 @@ public class ProjectController {
         //adding project and projectLocalization info into DB
         for (ProjectCreate projectModel : viewModel.getProjects()) {
             int projectId = ProjectServices.insertProject(ProjectMapper.mapViewModelToEntity(projectModel));
-            ProjectServices.insertProjectMember(projectId, UserService.getUserByUsername(principal.getName()).getId(), ProjectRole.Manager, projectModel.getStartDate(), projectModel.getEndDate());
+            ProjectServices.insertProjectMember(projectId, projectModel.getManagerId(), ProjectRole.Manager, projectModel.getStartDate(), projectModel.getEndDate());
         }
         return new ModelAndView("redirect:/Projects");
     }
@@ -94,6 +97,81 @@ public class ProjectController {
         return contacts;
     }
 
+
+    @RequestMapping(value = "/Edit/{id}", method = RequestMethod.GET)
+    public ModelAndView Edit(@PathVariable int id, Principal principal) {
+        ModelAndView mav = new ModelAndView("projects/edit");
+        mav = UP.includeUserProfile(mav, principal);
+        ProjectsEntity existingProject = ProjectServices.getProjectById(id);
+        int managersId = ProjectServices.getManagerIdByProjectId(id);
+        Map<Integer, String> statusMap = new HashMap<Integer, String>();
+        for (ProjectStatus status : ProjectStatus.values()) {
+            statusMap.put(status.getValue(), status.toString());
+        }
+        if (existingProject != null && managersId != 0) {
+            ProjectCreate model = ProjectMapper.mapEntityToViewModel(existingProject, managersId);
+            mav.addObject("viewModel", model);
+            mav.addObject("customers", getContactsIdAndName());
+            mav.addObject("managers", getUsersIdAndName());
+            mav.addObject("projectStatuses", statusMap);
+            return mav;
+        }
+        return new ModelAndView("redirect:/Projects");
+    }
+
+    @RequestMapping(value = "/Edit", method = RequestMethod.POST)
+    public ModelAndView Edit(@Valid @ModelAttribute("viewModel") ProjectCreate viewModel, BindingResult bindingResult, Principal principal) {
+        ModelAndView mav = new ModelAndView("projects/edit");
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("viewModel", viewModel);
+        Map<Integer, String> statusMap = new HashMap<Integer, String>();
+        for (ProjectStatus status : ProjectStatus.values()) {
+            statusMap.put(status.getValue(), status.toString());
+        }
+        mav.addObject("projectStatuses", statusMap);
+
+        if (bindingResult.hasErrors()) {
+            mav.addObject("customers", getContactsIdAndName());
+            mav.addObject("users", getUsersIdAndName());
+            mav.addObject("org.springframework.validation.BindingResult.viewModel", bindingResult);
+            mav.addObject("errors", bindingResult.getAllErrors());
+
+            return mav;
+        }
+        //updating project and manager info
+        ProjectServices.updateProject(viewModel.getId(), viewModel);
+        ProjectServices.updateManager(viewModel.getId(), viewModel.getManagerId());
+
+        return new ModelAndView("redirect:/Projects");
+    }
+    @RequestMapping(value = "/Delete/{id}", method = RequestMethod.GET)
+    public ModelAndView Delete(@PathVariable int id, Principal principal) {
+        ProjectsEntity existingProject = ProjectServices.getProjectById(id);
+        int managersId = ProjectServices.getManagerIdByProjectId(id);
+        ProjectCreate model = ProjectMapper.mapEntityToViewModel(existingProject, managersId);
+
+        ModelAndView mav = new ModelAndView("projects/delete");
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("viewModel", model);
+        mav.addObject("customer", getContactsIdAndName().get(model.getCustomerId()));
+        mav.addObject("manager", getUsersIdAndName().get(model.getManagerId()));
+        return mav;
+    }
+
+    @RequestMapping(value = "/Delete", method = RequestMethod.POST)
+    public ModelAndView Delete(@Valid @ModelAttribute("viewModel") ProjectCreate viewModel, Principal principal) {
+        try {
+            ProjectServices.updateProject(viewModel.getId(), viewModel);
+        }catch (Exception e){
+            ModelAndView mav = new ModelAndView("projects/delete");
+            mav.addObject("viewModel", viewModel);
+            mav.addObject("customer", getContactsIdAndName().get(viewModel.getCustomerId()));
+            mav.addObject("manager", getUsersIdAndName().get(viewModel.getManagerId()));
+            mav = UP.includeUserProfile(mav, principal);
+            return mav;
+        }
+        return new ModelAndView("redirect:/Projects");
+    }
     private Map<Integer, String> getUsersIdAndName() {
         Map<Integer, String> users = new LinkedHashMap<Integer, String>();
         for (UserLocalizationsEntity loc : UserService.getAllUserLocs()) {
@@ -116,4 +194,5 @@ public class ProjectController {
                 return "-";
         }
     }
+
 }

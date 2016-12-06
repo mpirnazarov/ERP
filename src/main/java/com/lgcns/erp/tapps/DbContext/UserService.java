@@ -228,7 +228,8 @@ public class UserService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("select distinct langLoc from LanguageLocalizationsEntity langLoc");
+            Query query = session.createQuery("select distinct langLoc from LanguageLocalizationsEntity langLoc where langLoc.languageId = :langId");
+            query.setParameter("langId",Language.eng.getCode());
             for(LanguageLocalizationsEntity langloc : (List<LanguageLocalizationsEntity>)query.list()){
                 map.put(langloc.getLanguageId(), langloc.getName());
             }
@@ -428,7 +429,8 @@ public class UserService {
             query.setParameter("postId", postId);
             query.setParameter("languageId", languageId);
             //query.setParameter("roleId", userInRoles.getRoleId());
-            postLocalizationEntity = (PostLocalizationsEntity) query.getSingleResult();
+            if(!query.list().isEmpty())
+                postLocalizationEntity = (PostLocalizationsEntity) query.getSingleResult();
             transaction.commit();
         }
         catch (HibernateException e) {

@@ -122,4 +122,31 @@ public class WorkloadServices {
         }
         return accessible;
     }
+
+    public static List<WorkloadEntity> getWorkloadByPeriod(int userId, Date dateFrom, Date dateTo){
+        List<WorkloadEntity> returning = new ArrayList<WorkloadEntity>();
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query;
+            if(userId != 0){
+                query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.date <= :dateTo and w.userId = :userId");
+                query.setParameter("userId", userId);
+            }else{
+                query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.date <= :dateTo");
+            }
+            query.setParameter("dateFrom", dateFrom);
+            query.setParameter("dateTo", dateTo);
+            returning = (List<WorkloadEntity>)query.list();
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return returning;
+    }
 }

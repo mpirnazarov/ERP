@@ -44,6 +44,29 @@ public class ProjectServices {
         return projectsList;
     }
 
+    public static List<ProjectsEntity> getAllProjects(Date from, Date to) {
+        List<ProjectsEntity> list = null;
+        List<ProjectsEntity> projectsList = new ArrayList<ProjectsEntity>();
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from ProjectsEntity uip where uip.startDate <= :fromDate and uip.endDate >= :toDate");
+            query.setParameter("fromDate", from);
+            query.setParameter("toDate", to);
+            list = (List<ProjectsEntity>) query.list();
+            transaction.commit();
+
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return list;
+    }
+
     public static List<UserInProjectsEntity> getUserInProjectsInfoByUserId(int userId){
         List<UserInProjectsEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();

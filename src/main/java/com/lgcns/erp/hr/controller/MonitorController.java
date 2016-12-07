@@ -2,6 +2,7 @@ package com.lgcns.erp.hr.controller;
 
 import com.lgcns.erp.hr.mapper.MonitorMapper;
 import com.lgcns.erp.hr.viewModel.MonitorViewModels.MonitorViewModel;
+import com.lgcns.erp.hr.viewModel.MonitorViewModels.QueryModel;
 import com.lgcns.erp.tapps.DbContext.ProjectServices;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.DbContext.WorkloadServices;
@@ -34,8 +35,9 @@ import java.util.Date;
 public class MonitorController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView Monitor(Principal principal) {
-        ModelAndView mav = new ModelAndView("monitor/index");
-        Pair<List<MonitorViewModel>, Integer> values = getAllData(0, getDateRange().getKey(),getDateRange().getValue());
+        ModelAndView mav = new ModelAndView("monitor/index");         //TODO create view
+
+        Pair<List<MonitorViewModel>, Integer> values = getAllData(0, getDateRange().getKey(), getDateRange().getValue());
         mav.addObject("viewModel", values.getKey());
         mav.addObject("total", values.getValue());
         mav = UP.includeUserProfile(mav, principal);
@@ -46,11 +48,18 @@ public class MonitorController {
     public JSONObject ReceiveDataAjax(@RequestBody String json, Principal principal) throws IOException {
         JSONObject response = new JSONObject();
         ObjectMapper mapper = new ObjectMapper();
-
+        QueryModel jsonModel = mapper.readValue(json, QueryModel.class);
+        Pair<List<MonitorViewModel>, Integer> values = getAllData(jsonModel.getUserId(), jsonModel.getProjectId(), jsonModel.getTypeId(), getDateRange().getKey(), getDateRange().getValue());
+        //TODO map data from values to response
         return response;
     }
 
-    private Pair<List<MonitorViewModel>, Integer> getAllData(int userId, Date dateFrom, Date dateTo){
+    private Pair<List<MonitorViewModel>, Integer> getAllData(int userId, int projectId, int typeId, Date dateFrom, Date dateTo) {
+        List<WorkloadEntity> workloads = WorkloadServices.getWorkloadByPeriod(userId,projectId,typeId, dateFrom, dateTo);
+        return MonitorMapper.mapWorkloadsToViewModel(workloads, getUsersIdAndName(), getProjectsIdAndName(dateFrom, dateTo));
+    }
+
+    private Pair<List<MonitorViewModel>, Integer> getAllData(int userId, Date dateFrom, Date dateTo) {
         List<WorkloadEntity> workloads = WorkloadServices.getWorkloadByPeriod(userId, dateFrom, dateTo);
         return MonitorMapper.mapWorkloadsToViewModel(workloads, getUsersIdAndName(), getProjectsIdAndName(dateFrom, dateTo));
     }
@@ -63,10 +72,10 @@ public class MonitorController {
         return users;
     }
 
-    private Map<Integer, String> getProjectsIdAndName(Date dateFrom, Date dateTo){
+    private Map<Integer, String> getProjectsIdAndName(Date dateFrom, Date dateTo) {
         Map<Integer, String> projects = new LinkedHashMap<Integer, String>();
         Calendar cal = Calendar.getInstance();
-        for (ProjectsEntity project : ProjectServices.getAllProjects(dateFrom,dateTo)) {
+        for (ProjectsEntity project : ProjectServices.getAllProjects(dateFrom, dateTo)) {
             cal.setTime(project.getStartDate());
             int year = cal.get(Calendar.YEAR);
             projects.put(project.getId(), "PJ " + year + "-" + project.getCode() + "-" + project.getType() +

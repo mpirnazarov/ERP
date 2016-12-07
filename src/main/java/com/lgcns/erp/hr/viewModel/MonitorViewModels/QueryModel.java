@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by Rafatdin on 07.12.2016.
  */
-class QueryModel {
+public class QueryModel {
     private int userId;
     private int projectId;
     private int typeId;

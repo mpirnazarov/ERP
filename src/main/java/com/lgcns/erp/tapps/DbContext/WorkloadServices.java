@@ -149,4 +149,30 @@ public class WorkloadServices {
 
         return returning;
     }
+
+    public static List<WorkloadEntity> getWorkloadByPeriod(int userId, int projectId, int typeId, Date dateFrom, Date dateTo){
+        List<WorkloadEntity> returning = new ArrayList<WorkloadEntity>();
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query;
+            query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.date <= :dateTo and w.userId = :userId and w.projectId = :projectId and w.workloadType = :wType");
+            query.setParameter("userId", userId);
+            query.setParameter("projectId", projectId);
+            query.setParameter("wType", typeId);
+            query.setParameter("dateFrom", dateFrom);
+            query.setParameter("dateTo", dateTo);
+            returning = (List<WorkloadEntity>)query.list();
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return returning;
+    }
+
 }

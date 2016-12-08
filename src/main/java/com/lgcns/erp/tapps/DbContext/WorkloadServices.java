@@ -157,10 +157,47 @@ public class WorkloadServices {
         try {
             transaction = session.beginTransaction();
             Query query;
-            query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.date <= :dateTo and w.userId = :userId and w.projectId = :projectId and w.workloadType = :wType");
-            query.setParameter("userId", userId);
-            query.setParameter("projectId", projectId);
-            query.setParameter("wType", typeId);
+            if(userId==0) {
+                if (projectId == 0) {
+                    if (typeId == 0) {
+                        query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.date <= :dateTo");
+                    } else {
+                        query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.date <= :dateTo and w.workloadType = :wType");
+                        query.setParameter("wType", typeId);
+                    }
+                } else {
+                    if (typeId == 0) {
+                        query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.date <= :dateTo and w.projectId = :projectId");
+                        query.setParameter("projectId", projectId);
+                    } else {
+                        query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.date <= :dateTo and w.projectId = :projectId and w.workloadType = :wType");
+                        query.setParameter("wType", typeId);
+                        query.setParameter("projectId", projectId);
+                    }
+                }
+            }else{
+                if (projectId == 0) {
+                    if (typeId == 0) {
+                        query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.userId = :userId and w.date <= :dateTo");
+                        query.setParameter("userId", userId);
+                    } else {
+                        query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.userId = :userId and w.date <= :dateTo and w.workloadType = :wType");
+                        query.setParameter("wType", typeId);
+                        query.setParameter("userId", userId);
+                    }
+                } else {
+                    if (typeId == 0) {
+                        query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.userId = :userId and w.date <= :dateTo and w.projectId = :projectId");
+                        query.setParameter("projectId", projectId);
+                        query.setParameter("userId", userId);
+                    } else {
+                        query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.userId = :userId and w.date <= :dateTo and w.projectId = :projectId and w.workloadType = :wType");
+                        query.setParameter("wType", typeId);
+                        query.setParameter("projectId", projectId);
+                        query.setParameter("userId", userId);
+                    }
+                }
+            }
             query.setParameter("dateFrom", dateFrom);
             query.setParameter("dateTo", dateTo);
             returning = (List<WorkloadEntity>)query.list();

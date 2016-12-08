@@ -1,15 +1,25 @@
 package com.lgcns.erp.hr.viewModel.MonitorViewModels;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Rafatdin on 07.12.2016.
  */
-public class QueryModel {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class QueryModel implements Serializable {
+    @JsonProperty("userId")
     private int userId;
+    @JsonProperty("projectId")
     private int projectId;
+    @JsonProperty("typeId")
     private int typeId;
+    @JsonProperty("dateFrom")
     private Date dateFrom;
+    @JsonProperty("dateTo")
     private Date dateTo;
 
     public int getUserId() {

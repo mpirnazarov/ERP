@@ -5,9 +5,11 @@ import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
 import java.security.MessageDigest;
@@ -1638,5 +1640,119 @@ public class UserService {
         }
 
         return evalutionsEntities;
+    }
+
+    public static List<DocumentsEntity> getDocumentsGen(int typeId) {
+        List<DocumentsEntity> documentsEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from DocumentsEntity where documentType = :typeId");
+            query.setParameter("typeId", typeId);
+            documentsEntity = query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return documentsEntity;
+    }
+
+
+    public static UserInPostsEntity getUserInPostById(int id) {
+        UserInPostsEntity userInPostsEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserInPostsEntity where id = :id");
+            query.setParameter("id", id);
+            //query.setParameter("roleId", userInRoles.getRoleId());
+            userInPostsEntity = (UserInPostsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return userInPostsEntity;
+    }
+
+
+    public static void updateUserInPosts(UserInPostsEntity userInPostsEntity, int appId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(UserInPostsEntity.class);
+            criteria.add(Restrictions.eq("id", appId));
+            UserInPostsEntity userInPostsEntity1 = (UserInPostsEntity) criteria.uniqueResult();
+            userInPostsEntity1.setDateFrom(userInPostsEntity.getDateFrom());
+            userInPostsEntity1.setContractType(userInPostsEntity.getContractType());
+            userInPostsEntity1.setPostId(userInPostsEntity.getPostId());
+            userInPostsEntity1.setDateEnd(userInPostsEntity.getDateEnd());
+
+            session.getTransaction().commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+    }
+
+    public static void updateDepartmentId(int departmentId, int userId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update UsersEntity set departmentId = :departmentId where id = :userid");
+            query.setParameter("userid", userId);
+            query.setParameter("departmentId", departmentId);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void insertUserInPosts(UserInPostsEntity userInPostsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            System.out.println("Inserting User in post");
+            transaction = session.beginTransaction();
+            //Set foreign key items
+            userInPostsEntity.setUsersByUserId(session.load(UsersEntity.class, userInPostsEntity.getUserId()));
+            userInPostsEntity.setPostsByPostId(session.load(PostsEntity.class, userInPostsEntity.getPostId()));
+            //Save the object in database
+            session.save(userInPostsEntity);
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
     }
 }

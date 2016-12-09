@@ -16,8 +16,8 @@ public class AppointmentrecViewModel {
     public AppointmentrecViewModel() {
         appointmentSummaries = new LinkedList<AppointmentSummary>();
     }
-    public void addAppointSummary(Date appointDate, String appointmentType, String department, String role) {
-        appointmentSummaries.add(new AppointmentSummary(appointDate, appointmentType, department, role));
+    public void addAppointSummary(Date appointDate, String appointmentType, String department, String role, int id, int detId) {
+        appointmentSummaries.add(new AppointmentSummary(appointDate, appointmentType, department, role, id, detId));
     }
 
     public List<AppointmentSummary> getAppointmentSummaries() {

@@ -86,7 +86,12 @@ public class UserController {
     public ModelAndView Appointmentrec(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/usermenu/AppointmentRec");
-        AppointmentrecViewModel appointmentrecViewModel = getAppointmentByUsername(principal.getName());
+        AppointmentrecViewModel appointmentrecViewModel=null;
+        try {
+            appointmentrecViewModel = getAppointmentByUsername(principal.getName());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
         return mav;
@@ -359,7 +364,15 @@ public class UserController {
 
         for (UserInPostsEntity uip :
                 usersInPost) {
-            returning.addAppointSummary(uip.getDateFrom(), Appoint.values()[uip.getContractType() - 1].toString(), UserService.getDepartments().get(user.getDepartmentId()).getName(), UserService.getJobTitle(uip.getPostId(), 3).getName());
+            String departName=null;
+            List<DepartmentLocalizationsEntity> departmentLocalizationsEntities = UserService.getDepartments();
+            for (DepartmentLocalizationsEntity d :
+                    departmentLocalizationsEntities) {
+                if (d.getDepartmentId() == user.getDepartmentId() && d.getLanguageId()==3) {
+                    departName = d.getName();
+                }
+            }
+            returning.addAppointSummary(uip.getDateFrom(), Appoint.values()[uip.getContractType() - 1].toString(), departName, UserService.getJobTitle(uip.getPostId(), 3).getName(), uip.getId(), user.getDepartmentId());
         }
         return returning;
     }

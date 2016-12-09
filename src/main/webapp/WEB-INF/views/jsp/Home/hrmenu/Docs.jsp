@@ -43,80 +43,8 @@
                     </tr>
                 </table>
             </form:form>
+            <a href="Docs/Manage" class="btn btn-success">Manage Documents</a>
 
-
-
-
-
-
-<%--
-<form:form  commandName="docs" action="/Hr/Generate/"  cssClass="form-horizontal" method="post" >
-
-
-
-            <div class="form-horizontal">
-
-                <div class="form-group">
-                    <label class="control-label col-md-3">Documents: <font color='red'>*</font></label>
-                    <div class="col-lg-5">
-                        <form:select path="docId">
-                            <form:option value="NONE" label="--- Select ---" />
-                            <form:options items="${documents}" />
-                        </form:select>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-           &lt;%&ndash; <form name="Generate" action="/Hr/Generate/" method="POST" commandName="docs">
-                <table class="table table-default">
-                    <thead>
-                        <tr>
-                            <th>Document name</th>
-                            <th>Document type</th>
-                            <th>Name</th>
-                            <th>Action</th>
-                            &lt;%&ndash;<th><i class="fa fa-fw fa-download"></i></th>&ndash;%&gt;
-                        </tr>
-                    </thead>
-                    <tbody>
-                        &lt;%&ndash;<c:forEach items="${documents}" var="doc" varStatus="status">&ndash;%&gt;
-                            <tr>
-                                <td>
-
-                                    <select items="${documents}" value="${docs.docId}"
-                                                 cssClass="form-control text-box single-line"/>
-                                </td>
-                                <td>Docx</td>
-                                <td>
-                                    &lt;%&ndash;<form:select name="user2" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"  path="userId"><span class="caret"></span>
-                                        <option value="NONE">--- Select ---</option>
-                                        <c:forEach items="${users}" var="user" varStatus="status">
-                                            <option value="${user.key}">${user.value} ${user.key}</option>
-                                        </c:forEach>
-                                    </form:select>&ndash;%&gt;
-                                </td>
-
-                                <td>
-                                    <input type="submit" name="Print" value="Print">
-                                    <input type="submit" name="Save" value="Save">
-                                </td>
-                            </tr>
-                            &lt;%&ndash;<form:hidden path="id" />&ndash;%&gt;
-                        &lt;%&ndash;</c:forEach>&ndash;%&gt;
-                    </tbody>
-                </table>&ndash;%&gt;
-</form:form>
---%>
         </div>
     </div>
 </div>

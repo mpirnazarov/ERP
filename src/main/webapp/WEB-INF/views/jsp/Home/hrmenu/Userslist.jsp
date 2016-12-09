@@ -17,67 +17,72 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
+        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
             <div class="col-lg-offset-2">
                 <h1 class="page-header">HR profile</h1>
-            <div class="table-responsive">
+                <div class="table-responsive">
                     <div class="col-lg-offset-10 col-xs-1">
                         <a href="/Hr/Register" class="btn btn-success" role="button">New User</a>
                     </div>
-        <br/>
-        <table id="myTable" class="display table" cellspacing="0" width="100%">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Username</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${hrUserslistVM}" var="user">
-                <tr>
-                    <td><c:out value="${user.id}"/></td>
-                    <td><c:out value="${user.firstName[2]}"/></td>
-                    <td><c:out value="${user.lastName[2]}"/></td>
-                    <td><c:out value="${user.username}"/></td>
-                    <td>
-                        <spring:url value="/Hr/user/${user.id}/Geninfo" var="userUrl" />
-                        <spring:url value="/Hr/user/${user.id}/disable/" var="disableUrl" />
-                        <spring:url value="/Hr/user/${user.id}/enable/" var="enableUrl" />
-                        <spring:url value="/Hr/user/${user.id}/update/Geninfo" var="updateUrl" />
+                    <br/>
+                    <table id="myTable" class="display table" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Username</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${hrUserslistVM}" var="user">
+                            <tr>
+                                <td><c:out value="${user.id}"/></td>
+                                <td><c:out value="${user.firstName[2]}"/></td>
+                                <td><c:out value="${user.lastName[2]}"/></td>
+                                <td><c:out value="${user.username}"/></td>
+                                <td>
+                                    <spring:url value="/Hr/user/${user.id}/Geninfo" var="userUrl"/>
+                                    <spring:url value="/Hr/user/${user.id}/disable/" var="disableUrl"/>
+                                    <spring:url value="/Hr/user/${user.id}/enable/" var="enableUrl"/>
+                                    <spring:url value="/Hr/user/${user.id}/update/Geninfo" var="updateUrl"/>
 
-                        <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
-                        <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
-                        <c:if test="${not user.enabled}">
-                            <button class="btn btn-success" onclick="location.href='${enableUrl}'">Enable</button></td>
+                                    <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
+                                    <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update
+                                    </button>
+                                    <c:if test="${not user.enabled}">
+                                    <button class="btn btn-success" onclick="location.href='${enableUrl}'">Enable
+                                    </button>
+                                </td>
 
-                        </c:if>
-                        <c:if test="${user.enabled}">
-                            <button class="btn btn-danger" onclick="location.href='${disableUrl}'">Disable</button></td>
-                        </c:if>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
+                                </c:if>
+                                <c:if test="${user.enabled}">
+                                    <button class="btn btn-danger" onclick="location.href='${disableUrl}'">Disable
+                                    </button>
+                                    </td>
+                                </c:if>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
 
+            </div>
         </div>
     </div>
-</div>
-<script>
-    $(document).ready(function(){
-        $('#myTable').DataTable({
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            dom: 'Bfrtip',
-            select: true,
-            "order": [[ 0, "desc" ]],
-            buttons: [
-                'copy', 'excel', 'pdf', 'print',
-            ]
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                dom: 'Bfrtip',
+                select: true,
+                "order": [[0, "desc"]],
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print',
+                ]
+            });
         });
-    });
-</script>
+    </script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

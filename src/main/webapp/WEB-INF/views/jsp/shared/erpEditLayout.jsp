@@ -43,6 +43,9 @@
                     <a href="./Geninfo"><i class="fa fa-fw fa-info-circle"></i> General information</a>
                 </li>
                 <li>
+                    <a href="./Appointment"><i class="fa fa-fw fa-hand-pointer-o"></i> Appointment record</a>
+                </li>
+                <li>
                     <a href="./Salary"><i class="fa fa-fw fa-money"></i> Salary details</a>
                 </li>
                 <li>

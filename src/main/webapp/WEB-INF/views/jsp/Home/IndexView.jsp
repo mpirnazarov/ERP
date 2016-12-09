@@ -21,7 +21,7 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpViewLayout.jsp"></jsp:include>
         <div class="col-sm-9 col-md-offset-1">
         <div class="col-lg-offset-2">
-            <h1><%= request.getAttribute("FullName2") %></h1>
+            <%--<h1><%= request.getAttribute("FullName2") %></h1>--%>
             <h2 class="page-header">General Information</h2>
 
             <ul class="nav nav-tabs">

@@ -13,6 +13,7 @@ import com.lgcns.erp.tapps.viewModel.PersonalInformationViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.*;
+import com.lgcns.erp.tapps.viewModel.usermenu.Appointment.AppointmentSummary;
 import fr.opensagres.xdocreport.core.XDocReportException;
 import fr.opensagres.xdocreport.template.TemplateEngineKind;
 import org.apache.poi.xwpf.converter.core.FileImageExtractor;
@@ -87,19 +88,17 @@ public class HrController {
         String username = UserService.getUsernameById(userId);
         ModelAndView mav = new ModelAndView();
         mav.addObject("path", "Hr");
+        ProfileViewModel userProfile = UserController.getProfileByUsername(username);
+        mav.addObject("userProfileUser", userProfile);
+        ProfileViewModel userProfile2 = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile2);
         if(path.compareTo("Geninfo")==0) {
-
             mav.setViewName("Home/IndexView");
-            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
-            System.out.println(userProfile.getFirstName()[2] + "  " + userProfile.getLastName()[2]);
-            mav.addObject("userProfile", userProfile);
             return mav;
         }
         if(path.compareTo("Salary")==0) {
             mav.setViewName("Home/viewmenu/SalaryDetails");
             List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(username);
-            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
-            mav.addObject("userProfile", userProfile);
             mav.addObject("salaryVM", salaryVewModel);
             return mav;
         }
@@ -107,36 +106,24 @@ public class HrController {
             mav.setViewName("Home/viewmenu/EducationCer");
             EduViewModel eduViewModel = UserController.getEducationByUsername(username);
             mav.addObject("eduVM", eduViewModel);
-
-            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
-            mav.addObject("userProfile", userProfile);
-
             return mav;
         }
         if(path.compareTo("Jobexp")==0) {
             mav.setViewName("Home/viewmenu/JobExp");
             List<JobexpViewModel> jobExperience = UserController.getJobExperience(username);
             mav.addObject("jobVM", jobExperience);
-
-            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
-            mav.addObject("userProfile", userProfile);
-
             return mav;
         }
         if(path.compareTo("Train")==0) {
             mav.setViewName("Home/viewmenu/TrainingRec");
             List<TrainViewModel> trainViewModels = UserController.getTrainingRecord(username);
             mav.addObject("trainVM", trainViewModels);
-            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
-            mav.addObject("userProfile", userProfile);
             return mav;
         }
         if(path.compareTo("Docs")==0) {
             mav.setViewName("Home/viewmenu/Docs");
             List<com.lgcns.erp.tapps.viewModel.usermenu.DocsViewModel> docsViewModels = UserController.getDocuments(username);
             mav.addObject("docsVM", docsViewModels);
-            ProfileViewModel userProfile = UserController.getProfileByUsername(username);
-            mav.addObject("userProfile", userProfile);
             return mav;
         }
         return null;
@@ -256,12 +243,11 @@ public class HrController {
         mav.setViewName("Home/hrmenu/Docs");
         DocsViewModel docsViewModel = new DocsViewModel();
 
-        List<DocumentsEntity> documentsEntities = UserService.getDocuments(UserService.getUserByUsername(principal.getName()));
+        List<DocumentsEntity> documentsEntities = UserService.getDocumentsGen(7);
         Map<Integer, String> documentsEntitiesFinal = new HashMap<Integer, String>();
 
         for (DocumentsEntity docs :
                 documentsEntities) {
-            if (docs.getDocumentType()==1)
                 documentsEntitiesFinal.put(docs.getId(), docs.getName());
         }
         Map<Integer, String> users = new HashMap<Integer, String>();
@@ -281,6 +267,164 @@ public class HrController {
         mav.addObject("userProfile", userProfile);
         return mav;
     }
+
+    @RequestMapping(value = "/Hr/Docs/Manage/Del/{docId}")
+    public String deleteDoc(Principal principal, @PathVariable("docId") int docId) throws IOException {
+        String path = UserService.getDocumentByDocId(docId).getLink();
+        File file = new File(path);
+        if(file.delete())
+            System.out.println(file.getName() + " is deleted!");
+        else
+            System.out.println("Delete operation is failed.");
+
+        UserService.deleteDocument(docId);
+        return "redirect: /Hr/Docs/Manage";
+    }
+
+    @RequestMapping(value = "/Hr/Docs/Manage", method = RequestMethod.GET)
+    public ModelAndView ManageDocs(Principal principal, Model model) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/hrmenu/ManageDocs");
+        List<DocumentsEntity> documentsEntities = UserService.getDocumentsGen(7);
+        Map<Integer, String> documentsEntitiesFinal = new HashMap<Integer, String>();
+
+        for (DocumentsEntity docs :
+                documentsEntities) {
+            documentsEntitiesFinal.put(docs.getId(), docs.getName());
+        }
+        model.addAttribute("documents", documentsEntities);
+
+        FileBucket fileBucket = new FileBucket();
+        model.addAttribute("fileBucket", fileBucket);
+
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
+        return mav;
+    }
+
+    @RequestMapping(value = "/Hr/Docs/Manage", method = RequestMethod.POST)
+    public String ManageDocsUpdate(FileBucket fileBucket, Principal principal, Model model) throws IOException {
+        MultipartFile multipartFile = fileBucket.getFile();
+
+        //Now do something with file...
+        int id = UserService.getUserIdByUsername(principal.getName());
+        File f =  new File("C:/files/template");
+        boolean b = f.mkdir();
+        if (b)
+        {
+            System.out.println("DIRECTORY CREATED SECCESFULLY");
+        }
+        FileCopyUtils.copy(fileBucket.getFile().getBytes(), new File("C:/files/template/" + fileBucket.getFile().getOriginalFilename())) ;
+        DocsViewModel docsViewModel = new DocsViewModel();
+        docsViewModel.setUserId(id);
+        docsViewModel.setDocumentType(7);
+        docsViewModel.setLink("C:/files/template/" + fileBucket.getFile().getOriginalFilename());
+        docsViewModel.setName(fileBucket.getName());
+        UserService.insertDocumentUser(UserMapper.mapDocuments(docsViewModel));
+        String fileName = multipartFile.getOriginalFilename();
+        return "redirect: /Hr/Docs/Manage";
+    }
+
+    @RequestMapping(value = "/Hr/user/{userId}/update/Appointment/Edit/{appId}", method = RequestMethod.GET)
+    public ModelAndView updateApp(Principal principal, Model model, @PathVariable("userId") int userId, @PathVariable("appId") int appId){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/edit/appointment");
+
+        AppointmentSummary appointment = new AppointmentSummary();
+        UserInPostsEntity userInPostsEntity = UserService.getUserInPostById(appId);
+        appointment.setUserId(userInPostsEntity.getUserId());
+        appointment.setAppointDate(userInPostsEntity.getDateFrom());
+        appointment.setContractType(userInPostsEntity.getContractType());
+        appointment.setPostId(userInPostsEntity.getPostId());
+        appointment.setEndDate(userInPostsEntity.getDateEnd());
+        model.addAttribute("appointmentVM", appointment);
+
+        List<UserLocalizationsEntity> users = UserService.getAllUserLocs(3);
+        model.addAttribute("users", users);
+
+        Map<Integer, String> appointmentTypes = new HashMap<Integer, String>();
+        appointmentTypes.put(0, "--------");
+        for (Appoint ap :
+                Appoint.values()) {
+            appointmentTypes.put(ap.getValue(), ap.name());
+        }
+        model.addAttribute("types", appointmentTypes);
+
+        Map<Integer, String> departmentsList = new HashMap<Integer, String>();
+        departmentsList.put(0, "-------");
+        for (DepartmentLocalizationsEntity dep :
+                UserService.getDepartments(3)) {
+            departmentsList.put(dep.getDepartmentId(), dep.getName());
+        }
+        model.addAttribute("departments", departmentsList);
+
+        Map<Integer, String> roles = new HashMap<Integer, String>();
+        roles.put(0, "------");
+        for (PostLocalizationsEntity postLocalizationsEntity:
+                UserService.getPostLocalizations(3)){
+            roles.put(postLocalizationsEntity.getPostId(), postLocalizationsEntity.getName());
+        }
+        model.addAttribute("roles", roles);
+
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
+        return mav;
+    }
+    @RequestMapping ( value = "/Hr/user/{userId}/update/Appointment/Edit/{appId}", method = RequestMethod.POST )
+    public String updateAppPost(Principal principal, @ModelAttribute  AppointmentSummary appointmentSummary, BindingResult result, @PathVariable("appId") int appId, @PathVariable("userId") String userId){
+        UserService.updateUserInPosts(UserMapper.mapUserInPosts(appointmentSummary, userId), appId);
+        UserService.updateDepartmentId(appointmentSummary.getDepartmentId(), Integer.parseInt(userId));
+        return "redirect: /Hr/user/"+userId+"/update/Appointment";
+    }
+
+    @RequestMapping(value = "/Hr/user/{userId}/update/Appointment/Add", method = RequestMethod.GET)
+    public ModelAndView addApp(Principal principal, Model model, @PathVariable("userId") int userId){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/new/appointment");
+
+        AppointmentSummary appointmentSummary = new AppointmentSummary();
+        mav.addObject("appointmentVM", appointmentSummary);
+
+        Map<Integer, String> appointmentTypes = new HashMap<Integer, String>();
+        appointmentTypes.put(0, "--------");
+        for (Appoint ap :
+                Appoint.values()) {
+            appointmentTypes.put(ap.getValue(), ap.name());
+        }
+        model.addAttribute("types", appointmentTypes);
+        System.out.println("Types: " +appointmentTypes);
+
+        Map<Integer, String> departmentsList = new HashMap<Integer, String>();
+        departmentsList.put(0, "-------");
+        for (DepartmentLocalizationsEntity dep :
+                UserService.getDepartments(3)) {
+            departmentsList.put(dep.getDepartmentId(), dep.getName());
+        }
+        model.addAttribute("departments", departmentsList);
+        System.out.println("Departments: " +departmentsList);
+
+        Map<Integer, String> roles = new HashMap<Integer, String>();
+        roles.put(0, "------");
+        for (PostLocalizationsEntity postLocalizationsEntity:
+                UserService.getPostLocalizations(3)){
+            roles.put(postLocalizationsEntity.getPostId(), postLocalizationsEntity.getName());
+        }
+        model.addAttribute("roles", roles);
+        System.out.println("Roles: " + roles);
+
+        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
+        mav.addObject("userProfile", userProfile);
+        return mav;
+    }
+    @RequestMapping ( value = "/Hr/user/{userId}/update/Appointment/Add", method = RequestMethod.POST )
+    public String addAppPost(Principal principal, @ModelAttribute  AppointmentSummary appointmentSummary, BindingResult result, @PathVariable("userId") String userId){
+        System.out.println("APPOINTMENT: " + appointmentSummary.toString());
+        UserService.insertUserInPosts(UserMapper.mapUserInPosts(appointmentSummary, userId));
+        System.out.println("UPDATING DEPARTMENT: ");
+        UserService.updateDepartmentId(appointmentSummary.getDepartmentId(), Integer.parseInt(userId));
+        return "redirect: /Hr/user/"+userId+"/update/Appointment";
+    }
+
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Jobexp/add", method = RequestMethod.GET)
     public ModelAndView addJob(Principal principal, Model model, @PathVariable("userId") int userId){
@@ -471,6 +615,12 @@ public class HrController {
     @RequestMapping(value = "/Hr/user/{id}/update/Docs/Del/{docId}")
     public String deleteFile(Principal principal, @PathVariable("id") int id, @PathVariable("docId") int docId) throws IOException {
         UserService.deleteDocument(docId);
+        String path = UserService.getDocumentByDocId(docId).getLink();
+        File file = new File(path);
+        if(file.delete())
+            System.out.println(file.getName() + " is deleted!");
+        else
+            System.out.println("Delete operation is failed.");
 
         return "redirect: /Hr/user/{id}/update/Docs/";
     }
@@ -481,11 +631,17 @@ public class HrController {
         MultipartFile multipartFile = fileBucket.getFile();
 
         //Now do something with file...
-        FileCopyUtils.copy(fileBucket.getFile().getBytes(), new File("C:/files/documents/" + fileBucket.getFile().getOriginalFilename()));
+        File f =  new File("C:/files/documents/" + String.format("%05d", id) );
+        boolean b = f.mkdir();
+        if (b)
+        {
+            System.out.println("DIRECTORY CREATED SECCESFULLY");
+        }
+        FileCopyUtils.copy(fileBucket.getFile().getBytes(), new File("C:/files/documents/" + String.format("%05d", id) + "/" + fileBucket.getFile().getOriginalFilename())) ;
         DocsViewModel docsViewModel = new DocsViewModel();
         docsViewModel.setUserId(id);
         docsViewModel.setDocumentType(fileBucket.getType());
-        docsViewModel.setLink("C:/files/documents/" + fileBucket.getFile().getOriginalFilename());
+        docsViewModel.setLink("C:/files/documents/" + String.format("%05d", id) + "/" + fileBucket.getFile().getOriginalFilename());
         docsViewModel.setName(fileBucket.getName());
         UserService.insertDocumentUser(UserMapper.mapDocuments(docsViewModel));
         String fileName = multipartFile.getOriginalFilename();
@@ -505,7 +661,7 @@ public class HrController {
             mav.setViewName("Home/editmenu/edit/geninfo");
             userProfile = getProfileById(id);
             person = userProfile;
-            model.addAttribute("person",  person);
+            model.addAttribute("person",  userProfile);
             // Getting list of departments and send to view
             Map<Integer, String> deps = new HashMap<Integer, String>();
             for (DepartmentLocalizationsEntity dep :
@@ -549,14 +705,14 @@ public class HrController {
             return mav;
         }
         else if(path.compareTo("Appointment")==0) {
-            mav.setViewName("Home/editmenu/edit/appointmentrec");
+            mav.setViewName("Home/editmenu/appointmentrec");
             AppointmentrecViewModel appointmentrecViewModels = new AppointmentrecViewModel();
             try {
                 appointmentrecViewModels = UserController.getAppointmentByUsername(userProfile.getUsername());
             } catch (Exception e){
                 e.printStackTrace();
             }
-            model.addAttribute("userProfile", UserController.getProfileByUsername(userProfile.getUsername()));
+            model.addAttribute("userProfileUser", UserController.getProfileByUsername(userProfile.getUsername()));
             model.addAttribute("appointmentrecVM", appointmentrecViewModels);
             return mav;
         }

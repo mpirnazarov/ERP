@@ -12,80 +12,75 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Salary details"/>
+<%--<script type="text/javascript">--%>
+<%--function printpage() {--%>
+<%--//Get the print button and put it into a variable--%>
+<%--var printButton = document.getElementById("printpagebutton");--%>
+<%--printButton.style.visibility = 'hidden';--%>
+<%--printButton = document.getElementById("appRec");--%>
+<%--printButton.style.visibility = 'hidden';--%>
+<%--//Print the page content--%>
+<%--window.print()--%>
+<%--//Set the print button to 'visible' again--%>
+<%--//[Delete this line if you want it to stay hidden after printing]--%>
+<%--var printButton = document.getElementById("printpagebutton");--%>
+<%--printButton.style.visibility = 'visible';--%>
+<%--printButton = document.getElementById("appRec");--%>
+<%--printButton.style.visibility = 'visible';--%>
+<%--}--%>
+<%--</script>--%>
+<% request.setAttribute("Mode", 1); %>
 <%
-    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
-    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
-    request.setAttribute("JobTitle", a.getJobTitle());
-%>
-<script type="text/javascript">
-    function printpage() {
-        //Get the print button and put it into a variable
-        var printButton = document.getElementById("printpagebutton");
-        printButton.style.visibility = 'hidden';
-        printButton = document.getElementById("appRec");
-        printButton.style.visibility = 'hidden';
-        //Print the page content
-        window.print()
-        //Set the print button to 'visible' again
-        //[Delete this line if you want it to stay hidden after printing]
-        var printButton = document.getElementById("printpagebutton");
-        printButton.style.visibility = 'visible';
-        printButton = document.getElementById("appRec");
-        printButton.style.visibility = 'visible';
-    }
-</script>
+    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfileUser");
+    request.setAttribute("FullName2", a.getFirstName()[0] + " " + a.getLastName()[0]);
 
+%>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="container-fluid">
-    <div class="row">
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpViewLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-md-offset-1">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h1><%= request.getAttribute("FullName") %></h1>
-                <h2 class="page-header">Salary Details</h2>
-            <div class="tab-content">
-                <div id="salarydet" class="tab-pane fade in active">
-                    <h3>Salary details</h3>
-                    <!--Appointment summary table-->
-                    <table class="table">
-                        <thead>
+<div class="col-sm-9 col-md-offset-1">
+    <div class="col-lg-8 col-lg-offset-2">
+        <h1><%= request.getAttribute("FullName2") %></h1>
+        <h2 class="page-header">Salary Details</h2>
+        <div class="tab-content">
+            <div id="salarydet" class="tab-pane fade in active">
+                <h3>Salary details</h3>
+                <!--Appointment summary table-->
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Gross salary</th>
+                        <th>PIT</th>
+                        <th>INPS</th>
+                        <th>PF</th>
+                        <th>Net salary</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${salaryVM}" var="salary" varStatus="status">
                         <tr>
-                            <th>Date</th>
-                            <th>Gross salary</th>
-                            <th>PIT</th>
-                            <th>INPS</th>
-                            <th>PF</th>
-                            <th>Net salary</th>
+                            <td>${salary.date}</td>
+                            <c:if test="${salary.currency==1}">
+                                <td>${salary.gross} UZS</td>
+                            </c:if>
+                            <c:if test="${salary.currency==2}">
+                                <td>${salary.gross} USD</td>
+                            </c:if>
+                            <td>${salary.pit}%</td>
+                            <td>${salary.inps}%</td>
+                            <td>${salary.pf}%</td>
+                            <c:if test="${salary.currency==1}">
+                                <td>${salary.net} UZS</td>
+                            </c:if>
+                            <c:if test="${salary.currency==2}">
+                                <td>${salary.net} USD</td>
+                            </c:if>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${salaryVM}" var="salary" varStatus="status">
-                            <tr>
-                                <td>${salary.date}</td>
-                                <c:if test="${salary.currency==1}">
-                                    <td>${salary.gross} UZS</td>
-                                </c:if>
-                                <c:if test="${salary.currency==2}">
-                                    <td>${salary.gross} USD</td>
-                                </c:if>
-                                <td>${salary.pit}%</td>
-                                <td>${salary.inps}%</td>
-                                <td>${salary.pf}%</td>
-                                <c:if test="${salary.currency==1}">
-                                    <td>${salary.net} UZS</td>
-                                </c:if>
-                                <c:if test="${salary.currency==2}">
-                                    <td>${salary.net} USD</td>
-                                </c:if>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                    <input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;" value="Print this page" onclick="printpage()"/>
-                </div>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <%--<input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;" value="Print this page" onclick="printpage()"/>--%>
             </div>
         </div>
     </div>
 </div>
-    </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

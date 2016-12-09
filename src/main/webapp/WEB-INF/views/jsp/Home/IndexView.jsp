@@ -10,15 +10,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Home"/>
 
-
+<% request.setAttribute("Mode", 1); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <%
     ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfileUser");
     request.setAttribute("FullName2", a.getFirstName()[0] + " " + a.getLastName()[0]);
+
 %>
-<div class="container-fluid">
-    <div class="row">
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpViewLayout.jsp"></jsp:include>
+<%--<div class="container-fluid">
+    <div class="row">--%>
+<%--<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpViewLayout.jsp"></jsp:include>--%>
         <div class="col-sm-9 col-md-offset-1">
         <div class="col-lg-offset-2">
             <h1><%= request.getAttribute("FullName2") %></h1>
@@ -93,7 +94,7 @@
                     <hr/>
                     <!--Other information-->
                     <div class="form-horizontal">
-                        <div class="form-group"><label class="control-label col-md-3">User ID: </label>
+                        <div class="form-group"><label class="control-label col-md-3">Employee ID: </label>
                             <div class="col-sm-2"><c:out value="${userProfileUser.id}"></c:out></div>
                             <label class="control-label col-md-3">Passport Number: </label>
                             <div class="col-sm-2"><c:out value="${userProfileUser.passportNumber}"></c:out></div>
@@ -301,8 +302,9 @@
                 </div>
             </div>
         </div>
-        </div>
+
     </div>
+
 
     <script>
         $(document).ready(function () {

@@ -5,6 +5,7 @@ import com.lgcns.erp.tapps.viewModel.CTO.Form;
 import com.lgcns.erp.tapps.viewModel.HR.DocsViewModel;
 import com.lgcns.erp.tapps.viewModel.RegistrationLocInfo;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
+import com.lgcns.erp.tapps.viewModel.usermenu.Appointment.AppointmentSummary;
 import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
 import com.lgcns.erp.tapps.viewModel.usermenu.JobexpViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.SalaryVewModel;
@@ -150,5 +151,15 @@ public class UserMapper {
         documentsEntity.setLink(docsViewModel.getLink());
         documentsEntity.setName(docsViewModel.getName());
         return documentsEntity;
+    }
+
+    public static UserInPostsEntity mapUserInPosts(AppointmentSummary appointmentSummary, String userId) {
+        UserInPostsEntity userInPostsEntity = new UserInPostsEntity();
+        userInPostsEntity.setUserId(Integer.parseInt(userId));
+        userInPostsEntity.setDateFrom(appointmentSummary.getAppointDate());
+        userInPostsEntity.setContractType(appointmentSummary.getContractType());
+        userInPostsEntity.setPostId(appointmentSummary.getRoleId());
+        userInPostsEntity.setDateEnd(appointmentSummary.getEndDate());
+        return userInPostsEntity;
     }
 }

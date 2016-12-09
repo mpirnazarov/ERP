@@ -8,11 +8,44 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<% request.setAttribute("Mode", 2); %>
+
+<%--<script type="text/javascript">--%>
+    <%--function printpage() {--%>
+        <%--//Get the print button and put it into a variable--%>
+        <%--var printButton = document.getElementById("printpagebutton");--%>
+        <%--printButton.style.visibility = 'hidden';--%>
+        <%--printButton = document.getElementById("edCer");--%>
+        <%--printButton.style.visibility = 'hidden';--%>
+        <%--printButton = document.getElementById("eduprint");--%>
+        <%--//Set the print button visibility to 'hidden'--%>
+        <%--printButton.style.visibility = 'hidden';--%>
+        <%--printButton = document.getElementById("lansum");--%>
+        <%--printButton.style.visibility = 'hidden';--%>
+        <%--printButton = document.getElementById("cert");--%>
+        <%--printButton.style.visibility = 'hidden';--%>
+
+        <%--//Print the page content--%>
+        <%--window.print()--%>
+        <%--//Set the print button to 'visible' again--%>
+        <%--//[Delete this line if you want it to stay hidden after printing]--%>
+        <%--var printButton = document.getElementById("printpagebutton");--%>
+        <%--printButton.style.visibility = 'visible';--%>
+        <%--printButton = document.getElementById("edCer");--%>
+        <%--printButton.style.visibility = 'visible';--%>
+        <%--printButton = document.getElementById("eduprint");--%>
+        <%--//Set the print button visibility to 'hidden'--%>
+        <%--printButton.style.visibility = 'visible';--%>
+        <%--printButton = document.getElementById("lansum");--%>
+        <%--printButton.style.visibility = 'visible';--%>
+        <%--printButton = document.getElementById("cert");--%>
+        <%--printButton.style.visibility = 'visible';--%>
+    <%--}--%>
+
+<%--</script>--%>
 <c:set var="pageTitle" scope="request" value="Education certificates"/>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
+    <div class="col-lg-offset-2">
         <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <h2 class="page-header">Education Certificate</h2>
@@ -24,8 +57,7 @@
         </ul>
 
         <div class="tab-content">
-            <div id="edu" class="tab-pane fade in active">
-                <h3>Educations</h3>
+            <div id="edu" class="tab-pane fade in active"><br/>
                 <!--Educations table-->
                 <table class="table">
                     <thead>
@@ -33,9 +65,8 @@
                         <th>Name of school</th>
                         <th>Major</th>
                         <th>Degree</th>
-                        <th>Entry date</th>
-                        <th>Graduate date</th>
-                        <th></th>
+                        <th>Entry date (YYYY-MM-DD)</th>
+                        <th>Graduate date (YYYY-MM-DD)</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -46,15 +77,12 @@
                             <td>${eduList.degree}</td>
                             <td>${eduList.startDate}</td>
                             <td>${eduList.endDate}</td>
-                            <td><a href="./educer/updateEdu/${edu.id}/" class="btn btn-default">Edit</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <a href="" class="btn btn-primary">Add</a>
             </div>
-            <div id="langsum" class="tab-pane fade">
-                <h3>Language summary</h3>
+            <div id="langsum" class="tab-pane fade"><br/>
                 <!--Language summary table-->
                 <table class="table">
                     <thead>
@@ -64,7 +92,6 @@
                         <th>Reading</th>
                         <th>Writing</th>
                         <th>Speaking</th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -75,12 +102,40 @@
                             <td>${language.reading}</td>
                             <td>${language.writing}</td>
                             <td>${language.speaking}</td>
-                            <td><a href="./educer/updateEdu/${language.id}/" class="btn btn-default">Edit</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <a href="" class="btn btn-primary">Add</a>
+                <h3>Language scores</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Score</th>
+                        <th>Degree</th>
+                        <th>Organization</th>
+                        <th>Acquistion Date (YYYY-MM-DD)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <%--<c:forEach items="${eduVM.languageSummaryList}" var="language" varStatus="status">--%>
+                    <tr>
+                        <td>IELTS</td>
+                        <td>9.0</td>
+                        <td></td>
+                        <td>British Council</td>
+                        <td>2016-11-29</td>
+                    </tr>
+                    <tr>
+                        <td>TOEFL</td>
+                        <td>95</td>
+                        <td></td>
+                        <td>TOEFL Academy</td>
+                        <td>2016-11-29</td>
+                    </tr>
+                    <%--</c:forEach>--%>
+                    </tbody>
+                </table>
                 <div style="border: solid #ffffff; width: 25%; right: 0; bottom: 0; position: fixed; border-radius: 10px;">
                     <h3 style="text-align: center">LEGEND:</h3>
                     <h4 style="margin-left: 50px">A1 and A2 - Basic</h4>
@@ -89,8 +144,7 @@
                     <div></div>
                 </div>
             </div>
-            <div id="cersum" class="tab-pane fade">
-                <h3>Certificates</h3>
+            <div id="cersum" class="tab-pane fade"><br/>
                 <!--Certificates table-->
                 <table class="table">
                     <thead>
@@ -98,9 +152,8 @@
                         <th>Name</th>
                         <th>Organization</th>
                         <th>Number</th>
-                        <th>Date</th>
+                        <th>Date (YYYY-MM-DD)</th>
                         <th>Mark</th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -111,16 +164,15 @@
                             <td>${cer.number}</td>
                             <td>${cer.dateTime}</td>
                             <td>${cer.mark}</td>
-                            <td><a href="./educer/updateEdu/${cer.id}/" class="btn btn-default">Edit</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;"
-                       value="Print this page" onclick="printpage()"/>
-                <a href="" class="btn btn-primary">Add</a>
+                <%--<input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;"--%>
+                       <%--value="Print this page" onclick="printpage()"/>--%>
             </div>
         </div>
     </div>
 </div>
+<% request.setAttribute("foo", "bar"); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

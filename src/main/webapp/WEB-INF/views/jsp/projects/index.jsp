@@ -20,12 +20,15 @@
 <div class="container-fluid">
     <div class="row">
         <%
-            if((int)(request.getAttribute("SystemRole"))==1)
+            if ((int) (request.getAttribute("SystemRole")) == 1)
+                out.print("<jsp:include flush=\"true\" page=\"/WEB-INF/views/jsp/shared/erpCTOLayout.jsp\"></jsp:include>");
+            else if ((int) (request.getAttribute("SystemRole")) == 2)
                 out.print("<jsp:include flush=\"true\" page=\"/WEB-INF/views/jsp/shared/erpUserLayout.jsp\"></jsp:include>");
-            else if((int)(request.getAttribute("SystemRole"))==2)
-
+            else if ((int) (request.getAttribute("SystemRole")) == 3)
+                out.print("<jsp:include flush=\"true\" page=\"/WEB-INF/views/jsp/shared/erpHrLayout.jsp\"></jsp:include>");
+            else
+                out.print("<jsp:include flush=\"true\" page=\"/WEB-INF/views/jsp/shared/erpUserLayout.jsp\"></jsp:include>");
         %>
-
         <div class="col-md-offset-1 col-sm-10">
             <div class=" col-lg-offset-2 col-lg-10">
                 <h1 class="page-header">Participating projects</h1>
@@ -100,7 +103,6 @@
     </div>
 </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>
-
 <script>
     $(document).ready(function () {
         $('#myTable').DataTable({

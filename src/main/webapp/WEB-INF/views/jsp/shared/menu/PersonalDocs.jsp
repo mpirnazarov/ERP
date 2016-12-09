@@ -17,16 +17,15 @@
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
 <%@ page import="org.apache.commons.io.output.*" %>
 <%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %>
-<% request.setAttribute("Mode", 1); %>
 <%
-    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfileUser");
-    request.setAttribute("FullName2", a.getFirstName()[0] + " " + a.getLastName()[0]);
-
+    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
+    request.setAttribute("FullName", a.getFirstName()[2] + " " + a.getLastName()[2]);
+    request.setAttribute("JobTitle", a.getJobTitle());
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-8 col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName2") %>
+        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <h2 class="page-header">Documents</h2>
         <ul class="nav nav-tabs">
@@ -55,6 +54,28 @@
                     </c:forEach>
                     </tbody>
                 </table>
+                <div>
+                    <form name="uploadingForm" enctype="multipart/form-data" action="/Hr/user/${id}/UploadPic/"
+                          method="POST">
+                        <p>
+                            <input id="fileInput" type="file" name="uploadingFiles" onchange="updateSize();"
+                                   multiple>
+                            selected files: <span id="fileNum">0</span>;
+                            total size: <span id="fileSize">0</span>
+                        </p>
+                        <p>
+                            <input type="submit" class="btn btn-success" value="Upload file">
+                        </p>
+                    </form>
+                    <%--<div>--%>
+                    <%--<div>Uploaded files:</div>--%>
+                    <%--<#list files as file>--%>
+                    <%--<div>--%>
+                    <%--${file.getName()}--%>
+                    <%--</div>--%>
+                    <%--</#list>--%>
+                    <%--</div>--%>
+                </div>
             </div>
             <%--<div id="gen" class="tab-pane fade">
                 <h3>Generatable documents</h3>
@@ -88,4 +109,24 @@
         </div>
     </div>
 </div>
+<script>
+    function updateSize() {
+        var nBytes = 0,
+                oFiles = document.getElementById("fileInput").files,
+                nFiles = oFiles.length;
+        for (var nFileId = 0; nFileId < nFiles; nFileId++) {
+            nBytes += oFiles[nFileId].size;
+        }
+
+        var sOutput = nBytes + " bytes";
+        // optional code for multiples approximation
+        for (var aMultiples = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"], nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {
+            sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple] + " (" + nBytes + " bytes)";
+        }
+        // end of optional code
+
+        document.getElementById("fileNum").innerHTML = nFiles;
+        document.getElementById("fileSize").innerHTML = sOutput;
+    }
+</script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

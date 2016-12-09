@@ -17,7 +17,7 @@ public class FileUploadController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView handleFileUpload(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("Home/hrmenu/FileUploadForm");
+		mav.setViewName("Home/editmenu/FileUploadForm");
 		return mav;
 	}
 

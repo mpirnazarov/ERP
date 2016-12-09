@@ -13,7 +13,7 @@
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
-                    Welcome <%= request.getAttribute("FirstName") %>
+                    Welcome <%= request.getAttribute("FullName") %>
                 </a>
             </div>
             <ul class="nav navbar-nav">
@@ -31,14 +31,14 @@
                         <li><a href="/CTO/Profile/Edu">Education certificate</a></li>
                         <li><a href="/CTO/Profile/Jobexp">Job experience</a></li>
                         <li><a href="/CTO/Profile/Train">Training record</a></li>
-                        <li><a href="/CTO/Profile/Evaluation">Evaluation </a></li>
+                        <li><a href="/CTO/Profile/Evaluation">Evaluation history </a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="/CTO/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>
                 </li>
                 <li>
-                    <a href="/CTO/Evaluation"><i class="fa fa-fw fa-file-o"></i> Evaluation</a>
+                    <a href="/CTO/Evaluation"><i class="fa fa-fw fa-bar-chart"></i> Evaluation</a>
                 </li>
                 <li>
                     <a href="/CTO/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>

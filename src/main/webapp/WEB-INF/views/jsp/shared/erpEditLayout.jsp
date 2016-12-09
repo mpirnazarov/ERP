@@ -35,7 +35,7 @@
                 <a href="#"><i class="fa fa-fw fa-file-o"></i> Evaluation history</a>
             </li>
             <li>
-                <a href="/Hr/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
+                <a href="/Hr/GenerateDocs"><i class="fa fa-fw fa-file"></i> Generate documents</a>
             </li>
             <hr/>
             User's profile

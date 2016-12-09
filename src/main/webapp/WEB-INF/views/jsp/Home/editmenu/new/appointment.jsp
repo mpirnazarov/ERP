@@ -11,15 +11,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--<c:set var="pageTitle" scope="request" value="Home"/>--%>
-
+<% request.setAttribute("Mode", 2); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="container-fluid" id="page">
-    <div class="row">
-        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpEditLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-md-offset-1">
-            <div class="col-lg-offset-2">
-                <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
-            <form:form  modelAttribute="appointmentVM" cssClass="form-horizontal" method="post" >
+<div class="col-sm-9 col-md-offset-1">
+    <div class="col-lg-8 col-lg-offset-2">
+        <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
+      <form:form  modelAttribute="appointmentVM" cssClass="form-horizontal" method="post" >
 
                 <!--General info/Family info Tab-->
                 <h3>Appointment Record</h3>

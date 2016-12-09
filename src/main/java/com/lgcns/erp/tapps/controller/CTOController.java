@@ -32,9 +32,9 @@ public class CTOController {
     @RequestMapping(value = "/CTO/Profile", method = RequestMethod.GET)
     public ModelAndView Hrprofile(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/IndexCTO");
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav.setViewName("shared/Index");
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
         return mav;
     }
 
@@ -42,33 +42,30 @@ public class CTOController {
     @ResponseBody
     public ModelAndView HrAppointmentrec(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/CTO/AppointmentRec");
+        mav.setViewName("shared/menu/AppointmentRec");
         AppointmentrecViewModel appointmentrecViewModel = UserController.getAppointmentByUsername(principal.getName());
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
     @RequestMapping (value = "/CTO/Profile/Docs", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView CTODocs(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/CTO/Docs");
+        mav.setViewName("shared/menu/Docs");
         List<DocsViewModel> docsVM = UserController.getDocuments(principal.getName());
         mav.addObject("docsVM", docsVM);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
 
     @RequestMapping (value = "/CTO/Profile/Salary", method = RequestMethod.GET)
     @ResponseBody public ModelAndView HrSalaryrec(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/CTO/SalaryDetails");
+        mav.setViewName("shared/menu/SalaryDetails");
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(user.getUserName());
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         mav.addObject("salaryVM", salaryVewModel);
         return mav;
     }
@@ -76,42 +73,38 @@ public class CTOController {
     @RequestMapping (value = "/CTO/Profile/Edu", method = RequestMethod.GET)
     @ResponseBody public ModelAndView HrEdu(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/CTO/EducationCer");
+        mav.setViewName("shared/menu/EducationCer");
         EduViewModel hreduViewModel = UserController.getEducationByUsername(principal.getName());
         mav.addObject("eduVM", hreduViewModel);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
     @RequestMapping (value = "/CTO/Profile/Jobexp", method = RequestMethod.GET)
     @ResponseBody public ModelAndView HrJobexp(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/CTO/JobExp");
+        mav.setViewName("shared/menu/JobExp");
         List<JobexpViewModel> jobexpViewModel = UserController.getJobExperience(principal.getName());
         mav.addObject("jobexpVM", jobexpViewModel);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
     @RequestMapping (value = "/CTO/Profile/Train", method = RequestMethod.GET)
     @ResponseBody public ModelAndView HrTrain(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/CTO/TrainingRec");
+        mav.setViewName("shared/menu/TrainingRec");
         List<TrainViewModel> trainViewModel = UserController.getTrainingRecord(principal.getName());
         mav.addObject("trainVM", trainViewModel);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
     @RequestMapping (value = "/CTO/Userslist", method = RequestMethod.GET)
     @ResponseBody public ModelAndView HrUserslist(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/CTO/Userslist");
+        mav.setViewName("shared/menu/Userslist");
         List<ProfileViewModel> users = getUsers();
 
         mav.addObject("hrUserslistVM", users);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
 
@@ -119,9 +112,8 @@ public class CTOController {
     public ModelAndView ChangePass(Principal principal){
         ModelAndView mav = new ModelAndView();
         ChangepassViewModel changepassViewModel = new ChangepassViewModel ();
-        mav.setViewName("Home/CTO/changepass");
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile);
+        mav.setViewName("user/changepass");
+        mav = UP.includeUserProfile(mav, principal);
         mav.addObject("changepassVM", changepassViewModel);
         return mav;
     }
@@ -133,8 +125,7 @@ public class CTOController {
         mav.addObject("path", "CTO");
         ProfileViewModel userProfile = UserController.getProfileByUsername(username);
         mav.addObject("userProfileUser", userProfile);
-        ProfileViewModel userProfile2 = UserController.getProfileByUsername(principal.getName());
-        mav.addObject("userProfile", userProfile2);
+        mav = UP.includeUserProfile(mav, principal);
         if(path.compareTo("Geninfo")==0) {
 
             mav.setViewName("Home/IndexView");
@@ -196,7 +187,7 @@ public class CTOController {
     @RequestMapping(value = "/CTO/Profile/Evaluation", method = RequestMethod.GET)
     public ModelAndView Evaluation(Principal principal) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/CTO/EvaluationHistory");
+        mav.setViewName("shared/menu/EvaluationHistory");
         List<PersonalEvalutionsEntity> evaluations = UserService.getEvaluationsByUserId(UserService.getUserIdByUsername(principal.getName()));
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("evaluationsVM", evaluations);
@@ -219,10 +210,9 @@ public class CTOController {
         }
         FormModel formModel = new FormModel();
         formModel.setForms(users2);
-        ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         model.addAttribute("formModel", formModel);
-        mav.addObject("userProfile", userProfile);
-        mav.setViewName("Home/CTO/Evaluation");
+        mav = UP.includeUserProfile(mav, principal);
+        mav.setViewName("shared/menu/Evaluation");
         return mav;
     }
 

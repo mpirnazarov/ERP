@@ -68,16 +68,10 @@ public class UserController {
     @RequestMapping (value = "/User/Profile", method = RequestMethod.GET)
     @ResponseBody public ModelAndView Profile(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/IndexUser");
+        mav.setViewName("shared/Index");
         ProfileViewModel userProfile=null;
-        try {
-            userProfile = getProfileByUsername(principal.getName());
-            System.out.println(userProfile);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-
-        mav.addObject("userProfile", getProfileByUsername(principal.getName()));
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
         return mav;
     }
 
@@ -85,7 +79,7 @@ public class UserController {
     @ResponseBody
     public ModelAndView Appointmentrec(Principal principal) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/usermenu/AppointmentRec");
+        mav.setViewName("shared/menu/AppointmentRec");
         AppointmentrecViewModel appointmentrecViewModel=null;
         try {
             appointmentrecViewModel = getAppointmentByUsername(principal.getName());
@@ -101,7 +95,7 @@ public class UserController {
     @ResponseBody
     public ModelAndView SalaryRec(Principal principal) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/usermenu/SalaryDetails");
+        mav.setViewName("shared/menu/SalaryDetails");
         UsersEntity user = UserService.getUserByUsername(principal.getName());
         List<SalaryVewModel> salaryVewModel = getSalaryByUser(user.getUserName());
 
@@ -114,7 +108,7 @@ public class UserController {
     @ResponseBody
     public ModelAndView Edu(Principal principal) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/usermenu/EducationCer");
+        mav.setViewName("shared/menu/EducationCer");
         EduViewModel eduViewModel = getEducationByUsername(principal.getName());
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("eduVM", eduViewModel);
@@ -126,7 +120,7 @@ public class UserController {
     @ResponseBody
     public ModelAndView Jobexp(Principal principal) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/usermenu/JobExp");
+        mav.setViewName("shared/menu/JobExp");
         List<JobexpViewModel> jobexpViewModel = getJobExperience(principal.getName());
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("jobexpVM", jobexpViewModel);
@@ -137,7 +131,7 @@ public class UserController {
     @ResponseBody
     public ModelAndView Train(Principal principal) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/usermenu/TrainingRec");
+        mav.setViewName("shared/menu/TrainingRec");
         List<TrainViewModel> trainViewModel = getTrainingRecord(principal.getName());
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("trainVM", trainViewModel);
@@ -148,7 +142,7 @@ public class UserController {
     @ResponseBody
     public ModelAndView Docs(Principal principal) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/usermenu/Docs");
+        mav.setViewName("shared/menu/Docs");
         List<DocsViewModel> docsViewModel = getDocuments(principal.getName());
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("docsVM", docsViewModel);
@@ -159,7 +153,7 @@ public class UserController {
     @ResponseBody
     public ModelAndView Project(Principal principal) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/usermenu/Project");
+        mav.setViewName("shared/menu/Project");
        /* List<DocsViewModel> docsViewModel = getDocuments(principal);*/
         mav = UP.includeUserProfile(mav, principal);
         /*mav.addObject("docsVM", docsViewModel);*/
@@ -170,7 +164,7 @@ public class UserController {
     @ResponseBody
     public ModelAndView Evaluation(Principal principal) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/usermenu/Evaluation");
+        mav.setViewName("shared/menu/EvaluationHistory");
         List<PersonalEvalutionsEntity> evaluations = UserService.getEvaluationsByUserId(UserService.getUserIdByUsername(principal.getName()));
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("evaluationsVM", evaluations);
@@ -265,7 +259,8 @@ public class UserController {
             }
             //Getting department name
             returning.setDepartment(UserService.getDepartments().get(3).getName());
-
+            //Getting roleId
+            returning.setRoleId(user.getRoleId());
             //Getting Position from user_in_roles
             returning.setPosition(UserService.getRoleLoc(user).getName());
 

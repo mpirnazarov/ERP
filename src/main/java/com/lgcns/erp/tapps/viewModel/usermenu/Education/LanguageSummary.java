@@ -9,13 +9,19 @@ public class LanguageSummary {
     private String reading;
     private String writing;
     private String speaking;
+    private int id;
+    private int langId, listeningId, readingId, writingId, speakingId;
 
-    public LanguageSummary(String language, String listening, String reading, String writing, String speaking) {
+    public LanguageSummary() {
+    }
+
+    public LanguageSummary(String language, String listening, String reading, String writing, String speaking, int id) {
         this.language = language;
         this.listening = listening;
         this.reading = reading;
         this.writing = writing;
         this.speaking = speaking;
+        this.id = id;
     }
 
     public String getLanguage() {
@@ -56,5 +62,70 @@ public class LanguageSummary {
 
     public void setSpeaking(String speaking) {
         this.speaking = speaking;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getLangId() {
+        return langId;
+    }
+
+    public void setLangId(int langId) {
+        this.langId = langId;
+    }
+
+    public int getListeningId() {
+        return listeningId;
+    }
+
+    public void setListeningId(int listeningId) {
+        this.listeningId = listeningId;
+    }
+
+    public int getReadingId() {
+        return readingId;
+    }
+
+    public void setReadingId(int readingId) {
+        this.readingId = readingId;
+    }
+
+    public int getWritingId() {
+        return writingId;
+    }
+
+    public void setWritingId(int writingId) {
+        this.writingId = writingId;
+    }
+
+    public int getSpeakingId() {
+        return speakingId;
+    }
+
+    public void setSpeakingId(int speakingId) {
+        this.speakingId = speakingId;
+    }
+
+    @Override
+    public String toString() {
+        return "LanguageSummary{" +
+                "language='" + language + '\'' +
+                ", listening='" + listening + '\'' +
+                ", reading='" + reading + '\'' +
+                ", writing='" + writing + '\'' +
+                ", speaking='" + speaking + '\'' +
+                ", id=" + id +
+                ", langId=" + langId +
+                ", listeningId=" + listeningId +
+                ", readingId=" + readingId +
+                ", writingId=" + writingId +
+                ", speakingId=" + speakingId +
+                '}';
     }
 }

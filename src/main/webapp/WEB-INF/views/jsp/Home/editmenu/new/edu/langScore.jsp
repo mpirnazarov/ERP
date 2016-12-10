@@ -21,8 +21,8 @@
             <p>Certificates</p>
             <div class="form-horizontal">
                 <div class="form-group">
-                    <label class="control-label col-md-3">Name: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:input placeholder="Name" required="true"
+                    <label class="control-label col-md-3">Type: <font color='red'>*</font></label>
+                    <div class="col-lg-5"><form:input placeholder="Type" required="true"
                                                       cssClass="form-control text-box single-line"
                                                       path="name" value="${cert.name}"/></div>
                 </div>
@@ -39,28 +39,23 @@
                                                       path="number" value="${cert.number}"/></div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3">Date: <font color='red'>*</font></label>
+                    <label class="control-label col-md-3">Acquistion Date: <font color='red'>*</font></label>
                     <div class="col-lg-5"><form:input path="dateTime" type="date" value="${cert.dateTime}"
                                                       cssClass="form-control text-box single-line requiredDate"/>
 
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3">Mark: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:input placeholder="Mark" required="true"
+                    <label class="control-label col-md-3">Score: <font color='red'>*</font></label>
+                    <div class="col-lg-5"><form:input placeholder="Score" required="true"
                                                       cssClass="form-control text-box single-line"
                                                       path="mark" value="${cert.mark}"/></div>
                 </div>
-                <div class="form-group"><label class="control-label col-md-3">Is Passed: <font
-                        color='red'>*</font></label>
-                    <div class="col-lg-5">
-                        <c:if test="${cert.passed}">
-                            <form:checkbox path="passed" CHECKED="checked"/>
-                        </c:if>
-                        <c:if test="${!cert.passed}">
-                            <form:checkbox path="passed"/>
-                        </c:if>
-                    </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Degree: <font color='red'>*</font></label>
+                    <div class="col-lg-5"><form:input placeholder="Degree" required="true"
+                                                      cssClass="form-control text-box single-line"
+                                                      path="degree" value="${cert.degree}"/></div>
                 </div>
             </div>
             <div class="form-group">

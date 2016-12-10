@@ -3,6 +3,7 @@ package com.lgcns.erp.tapps.controller;
 import com.lgcns.erp.tapps.DbContext.DocxDocumentMergerAndConverter;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.Enums.Appoint;
+import com.lgcns.erp.tapps.Enums.Language_Ranking;
 import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.validator.UserFormValidator;
@@ -12,8 +13,11 @@ import com.lgcns.erp.tapps.viewModel.HR.HrJobexpViewModel;
 import com.lgcns.erp.tapps.viewModel.PersonalInformationViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
-import com.lgcns.erp.tapps.viewModel.usermenu.*;
 import com.lgcns.erp.tapps.viewModel.usermenu.Appointment.AppointmentSummary;
+import com.lgcns.erp.tapps.viewModel.usermenu.*;
+import com.lgcns.erp.tapps.viewModel.usermenu.Education.Certificates;
+import com.lgcns.erp.tapps.viewModel.usermenu.Education.Educations;
+import com.lgcns.erp.tapps.viewModel.usermenu.Education.LanguageSummary;
 import fr.opensagres.xdocreport.core.XDocReportException;
 import fr.opensagres.xdocreport.template.TemplateEngineKind;
 import org.apache.poi.xwpf.converter.core.FileImageExtractor;
@@ -165,7 +169,12 @@ public class HrController {
     public ModelAndView HrAppointmentrec(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/AppointmentRec");
-        AppointmentrecViewModel appointmentrecViewModel = UserController.getAppointmentByUsername(principal.getName());
+        AppointmentrecViewModel appointmentrecViewModel= null;
+        try{
+            appointmentrecViewModel = UserController.getAppointmentByUsername(principal.getName());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         mav.addObject("appointmentrecVM", appointmentrecViewModel);
         mav = UP.includeUserProfile(mav, principal);
         return mav;
@@ -228,6 +237,13 @@ public class HrController {
         List<PersonalEvalutionsEntity> evaluations = UserService.getEvaluationsByUserId(UserService.getUserIdByUsername(principal.getName()));
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("evaluationsVM", evaluations);
+        List<UserLocalizationsEntity> usersEntities = UserService.getAllUserLocs();
+        Map<Integer, String> users = new HashMap<Integer, String>();
+        for (UserLocalizationsEntity u :
+                usersEntities) {
+                users.put(u.getUserId(), u.getFirstName() + " " + u.getLastName());
+        }
+        mav.addObject("users", users);
         return mav;
     }
     @RequestMapping(value = "/Hr/GenerateDocs", method = RequestMethod.GET)
@@ -513,14 +529,223 @@ public class HrController {
         UserService.updateTrainVM(UserMapper.mapTrainings(trainViewModel, userId), Integer.parseInt(trainId));
         return "redirect: /Hr/user/"+userId+"/update/Train";
     }
+    @RequestMapping(value = "/Hr/user/{userId}/update/Edu/AddLang", method = RequestMethod.GET)
+    public ModelAndView addLang(Principal principal, Model model, @PathVariable("userId") int userId){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/new/edu/lang");
+        Map<Integer, String> languageRanking = new HashMap<Integer, String>();
+        for (Language_Ranking lang :
+                Language_Ranking.values()) {
+            languageRanking.put(lang.getCode(), lang.name());
+        }
+        model.addAttribute("rankings", languageRanking);
 
+        Map<Integer, String> languages = new HashMap<Integer, String>();
+        for (LanguageLocalizationsEntity lang :
+                UserService.getLanguageLocalizations(3)) {
+            languages.put(lang.getLanguageId(), lang.getName());
+        }
+        model.addAttribute("languages", languages);
 
+        LanguageSummary languageSummary = new LanguageSummary();
+        model.addAttribute("lang", languageSummary);
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+    @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/AddLang", method = RequestMethod.POST )
+    public String AddLangPost(Principal principal, @ModelAttribute  LanguageSummary languageSummary, BindingResult result, @PathVariable("userId") String userId){
+        System.out.println("Languages: " + languageSummary.toString());
+        UserService.insertUserInLanguages(UserMapper.mapUserInLanguages(languageSummary, userId));
+
+        return "redirect: /Hr/user/"+userId+"/update/Edu";
+    }
+
+    @RequestMapping(value = "/Hr/user/{userId}/update/Edu/EditLang/{langId}", method = RequestMethod.GET)
+    public ModelAndView editLang(Principal principal, Model model, @PathVariable("userId") int userId, @PathVariable("langId") int langId){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/edit/edu/lang");
+        Map<Integer, String> languageRanking = new HashMap<Integer, String>();
+        for (Language_Ranking lang :
+                Language_Ranking.values()) {
+            languageRanking.put(lang.getCode(), lang.name());
+        }
+        model.addAttribute("rankings", languageRanking);
+
+        Map<Integer, String> languages = new HashMap<Integer, String>();
+        for (LanguageLocalizationsEntity lang :
+                UserService.getLanguageLocalizations(3)) {
+            languages.put(lang.getLanguageId(), lang.getName());
+        }
+        model.addAttribute("languages", languages);
+
+        UserInLanguagesEntity languageSummary = null;
+        List<UserInLanguagesEntity> languagesEntities = UserService.getUserInLanguages(UserService.getUserById(userId));
+        for (UserInLanguagesEntity lang :
+                languagesEntities) {
+            System.out.println("LANG ID: "+lang.getId());
+            if(lang.getId()==langId)
+                languageSummary = lang;
+        }
+
+        model.addAttribute("lang", languageSummary);
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+    @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/EditLang/{langId}", method = RequestMethod.POST )
+    public String EditLangPost(Principal principal, @ModelAttribute  UserInLanguagesEntity languagesEntity, BindingResult result, @PathVariable("userId") String userId, @PathVariable("langId") String langId){
+        UserService.updateUserInLanguages(languagesEntity, userId, langId);
+
+        return "redirect: /Hr/user/"+userId+"/update/Edu";
+    }
+
+    @RequestMapping(value = "/Hr/user/{userId}/update/Edu/AddEdu", method = RequestMethod.GET)
+    public ModelAndView addEdu(Principal principal, Model model, @PathVariable("userId") int userId){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/new/edu/edu");
+
+        Educations education = new Educations();
+        model.addAttribute("edu", education);
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+    @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/AddEdu", method = RequestMethod.POST )
+    public String AddEduPost(Principal principal, @ModelAttribute  Educations educations, BindingResult result, @PathVariable("userId") String userId){
+        System.out.println("EDUCATIONS: " + educations.toString());
+        int eduId = UserService.insertEducations(UserMapper.mapEducations(educations, userId));
+        UserService.insertEducationLocalizations(UserMapper.mapEducationLocalizations(educations, eduId));
+
+        return "redirect: /Hr/user/"+userId+"/update/Edu";
+    }
+
+    @RequestMapping(value = "/Hr/user/{userId}/update/Edu/EditEdu/{eduId}", method = RequestMethod.GET)
+    public ModelAndView EditEdu(Principal principal, Model model, @PathVariable("userId") int userId, @PathVariable("eduId") int eduId){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/edit/edu/edu");
+
+        Educations education = getEducations(userId, eduId);
+        model.addAttribute("edu", education);
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+
+    private Educations getEducations(int userId, int eduId) {
+        Educations educations = new Educations();
+        EducationsEntity educationsEntity = UserService.getEducationById(eduId);
+        educations.setStartDate(educationsEntity.getStartDate());
+        educations.setEndDate(educationsEntity.getEndDate());
+
+        EducationLocalizationsEntity educationLocalizationsEntity = UserService.getEducationLocalization(educationsEntity, 3);
+        educations.setName(educationLocalizationsEntity.getName());
+        educations.setMajor(educationLocalizationsEntity.getMajor());
+        educations.setDegree(educationLocalizationsEntity.getDegree());
+
+        return educations;
+    }
+
+    @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/EditEdu/{eduId}", method = RequestMethod.POST )
+    public String EditEduPost(Principal principal, @ModelAttribute  Educations educations, BindingResult result, @PathVariable("userId") String userId, @PathVariable("eduId") int eduId){
+        UserService.updateEducations(UserMapper.mapEducations(educations, userId), eduId);
+        UserService.updateEducationLocalizations(UserMapper.mapEducationLocalizations(educations, eduId));
+
+        return "redirect: /Hr/user/"+userId+"/update/Edu";
+    }
+
+    @RequestMapping(value = "/Hr/user/{userId}/update/Edu/AddCert", method = RequestMethod.GET)
+    public ModelAndView addCert(Principal principal, Model model, @PathVariable("userId") int userId){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/new/edu/cer");
+
+        Certificates certificates = new Certificates();
+        model.addAttribute("cert", certificates);
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+    @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/AddCert", method = RequestMethod.POST )
+    public String AddCertPost(Principal principal, @ModelAttribute  Certificates certificates, BindingResult result, @PathVariable("userId") String userId){
+        int certId = UserService.insertCertificates(UserMapper.mapCertificates(certificates, userId, 1));
+        UserService.insertCertificateLocalizations(UserMapper.mapCertificateLocalizations(certificates, certId),3);
+        return "redirect: /Hr/user/"+userId+"/update/Edu";
+    }
+
+    @RequestMapping(value = "/Hr/user/{userId}/update/Edu/EditCert/{certId}", method = RequestMethod.GET)
+    public ModelAndView EditCert(Principal principal, Model model, @PathVariable("userId") int userId, @PathVariable("certId") int certId){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/edit/edu/cer");
+
+        Certificates certificate = getCertificate(userId, certId);
+        model.addAttribute("cert", certificate);
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+
+    private Certificates getCertificate(int userId, int certId) {
+        Certificates certificates = new Certificates();
+        CertificatesEntity certificatesEntity = UserService.getCertificate(certId);
+        CertificateLocalizationsEntity certificateLocalizationsEntity = UserService.getCertificatesLoc(certificatesEntity, 3);
+        certificates.setName(certificateLocalizationsEntity.getName());
+        certificates.setOrganization(certificateLocalizationsEntity.getOrganization());
+        certificates.setDateTime(certificatesEntity.getDateTime());
+        certificates.setMark(certificatesEntity.getMark());
+        certificates.setPassed(certificatesEntity.getPass());
+        certificates.setNumber(certificatesEntity.getNumber());
+        return certificates;
+    }
+
+    @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/EditCert/{certId}", method = RequestMethod.POST )
+    public String EditCertPost(Principal principal, @ModelAttribute  Educations educations, BindingResult result, @PathVariable("userId") String userId, @PathVariable("certId") int certId){
+        UserService.updateEducations(UserMapper.mapEducations(educations, userId), certId);
+        UserService.updateEducationLocalizations(UserMapper.mapEducationLocalizations(educations, certId));
+
+        return "redirect: /Hr/user/"+userId+"/update/Edu";
+    }
+
+    @RequestMapping(value = "/Hr/user/{userId}/update/Edu/AddLangScore", method = RequestMethod.GET)
+    public ModelAndView addLangScore(Principal principal, Model model, @PathVariable("userId") int userId){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/new/edu/langScore");
+
+        Certificates certificates = new Certificates();
+        model.addAttribute("cert", certificates);
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+    @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/AddLangScore", method = RequestMethod.POST )
+    public String AddLangScorePost(Principal principal, @ModelAttribute  Certificates certificates, BindingResult result, @PathVariable("userId") String userId){
+        int certId = UserService.insertCertificates(UserMapper.mapCertificates(certificates, userId, 2));
+        UserService.insertCertificateLocalizations(UserMapper.mapCertificateLocalizations(certificates, certId),3);
+        return "redirect: /Hr/user/"+userId+"/update/Edu";
+    }
+
+    @RequestMapping(value = "/Hr/user/{userId}/update/Edu/EditLangScore/{certId}", method = RequestMethod.GET)
+    public ModelAndView EditLangScore(Principal principal, Model model, @PathVariable("userId") int userId, @PathVariable("certId") int certId){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/edit/edu/cer");
+
+        Certificates certificate = getCertificate(userId, certId);
+        model.addAttribute("cert", certificate);
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+
+    @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/EditLangScore/{certId}", method = RequestMethod.POST )
+    public String EditLangScore(Principal principal, @ModelAttribute  Educations educations, BindingResult result, @PathVariable("userId") String userId, @PathVariable("certId") int certId){
+        UserService.updateEducations(UserMapper.mapEducations(educations, userId), certId);
+        UserService.updateEducationLocalizations(UserMapper.mapEducationLocalizations(educations, certId));
+
+        return "redirect: /Hr/user/"+userId+"/update/Edu";
+    }
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Salary/addSal", method = RequestMethod.GET)
     public ModelAndView addSalary(Principal principal, Model model, @PathVariable("userId") int userId){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/editmenu/new/salary");
-
+        List<CurrencyLocalizationsEntity> currencyLocalizationsEntities = UserService.getCurrencies(3);
+        Map<Integer, String> currencies = new HashMap<Integer, String>();
+        for (CurrencyLocalizationsEntity cur :
+                currencyLocalizationsEntities) {
+            currencies.put(cur.getCurrencyId(), cur.getName());
+        }
+        model.addAttribute("currencies", currencies);
         SalaryVewModel salaryVM = new SalaryVewModel();
         model.addAttribute("salaryVM", salaryVM);
         mav = UP.includeUserProfile(mav, principal);
@@ -528,7 +753,7 @@ public class HrController {
     }
     @RequestMapping ( value = "/Hr/user/{userId}/update/Salary/addSal", method = RequestMethod.POST )
     public String AddSalaryPost(Principal principal, @ModelAttribute  SalaryVewModel salaryVewModel, BindingResult result, @PathVariable("userId") String userId){
-        addSalaryPost(salaryVewModel, userId);
+        UserService.insertSalary(UserMapper.mapSalaryEntity(salaryVewModel, userId));
         return "redirect: /Hr/user/"+userId+"/update/Salary";
     }
 
@@ -540,17 +765,20 @@ public class HrController {
         mav = UP.includeUserProfile(mav, principal);
         SalaryHistoriesEntity salaryVM = UserService.getSalary(salId);
         model.addAttribute("salaryVM", salaryVM);
-
+        List<CurrencyLocalizationsEntity> currencyLocalizationsEntities = UserService.getCurrencies(3);
+        Map<Integer, String> currencies = new HashMap<Integer, String>();
+        for (CurrencyLocalizationsEntity cur :
+                currencyLocalizationsEntities) {
+            currencies.put(cur.getCurrencyId(), cur.getName());
+        }
+        model.addAttribute("currencies", currencies);
         return mav;
     }
     @RequestMapping ( value = "/Hr/user/{userId}/update/Salary/updateSal/{salId}", method = RequestMethod.POST )
     public String UpdateSalaryPost(Principal principal, @ModelAttribute  SalaryHistoriesEntity salaryVewModel,  @PathVariable("userId") String userId, @PathVariable("salId") String salId){
+        System.out.println("SALLARY: " + salaryVewModel);
         UserService.updateSalaryPost(salaryVewModel, Integer.parseInt(salId));
         return "redirect: /Hr/user/"+userId+"/update/Salary";
-    }
-
-    private void addSalaryPost(SalaryVewModel salaryVewModel, String userId) {
-        UserService.insertSalary(UserMapper.mapSalaryEntity(salaryVewModel, userId));
     }
 
     @RequestMapping(value = "/Hr/user/{id}/update/Docs/Download/{docId}")
@@ -717,6 +945,14 @@ public class HrController {
             mav.setViewName("Home/editmenu/salary");
             List<SalaryVewModel> salaryVewModel = UserController.getSalaryByUser(UserService.getUserById(id).getUserName());
             model.addAttribute("salaryVM", salaryVewModel);
+            return mav;
+        }
+        else if(path.compareTo("Edu")==0) {
+            mav.setViewName("Home/editmenu/edu");
+
+            EduViewModel eduViewModel = UserController.getEducationByUsername(userProfile.getUsername());
+
+            model.addAttribute("eduVM", eduViewModel);
             return mav;
         }
         else if(path.compareTo("Train")==0) {

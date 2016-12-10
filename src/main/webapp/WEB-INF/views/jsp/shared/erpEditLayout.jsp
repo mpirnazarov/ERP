@@ -32,7 +32,7 @@
                 <a href="#"><i class="fa fa-fw fa-folder"></i> Projects</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-fw fa-file-o"></i> Evaluation history</a>
+                <a href="/Hr/Profile/Evaluation"><i class="fa fa-fw fa-file-o"></i> Evaluation history</a>
             </li>
             <li>
                 <a href="/Hr/GenerateDocs"><i class="fa fa-fw fa-file"></i> Generate documents</a>

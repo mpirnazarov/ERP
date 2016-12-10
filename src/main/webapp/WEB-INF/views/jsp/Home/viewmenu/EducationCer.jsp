@@ -121,6 +121,7 @@
                         <th>Degree</th>
                         <th>Organization</th>
                         <th>Acquistion Date</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>

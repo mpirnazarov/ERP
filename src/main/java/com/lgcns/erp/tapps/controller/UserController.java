@@ -26,9 +26,7 @@ import java.nio.charset.Charset;
 import java.security.Principal;
 import java.sql.Date;
 import java.text.NumberFormat;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 
 /**
@@ -168,6 +166,13 @@ public class UserController {
         List<PersonalEvalutionsEntity> evaluations = UserService.getEvaluationsByUserId(UserService.getUserIdByUsername(principal.getName()));
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("evaluationsVM", evaluations);
+        List<UserLocalizationsEntity> usersEntities = UserService.getAllUserLocs();
+        Map<Integer, String> users = new HashMap<Integer, String>();
+        for (UserLocalizationsEntity u :
+                usersEntities) {
+            users.put(u.getUserId(), u.getFirstName() + " " + u.getLastName());
+        }
+        mav.addObject("users", users);
         return mav;
     }
 
@@ -397,14 +402,14 @@ public class UserController {
         for (EducationsEntity edu:
                 educations) {
             eduLoc = UserService.getEducationLocalization(edu, 3);
-            eduReturn.addEducation(eduLoc.getName(), eduLoc.getMajor(), eduLoc.getDegree(), edu.getStartDate(), edu.getEndDate());
+            eduReturn.addEducation(eduLoc.getName(), eduLoc.getMajor(), eduLoc.getDegree(), edu.getStartDate(), edu.getEndDate(), edu.getId());
         }
 
         // Getting and setting Language Summary module
         List<UserInLanguagesEntity> languageSummaries = UserService.getUserInLanguages(user);
         for (UserInLanguagesEntity lan :
                 languageSummaries) {
-            eduReturn.addLanguageSummary(Language.values()[lan.getLanguageId()-1].toString(), Language_Ranking.values()[lan.getListening()-1].toString(), Language_Ranking.values()[lan.getReading()].toString(), Language_Ranking.values()[lan.getWriting()].toString(), Language_Ranking.values()[lan.getSpeaking()].toString());
+            eduReturn.addLanguageSummary(Language.values()[lan.getLanguageId()-1].toString(), Language_Ranking.values()[lan.getListening()-1].toString(), Language_Ranking.values()[lan.getReading()].toString(), Language_Ranking.values()[lan.getWriting()].toString(), Language_Ranking.values()[lan.getSpeaking()].toString(), lan.getId());
         }
 
         // Getting and setting Certificates module
@@ -412,7 +417,7 @@ public class UserController {
         for (CertificatesEntity cert :
                 certificatesEntities) {
             CertificateLocalizationsEntity certificatesLocEntitie = UserService.getCertificatesLoc(cert, 3);
-            eduReturn.addCertificate(certificatesLocEntitie.getName(), certificatesLocEntitie.getOrganization(), cert.getNumber(), cert.getDateTime(),cert.getMark());
+            eduReturn.addCertificate(certificatesLocEntitie.getName(), certificatesLocEntitie.getOrganization(), cert.getNumber(), cert.getDateTime(),cert.getMark(), cert.getId(), cert.getType(), cert.getDegree());
         }
         return eduReturn;
     }

@@ -16,7 +16,7 @@
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-8 col-lg-offset-2">
         <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
-        <form:form modelAttribute="family" cssClass="form-horizontal" method="post">
+        <form:form modelAttribute="appointmentVM" cssClass="form-horizontal" method="post">
 
                 <!--General info/Family info Tab-->
                 <h3>Appointment Record</h3>

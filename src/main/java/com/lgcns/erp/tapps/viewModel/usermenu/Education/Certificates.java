@@ -12,13 +12,23 @@ public class Certificates {
     private String number;
     private Date dateTime;
     private String mark;
+    private int id;
+    private boolean passed;
+    private int type;
+    private String degree;
 
-    public Certificates(String name, String organization, String number, Date dateTime, String mark) {
+    public Certificates() {
+    }
+
+    public Certificates(String name, String organization, String number, Date dateTime, String mark, int id, int type, String degree) {
         this.name = name;
         this.organization = organization;
         this.number = number;
         this.dateTime = dateTime;
         this.mark = mark;
+        this.id = id;
+        this.type = type;
+        this.degree = degree;
     }
 
     public String getName() {
@@ -59,5 +69,50 @@ public class Certificates {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean getPassed() {
+        return passed;
+    }
+
+    public void setPassed(boolean passed) {
+        this.passed = passed;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    @Override
+    public String toString() {
+        return "Certificates{" +
+                "name='" + name + '\'' +
+                ", organization='" + organization + '\'' +
+                ", number='" + number + '\'' +
+                ", dateTime=" + dateTime +
+                ", mark='" + mark + '\'' +
+                ", id=" + id +
+                ", passed=" + passed +
+                '}';
     }
 }

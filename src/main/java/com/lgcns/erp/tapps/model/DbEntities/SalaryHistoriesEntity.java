@@ -166,4 +166,21 @@ public class SalaryHistoriesEntity {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "SalaryHistoriesEntity{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", salaryBefore=" + salaryBefore +
+                ", salaryAfter=" + salaryAfter +
+                ", pit=" + pit +
+                ", inps=" + inps +
+                ", pf=" + pf +
+                ", currencyId=" + currencyId +
+                ", usersByUserId=" + usersByUserId +
+                ", currenciesByCurrencyId=" + currenciesByCurrencyId +
+                ", date=" + date +
+                '}';
+    }
 }

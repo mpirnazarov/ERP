@@ -26,30 +26,30 @@
                         <form:hidden path="id"/>
                         <form:input placeholder="Name of School" required="true"
                                     cssClass="form-control text-box single-line"
-                                    path=""/></div>
+                                    path="name"/></div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Major: <font color='red'>*</font></label>
                     <div class="col-lg-5"><form:input placeholder="Major" required="true"
                                                       cssClass="form-control text-box single-line"
-                                                      path=""/></div>
+                                                      path="major"/></div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Degree: <font color='red'>*</font></label>
                     <div class="col-lg-5"><form:input placeholder="Degree" required="true"
                                                       cssClass="form-control text-box single-line"
-                                                      path=""/></div>
+                                                      path="degree"/></div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Entry Date: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:input path="" type="date"
+                    <div class="col-lg-5"><form:input path="startDate" type="date"
                                                       cssClass="form-control text-box single-line requiredDate"/>
 
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Graduate Date: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:input path="" type="date"
+                    <div class="col-lg-5"><form:input path="endDate" type="date"
                                                       cssClass="form-control text-box single-line requiredDate"/>
 
                     </div>
@@ -58,7 +58,7 @@
             <div class="form-group">
                 <div class="col-md-offset-3 col-md-9">
                     <input type="submit" value="Save" class="btn btn-default"/>
-                    <input type="button" onclick="location.href='/Hr/user/${id}/update/${path}'" value="Cancel"
+                    <input type="button" onclick="history.back()" value="Cancel"
                            class="btn btn-default"/>
                 </div>
             </div>

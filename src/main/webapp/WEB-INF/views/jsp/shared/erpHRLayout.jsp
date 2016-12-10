@@ -42,7 +42,7 @@
                 </li>
 
                 <li>
-                    <a href="#"><i class="fa fa-fw fa-bar-chart"></i> Evaluation history</a>
+                    <a href="/Hr/Profile/Evaluation"><i class="fa fa-fw fa-bar-chart"></i> Evaluation history</a>
                 </li>
                 <li>
                     <a href="/Hr/GenerateDocs"><i class="fa fa-fw fa-file"></i> Generate documents</a>

@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3">End Date: <font color='red'>*</font></label>
+                    <label class="control-label col-md-3">End Date: </label>
                     <div class="col-lg-5"><form:input path="endDate" type="date" value="${jobexpVM.endDate}"
                                                       cssClass="form-control text-box single-line requiredDate"/>
 

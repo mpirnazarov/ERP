@@ -12,7 +12,7 @@
 <c:set var="pageTitle" scope="request" value="Education certificates"/>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
+    <div class="col-lg-offset-2">
         <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <h2 class="page-header">Education Certificate</h2>
@@ -35,7 +35,7 @@
                         <th>Degree</th>
                         <th>Entry date</th>
                         <th>Graduate date</th>
-                        <th></th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -46,12 +46,12 @@
                             <td>${eduList.degree}</td>
                             <td>${eduList.startDate}</td>
                             <td>${eduList.endDate}</td>
-                            <td><a href="./educer/updateEdu/${edu.id}/" class="btn btn-default">Edit</a></td>
+                            <td><a href="./Edu/EditEdu/${eduList.id}" class="btn btn-default">Edit</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <a href="" class="btn btn-primary">Add</a>
+                <a href="./Edu/AddEdu" class="btn btn-primary">Add</a>
             </div>
             <div id="langsum" class="tab-pane fade">
                 <h3>Language summary</h3>
@@ -64,7 +64,7 @@
                         <th>Reading</th>
                         <th>Writing</th>
                         <th>Speaking</th>
-                        <th></th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -75,12 +75,41 @@
                             <td>${language.reading}</td>
                             <td>${language.writing}</td>
                             <td>${language.speaking}</td>
-                            <td><a href="./educer/updateEdu/${language.id}/" class="btn btn-default">Edit</a></td>
+                            <td><a href="./Edu/EditLang/${language.id}" class="btn btn-default">Edit</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <a href="" class="btn btn-primary">Add</a>
+                <a href="./Edu/AddLang" class="btn btn-primary">Add</a>
+
+                <h3>Language scores</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Score</th>
+                        <th>Degree</th>
+                        <th>Organization</th>
+                        <th>Acquistion Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                       <c:forEach items="${eduVM.certificateList}" var="cer" varStatus="status">
+                            <c:if test="${cer.type==2}">
+                                <tr>
+                                    <td>${cer.name}</td>
+                                    <td>${cer.organization}</td>
+                                    <td>${cer.number}</td>
+                                    <td>${cer.dateTime}</td>
+                                    <td>${cer.mark}</td>
+                                    <td><a href="./Edu/EditCert/${cer.id}/" class="btn btn-default">Edit</a></td>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
+                    </tbody>
+                </table>
+                <a href="./Edu/AddLangScore" class="btn btn-primary">Add</a>
+
                 <div style="border: solid #ffffff; width: 25%; right: 0; bottom: 0; position: fixed; border-radius: 10px;">
                     <h3 style="text-align: center">LEGEND:</h3>
                     <h4 style="margin-left: 50px">A1 and A2 - Basic</h4>
@@ -105,20 +134,21 @@
                     </thead>
                     <tbody>
                     <c:forEach items="${eduVM.certificateList}" var="cer" varStatus="status">
-                        <tr>
-                            <td>${cer.name}</td>
-                            <td>${cer.organization}</td>
-                            <td>${cer.number}</td>
-                            <td>${cer.dateTime}</td>
-                            <td>${cer.mark}</td>
-                            <td><a href="./educer/updateEdu/${cer.id}/" class="btn btn-default">Edit</a></td>
-                        </tr>
+                        <c:if test="${cer.type==1}">
+                            <tr>
+                                <td>${cer.name}</td>
+                                <td>${cer.organization}</td>
+                                <td>${cer.number}</td>
+                                <td>${cer.dateTime}</td>
+                                <td>${cer.mark}</td>
+                                <td><a href="./Edu/EditCert/${cer.id}/" class="btn btn-default">Edit</a></td>
+                            </tr>
+                        </c:if>
                     </c:forEach>
                     </tbody>
                 </table>
-                <input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;"
-                       value="Print this page" onclick="printpage()"/>
-                <a href="" class="btn btn-primary">Add</a>
+
+                <a href="./Edu/AddCert" class="btn btn-primary">Add</a>
             </div>
         </div>
     </div>

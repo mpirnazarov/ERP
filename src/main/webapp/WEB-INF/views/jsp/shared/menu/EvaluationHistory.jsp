@@ -19,6 +19,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th>Evaluator</th>
                 <th>Date</th>
                 <th>Comment</th>
                 <th>Grade</th>
@@ -27,6 +28,7 @@
             <tbody>
             <c:forEach items="${evaluationsVM}" var="evaluation" varStatus="status">
                 <tr>
+                    <td>${users.get(evaluation.evaluatorId)}</td>
                     <td>${evaluation.date}</td>
                     <td>${evaluation.comments}</td>
                     <td>

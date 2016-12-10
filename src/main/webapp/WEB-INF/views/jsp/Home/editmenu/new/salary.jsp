@@ -50,11 +50,16 @@
                     <div class="col-lg-5"><form:input path="net" placeholder="Net salary"
                                                       cssClass="form-control text-box single-line"/></div>
                 </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Currency: <font color='red'>*</font></label>
+                    <div class="col-lg-5"><form:select path="currency" items="${currencies}"
+                                                       cssClass="form-control text-box single-line"/></div>
+                </div>
             </div>
             <div class="form-group">
                 <div class="col-md-offset-3 col-md-9">
                     <input type="submit" value="Add" class="btn btn-default"/>
-                    <input type="button" onclick="location.href='../Salary'" value="Cancel"
+                    <input type="button" onclick="history.back()" value="Cancel"
                            class="btn btn-default"/>
                 </div>
             </div>

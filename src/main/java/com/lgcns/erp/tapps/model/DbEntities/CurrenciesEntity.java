@@ -10,7 +10,7 @@ import java.util.Collection;
 @Table(name = "currencies", schema = "public", catalog = "LgErpSystem")
 public class CurrenciesEntity {
     private int id;
-    private Collection<CurrnecyLocalizationsEntity> currnecyLocalizationsesById;
+    private Collection<CurrencyLocalizationsEntity> currnecyLocalizationsesById;
     private Collection<SalaryHistoriesEntity> salaryHistoriesById;
 
     @Id
@@ -42,11 +42,11 @@ public class CurrenciesEntity {
     }
 
     @OneToMany(mappedBy = "currenciesByCurrencyId")
-    public Collection<CurrnecyLocalizationsEntity> getCurrnecyLocalizationsesById() {
+    public Collection<CurrencyLocalizationsEntity> getCurrnecyLocalizationsesById() {
         return currnecyLocalizationsesById;
     }
 
-    public void setCurrnecyLocalizationsesById(Collection<CurrnecyLocalizationsEntity> currnecyLocalizationsesById) {
+    public void setCurrnecyLocalizationsesById(Collection<CurrencyLocalizationsEntity> currnecyLocalizationsesById) {
         this.currnecyLocalizationsesById = currnecyLocalizationsesById;
     }
 

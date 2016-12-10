@@ -11,7 +11,7 @@ import java.util.Collection;
 public class LanguagesEntity {
     private int id;
     private Collection<CertificateLocalizationsEntity> certificateLocalizationsesById;
-    private Collection<CurrnecyLocalizationsEntity> currnecyLocalizationsesById;
+    private Collection<CurrencyLocalizationsEntity> currnecyLocalizationsesById;
     private Collection<DepartmentLocalizationsEntity> departmentLocalizationsesById;
     private Collection<EducationLocalizationsEntity> educationLocalizationsesById;
     private Collection<FamiliyInfoLocalizationsEntity> familiyInfoLocalizationsesById;
@@ -61,11 +61,11 @@ public class LanguagesEntity {
     }
 
     @OneToMany(mappedBy = "languagesByLanguageId")
-    public Collection<CurrnecyLocalizationsEntity> getCurrnecyLocalizationsesById() {
+    public Collection<CurrencyLocalizationsEntity> getCurrnecyLocalizationsesById() {
         return currnecyLocalizationsesById;
     }
 
-    public void setCurrnecyLocalizationsesById(Collection<CurrnecyLocalizationsEntity> currnecyLocalizationsesById) {
+    public void setCurrnecyLocalizationsesById(Collection<CurrencyLocalizationsEntity> currnecyLocalizationsesById) {
         this.currnecyLocalizationsesById = currnecyLocalizationsesById;
     }
 

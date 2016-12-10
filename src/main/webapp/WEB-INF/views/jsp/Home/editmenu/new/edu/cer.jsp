@@ -16,7 +16,7 @@
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-8 col-lg-offset-2">
         <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
-        <form:form modelAttribute="edu" cssClass="form-horizontal" method="post">
+        <form:form modelAttribute="cert" cssClass="form-horizontal" method="post">
             <h3>Education certificate</h3>
             <p>Certificates</p>
             <div class="form-horizontal">
@@ -24,23 +24,23 @@
                     <label class="control-label col-md-3">Name: <font color='red'>*</font></label>
                     <div class="col-lg-5"><form:input placeholder="Name" required="true"
                                                       cssClass="form-control text-box single-line"
-                                                      path=""/></div>
+                                                      path="name"/></div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Organization: <font color='red'>*</font></label>
                     <div class="col-lg-5"><form:input placeholder="Organization" required="true"
                                                       cssClass="form-control text-box single-line"
-                                                      path=""/></div>
+                                                      path="organization"/></div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Number: <font color='red'>*</font></label>
                     <div class="col-lg-5"><form:input placeholder="Number" required="true"
                                                       cssClass="form-control text-box single-line"
-                                                      path=""/></div>
+                                                      path="number"/></div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Date: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:input path="" type="date"
+                    <div class="col-lg-5"><form:input path="dateTime" type="date"
                                                       cssClass="form-control text-box single-line requiredDate"/>
 
                     </div>
@@ -49,13 +49,19 @@
                     <label class="control-label col-md-3">Mark: <font color='red'>*</font></label>
                     <div class="col-lg-5"><form:input placeholder="Mark" required="true"
                                                       cssClass="form-control text-box single-line"
-                                                      path=""/></div>
+                                                      path="mark"/></div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Is passed: <font color='red'>*</font></label>
+                    <div class="col-lg-5"><form:checkbox placeholder="Is passed" required="true"
+                                                      cssClass="form-control text-box single-line"
+                                                      path="passed"/></div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-offset-3 col-md-9">
                     <input type="submit" value="Save" class="btn btn-default"/>
-                    <input type="button" onclick="location.href='/Hr/user/${id}/update/${path}'" value="Cancel"
+                    <input type="button" onclick="history.back()" value="Cancel"
                            class="btn btn-default"/>
                 </div>
             </div>

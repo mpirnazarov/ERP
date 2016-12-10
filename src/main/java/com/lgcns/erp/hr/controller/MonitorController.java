@@ -1,25 +1,26 @@
 package com.lgcns.erp.hr.controller;
 
 import com.lgcns.erp.hr.mapper.MonitorMapper;
+import com.lgcns.erp.hr.viewModel.MonitorViewModels.MonitorResponseViewModel;
 import com.lgcns.erp.hr.viewModel.MonitorViewModels.MonitorViewModel;
 import com.lgcns.erp.hr.viewModel.MonitorViewModels.QueryModel;
 import com.lgcns.erp.tapps.DbContext.ProjectServices;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.DbContext.WorkloadServices;
 import com.lgcns.erp.tapps.controller.UP;
-import com.lgcns.erp.tapps.model.DbEntities.ProjectsEntity;
-import com.lgcns.erp.tapps.model.DbEntities.UserInProjectsEntity;
-import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
-import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
+import com.lgcns.erp.tapps.model.DbEntities.*;
 import javafx.util.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.method.P;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
@@ -35,22 +36,40 @@ import java.util.Date;
 public class MonitorController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView Monitor(Principal principal) {
-        ModelAndView mav = new ModelAndView("monitor/index");         //TODO create view
-
-        Pair<List<MonitorViewModel>, Integer> values = getAllData(0, getDateRange().getKey(), getDateRange().getValue());
+        ModelAndView mav = new ModelAndView("monitor/index");
+        UsersEntity curUser = UserService.getUserByUsername(principal.getName());
+        int roleId = curUser.getRoleId();
+        int userToRequest = 0;  //Requesting all users
+        if(roleId == 2) {       //If user's role is USER, then request only his data
+            userToRequest = curUser.getId();
+        }else{
+            mav.addObject("users", getUsersIdAndName());
+            mav.addObject("projects", getProjectsIdAndName(getDateRange().getKey(), getDateRange().getValue()));
+        }
+        Pair<List<MonitorViewModel>, Integer> values = getAllData(userToRequest, getDateRange().getKey(), getDateRange().getValue());
         mav.addObject("viewModel", values.getKey());
         mav.addObject("total", values.getValue());
+        mav.addObject("startDate", getDateRange().getKey());
+        mav.addObject("endDate", getDateRange().getValue());
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
 
     @RequestMapping(value = "/ReceiveDataAjax", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public JSONObject ReceiveDataAjax(@RequestBody String json, Principal principal) throws IOException {
         JSONObject response = new JSONObject();
         ObjectMapper mapper = new ObjectMapper();
         QueryModel jsonModel = mapper.readValue(json, QueryModel.class);
-        Pair<List<MonitorViewModel>, Integer> values = getAllData(jsonModel.getUserId(), jsonModel.getProjectId(), jsonModel.getTypeId(), getDateRange().getKey(), getDateRange().getValue());
+        Pair<List<MonitorViewModel>, Integer> values = getAllData(jsonModel.getUserId(), jsonModel.getProjectId(), jsonModel.getTypeId(), jsonModel.getDateFrom(), jsonModel.getDateTo());
         //TODO map data from values to response
+        List<MonitorResponseViewModel> responseVM = MonitorMapper.mapValuesToAjaxModel(values.getKey());
+        JSONArray array = new JSONArray();
+        for(MonitorResponseViewModel temp : responseVM){
+            array.add(temp);
+        }
+        response.put("projects",array);
+        response.put("success", true);
         return response;
     }
 
@@ -78,8 +97,7 @@ public class MonitorController {
         for (ProjectsEntity project : ProjectServices.getAllProjects(dateFrom, dateTo)) {
             cal.setTime(project.getStartDate());
             int year = cal.get(Calendar.YEAR);
-            projects.put(project.getId(), "PJ " + year + "-" + project.getCode() + "-" + project.getType() +
-                    "<br>" + project.getName());
+            projects.put(project.getId(), "PJ " + year + "-" + project.getCode() + "-" + project.getType());
         }
         return projects;
     }

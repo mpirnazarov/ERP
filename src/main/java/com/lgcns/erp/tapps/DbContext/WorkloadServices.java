@@ -161,18 +161,30 @@ public class WorkloadServices {
                 if (projectId == 0) {
                     if (typeId == 0) {
                         query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.date <= :dateTo");
+                        query.setParameter("dateFrom", dateFrom);
+                        query.setParameter("dateTo", dateTo);
+                        returning = (List<WorkloadEntity>)query.list();
                     } else {
                         query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.date <= :dateTo and w.workloadType = :wType");
                         query.setParameter("wType", typeId);
+                        query.setParameter("dateFrom", dateFrom);
+                        query.setParameter("dateTo", dateTo);
+                        returning = (List<WorkloadEntity>)query.list();
                     }
                 } else {
                     if (typeId == 0) {
                         query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.date <= :dateTo and w.projectId = :projectId");
                         query.setParameter("projectId", projectId);
+                        query.setParameter("dateFrom", dateFrom);
+                        query.setParameter("dateTo", dateTo);
+                        returning = (List<WorkloadEntity>)query.list();
                     } else {
                         query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.date <= :dateTo and w.projectId = :projectId and w.workloadType = :wType");
                         query.setParameter("wType", typeId);
                         query.setParameter("projectId", projectId);
+                        query.setParameter("dateFrom", dateFrom);
+                        query.setParameter("dateTo", dateTo);
+                        returning = (List<WorkloadEntity>)query.list();
                     }
                 }
             }else{
@@ -180,27 +192,37 @@ public class WorkloadServices {
                     if (typeId == 0) {
                         query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.userId = :userId and w.date <= :dateTo");
                         query.setParameter("userId", userId);
+                        query.setParameter("dateFrom", dateFrom);
+                        query.setParameter("dateTo", dateTo);
+                        returning = (List<WorkloadEntity>)query.list();
                     } else {
                         query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.userId = :userId and w.date <= :dateTo and w.workloadType = :wType");
                         query.setParameter("wType", typeId);
                         query.setParameter("userId", userId);
+                        query.setParameter("dateFrom", dateFrom);
+                        query.setParameter("dateTo", dateTo);
+                        returning = (List<WorkloadEntity>)query.list();
                     }
                 } else {
                     if (typeId == 0) {
                         query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.userId = :userId and w.date <= :dateTo and w.projectId = :projectId");
                         query.setParameter("projectId", projectId);
                         query.setParameter("userId", userId);
+                        query.setParameter("dateFrom", dateFrom);
+                        query.setParameter("dateTo", dateTo);
+                        returning = (List<WorkloadEntity>)query.list();
                     } else {
                         query = session.createQuery("from WorkloadEntity w where w.date >= :dateFrom and w.userId = :userId and w.date <= :dateTo and w.projectId = :projectId and w.workloadType = :wType");
                         query.setParameter("wType", typeId);
                         query.setParameter("projectId", projectId);
                         query.setParameter("userId", userId);
+                        query.setParameter("dateFrom", dateFrom);
+                        query.setParameter("dateTo", dateTo);
+                        returning = (List<WorkloadEntity>)query.list();
                     }
                 }
             }
-            query.setParameter("dateFrom", dateFrom);
-            query.setParameter("dateTo", dateTo);
-            returning = (List<WorkloadEntity>)query.list();
+
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();

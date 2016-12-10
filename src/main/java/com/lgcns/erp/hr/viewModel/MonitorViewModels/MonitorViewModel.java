@@ -8,10 +8,28 @@ import java.util.Date;
  */
 public class MonitorViewModel {
     private String userName;
+    private int userId;
     private String projectName;
+    private int projectId;
     private Date date;
     private String duration;
     private String type;
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
 
     public String getUserName() {
         return userName;

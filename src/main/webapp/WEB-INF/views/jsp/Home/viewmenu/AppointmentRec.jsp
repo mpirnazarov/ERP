@@ -31,7 +31,7 @@
 <% request.setAttribute("Mode", 1); %>
 <%
     ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfileUser");
-    request.setAttribute("FullName2", a.getFirstName()[0] + " " + a.getLastName()[0]);
+    request.setAttribute("FullName2", a.getFirstName()[1] + " " + a.getLastName()[1]);
 
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>

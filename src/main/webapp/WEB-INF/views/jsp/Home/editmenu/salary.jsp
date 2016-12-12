@@ -14,9 +14,10 @@
 <c:set var="pageTitle" scope="request" value="Salary details"/>
 <% request.setAttribute("Mode", 2); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
+
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-8 col-lg-offset-2">
-        <h1>${fullName} ${jobTitle}</h1>
+        <h1>${fullName}, ${jobTitle}</h1>
         <h2 class="page-header">Salary Details</h2>
         <!--Appointment summary table-->
         <table class="table">

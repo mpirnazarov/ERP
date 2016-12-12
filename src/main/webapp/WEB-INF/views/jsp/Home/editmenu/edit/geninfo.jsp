@@ -1,4 +1,4 @@
-<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Dell
   Date: 25-Oct-16
@@ -10,13 +10,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%--<c:set var="pageTitle" scope="request" value="Home"/>--%>
+<c:set var="pageTitle" scope="request" value="General information"/>
 <% request.setAttribute("Mode", 2); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-offset-2">
-        <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
-        <h1>${fullName} ${jobTitle}</h1>
+        <h1>${fullName}, ${jobTitle}</h1>
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#headerinfo">Header information</a></li>
             <li><a data-toggle="tab" href="#personalinfo">Personal information</a></li>

@@ -93,6 +93,8 @@ public class HrController {
         mav.addObject("path", "Hr");
         ProfileViewModel userProfile = UserController.getProfileByUsername(username);
         mav.addObject("userProfileUser", userProfile);
+        mav.addObject("fullName", userProfile.getFirstName()[2]+" "+userProfile.getLastName()[2]);
+        mav.addObject("jobTitle", userProfile.getJobTitle());
         ProfileViewModel userProfile2 = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile2);
         if(path.compareTo("Geninfo")==0) {

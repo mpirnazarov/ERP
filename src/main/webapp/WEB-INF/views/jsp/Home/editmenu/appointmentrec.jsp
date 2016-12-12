@@ -13,31 +13,31 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-8 col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
-        </h1>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Appointment date</th>
-                            <th>Appointment type</th>
-                            <th>Department</th>
-                            <th>Role</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${appointmentrecVM.appointmentSummaries}" var="appointment" varStatus="status">
-                            <tr>
-                                <td>${appointment.appointDate}</td>
-                                <td>${appointment.appointmentType}</td>
-                                <td>${appointment.department}</td>
-                                <td>${appointment.role}</td>
-                                <td><a href="./Appointment/Edit/${appointment.id}" class="btn btn-default">Edit</a></td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                    <a href="Appointment/Add" class="btn btn-primary">Add</a>
+        <h1>${fullName}, ${jobTitle}</h1>
+        <h2 class="page-header">Appointment Record</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Appointment date</th>
+                <th>Appointment type</th>
+                <th>Department</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${appointmentrecVM.appointmentSummaries}" var="appointment" varStatus="status">
+                <tr>
+                    <td>${appointment.appointDate}</td>
+                    <td>${appointment.appointmentType}</td>
+                    <td>${appointment.department}</td>
+                    <td>${appointment.role}</td>
+                    <td><a href="./Appointment/Edit/${appointment.id}" class="btn btn-default">Edit</a></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <a href="Appointment/Add" class="btn btn-primary">Add</a>
 
     </div>
 </div>

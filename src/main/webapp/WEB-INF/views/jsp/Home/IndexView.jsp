@@ -8,21 +8,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="pageTitle" scope="request" value="Home"/>
+<c:set var="pageTitle" scope="request" value="General information"/>
 
 <% request.setAttribute("Mode", 1); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<%
-    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfileUser");
-    request.setAttribute("FullName2", a.getFirstName()[0] + " " + a.getLastName()[0]);
+<%--<%--%>
+    <%--ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfileUser");--%>
+    <%--request.setAttribute("FullName2", a.getFirstName()[2] + " " + a.getLastName()[2]);--%>
 
-%>
+<%--%>--%>
 <%--<div class="container-fluid">
     <div class="row">--%>
 <%--<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpViewLayout.jsp"></jsp:include>--%>
         <div class="col-sm-9 col-md-offset-1">
         <div class="col-lg-offset-2">
-            <%--<h1><%= request.getAttribute("FullName2") %></h1>--%>
+            <h1>${fullName}, ${jobTitle}</h1>
             <h2 class="page-header">General Information</h2>
 
             <ul class="nav nav-tabs">

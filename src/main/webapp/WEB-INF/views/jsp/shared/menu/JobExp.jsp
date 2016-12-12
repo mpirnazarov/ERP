@@ -46,8 +46,8 @@
                     <tr>
                         <th>Organization</th>
                         <th>Position</th>
-                        <th>Start date</th>
-                        <th>End date</th>
+                        <th>Start date(YYYY-MM-DD)</th>
+                        <th>End date(YYYY-MM-DD)</th>
                     </tr>
                     </thead>
                     <tbody>

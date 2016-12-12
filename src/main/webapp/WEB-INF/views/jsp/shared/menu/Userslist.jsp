@@ -30,9 +30,10 @@
             <table id="myTable" class="display table" cellspacing="0" width="100%">
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Firstname</th>
-                    <th>Lastname</th>
+                    <th>Employee ID</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Role</th>
                     <th>Username</th>
                     <th style="text-align: center">Action</th>
                 </tr>
@@ -43,6 +44,7 @@
                         <td><c:out value="${user.id}"/></td>
                         <td><c:out value="${user.firstName[2]}"/></td>
                         <td><c:out value="${user.lastName[2]}"/></td>
+                        <td></td>
                         <td><c:out value="${user.username}"/></td>
                         <%
                             if((int)request.getAttribute("SystemRole")==1){

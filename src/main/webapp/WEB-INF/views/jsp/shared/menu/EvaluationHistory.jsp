@@ -20,7 +20,7 @@
             <thead>
             <tr>
                 <th>Evaluator</th>
-                <th>Date</th>
+                <th>Date(YYYY-MM-DD)</th>
                 <th>Comment</th>
                 <th>Grade</th>
             </tr>

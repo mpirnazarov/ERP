@@ -100,6 +100,16 @@ public class CTOController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
+    @RequestMapping(value = "/CTO/Profile/Project", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView Project(Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("shared/menu/Project");
+       /* List<DocsViewModel> docsViewModel = getDocuments(principal);*/
+        mav = UP.includeUserProfile(mav, principal);
+        /*mav.addObject("docsVM", docsViewModel);*/
+        return mav;
+    }
     @RequestMapping (value = "/CTO/Userslist", method = RequestMethod.GET)
     @ResponseBody public ModelAndView HrUserslist(Principal principal){
         ModelAndView mav = new ModelAndView();

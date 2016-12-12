@@ -86,6 +86,32 @@ public class HrController {
         return mav;
     }
 
+    @RequestMapping(value = "/Hr/Register", method = RequestMethod.POST)
+    public ModelAndView RegisterPost(@Valid @ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel, BindingResult bindingResult,
+                                     RedirectAttributes redirectAttributes, Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("registrationVM", registrationViewModel);
+        System.out.println("ERROR2!!!");
+        if (bindingResult.hasErrors()) {
+            System.out.println("ERROR!!!");
+            mav.addObject("heads", getDirectHeadIdAndName());
+            mav.addObject("departments", getDepartmentsIdAndName());
+            mav.addObject("statuses", getStatusesIdAndName());
+            mav.addObject("roles", getRolesIdAndName());
+            mav.addObject("org.springframework.validation.BindingResult.registrationVM", bindingResult);
+            return mav;
+        }
+        // Deletes all space and hidden characters
+        registrationViewModel.getUserName().replaceAll("\\s+","");
+        registrationViewModel.getPassword().replaceAll("\\s+","");
+        //adding user and userLocalization info into DB
+        int userId = UserService.insertUser(UserMapper.mapRegModelToUserInfo(registrationViewModel));
+        UserService.insertUserLoc(UserMapper.mapRegModelToUserLocInfo(registrationViewModel, userId));
+
+        mav = new ModelAndView();
+        return new ModelAndView("redirect:/Hr/Userslist");
+    }
+
     @RequestMapping(value = "/Hr/user/{userId}/{path}", method = RequestMethod.GET)
     public ModelAndView UpdateFamInfo(Principal principal, @PathVariable("userId") int userId, @PathVariable("path") String path){
         String username = UserService.getUsernameById(userId);
@@ -130,30 +156,6 @@ public class HrController {
             return mav;
         }
         return null;
-    }
-
-    @RequestMapping(value = "/Hr/Register", method = RequestMethod.POST)
-    public ModelAndView RegisterPost(@Valid @ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel, BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes, Principal principal) {
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("registrationVM", registrationViewModel);
-        System.out.println("ERROR2!!!");
-        if (bindingResult.hasErrors()) {
-            System.out.println("ERROR!!!");
-            mav.addObject("heads", getDirectHeadIdAndName());
-            mav.addObject("departments", getDepartmentsIdAndName());
-            mav.addObject("statuses", getStatusesIdAndName());
-            mav.addObject("roles", getRolesIdAndName());
-            mav.addObject("org.springframework.validation.BindingResult.registrationVM", bindingResult);
-            return mav;
-        }
-
-        //adding user and userLocalization info into DB
-        int userId = UserService.insertUser(UserMapper.mapRegModelToUserInfo(registrationViewModel));
-        UserService.insertUserLoc(UserMapper.mapRegModelToUserLocInfo(registrationViewModel, userId));
-
-        mav = new ModelAndView();
-        return new ModelAndView("redirect:/Hr/Userslist");
     }
 
     @RequestMapping (value = "/Hr/Profile", method = RequestMethod.GET)
@@ -224,8 +226,15 @@ public class HrController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/Userslist");
         List<ProfileViewModel> users = getUsers();
-
         mav.addObject("hrUserslistVM", users);
+        Map<Integer, String> roles = new HashMap<Integer, String>();
+        List<RoleLocalizationsEntity> roleLocalizationsEntityList = UserService.getRolesLoc();
+        for (RoleLocalizationsEntity role :
+                roleLocalizationsEntityList) {
+            if(role.getLenguageId()==3)
+                roles.put(role.getRoleId(), role.getName());
+        }
+        mav.addObject("roles", roles);
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
@@ -1162,18 +1171,18 @@ public class HrController {
         return "redirect: /temp/"+path;
     }
 
-    @RequestMapping("/Hr/user/{id}/UploadPic")
+    @RequestMapping(value = "/Hr/user/{id}/update/UploadPic", method = RequestMethod.GET)
     public ModelAndView uploading(Principal principal, Model model, @PathVariable("id") int id) {
         File file = new File(uploadingdir);
         model.addAttribute("files", file.listFiles());
         ModelAndView mav = new ModelAndView();
         mav.addObject("id", id);
         mav.setViewName("Home/editmenu/FileUploadForm");
-        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("userProfile", UserController.getProfileByUsername(principal.getName()));
         return mav;
     }
 
-    @RequestMapping(value = "/Hr/user/{id}/UploadPic", method = RequestMethod.POST)
+    @RequestMapping(value = "/Hr/user/{id}/update/UploadPic", method = RequestMethod.POST)
     public String uploadingPost(@RequestParam MultipartFile fileUpload, @PathVariable("id") int id) throws IOException {
         String sId=null;
         sId = String.format("%05d", id);
@@ -1231,6 +1240,9 @@ public class HrController {
                     userLocalizationsEntities) {
                 userProfile.addData1(String.format("%05d", user.getId()), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
             }
+            if(user.getRoleId()!=null)
+                userProfile.setRoleId(user.getRoleId());
+
             /*//Getting department name
             userProfile.setDepartment(UserService.getDepartments().get(3).getName());
 

@@ -13,7 +13,7 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 
 <div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
+    <div class="col-lg-offset-2">
         <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <h2 class="page-header">General Information</h2>
@@ -230,6 +230,11 @@
                             </div>
                         </div>
                     </div>
+                    <%
+                        if((int)request.getAttribute("SystemRole")==2){
+                    %>
+                    <div class="col-sm-9"><a href="/User/Profile/editPersonal" class="btn btn-primary">Edit</a></div>
+                    <% } %>
                 </div>
             </div>
             <!--General info/Family info Tab-->
@@ -252,6 +257,11 @@
                                     <th>Full name</th>
                                     <th>Date of birth</th>
                                     <th>Duties</th>
+                                    <%
+                                        if((int)request.getAttribute("SystemRole")==2){
+                                    %>
+                                    <th>Action</th>
+                                    <% } %>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -269,6 +279,14 @@
                                         <td>
                                             <div contenteditable="true">${family.jobTitle[2]}</div>
                                         </td>
+                                        <%
+                                            if((int)request.getAttribute("SystemRole")==2){
+                                        %>
+                                        <td><a href="User/Profile/updateFam/${family.id}/"
+                                               class="btn btn-default">Edit</a>
+                                            <a href="User/Profile/deleteFam/${family.id}/" class="btn btn-danger">Delete</a>
+                                        </td>
+                                        <% } %>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -286,6 +304,11 @@
                                     <th>Ф.И.О.</th>
                                     <th>Дата рождения</th>
                                     <th>Вид деятельности</th>
+                                    <%
+                                        if((int)request.getAttribute("SystemRole")==2){
+                                    %>
+                                    <th>Action</th>
+                                    <% } %>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -303,6 +326,14 @@
                                         <td>
                                             <div contenteditable="true">${family.jobTitle[0]}</div>
                                         </td>
+                                        <%
+                                            if((int)request.getAttribute("SystemRole")==2){
+                                        %>
+                                        <td><a href="User/Profile/updateFam/${family.id}/"
+                                               class="btn btn-default">Edit</a>
+                                            <a href="User/Profile/deleteFam/${family.id}/" class="btn btn-danger">Delete</a>
+                                        </td>
+                                        <% } %>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -320,6 +351,11 @@
                                     <th>F.I.Sh.</th>
                                     <th>Tug'ilgan sanasi</th>
                                     <th>Faoliyati</th>
+                                    <%
+                                        if((int)request.getAttribute("SystemRole")==2){
+                                    %>
+                                    <th>Action</th>
+                                    <% } %>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -337,12 +373,25 @@
                                         <td>
                                             <div contenteditable="true">${family.jobTitle[1]}</div>
                                         </td>
+                                        <%
+                                            if((int)request.getAttribute("SystemRole")==2){
+                                        %>
+                                            <td><a href="./Profile/updateFam/${family.id}/"
+                                                   class="btn btn-default">Edit</a>
+                                                <a href="./Profile/deleteFam/${family.id}/" class="btn btn-danger">Delete</a>
+                                            </td>
+                                        <% }%>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                    <%
+                        if((int)request.getAttribute("SystemRole")==2){
+                    %>
+                    <div class="col-sm-9"><a href="Profile/addFam" class="btn btn-primary">Add</a></div>
+                    <% } %>
                 </div>
             </div>
         </div>

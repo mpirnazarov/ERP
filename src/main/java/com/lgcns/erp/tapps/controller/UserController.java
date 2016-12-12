@@ -4,6 +4,7 @@ import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.Enums.Appoint;
 import com.lgcns.erp.tapps.Enums.Language;
 import com.lgcns.erp.tapps.Enums.Language_Ranking;
+import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.LoginViewModel;
@@ -15,6 +16,7 @@ import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -71,6 +73,107 @@ public class UserController {
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
         return mav;
+    }
+
+    @RequestMapping(value = "/User/Profile/editPersonal", method = RequestMethod.GET)
+    public ModelAndView UpdatePersonalInfo(Principal principal, Model model){
+        UsersEntity usersEntity = UserService.getUserByUsername(principal.getName());
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/edit/personalinfo");
+        mav.addObject("person", usersEntity);
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+
+    @RequestMapping(value = "/User/Profile/editPersonal", method = RequestMethod.POST)
+    public String UpdatePersonalInfoPost(Principal principal, Model model, UsersEntity usersEntity){
+        usersEntity.setId(UserService.getIdByUsername(principal.getName()));
+        UserService.updateUsersEntityUser(usersEntity);
+        System.out.println("Personal data: " + usersEntity.geteMail() + " " + usersEntity.getPersonalEmail() + " " + usersEntity.getHomePhone() +" "+ usersEntity.getMobilePhone());
+        return "redirect: /User/Profile";
+    }
+
+    @RequestMapping(value = "/User/Profile/updateFam/{famId}/", method = RequestMethod.GET)
+    public ModelAndView UpdateFamInfo(Principal principal, Model model, @PathVariable("famId") int famId){
+        int userId = UserService.getUserIdByUsername(principal.getName());
+        FamilyMember familyProfile = getUserFamily(userId, famId);
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/edit/faminfo");
+        mav.addObject("family", familyProfile);
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+
+    private FamilyMember getUserFamily(int userId, int famId) {
+        FamilyMember familyMember = new FamilyMember(3);
+        UsersEntity usersEntity = UserService.getUserById(userId);
+        List<FamilyInfosEntity> famMem = UserService.getFamilyInfos(usersEntity);
+        for (FamilyInfosEntity fam :
+                famMem) {
+            if(fam.getId()==famId) {
+                familyMember.setDateOfBirth(fam.getDateOfBirth());
+                familyMember.setId(fam.getId());
+                List<FamiliyInfoLocalizationsEntity> famLoc = UserService.getFamilyInfosLoc(famId);
+                String[] lastName = new String[3];
+                String[] firstName = new String[3];
+                String[] jobTitle = new String[3];
+                String[] relation = new String[3];
+
+                for (FamiliyInfoLocalizationsEntity fLoc :
+                        famLoc) {
+                    lastName[fLoc.getLanguageId()-1] = fLoc.getLastName();
+                    firstName[fLoc.getLanguageId()-1] = fLoc.getFirstName();
+                    jobTitle[fLoc.getLanguageId()-1] = fLoc.getJobTitle();
+                    relation[fLoc.getLanguageId()-1] = fLoc.getRelation();
+                }
+                familyMember.setLastName(lastName);
+                familyMember.setFirstName(firstName);
+                familyMember.setJobTitle(jobTitle);
+                familyMember.setRelation(relation);
+            }
+        }
+        return familyMember;
+    }
+
+    @RequestMapping(value = "/User/Profile/updateFam/{famId}/", method = RequestMethod.POST)
+    public String UpdateFamInfoPost(Principal principal, Model model, FamilyMember familyProfile, @PathVariable("famId") String famId){
+        int userId = UserService.getUserIdByUsername(principal.getName());
+        UserService.updateUsersFamilyInfo(familyProfile);
+        UserService.updateUsersFamilyInfoLocEn(familyProfile);
+        UserService.updateUsersFamilyInfoLocRu(familyProfile);
+        UserService.updateUsersFamilyInfoLocUz(familyProfile);
+        return "redirect: /User/Profile";
+    }
+    @RequestMapping(value = "/User/Profile/deleteFam/{famId}/", method = RequestMethod.GET)
+    public String DeleteFamInfoPost(Principal principal, Model model, FamilyMember familyProfile, @PathVariable("famId") String famId){
+        int userId = UserService.getUserIdByUsername(principal.getName());
+        UserService.deleteUsersFamilyInfoLoc(famId);
+        UserService.deleteUsersFamilyInfo(famId);
+
+        System.out.println("I am working here");
+        return "redirect: /User/Profile";
+    }
+
+    @RequestMapping(value = "/User/Profile/addFam", method = RequestMethod.GET)
+    public ModelAndView addFamGet(Principal principal, Model model){
+        ModelAndView mav = new ModelAndView();
+        FamilyMember familyProfile = new FamilyMember();
+        model.addAttribute("family", familyProfile);
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("SystemRole", UserService.getUserByUsername(principal.getName()).getRoleId());
+        mav.setViewName("Home/editmenu/new/newfaminfo");
+        return mav;
+    }
+    @RequestMapping(value = "/User/Profile/addFam", method = RequestMethod.POST)
+    public String addFamPost(Principal principal, Model model, FamilyMember familyProfile){
+        String userId ="";
+        userId += UserService.getUserIdByUsername(principal.getName());
+        int id = UserService.insertUsersFamilyInfo(UserMapper.mapAddFamily(familyProfile, userId));
+
+        UserService.insertUsersFamilyInfoLocEn(UserMapper.mapAddFamilyLoc(familyProfile, id, 3));
+        UserService.insertUsersFamilyInfoLocRu(UserMapper.mapAddFamilyLoc(familyProfile, id, 1));
+        UserService.insertUsersFamilyInfoLocUz(UserMapper.mapAddFamilyLoc(familyProfile, id, 2));
+        return "redirect: /User/Profile";
     }
 
     @RequestMapping(value = "/User/Profile/Appointment", method = RequestMethod.GET)

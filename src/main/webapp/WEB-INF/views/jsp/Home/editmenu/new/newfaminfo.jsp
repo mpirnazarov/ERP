@@ -11,7 +11,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--<c:set var="pageTitle" scope="request" value="Home"/>--%>
-<% request.setAttribute("Mode", 2); %>
+<%
+    if ((int) (request.getAttribute("SystemRole")) == 3)
+        request.setAttribute("Mode", 2);
+    else
+        request.setAttribute("Mode", null);
+%>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-8 col-lg-offset-2">
@@ -127,7 +132,7 @@
         <div class="form-group">
             <div class="col-md-offset-3 col-md-9">
                 <input type="submit" value="Save" class="btn btn-default"/>
-                <input type="button" onclick="location.href='/Hr/user/${id}/update/${path}'" value="Cancel"
+                <input type="button" onclick="history.back()" value="Cancel"
                        class="btn btn-default"/>
             </div>
         </div>

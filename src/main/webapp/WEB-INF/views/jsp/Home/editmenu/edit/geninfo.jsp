@@ -328,7 +328,6 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:set var="count" value="0" scope="page"/>
                                     <c:forEach items="${person.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td>${family.relation[2]}</td>
@@ -339,7 +338,6 @@
                                                    class="btn btn-default">Edit</a>
                                                 <a href="./Geninfo/deleteFam/${family.id}/" class="btn btn-danger">Delete</a>
                                             </td>
-                                            <c:set var="count" value="${count + 1}" scope="page"/>
                                         </tr>
                                     </c:forEach>
                                     </tbody>

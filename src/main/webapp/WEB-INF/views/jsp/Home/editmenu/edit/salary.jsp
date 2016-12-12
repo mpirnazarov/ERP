@@ -67,7 +67,7 @@
             <div class="form-group">
                 <div class="col-md-offset-3 col-md-9">
                     <input type="submit" value="Save" class="btn btn-default"/>
-                    <input type="button" onclick="location.href='../../Salary'" value="Cancel"
+                    <input type="button" onclick="history.back()" value="Cancel"
                            class="btn btn-default"/>
                 </div>
             </div>

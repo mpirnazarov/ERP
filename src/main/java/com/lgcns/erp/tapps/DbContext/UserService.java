@@ -4,7 +4,6 @@ import com.lgcns.erp.tapps.Enums.Language;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
-import com.lgcns.erp.tapps.viewModel.usermenu.Education.Certificates;
 import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -2053,5 +2052,31 @@ public class UserService {
             session.close();
         }
         return certificatesEntity;
+    }
+
+    public static void updateUsersEntityUser(UsersEntity usersEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update UsersEntity set mobilePhone = :mobilePhone, " +
+                    "homePhone = :homePhone, eMail = :companyEmail, personalEmail = :personalEmail where id = :userid");
+            query.setParameter("userid", usersEntity.getId());
+
+            query.setParameter("mobilePhone", usersEntity.getMobilePhone());
+            query.setParameter("homePhone", usersEntity.getHomePhone());
+            query.setParameter("companyEmail", usersEntity.geteMail());
+            query.setParameter("personalEmail", usersEntity.getPersonalEmail());
+
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
     }
 }

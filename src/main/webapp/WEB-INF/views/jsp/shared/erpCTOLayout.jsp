@@ -18,7 +18,7 @@
             </div>
             <ul class="nav navbar-nav">
                 <div class="userImgBox">
-                    <img class="userimg" src="/image/<%= request.getAttribute("userId") %>.jpg">
+                    <img class="userimg" src="/image/<%= request.getAttribute("userId") %>.jpg" onerror="this.src='/resources/images/ppicture.png'">
                 </div>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-home"></i> Home

@@ -3,6 +3,7 @@ package com.lgcns.erp.tapps.controller;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.PersonalEvalutionsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.RoleLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.viewModel.CTO.Form;
@@ -20,8 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Muslimbek on 11/28/2016.
@@ -102,8 +105,15 @@ public class CTOController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/Userslist");
         List<ProfileViewModel> users = getUsers();
-
         mav.addObject("hrUserslistVM", users);
+        Map<Integer, String> roles = new HashMap<Integer, String>();
+        List<RoleLocalizationsEntity> roleLocalizationsEntityList = UserService.getRolesLoc();
+        for (RoleLocalizationsEntity role :
+                roleLocalizationsEntityList) {
+            if(role.getLenguageId()==3)
+                roles.put(role.getRoleId(), role.getName());
+        }
+        mav.addObject("roles", roles);
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
@@ -237,6 +247,11 @@ public class CTOController {
             for (UserLocalizationsEntity ul :
                     userLocalizationsEntities) {
                 userProfile.addData1(String.format("%05d", user.getId()), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
+            }
+
+            if(user.getRoleId()!=null)
+            {
+                userProfile.setRoleId(user.getRoleId());
             }
             /*//Getting department name
             userProfile.setDepartment(UserService.getDepartments().get(3).getName());

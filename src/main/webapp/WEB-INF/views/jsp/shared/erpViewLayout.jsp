@@ -60,7 +60,7 @@
                     <a href="./Geninfo"><i class="fa fa-fw fa-info-circle"></i> General information</a>
                 </li>
                 <li>
-                    <a href="./Project"><i class="fa fa-fw fa-folder"></i> Project history</a>
+                    <a href="./Profile/Project"><i class="fa fa-fw fa-folder"></i> Project history</a>
                 </li>
                 <li>
                     <a href="./Salary"><i class="fa fa-fw fa-money"></i> Salary details</a>

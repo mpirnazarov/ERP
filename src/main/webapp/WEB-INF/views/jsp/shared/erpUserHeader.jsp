@@ -55,28 +55,31 @@
 </head>
 <body class="__scrollBar">
     <%
-    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
-    request.setAttribute("FullName", a.getFirstName()[0] + " " + a.getLastName()[0]);
-    request.setAttribute("SystemRole", a.getRoleId());
-    request.setAttribute("FirstName", a.getFirstName()[0]);
-    request.setAttribute("JobTitle", a.getJobTitle());
-    request.setAttribute("userId", a.getId());
-
+    if((ProfileViewModel) request.getAttribute("userProfile")!=null){
+        ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
+        request.setAttribute("FullName", a.getFirstName()[0] + " " + a.getLastName()[0]);
+        request.setAttribute("SystemRole", a.getRoleId());
+        request.setAttribute("FirstName", a.getFirstName()[0]);
+        request.setAttribute("JobTitle", a.getJobTitle());
+        request.setAttribute("userId", a.getId());
+    }
 %>
 <div class="container-fluid">
     <div class="row">
             <%
-            String pageType = "/WEB-INF/views/jsp/shared/erpUserLayout.jsp";
-            if ((int) (request.getAttribute("SystemRole")) == 1)
-                pageType =  "/WEB-INF/views/jsp/shared/erpCTOLayout.jsp";
-            else if ((int) (request.getAttribute("SystemRole")) == 3)
-                pageType =  "/WEB-INF/views/jsp/shared/erpHRLayout.jsp";
-            if(request.getAttribute("Mode") != null){
-                if(((int)request.getAttribute("Mode"))==1)
-                    pageType =  "/WEB-INF/views/jsp/shared/erpViewLayout.jsp";
-                else if(((int)request.getAttribute("Mode"))==2)
-                    pageType =  "/WEB-INF/views/jsp/shared/erpEditLayout.jsp";
+            if(request.getAttribute("SystemRole")!=null || request.getAttribute("mode")!=null){
+                String pageType = "/WEB-INF/views/jsp/shared/erpUserLayout.jsp";
+                if ((int) (request.getAttribute("SystemRole")) == 1)
+                    pageType =  "/WEB-INF/views/jsp/shared/erpCTOLayout.jsp";
+                else if ((int) (request.getAttribute("SystemRole")) == 3)
+                    pageType =  "/WEB-INF/views/jsp/shared/erpHRLayout.jsp";
+                if(request.getAttribute("Mode") != null){
+                    if(((int)request.getAttribute("Mode"))==1)
+                        pageType =  "/WEB-INF/views/jsp/shared/erpViewLayout.jsp";
+                    else if(((int)request.getAttribute("Mode"))==2)
+                        pageType =  "/WEB-INF/views/jsp/shared/erpEditLayout.jsp";
+                }
+                pageContext.setAttribute("pageType", pageType);
             }
-            pageContext.setAttribute("pageType", pageType);
         %>
         <jsp:include page='${pageType}' flush="true"/>

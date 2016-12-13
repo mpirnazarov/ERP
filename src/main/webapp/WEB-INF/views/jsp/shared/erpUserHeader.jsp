@@ -20,7 +20,7 @@
     <spring:url value="/resources/core/css/navbar-fixed-side.css" var="navbar"/>
     <spring:url value="/resources/core/css/bootstrap.min.css" var="bootstrapminCss"/>
     <spring:url value="/resources/core/js/jquery.min.js" var="jquery"/>
-    <spring:url value="/resources/core/js/jquery.validate.js" var="jqueryValidation"/>
+    <%--<spring:url value="/resources/core/js/jquery.validate.js" var="jqueryValidation"/>--%>
     <spring:url value="/resources/core/css/datatablesCombined.min.css" var="allInOneCss"/>
     <spring:url value="/resources/core/js/datatablesCombined.min.js" var="allInOneJs"/>
     <spring:url value="/resources/core/js/jquery.slimscroll.min.js" var="slimScroll"/>
@@ -35,7 +35,6 @@
     <link rel="stylesheet" href="${bootstrapminCss}"/>
     <link rel="stylesheet" type="text/css" href="${allInOneCss}"/>
     <link rel="stylesheet" href="${styleCss}"/>
-    <script src="${jqueryValidation}"></script>
     <script src="${main}"></script>
     <script type="text/javascript" src="${allInOneJs}"></script>
     <script src="${scrollJs}"></script>

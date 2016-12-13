@@ -32,7 +32,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-2"></div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <input type="submit" class="btn btn-default btn-md" name="Save" value="Save"/>
                         <input type="submit" class="btn btn-default btn-md" name="Print" value="Print"/>
                         <a href="Docs/Manage" class="btn btn-success">Manage Documents</a>

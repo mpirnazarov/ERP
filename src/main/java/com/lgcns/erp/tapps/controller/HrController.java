@@ -89,7 +89,8 @@ public class HrController {
     @RequestMapping(value = "/Hr/Register", method = RequestMethod.POST)
     public ModelAndView RegisterPost(@Valid @ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel, BindingResult bindingResult,
                                      RedirectAttributes redirectAttributes, Principal principal) {
-        ModelAndView mav = new ModelAndView();
+        ModelAndView mav = new ModelAndView("user/register");
+        mav = UP.includeUserProfile(mav, principal);
         mav.addObject("registrationVM", registrationViewModel);
         System.out.println("ERROR2!!!");
         if (bindingResult.hasErrors()) {

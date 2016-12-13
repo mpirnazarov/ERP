@@ -22,7 +22,7 @@
                 <h3>Appointment Record</h3>
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="control-label col-md-3">Appointment Date: <font color='red'>*</font></label>
+                                <label class="control-label col-md-3">Appointment Date(YYYY-MM-DD): <font color='red'>*</font></label>
                                 <div class="col-lg-5"><form:input path="appointDate" type="date" value="${appointmentVM.appointDate}"
                                                                   cssClass="form-control text-box single-line requiredDate"/>
 

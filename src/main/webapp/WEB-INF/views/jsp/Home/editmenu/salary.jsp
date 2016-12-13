@@ -23,7 +23,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Date</th>
+                <th>Date(YYYY-MM-DD)</th>
                 <th>Gross salary</th>
                 <th>PIT</th>
                 <th>INPS</th>

@@ -18,7 +18,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Appointment date</th>
+                <th>Appointment date(YYYY-MM-DD)</th>
                 <th>Appointment type</th>
                 <th>Department</th>
                 <th>Role</th>

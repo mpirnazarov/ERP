@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 
@@ -20,10 +19,10 @@ public class HomeController {
         int roleId = UserService.getUserByUsername(principal.getName()).getRoleId();
         if(roleId==1)
             return "forward: /CTO/Profile";
-        else if(roleId==2)
-            return "forward: /User/Profile";
-        else
+        else if(roleId==3)
             return "forward: /Hr/Profile";
+        else
+            return "forward: /User/Profile";
     }
 
 }

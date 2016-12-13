@@ -14,6 +14,7 @@ import com.lgcns.erp.tapps.viewModel.usermenu.*;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,9 +65,9 @@ public class UserController {
 
         return response;
     }
-
+    @PreAuthorize("hasRole('2')")
     @RequestMapping (value = "/User/Profile", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView Profile(Principal principal){
+    public ModelAndView Profile(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/Index");
         ProfileViewModel userProfile=null;

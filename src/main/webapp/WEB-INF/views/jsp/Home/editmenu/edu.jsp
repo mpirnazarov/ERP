@@ -88,7 +88,9 @@
                         <th class="col-md-1">Score</th>
                         <th class="col-md-1">Degree</th>
                         <th class="col-md-2">Organization</th>
+                        <th class="col-md-2">Number</th>
                         <th class="col-md-2 text-center">Acquisition Date<br/><text class="small">(YYYY-MM-DD)</text></th>
+                        <th class="col-md-1">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -96,11 +98,12 @@
                             <c:if test="${cer.type==2}">
                                 <tr>
                                     <td>${cer.name}</td>
+                                    <td>${cer.mark}</td>
+                                    <td>${cer.degree}</td>
                                     <td>${cer.organization}</td>
                                     <td>${cer.number}</td>
                                     <td>${cer.dateTime}</td>
-                                    <td>${cer.mark}</td>
-                                    <td><a href="./Edu/EditCert/${cer.id}/" class="btn btn-default">Edit</a></td>
+                                    <td><a href="./Edu/EditLangScore/${cer.id}/" class="btn btn-default">Edit</a></td>
                                 </tr>
                             </c:if>
                         </c:forEach>

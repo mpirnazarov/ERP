@@ -26,32 +26,34 @@
                     <div class="col-lg-5"><form:input path="appointDate" type="date"
                                                       cssClass="form-control text-box single-line requiredDate"/>
 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Appointment Type: <font color='red'>*</font></label>
+                                <div class="col-lg-5"><form:select path="contractType" items="${types}" required="true"
+                                                                   cssClass="form-control text-box single-line"/></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Department: <font color='red'>*</font></label>
+                                <div class="col-lg-5"><form:select path="departmentId" items="${departments}" required="true"
+                                                                   cssClass="form-control text-box single-line"/></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Job title: <font color='red'>*</font></label>
+                                <div class="col-lg-5"><form:select path="postId" items="${posts}" required="true"
+                                                                   cssClass="form-control text-box single-line"/></div>
+                            </div>
+                        </div>
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-9">
+                        <input type="submit" value="Add" class="btn btn-success"/>
+                        <input type="button" onclick="history.back()" value="Cancel"
+                               class="btn btn-default"/>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3">Appointment Type: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:select path="contractType" items="${types}"
-                                                       cssClass="form-control text-box single-line"/></div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3">Department: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:select path="departmentId" items="${departments}"
-                                                       cssClass="form-control text-box single-line"/></div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3">Role: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:select path="roleId" items="${roles}"
-                                                       cssClass="form-control text-box single-line"/></div>
-                </div>
+            </form:form>
             </div>
-            <div class="form-group">
-                <div class="col-md-offset-3 col-md-9">
-                    <input type="submit" value="Add" class="btn btn-success"/>
-                    <input type="button" onclick="history.back()" value="Cancel"
-                           class="btn btn-default"/>
-                </div>
-            </div>
-        </form:form>
+        </div>
     </div>
 </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

@@ -161,7 +161,7 @@ public class UserMapper {
         userInPostsEntity.setUserId(Integer.parseInt(userId));
         userInPostsEntity.setDateFrom(appointmentSummary.getAppointDate());
         userInPostsEntity.setContractType(appointmentSummary.getContractType());
-        userInPostsEntity.setPostId(appointmentSummary.getRoleId());
+        userInPostsEntity.setPostId(appointmentSummary.getPostId());
         userInPostsEntity.setDateEnd(appointmentSummary.getEndDate());
         return userInPostsEntity;
     }
@@ -212,6 +212,7 @@ public class UserMapper {
         localizationsEntity.setCertificateId(certId);
         localizationsEntity.setOrganization(certificates.getOrganization());
         localizationsEntity.setName(certificates.getName());
+        localizationsEntity.setLanguageId(3);
         return localizationsEntity;
     }
 }

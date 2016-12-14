@@ -23,14 +23,14 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     <label class="control-label col-md-3">Date: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:input path="date" type="date"
+                    <div class="col-lg-5"><form:input path="date" type="date" required="true"
                                                       cssClass="form-control text-box single-line requiredDate"/>
 
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Gross Salary: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:input path="gross" placeholder="Gross salary"
+                    <div class="col-lg-5"><form:input path="gross" placeholder="Gross salary" required="true"
                                                       cssClass="form-control text-box single-line"/></div>
                 </div>
                 <div class="form-group"><label class="control-label col-md-3">PIT: </label>
@@ -50,12 +50,12 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Net Salary: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:input path="net" placeholder="Net salary"
+                    <div class="col-lg-5"><form:input path="net" placeholder="Net salary" required="true"
                                                       cssClass="form-control text-box single-line"/></div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Currency: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:select path="currency" items="${currencies}"
+                    <div class="col-lg-5"><form:select path="currency" items="${currencies}" required="true"
                                                        cssClass="form-control text-box single-line"/></div>
                 </div>
             </div>

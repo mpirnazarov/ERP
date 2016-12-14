@@ -23,7 +23,7 @@
         <div class="form-horizontal">
             <div class="form-group">
                 <label class="control-label col-md-3">Date: <font color='red'>*</font></label>
-                <div class="col-lg-5"><form:input path="date" type="date" value="${salaryVM.date}"
+                <div class="col-lg-5"><form:input path="date" type="date" value="${salaryVM.date}" required="true"
                                                   cssClass="form-control text-box single-line requiredDate"/>
 
                 </div>

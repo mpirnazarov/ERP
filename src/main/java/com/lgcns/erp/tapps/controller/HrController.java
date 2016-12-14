@@ -3,6 +3,7 @@ package com.lgcns.erp.tapps.controller;
 import com.lgcns.erp.tapps.DbContext.DocxDocumentMergerAndConverter;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.Enums.Appoint;
+import com.lgcns.erp.tapps.Enums.Document_Type;
 import com.lgcns.erp.tapps.Enums.Language_Ranking;
 import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.*;
@@ -256,7 +257,12 @@ public class HrController {
     public ModelAndView Evaluation(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/EvaluationHistory");
-        List<PersonalEvalutionsEntity> evaluations = UserService.getEvaluationsByUserId(UserService.getUserIdByUsername(principal.getName()));
+        List<PersonalEvalutionsEntity> evaluations = null;
+        try{
+            evaluations = UserService.getEvaluationsByUserId(UserService.getUserIdByUsername(principal.getName()));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("evaluationsVM", evaluations);
         List<UserLocalizationsEntity> usersEntities = UserService.getAllUserLocs();
@@ -364,16 +370,17 @@ public class HrController {
         UserInPostsEntity userInPostsEntity = UserService.getUserInPostById(appId);
         appointment.setUserId(userInPostsEntity.getUserId());
         appointment.setAppointDate(userInPostsEntity.getDateFrom());
+        appointment.setDepartmentId(UserService.getUserByUsername(principal.getName()).getDepartmentId());
         appointment.setContractType(userInPostsEntity.getContractType());
         appointment.setPostId(userInPostsEntity.getPostId());
         appointment.setEndDate(userInPostsEntity.getDateEnd());
+        appointment.setRoleId(UserService.getUserByUsername(principal.getName()).getRoleId());
         model.addAttribute("appointmentVM", appointment);
 
         List<UserLocalizationsEntity> users = UserService.getAllUserLocs(3);
         model.addAttribute("users", users);
 
         Map<Integer, String> appointmentTypes = new HashMap<Integer, String>();
-        appointmentTypes.put(0, "--------");
         for (Appoint ap :
                 Appoint.values()) {
             appointmentTypes.put(ap.getValue(), ap.name());
@@ -381,20 +388,18 @@ public class HrController {
         model.addAttribute("types", appointmentTypes);
 
         Map<Integer, String> departmentsList = new HashMap<Integer, String>();
-        departmentsList.put(0, "-------");
         for (DepartmentLocalizationsEntity dep :
                 UserService.getDepartments(3)) {
             departmentsList.put(dep.getDepartmentId(), dep.getName());
         }
         model.addAttribute("departments", departmentsList);
 
-        Map<Integer, String> roles = new HashMap<Integer, String>();
-        roles.put(0, "------");
+        Map<Integer, String> posts = new HashMap<Integer, String>();
         for (PostLocalizationsEntity postLocalizationsEntity:
                 UserService.getPostLocalizations(3)){
-            roles.put(postLocalizationsEntity.getPostId(), postLocalizationsEntity.getName());
+            posts.put(postLocalizationsEntity.getPostId(), postLocalizationsEntity.getName());
         }
-        model.addAttribute("roles", roles);
+        model.addAttribute("posts", posts);
 
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
@@ -422,7 +427,6 @@ public class HrController {
             appointmentTypes.put(ap.getValue(), ap.name());
         }
         model.addAttribute("types", appointmentTypes);
-        System.out.println("Types: " +appointmentTypes);
 
         Map<Integer, String> departmentsList = new HashMap<Integer, String>();
         departmentsList.put(0, "-------");
@@ -431,16 +435,14 @@ public class HrController {
             departmentsList.put(dep.getDepartmentId(), dep.getName());
         }
         model.addAttribute("departments", departmentsList);
-        System.out.println("Departments: " +departmentsList);
 
-        Map<Integer, String> roles = new HashMap<Integer, String>();
-        roles.put(0, "------");
+        Map<Integer, String> posts = new HashMap<Integer, String>();
+        posts.put(0, "------");
         for (PostLocalizationsEntity postLocalizationsEntity:
                 UserService.getPostLocalizations(3)){
-            roles.put(postLocalizationsEntity.getPostId(), postLocalizationsEntity.getName());
+            posts.put(postLocalizationsEntity.getPostId(), postLocalizationsEntity.getName());
         }
-        model.addAttribute("roles", roles);
-        System.out.println("Roles: " + roles);
+        model.addAttribute("posts", posts);
 
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
@@ -448,9 +450,7 @@ public class HrController {
     }
     @RequestMapping ( value = "/Hr/user/{userId}/update/Appointment/Add", method = RequestMethod.POST )
     public String addAppPost(Principal principal, @ModelAttribute  AppointmentSummary appointmentSummary, BindingResult result, @PathVariable("userId") String userId){
-        System.out.println("APPOINTMENT: " + appointmentSummary.toString());
         UserService.insertUserInPosts(UserMapper.mapUserInPosts(appointmentSummary, userId));
-        System.out.println("UPDATING DEPARTMENT: ");
         UserService.updateDepartmentId(appointmentSummary.getDepartmentId(), Integer.parseInt(userId));
         return "redirect: /Hr/user/"+userId+"/update/Appointment";
     }
@@ -492,13 +492,21 @@ public class HrController {
         jobexpViewModel.setOrganization(workLocalizationsEntity.getOrganization());
         jobexpViewModel.setPosition(workLocalizationsEntity.getPost());
         model.addAttribute("jobexpVM", jobexpViewModel);
+        
+        Map<Integer, String> contractTypes = new HashMap<Integer, String>();
+        for (Appoint app :
+                Appoint.values()) {
+            contractTypes.put(app.getValue(), app.name());
+        }
+        model.addAttribute("contractTypes", contractTypes);
+
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
     @RequestMapping ( value = "/Hr/user/{userId}/update/Jobexp/updateJob/{jobId}", method = RequestMethod.POST )
-    public String updateJobPost(Principal principal, @ModelAttribute  JobexpViewModel jobexpViewModel, BindingResult result, @PathVariable("userId") String userId){
-        System.out.println("Job Exp: " + jobexpViewModel.toString());
-        addJobExp(jobexpViewModel, userId);
+    public String updateJobPost(Principal principal, @ModelAttribute  JobexpViewModel jobexpViewModel, BindingResult result, @PathVariable("userId") String userId, @PathVariable("jobId") int jobId){
+        UserService.updateWorks(UserMapper.mapAddWorks(jobexpViewModel, userId), jobId);
+        UserService.updateWorksLoc(UserMapper.mapAddWorksLoc(jobexpViewModel, jobId));
         return "redirect: /Hr/user/"+userId+"/update/Jobexp";
     }
 
@@ -593,28 +601,14 @@ public class HrController {
         }
         model.addAttribute("rankings", languageRanking);
 
-        Map<Integer, String> languages = new HashMap<Integer, String>();
-        for (LanguageLocalizationsEntity lang :
-                UserService.getLanguageLocalizations(3)) {
-            languages.put(lang.getLanguageId(), lang.getName());
-        }
-        model.addAttribute("languages", languages);
-
-        UserInLanguagesEntity languageSummary = null;
-        List<UserInLanguagesEntity> languagesEntities = UserService.getUserInLanguages(UserService.getUserById(userId));
-        for (UserInLanguagesEntity lang :
-                languagesEntities) {
-            System.out.println("LANG ID: "+lang.getId());
-            if(lang.getId()==langId)
-                languageSummary = lang;
-        }
-
+        UserInLanguagesEntity languageSummary = UserService.getUserInLanguage(langId);
         model.addAttribute("lang", languageSummary);
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
     @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/EditLang/{langId}", method = RequestMethod.POST )
     public String EditLangPost(Principal principal, @ModelAttribute  UserInLanguagesEntity languagesEntity, BindingResult result, @PathVariable("userId") String userId, @PathVariable("langId") String langId){
+        System.out.println("Languages: "+languagesEntity);
         UserService.updateUserInLanguages(languagesEntity, userId, langId);
 
         return "redirect: /Hr/user/"+userId+"/update/Edu";
@@ -741,7 +735,7 @@ public class HrController {
     @RequestMapping(value = "/Hr/user/{userId}/update/Edu/EditLangScore/{certId}", method = RequestMethod.GET)
     public ModelAndView EditLangScore(Principal principal, Model model, @PathVariable("userId") int userId, @PathVariable("certId") int certId){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("Home/editmenu/edit/edu/cer");
+        mav.setViewName("Home/editmenu/edit/edu/langScore");
 
         Certificates certificate = getCertificate(userId, certId);
         model.addAttribute("cert", certificate);
@@ -750,9 +744,9 @@ public class HrController {
     }
 
     @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/EditLangScore/{certId}", method = RequestMethod.POST )
-    public String EditLangScore(Principal principal, @ModelAttribute  Educations educations, BindingResult result, @PathVariable("userId") String userId, @PathVariable("certId") int certId){
-        UserService.updateEducations(UserMapper.mapEducations(educations, userId), certId);
-        UserService.updateEducationLocalizations(UserMapper.mapEducationLocalizations(educations, certId));
+    public String EditLangScore(Principal principal, @ModelAttribute  Certificates certificate, @PathVariable("userId") String userId, @PathVariable("certId") int certId){
+        UserService.updateCertificates(UserMapper.mapCertificates(certificate, userId, 2), certId);
+        UserService.updateCertificateLocalizations(UserMapper.mapCertificateLocalizations(certificate, certId));
 
         return "redirect: /Hr/user/"+userId+"/update/Edu";
     }
@@ -850,13 +844,14 @@ public class HrController {
     }
     @RequestMapping(value = "/Hr/user/{id}/update/Docs/Del/{docId}")
     public String deleteFile(Principal principal, @PathVariable("id") int id, @PathVariable("docId") int docId) throws IOException {
-        UserService.deleteDocument(docId);
+
         String path = UserService.getDocumentByDocId(docId).getLink();
         File file = new File(path);
         if(file.delete())
             System.out.println(file.getName() + " is deleted!");
         else
             System.out.println("Delete operation is failed.");
+        UserService.deleteDocument(docId);
 
         return "redirect: /Hr/user/{id}/update/Docs/";
     }
@@ -886,7 +881,7 @@ public class HrController {
     }
 
     @RequestMapping(value = "/Hr/user/{id}/update/{path}", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView UpdateInfo(Principal principal, Model model, @ModelAttribute("user") ProfileViewModel person, @PathVariable("id") int id, @PathVariable("path") String path){
+    @ResponseBody public ModelAndView UpdateInfo(Principal principal, Model model, @PathVariable("id") int id, @PathVariable("path") String path){
         ModelAndView mav = new ModelAndView();
         ProfileViewModel userProfile = getProfileById(id);
         ProfileViewModel userProfile2 = UserController.getProfileByUsername(principal.getName());
@@ -896,7 +891,6 @@ public class HrController {
         if(path.compareTo("Geninfo")==0) {
             mav.setViewName("Home/editmenu/edit/geninfo");
             userProfile = getProfileById(id);
-            person = userProfile;
             model.addAttribute("person",  userProfile);
             // Getting list of departments and send to view
             Map<Integer, String> deps = new HashMap<Integer, String>();
@@ -918,7 +912,7 @@ public class HrController {
             Map<Integer, String> jobTitles = new HashMap<Integer, String>();
             for (PostLocalizationsEntity pos :
                     UserService.getPostLocalizations(3)) {
-                jobTitles.put(pos.getId(), pos.getName());
+                jobTitles.put(pos.getPostId(), pos.getName());
             }
             model.addAttribute("jobTitles",  jobTitles);
 
@@ -944,12 +938,34 @@ public class HrController {
             mav.setViewName("Home/editmenu/appointmentrec");
             AppointmentrecViewModel appointmentrecViewModels = new AppointmentrecViewModel();
             try {
-                appointmentrecViewModels = UserController.getAppointmentByUsername(userProfile.getUsername());
+                appointmentrecViewModels = getAppointmentByUsername(userProfile.getUsername());
             } catch (Exception e){
                 e.printStackTrace();
             }
             model.addAttribute("userProfileUser", UserController.getProfileByUsername(userProfile.getUsername()));
             model.addAttribute("appointmentrecVM", appointmentrecViewModels);
+
+            Map<Integer, String> contracts = new HashMap<Integer, String>();
+            for (Appoint a :
+                    Appoint.values()) {
+                contracts.put(a.getValue(), a.name());
+            }
+            model.addAttribute("contracts", contracts);
+
+            Map<Integer, String> departments = new HashMap<Integer, String>();
+            for (DepartmentLocalizationsEntity dep :
+                    UserService.getDepartments()) {
+                departments.put(dep.getDepartmentId(), dep.getName());
+            }
+            model.addAttribute("departments", departments);
+
+            Map<Integer, String> posts = new HashMap<Integer, String>();
+            for (PostLocalizationsEntity post :
+                    UserService.getPostLocalizations(3)) {
+                posts.put(post.getPostId(), post.getName());
+            }
+            model.addAttribute("posts", posts);
+
             return mav;
         }
         else if(path.compareTo("Jobexp")==0) {
@@ -961,6 +977,12 @@ public class HrController {
                 e.printStackTrace();
             }
             model.addAttribute("jobexpVM", jobexpViewModel);
+            Map<Integer, String> contractTypes = new HashMap<Integer, String>();
+            for (Appoint ap :
+                    Appoint.values()) {
+                contractTypes.put(ap.getValue(), ap.name());
+            }
+            model.addAttribute("contractTypes", contractTypes);
             return mav;
         }
         else if(path.compareTo("Salary")==0) {
@@ -986,10 +1008,14 @@ public class HrController {
         else if(path.compareTo("Docs")==0){
             System.out.println(path);
             mav.setViewName("Home/editmenu/Docs");
+            model.addAttribute("person",  userProfile);
 
-            person = userProfile;
-            model.addAttribute("person",  person);
-
+            Map<Integer, String> docType = new HashMap<Integer, String>();
+            for (Document_Type doc :
+                    Document_Type.values()) {
+                docType.put(doc.getValue(), doc.name());
+            }
+            model.addAttribute("docType", docType);
 
             List<DocumentsEntity> documentsEntities = UserService.getDocuments(UserService.getUserByUsername(UserService.getUsernameById(id)));
             DocsViewModel docsViewModel = new DocsViewModel();
@@ -1020,6 +1046,22 @@ public class HrController {
         }
         updateDBGenInfo(person);
         return "redirect: /Hr/user/"+id+"/update/"+path;
+    }
+
+    public static AppointmentrecViewModel getAppointmentByUsername(String userName) {
+        AppointmentrecViewModel returning = new AppointmentrecViewModel();
+
+        // Getting data from users db
+        UsersEntity user = UserService.getUserByUsername(userName);
+
+        List<UserInPostsEntity> usersInPost = UserService.getUserInPost(user);
+
+        for (UserInPostsEntity uip :
+                usersInPost) {
+            returning.addAppointSummary(uip.getDateFrom(), uip.getContractType(), uip.getPostId(), uip.getId(), user.getDepartmentId(), user.getRoleId());
+        }
+
+        return returning;
     }
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/updateFam/{famId}/", method = RequestMethod.GET)
@@ -1257,20 +1299,22 @@ public class HrController {
                 userLocalizationsEntities ) {
             returning.addData1(String.format("%05d", user.getId()), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
         }
-        //Getting department name
-        try {
+        //Getting department
+        returning.setDepartmentId(user.getDepartmentId());
+        /*try {
             if(UserService.getDepartments().get(user.getDepartmentId()-1).getName()!=null)
                 returning.setDepartment(UserService.getDepartments().get(user.getDepartmentId()-1).getName());
         }catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
         //Getting Position from user_in_roles
-        try {
+        returning.setRoleId(user.getRoleId());
+        /*try {
             if (UserService.getRoleLoc(user).getName()!=null)
                 returning.setPosition(UserService.getRoleLoc(user).getName());
         }catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
         //Getting is political
         try {
             if (user.getPolitical()!=null)
@@ -1283,15 +1327,13 @@ public class HrController {
             /*//Getting Joint Type
             returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());*/
             if(UserService.getUserInPost(user).size()!=0)
-                returning.setJobTitle(UserService.getJobTitle(UserService.getUserInPost(user).get(0).getPostId(),3).getName());
+                returning.setPostId(UserService.getUserInPost(user).get(0).getPostId());
+            System.out.println("POST ID: "+returning.getPostId());
+                /*returning.setJobTitle(UserService.getJobTitle(UserService.getUserInPost(user).get(0).getPostId(),3).getName());*/
             //Getting status
             List<StatusLocalizationsEntity> statuses = UserService.getStatuses();
-            for (StatusLocalizationsEntity st :
-                    statuses) {
-                if(st.getStatusId()==user.getStatusId())
-                    System.out.printf(st.getName());
-            }
-            /*returning.setStatus();*/
+
+            returning.setStatusId(user.getStatusId());
 
             //Getting passport number
             returning.setPassportNumber(user.getPassport());

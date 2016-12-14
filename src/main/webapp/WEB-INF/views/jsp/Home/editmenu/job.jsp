@@ -22,6 +22,7 @@
             <tr>
                 <th class="col-md-3">Organization</th>
                 <th class="col-md-2">Position</th>
+                <th class="col-md-2">Contract type</th>
                 <th class="col-md-2 text-center">Start date<br/><text class="small">(YYYY-MM-DD)</text></th>
                 <th class="col-md-2 text-center">End date<br/><text class="small">(YYYY-MM-DD)</text></th>
                 <th class="col-md-1">Action</th>
@@ -32,6 +33,7 @@
                 <tr>
                     <td class="col-md-3">${jobexp.organization}</td>
                     <td class="col-md-2">${jobexp.position}</td>
+                    <td class="col-md-2">${contractTypes.get(jobexp.contractType)}</td>
                     <td class="col-md-2 text-center">${jobexp.startDate}</td>
                     <td class="col-md-2 text-center">${jobexp.endDate}</td>
                     <td class="col-md-1 text-center"><a href="./Jobexp/updateJob/${jobexp.id}" class="btn btn-default">Edit</a></td>

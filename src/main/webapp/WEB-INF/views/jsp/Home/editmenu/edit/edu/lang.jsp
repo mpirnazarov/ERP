@@ -20,11 +20,6 @@
             <h2>Edit Language Summary</h2>
             <div class="form-horizontal">
                 <div class="form-group">
-                    <label class="control-label col-md-3">Language: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:select path="languageId" items="${languages}"
-                                                       cssClass="form-control text-box single-line"/></div>
-                </div>
-                <div class="form-group">
                     <label class="control-label col-md-3">Listening: <font color='red'>*</font></label>
                     <div class="col-lg-5"><form:select path="listening" items="${rankings}"
                                                        cssClass="form-control text-box single-line"/></div>

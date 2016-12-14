@@ -49,8 +49,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Contract type: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:select path="contractType" items="${jobexpVM.contracts}"
-                                                       value="${jobexpVM.contractType}"
+                    <div class="col-lg-5"><form:select path="contractType" items="${contractTypes}"
                                                        cssClass="form-control text-box single-line"/></div>
                 </div>
             </div>

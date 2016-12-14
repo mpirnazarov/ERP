@@ -21,7 +21,7 @@
             <li><a data-toggle="tab" href="#personalinfo">Personal information</a></li>
             <li><a data-toggle="tab" href="#familyinfo">Family information</a></li>
         </ul>
-        <form:form commandName="user" cssClass="form-horizontal" method="post"
+        <form:form modelAttribute="person" cssClass="form-horizontal" method="post"
                    action="/Hr/user/${person.id}/update/Geninfo">
             <div class="tab-content">
                 <!--General info/Header information Tab-->
@@ -138,12 +138,12 @@
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Department: <font
                                 color='red'>*</font></label>
-                            <div class="col-lg-5"><form:select path="department" items="${departments}" required="true"
+                            <div class="col-lg-5"><form:select path="departmentId" items="${departments}" required="true"
                                                                cssClass="form-control text-box single-line"/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">System role: <font
                                 color='red'>*</font></label>
-                            <div class="col-lg-5"><form:select path="position" items="${roles}" required="true"
+                            <div class="col-lg-5"><form:select path="roleId" items="${roles}" required="true"
                                                                cssClass="form-control text-box single-line"/></div>
                         </div>
                         <%--<div class="form-group"><label class="control-label col-md-3">Contract type: <font
@@ -152,12 +152,12 @@
                                                                cssClass="form-control text-box single-line"/></div>
                         </div>--%>
                         <div class="form-group"><label class="control-label col-md-3">Status: <font color='red'>*</font></label>
-                            <div class="col-lg-5"><form:select path="status" items="${statuses}" required="true"
+                            <div class="col-lg-5"><form:select path="statusId" items="${statuses}" required="true"
                                                                cssClass="form-control text-box single-line"/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Job title: <font
                                 color='red'>*</font></label>
-                            <div class="col-lg-5"><form:select path="jobTitle" items="${jobTitles}" required="true"
+                            <div class="col-lg-5"><form:select path="postId" items="${jobTitles}" required="true"
                                                                cssClass="form-control text-box single-line"/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Passport Number: <font

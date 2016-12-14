@@ -36,23 +36,29 @@
                     </c:forEach>
                     </tbody>
                 </table>
+                <br/>
                 <h3>Upload document</h3>
 
                 <form:form method="POST" modelAttribute="fileBucket" enctype="multipart/form-data" class="form-horizontal">
-
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <label class="col-md-3 control-lable" for="file">Upload a file</label>
-                            <div class="col-md-7">
-                                Name: <form:input cssClass="form-control text-box" path="name" required="true" />
-                                Choose file: <form:input type="file" path="file" id="file" class="form-control input-sm" required="true"/>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Document name: </label>
+                            <div class="col-md-5">
+                                <form:input cssClass="form-control text-box" path="name" required="true"/>
                             </div>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Choose file: </label>
+                            <div class="col-md-5">
+                                <form:input type="file" path="file" id="file" class="form-control input-sm" required="true"/>
+                            </div>
+                        </div>
 
-                    <div class="row">
-                        <div class="form-actions floatRight">
-                            <input type="submit" value="Upload" class="btn btn-primary btn-sm">
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-2">
+                                <input type="submit" value="Upload" class="btn btn-primary btn-sm">
+                            </div>
                         </div>
                     </div>
                 </form:form>

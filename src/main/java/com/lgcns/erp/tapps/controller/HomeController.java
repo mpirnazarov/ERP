@@ -16,9 +16,9 @@ public class HomeController {
     @RequestMapping(value = "/")
     public String printWelcome(Principal principal) {
         UsersEntity user = UserService.getUserByUsername(principal.getName());
-        int roleId = user.getRoleId();
+        Integer roleId = user.getRoleId();
         System.out.println("ROLE ID: " + roleId);
-        if(roleId==1)
+        if(roleId == 1)
             return "forward: /CTO/Profile";
         else if(roleId==3)
             return "forward: /Hr/Profile";

@@ -12,7 +12,7 @@
 <% request.setAttribute("Mode", 2); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
+    <div class="col-lg-offset-2">
         <h1>${fullName}, ${jobTitle}</h1>
         <h2 class="page-header">Appointment Record</h2>
         <table class="table">
@@ -21,7 +21,7 @@
                 <th class="text-center">Appointment date<br/><text class="small">(YYYY-MM-DD)</text></th>
                 <th>Contract type</th>
                 <th>Department</th>
-                <th>Role</th>
+                <th>Job title</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -29,9 +29,9 @@
             <c:forEach items="${appointmentrecVM.appointmentSummaries}" var="appointment" varStatus="status">
                 <tr>
                     <td class="col-md-2 text-center">${appointment.appointDate}</td>
-                    <td class="col-md-3">${appointment.appointmentType}</td>
-                    <td class="col-md-5">${appointment.department}</td>
-                    <td class="col-md-4">${appointment.role}</td>
+                    <td class="col-md-3">${contracts.get(appointment.appointmentType)}</td>
+                    <td class="col-md-5">${departments.get(appointment.department)}</td>
+                    <td class="col-md-4">${posts.get(appointment.role)}</td>
                     <td><a href="./Appointment/Edit/${appointment.id}" class="btn btn-default">Edit</a></td>
                 </tr>
             </c:forEach>

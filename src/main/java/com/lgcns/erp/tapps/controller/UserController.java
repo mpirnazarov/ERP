@@ -2,6 +2,7 @@ package com.lgcns.erp.tapps.controller;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.Enums.Appoint;
+import com.lgcns.erp.tapps.Enums.Document_Type;
 import com.lgcns.erp.tapps.Enums.Language;
 import com.lgcns.erp.tapps.Enums.Language_Ranking;
 import com.lgcns.erp.tapps.mapper.UserMapper;
@@ -247,6 +248,12 @@ public class UserController {
         List<DocsViewModel> docsViewModel = getDocuments(principal.getName());
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("docsVM", docsViewModel);
+        Map<Integer, String> docType = new HashMap<Integer, String>();
+        for (Document_Type doc :
+                Document_Type.values()) {
+            docType.put(doc.getValue(), doc.name());
+        }
+        mav.addObject("docType", docType);
         return mav;
     }
 
@@ -512,7 +519,7 @@ public class UserController {
         List<UserInLanguagesEntity> languageSummaries = UserService.getUserInLanguages(user);
         for (UserInLanguagesEntity lan :
                 languageSummaries) {
-            eduReturn.addLanguageSummary(Language.values()[lan.getLanguageId()-1].toString(), Language_Ranking.values()[lan.getListening()-1].toString(), Language_Ranking.values()[lan.getReading()].toString(), Language_Ranking.values()[lan.getWriting()].toString(), Language_Ranking.values()[lan.getSpeaking()].toString(), lan.getId());
+            eduReturn.addLanguageSummary(Language.values()[lan.getLanguageId()-1].toString(), Language_Ranking.values()[lan.getListening()-1].toString(), Language_Ranking.values()[lan.getReading()-1].toString(), Language_Ranking.values()[lan.getWriting()-1].toString(), Language_Ranking.values()[lan.getSpeaking()-1].toString(), lan.getId());
         }
 
         // Getting and setting Certificates module
@@ -541,7 +548,7 @@ public class UserController {
         for (WorksEntity we :
                 worksEntity) {
             WorkLocalizationsEntity wle = UserService.getWorkLocal(we);
-            jobExpViewModels.add(new JobexpViewModel(wle.getOrganization(), wle.getPost(), we.getStartDate(), we.getEndDate(), 3, we.getId()));
+            jobExpViewModels.add(new JobexpViewModel(wle.getOrganization(), wle.getPost(), we.getStartDate(), we.getEndDate(), we.getContractType(), we.getId()));
         }
         return jobExpViewModels;
     }

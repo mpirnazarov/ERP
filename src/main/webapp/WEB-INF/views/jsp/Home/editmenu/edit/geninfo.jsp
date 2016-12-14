@@ -141,16 +141,16 @@
                             <div class="col-lg-5"><form:select path="department" items="${departments}" required="true"
                                                                cssClass="form-control text-box single-line"/></div>
                         </div>
-                        <div class="form-group"><label class="control-label col-md-3">Position: <font
+                        <div class="form-group"><label class="control-label col-md-3">System role: <font
                                 color='red'>*</font></label>
-                            <div class="col-lg-5"><form:select path="position" items="${positions}" required="true"
+                            <div class="col-lg-5"><form:select path="position" items="${roles}" required="true"
                                                                cssClass="form-control text-box single-line"/></div>
                         </div>
-                        <div class="form-group"><label class="control-label col-md-3">Contract type: <font
+                        <%--<div class="form-group"><label class="control-label col-md-3">Contract type: <font
                                 color='red'>*</font></label>
                             <div class="col-lg-5"><form:select path="jointType" items="${jointType}" required="true"
                                                                cssClass="form-control text-box single-line"/></div>
-                        </div>
+                        </div>--%>
                         <div class="form-group"><label class="control-label col-md-3">Status: <font color='red'>*</font></label>
                             <div class="col-lg-5"><form:select path="status" items="${statuses}" required="true"
                                                                cssClass="form-control text-box single-line"/></div>

@@ -23,5 +23,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://192.168.1.77:5432/LgErpSystem</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="LgErpSystemProd@192.168.1.77" uuid="871e83d9-7813-4535-94be-34544ebc1ca4">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://192.168.1.77:5432/LgErpSystemProd</jdbc-url>
+    </data-source>
   </component>
 </project>

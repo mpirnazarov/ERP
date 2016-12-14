@@ -14,7 +14,6 @@ import com.lgcns.erp.tapps.viewModel.usermenu.*;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,7 +64,7 @@ public class UserController {
 
         return response;
     }
-    @PreAuthorize("hasRole('2')")
+
     @RequestMapping (value = "/User/Profile", method = RequestMethod.GET)
     public ModelAndView Profile(Principal principal){
         ModelAndView mav = new ModelAndView();
@@ -367,7 +366,7 @@ public class UserController {
                 returning.addData1(String.format("%05d", user.getId()), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
             }
             //Getting department name
-            returning.setDepartment(UserService.getDepartments().get(3).getName());
+            returning.setDepartment(UserService.getDepartments().get(user.getDepartmentId()-1).getName());
             //Getting roleId
             returning.setRoleId(user.getRoleId());
             //Getting Position from user_in_roles
@@ -517,7 +516,9 @@ public class UserController {
         }
 
         // Getting and setting Certificates module
-        List<CertificatesEntity> certificatesEntities = UserService.getCertificates(user);
+        List<CertificatesEntity> certificatesEntities=null;
+        if(UserService.getCertificates(user)!=null)
+            certificatesEntities = UserService.getCertificates(user);
         for (CertificatesEntity cert :
                 certificatesEntities) {
             CertificateLocalizationsEntity certificatesLocEntitie = UserService.getCertificatesLoc(cert, 3);

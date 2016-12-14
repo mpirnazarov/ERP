@@ -877,6 +877,7 @@ public class UserService {
                     "political = :isPolitical, passport =:passport, roleId = :roleId  where id = :userid");
             query.setParameter("userid", Integer.parseInt(person.getId()));
             query.setParameter("dateOfBirth", person.getPersonalInfo().getDateOfBirth());
+
             query.setParameter("departmentId", Integer.parseInt(person.getDepartment()));
             query.setParameter("mobilePhone", person.getPersonalInfo().getMobilePhone());
             query.setParameter("homePhone", person.getPersonalInfo().getHomePhone());

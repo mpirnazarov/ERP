@@ -19,7 +19,7 @@
             <thead>
             <tr>
                 <th>Appointment date(YYYY-MM-DD)</th>
-                <th>Appointment type</th>
+                <th>Contract type</th>
                 <th>Department</th>
                 <th>Role</th>
                 <th>Action</th>

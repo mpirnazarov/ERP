@@ -1,10 +1,6 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.sql.Date;
 import java.util.Collection;
 

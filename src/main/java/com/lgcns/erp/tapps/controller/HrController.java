@@ -89,7 +89,7 @@ public class HrController {
     @RequestMapping(value = "/Hr/Register", method = RequestMethod.POST)
     public ModelAndView RegisterPost(@Valid @ModelAttribute("registrationVM") RegistrationViewModel registrationViewModel, BindingResult bindingResult,
                                      RedirectAttributes redirectAttributes, Principal principal) {
-        ModelAndView mav = new ModelAndView("user/register");
+        ModelAndView mav = new ModelAndView();
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("registrationVM", registrationViewModel);
         System.out.println("ERROR2!!!");
@@ -902,7 +902,7 @@ public class HrController {
             Map<Integer, String> deps = new HashMap<Integer, String>();
             for (DepartmentLocalizationsEntity dep :
                     UserService.getDepartments(3)) {
-                deps.put(dep.getId(), dep.getName());
+                deps.put(dep.getDepartmentId(), dep.getName());
             }
             model.addAttribute("departments",  deps);
 
@@ -910,9 +910,9 @@ public class HrController {
             Map<Integer, String> positions = new HashMap<Integer, String>();
             for (RoleLocalizationsEntity pos :
                     UserService.getRolesLoc()) {
-                positions.put(pos.getId(), pos.getName());
+                positions.put(pos.getRoleId(), pos.getName());
             }
-            model.addAttribute("positions",  positions);
+            model.addAttribute("roles",  positions);
 
             //Getting jobTitles list from RoleLocalizations
             Map<Integer, String> jobTitles = new HashMap<Integer, String>();
@@ -1018,10 +1018,10 @@ public class HrController {
         if(result.hasErrors()) {
             return "Hr/user/"+id+"/update"+path;
         }
-
         updateDBGenInfo(person);
         return "redirect: /Hr/user/"+id+"/update/"+path;
     }
+
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/updateFam/{famId}/", method = RequestMethod.GET)
     public ModelAndView UpdateFamInfo(Principal principal, Model model, @PathVariable("userId") int userId, @PathVariable("famId") int famId){
         FamilyMember familyProfile = getUserFamily(userId, famId);
@@ -1031,6 +1031,7 @@ public class HrController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
+
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/updateFam/{famId}/", method = RequestMethod.POST)
     public String UpdateFamInfoPost(Model model, FamilyMember familyProfile, @PathVariable("userId") String userId, @PathVariable("famId") String famId){
         UserService.updateUsersFamilyInfo(familyProfile);
@@ -1039,13 +1040,11 @@ public class HrController {
         UserService.updateUsersFamilyInfoLocUz(familyProfile);
         return "redirect: /Hr/user/"+userId+"/update/Geninfo";
     }
+
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/deleteFam/{famId}/", method = RequestMethod.GET)
     public String DeleteFamInfoPost(Model model, FamilyMember familyProfile, @PathVariable("userId") String userId, @PathVariable("famId") String famId){
-
         UserService.deleteUsersFamilyInfoLoc(famId);
         UserService.deleteUsersFamilyInfo(famId);
-
-        System.out.println("I am working here");
         return "redirect: /Hr/user/"+userId+"/update/Geninfo";
     }
 
@@ -1054,10 +1053,12 @@ public class HrController {
         ModelAndView mav = new ModelAndView();
         FamilyMember familyProfile = new FamilyMember();
         model.addAttribute("family", familyProfile);
+        mav.addObject("SystemRole", UserService.getUserByUsername(principal.getName()).getRoleId());
         mav = UP.includeUserProfile(mav, principal);
         mav.setViewName("Home/editmenu/new/newfaminfo");
         return mav;
     }
+
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/addFam", method = RequestMethod.POST)
     public String addFamPost(Model model, FamilyMember familyProfile, @PathVariable("userId") String userId){
 
@@ -1100,8 +1101,6 @@ public class HrController {
         return familyMember;
     }
 
-
-
     @RequestMapping ( value = "/Hr/user/{id}/disable/", method = RequestMethod.GET )
     public String DisableUser(Principal principal, @PathVariable("id") int id){
 
@@ -1116,29 +1115,6 @@ public class HrController {
         return "redirect: /Hr/Userslist";
     }
 
-/*    @RequestMapping ( value = "/Hr/Generate/{docId}/{userId}/save", method = RequestMethod.GET )
-    public ResponseEntity<byte[]> GenerateDoc(HttpServletRequest request, HttpServletResponse response, Principal principal, @PathVariable("docId") int docId, @PathVariable("userId") int userId){
-        ProfileViewModel user = getProfileById(userId);
-        System.out.printf("Generating document: "+docId);
-        ResponseEntity<byte[]> res=null;
-        try {
-            if (docId==1){
-                 res = generateCertificate(user, response);
-                return res; }
-            else if(docId==2) {
-                res = generateDecreeTerminate(user, response);
-            }
-            else if(docId==3){
-                res = generateDecreeFamilyTicket(user, response);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (XDocReportException e) {
-            e.printStackTrace();
-        }
-        return res;
-    }*/
     @RequestMapping ( value = "/Hr/Generate/{docId}/{userId}", method = RequestMethod.POST )
     public ResponseEntity<byte[]> GenerateDoc(HttpServletRequest request, HttpServletResponse response, Principal principal, @PathVariable("docId") int docId, @PathVariable("userId") int userId){
         ProfileViewModel user = getProfileById(userId);
@@ -1235,7 +1211,10 @@ public class HrController {
         List<ProfileViewModel> returning = new LinkedList<ProfileViewModel>();
         ProfileViewModel userProfile;
         List<UsersEntity> usersEntityList = UserService.getAllUsers();
-
+        for (UsersEntity u :
+                usersEntityList) {
+            System.out.println("ID: " + u.getId());
+        }
 
         for (UsersEntity userEntity:
                 usersEntityList) {
@@ -1256,80 +1235,6 @@ public class HrController {
             if(user.getRoleId()!=null)
                 userProfile.setRoleId(user.getRoleId());
 
-            /*//Getting department name
-            userProfile.setDepartment(UserService.getDepartments().get(3).getName());
-
-            //Getting Position from user_in_roles
-            userProfile.setPosition(UserService.getRoleLoc(user).getName());
-
-            //Getting is political
-            if (user.getPolitical())
-                userProfile.setPolitical("Yes");
-            else
-                userProfile.setPolitical("No");
-
-            //Getting Joint Type
-            userProfile.setJointType(Appoint.values()[UserController.getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());
-
-            //Getting status
-            userProfile.setStatus(UserService.getStatuses().get(3).getName());
-
-            //Getting job title
-            int postId = UserController.getMax(UserService.getUserInPost(user)).getPostId();
-            userProfile.setJobTitle(UserService.getJobTitle(postId, 3).getName());
-
-            //RoleLocalizationsEntity roleLoc = UserService.getPosition(userInRoles);
-            //returning.setPosition();
-
-            //Getting passport number
-            userProfile.setPassportNumber(user.getPassport());
-
-            //Getting and setting entry date
-            userProfile.setEntryDate(user.getHiringDate());
-
-            PersonalInformationViewModel personalInfo = new PersonalInformationViewModel();
-
-            //Getting birth place
-            //System.out.println("Birth Place: " + UserService.getUserLocalizations(user).getBirthPlace());
-            //returning.setBirthPlace(UserService.getUserLocalizations(user).getBirthPlace().toString());
-            int i = 0;
-            for (UserLocalizationsEntity userLoc :
-                    UserService.getUserLocalizations(user)) {
-                personalInfo.addBirthPlace(userLoc.getBirthPlace(), userLoc.getLanguageId());
-            }
-
-
-            personalInfo.setDateOfBirth(user.getDateOfBirth());
-            personalInfo.setHomePhone(user.getHomePhone());
-            personalInfo.setMobilePhone(user.getMobilePhone());
-            personalInfo.setEmailCompany(user.geteMail());
-            personalInfo.setEmailPersonal(user.getPersonalEmail());
-
-            userProfile.setPersonalInfo(personalInfo);
-
-            List<BirthPlace> bPlace = userProfile.getPersonalInfo().getBirthPlace();
-
-            //Getting family information
-            List<FamilyInfosEntity> familyInfosEntities = UserService.getFamilyInfos(user);
-            List<FamilyMember> familyMembers = new LinkedList<FamilyMember>();
-            List<FamiliyInfoLocalizationsEntity> familyLoc2;
-            for (FamilyInfosEntity fie :
-                    familyInfosEntities) {
-                familyLoc2 = UserService.getFamilyInfosLoc(fie);
-
-                FamilyMember familyMember = new FamilyMember(familyLoc2.size());
-                for (FamiliyInfoLocalizationsEntity faInLoEn :
-                        familyLoc2) {
-                    familyMember.add(faInLoEn.getRelation(), faInLoEn.getLastName() + " " + faInLoEn.getFirstName(), fie.getDateOfBirth(), faInLoEn.getJobTitle(), faInLoEn.getLanguageId());
-                    // System.out.println( familyMember.getRelation()[faInLoEn.getLanguageId()-1]+ " " + familyMember.getFullName()[faInLoEn.getLanguageId()-1] + " " + familyMember.getDateOfBirth() + " " + familyMember.getJobTitle()[faInLoEn.getLanguageId()-1]);
-                }
-                familyMembers.add(familyMember);
-            }
-            userProfile.setFamilyLoc(familyMembers);
-
-            // (MUST BE FINISHED!) Getting and setting vacation days
-            userProfile.setVacationDaysLeft(0);
-            userProfile.setVacationDaysAll(12);*/
             returning.add(userProfile);
         }
         return returning;
@@ -1351,8 +1256,8 @@ public class HrController {
         }
         //Getting department name
         try {
-            if(UserService.getDepartments().get(3).getName()!=null)
-                returning.setDepartment(UserService.getDepartments().get(3).getName());
+            if(UserService.getDepartments().get(user.getDepartmentId()-1).getName()!=null)
+                returning.setDepartment(UserService.getDepartments().get(user.getDepartmentId()-1).getName());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -1419,10 +1324,7 @@ public class HrController {
             for (FamilyInfosEntity fie :
                     familyInfosEntities) {
                 familyLoc2 = UserService.getFamilyInfosLoc(fie.getId());
-                for (FamiliyInfoLocalizationsEntity f :
-                        familyLoc2) {
-                    System.out.println("Family member: " + f.getFamilyInfoid() + " "+ f.getFirstName() + f.getRelation());
-                }
+
                 FamilyMember familyMember = new FamilyMember(familyLoc2.size());
                 for (FamiliyInfoLocalizationsEntity faInLoEn :
                         familyLoc2) {

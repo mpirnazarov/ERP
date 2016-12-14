@@ -10,36 +10,36 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%--<script type="text/javascript">--%>
-    <%--function printpage() {--%>
-        <%--//Get the print button and put it into a variable--%>
-        <%--var printButton = document.getElementById("printpagebutton");--%>
-        <%--printButton.style.visibility = 'hidden';--%>
-        <%--printButton = document.getElementById("edCer");--%>
-        <%--printButton.style.visibility = 'hidden';--%>
-        <%--printButton = document.getElementById("eduprint");--%>
-        <%--//Set the print button visibility to 'hidden'--%>
-        <%--printButton.style.visibility = 'hidden';--%>
-        <%--printButton = document.getElementById("lansum");--%>
-        <%--printButton.style.visibility = 'hidden';--%>
-        <%--printButton = document.getElementById("cert");--%>
-        <%--printButton.style.visibility = 'hidden';--%>
+<%--function printpage() {--%>
+<%--//Get the print button and put it into a variable--%>
+<%--var printButton = document.getElementById("printpagebutton");--%>
+<%--printButton.style.visibility = 'hidden';--%>
+<%--printButton = document.getElementById("edCer");--%>
+<%--printButton.style.visibility = 'hidden';--%>
+<%--printButton = document.getElementById("eduprint");--%>
+<%--//Set the print button visibility to 'hidden'--%>
+<%--printButton.style.visibility = 'hidden';--%>
+<%--printButton = document.getElementById("lansum");--%>
+<%--printButton.style.visibility = 'hidden';--%>
+<%--printButton = document.getElementById("cert");--%>
+<%--printButton.style.visibility = 'hidden';--%>
 
-        <%--//Print the page content--%>
-        <%--window.print()--%>
-        <%--//Set the print button to 'visible' again--%>
-        <%--//[Delete this line if you want it to stay hidden after printing]--%>
-        <%--var printButton = document.getElementById("printpagebutton");--%>
-        <%--printButton.style.visibility = 'visible';--%>
-        <%--printButton = document.getElementById("edCer");--%>
-        <%--printButton.style.visibility = 'visible';--%>
-        <%--printButton = document.getElementById("eduprint");--%>
-        <%--//Set the print button visibility to 'hidden'--%>
-        <%--printButton.style.visibility = 'visible';--%>
-        <%--printButton = document.getElementById("lansum");--%>
-        <%--printButton.style.visibility = 'visible';--%>
-        <%--printButton = document.getElementById("cert");--%>
-        <%--printButton.style.visibility = 'visible';--%>
-    <%--}--%>
+<%--//Print the page content--%>
+<%--window.print()--%>
+<%--//Set the print button to 'visible' again--%>
+<%--//[Delete this line if you want it to stay hidden after printing]--%>
+<%--var printButton = document.getElementById("printpagebutton");--%>
+<%--printButton.style.visibility = 'visible';--%>
+<%--printButton = document.getElementById("edCer");--%>
+<%--printButton.style.visibility = 'visible';--%>
+<%--printButton = document.getElementById("eduprint");--%>
+<%--//Set the print button visibility to 'hidden'--%>
+<%--printButton.style.visibility = 'visible';--%>
+<%--printButton = document.getElementById("lansum");--%>
+<%--printButton.style.visibility = 'visible';--%>
+<%--printButton = document.getElementById("cert");--%>
+<%--printButton.style.visibility = 'visible';--%>
+<%--}--%>
 
 <%--</script>--%>
 <c:set var="pageTitle" scope="request" value="Education certificates"/>
@@ -62,21 +62,25 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Name of school</th>
-                        <th>Major</th>
-                        <th>Degree</th>
-                        <th>Entry date (YYYY-MM-DD)</th>
-                        <th>Graduate date (YYYY-MM-DD)</th>
+                        <th class="col-md-4 text-center">Name of school</th>
+                        <th class="col-md-2">Major</th>
+                        <th class="col-md-2">Degree</th>
+                        <th class="col-md-2 text-center">Entry date<br/>
+                            <text class="small">(YYYY-MM-DD)</text>
+                        </th>
+                        <th class="col-md-2 text-center">Graduate date<br/>
+                            <text class="small">(YYYY-MM-DD)</text>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${eduVM.educationsList}" var="eduList" varStatus="status">
                         <tr>
-                            <td>${eduList.name}</td>
-                            <td>${eduList.major}</td>
-                            <td>${eduList.degree}</td>
-                            <td>${eduList.startDate}</td>
-                            <td>${eduList.endDate}</td>
+                            <td class="col-md-4 text-center">${eduList.name}</td>
+                            <td class="col-md-2 text-center">${eduList.major}</td>
+                            <td class="col-md-1">${eduList.degree}</td>
+                            <td class="col-md-2 text-center">${eduList.startDate}</td>
+                            <td class="col-md-2 text-center">${eduList.endDate}</td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -87,21 +91,21 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Language</th>
-                        <th>Listening</th>
-                        <th>Reading</th>
-                        <th>Writing</th>
-                        <th>Speaking</th>
+                        <th class="col-md-3">Language</th>
+                        <th class="text-center">Listening</th>
+                        <th class="text-center">Reading</th>
+                        <th class="text-center">Writing</th>
+                        <th class="text-center">Speaking</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${eduVM.languageSummaryList}" var="language" varStatus="status">
                         <tr>
-                            <td>${language.language}</td>
-                            <td>${language.listening}</td>
-                            <td>${language.reading}</td>
-                            <td>${language.writing}</td>
-                            <td>${language.speaking}</td>
+                            <td class="col-md-3">${language.language}</td>
+                            <td class="text-center">${language.listening}</td>
+                            <td class="text-center">${language.reading}</td>
+                            <td class="text-center">${language.writing}</td>
+                            <td class="text-center">${language.speaking}</td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -110,11 +114,13 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Type</th>
-                        <th>Score</th>
-                        <th>Degree</th>
-                        <th>Organization</th>
-                        <th>Acquistion Date (YYYY-MM-DD)</th>
+                        <th class="col-md-3">Type</th>
+                        <th class="col-md-1">Score</th>
+                        <th class="col-md-1">Degree</th>
+                        <th class="col-md-2">Organization</th>
+                        <th class="col-md-2 text-center">Acquisition Date<br/>
+                            <text class="small">(YYYY-MM-DD)</text>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -149,11 +155,13 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Organization</th>
-                        <th>Number</th>
-                        <th>Date (YYYY-MM-DD)</th>
-                        <th>Mark</th>
+                        <th class="col-md-3">Name</th>
+                        <th class="col-md-4">Organization</th>
+                        <th class="col-md-1">Number</th>
+                        <th class="col-md-2 text-center">Date<br/>
+                            <text class="small">(YYYY-MM-DD)</text>
+                        </th>
+                        <th class="col-md-1">Mark</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -162,17 +170,16 @@
                             <td>${cer.name}</td>
                             <td>${cer.organization}</td>
                             <td>${cer.number}</td>
-                            <td>${cer.dateTime}</td>
+                            <td class="col-md-2 text-center">${cer.dateTime}</td>
                             <td>${cer.mark}</td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
                 <%--<input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;"--%>
-                       <%--value="Print this page" onclick="printpage()"/>--%>
+                <%--value="Print this page" onclick="printpage()"/>--%>
             </div>
         </div>
     </div>
 </div>
-<% request.setAttribute("foo", "bar"); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

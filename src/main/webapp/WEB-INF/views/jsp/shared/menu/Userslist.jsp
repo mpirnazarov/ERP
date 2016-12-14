@@ -22,9 +22,11 @@
             <%
                 if((int)request.getAttribute("SystemRole")==3){
             %>
-            <div class="col-lg-offset-10 col-xs-1">
-                <a href="/Hr/Register" class="btn btn-success" role="button">New User</a>
+            <%--<div class="col-lg-offset-10 col-xs-1">--%>
+            <div class="text-right">
+                <a href="/Hr/Register" class="btn btn-success" role="button">Create User</a>
             </div>
+            <%--</div>--%>
             <% } %>
             <br/>
             <table id="myTable" class="display table" cellspacing="0" width="100%">

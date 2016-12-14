@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-md-3">PIT: </label>
-                <div class="col-sm-1"><form:input value="${salaryVM.pit}"
+                <div class="col-sm-2"><form:input value="${salaryVM.pit}"
                                                   path="pit" placeholder="PIT"
                                                   cssClass="form-control text-box single-line"/>
                 </div>
@@ -44,7 +44,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-md-3">INPS: </label>
-                <div class="col-sm-1"><form:input value="${salaryVM.inps}"
+                <div class="col-sm-2"><form:input value="${salaryVM.inps}"
                                                   path="inps"
                                                   placeholder="INPS"
                                                   cssClass="form-control text-box single-line"/>
@@ -53,7 +53,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-md-3">PF: </label>
-                <div class="col-sm-1"><form:input value="${salaryVM.pf}"
+                <div class="col-sm-2"><form:input value="${salaryVM.pf}"
                                                   path="pf" placeholder="PF"
                                                   cssClass="form-control text-box single-line"/>
                 </div>

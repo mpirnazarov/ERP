@@ -58,10 +58,10 @@
                     <thead>
                     <tr>
                         <th class="col-md-3">Language</th>
-                        <th>Listening</th>
-                        <th>Reading</th>
-                        <th>Writing</th>
-                        <th>Speaking</th>
+                        <th class="text-center">Listening</th>
+                        <th class="text-center">Reading</th>
+                        <th class="text-center">Writing</th>
+                        <th class="text-center">Speaking</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -102,7 +102,7 @@
                                     <td>${cer.degree}</td>
                                     <td>${cer.organization}</td>
                                     <td>${cer.number}</td>
-                                    <td>${cer.dateTime}</td>
+                                    <td class="text-center">${cer.dateTime}</td>
                                     <td><a href="./Edu/EditLangScore/${cer.id}/" class="btn btn-default">Edit</a></td>
                                 </tr>
                             </c:if>
@@ -127,7 +127,7 @@
                         <th class="col-md-3">Name</th>
                         <th class="col-md-4">Organization</th>
                         <th class="col-md-1">Number</th>
-                        <th class="col-md-2">Date</th>
+                        <th class="col-md-2">Date<br/><text class="small">(YYYY-MM-DD)</text></th>
                         <th class="col-md-1">Mark</th>
                         <th class="col-md-1">Action</th>
                     </tr>
@@ -139,7 +139,7 @@
                                 <td class="col-md-4">${cer.name}</td>
                                 <td class="col-md-4">${cer.organization}</td>
                                 <td class="col-md-1">${cer.number}</td>
-                                <td class="col-md-2">${cer.dateTime}</td>
+                                <td class="col-md-2 text-center">${cer.dateTime}</td>
                                 <td class="col-md-1">${cer.mark}</td>
                                 <td class="col-md-1"><a href="./Edu/EditCert/${cer.id}/" class="btn btn-default">Edit</a></td>
                             </tr>

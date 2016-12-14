@@ -29,7 +29,7 @@
                 <th>INPS</th>
                 <th>PF</th>
                 <th>Net salary</th>
-                <th></th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>

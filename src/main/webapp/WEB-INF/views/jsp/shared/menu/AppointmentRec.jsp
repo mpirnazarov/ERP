@@ -12,23 +12,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Appointment Record"/>
 
-<script type="text/javascript">
-    function printpage() {
-        //Get the print button and put it into a variable
-        var printButton = document.getElementById("printpagebutton");
-        printButton.style.visibility = 'hidden';
-        printButton = document.getElementById("appRec");
-        printButton.style.visibility = 'hidden';
-        //Print the page content
-        window.print()
-        //Set the print button to 'visible' again
-        //[Delete this line if you want it to stay hidden after printing]
-        var printButton = document.getElementById("printpagebutton");
-        printButton.style.visibility = 'visible';
-        printButton = document.getElementById("appRec");
-        printButton.style.visibility = 'visible';
-    }
-</script>
+<%--<script type="text/javascript">--%>
+    <%--function printpage() {--%>
+        <%--//Get the print button and put it into a variable--%>
+        <%--var printButton = document.getElementById("printpagebutton");--%>
+        <%--printButton.style.visibility = 'hidden';--%>
+        <%--printButton = document.getElementById("appRec");--%>
+        <%--printButton.style.visibility = 'hidden';--%>
+        <%--//Print the page content--%>
+        <%--window.print()--%>
+        <%--//Set the print button to 'visible' again--%>
+        <%--//[Delete this line if you want it to stay hidden after printing]--%>
+        <%--var printButton = document.getElementById("printpagebutton");--%>
+        <%--printButton.style.visibility = 'visible';--%>
+        <%--printButton = document.getElementById("appRec");--%>
+        <%--printButton.style.visibility = 'visible';--%>
+    <%--}--%>
+<%--</script>--%>
 
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
@@ -41,7 +41,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Appointment date</th>
+                <th class="text-center">Appointment date<br/><text class="small">(YYYY-MM-DD)</text></th>
                 <th>Contract type</th>
                 <th>Department</th>
                 <th>Role</th>
@@ -50,16 +50,16 @@
             <tbody>
             <c:forEach items="${appointmentrecVM.appointmentSummaries}" var="appointment" varStatus="status">
                 <tr>
-                    <td>${appointment.appointDate}</td>
-                    <td>${appointment.appointmentType}</td>
-                    <td>${appointment.department}</td>
-                    <td>${appointment.role}</td>
+                    <td class="col-md-2 text-center">${appointment.appointDate}</td>
+                    <td class="col-md-3">${appointment.appointmentType}</td>
+                    <td class="col-md-5">${appointment.department}</td>
+                    <td class="col-md-4">${appointment.role}</td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;"
-               value="Print this page" onclick="printpage()"/>
+        <%--<input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;"--%>
+               <%--value="Print this page" onclick="printpage()"/>--%>
     </div>
 </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

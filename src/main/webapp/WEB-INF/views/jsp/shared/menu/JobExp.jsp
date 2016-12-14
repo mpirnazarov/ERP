@@ -10,26 +10,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%--<script type="text/javascript">--%>
-    <%--function printpage() {--%>
-        <%--//Get the print button and put it into a variable--%>
-        <%--var printButton = document.getElementById("printpagebutton");--%>
-        <%--printButton.style.visibility = 'hidden';--%>
-        <%--printButton = document.getElementById("jobex");--%>
-        <%--printButton.style.visibility = 'hidden';--%>
-        <%--printButton = document.getElementById("je");--%>
-        <%--printButton.style.visibility = 'hidden';--%>
+<%--function printpage() {--%>
+<%--//Get the print button and put it into a variable--%>
+<%--var printButton = document.getElementById("printpagebutton");--%>
+<%--printButton.style.visibility = 'hidden';--%>
+<%--printButton = document.getElementById("jobex");--%>
+<%--printButton.style.visibility = 'hidden';--%>
+<%--printButton = document.getElementById("je");--%>
+<%--printButton.style.visibility = 'hidden';--%>
 
-        <%--//Print the page content--%>
-        <%--window.print()--%>
-        <%--//Set the print button to 'visible' again--%>
-        <%--//[Delete this line if you want it to stay hidden after printing]--%>
-        <%--var printButton = document.getElementById("printpagebutton");--%>
-        <%--printButton.style.visibility = 'visible';--%>
-        <%--printButton = document.getElementById("jobex");--%>
-        <%--printButton.style.visibility = 'visible';--%>
-        <%--printButton = document.getElementById("je");--%>
-        <%--printButton.style.visibility = 'visible';--%>
-    <%--}--%>
+<%--//Print the page content--%>
+<%--window.print()--%>
+<%--//Set the print button to 'visible' again--%>
+<%--//[Delete this line if you want it to stay hidden after printing]--%>
+<%--var printButton = document.getElementById("printpagebutton");--%>
+<%--printButton.style.visibility = 'visible';--%>
+<%--printButton = document.getElementById("jobex");--%>
+<%--printButton.style.visibility = 'visible';--%>
+<%--printButton = document.getElementById("je");--%>
+<%--printButton.style.visibility = 'visible';--%>
+<%--}--%>
 
 <%--</script>--%>
 <c:set var="pageTitle" scope="request" value="Job experience"/>
@@ -40,29 +40,35 @@
         <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <h2 class="page-header">Job Experience</h2>
-                <!--Job experience table-->
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Organization</th>
-                        <th>Position</th>
-                        <th>Start date(YYYY-MM-DD)</th>
-                        <th>End date(YYYY-MM-DD)</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${jobexpVM}" var="jobexp" varStatus="status">
-                        <tr>
-                            <td>${jobexp.organization}</td>
-                            <td>${jobexp.position}</td>
-                            <td>${jobexp.startDate}</td>
-                            <td>${jobexp.endDate}</td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <%--<input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;"--%>
-                       <%--value="Print this page" onclick="printpage()"/>--%>
-            </div>
-        </div>
+        <!--Job experience table-->
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="col-md-3">Organization</th>
+                <th class="col-md-2">Position</th>
+                <th class="col-md-2">Contract type</th>
+                <th class="col-md-2 text-center">Start date<br/>
+                    <text class="small">(YYYY-MM-DD)</text>
+                </th>
+                <th class="col-md-2 text-center">End date<br/>
+                    <text class="small">(YYYY-MM-DD)</text>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${jobexpVM}" var="jobexp" varStatus="status">
+                <tr>
+                    <td>${jobexp.organization}</td>
+                    <td>${jobexp.position}</td>
+                    <td>${jobexp.contractType}</td>
+                    <td class="col-md-2 text-center">${jobexp.startDate}</td>
+                    <td class="col-md-2 text-center">${jobexp.endDate}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <%--<input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;"--%>
+        <%--value="Print this page" onclick="printpage()"/>--%>
+    </div>
+</div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

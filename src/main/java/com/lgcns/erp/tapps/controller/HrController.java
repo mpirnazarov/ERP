@@ -1167,6 +1167,9 @@ public class HrController {
         ModelAndView mav = new ModelAndView();
         mav.addObject("id", id);
         mav.setViewName("Home/editmenu/FileUploadForm");
+        ProfileViewModel userProfile2 = getProfileById(id);
+        model.addAttribute("fullName", userProfile2.getFirstName()[2] + " "+ userProfile2.getLastName()[2]);
+        model.addAttribute("jobTitle", userProfile2.getJobTitle());
         mav.addObject("userProfile", UserController.getProfileByUsername(principal.getName()));
         return mav;
     }

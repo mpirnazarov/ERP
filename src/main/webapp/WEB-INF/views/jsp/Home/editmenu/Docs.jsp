@@ -9,19 +9,20 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<c:set var="pageTitle" scope="request" value="Home"/>
+<c:set var="pageTitle" scope="request" value="Documents"/>
 <% request.setAttribute("Mode", 2); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-8 col-lg-offset-2">
-        <h2 class="page-header">Upload documents</h2>
+        <h1>${fullName}, ${jobTitle}</h1>
+        <h2 class="page-header">Documents</h2>
         <h3>List of documents</h3>
         <table class="table">
             <thead>
             <tr>
-                <th>Document name</th>
-                <th>Document type</th>
-                <th>Action</th>
+                <th class="col-md-4">Document name</th>
+                <th class="col-md-3">Document type</th>
+                <th class="col-md-3 text-center">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -29,9 +30,8 @@
                 <tr>
                     <td>${doc.name}</td>
                     <td>${doc.documentType}</td>
-                    <td><a href="Docs/Del/<c:out value="${doc.id}"/>" class="btn btn-danger">Delete</a><a
-                            href="Docs/Download/<c:out value="${doc.id}"/>"><i
-                            class="fa fa-fw fa-download"></i></a></td>
+                    <td class="text-center"><a href="Docs/Download/<c:out value="${doc.id}"/>" class="btn btn-primary">Download</a> <a
+                            href="Docs/Del/<c:out value="${doc.id}"/>" class="btn btn-danger">Delete</a></td>
                 </tr>
             </c:forEach>
             </tbody>

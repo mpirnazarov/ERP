@@ -10,15 +10,14 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%--<c:set var="pageTitle" scope="request" value="Home"/>--%>
+<c:set var="pageTitle" scope="request" value="Add New Language Summary"/>
 <% request.setAttribute("Mode", 2); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-8 col-lg-offset-2">
         <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
         <form:form modelAttribute="lang" cssClass="form-horizontal" method="post">
-            <h3>Education certificate</h3>
-            <p>Language Summary</p>
+            <h2 class="page-header">Add New Language Summary</h2>
             <div class="form-horizontal">
                 <div class="form-group">
                     <label class="control-label col-md-3">Language: <font color='red'>*</font></label>
@@ -48,7 +47,7 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-3 col-md-9">
-                    <input type="submit" value="Save" class="btn btn-default"/>
+                    <input type="submit" value="Add" class="btn btn-success"/>
                     <input type="button" onclick="history.back()" value="Cancel"
                            class="btn btn-default"/>
                 </div>

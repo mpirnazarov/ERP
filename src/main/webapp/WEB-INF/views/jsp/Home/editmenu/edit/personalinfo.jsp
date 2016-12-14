@@ -18,7 +18,7 @@
         <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
         <form:form commandName="person" cssClass="form-horizontal" method="post">
 
-            <h3>Personal info edit</h3>
+            <h2 class="page-header">Personal info edit</h2>
             <div class="form-group"><label class="control-label col-md-4">Home phone: </label>
                 <div class="col-lg-5">
                     <form:input path="homePhone" placeholder="998971234546"
@@ -68,12 +68,4 @@
         </form:form>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        $("#firuref").trigger('click');
-        document.getElementById("firuref").click();
-        $("#fienref").trigger('click');
-        document.getElementById("fienref").click();
-    });
-</script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

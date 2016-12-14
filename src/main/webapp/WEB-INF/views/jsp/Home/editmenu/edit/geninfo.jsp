@@ -26,7 +26,7 @@
             <div class="tab-content">
                 <!--General info/Header information Tab-->
                 <div id="headerinfo" class="tab-pane fade in active">
-                    <h3>Header information</h3>
+                <br/>
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#en">EN</a></li>
                         <li><a data-toggle="tab" href="#ru">RU</a></li>
@@ -204,7 +204,7 @@
 
                 <!--General info/Personal info Tab-->
                 <div id="personalinfo" class="tab-pane fade">
-                    <h3>Personal information</h3>
+                    <br/>
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#pien">EN</a></li>
                         <li><a data-toggle="tab" href="#piru">RU</a></li>
@@ -275,7 +275,7 @@
                                     <%--<form:errors path="personalInfo.PassportNumber" cssClass="error field-validation-error"/>--%>
                             </div>
                         </div>
-                        <div class="form-group"><label class="control-label col-md-4">E-mail (company): <font
+                        <div class="form-group"><label class="control-label col-md-4">E-mail (corporative): <font
                                 color='red'>*</font></label>
                             <div class="col-lg-5">
                                 <form:input path="personalInfo.emailCompany" placeholder="test@lgcns.uz"
@@ -304,7 +304,7 @@
                 </div>
                 <!--General info/Family info Tab-->
                 <div id="familyinfo" class="tab-pane fade">
-                    <h3>Family information</h3>
+                    <br/>
                     <ul class="nav nav-tabs">
                         <li><a data-toggle="tab" id="fienref" href="#fien">EN</a></li>
                         <li><a data-toggle="tab" id="firuref" href="#firu">RU</a></li>
@@ -407,7 +407,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-sm-9"><a href="./Geninfo/addFam" class="btn btn-primary">Add</a></div>
+                        <a href="./Geninfo/addFam" class="btn btn-success">Add</a>
                     </div>
                 </div>
             </div>

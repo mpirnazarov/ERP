@@ -20,26 +20,26 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Organization</th>
-                <th>Position</th>
-                <th>Start date(YYYY-MM-DD)</th>
-                <th>End date(YYYY-MM-DD)</th>
-                <th></th>
+                <th class="col-md-3">Organization</th>
+                <th class="col-md-2">Position</th>
+                <th class="col-md-2 text-center">Start date<br/><text class="small">(YYYY-MM-DD)</text></th>
+                <th class="col-md-2 text-center">End date<br/><text class="small">(YYYY-MM-DD)</text></th>
+                <th class="col-md-1">Action</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${jobexpVM}" var="jobexp" varStatus="status">
                 <tr>
-                    <td>${jobexp.organization}</td>
-                    <td>${jobexp.position}</td>
-                    <td>${jobexp.startDate}</td>
-                    <td>${jobexp.endDate}</td>
-                    <td><a href="./Jobexp/updateJob/${jobexp.id}" class="btn btn-default">Edit</a></td>
+                    <td class="col-md-3">${jobexp.organization}</td>
+                    <td class="col-md-2">${jobexp.position}</td>
+                    <td class="col-md-2 text-center">${jobexp.startDate}</td>
+                    <td class="col-md-2 text-center">${jobexp.endDate}</td>
+                    <td class="col-md-1 text-center"><a href="./Jobexp/updateJob/${jobexp.id}" class="btn btn-default">Edit</a></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <a href="./Jobexp/add" class="btn btn-primary">Add</a>
+        <a href="./Jobexp/add" class="btn btn-success">Add</a>
     </div>
 </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

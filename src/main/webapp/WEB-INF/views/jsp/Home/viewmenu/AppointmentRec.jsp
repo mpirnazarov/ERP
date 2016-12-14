@@ -36,7 +36,7 @@
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
+    <div class="col-lg-offset-2">
         <h1><%= request.getAttribute("FullName2") %>
         </h1>
         <h2 class="page-header">Appointment Record</h2>

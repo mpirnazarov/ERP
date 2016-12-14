@@ -18,7 +18,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Appointment date(YYYY-MM-DD)</th>
+                <th class="text-center">Appointment date<br/><text class="small">(YYYY-MM-DD)</text></th>
                 <th>Contract type</th>
                 <th>Department</th>
                 <th>Role</th>
@@ -28,16 +28,16 @@
             <tbody>
             <c:forEach items="${appointmentrecVM.appointmentSummaries}" var="appointment" varStatus="status">
                 <tr>
-                    <td>${appointment.appointDate}</td>
-                    <td>${appointment.appointmentType}</td>
-                    <td>${appointment.department}</td>
-                    <td>${appointment.role}</td>
+                    <td class="col-md-2 text-center">${appointment.appointDate}</td>
+                    <td class="col-md-3">${appointment.appointmentType}</td>
+                    <td class="col-md-5">${appointment.department}</td>
+                    <td class="col-md-4">${appointment.role}</td>
                     <td><a href="./Appointment/Edit/${appointment.id}" class="btn btn-default">Edit</a></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <a href="Appointment/Add" class="btn btn-primary">Add</a>
+        <a href="Appointment/Add" class="btn btn-success">Add</a>
 
     </div>
 </div>

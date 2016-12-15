@@ -1,4 +1,4 @@
-<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Dell
   Date: 25-Oct-16
@@ -10,24 +10,23 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%--<c:set var="pageTitle" scope="request" value="Home"/>--%>
+<c:set var="pageTitle" scope="request" value="General information"/>
 <% request.setAttribute("Mode", 2); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-offset-2">
-        <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
-        <h1>${fullName} ${jobTitle}</h1>
+        <h1>${fullName}, ${jobTitle}</h1>
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#headerinfo">Header information</a></li>
             <li><a data-toggle="tab" href="#personalinfo">Personal information</a></li>
             <li><a data-toggle="tab" href="#familyinfo">Family information</a></li>
         </ul>
-        <form:form commandName="user" cssClass="form-horizontal" method="post"
+        <form:form modelAttribute="person" cssClass="form-horizontal" method="post"
                    action="/Hr/user/${person.id}/update/Geninfo">
             <div class="tab-content">
                 <!--General info/Header information Tab-->
                 <div id="headerinfo" class="tab-pane fade in active">
-                    <h3>Header information</h3>
+                <br/>
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#en">EN</a></li>
                         <li><a data-toggle="tab" href="#ru">RU</a></li>
@@ -139,26 +138,26 @@
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Department: <font
                                 color='red'>*</font></label>
-                            <div class="col-lg-5"><form:select path="department" items="${departments}" required="true"
+                            <div class="col-lg-5"><form:select path="departmentId" items="${departments}" required="true"
                                                                cssClass="form-control text-box single-line"/></div>
                         </div>
-                        <div class="form-group"><label class="control-label col-md-3">Position: <font
+                        <div class="form-group"><label class="control-label col-md-3">System role: <font
                                 color='red'>*</font></label>
-                            <div class="col-lg-5"><form:select path="position" items="${positions}" required="true"
+                            <div class="col-lg-5"><form:select path="roleId" items="${roles}" required="true"
                                                                cssClass="form-control text-box single-line"/></div>
                         </div>
-                        <div class="form-group"><label class="control-label col-md-3">Contract type: <font
+                        <%--<div class="form-group"><label class="control-label col-md-3">Contract type: <font
                                 color='red'>*</font></label>
                             <div class="col-lg-5"><form:select path="jointType" items="${jointType}" required="true"
                                                                cssClass="form-control text-box single-line"/></div>
-                        </div>
+                        </div>--%>
                         <div class="form-group"><label class="control-label col-md-3">Status: <font color='red'>*</font></label>
-                            <div class="col-lg-5"><form:select path="status" items="${statuses}" required="true"
+                            <div class="col-lg-5"><form:select path="statusId" items="${statuses}" required="true"
                                                                cssClass="form-control text-box single-line"/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Job title: <font
                                 color='red'>*</font></label>
-                            <div class="col-lg-5"><form:select path="jobTitle" items="${jobTitles}" required="true"
+                            <div class="col-lg-5"><form:select path="postId" items="${jobTitles}" required="true"
                                                                cssClass="form-control text-box single-line"/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Passport Number: <font
@@ -205,7 +204,7 @@
 
                 <!--General info/Personal info Tab-->
                 <div id="personalinfo" class="tab-pane fade">
-                    <h3>Personal information</h3>
+                    <br/>
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#pien">EN</a></li>
                         <li><a data-toggle="tab" href="#piru">RU</a></li>
@@ -276,7 +275,7 @@
                                     <%--<form:errors path="personalInfo.PassportNumber" cssClass="error field-validation-error"/>--%>
                             </div>
                         </div>
-                        <div class="form-group"><label class="control-label col-md-4">E-mail (company): <font
+                        <div class="form-group"><label class="control-label col-md-4">E-mail (corporative): <font
                                 color='red'>*</font></label>
                             <div class="col-lg-5">
                                 <form:input path="personalInfo.emailCompany" placeholder="test@lgcns.uz"
@@ -305,7 +304,7 @@
                 </div>
                 <!--General info/Family info Tab-->
                 <div id="familyinfo" class="tab-pane fade">
-                    <h3>Family information</h3>
+                    <br/>
                     <ul class="nav nav-tabs">
                         <li><a data-toggle="tab" id="fienref" href="#fien">EN</a></li>
                         <li><a data-toggle="tab" id="firuref" href="#firu">RU</a></li>
@@ -328,7 +327,6 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:set var="count" value="0" scope="page"/>
                                     <c:forEach items="${person.familyLoc}" var="family" varStatus="status">
                                         <tr>
                                             <td>${family.relation[2]}</td>
@@ -339,7 +337,6 @@
                                                    class="btn btn-default">Edit</a>
                                                 <a href="./Geninfo/deleteFam/${family.id}/" class="btn btn-danger">Delete</a>
                                             </td>
-                                            <c:set var="count" value="${count + 1}" scope="page"/>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -410,7 +407,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-sm-9"><a href="./Geninfo/addFam" class="btn btn-primary">Add</a></div>
+                        <a href="./Geninfo/addFam" class="btn btn-success">Add</a>
                     </div>
                 </div>
             </div>

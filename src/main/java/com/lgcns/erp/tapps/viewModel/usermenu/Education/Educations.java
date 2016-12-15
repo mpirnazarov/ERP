@@ -11,24 +11,18 @@ public class Educations {
     private String degree;
     private Date startDate;
     private Date endDate;
+    private int id;
 
-    @Override
-    public String toString() {
-        return "Educations{" +
-                "name='" + name + '\'' +
-                ", major='" + major + '\'' +
-                ", degree='" + degree + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                '}';
+    public Educations() {
     }
 
-    public Educations(String name, String major, String degree, Date startDate, Date endDate) {
+    public Educations(String name, String major, String degree, Date startDate, Date endDate, int id) {
         this.name = name;
         this.major = major;
         this.degree = degree;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.id = id;
     }
 
     public String getName() {
@@ -69,5 +63,24 @@ public class Educations {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Educations{" +
+                "name='" + name + '\'' +
+                ", major='" + major + '\'' +
+                ", degree='" + degree + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
     }
 }

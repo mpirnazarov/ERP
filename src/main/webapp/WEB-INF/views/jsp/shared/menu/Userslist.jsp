@@ -22,18 +22,22 @@
             <%
                 if((int)request.getAttribute("SystemRole")==3){
             %>
-            <div class="col-lg-offset-10 col-xs-1">
-                <a href="/Hr/Register" class="btn btn-success" role="button">New User</a>
+            <%--<div class="col-lg-offset-10 col-xs-1">--%>
+            <div class="text-right">
+                <a href="/Hr/Register" class="btn btn-success" role="button">Create User</a>
             </div>
+            <%--</div>--%>
             <% } %>
             <br/>
             <table id="myTable" class="display table" cellspacing="0" width="100%">
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Firstname</th>
-                    <th>Lastname</th>
+                    <th>Employee ID</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Role</th>
                     <th>Username</th>
+                    <th>Role</th>
                     <th style="text-align: center">Action</th>
                 </tr>
                 </thead>
@@ -43,7 +47,9 @@
                         <td><c:out value="${user.id}"/></td>
                         <td><c:out value="${user.firstName[2]}"/></td>
                         <td><c:out value="${user.lastName[2]}"/></td>
+                        <td></td>
                         <td><c:out value="${user.username}"/></td>
+                        <td><c:out value="${roles.get(user.roleId)}"/></td>
                         <%
                             if((int)request.getAttribute("SystemRole")==1){
                         %>

@@ -1,8 +1,6 @@
 package com.lgcns.erp.tapps.viewModel.usermenu;
 
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Dell on 25-Oct-16.
@@ -14,7 +12,6 @@ public class JobexpViewModel {
     private Date endDate;
     private int contractType;
     private int id;
-    private Map<Integer, String> contracts =null;
 
 
     public JobexpViewModel(String organization, String post, Date startDate, Date endDate, int contractType, int id) {
@@ -27,10 +24,7 @@ public class JobexpViewModel {
     }
 
     public JobexpViewModel() {
-        contracts = new HashMap<Integer, String>();
-        contracts.put(1, "FULL TIME");
-        contracts.put(2, "CONTRACT TYPE");
-        contracts.put(3, "PART TIME");
+
     }
 
     public String getOrganization() {
@@ -71,14 +65,6 @@ public class JobexpViewModel {
 
     public void setContractType(int contractType) {
         this.contractType = contractType;
-    }
-
-    public Map<Integer, String> getContracts() {
-        return contracts;
-    }
-
-    public void setContracts(Map<Integer, String> contracts) {
-        this.contracts = contracts;
     }
 
     public int getId() {

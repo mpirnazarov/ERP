@@ -42,7 +42,7 @@ public class ProfileViewModel {
     private int roleId;
     private int languageId;
     private boolean enabled;
-
+    private int departmentId, positionId, jobTitleId, postId, statusId;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date entryDate;
     private int vacationDaysAll;
@@ -247,5 +247,53 @@ public class ProfileViewModel {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public int getLanguageId() {
+        return languageId;
+    }
+
+    public void setLanguageId(int languageId) {
+        this.languageId = languageId;
+    }
+
+    public int getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public int getPositionId() {
+        return positionId;
+    }
+
+    public void setPositionId(int positionId) {
+        this.positionId = positionId;
+    }
+
+    public int getJobTitleId() {
+        return jobTitleId;
+    }
+
+    public void setJobTitleId(int jobTitleId) {
+        this.jobTitleId = jobTitleId;
+    }
+
+    public int getPostId() {
+        return postId;
+    }
+
+    public void setPostId(int postId) {
+        this.postId = postId;
+    }
+
+    public int getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
     }
 }

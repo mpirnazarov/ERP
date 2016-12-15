@@ -19,31 +19,28 @@
         <h2 class="page-header">Documents</h2>
 
         <form:form method="post" modelAttribute="docs" action="/Hr/Generate/">
-            <%-- <form:errors path="*" cssClass="error" /> --%>
-            <table>
-                <!-- DROPDOWN code -->
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-2">Document:</label>
+                    <div class="col-md-4"><form:select path="docId" items="${documents}"
+                                                       cssClass="form-control text-box single-line"/></div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Users:</label>
+                    <div class="col-md-4"><form:select path="userId" items="${users}"
+                                                       cssClass="form-control text-box single-line"/></div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-5">
+                        <input type="submit" class="btn btn-default btn-md" name="Save" value="Save"/>
+                        <input type="submit" class="btn btn-default btn-md" name="Print" value="Print"/>
+                        <a href="Docs/Manage" class="btn btn-success">Manage Documents</a>
+                    </div>
+                </div>
 
-                <tr>
-                    <td><spring:message text="Document"/></td>
-                    <td><form:select path="docId" items="${documents}"
-                                     cssClass="form-control text-box single-line"/></td>
-
-                </tr>
-
-                <tr>
-                    <td><spring:message text="Users"/></td>
-                    <td><form:select path="userId" items="${users}" cssClass="form-control text-box single-line"/></td>
-
-                </tr>
-
-                <tr>
-                    <td colspan="3"><input type="submit" class="btn btn-default" name="Save" value="Save"/></td>
-                    <td colspan="3"><input type="submit" class="btn btn-default" name="Print" value="Print"/></td>
-                </tr>
-            </table>
+            </div>
         </form:form>
-        <a href="Docs/Manage" class="btn btn-success">Manage Documents</a>
-
     </div>
 </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

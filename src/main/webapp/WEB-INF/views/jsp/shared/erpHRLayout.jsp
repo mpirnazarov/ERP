@@ -21,7 +21,7 @@
                     <%--<img class="img-circle" src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"/>--%>
                 <%--</object>--%>
                 <div class="userImgBox">
-                    <img class="userimg" src="/image/<%= request.getAttribute("userId") %>.jpg">
+                    <img class="userimg" src="/image/<%= request.getAttribute("userId") %>.jpg" onerror="this.src='/resources/images/ppicture.png'">
                 </div>
                 HR System
                 <li class="dropdown">
@@ -42,7 +42,7 @@
                 </li>
 
                 <li>
-                    <a href="#"><i class="fa fa-fw fa-bar-chart"></i> Evaluation history</a>
+                    <a href="/Hr/Profile/Evaluation"><i class="fa fa-fw fa-bar-chart"></i> Evaluation history</a>
                 </li>
                 <li>
                     <a href="/Hr/GenerateDocs"><i class="fa fa-fw fa-file"></i> Generate documents</a>

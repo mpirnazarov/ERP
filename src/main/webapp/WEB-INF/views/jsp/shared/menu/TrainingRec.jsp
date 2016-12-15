@@ -43,13 +43,13 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Certificate</th>
-                <th>Organization</th>
-                <th>Entry date (YYYY-MM-DD)</th>
-                <th>Finish date (YYYY-MM-DD)</th>
-                <th>Number of hours</th>
-                <th>Mark</th>
+                <th class="col-md-3">Name</th>
+                <th class="col-md-2">Certificate</th>
+                <th class="col-md-3">Organization</th>
+                <th class="col-md-2 text-center">Entry date<br/><text class="small">(YYYY-MM-DD)</text></th>
+                <th class="col-md-2 text-center">Finish date<br/><text class="small">(YYYY-MM-DD)</text></th>
+                <th class="col-md-1 text-center">Number of hours</th>
+                <th class="col-md-1">Mark</th>
             </tr>
             </thead>
             <tbody>
@@ -58,9 +58,9 @@
                     <td>${train.name}</td>
                     <td>${train.certificateId}</td>
                     <td>${train.organization}</td>
-                    <td>${train.dateFrom}</td>
-                    <td>${train.dateTo}</td>
-                    <td>${train.numberOfHours}</td>
+                    <td class="text-center">${train.dateFrom}</td>
+                    <td class="text-center">${train.dateTo}</td>
+                    <td class="text-center">${train.numberOfHours}</td>
                     <td>${train.mark}</td>
                 </tr>
             </c:forEach>

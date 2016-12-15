@@ -18,7 +18,7 @@
             </div>
             <ul class="nav navbar-nav">
                 <div class="userImgBox">
-                    <img class="userimg" src="/image/<%= request.getAttribute("userId") %>.jpg">
+                    <img class="userimg" src="/image/<%= request.getAttribute("userId") %>.jpg" onerror="this.src='/resources/images/ppicture.png'">
                 </div>
                 <hr/>
             HR System
@@ -32,7 +32,7 @@
                 <a href="#"><i class="fa fa-fw fa-folder"></i> Projects</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-fw fa-file-o"></i> Evaluation history</a>
+                <a href="/Hr/Profile/Evaluation"><i class="fa fa-fw fa-file-o"></i> Evaluation history</a>
             </li>
             <li>
                 <a href="/Hr/GenerateDocs"><i class="fa fa-fw fa-file"></i> Generate documents</a>
@@ -61,7 +61,7 @@
                     <a href="./Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
                 </li>
                 <li>
-                    <a href="../UploadPic"><i class="fa fa-fw fa-file"></i> Change Picture</a>
+                    <a href="./UploadPic"><i class="fa fa-fw fa-file"></i> Change Picture</a>
                 </li>
                 <hr/>
                 Settings

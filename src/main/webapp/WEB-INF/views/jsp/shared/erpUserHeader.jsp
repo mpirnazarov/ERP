@@ -20,7 +20,7 @@
     <spring:url value="/resources/core/css/navbar-fixed-side.css" var="navbar"/>
     <spring:url value="/resources/core/css/bootstrap.min.css" var="bootstrapminCss"/>
     <spring:url value="/resources/core/js/jquery.min.js" var="jquery"/>
-    <spring:url value="/resources/core/js/jquery.validate.js" var="jqueryValidation"/>
+    <%--<spring:url value="/resources/core/js/jquery.validate.js" var="jqueryValidation"/>--%>
     <spring:url value="/resources/core/css/datatablesCombined.min.css" var="allInOneCss"/>
     <spring:url value="/resources/core/js/datatablesCombined.min.js" var="allInOneJs"/>
     <spring:url value="/resources/core/js/jquery.slimscroll.min.js" var="slimScroll"/>
@@ -36,7 +36,6 @@
     <link rel="stylesheet" href="${bootstrapminCss}"/>
     <link rel="stylesheet" type="text/css" href="${allInOneCss}"/>
     <link rel="stylesheet" href="${styleCss}"/>
-    <script src="${jqueryValidation}"></script>
     <script src="${main}"></script>
     <script type="text/javascript" src="${allInOneJs}"></script>
     <script src="${scrollJs}"></script>
@@ -57,28 +56,31 @@
 </head>
 <body class="__scrollBar">
     <%
-    ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
-    request.setAttribute("FullName", a.getFirstName()[0] + " " + a.getLastName()[0]);
-    request.setAttribute("SystemRole", a.getRoleId());
-    request.setAttribute("FirstName", a.getFirstName()[0]);
-    request.setAttribute("JobTitle", a.getJobTitle());
-    request.setAttribute("userId", a.getId());
-
+    if((ProfileViewModel) request.getAttribute("userProfile")!=null){
+        ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
+        request.setAttribute("FullName", a.getFirstName()[0] + " " + a.getLastName()[0]);
+        request.setAttribute("SystemRole", a.getRoleId());
+        request.setAttribute("FirstName", a.getFirstName()[0]);
+        request.setAttribute("JobTitle", a.getJobTitle());
+        request.setAttribute("userId", a.getId());
+    }
 %>
 <div class="container-fluid">
     <div class="row">
             <%
-            String pageType = "/WEB-INF/views/jsp/shared/erpUserLayout.jsp";
-            if ((int) (request.getAttribute("SystemRole")) == 1)
-                pageType =  "/WEB-INF/views/jsp/shared/erpCTOLayout.jsp";
-            else if ((int) (request.getAttribute("SystemRole")) == 3)
-                pageType =  "/WEB-INF/views/jsp/shared/erpHRLayout.jsp";
-            if(request.getAttribute("Mode") != null){
-                if(((int)request.getAttribute("Mode"))==1)
-                    pageType =  "/WEB-INF/views/jsp/shared/erpViewLayout.jsp";
-                else if(((int)request.getAttribute("Mode"))==2)
-                    pageType =  "/WEB-INF/views/jsp/shared/erpEditLayout.jsp";
+            if(request.getAttribute("SystemRole")!=null || request.getAttribute("mode")!=null){
+                String pageType = "/WEB-INF/views/jsp/shared/erpUserLayout.jsp";
+                if ((int) (request.getAttribute("SystemRole")) == 1)
+                    pageType =  "/WEB-INF/views/jsp/shared/erpCTOLayout.jsp";
+                else if ((int) (request.getAttribute("SystemRole")) == 3)
+                    pageType =  "/WEB-INF/views/jsp/shared/erpHRLayout.jsp";
+                if(request.getAttribute("Mode") != null){
+                    if(((int)request.getAttribute("Mode"))==1)
+                        pageType =  "/WEB-INF/views/jsp/shared/erpViewLayout.jsp";
+                    else if(((int)request.getAttribute("Mode"))==2)
+                        pageType =  "/WEB-INF/views/jsp/shared/erpEditLayout.jsp";
+                }
+                pageContext.setAttribute("pageType", pageType);
             }
-            pageContext.setAttribute("pageType", pageType);
         %>
         <jsp:include page='${pageType}' flush="true"/>

@@ -6,8 +6,8 @@ import javax.persistence.*;
  * Created by Rafatdin on 06.10.2016.
  */
 @Entity
-@Table(name = "currnecy_localizations", schema = "public", catalog = "LgErpSystem")
-public class CurrnecyLocalizationsEntity {
+@Table(name = "currency_localizations", schema = "public", catalog = "LgErpSystem")
+public class CurrencyLocalizationsEntity {
     private int id;
     private String name;
     private int currencyId;
@@ -61,7 +61,7 @@ public class CurrnecyLocalizationsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CurrnecyLocalizationsEntity that = (CurrnecyLocalizationsEntity) o;
+        CurrencyLocalizationsEntity that = (CurrencyLocalizationsEntity) o;
 
         if (id != that.id) return false;
         if (currencyId != that.currencyId) return false;

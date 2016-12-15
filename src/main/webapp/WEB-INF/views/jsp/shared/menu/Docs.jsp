@@ -29,7 +29,7 @@
             <c:forEach items="${docsVM}" var="doc" varStatus="status">
                 <tr>
                     <td>${doc.name}</td>
-                    <td>${doc.type}</td>
+                    <td>${docType.get(doc.type)}</td>
                     <td><a href="Docs/download?id=<c:out value="${doc.docId}"/>"><i
                             class="fa fa-fw fa-download"></i></a></td>
                 </tr>

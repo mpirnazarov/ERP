@@ -34,16 +34,16 @@ public class EduViewModel {
         certificateList = new LinkedList<Certificates>();
     }
 
-    public void addEducation(String name, String major, String degree, Date startDate, Date endDate) {
-        educationsList.add(new Educations(name, major, degree, startDate, endDate));
+    public void addEducation(String name, String major, String degree, Date startDate, Date endDate, int id) {
+        educationsList.add(new Educations(name, major, degree, startDate, endDate, id));
     }
 
 
-    public void addLanguageSummary(String language, String listening, String reading, String writing, String speaking) {
-    languageSummaryList.add(new LanguageSummary(language, listening, reading, writing, speaking));
+    public void addLanguageSummary(String language, String listening, String reading, String writing, String speaking, int id) {
+    languageSummaryList.add(new LanguageSummary(language, listening, reading, writing, speaking, id));
     }
 
-    public void addCertificate(String name, String organization, String number, Date dateTime, String mark) {
-        certificateList.add(new Certificates(name, organization, number, dateTime, mark));
+    public void addCertificate(String name, String organization, String number, Date dateTime, String mark, int id, int type, String degree) {
+        certificateList.add(new Certificates(name, organization, number, dateTime, mark, id, type, degree));
     }
 }

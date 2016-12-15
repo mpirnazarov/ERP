@@ -14,17 +14,16 @@
 <% request.setAttribute("Mode", 2); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
+    <div class="col-lg-offset-2">
         <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
-        <form:form modelAttribute="family" cssClass="form-horizontal" method="post">
-
-                <!--General info/Family info Tab-->
-                <h3>Appointment Record</h3>
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Appointment Date: <font color='red'>*</font></label>
-                                <div class="col-lg-5"><form:input path="appointDate" type="date" value="${appointmentVM.appointDate}"
-                                                                  cssClass="form-control text-box single-line requiredDate"/>
+        <form:form modelAttribute="appointmentVM" cssClass="form-horizontal" method="post">
+            <h2 class="page-header">Appointment Record</h2>
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-3">Appointment Date: <font color='red'>*</font></label>
+                    <div class="col-lg-5"><form:input path="appointDate" type="date"
+                                                      value="${appointmentVM.appointDate}"
+                                                      cssClass="form-control text-box single-line requiredDate"/>
 
                                 </div>
                             </div>
@@ -39,22 +38,20 @@
                                                                    cssClass="form-control text-box single-line"/></div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3">Role: <font color='red'>*</font></label>
-                                <div class="col-lg-5"><form:select path="roleId" items="${roles}"
+                                <label class="control-label col-md-3">Job title: <font color='red'>*</font></label>
+                                <div class="col-lg-5"><form:select path="postId" items="${posts}"
                                                                    cssClass="form-control text-box single-line"/></div>
                             </div>
 
-                        </div>
-                <div class="form-group">
-                    <div class="col-md-offset-3 col-md-9">
-                        <input type="submit" value="Save" class="btn btn-default"/>
-                        <input type="button" onclick="history.back()" value="Cancel"
-                               class="btn btn-default"/>
-                    </div>
-                </div>
-            </form:form>
             </div>
-        </div>
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-9">
+                    <input type="submit" value="Save" class="btn btn-default"/>
+                    <input type="button" onclick="history.back()" value="Cancel"
+                           class="btn btn-default"/>
+                </div>
+            </div>
+        </form:form>
     </div>
 </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

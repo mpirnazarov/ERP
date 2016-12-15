@@ -70,8 +70,8 @@
                         <th>Name of school</th>
                         <th>Major</th>
                         <th>Degree</th>
-                        <th>Entry date</th>
-                        <th>Graduate date</th>
+                        <th>Entry date(YYYY-MM-DD)</th>
+                        <th>Graduate date(YYYY-MM-DD)</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -120,7 +120,8 @@
                         <th>Score</th>
                         <th>Degree</th>
                         <th>Organization</th>
-                        <th>Acquistion Date</th>
+                        <th>Acquistion Date(YYYY-MM-DD)</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -142,11 +143,11 @@
                     <%--</c:forEach>--%>
                     </tbody>
                 </table>
-                <div style="border: solid #ffffff; width: 25%; right: 0; bottom: 0; position: fixed; border-radius: 10px;">
-                    <h3 style="text-align: center">LEGEND:</h3>
-                    <h4 style="margin-left: 50px">A1 and A2 - Basic</h4>
-                    <h4 style="margin-left: 50px">B1 and B2 - Independent</h4>
-                    <h4 style="margin-left: 50px">C1 and C2 - Proficient</h4>
+                <div style="border: solid #ffffff; width: 17%; right: 0; bottom: 0; position: fixed; border-radius: 10px;">
+                    <h3 style="text-align: center; text-decoration: underline">LEGEND:</h3>
+                    <h4 style="margin-left: 20px">A1 and A2 - Basic</h4>
+                    <h4 style="margin-left: 20px">B1 and B2 - Independent</h4>
+                    <h4 style="margin-left: 20px">C1 and C2 - Proficient</h4>
                     <div></div>
                 </div>
             </div>

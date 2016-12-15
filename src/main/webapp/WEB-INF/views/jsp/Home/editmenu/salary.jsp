@@ -14,48 +14,49 @@
 <c:set var="pageTitle" scope="request" value="Salary details"/>
 <% request.setAttribute("Mode", 2); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
+
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-8 col-lg-offset-2">
-        <h1>${fullName} ${jobTitle}</h1>
+        <h1>${fullName}, ${jobTitle}</h1>
         <h2 class="page-header">Salary Details</h2>
         <!--Appointment summary table-->
         <table class="table">
             <thead>
             <tr>
-                <th>Date</th>
+                <th class="text-center">Date<br/><text class="small">(YYYY-MM-DD)</text></th>
                 <th>Gross salary</th>
                 <th>PIT</th>
                 <th>INPS</th>
                 <th>PF</th>
                 <th>Net salary</th>
-                <th></th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${salaryVM}" var="salary" varStatus="status">
                 <tr>
-                    <td>${salary.date}</td>
+                    <td class="col-md-2 text-center">${salary.date}</td>
                     <c:if test="${salary.currency==1}">
-                        <td>${salary.gross} UZS</td>
+                        <td class="col-md-3">${salary.gross} UZS</td>
                     </c:if>
                     <c:if test="${salary.currency==2}">
-                        <td>${salary.gross} USD</td>
+                        <td class="col-md-3">${salary.gross} USD</td>
                     </c:if>
                     <td>${salary.pit}%</td>
                     <td>${salary.inps}%</td>
                     <td>${salary.pf}%</td>
                     <c:if test="${salary.currency==1}">
-                        <td>${salary.net} UZS</td>
+                        <td class="col-md-3">${salary.net} UZS</td>
                     </c:if>
                     <c:if test="${salary.currency==2}">
-                        <td>${salary.net} USD</td>
+                        <td class="col-md-3">${salary.net} USD</td>
                     </c:if>
                     <td><a href="./Salary/updateSal/${salary.id}" class="btn btn-default">Edit</a></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <a href="./Salary/addSal" class="btn btn-primary">Add</a>
+        <a href="./Salary/addSal" class="btn btn-success">Add</a>
     </div>
 </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

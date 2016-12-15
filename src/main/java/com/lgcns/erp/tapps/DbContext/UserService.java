@@ -405,7 +405,7 @@ public class UserService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from UserInPostsEntity locs where locs.userId = :userId order by dateFrom asc ");
+            Query query = session.createQuery("from UserInPostsEntity where userId = :userId order by dateFrom asc ");
             query.setParameter("userId", user.getId());
             //query.setParameter("roleId", userInRoles.getRoleId());
             userInPostsEntity = query.list();
@@ -899,16 +899,16 @@ public class UserService {
                     "political = :isPolitical, passport =:passport, roleId = :roleId  where id = :userid");
             query.setParameter("userid", Integer.parseInt(person.getId()));
             query.setParameter("dateOfBirth", person.getPersonalInfo().getDateOfBirth());
-            query.setParameter("departmentId", Integer.parseInt(person.getDepartment()));
+            query.setParameter("departmentId", person.getDepartmentId());
             query.setParameter("mobilePhone", person.getPersonalInfo().getMobilePhone());
             query.setParameter("homePhone", person.getPersonalInfo().getHomePhone());
             query.setParameter("companyEmail", person.getPersonalInfo().getEmailCompany());
             query.setParameter("personalEmail", person.getPersonalInfo().getEmailPersonal());
-            query.setParameter("statusId", Integer.parseInt(person.getStatus()));
+            query.setParameter("statusId", person.getStatusId());
             query.setParameter("hiringDate", person.getEntryDate());
             query.setParameter("isPolitical", person.getIsPolitical());
             query.setParameter("passport", person.getPassportNumber());
-            query.setParameter("roleId", Integer.parseInt(person.getPosition()));
+            query.setParameter("roleId", person.getRoleId());
             query.executeUpdate();
             transaction.commit();
         }
@@ -1376,13 +1376,37 @@ public class UserService {
         }
         return salaryHistoriesEntity;
     }
-
+    // Hibernate @many to one
     public static void updateSalaryPost(SalaryHistoriesEntity salaryVewModel, int salId) {
+        /*Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            SalaryHistoriesEntity salaryHistoriesEntity =
+                    (SalaryHistoriesEntity) session.get(SalaryHistoriesEntity.class, salId);
+            salaryHistoriesEntity.setSalaryBefore(salaryVewModel.getSalaryBefore());
+            salaryHistoriesEntity.setPit(salaryVewModel.getPit());
+            salaryHistoriesEntity.setInps(salaryVewModel.getInps());
+            salaryHistoriesEntity.setPf(salaryVewModel.getPf());
+            salaryHistoriesEntity.setDate(salaryVewModel.getDate());
+            salaryHistoriesEntity.setSalaryAfter(salaryVewModel.getSalaryAfter());
+            salaryHistoriesEntity.setCurrencyId(salaryVewModel.getCurrencyId());
+            session.update(salaryHistoriesEntity);
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }*/
+
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("update SalaryHistoriesEntity set salaryBefore = :gross, pit=:pit, inps=:inps, pf=:pf, date=:date, salaryAfter=:net  where id = :id");
+            Query query = session.createQuery("update SalaryHistoriesEntity set salaryBefore = :gross, pit=:pit, inps=:inps, pf=:pf, date=:date, salaryAfter=:net, currencyId=:currencyId where id = :id");
+
             query.setParameter("gross", salaryVewModel.getSalaryBefore());
             query.setParameter("pit", salaryVewModel.getPit());
             query.setParameter("inps", salaryVewModel.getInps());
@@ -1391,6 +1415,7 @@ public class UserService {
             query.setParameter("date", salaryVewModel.getDate());
             query.setParameter("net", salaryVewModel.getSalaryAfter());
             query.setParameter("id", salId);
+            query.setParameter("currencyId", salaryVewModel.getCurrencyId());
             query.executeUpdate();
             transaction.commit();
         }
@@ -1650,7 +1675,7 @@ public class UserService {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from PersonalEvalutionsEntity userLoc where userId=:userId");//" inner join user.usersByUserId");//" on user.id = userLoc.userId where userLoc.languageId = :languageId");
             query.setParameter("userId", userIdByUsername);
-            evalutionsEntities = (List<PersonalEvalutionsEntity>)query.list();
+            evalutionsEntities = query.list();
             transaction.commit();
         }
         catch (HibernateException e) {
@@ -1767,6 +1792,417 @@ public class UserService {
             //Save the object in database
             session.save(userInPostsEntity);
             //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static List<CurrencyLocalizationsEntity> getCurrencies(int i) {
+        List<CurrencyLocalizationsEntity> currencyLocalizationsEntities=null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from CurrencyLocalizationsEntity userLoc where languageId=:languageId");//" inner join user.usersByUserId");//" on user.id = userLoc.userId where userLoc.languageId = :languageId");
+            query.setParameter("languageId", i);
+            currencyLocalizationsEntities = (List<CurrencyLocalizationsEntity>)query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return currencyLocalizationsEntities;
+    }
+
+    public static int insertEducations(EducationsEntity educationsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        int id = 0;
+        try {
+            transaction = session.beginTransaction();
+            //Set foreign key items
+            educationsEntity.setUsersByUserId(session.load(UsersEntity.class, educationsEntity.getUserId()));
+            //Save the object in database
+            session.save(educationsEntity);
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return educationsEntity.getId();
+    }
+
+    public static void insertEducationLocalizations(EducationLocalizationsEntity educationLocalizationsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        int id = 0;
+        try {
+            transaction = session.beginTransaction();
+            //Set foreign key items
+            educationLocalizationsEntity.setEducationsByEducationId(session.load(EducationsEntity.class, educationLocalizationsEntity.getEducationId()));
+            educationLocalizationsEntity.setLanguagesByLanguageId(session.load(LanguagesEntity.class, educationLocalizationsEntity.getLanguageId()));
+            //Save the object in database
+            session.save(educationLocalizationsEntity);
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static EducationsEntity getEducationById(int eduId) {
+        EducationsEntity educationsEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from EducationsEntity where id = :id");
+            query.setParameter("id", eduId);
+            //query.setParameter("roleId", userInRoles.getRoleId());
+            educationsEntity = (EducationsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return educationsEntity;
+    }
+
+    public static void updateEducations(EducationsEntity educationsEntity, int eduId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update EducationsEntity set startDate = :startDate, endDate = :endDate where id = :eduId");
+            query.setParameter("startDate", educationsEntity.getStartDate());
+            query.setParameter("endDate", educationsEntity.getEndDate());
+            query.setParameter("eduId", eduId);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void updateEducationLocalizations(EducationLocalizationsEntity edu) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update EducationLocalizationsEntity set name = :name, major = :major, degree = :degree where educationId = :eduId and languageId=:langId");
+            query.setParameter("name", edu.getName());
+            query.setParameter("major", edu.getMajor());
+            query.setParameter("degree", edu.getDegree());
+            query.setParameter("eduId", edu.getEducationId());
+            query.setParameter("langId", edu.getLanguageId());
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static List<LanguageLocalizationsEntity> getLanguageLocalizations(int i) {
+        List<LanguageLocalizationsEntity> languageLocalizationsEntities=null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from LanguageLocalizationsEntity userLoc where localizationLanguage=:languageId");//" inner join user.usersByUserId");//" on user.id = userLoc.userId where userLoc.languageId = :languageId");
+            query.setParameter("languageId", i);
+            languageLocalizationsEntities = (List<LanguageLocalizationsEntity>)query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return languageLocalizationsEntities;
+    }
+
+    public static void insertUserInLanguages(UserInLanguagesEntity userInLanguagesEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        int id = 0;
+        try {
+            transaction = session.beginTransaction();
+            //Set foreign key items
+            userInLanguagesEntity.setLanguagesByLanguageId(session.load(LanguagesEntity.class, userInLanguagesEntity.getLanguageId()));
+            userInLanguagesEntity.setUsersByUserId(session.load(UsersEntity.class, userInLanguagesEntity.getUserId()));
+            //Save the object in database
+            session.save(userInLanguagesEntity);
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void updateUserInLanguages(UserInLanguagesEntity languagesEntity, String userId, String langId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update UserInLanguagesEntity set listening = :listening, " +
+                    "writing = :writing, speaking = :speaking, reading = :reading where id = :id");
+            query.setParameter("id", Integer.parseInt(langId));
+            query.setParameter("listening", languagesEntity.getListening());
+            query.setParameter("writing", languagesEntity.getWriting());
+            query.setParameter("speaking", languagesEntity.getSpeaking());
+            query.setParameter("reading", languagesEntity.getReading());
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static int insertCertificates(CertificatesEntity certificatesEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        int id = 0;
+        try {
+            transaction = session.beginTransaction();
+            //Set foreign key items
+            certificatesEntity.setUsersByUserId(session.load(UsersEntity.class, certificatesEntity.getUserId()));
+            //Save the object in database
+            session.save(certificatesEntity);
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return certificatesEntity.getId();
+    }
+
+    public static void insertCertificateLocalizations(CertificateLocalizationsEntity certificateLocalizationsEntity, int langId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        int id = 0;
+        try {
+            transaction = session.beginTransaction();
+            //Set foreign key items
+            certificateLocalizationsEntity.setCertificatesByCertificateId(session.load(CertificatesEntity.class, certificateLocalizationsEntity.getCertificateId()));
+            certificateLocalizationsEntity.setLanguagesByLanguageId(session.load(LanguagesEntity.class, langId));
+            //Save the object in database
+            session.save(certificateLocalizationsEntity);
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static CertificatesEntity getCertificate(int certId) {
+        CertificatesEntity certificatesEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from CertificatesEntity where id = :id");
+            query.setParameter("id", certId);
+            //query.setParameter("roleId", userInRoles.getRoleId());
+            certificatesEntity = (CertificatesEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return certificatesEntity;
+    }
+
+    public static void updateUsersEntityUser(UsersEntity usersEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update UsersEntity set mobilePhone = :mobilePhone, " +
+                    "homePhone = :homePhone, eMail = :companyEmail, personalEmail = :personalEmail where id = :userid");
+            query.setParameter("userid", usersEntity.getId());
+
+            query.setParameter("mobilePhone", usersEntity.getMobilePhone());
+            query.setParameter("homePhone", usersEntity.getHomePhone());
+            query.setParameter("companyEmail", usersEntity.geteMail());
+            query.setParameter("personalEmail", usersEntity.getPersonalEmail());
+
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void updateWorks(WorksEntity worksEntity, int jobId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update WorksEntity set startDate = :startDate, endDate=:endDate, " +
+                    "contractType = :contractType where id = :jobId");
+            query.setParameter("jobId", jobId);
+            query.setParameter("startDate", worksEntity.getStartDate());
+            query.setParameter("endDate", worksEntity.getEndDate());
+            query.setParameter("contractType", worksEntity.getContractType());
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void updateWorksLoc(WorkLocalizationsEntity workLocalizationsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update WorkLocalizationsEntity set organization = :org, post=:post where workId = :jobId");
+            query.setParameter("jobId", workLocalizationsEntity.getWorkId());
+            query.setParameter("org", workLocalizationsEntity.getOrganization());
+            query.setParameter("post", workLocalizationsEntity.getPost());
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static UserInLanguagesEntity getUserInLanguage(int langId) {
+        UserInLanguagesEntity userInLanguagesEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserInLanguagesEntity where id = :id");
+            query.setParameter("id", langId);
+            //query.setParameter("roleId", userInRoles.getRoleId());
+            if(!query.list().isEmpty())
+                userInLanguagesEntity = (UserInLanguagesEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return userInLanguagesEntity;
+    }
+
+    public static void updateCertificates(CertificatesEntity certificatesEntity, int certId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update CertificatesEntity set dateTime = :dateTime, mark=:mark, type=:type, " +
+                    "degree=:degree, number=:number where id = :certId");
+            query.setParameter("dateTime", certificatesEntity.getDateTime());
+            query.setParameter("mark", certificatesEntity.getMark());
+            query.setParameter("type", certificatesEntity.getType());
+            query.setParameter("degree", certificatesEntity.getDegree());
+            query.setParameter("number", certificatesEntity.getNumber());
+            query.setParameter("certId", certId);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void updateCertificateLocalizations(CertificateLocalizationsEntity certificateLocalizationsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update CertificateLocalizationsEntity set organization = :org, name=:name " +
+                    "where certificateId = :certId");
+            query.setParameter("org", certificateLocalizationsEntity.getOrganization());
+            query.setParameter("name", certificateLocalizationsEntity.getName());
+            query.setParameter("certId", certificateLocalizationsEntity.getCertificateId());
+            query.executeUpdate();
             transaction.commit();
         }
         catch (HibernateException e) {

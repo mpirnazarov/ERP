@@ -128,4 +128,19 @@ public class UserInLanguagesEntity {
     public void setLanguagesByLanguageId(LanguagesEntity languagesByLanguageId) {
         this.languagesByLanguageId = languagesByLanguageId;
     }
+
+    @Override
+    public String toString() {
+        return "UserInLanguagesEntity{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", languageId=" + languageId +
+                ", listening=" + listening +
+                ", writing=" + writing +
+                ", speaking=" + speaking +
+                ", reading=" + reading +
+                ", usersByUserId=" + usersByUserId +
+                ", languagesByLanguageId=" + languagesByLanguageId +
+                '}';
+    }
 }

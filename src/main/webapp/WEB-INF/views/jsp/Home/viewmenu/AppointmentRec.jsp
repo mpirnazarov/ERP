@@ -31,12 +31,12 @@
 <% request.setAttribute("Mode", 1); %>
 <%
     ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfileUser");
-    request.setAttribute("FullName2", a.getFirstName()[0] + " " + a.getLastName()[0]);
+    request.setAttribute("FullName2", a.getFirstName()[1] + " " + a.getLastName()[1]);
 
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
+    <div class="col-lg-offset-2">
         <h1><%= request.getAttribute("FullName2") %>
         </h1>
         <h2 class="page-header">Appointment Record</h2>
@@ -47,7 +47,7 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Appointment date</th>
+                        <th>Appointment date(YYYY-MM-DD)</th>
                         <th>Contract type</th>
                         <th>Department</th>
                         <th>Role</th>

@@ -2,8 +2,10 @@ package com.lgcns.erp.tapps.controller;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.Enums.Appoint;
+import com.lgcns.erp.tapps.Enums.Document_Type;
 import com.lgcns.erp.tapps.Enums.Language;
 import com.lgcns.erp.tapps.Enums.Language_Ranking;
+import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.LoginViewModel;
@@ -15,6 +17,7 @@ import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,9 +29,7 @@ import java.nio.charset.Charset;
 import java.security.Principal;
 import java.sql.Date;
 import java.text.NumberFormat;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 
 /**
@@ -66,13 +67,114 @@ public class UserController {
     }
 
     @RequestMapping (value = "/User/Profile", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView Profile(Principal principal){
+    public ModelAndView Profile(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/Index");
         ProfileViewModel userProfile=null;
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
         return mav;
+    }
+
+    @RequestMapping(value = "/User/Profile/editPersonal", method = RequestMethod.GET)
+    public ModelAndView UpdatePersonalInfo(Principal principal, Model model){
+        UsersEntity usersEntity = UserService.getUserByUsername(principal.getName());
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/edit/personalinfo");
+        mav.addObject("person", usersEntity);
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+
+    @RequestMapping(value = "/User/Profile/editPersonal", method = RequestMethod.POST)
+    public String UpdatePersonalInfoPost(Principal principal, Model model, UsersEntity usersEntity){
+        usersEntity.setId(UserService.getIdByUsername(principal.getName()));
+        UserService.updateUsersEntityUser(usersEntity);
+        System.out.println("Personal data: " + usersEntity.geteMail() + " " + usersEntity.getPersonalEmail() + " " + usersEntity.getHomePhone() +" "+ usersEntity.getMobilePhone());
+        return "redirect: /User/Profile";
+    }
+
+    @RequestMapping(value = "/User/Profile/updateFam/{famId}/", method = RequestMethod.GET)
+    public ModelAndView UpdateFamInfo(Principal principal, Model model, @PathVariable("famId") int famId){
+        int userId = UserService.getUserIdByUsername(principal.getName());
+        FamilyMember familyProfile = getUserFamily(userId, famId);
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/edit/faminfo");
+        mav.addObject("family", familyProfile);
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+
+    private FamilyMember getUserFamily(int userId, int famId) {
+        FamilyMember familyMember = new FamilyMember(3);
+        UsersEntity usersEntity = UserService.getUserById(userId);
+        List<FamilyInfosEntity> famMem = UserService.getFamilyInfos(usersEntity);
+        for (FamilyInfosEntity fam :
+                famMem) {
+            if(fam.getId()==famId) {
+                familyMember.setDateOfBirth(fam.getDateOfBirth());
+                familyMember.setId(fam.getId());
+                List<FamiliyInfoLocalizationsEntity> famLoc = UserService.getFamilyInfosLoc(famId);
+                String[] lastName = new String[3];
+                String[] firstName = new String[3];
+                String[] jobTitle = new String[3];
+                String[] relation = new String[3];
+
+                for (FamiliyInfoLocalizationsEntity fLoc :
+                        famLoc) {
+                    lastName[fLoc.getLanguageId()-1] = fLoc.getLastName();
+                    firstName[fLoc.getLanguageId()-1] = fLoc.getFirstName();
+                    jobTitle[fLoc.getLanguageId()-1] = fLoc.getJobTitle();
+                    relation[fLoc.getLanguageId()-1] = fLoc.getRelation();
+                }
+                familyMember.setLastName(lastName);
+                familyMember.setFirstName(firstName);
+                familyMember.setJobTitle(jobTitle);
+                familyMember.setRelation(relation);
+            }
+        }
+        return familyMember;
+    }
+
+    @RequestMapping(value = "/User/Profile/updateFam/{famId}/", method = RequestMethod.POST)
+    public String UpdateFamInfoPost(Principal principal, Model model, FamilyMember familyProfile, @PathVariable("famId") String famId){
+        int userId = UserService.getUserIdByUsername(principal.getName());
+        UserService.updateUsersFamilyInfo(familyProfile);
+        UserService.updateUsersFamilyInfoLocEn(familyProfile);
+        UserService.updateUsersFamilyInfoLocRu(familyProfile);
+        UserService.updateUsersFamilyInfoLocUz(familyProfile);
+        return "redirect: /User/Profile";
+    }
+    @RequestMapping(value = "/User/Profile/deleteFam/{famId}/", method = RequestMethod.GET)
+    public String DeleteFamInfoPost(Principal principal, Model model, FamilyMember familyProfile, @PathVariable("famId") String famId){
+        int userId = UserService.getUserIdByUsername(principal.getName());
+        UserService.deleteUsersFamilyInfoLoc(famId);
+        UserService.deleteUsersFamilyInfo(famId);
+
+        System.out.println("I am working here");
+        return "redirect: /User/Profile";
+    }
+
+    @RequestMapping(value = "/User/Profile/addFam", method = RequestMethod.GET)
+    public ModelAndView addFamGet(Principal principal, Model model){
+        ModelAndView mav = new ModelAndView();
+        FamilyMember familyProfile = new FamilyMember();
+        model.addAttribute("family", familyProfile);
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("SystemRole", UserService.getUserByUsername(principal.getName()).getRoleId());
+        mav.setViewName("Home/editmenu/new/newfaminfo");
+        return mav;
+    }
+    @RequestMapping(value = "/User/Profile/addFam", method = RequestMethod.POST)
+    public String addFamPost(Principal principal, Model model, FamilyMember familyProfile){
+        String userId ="";
+        userId += UserService.getUserIdByUsername(principal.getName());
+        int id = UserService.insertUsersFamilyInfo(UserMapper.mapAddFamily(familyProfile, userId));
+
+        UserService.insertUsersFamilyInfoLocEn(UserMapper.mapAddFamilyLoc(familyProfile, id, 3));
+        UserService.insertUsersFamilyInfoLocRu(UserMapper.mapAddFamilyLoc(familyProfile, id, 1));
+        UserService.insertUsersFamilyInfoLocUz(UserMapper.mapAddFamilyLoc(familyProfile, id, 2));
+        return "redirect: /User/Profile";
     }
 
     @RequestMapping(value = "/User/Profile/Appointment", method = RequestMethod.GET)
@@ -146,6 +248,12 @@ public class UserController {
         List<DocsViewModel> docsViewModel = getDocuments(principal.getName());
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("docsVM", docsViewModel);
+        Map<Integer, String> docType = new HashMap<Integer, String>();
+        for (Document_Type doc :
+                Document_Type.values()) {
+            docType.put(doc.getValue(), doc.name());
+        }
+        mav.addObject("docType", docType);
         return mav;
     }
 
@@ -168,6 +276,13 @@ public class UserController {
         List<PersonalEvalutionsEntity> evaluations = UserService.getEvaluationsByUserId(UserService.getUserIdByUsername(principal.getName()));
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("evaluationsVM", evaluations);
+        List<UserLocalizationsEntity> usersEntities = UserService.getAllUserLocs();
+        Map<Integer, String> users = new HashMap<Integer, String>();
+        for (UserLocalizationsEntity u :
+                usersEntities) {
+            users.put(u.getUserId(), u.getFirstName() + " " + u.getLastName());
+        }
+        mav.addObject("users", users);
         return mav;
     }
 
@@ -258,7 +373,7 @@ public class UserController {
                 returning.addData1(String.format("%05d", user.getId()), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
             }
             //Getting department name
-            returning.setDepartment(UserService.getDepartments().get(3).getName());
+            returning.setDepartment(UserService.getDepartments().get(user.getDepartmentId()-1).getName());
             //Getting roleId
             returning.setRoleId(user.getRoleId());
             //Getting Position from user_in_roles
@@ -397,22 +512,24 @@ public class UserController {
         for (EducationsEntity edu:
                 educations) {
             eduLoc = UserService.getEducationLocalization(edu, 3);
-            eduReturn.addEducation(eduLoc.getName(), eduLoc.getMajor(), eduLoc.getDegree(), edu.getStartDate(), edu.getEndDate());
+            eduReturn.addEducation(eduLoc.getName(), eduLoc.getMajor(), eduLoc.getDegree(), edu.getStartDate(), edu.getEndDate(), edu.getId());
         }
 
         // Getting and setting Language Summary module
         List<UserInLanguagesEntity> languageSummaries = UserService.getUserInLanguages(user);
         for (UserInLanguagesEntity lan :
                 languageSummaries) {
-            eduReturn.addLanguageSummary(Language.values()[lan.getLanguageId()-1].toString(), Language_Ranking.values()[lan.getListening()-1].toString(), Language_Ranking.values()[lan.getReading()].toString(), Language_Ranking.values()[lan.getWriting()].toString(), Language_Ranking.values()[lan.getSpeaking()].toString());
+            eduReturn.addLanguageSummary(Language.values()[lan.getLanguageId()-1].toString(), Language_Ranking.values()[lan.getListening()-1].toString(), Language_Ranking.values()[lan.getReading()-1].toString(), Language_Ranking.values()[lan.getWriting()-1].toString(), Language_Ranking.values()[lan.getSpeaking()-1].toString(), lan.getId());
         }
 
         // Getting and setting Certificates module
-        List<CertificatesEntity> certificatesEntities = UserService.getCertificates(user);
+        List<CertificatesEntity> certificatesEntities=null;
+        if(UserService.getCertificates(user)!=null)
+            certificatesEntities = UserService.getCertificates(user);
         for (CertificatesEntity cert :
                 certificatesEntities) {
             CertificateLocalizationsEntity certificatesLocEntitie = UserService.getCertificatesLoc(cert, 3);
-            eduReturn.addCertificate(certificatesLocEntitie.getName(), certificatesLocEntitie.getOrganization(), cert.getNumber(), cert.getDateTime(),cert.getMark());
+            eduReturn.addCertificate(certificatesLocEntitie.getName(), certificatesLocEntitie.getOrganization(), cert.getNumber(), cert.getDateTime(),cert.getMark(), cert.getId(), cert.getType(), cert.getDegree());
         }
         return eduReturn;
     }
@@ -431,7 +548,7 @@ public class UserController {
         for (WorksEntity we :
                 worksEntity) {
             WorkLocalizationsEntity wle = UserService.getWorkLocal(we);
-            jobExpViewModels.add(new JobexpViewModel(wle.getOrganization(), wle.getPost(), we.getStartDate(), we.getEndDate(), 3, we.getId()));
+            jobExpViewModels.add(new JobexpViewModel(wle.getOrganization(), wle.getPost(), we.getStartDate(), we.getEndDate(), we.getContractType(), we.getId()));
         }
         return jobExpViewModels;
     }

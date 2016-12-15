@@ -5,6 +5,7 @@
 <hibernate-configuration>
     <session-factory>
         <property name="connection.url">jdbc:postgresql://192.168.1.77:5432/LgErpSystem</property>
+        <!--<property name="connection.url">jdbc:postgresql://192.168.1.77:5432/LgErpSystemProd</property>-->
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.username">user_erp</property>
         <property name="connection.password">P@ssw0rd</property>
@@ -14,7 +15,7 @@
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.ContactInProjectsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.ContactsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.CurrenciesEntity"/>
-        <mapping class="com.lgcns.erp.tapps.model.DbEntities.CurrnecyLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.CurrencyLocalizationsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.DepartmentLocalizationsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.DepartmentsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.DocumentsEntity"/>

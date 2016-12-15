@@ -19,7 +19,8 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Date</th>
+                <th>Evaluator</th>
+                <th>Date(YYYY-MM-DD)</th>
                 <th>Comment</th>
                 <th>Grade</th>
             </tr>
@@ -27,6 +28,7 @@
             <tbody>
             <c:forEach items="${evaluationsVM}" var="evaluation" varStatus="status">
                 <tr>
+                    <td>${users.get(evaluation.evaluatorId)}</td>
                     <td>${evaluation.date}</td>
                     <td>${evaluation.comments}</td>
                     <td>
@@ -50,6 +52,15 @@
             </c:forEach>
             </tbody>
         </table>
+        <div style="border: solid #ffffff; width: 17%; right: 0; bottom: 0; position: fixed; border-radius: 10px;">
+            <h3 style="text-align: center; text-decoration: underline">LEGEND:</h3>
+            <h4 style="margin-left: 50px">S - Excellent</h4>
+            <h4 style="margin-left: 50px">A - </h4>
+            <h4 style="margin-left: 50px">B - </h4>
+            <h4 style="margin-left: 50px">C - </h4>
+            <h4 style="margin-left: 50px">D - </h4>
+            <div></div>
+        </div>
         <%--<div id="gen" class="tab-pane fade">
             <h3>Generatable documents</h3>
             <table class="table">

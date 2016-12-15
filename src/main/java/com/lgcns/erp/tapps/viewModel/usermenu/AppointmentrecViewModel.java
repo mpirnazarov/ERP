@@ -27,4 +27,15 @@ public class AppointmentrecViewModel {
     public void setAppointmentSummaries(List<AppointmentSummary> appointmentSummaries) {
         this.appointmentSummaries = appointmentSummaries;
     }
+
+    public void addAppointSummary(Date dateFrom, int contractType, int postId, int id, int departmentId, int roleId) {
+        AppointmentSummary app=new AppointmentSummary();
+        app.setAppointDate(dateFrom);
+        app.setContractType(contractType);
+        app.setPostId(postId);
+        app.setId(id);
+        app.setDepartmentId(departmentId);
+        app.setRoleId(roleId);
+        appointmentSummaries.add(app);
+    }
 }

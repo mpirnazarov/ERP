@@ -6,6 +6,9 @@ import com.lgcns.erp.tapps.viewModel.HR.DocsViewModel;
 import com.lgcns.erp.tapps.viewModel.RegistrationLocInfo;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.Appointment.AppointmentSummary;
+import com.lgcns.erp.tapps.viewModel.usermenu.Education.Certificates;
+import com.lgcns.erp.tapps.viewModel.usermenu.Education.Educations;
+import com.lgcns.erp.tapps.viewModel.usermenu.Education.LanguageSummary;
 import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
 import com.lgcns.erp.tapps.viewModel.usermenu.JobexpViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.SalaryVewModel;
@@ -84,7 +87,7 @@ public class UserMapper {
         SalaryHistoriesEntity salaryHistoriesEntity = new SalaryHistoriesEntity();
         salaryHistoriesEntity.setUserId(Integer.parseInt(userId));
         salaryHistoriesEntity.setDate(salaryVewModel.getDate());
-        salaryHistoriesEntity.setCurrencyId(1);
+        salaryHistoriesEntity.setCurrencyId(salaryVewModel.getCurrency());
         salaryHistoriesEntity.setInps(salaryVewModel.getInps());
         salaryHistoriesEntity.setPf(salaryVewModel.getPf());
         salaryHistoriesEntity.setPit(salaryVewModel.getPit());
@@ -158,8 +161,58 @@ public class UserMapper {
         userInPostsEntity.setUserId(Integer.parseInt(userId));
         userInPostsEntity.setDateFrom(appointmentSummary.getAppointDate());
         userInPostsEntity.setContractType(appointmentSummary.getContractType());
-        userInPostsEntity.setPostId(appointmentSummary.getRoleId());
+        userInPostsEntity.setPostId(appointmentSummary.getPostId());
         userInPostsEntity.setDateEnd(appointmentSummary.getEndDate());
         return userInPostsEntity;
+    }
+
+    public static EducationsEntity mapEducations(Educations educations, String userId) {
+        EducationsEntity educationsEntity = new EducationsEntity();
+        educationsEntity.setUserId(Integer.parseInt(userId));
+        educationsEntity.setStartDate(educations.getStartDate());
+        educationsEntity.setEndDate(educations.getEndDate());
+        return educationsEntity;
+    }
+
+    public static EducationLocalizationsEntity mapEducationLocalizations(Educations educations, int eduId) {
+        EducationLocalizationsEntity educationLocalizationsEntity = new EducationLocalizationsEntity();
+        educationLocalizationsEntity.setName(educations.getName());
+        educationLocalizationsEntity.setMajor(educations.getMajor());
+        educationLocalizationsEntity.setDegree(educations.getDegree());
+        educationLocalizationsEntity.setEducationId(eduId);
+        educationLocalizationsEntity.setLanguageId(3);
+        return educationLocalizationsEntity;
+    }
+
+    public static UserInLanguagesEntity mapUserInLanguages(LanguageSummary languageSummary, String userId) {
+        UserInLanguagesEntity userInLanguagesEntity = new UserInLanguagesEntity();
+        userInLanguagesEntity.setUserId(Integer.parseInt(userId));
+        userInLanguagesEntity.setLanguageId(languageSummary.getLangId());
+        userInLanguagesEntity.setListening(languageSummary.getListeningId());
+        userInLanguagesEntity.setReading(languageSummary.getReadingId());
+        userInLanguagesEntity.setSpeaking(languageSummary.getSpeakingId());
+        userInLanguagesEntity.setWriting(languageSummary.getWritingId());
+        return userInLanguagesEntity;
+    }
+
+    public static CertificatesEntity mapCertificates(Certificates certificates, String userId, int type) {
+        CertificatesEntity certificatesEntity = new CertificatesEntity();
+        certificatesEntity.setUserId(Integer.parseInt(userId));
+        certificatesEntity.setDateTime(certificates.getDateTime());
+        certificatesEntity.setMark(certificates.getMark());
+        certificatesEntity.setPass(certificates.getPassed());
+        certificatesEntity.setNumber(certificates.getNumber());
+        certificatesEntity.setDegree(certificates.getDegree());
+        certificatesEntity.setType(type);
+        return certificatesEntity;
+    }
+
+    public static CertificateLocalizationsEntity mapCertificateLocalizations(Certificates certificates, int certId) {
+        CertificateLocalizationsEntity localizationsEntity = new CertificateLocalizationsEntity();
+        localizationsEntity.setCertificateId(certId);
+        localizationsEntity.setOrganization(certificates.getOrganization());
+        localizationsEntity.setName(certificates.getName());
+        localizationsEntity.setLanguageId(3);
+        return localizationsEntity;
     }
 }

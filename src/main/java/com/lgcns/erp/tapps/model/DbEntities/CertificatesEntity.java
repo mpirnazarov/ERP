@@ -18,6 +18,8 @@ public class CertificatesEntity {
     private Collection<CertificateLocalizationsEntity> certificateLocalizationsesById;
     private UsersEntity usersByUserId;
     private String number;
+    private int type;
+    private String degree;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -48,6 +50,26 @@ public class CertificatesEntity {
 
     public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
+    }
+
+    @Basic
+    @Column(name = "type")
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    @Basic
+    @Column(name = "degree", nullable = true, length = 100)
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
     }
 
     @Basic

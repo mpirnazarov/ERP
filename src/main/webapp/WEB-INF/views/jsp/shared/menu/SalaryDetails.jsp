@@ -40,7 +40,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Date (YYYY-MM-DD)</th>
+                <th class="text-center">Date<br/><text class="small">(YYYY-MM-DD)</text></th>
                 <th>Gross salary</th>
                 <th>PIT</th>
                 <th>INPS</th>
@@ -51,21 +51,21 @@
             <tbody>
             <c:forEach items="${salaryVM}" var="salary" varStatus="status">
                 <tr>
-                    <td>${salary.date}</td>
+                    <td class="col-md-2 text-center">${salary.date}</td>
                     <c:if test="${salary.currency==1}">
-                        <td>${salary.gross} UZS</td>
+                        <td class="col-md-3">${salary.gross} UZS</td>
                     </c:if>
                     <c:if test="${salary.currency==2}">
-                        <td>${salary.gross} USD</td>
+                        <td class="col-md-3">${salary.gross} USD</td>
                     </c:if>
                     <td>${salary.pit}%</td>
                     <td>${salary.inps}%</td>
                     <td>${salary.pf}%</td>
                     <c:if test="${salary.currency==1}">
-                        <td>${salary.net} UZS</td>
+                        <td class="col-md-3">${salary.net} UZS</td>
                     </c:if>
                     <c:if test="${salary.currency==2}">
-                        <td>${salary.net} USD</td>
+                        <td class="col-md-3">${salary.net} USD</td>
                     </c:if>
                 </tr>
             </c:forEach>

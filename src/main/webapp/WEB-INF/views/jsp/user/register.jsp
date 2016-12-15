@@ -327,7 +327,7 @@
     });
     jQuery.validator.addMethod("exactlength", function (value, element, param) {
         return this.optional(element) || value.length == param;
-    }, jQuery.format("Please enter exactly {0} characters."));
+    }, jQuery.validator.format("Please enter exactly {0} characters."));
 
 </script>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

@@ -1,7 +1,9 @@
 package com.lgcns.erp.hr.mapper;
 
+import com.lgcns.erp.hr.viewModel.AppointViewModels.AppointCreate;
 import com.lgcns.erp.hr.viewModel.ProjectViewModel.ProjectCreate;
 import com.lgcns.erp.tapps.model.DbEntities.ProjectsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.UserInProjectsEntity;
 
 import java.sql.Date;
 
@@ -37,4 +39,5 @@ public class ProjectMapper {
         viewModel.setMoneyUsd(entity.getMoneyUsd());
         return viewModel;
     }
+
 }

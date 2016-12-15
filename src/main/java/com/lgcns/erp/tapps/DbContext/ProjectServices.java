@@ -2,16 +2,17 @@ package com.lgcns.erp.tapps.DbContext;
 
 
 import com.lgcns.erp.hr.enums.ProjectRole;
+import com.lgcns.erp.hr.viewModel.AppointViewModels.AppointViewModel;
+import com.lgcns.erp.hr.viewModel.AppointViewModels.ProjectMembers;
 import com.lgcns.erp.hr.viewModel.ProjectViewModel.ProjectCreate;
+import com.lgcns.erp.tapps.Enums.Language;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Rafatdin on 31.10.2016.
@@ -273,4 +274,97 @@ public class ProjectServices {
             session.close();
         }
     }
+
+    public static List<ProjectsEntity> getProjectsByManager(int userId) {
+        List<ProjectsEntity> returning = new ArrayList<ProjectsEntity>();
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserInProjectsEntity uip where uip.roleId = :roleId and userId = :userId");
+            query.setParameter("userId", userId);
+            query.setParameter("roleId", ProjectRole.Manager.getValue());
+            List<UserInProjectsEntity> uips = (List<UserInProjectsEntity>)query.list();
+            for(UserInProjectsEntity uip : uips){
+                returning.add(uip.getProjectsByProjectId());
+            }
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            if(transaction!=null) transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return returning;
+    }
+
+    public static List<ProjectMembers> getProjectMemberForAppoint(int projectId) {
+        List<ProjectMembers> returning = new ArrayList<ProjectMembers>();
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserInProjectsEntity uip where uip.roleId != :roleId and projectId = :projectId");
+            query.setParameter("projectId", projectId);
+            query.setParameter("roleId", ProjectRole.Manager.getValue());
+            List<UserInProjectsEntity> uips = (List<UserInProjectsEntity>)query.list();
+            for(UserInProjectsEntity uip : uips){
+
+                returning.add(
+                        new ProjectMembers(uip.getId(),
+                        UserService.getUserFullNameInLanguageById(uip.getUserId(), Language.eng.getCode()),
+                        uip.getUserId(),
+                        uip.getDateFrom(),
+                        uip.getDateTo(),
+                        uip.getRoleId(),
+                        ProjectRole.getName(uip.getRoleId())
+                        )
+                );
+            }
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            if(transaction!=null) transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return returning;
+    }
+
+    public static List<AppointViewModel> getAppointmentsByUserId(int userId) {
+        List<AppointViewModel> returning = new ArrayList<AppointViewModel>();
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserInProjectsEntity uip where userId = :userId");
+            query.setParameter("userId", userId);
+            List<UserInProjectsEntity> uips = (List<UserInProjectsEntity>)query.list();
+            for(UserInProjectsEntity uip : uips){
+                returning.add(
+                        new AppointViewModel(
+                                uip.getProjectsByProjectId().getName() + " - " + uip.getProjectsByProjectId().getType(),
+                                uip.getProjectId(),
+                                uip.getDateFrom(),
+                                uip.getDateTo(),
+                                uip.getProjectsByProjectId().getStatus()
+                        )
+                );
+            }
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            if(transaction!=null) transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return returning;
+    }
+
 }

@@ -491,6 +491,28 @@ public class UserService {
         return userLoc;
     }
 
+    public static String getUserFullNameInLanguageById(int userId, int languageCode) {
+        List<UserLocalizationsEntity> userLoc = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserLocalizationsEntity roleLoc where userId = :userId and languageId = :languageId");
+            query.setParameter("userId", userId);
+            query.setParameter("languageId", languageCode);
+            userLoc =  query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return userLoc.get(0).getFirstName() + " " + userLoc.get(0).getLastName();
+    }
+
     public static List<FamiliyInfoLocalizationsEntity> getFamilyMembers(List<FamilyInfosEntity> familyInfosEntities, int languageId) {
         List<FamiliyInfoLocalizationsEntity> userLoc = null;
         Session session = HibernateUtility.getSessionFactory().openSession();

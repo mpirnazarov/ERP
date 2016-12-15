@@ -14,7 +14,9 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.method.P;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +37,7 @@ import java.util.Date;
 @RequestMapping("/Monitor")
 public class MonitorController {
     @RequestMapping(method = RequestMethod.GET)
+    @PreAuthorize("hasRole('1')")
     public ModelAndView Monitor(Principal principal) {
         ModelAndView mav = new ModelAndView("monitor/index");
         UsersEntity curUser = UserService.getUserByUsername(principal.getName());
@@ -62,7 +65,7 @@ public class MonitorController {
         ObjectMapper mapper = new ObjectMapper();
         QueryModel jsonModel = mapper.readValue(json, QueryModel.class);
         Pair<List<MonitorViewModel>, Integer> values = getAllData(jsonModel.getUserId(), jsonModel.getProjectId(), jsonModel.getTypeId(), jsonModel.getDateFrom(), jsonModel.getDateTo());
-        //TODO map data from values to response
+
         List<MonitorResponseViewModel> responseVM = MonitorMapper.mapValuesToAjaxModel(values.getKey());
         JSONArray array = new JSONArray();
         for(MonitorResponseViewModel temp : responseVM){

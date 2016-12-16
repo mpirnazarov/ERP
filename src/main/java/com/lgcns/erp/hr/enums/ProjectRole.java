@@ -18,5 +18,23 @@ public enum ProjectRole {
     private ProjectRole(int value){
         this.value = value;
     }
+
     public int getValue(){return value;}
+
+    public static String getName(int value){
+        for(ProjectRole r : values()){
+            if(r.value == value){
+                return r.name();
+            }
+        }
+        return "";
+    }
+    public static ProjectRole getRole(int value){
+        for(ProjectRole r : values()){
+            if(r.value == value){
+                return r;
+            }
+        }
+        return null;
+    }
 }

@@ -61,7 +61,7 @@
                         <a href="/User/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
                     </li>
                     <li>
-                        <a href="/User/Profile/Project"><i class="fa fa-fw fa-folder"></i> Project history</a>
+                        <a href="/Projects/ProjectHistory"><i class="fa fa-fw fa-folder"></i> Project history</a>
                     </li>
                     <li>
                         <a href="/User/Profile/Evaluation"><i class="fa fa-fw fa-bar-chart"></i> Evaluation history</a>

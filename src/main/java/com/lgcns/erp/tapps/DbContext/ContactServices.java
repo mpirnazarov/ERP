@@ -33,17 +33,72 @@ public class ContactServices{
 
         return list;
     }
-
-    public static void insertContactInProjects(List<ContactInProjectsEntity> contactsAndProjects){
+    public static List<OrganizationEntity> getAllOrganizations(){
+        List<OrganizationEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            for(ContactInProjectsEntity item : contactsAndProjects){
-                item.setProjectsByProjectId(session.load(ProjectsEntity.class, item.getProjectId()));
-                item.setContactsByContactId(session.load(ContactsEntity.class, item.getContactId()));
-                session.save(item);
-            }
+            Query query = session.createQuery("from OrganizationEntity locs");
+            list = (List<OrganizationEntity>)query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return list;
+    }
+
+    public static OrganizationEntity getOrganizationtById(int id) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        try {
+            return session.get(OrganizationEntity.class, id);
+        } catch (Exception e) {
+            return new OrganizationEntity();
+        }
+        finally {
+            session.close();
+        }
+    }
+    public static ContactsEntity getContactById(int id) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        try {
+            return session.get(ContactsEntity.class, id);
+        } catch (Exception e) {
+            return new ContactsEntity();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void insert(ContactsEntity contact){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.save(contact);
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+    public static void insert(OrganizationEntity entity){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.save(entity);
             transaction.commit();
         }
         catch (HibernateException e) {
@@ -55,12 +110,59 @@ public class ContactServices{
         }
     }
 
-    public static void insertContact(ContactsEntity contact){
+    public static void update(OrganizationEntity entity){
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            session.save(contact);
+            OrganizationEntity temp = session.get(OrganizationEntity.class, entity.getId());
+            temp.setName(entity.getName());
+            temp.setAddress(entity.getAddress());
+            temp.setTin(entity.getTin());
+            session.save(entity);
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+    public static void update(ContactsEntity entity){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            ContactsEntity temp = session.get(ContactsEntity.class, entity.getId());
+            temp.setName(entity.getName());
+            temp.setOrganizationByOrganizationId(session.load(OrganizationEntity.class, entity.getOrganizationId()));
+            temp.setWorkPhone(entity.getWorkPhone());
+            temp.setMobilePhone(entity.getMobilePhone());
+            session.save(entity);
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+
+    public static void insertContactInProjects(List<ContactInProjectsEntity> contactsAndProjects){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            for(ContactInProjectsEntity item : contactsAndProjects){
+                item.setProjectsByProjectId(session.load(ProjectsEntity.class, item.getProjectId()));
+                item.setContactsByContactId(session.load(ContactsEntity.class, item.getContactId()));
+                session.save(item);
+            }
             transaction.commit();
         }
         catch (HibernateException e) {

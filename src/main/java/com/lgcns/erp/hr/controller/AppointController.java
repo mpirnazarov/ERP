@@ -3,8 +3,10 @@ package com.lgcns.erp.hr.controller;
 import com.lgcns.erp.hr.enums.ProjectRole;
 import com.lgcns.erp.hr.mapper.ProjectMapper;
 import com.lgcns.erp.hr.viewModel.AppointViewModels.AppointCreate;
+import com.lgcns.erp.hr.viewModel.AppointViewModels.AppointEdit;
 import com.lgcns.erp.hr.viewModel.AppointViewModels.AppointViewModel;
 import com.lgcns.erp.hr.viewModel.AppointViewModels.ProjectMembers;
+import com.lgcns.erp.hr.viewModel.ProjectViewModel.ProjectCreate;
 import com.lgcns.erp.hr.viewModel.ProjectViewModel.ProjectCreateForm;
 import com.lgcns.erp.tapps.DbContext.ProjectServices;
 import com.lgcns.erp.tapps.DbContext.UserService;
@@ -78,6 +80,12 @@ public class AppointController {
         JSONObject response = new JSONObject();
         int pId = Integer.valueOf(projectId);
         List<ProjectMembers> members = ProjectServices.getProjectMemberForAppoint(pId);
+        Collections.sort(members, new Comparator<ProjectMembers>() {
+            @Override
+            public int compare(ProjectMembers o1, ProjectMembers o2) {
+                return o1.getParticipatingFrom().compareTo(o2.getParticipatingFrom());
+            }
+        });
         response.put("members",members);
         response.put("success", true);
         return response;
@@ -115,6 +123,72 @@ public class AppointController {
         return response;
     }
 
+    @RequestMapping(value = "/Edit/{id}", method = RequestMethod.GET)
+    public ModelAndView Edit(@PathVariable int id, Principal principal) {
+        ModelAndView mav = new ModelAndView("appoint/edit");
+        mav = UP.includeUserProfile(mav, principal);
+        UserInProjectsEntity appointment = ProjectServices.getAppointmentById(id);
+        if(appointment != null){
+            AppointEdit viewModel = ProjectMapper.mapAppointEdit(appointment);
+
+            return mav;
+        }
+        return new ModelAndView("redirect:/Appoint");
+    }
+
+    @RequestMapping(value = "/Edit", method = RequestMethod.POST)
+    public ModelAndView Edit(@ModelAttribute("viewModel") AppointEdit model, BindingResult bindingResult, Principal principal) {
+        ModelAndView mav = new ModelAndView("appoint/edit");
+        if (bindingResult.hasErrors()) {
+            mav = UP.includeUserProfile(mav, principal);
+            mav = insertAppointmentData(mav, model, principal.getName());
+            mav.addObject("org.springframework.validation.BindingResult.viewModel", bindingResult);
+            mav.addObject("errors", bindingResult.getAllErrors());
+            return mav;
+        }
+        //updating appointment info
+        try {
+            ProjectServices.updateAppointment(ProjectMapper.mapAppointEdit(model));
+        } catch (ParseException e) {
+            mav = UP.includeUserProfile(mav, principal);
+            mav = insertAppointmentData(mav, model, principal.getName());
+            mav.addObject("errors", "Could not map the data. Please contact the developers");
+            return mav;
+        }
+        return new ModelAndView("redirect:/Appoint");
+    }
+
+    @RequestMapping(value = "/Delete/{id}", method = RequestMethod.GET)
+    public ModelAndView Delete(@PathVariable int id, Principal principal) {
+        ModelAndView mav = new ModelAndView("appoint/delete");
+        mav = UP.includeUserProfile(mav, principal);
+        UserInProjectsEntity appointment = ProjectServices.getAppointmentById(id);
+        AppointEdit viewModel = ProjectMapper.mapAppointEdit(appointment);
+
+        mav = insertAppointmentData(mav, viewModel, principal.getName());
+        return mav;
+    }
+
+    @RequestMapping(value = "/Delete", method = RequestMethod.POST)
+    public ModelAndView Delete(@ModelAttribute("viewModel") AppointEdit viewModel, Principal principal) {
+        try {
+            ProjectServices.deleteAppointment(viewModel.getId());
+        }catch (Exception e){
+            ModelAndView mav = new ModelAndView("appoint/delete");
+            mav = UP.includeUserProfile(mav, principal);
+            mav = insertAppointmentData(mav, viewModel, principal.getName());
+            return mav;
+        }
+        return new ModelAndView("redirect:/Appoint");
+    }
+
+    private ModelAndView insertAppointmentData(ModelAndView mav, AppointEdit viewModel, String username){
+        mav.addObject("viewModel", viewModel);
+        mav.addObject("users", getUsersIdAndName());
+        mav.addObject("projects", getAllProjectsByManager(username));
+        mav.addObject("roles", getAllRoles());
+        return mav;
+    }
 
     private JSONArray ConvertToArray(List<AppointViewModel> list) {
         String[] colors = new String[] { "#66CC99", "#CCFF66", "#99CCFF", "#CCCC33", "#99FF66", "#FFCC66", "#66CC99", "#CC9999", "#99CCFF", "#66CC99", "#CC9999", "#99CCFF" };
@@ -156,17 +230,6 @@ public class AppointController {
         return users;
     }
 
-    private Map<Integer, String> getProjectsIdAndName(Date dateFrom, Date dateTo) {
-        Map<Integer, String> projects = new LinkedHashMap<Integer, String>();
-        Calendar cal = Calendar.getInstance();
-        for (ProjectsEntity project : ProjectServices.getAllProjects(dateFrom, dateTo)) {
-            cal.setTime(project.getStartDate());
-            int year = cal.get(Calendar.YEAR);
-            projects.put(project.getId(), "PJ " + year + "-" + project.getCode() + "-" + project.getType());
-        }
-        return projects;
-    }
-
     private String getDateIntoIso8601(Date date){
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -174,5 +237,14 @@ public class AppointController {
         return df.format(date);
 
     }
-
+    private Map<Integer, String> getAllProjectsByManager(String username) {
+        Map<Integer,String> returning = new LinkedHashMap<Integer, String>();
+        Calendar cal = Calendar.getInstance();
+        for(ProjectsEntity p : ProjectServices.getProjectsByManager(UserService.getIdByUsername(username))){
+            cal.setTime(p.getStartDate());
+            int year = cal.get(Calendar.YEAR);
+            returning.put(p.getId(), "PJ " + year + "-" + p.getCode() + "-" + p.getType() + " " +p.getName());
+        }
+        return returning;
+    }
 }

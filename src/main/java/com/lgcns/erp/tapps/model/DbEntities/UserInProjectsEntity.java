@@ -1,6 +1,9 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -69,6 +72,18 @@ public class UserInProjectsEntity {
         this.dateFrom = dateFrom;
     }
 
+    public void setDateFrom(String dateFrom) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date returning = new Date();
+        try {
+            returning = df.parse(dateFrom);
+            String newDateString = df.format(returning);
+            System.out.println(newDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.dateFrom = returning;
+    }
     @Basic
     @Column(name = "date_to", nullable = false)
     public Date getDateTo() {
@@ -79,6 +94,18 @@ public class UserInProjectsEntity {
         this.dateTo = dateTo;
     }
 
+    public void setDateTo(String dateTo) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date returning = new Date();
+        try {
+            returning = df.parse(dateTo);
+            String newDateString = df.format(returning);
+            System.out.println(newDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.dateFrom = returning;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

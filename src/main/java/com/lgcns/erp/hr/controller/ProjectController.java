@@ -5,6 +5,7 @@ import com.lgcns.erp.hr.enums.ProjectStatus;
 import com.lgcns.erp.hr.mapper.ProjectMapper;
 import com.lgcns.erp.hr.viewModel.ProjectViewModel.ProjectCreate;
 import com.lgcns.erp.hr.viewModel.ProjectViewModel.ProjectCreateForm;
+import com.lgcns.erp.hr.viewModel.ProjectViewModel.ProjectHistoryModel;
 import com.lgcns.erp.tapps.DbContext.ContactServices;
 import com.lgcns.erp.tapps.DbContext.ProjectServices;
 import com.lgcns.erp.tapps.DbContext.UserService;
@@ -175,10 +176,21 @@ public class ProjectController {
         return new ModelAndView("redirect:/Projects");
     }
     @RequestMapping(method = RequestMethod.GET, value = "/Error")
-    @ResponseBody
     public ModelAndView Error(Principal principal) {
         ModelAndView mav = new ModelAndView("projects/error");
         mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+
+    @RequestMapping(value = "/ProjectHistory", method = RequestMethod.GET)
+    public ModelAndView ProjectHistory(Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("shared/menu/Project");
+        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        List<ProjectHistoryModel> model = ProjectServices.getProjectHistoryInfoByUserId(user.getId());
+
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("viewModel", model);
         return mav;
     }
 

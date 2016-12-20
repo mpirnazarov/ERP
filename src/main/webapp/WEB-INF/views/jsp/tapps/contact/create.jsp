@@ -12,14 +12,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="pageTitle" scope="request" value="Edit customer organizations"/>
+<c:set var="pageTitle" scope="request" value="Create contact in customer organization"/>
 
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-8 col-lg-offset-2">
-        <h1 class="page-header">Edit customer organizations</h1>
-        <form:form modelAttribute="viewModel" cssClass="form-horizontal" method="post" action="/Organizations/Edit"
+        <h1 class="page-header">Create contact in customer organization</h1>
+        <form:form modelAttribute="viewModel" cssClass="form-horizontal" method="post" action="/Contacts/Create"
                    id="myForm">
 
             <br/>
@@ -28,21 +28,33 @@
 
             <div class="row">
                 <div class="form-group">
+                    <label class="control-label col-md-3">Organization <font color='red'>*</font></label>
+                    <div class="col-lg-5">
+                        <form:select path="organizationId" cssClass="form-control text-box single-line" items="${organizations}"/>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label col-md-3">Name <font color='red'>*</font></label>
                     <div class="col-lg-5">
                         <form:input path="name" cssClass="form-control text-box single-line"/>
                     </div>
                 </div>
+
                 <div class="form-group">
-                    <label class="control-label col-md-3">TIN <font color='red'>*</font></label>
-                    <div class="col-lg-5">
-                        <form:input path="tin" cssClass="form-control text-box" type="number" min="0"/>
+                    <label class="control-label col-md-3">Mobile Phone </label>
+                    <div class="col-md-5">
+                        <form:input path="mobilePhone" placeholder="Mobile phone number" type="tel"
+                                    cssClass="telPhone form-control text-box single-line"/>
+                        <form:errors path="MobilePhone" cssClass="error field-validation-error"/>
                     </div>
                 </div>
+
                 <div class="form-group">
-                    <label class="control-label col-md-3">Address <font color='red'>*</font></label>
-                    <div class="col-lg-5">
-                        <form:textarea path="address" cssClass="form-control"/>
+                    <label class="control-label col-md-3">Work Phone </label>
+                    <div class="col-md-5">
+                        <form:input path="workPhone" placeholder="Mobile phone number" type="tel"
+                                    cssClass="telPhone form-control text-box single-line"/>
+                        <form:errors path="MobilePhone" cssClass="error field-validation-error"/>
                     </div>
                 </div>
             </div>
@@ -51,8 +63,8 @@
 
             <div class="form-group">
                 <div class="col-md-offset-3 col-md-9">
-                    <input type="submit" value="Confirm" class="btn btn-info"/>
-                    <input type="button" onclick="location.href='/Organizations'" value="Cancel"
+                    <input type="submit" value="Create" class="btn btn-success"/>
+                    <input type="button" onclick="location.href='/Contacts'" value="Cancel"
                            class="btn btn-default"/>
                 </div>
                 <div class="clearfix"></div>
@@ -74,7 +86,6 @@
                     <c:forEach items="${errors}" var="error" varStatus="i">
                         <c:out value="${error.defaultMessage.toString()}"/> <br/>
                     </c:forEach>
-                    <c:out value="${error}"/> <br/>
                 </span>
             </div>
         </div>

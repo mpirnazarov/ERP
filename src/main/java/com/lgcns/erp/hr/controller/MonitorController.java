@@ -37,7 +37,6 @@ import java.util.Date;
 @RequestMapping("/Monitor")
 public class MonitorController {
     @RequestMapping(method = RequestMethod.GET)
-    @PreAuthorize("hasRole('1')")
     public ModelAndView Monitor(Principal principal) {
         ModelAndView mav = new ModelAndView("monitor/index");
         UsersEntity curUser = UserService.getUserByUsername(principal.getName());

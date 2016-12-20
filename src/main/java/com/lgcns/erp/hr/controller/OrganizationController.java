@@ -34,7 +34,7 @@ import java.util.*;
 @RequestMapping("/Organizations")
 public class OrganizationController {
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView Monitor(Principal principal) {
+    public ModelAndView Index(Principal principal) {
         ModelAndView mav = new ModelAndView("tapps/organization/index");
         List<OrganizationEntity> model = ContactServices.getAllOrganizations();
         Collections.sort(model, new Comparator<OrganizationEntity>() {
@@ -50,16 +50,17 @@ public class OrganizationController {
     }
 
     @RequestMapping(value = "/Create", method = RequestMethod.GET)
-    public ModelAndView AppointNewMember(Principal principal){
+    public ModelAndView Create(Principal principal){
         ModelAndView mav = new ModelAndView("tapps/organization/create");
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("viewModel", new OrganizationEntity());
         return mav;
     }
     @RequestMapping(value = "/Create", method = RequestMethod.POST)
-    public ModelAndView AppointNewMember(@Valid @ModelAttribute OrganizationEntity viewModel, BindingResult bindingResult, Principal principal) throws ParseException {
+    public ModelAndView Create(@Valid @ModelAttribute("viewModel") OrganizationEntity viewModel, BindingResult bindingResult, Principal principal) throws ParseException {
         ModelAndView mav = new ModelAndView("tapps/organization/create");
         mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("viewModel", new OrganizationEntity());
         if(bindingResult.hasErrors()) {
             mav.addObject("errors", bindingResult.getAllErrors());
             return mav;
@@ -67,11 +68,11 @@ public class OrganizationController {
         try{
             ContactServices.insert(viewModel);
         }catch (Exception e){
-            mav.addObject("errors", "Error occured during the Customer Organization creation. " +
+            mav.addObject("error", "Error occured during the Customer Organization creation. " +
                     "\n please contact developers");
             return mav;
         }
-        return new ModelAndView("redirect:/Organization");
+        return new ModelAndView("redirect:/Organizations");
 
     }
 
@@ -85,48 +86,45 @@ public class OrganizationController {
     }
 
     @RequestMapping(value = "/Edit", method = RequestMethod.POST)
-    public ModelAndView Edit(@ModelAttribute("viewModel") OrganizationEntity model, BindingResult bindingResult, Principal principal) {
+    public ModelAndView Edit(@Valid @ModelAttribute("viewModel") OrganizationEntity model, BindingResult bindingResult, Principal principal) {
         ModelAndView mav = new ModelAndView("tapps/organization/edit");
+        mav = UP.includeUserProfile(mav, principal);
 
+        if(bindingResult.hasErrors()) {
+            mav.addObject("errors", bindingResult.getAllErrors());
+            return mav;
+        }
         //updating organization info
         try {
             ContactServices.update(model);
         } catch (Exception e) {
-            mav = UP.includeUserProfile(mav, principal);
-            mav.addObject("errors", "Could not update the data. \n" +
+            mav.addObject("error", "Could not update the data. \n" +
                     e.getMessage()+".\nPlease contact the developers");
             return mav;
         }
-        return new ModelAndView("redirect:/Organization");
+        return new ModelAndView("redirect:/Organizations");
     }
 
     @RequestMapping(value = "/Delete/{id}", method = RequestMethod.GET)
     public ModelAndView Delete(@PathVariable int id, Principal principal) {
+        OrganizationEntity model = ContactServices.getOrganizationtById(id);
         ModelAndView mav = new ModelAndView("tapps/organization/delete");
         mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("viewModel", model);
         return mav;
     }
 
     @RequestMapping(value = "/Delete", method = RequestMethod.POST)
-    public ModelAndView Delete(@ModelAttribute("viewModel") AppointEdit viewModel, Principal principal) {
+    public ModelAndView Delete(@ModelAttribute("viewModel") OrganizationEntity viewModel, Principal principal) {
         try {
-            ProjectServices.deleteAppointment(viewModel.getId());
+            ContactServices.delete(viewModel);
         } catch (Exception e) {
             ModelAndView mav = new ModelAndView("tapps/organization/delete");
             mav = UP.includeUserProfile(mav, principal);
+            mav.addObject("viewModel", viewModel);
+            mav.addObject("error", e.getMessage());
             return mav;
         }
-        return new ModelAndView("redirect:/Appoint");
+        return new ModelAndView("redirect:/Organizations");
     }
-
-
-    private Map<Integer, String> getUsersIdAndName() {
-        Map<Integer, String> users = new LinkedHashMap<Integer, String>();
-        for (UserLocalizationsEntity loc : UserService.getAllUserLocs()) {
-            if (loc.getUserId() != 0)
-                users.put(loc.getUserId(), loc.getFirstName() + " " + loc.getLastName());
-        }
-        return users;
-    }
-
 }

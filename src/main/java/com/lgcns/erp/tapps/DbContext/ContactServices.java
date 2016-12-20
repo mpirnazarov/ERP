@@ -82,7 +82,9 @@ public class ContactServices{
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            session.save(contact);
+            ContactsEntity newContact = contact;
+            newContact.setOrganizationByOrganizationId(session.load(OrganizationEntity.class, contact.getOrganizationId()));
+            session.save(newContact);
             transaction.commit();
         }
         catch (HibernateException e) {
@@ -119,7 +121,7 @@ public class ContactServices{
             temp.setName(entity.getName());
             temp.setAddress(entity.getAddress());
             temp.setTin(entity.getTin());
-            session.save(entity);
+            session.save(temp);
             transaction.commit();
         }
         catch (HibernateException e) {
@@ -140,7 +142,7 @@ public class ContactServices{
             temp.setOrganizationByOrganizationId(session.load(OrganizationEntity.class, entity.getOrganizationId()));
             temp.setWorkPhone(entity.getWorkPhone());
             temp.setMobilePhone(entity.getMobilePhone());
-            session.save(entity);
+            session.save(temp);
             transaction.commit();
         }
         catch (HibernateException e) {
@@ -152,17 +154,30 @@ public class ContactServices{
         }
     }
 
-
-    public static void insertContactInProjects(List<ContactInProjectsEntity> contactsAndProjects){
+    public static void delete(OrganizationEntity entity){
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            for(ContactInProjectsEntity item : contactsAndProjects){
-                item.setProjectsByProjectId(session.load(ProjectsEntity.class, item.getProjectId()));
-                item.setContactsByContactId(session.load(ContactsEntity.class, item.getContactId()));
-                session.save(item);
-            }
+            OrganizationEntity temp = session.get(OrganizationEntity.class, entity.getId());
+            session.delete(temp);
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+    public static void delete(ContactsEntity entity){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            ContactsEntity temp = session.get(ContactsEntity.class, entity.getId());
+            session.delete(temp);
             transaction.commit();
         }
         catch (HibernateException e) {

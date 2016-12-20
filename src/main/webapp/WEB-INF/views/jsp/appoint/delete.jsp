@@ -75,7 +75,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-3 col-md-9">
-                    <input type="submit" value="Confirm" class="btn btn-info"/>
+                    <input type="submit" value="Confirm" class="btn btn-danger"/>
                     <input type="button" onclick="location.href='/Appoint'" value="Cancel"
                            class="btn btn-default"/>
                 </div>

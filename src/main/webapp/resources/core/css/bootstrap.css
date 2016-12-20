@@ -6942,3 +6942,11 @@ a.list-group-item-danger.active:focus {
 .popover {
   color: #333333;
 }
+
+.modal-title, .modal-body, .modal-footer {
+  color: #1a1a1a !important;
+}
+
+.fc th, .fc td, .fc-toolbar h2 {
+  color: #1a1a1a !important;
+}

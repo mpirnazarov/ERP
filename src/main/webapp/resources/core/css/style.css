@@ -22,6 +22,13 @@ html {
     height: auto;
 }
 
+.modal-title, .modal-body, .modal-footer {
+    color: #1a1a1a !important;
+}
+
+.fc th, .fc td, .fc-toolbar h2 {
+    color: #1a1a1a !important;
+}
 .nav .open > a {
     background-color: transparent;
 }

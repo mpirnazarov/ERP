@@ -24,24 +24,27 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-home"></i> Home
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li class="dropdown-header">Information about CTO</li>
-                        <li><a href="/CTO/Profile">General information</a></li>
-                        <li><a href="/CTO/Profile/Appointment">Appointment record</a></li>
-                        <li><a href="/CTO/Profile/Salary">Salary details</a></li>
-                        <li><a href="/CTO/Profile/Edu">Education certificate</a></li>
-                        <li><a href="/CTO/Profile/Jobexp">Job experience</a></li>
-                        <li><a href="/CTO/Profile/Train">Training record</a></li>
-                        <li><a href="/CTO/Profile/Evaluation">Evaluation history </a></li>
+                        <li class="dropdown-header">Information about Manager</li>
+                        <li><a href="/Manager/Profile">General information</a></li>
+                        <li><a href="/Manager/Profile/Appointment">Appointment record</a></li>
+                        <li><a href="/Manager/Profile/Salary">Salary details</a></li>
+                        <li><a href="/Manager/Profile/Edu">Education certificate</a></li>
+                        <li><a href="/Manager/Profile/Jobexp">Job experience</a></li>
+                        <li><a href="/Manager/Profile/Train">Training record</a></li>
+                        <li><a href="/Manager/Profile/Evaluation">Evaluation history </a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="/CTO/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>
+                    <a href="/Manager/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>
                 </li>
                 <li>
-                    <a href="/CTO/Evaluation"><i class="fa fa-fw fa-bar-chart"></i> Evaluation</a>
+                    <a href="/Manager/Evaluation"><i class="fa fa-fw fa-bar-chart"></i> Evaluation</a>
                 </li>
                 <li>
-                    <a href="/CTO/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
+                    <a href="/Manager/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
+                </li>
+                <li>
+                    <a href="/Hierarchy"><i class="fa fa-line-chart"></i> Hierarchy</a>
                 </li>
                 <hr/>
                 TAPPS System
@@ -66,7 +69,7 @@
                 <hr/>
                 Settings
                 <li>
-                    <a href="/CTO/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
+                    <a href="/Manager/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
                 </li>
                 <li>
                     <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>

@@ -1,7 +1,6 @@
 package com.lgcns.erp.tapps.controller;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
-import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,11 +14,9 @@ import java.security.Principal;
 public class HomeController {
     @RequestMapping(value = "/")
     public String printWelcome(Principal principal) {
-        UsersEntity user = UserService.getUserByUsername(principal.getName());
-        Integer roleId = user.getRoleId();
-        System.out.println("ROLE ID: " + roleId);
-        if(roleId == 1)
-            return "forward: /CTO/Profile";
+        int roleId = UserService.getRoleByUserName(principal.getName());
+        if(roleId==1)
+            return "forward: /Manager/Profile";
         else if(roleId==3)
             return "forward: /Hr/Profile";
         else

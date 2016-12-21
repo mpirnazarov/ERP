@@ -11,7 +11,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="pageTitle" scope="request" value="Add New Job Experience"/>
-<% request.setAttribute("Mode", 2); %>
+<%
+    request.setAttribute("Mode", 2);
+    request.setAttribute("EditAdd", 1);
+%>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-8 col-lg-offset-2">
@@ -47,7 +50,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Contract type: <font color='red'>*</font></label>
-                    <div class="col-lg-5"><form:select path="contractType" items="${jobexpVM.contracts}"
+                    <div class="col-lg-5"><form:select path="contractType" items="${contracts}"
                                                        cssClass="form-control text-box single-line"/></div>
                 </div>
             </div>

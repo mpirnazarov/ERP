@@ -51,7 +51,7 @@ public class ProfileViewModel {
     private String username;
     private PersonalInformationViewModel personalInfo;
     private List<FamilyMember> familyLoc;
-
+    private int chiefId;
     public List<FamilyMember> getFamilyLoc() {
         return familyLoc;
     }
@@ -295,5 +295,13 @@ public class ProfileViewModel {
 
     public void setStatusId(int statusId) {
         this.statusId = statusId;
+    }
+
+    public int getChiefId() {
+        return chiefId;
+    }
+
+    public void setChiefId(int chiefId) {
+        this.chiefId = chiefId;
     }
 }

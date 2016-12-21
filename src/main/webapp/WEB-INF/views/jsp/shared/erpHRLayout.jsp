@@ -47,6 +47,9 @@
                 <li>
                     <a href="/Hr/GenerateDocs"><i class="fa fa-fw fa-file"></i> Generate documents</a>
                 </li>
+                <li>
+                    <a href="/Hierarchy"><i class="fa fa-line-chart"></i> Hierarchy</a>
+                </li>
                 <hr/>
                 TAPPS System
                 <li>

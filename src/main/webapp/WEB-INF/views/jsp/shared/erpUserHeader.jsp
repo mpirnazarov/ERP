@@ -27,6 +27,7 @@
     <spring:url value="/resources/core/css/jquery.scrollbar.css" var="scrollCss"/>
     <spring:url value="/resources/core/js/jquery.scrollbar.min.js" var="scrollJs"/>
     <spring:url value="/resources/core/js/main.js" var="main"/>
+    <%--<spring:url value="/resources/core/js/go.js" var="goJs"/>--%>
     <script src="${jquery}"></script>
     <link rel="stylesheet" href="${navbar}"/>
     <link rel="stylesheet" href="${scrollCss}"/>
@@ -38,6 +39,7 @@
     <script src="${main}"></script>
     <script type="text/javascript" src="${allInOneJs}"></script>
     <script src="${scrollJs}"></script>
+    <%--<script src="${goJs}"/>--%>
 
     <style>
         .error {
@@ -53,7 +55,13 @@
         }
     </style>
 </head>
+
+<%--Checking if Hierarchy page, if yes call init()--%>
+<% if(request.getAttribute("Hierarchy")!=null) { %>
+<body class="__scrollBar" onload="init()">
+<% } else { %>
 <body class="__scrollBar">
+<% } %>
     <%
     if((ProfileViewModel) request.getAttribute("userProfile")!=null){
         ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");

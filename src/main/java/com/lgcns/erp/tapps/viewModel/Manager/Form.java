@@ -1,4 +1,4 @@
-package com.lgcns.erp.tapps.viewModel.CTO;
+package com.lgcns.erp.tapps.viewModel.Manager;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -11,7 +11,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--<c:set var="pageTitle" scope="request" value="Home"/>--%>
-<% request.setAttribute("Mode", 2); %>
+<%
+    request.setAttribute("Mode", 2);
+    request.setAttribute("EditAdd", 1);
+%>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-offset-2">

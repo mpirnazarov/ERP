@@ -29,7 +29,7 @@
         <input type="password" name="password" placeholder="Password" required="required" />
         <div class="checkbox">
             <label>
-                <input type="checkbox"> Remember me
+                <input type="checkbox" name="remember-me"> Remember me
             </label>
         </div>
         <button type="submit" class="btn btn-primary btn-block btn-large">Sign in</button>

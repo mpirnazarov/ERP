@@ -42,7 +42,7 @@
                 </li>
                 <% if ((int) request.getAttribute("SystemRole") == 1) { %>
                 <li>
-                    <a href="/CTO/Evaluation"><i class="fa fa-fw fa-file-o"></i> Evaluation</a>
+                    <a href="/Manager/Evaluation"><i class="fa fa-fw fa-file-o"></i> Evaluation</a>
                 </li>
                 <% } %>
                 <% if ((int) request.getAttribute("SystemRole") == 3) { %>
@@ -76,6 +76,9 @@
                 </li>
                 <li>
                     <a href="./Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
+                </li>
+                <li>
+                    <a href="/Hierarchy"><i class="fa fa-line-chart"></i> Hierarchy</a>
                 </li>
                 <hr/>
                 TAPPS System

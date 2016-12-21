@@ -1,7 +1,7 @@
 package com.lgcns.erp.tapps.mapper;
 
 import com.lgcns.erp.tapps.model.DbEntities.*;
-import com.lgcns.erp.tapps.viewModel.CTO.Form;
+import com.lgcns.erp.tapps.viewModel.Manager.Form;
 import com.lgcns.erp.tapps.viewModel.HR.DocsViewModel;
 import com.lgcns.erp.tapps.viewModel.RegistrationLocInfo;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;

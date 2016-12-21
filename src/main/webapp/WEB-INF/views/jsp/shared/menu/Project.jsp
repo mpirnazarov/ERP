@@ -16,45 +16,35 @@
     <div class="col-lg-offset-2">
         <h1><%= request.getAttribute("FullName") %>
         </h1>
-        <h2 class="page-header">Project History</h2>
-        <table class="table">
+        <h2 class="page-header" style="color: #fff;">Project History</h2>
+        <table class="table table-bordered">
             <thead>
             <tr>
-                <th>Project name</th>
-                <th>PM</th>
-                <th>Description (Role)</th>
-                <th>Period</th>
+                <th class="text-center">Project name</th>
+                <th class="text-center">PM</th>
+                <th class="text-center">Description (Role)</th>
+                <th class="text-center">Period</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Single Portal of e-Government Services</td>
-                <td>DAE-OC KIM</td>
-                <td>Developer</td>
-                <td>2016-11-01</td>
-            </tr>
+            <c:if test="${viewModel.size() == 0}">
+                <tr>
+                    <td colspan="4">
+                        You have not participated in any project yet.<br>
+                        Please contact your project manager to add you into the project.
+                    </td>
+                </tr>
+            </c:if>
+            <c:forEach items="${viewModel}" var="model">
+                <tr>
+                    <td>${model.projectName}</td>
+                    <td>${model.projectManager}</td>
+                    <td>${model.description}</td>
+                    <td>${model.period}</td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
     </div>
 </div>
-<%--<script>--%>
-    <%--function updateSize() {--%>
-        <%--var nBytes = 0,--%>
-                <%--oFiles = document.getElementById("fileInput").files,--%>
-                <%--nFiles = oFiles.length;--%>
-        <%--for (var nFileId = 0; nFileId < nFiles; nFileId++) {--%>
-            <%--nBytes += oFiles[nFileId].size;--%>
-        <%--}--%>
-
-        <%--var sOutput = nBytes + " bytes";--%>
-        <%--// optional code for multiples approximation--%>
-        <%--for (var aMultiples = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"], nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {--%>
-            <%--sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple] + " (" + nBytes + " bytes)";--%>
-        <%--}--%>
-        <%--// end of optional code--%>
-
-        <%--document.getElementById("fileNum").innerHTML = nFiles;--%>
-        <%--document.getElementById("fileSize").innerHTML = sOutput;--%>
-    <%--}--%>
-<%--</script>--%>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

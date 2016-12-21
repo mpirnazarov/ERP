@@ -94,7 +94,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Are you sure to delete this record?</label>
             <div class="col-md-9">
-                <input type="submit" value="Confirm" class="btn btn-danger"/>
+                <input type="submit" value="Delete" class="btn btn-danger"/>
                 <input type="button" onclick="location.href='/Projects'" value="Cancel"
                        class="btn btn-default"/>
             </div>

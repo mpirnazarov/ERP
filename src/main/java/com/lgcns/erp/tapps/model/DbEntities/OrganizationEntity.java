@@ -1,6 +1,10 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 /**
@@ -10,8 +14,11 @@ import java.util.Collection;
 @Table(name = "organization", schema = "public", catalog = "LgErpSystem")
 public class OrganizationEntity {
     private int id;
+    @NotNull(message = "Customer organization TIN cannot be empty")
     private Integer tin;
+    @NotEmpty(message = "Organization's address cannot be empty")
     private String address;
+    @NotEmpty(message = "Organization name cannot be empty")
     private String name;
     private Collection<ContactsEntity> contactsesById;
 

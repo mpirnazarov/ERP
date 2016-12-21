@@ -1,6 +1,9 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
 
 /**
@@ -11,8 +14,14 @@ import java.util.Collection;
 public class ContactsEntity {
     private int id;
     private Integer organizationId;
+
+    @Pattern(regexp="^\\(?(\\d{5})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$|",message="Phone number should be of (99893)123-4567 format")
+
     private String mobilePhone;
+    @Pattern(regexp="^\\(?(\\d{5})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$|",message="Phone number should be of (99893)123-4567 format")
+
     private String workPhone;
+    @NotEmpty
     private String name;
     private Collection<ContactInProjectsEntity> contactInProjectsesById;
     private OrganizationEntity organizationByOrganizationId;

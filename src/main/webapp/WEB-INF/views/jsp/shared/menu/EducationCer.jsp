@@ -77,7 +77,7 @@
                     <c:forEach items="${eduVM.educationsList}" var="eduList" varStatus="status">
                         <tr>
                             <td class="col-md-4 text-center">${eduList.name}</td>
-                            <td class="col-md-2 text-center">${eduList.major}</td>
+                            <td class="col-md-2">${eduList.major}</td>
                             <td class="col-md-1">${eduList.degree}</td>
                             <td class="col-md-2 text-center">${eduList.startDate}</td>
                             <td class="col-md-2 text-center">${eduList.endDate}</td>

@@ -178,7 +178,13 @@ public class HrController {
         for (UsersEntity user :
                 UserService.getAllUsers()) {
             jsonObject = new JSONObject();
-            userLoc = UserService.getUserLocByUserId(user.getId(),3);
+            try{
+                userLoc = UserService.getUserLocByUserId(user.getId(),3);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
             jsonObject.put("key", user.getId());
             jsonObject.put("name", userLoc.getFirstName()+" "+userLoc.getLastName());
             jsonObject.put("title", "1");

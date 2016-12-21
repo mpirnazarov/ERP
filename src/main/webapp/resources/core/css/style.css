@@ -1,5 +1,6 @@
 @import "https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css";
 @import "https://daneden.github.io/animate.css/animate.min.css";
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans|Oswald');
 /*-------------------------------*/
 /*           VARIABLES           */
 /*-------------------------------*/
@@ -9,8 +10,8 @@ body {
     font-weight: 300;
     font-size: 15px;
     line-height: 1.4;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    color: #FFFFFF;
+    font-family: 'Nunito Sans', sans-serif;
+    color: #ffffff;
     background: #466368;
     background: -webkit-linear-gradient(#648880, #293f50);
     background: -moz-linear-gradient(#648880, #293f50);
@@ -367,10 +368,12 @@ html {
 body h1,
 body h3,
 body h4 {
-  color: #FFFFFF;
+  color: #ffffff;
+    font-family: 'Oswald', sans-serif;
 }
 body h2 {
-    color:#333;
+    color: #d5d5d5;
+    font-family: 'Oswald', sans-serif;
 }
 
 body p,

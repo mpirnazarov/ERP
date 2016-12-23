@@ -26,10 +26,13 @@ import org.apache.poi.xwpf.converter.core.FileURIResolver;
 import org.apache.poi.xwpf.converter.xhtml.XHTMLConverter;
 import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -160,6 +163,38 @@ public class HrController {
             return mav;
         }
         return null;
+    }
+
+    @RequestMapping (value = "/Hierarchy", method = RequestMethod.GET)
+    public ModelAndView Hierarchy(Principal principal){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("shared/menu/Hierarchy");
+        mav = UP.includeUserProfile(mav, principal);
+        JSONObject root = new JSONObject();
+        JSONObject jsonObject = null;
+        JSONArray jsonArray = new JSONArray();
+        root.put("class", "go.TreeModel");
+        UserLocalizationsEntity userLoc=null;
+        for (UsersEntity user :
+                UserService.getAllUsers()) {
+            jsonObject = new JSONObject();
+            try{
+                userLoc = UserService.getUserLocByUserId(user.getId(),3);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
+            jsonObject.put("key", user.getId());
+            jsonObject.put("name", userLoc.getFirstName()+" "+userLoc.getLastName());
+            jsonObject.put("title", "1");
+            if(user.getChiefId()!=null)
+                jsonObject.put("parent", user.getChiefId());
+            jsonArray.add(jsonObject);
+        }
+        root.put("nodeDataArray", jsonArray);
+        mav.addObject("jsonData", root);
+        return mav;
     }
 
     @RequestMapping (value = "/Hr/Profile", method = RequestMethod.GET)
@@ -383,7 +418,7 @@ public class HrController {
         Map<Integer, String> appointmentTypes = new HashMap<Integer, String>();
         for (Appoint ap :
                 Appoint.values()) {
-            appointmentTypes.put(ap.getValue(), ap.name());
+            appointmentTypes.put(ap.getValue(), ap.name().replace("_", " "));
         }
         model.addAttribute("types", appointmentTypes);
 
@@ -461,6 +496,14 @@ public class HrController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/editmenu/new/job");
         mav = UP.includeUserProfile(mav, principal);
+
+        Map<Integer, String> contracts = new HashMap<Integer, String>();
+        for (Appoint app :
+                Appoint.values()) {
+            contracts.put(app.getValue(), app.name());
+        }
+        model.addAttribute("contracts", contracts);
+
         JobexpViewModel jobexpViewModel = new JobexpViewModel();
         model.addAttribute("jobexpVM", jobexpViewModel);
 
@@ -708,9 +751,9 @@ public class HrController {
     }
 
     @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/EditCert/{certId}", method = RequestMethod.POST )
-    public String EditCertPost(Principal principal, @ModelAttribute  Educations educations, BindingResult result, @PathVariable("userId") String userId, @PathVariable("certId") int certId){
-        UserService.updateEducations(UserMapper.mapEducations(educations, userId), certId);
-        UserService.updateEducationLocalizations(UserMapper.mapEducationLocalizations(educations, certId));
+    public String EditCertPost(Principal principal, @ModelAttribute  Certificates certificate, BindingResult result, @PathVariable("userId") String userId, @PathVariable("certId") int certId){
+        UserService.updateCertificates(UserMapper.mapCertificates(certificate, userId, 1), certId);
+        UserService.updateCertificateLocalizations(UserMapper.mapCertificateLocalizations(certificate, certId));
 
         return "redirect: /Hr/user/"+userId+"/update/Edu";
     }
@@ -853,7 +896,7 @@ public class HrController {
             System.out.println("Delete operation is failed.");
         UserService.deleteDocument(docId);
 
-        return "redirect: /Hr/user/{id}/update/Docs/";
+        return "redirect: /Hr/user/{id}/update/Docs";
     }
 
     @RequestMapping(value = "/Hr/user/{id}/update/Docs", method = RequestMethod.POST)
@@ -1018,15 +1061,29 @@ public class HrController {
             model.addAttribute("docType", docType);
 
             List<DocumentsEntity> documentsEntities = UserService.getDocuments(UserService.getUserByUsername(UserService.getUsernameById(id)));
+            List<DocumentsEntity> documentsEntitiesNew = new LinkedList<DocumentsEntity>();
             DocsViewModel docsViewModel = new DocsViewModel();
-
+            for (DocumentsEntity docs :
+                    documentsEntities) {
+                if (docs.getDocumentType() != 7)
+                    documentsEntitiesNew.add(docs);
+            }
             model.addAttribute("docs", docsViewModel);
-            model.addAttribute("documents", documentsEntities);
+            model.addAttribute("documents", documentsEntitiesNew);
             FileBucket fileModel = new FileBucket();
             model.addAttribute("fileBucket", fileModel);
 
             return mav;
 
+        }
+        else if(path.compareTo("ChangePass")==0) {
+            mav.setViewName("user/changepassuser");
+
+            ChangepassViewModel changepassViewModel = new ChangepassViewModel ();
+            mav = UP.includeUserProfile(mav, principal);
+            mav.addObject("changepassVM", changepassViewModel);
+            mav.addObject("userChange", "1");
+            return mav;
         }
         else{
 
@@ -1224,6 +1281,19 @@ public class HrController {
         File file = new File("C:/files/photos/" + sId2);
         fileUpload.transferTo(file);
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "Hr/user/{userId}/update/ChangePass", method = RequestMethod.POST)
+    public String ChangePass2(Principal principal, @RequestParam("password") String pass, @RequestParam("repeatPassword") String repPass, @PathVariable("userId") int userId){
+        ModelAndView model = new ModelAndView();
+        UsersEntity user = UserService.getUserById(userId);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(pass);
+        System.out.println(pass);
+        String passwordNow = UserService.getUserByUsername(principal.getName()).getPasswordHash();
+        UserService.updatePassword(user, hashedPassword);
+        System.out.println("Password updated!");
+        return "redirect: /";
     }
 
     @RequestMapping(value = "Hr/changepass", method = RequestMethod.GET)

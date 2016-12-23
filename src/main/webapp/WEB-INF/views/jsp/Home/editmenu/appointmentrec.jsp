@@ -29,9 +29,9 @@
             <c:forEach items="${appointmentrecVM.appointmentSummaries}" var="appointment" varStatus="status">
                 <tr>
                     <td class="col-md-2 text-center">${appointment.appointDate}</td>
-                    <td class="col-md-3">${contracts.get(appointment.appointmentType)}</td>
-                    <td class="col-md-5">${departments.get(appointment.department)}</td>
-                    <td class="col-md-4">${posts.get(appointment.role)}</td>
+                    <td class="col-md-3">${contracts.get(appointment.contractType)}</td>
+                    <td class="col-md-5">${departments.get(appointment.departmentId)}</td>
+                    <td class="col-md-4">${posts.get(appointment.postId)}</td>
                     <td><a href="./Appointment/Edit/${appointment.id}" class="btn btn-default">Edit</a></td>
                 </tr>
             </c:forEach>

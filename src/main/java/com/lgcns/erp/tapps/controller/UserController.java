@@ -47,7 +47,7 @@ public class UserController {
     public ModelAndView Login() {
 
         ModelAndView model = new ModelAndView();
-        model.setViewName("login_new");
+        model.setViewName("user/login");
         return model;
     }
 

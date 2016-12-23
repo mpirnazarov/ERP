@@ -37,8 +37,43 @@
             <li>
                 <a href="/Hr/GenerateDocs"><i class="fa fa-fw fa-file"></i> Generate documents</a>
             </li>
+            <li>
+                <a href="/Hierarchy"><i class="fa fa-line-chart"></i> Hierarchy</a>
+            </li>
             <hr/>
             User's profile
+                <% if(request.getAttribute("EditAdd")!= null){
+                    if((int)request.getAttribute("EditAdd")==1){%>
+                    <li>
+                        <a href="../Geninfo"><i class="fa fa-fw fa-info-circle"></i> General information</a>
+                    </li>
+                    <li>
+                        <a href="../Appointment"><i class="fa fa-fw fa-hand-pointer-o"></i> Appointment record</a>
+                    </li>
+                    <li>
+                        <a href="../Salary"><i class="fa fa-fw fa-money"></i> Salary details</a>
+                    </li>
+                    <li>
+                        <a href="../Edu"><i class="fa fa-fw fa-graduation-cap"></i> Education certificate</a>
+                    </li>
+                    <li>
+                        <a href="../Jobexp"><i class="fa fa-fw fa-briefcase"></i> Job experience</a>
+                    </li>
+                    <li>
+                        <a href="../Train"><i class="fa fa-fw fa-book"></i> Training record</a>
+                    </li>
+                    <li>
+                        <a href="../Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
+                    </li>
+                    <li>
+                        <a href="../UploadPic"><i class="fa fa-fw fa-file"></i> Change Picture</a>
+                    </li>
+                    <li>
+                        <a href="../ChangePass"><i class="fa fa-fw fa-gears"></i> User Change Password</a>
+                    </li>
+                <%
+                    }}
+                    else{ %>
                 <li>
                     <a href="./Geninfo"><i class="fa fa-fw fa-info-circle"></i> General information</a>
                 </li>
@@ -63,6 +98,10 @@
                 <li>
                     <a href="./UploadPic"><i class="fa fa-fw fa-file"></i> Change Picture</a>
                 </li>
+                <li>
+                    <a href="./ChangePass"><i class="fa fa-fw fa-gears"></i> User Change Password</a>
+                </li>
+                <% } %>
                 <hr/>
                 Settings
                 <li>

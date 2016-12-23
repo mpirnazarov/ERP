@@ -5,11 +5,9 @@ import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
 import java.security.MessageDigest;
@@ -1740,15 +1738,15 @@ public class UserService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Criteria criteria = session.createCriteria(UserInPostsEntity.class);
-            criteria.add(Restrictions.eq("id", appId));
-            UserInPostsEntity userInPostsEntity1 = (UserInPostsEntity) criteria.uniqueResult();
-            userInPostsEntity1.setDateFrom(userInPostsEntity.getDateFrom());
-            userInPostsEntity1.setContractType(userInPostsEntity.getContractType());
-            userInPostsEntity1.setPostId(userInPostsEntity.getPostId());
-            userInPostsEntity1.setDateEnd(userInPostsEntity.getDateEnd());
-
-            session.getTransaction().commit();
+            Query query = session.createQuery("update UserInPostsEntity set dateFrom = :dateFrom, contractType=:contractType, " +
+                    "postId=:postId, dateEnd=:dateEnd where id = :appId");
+            query.setParameter("dateFrom", userInPostsEntity.getDateFrom());
+            query.setParameter("contractType", userInPostsEntity.getContractType());
+            query.setParameter("postId", userInPostsEntity.getPostId());
+            query.setParameter("dateEnd", userInPostsEntity.getDateEnd());
+            query.setParameter("appId", appId);
+            query.executeUpdate();
+            transaction.commit();
         }
         catch (HibernateException e) {
             transaction.rollback();
@@ -1757,7 +1755,6 @@ public class UserService {
         finally {
             session.close();
         }
-
     }
 
     public static void updateDepartmentId(int departmentId, int userId) {
@@ -2212,5 +2209,52 @@ public class UserService {
         finally {
             session.close();
         }
+    }
+
+    public static int getRoleByUserName(String name) {
+        int roleId =0;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("select roleId from UsersEntity where userName = :username");//" inner join user.usersByUserId");//" on user.id = userLoc.userId where userLoc.languageId = :languageId");
+            query.setParameter("username", name);
+            roleId = (Integer) query.getSingleResult();
+
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return roleId;
+    }
+
+    public static UserLocalizationsEntity getUserLocByUserId(int id, int langId) {
+        UserLocalizationsEntity userLoc = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserLocalizationsEntity locs where locs.userId = :userId and languageId=:langId");
+            query.setParameter("userId", id);
+            query.setParameter("langId", langId);
+            userLoc = (UserLocalizationsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return userLoc;
     }
 }

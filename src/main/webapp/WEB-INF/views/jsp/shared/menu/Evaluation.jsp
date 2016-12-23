@@ -39,7 +39,7 @@
                             <td><c:out value="${forms.firstName}"/></td>
                             <td><c:out value="${forms.lastName}"/></td>
                                 <%--<td>
-                                    <spring:url value="/CTO/user/${user.id}/geninfo" var="userUrl" />
+                                    <spring:url value="/Manager/user/${user.id}/geninfo" var="userUrl" />
                                     <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
                                 </td>--%>
                             <td><form:textarea path="forms[${status.index}].comments" placeholder="Comments"

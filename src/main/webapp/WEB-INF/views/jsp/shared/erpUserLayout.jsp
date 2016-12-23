@@ -66,6 +66,9 @@
                     <li>
                         <a href="/User/Profile/Evaluation"><i class="fa fa-fw fa-bar-chart"></i> Evaluation history</a>
                     </li>
+                    <li>
+                        <a href="/Hierarchy"><i class="fa fa-line-chart"></i> Hierarchy</a>
+                    </li>
                     <hr/>
                     TAPPS System
                     <li>

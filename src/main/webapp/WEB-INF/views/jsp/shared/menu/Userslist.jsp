@@ -35,7 +35,6 @@
                     <th>Employee ID</th>
                     <th>First name</th>
                     <th>Last name</th>
-                    <th>Role</th>
                     <th>Username</th>
                     <th>Role</th>
                     <th style="text-align: center">Action</th>
@@ -47,14 +46,13 @@
                         <td><c:out value="${user.id}"/></td>
                         <td><c:out value="${user.firstName[2]}"/></td>
                         <td><c:out value="${user.lastName[2]}"/></td>
-                        <td></td>
                         <td><c:out value="${user.username}"/></td>
                         <td><c:out value="${roles.get(user.roleId)}"/></td>
                         <%
                             if((int)request.getAttribute("SystemRole")==1){
                         %>
                         <td style="text-align: center">
-                            <spring:url value="/CTO/user/${user.id}/Geninfo" var="userUrl"/>
+                            <spring:url value="/Manager/user/${user.id}/Geninfo" var="userUrl"/>
                             <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
                         </td>
 

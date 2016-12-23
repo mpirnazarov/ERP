@@ -37,7 +37,7 @@
                 <br>
                 Are you new to the company/system, and are you the right personnel to take part in projects?
                 <br>
-                If you think so, please contact CTO and other responsible staff members.
+                If you think so, please contact Manager and other responsible staff members.
             </div>
         </div>
     </div>

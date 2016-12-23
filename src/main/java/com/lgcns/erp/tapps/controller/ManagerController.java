@@ -6,8 +6,8 @@ import com.lgcns.erp.tapps.model.DbEntities.PersonalEvalutionsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.RoleLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
-import com.lgcns.erp.tapps.viewModel.CTO.Form;
-import com.lgcns.erp.tapps.viewModel.CTO.FormModel;
+import com.lgcns.erp.tapps.viewModel.Manager.Form;
+import com.lgcns.erp.tapps.viewModel.Manager.FormModel;
 import com.lgcns.erp.tapps.viewModel.PersonalInformationViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.*;
@@ -17,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -30,9 +29,9 @@ import java.util.Map;
  * Created by Muslimbek on 11/28/2016.
  */
 @Controller
-public class CTOController {
+public class ManagerController {
 
-    @RequestMapping(value = "/CTO/Profile", method = RequestMethod.GET)
+    @RequestMapping(value = "/Manager/Profile", method = RequestMethod.GET)
     public ModelAndView Hrprofile(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/Index");
@@ -41,8 +40,7 @@ public class CTOController {
         return mav;
     }
 
-    @RequestMapping (value = "/CTO/Profile/Appointment", method = RequestMethod.GET)
-    @ResponseBody
+    @RequestMapping (value = "/Manager/Profile/Appointment", method = RequestMethod.GET)
     public ModelAndView HrAppointmentrec(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/AppointmentRec");
@@ -51,8 +49,8 @@ public class CTOController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
-    @RequestMapping (value = "/CTO/Profile/Docs", method = RequestMethod.GET)
-    @ResponseBody
+
+    @RequestMapping (value = "/Manager/Profile/Docs", method = RequestMethod.GET)
     public ModelAndView CTODocs(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/Docs");
@@ -62,8 +60,8 @@ public class CTOController {
         return mav;
     }
 
-    @RequestMapping (value = "/CTO/Profile/Salary", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView HrSalaryrec(Principal principal){
+    @RequestMapping (value = "/Manager/Profile/Salary", method = RequestMethod.GET)
+    public ModelAndView HrSalaryrec(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/SalaryDetails");
         UsersEntity user = UserService.getUserByUsername(principal.getName());
@@ -73,8 +71,8 @@ public class CTOController {
         return mav;
     }
 
-    @RequestMapping (value = "/CTO/Profile/Edu", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView HrEdu(Principal principal){
+    @RequestMapping (value = "/Manager/Profile/Edu", method = RequestMethod.GET)
+    public ModelAndView HrEdu(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/EducationCer");
         EduViewModel hreduViewModel = UserController.getEducationByUsername(principal.getName());
@@ -82,8 +80,8 @@ public class CTOController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
-    @RequestMapping (value = "/CTO/Profile/Jobexp", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView HrJobexp(Principal principal){
+    @RequestMapping (value = "/Manager/Profile/Jobexp", method = RequestMethod.GET)
+    public ModelAndView HrJobexp(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/JobExp");
         List<JobexpViewModel> jobexpViewModel = UserController.getJobExperience(principal.getName());
@@ -91,8 +89,8 @@ public class CTOController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
-    @RequestMapping (value = "/CTO/Profile/Train", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView HrTrain(Principal principal){
+    @RequestMapping (value = "/Manager/Profile/Train", method = RequestMethod.GET)
+    public ModelAndView HrTrain(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/TrainingRec");
         List<TrainViewModel> trainViewModel = UserController.getTrainingRecord(principal.getName());
@@ -100,8 +98,8 @@ public class CTOController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
-    @RequestMapping(value = "/CTO/Profile/Project", method = RequestMethod.GET)
-    @ResponseBody
+
+    @RequestMapping(value = "/Manager/Profile/Project", method = RequestMethod.GET)
     public ModelAndView Project(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/Project");
@@ -110,8 +108,8 @@ public class CTOController {
         /*mav.addObject("docsVM", docsViewModel);*/
         return mav;
     }
-    @RequestMapping (value = "/CTO/Userslist", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView HrUserslist(Principal principal){
+    @RequestMapping (value = "/Manager/Userslist", method = RequestMethod.GET)
+    public ModelAndView HrUserslist(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/Userslist");
         List<ProfileViewModel> users = getUsers();
@@ -128,7 +126,7 @@ public class CTOController {
         return mav;
     }
 
-    @RequestMapping(value = "CTO/changepass", method = RequestMethod.GET)
+    @RequestMapping(value = "Manager/changepass", method = RequestMethod.GET)
     public ModelAndView ChangePass(Principal principal){
         ModelAndView mav = new ModelAndView();
         ChangepassViewModel changepassViewModel = new ChangepassViewModel ();
@@ -138,11 +136,11 @@ public class CTOController {
         return mav;
     }
 
-    @RequestMapping(value = "/CTO/user/{userId}/{path}", method = RequestMethod.GET)
+    @RequestMapping(value = "/Manager/user/{userId}/{path}", method = RequestMethod.GET)
     public ModelAndView UpdateFamInfo(Principal principal, @PathVariable("userId") int userId, @PathVariable("path") String path){
         String username = UserService.getUsernameById(userId);
         ModelAndView mav = new ModelAndView();
-        mav.addObject("path", "CTO");
+        mav.addObject("path", "Manager");
         ProfileViewModel userProfile = UserController.getProfileByUsername(username);
         mav.addObject("userProfileUser", userProfile);
         mav = UP.includeUserProfile(mav, principal);
@@ -188,7 +186,7 @@ public class CTOController {
         return null;
     }
 
-    @RequestMapping ( value = "/CTO/Evaluation", method = RequestMethod.POST )
+    @RequestMapping ( value = "/Manager/Evaluation", method = RequestMethod.POST )
     public String UpdateEvaluation(Model model, FormModel form, BindingResult result, Principal principal){
         int id = UserService.getIdByUsername(principal.getName());
         insertEvaluations(form, id);
@@ -204,7 +202,7 @@ public class CTOController {
         }
     }
 
-    @RequestMapping(value = "/CTO/Profile/Evaluation", method = RequestMethod.GET)
+    @RequestMapping(value = "/Manager/Profile/Evaluation", method = RequestMethod.GET)
     public ModelAndView Evaluation(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/EvaluationHistory");
@@ -214,7 +212,7 @@ public class CTOController {
         return mav;
     }
 
-    @RequestMapping (value = "/CTO/Evaluation", method = RequestMethod.GET)
+    @RequestMapping (value = "/Manager/Evaluation", method = RequestMethod.GET)
     public ModelAndView  CTOUserslist(Model model, Principal principal){
         ModelAndView mav = new ModelAndView();
         List<ProfileViewModel> users = getUsers();
@@ -222,11 +220,13 @@ public class CTOController {
         Form f=new Form();
         for (ProfileViewModel pvm :
                 users) {
-            f=new Form();
-            f.setFirstName(pvm.getFirstName()[2]);
-            f.setLastName(pvm.getLastName()[2]);
-            f.setId(pvm.getId());
-            users2.add(f);
+            if(pvm.getChiefId()==UserService.getIdByUsername(principal.getName())) {
+                f = new Form();
+                f.setFirstName(pvm.getFirstName()[2]);
+                f.setLastName(pvm.getLastName()[2]);
+                f.setId(pvm.getId());
+                users2.add(f);
+            }
         }
         FormModel formModel = new FormModel();
         formModel.setForms(users2);
@@ -258,85 +258,15 @@ public class CTOController {
                     userLocalizationsEntities) {
                 userProfile.addData1(String.format("%05d", user.getId()), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
             }
-
+            if(user.getChiefId()!=null)
+            {
+                userProfile.setChiefId(userEntity.getChiefId());
+            }
             if(user.getRoleId()!=null)
             {
                 userProfile.setRoleId(user.getRoleId());
             }
-            /*//Getting department name
-            userProfile.setDepartment(UserService.getDepartments().get(3).getName());
 
-            //Getting Position from user_in_roles
-            userProfile.setPosition(UserService.getRoleLoc(user).getName());
-
-            //Getting is political
-            if (user.getPolitical())
-                userProfile.setPolitical("Yes");
-            else
-                userProfile.setPolitical("No");
-
-            //Getting Joint Type
-            userProfile.setJointType(Appoint.values()[UserController.getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());
-
-            //Getting status
-            userProfile.setStatus(UserService.getStatuses().get(3).getName());
-
-            //Getting job title
-            int postId = UserController.getMax(UserService.getUserInPost(user)).getPostId();
-            userProfile.setJobTitle(UserService.getJobTitle(postId, 3).getName());
-
-            //RoleLocalizationsEntity roleLoc = UserService.getPosition(userInRoles);
-            //returning.setPosition();
-
-            //Getting passport number
-            userProfile.setPassportNumber(user.getPassport());
-
-            //Getting and setting entry date
-            userProfile.setEntryDate(user.getHiringDate());
-
-            PersonalInformationViewModel personalInfo = new PersonalInformationViewModel();
-
-            //Getting birth place
-            //System.out.println("Birth Place: " + UserService.getUserLocalizations(user).getBirthPlace());
-            //returning.setBirthPlace(UserService.getUserLocalizations(user).getBirthPlace().toString());
-            int i = 0;
-            for (UserLocalizationsEntity userLoc :
-                    UserService.getUserLocalizations(user)) {
-                personalInfo.addBirthPlace(userLoc.getBirthPlace(), userLoc.getLanguageId());
-            }
-
-
-            personalInfo.setDateOfBirth(user.getDateOfBirth());
-            personalInfo.setHomePhone(user.getHomePhone());
-            personalInfo.setMobilePhone(user.getMobilePhone());
-            personalInfo.setEmailCompany(user.geteMail());
-            personalInfo.setEmailPersonal(user.getPersonalEmail());
-
-            userProfile.setPersonalInfo(personalInfo);
-
-            List<BirthPlace> bPlace = userProfile.getPersonalInfo().getBirthPlace();
-
-            //Getting family information
-            List<FamilyInfosEntity> familyInfosEntities = UserService.getFamilyInfos(user);
-            List<FamilyMember> familyMembers = new LinkedList<FamilyMember>();
-            List<FamiliyInfoLocalizationsEntity> familyLoc2;
-            for (FamilyInfosEntity fie :
-                    familyInfosEntities) {
-                familyLoc2 = UserService.getFamilyInfosLoc(fie);
-
-                FamilyMember familyMember = new FamilyMember(familyLoc2.size());
-                for (FamiliyInfoLocalizationsEntity faInLoEn :
-                        familyLoc2) {
-                    familyMember.add(faInLoEn.getRelation(), faInLoEn.getLastName() + " " + faInLoEn.getFirstName(), fie.getDateOfBirth(), faInLoEn.getJobTitle(), faInLoEn.getLanguageId());
-                    // System.out.println( familyMember.getRelation()[faInLoEn.getLanguageId()-1]+ " " + familyMember.getFullName()[faInLoEn.getLanguageId()-1] + " " + familyMember.getDateOfBirth() + " " + familyMember.getJobTitle()[faInLoEn.getLanguageId()-1]);
-                }
-                familyMembers.add(familyMember);
-            }
-            userProfile.setFamilyLoc(familyMembers);
-
-            // (MUST BE FINISHED!) Getting and setting vacation days
-            userProfile.setVacationDaysLeft(0);
-            userProfile.setVacationDaysAll(12);*/
             returning.add(userProfile);
         }
         return returning;

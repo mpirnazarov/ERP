@@ -29,7 +29,7 @@
             <c:forEach items="${documents}" var="doc" varStatus="status">
                 <tr>
                     <td>${doc.name}</td>
-                    <td>${docType(doc.documentType)}</td>
+                    <td>${docType.get(doc.documentType)}</td>
                     <td class="text-center"><a href="Docs/Download/<c:out value="${doc.id}"/>" class="btn btn-primary">Download</a> <a
                             href="Docs/Del/<c:out value="${doc.id}"/>" class="btn btn-danger">Delete</a></td>
                 </tr>

@@ -8,6 +8,9 @@
 
     <!-- enable use-expressions -->
 	<http auto-config="true" use-expressions="true" disable-url-rewriting="true">
+		<intercept-url pattern="/Hr/**" access="hasRole('3')" />
+		<intercept-url pattern="/Manager/**" access="hasRole('1')" />
+		<intercept-url pattern="/User/**" access="hasRole('2')" />
 		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/favicon.ico" access="permitAll" />
 		<intercept-url pattern="/logout" access="permitAll" />
@@ -25,6 +28,10 @@
 			password-parameter="password" />
 		<logout logout-success-url="/login?logout"  />
 		<!-- enable csrf protection -->
+		<!--<csrf />-->
+
+		<!-- remember me enable -->
+		<remember-me key="uniqueAndSecret"/>
 	</http>
 	
 	<!-- Select users and user_roles from database -->

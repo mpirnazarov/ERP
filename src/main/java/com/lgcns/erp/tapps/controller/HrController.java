@@ -1651,25 +1651,15 @@ public class HrController {
         return uip;
     }
 
+
     private Map<Integer, String> getDirectHeadIdAndName() {
-        Map<Integer, String> heads = new LinkedHashMap<Integer, String>();
-        Collection<UsersEntity> usersWithInfo = UserService.getDirectHeads();   //Getting list of users with localization info
-        Iterator itr = usersWithInfo.iterator();                                //info for iterator
-        UsersEntity userTemp;                                                   //info for iterator
-        UserLocalizationsEntity userLocTemp;                                    //info for iterator
-
-        while (itr.hasNext()) {
-            Object[] obj = (Object[]) itr.next();
-            userTemp = (UsersEntity) obj[0];
-            userLocTemp = (UserLocalizationsEntity) obj[1];
-            if (userLocTemp != null)
-                heads.put(userTemp.getId(), userLocTemp.getFirstName() + " " + userLocTemp.getLastName());
-            else
-                heads.put(userTemp.getId(), userTemp.getUserName());
+        Map<Integer, String> users = new LinkedHashMap<Integer, String>();
+        for (UserLocalizationsEntity loc : UserService.getAllUserLocs()) {
+            users.put(loc.getUserId(), loc.getFirstName() + " " + loc.getLastName());
         }
-
-        return heads;
+        return users;
     }
+
 
     private Map<Integer, String> getDepartmentsIdAndName() {
         Map<Integer, String> departments = new LinkedHashMap<Integer, String>();        //Getting departments and adding to model and view

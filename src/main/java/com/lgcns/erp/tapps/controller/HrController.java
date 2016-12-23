@@ -1593,7 +1593,7 @@ public class HrController {
             userTemp = (UsersEntity) obj[0];
             userLocTemp = (UserLocalizationsEntity) obj[1];
             if (userLocTemp != null)
-                heads.put(userTemp.getId(), userLocTemp.getFirstName() + " " + userLocTemp.getFirstName());
+                heads.put(userTemp.getId(), userLocTemp.getFirstName() + " " + userLocTemp.getLastName());
             else
                 heads.put(userTemp.getId(), userTemp.getUserName());
         }

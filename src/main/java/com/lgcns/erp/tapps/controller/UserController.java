@@ -1,6 +1,8 @@
 package com.lgcns.erp.tapps.controller;
 
+import com.lgcns.erp.hr.enums.WorkloadType;
 import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.tapps.DbContext.WorkloadServices;
 import com.lgcns.erp.tapps.Enums.Appoint;
 import com.lgcns.erp.tapps.Enums.Document_Type;
 import com.lgcns.erp.tapps.Enums.Language;
@@ -29,6 +31,7 @@ import java.nio.charset.Charset;
 import java.security.Principal;
 import java.sql.Date;
 import java.text.NumberFormat;
+import java.time.*;
 import java.util.*;
 
 
@@ -454,13 +457,38 @@ public class UserController {
             returning.setFamilyLoc(familyMembers);
 
             // (MUST BE FINISHED!) Getting and setting vacation days
-            returning.setVacationDaysLeft(0);
-            returning.setVacationDaysAll(12);
+            returning.setVacationDaysLeft(getUsedVacationsNumber(user));
+            returning.setVacationDaysAll(24);
         }catch (Exception e){
             e.printStackTrace();
         }
         return returning;
     }
+
+    private static int getUsedVacationsNumber(UsersEntity user) {
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        Instant i = Instant.ofEpochMilli(user.getHiringDate().getTime());
+        LocalDateTime hiringDateTime = LocalDateTime.ofInstant(i, ZoneOffset.UTC);
+
+        hiringDateTime = hiringDateTime.withYear(currentTime.getYear());
+        List<WorkloadEntity> workloads;
+
+        if(currentTime.isAfter(hiringDateTime) || currentTime.isEqual(hiringDateTime)){
+            LocalDateTime temp = hiringDateTime.plusYears(1);
+            Instant instant = hiringDateTime.toInstant(ZoneOffset.UTC), instant1 = temp.toInstant(ZoneOffset.UTC);
+            java.util.Date from = Date.from(instant), to = Date.from(instant1);
+            workloads = WorkloadServices.getWorkloadByPeriod(user.getId(), 0, WorkloadType.Annual_leave.getValue(), from, to);
+        }else{
+            LocalDateTime temp = hiringDateTime.minusYears(1);
+            Instant instant = hiringDateTime.toInstant(ZoneOffset.UTC), instant1 = temp.toInstant(ZoneOffset.UTC);
+            java.util.Date from = Date.from(instant1), to = Date.from(instant);
+            workloads = WorkloadServices.getWorkloadByPeriod(user.getId(), 0, WorkloadType.Annual_leave.getValue(), from, to);
+        }
+
+        return workloads.size();
+    }
+
 
     public static AppointmentrecViewModel getAppointmentByUsername(String userName) {
         AppointmentrecViewModel returning = new AppointmentrecViewModel();

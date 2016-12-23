@@ -59,7 +59,7 @@ public class UserMapper {
             locEntity.setFatherName(locInfo.getFathersName());
             locEntity.setLanguageId(locInfo.getLanguageId());
             locEntity.setUserId(userId);
-
+            locEntity.setBirthPlace(locInfo.getBirthPlace());
             returning.add(locEntity);
         }
         return returning;

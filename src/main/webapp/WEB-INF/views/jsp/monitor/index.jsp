@@ -111,19 +111,19 @@
                                         </tr>
                                         </thead>
                                         <tbody id="tbody">
-                                        <tr>
                                             <c:forEach items="${viewModel}" var="monitor">
-                                                <td>${monitor.userName}</td>
-                                                <td>${monitor.projectName}</td>
-                                                <td>${monitor.type}</td>
-                                                <td>${monitor.date}</td>
-                                                <td>${monitor.duration}</td>
+                                                <tr>
+                                                    <td>${monitor.userName}</td>
+                                                    <td>${monitor.projectName}</td>
+                                                    <td>${monitor.type}</td>
+                                                    <td>${monitor.date}</td>
+                                                    <td>${monitor.duration}</td>
+                                                </tr>
                                             </c:forEach>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4" align="right">Total</td>
-                                            <td><b>${total}</b></td>
-                                        </tr>
+                                                <tr>
+                                                    <td colspan="4" align="right">Total</td>
+                                                    <td><b>${total}</b></td>
+                                                </tr>
                                         </tbody>
                                     </table>
                                 </div>

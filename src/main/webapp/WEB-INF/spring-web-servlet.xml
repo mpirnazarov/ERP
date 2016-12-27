@@ -64,6 +64,7 @@
 
 
 	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/monitorScripts/**" location="/WEB-INF/views/jsp/monitor/" />
 	<mvc:resources mapping="/image/**" location="file:///C:/files/photos/" />
 	<mvc:resources mapping="/temp/**" location="file:///C:/files/temp/" />
 	<mvc:annotation-driven />

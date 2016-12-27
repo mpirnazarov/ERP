@@ -17,6 +17,26 @@
 <c:set var="pageTitle" scope="request" value="Monitor workloads"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
+
+<%--
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+<script type="text/javascript" src="https://simonbengtsson.github.io/jsPDF-AutoTable/libs/jspdf.plugin.autotable.src.js"></script>
+--%>
+
+
+<spring:url value="/monitorScripts/tableExport.js" var="tableExport"/>
+<spring:url value="/monitorScripts/jquery.base64.js" var="jqueryBase64"/>
+<spring:url value="/monitorScripts/html2canvas.js" var="html2canvas"/>
+<spring:url value="/monitorScripts/jspdf/libs/sprintf.js" var="sprintf"/>
+<spring:url value="/monitorScripts/jspdf/jspdf.js" var="jspdf"/>
+<spring:url value="/monitorScripts/jspdf/libs/base64.js" var="base64"/>
+<script type="text/javascript" src="${tableExport}"></script>
+<script type="text/javascript" src="${jqueryBase64}"></script>
+<script type="text/javascript" src="${html2canvas}"></script>
+<script type="text/javascript" src="${sprintf}"></script>
+<script type="text/javascript" src="${jspdf}"></script>
+<script type="text/javascript" src="${base64}"></script>
+
 <div class="container-fluid">
     <div class="row">
         <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
@@ -34,6 +54,21 @@
                                     Actions
                                     <span class="caret"></span>
                                 </button>
+                                <ul class="dropdown-menu pull-right" role="menu">
+                                    <li>
+                                        <a href="" onclick="ExportExcel()">Export to Excel</a>
+                                    </li>
+                                    <li>
+                                        <a href="" onclick="$('#myTable').tableExport({type:'excel',escape:'false'});">Export to XLS</a>
+                                    </li>
+                                    <li>
+                                        <a href="" onclick="$('#myTable').tableExport({type:'csv',escape:'false'});">Export to CSV</a>
+                                    </li>
+                                    <li>
+                                        <a href="" onclick="$('#myTable').tableExport({type:'txt',escape:'false'});">Export to TXT</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -95,35 +130,35 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-striped" id="myTable"
-                                           style="color: #000;">
+                                <div class="table-responsive" id="targetData">
+                                    <table class="table table-bordered" id="myTable"
+                                           style="color: #696969;">
                                         <thead>
-                                        <tr>
-                                            <th>Employee</th>
-                                            <th>Project</th>
-                                            <th>Type</th>
-                                            <th>Date</th>
-                                            <th>Duration</th>
-                                        </tr>
+                                            <tr>
+                                                <th>Employee</th>
+                                                <th>Project</th>
+                                                <th>Type</th>
+                                                <th>Date</th>
+                                                <th>Duration</th>
+                                            </tr>
                                         </thead>
                                         <tbody id="tbody">
-                                            <c:forEach items="${viewModel}" var="monitor">
-                                                <tr>
-                                                    <td>${monitor.userName}</td>
-                                                    <td>${monitor.projectName}</td>
-                                                    <td>${monitor.type}</td>
-                                                    <td>${monitor.date}</td>
-                                                    <td>${monitor.duration}</td>
-                                                </tr>
-                                            </c:forEach>
-                                                <tr>
-                                                    <td colspan="4" align="right">Total</td>
-                                                    <td><b>${total}</b></td>
-                                                </tr>
+                                        <c:forEach items="${viewModel}" var="monitor">
+                                            <tr>
+                                                <td>${monitor.userName}</td>
+                                                <td>${monitor.projectName}</td>
+                                                <td>${monitor.type}</td>
+                                                <td>${monitor.date}</td>
+                                                <td>${monitor.duration}</td>
+                                            </tr>
+                                        </c:forEach>
+
+                                        <tr>
+                                            <td colspan="4" align="right">Total</td>
+                                            <td><b>${total}</b></td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -131,7 +166,7 @@
                             </div>
                             <!-- /.col-lg-4 (nested) -->
                             <div class="col-lg-8">
-                                <div id="morris-bar-chart"></div>
+                                <div id="morris-bar-chart" class="info"><p></p></div>
                             </div>
                             <!-- /.col-lg-8 (nested) -->
                         </div>
@@ -139,6 +174,8 @@
                     </div>
                     <!-- /.panel-body -->
                 </div>
+
+
             </div>
         </div>
     </div>
@@ -147,10 +184,63 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>
 
 <script>
+    function ExportExcel() {
+        var tab_text = "<table border='2px'><tr bgcolor='#87AFC6'>";
+        var textRange; var j = 0;
+        tab = document.getElementById('myTable'); // id of table
+
+        for (j = 0 ; j < tab.rows.length ; j++) {
+            tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
+            //tab_text=tab_text+"</tr>";
+        }
+
+        tab_text = tab_text + "</table>";
+        tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+        tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE");
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open("txt/html", "replace");
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus();
+            sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to V_endetta.xls");
+        }
+        else                 //other browser not tested on IE 11
+            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+
+        return (sa);
+    }
     $(document).ready(function () {
         /*$('document').ready(function () {
          getval("null");
          })*/
+        function toDataTable() {
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                bPaginate:false,
+                bFilter: false,
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ],
+                aoColumnDefs: [{
+                    'bSortable': false,
+                    'aTargets': ['nosort']
+                }]
+            });
+            var table = $('#mytable').dataTable();
+            var tableTools = new $.fn.dataTable.TableTools( table, {
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            } );
+            $(tableTools.fnContainer()).insertAfter('#forButtons');
+        }
+
 
         $(".myTargetComponent").change(function () {
             getval("null");
@@ -189,16 +279,18 @@
                 var row = $("<tr/>")
                 $("#myTable").append(row);
                 row.append($("<td colspan = \"5\" align=\"center\"> There is no data to display for employee <b>" + $("#userId option:selected").text() + "</b>" + " with workload of type <i>" + $('#typeId option:selected').text() + "</i> at project <b> " + $("#projectid option:selected").text() + "</b>, from <u>" + $("#FromDate").val() + "</u> to <u>" + $("#ToDate").val() + "</u></td>"));
+                return;
             }
             var tempTotal = 0;
             for (var i = 0; i < result.projects.length; i++) {
                 drawRow(result.projects[i]);
                 tempTotal += parseInt(result.projects[i].duration);
             }
+
             var row = $("<tr/>");
-            $("#myTable").append(row);
             row.append($("<td colspan = \"4\" align=\"right\"> Total</td>"));
-            row.append($("<td><b>" + tempTotal + "</b></td>"));
+            row.append($("<td>" + tempTotal + "</td>"));
+            $("#myTable").append(row);
         }
 
         function drawRow(rowData) {
@@ -211,15 +303,5 @@
             row.append($("<td>" + rowData.duration + " </td>"));
         }
 
-        $('#myTable').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'excel', 'pdf', 'print'
-            ],
-            aoColumnDefs: [{
-                'bSortable': false,
-                'aTargets': ['nosort']
-            }]
-        });
     });
 </script>

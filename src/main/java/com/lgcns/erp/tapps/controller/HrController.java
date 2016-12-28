@@ -287,6 +287,29 @@ public class HrController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
+    @RequestMapping (value = "/Hr/Head", method = RequestMethod.GET)
+    @ResponseBody public ModelAndView HrHead(Principal principal){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("Home/editmenu/head");
+        List<ProfileViewModel> users = getUsers();
+        mav.addObject("hrUserslistVM", users);
+        Map<Integer, String> roles = new HashMap<Integer, String>();
+        List<RoleLocalizationsEntity> roleLocalizationsEntityList = UserService.getRolesLoc();
+        for (RoleLocalizationsEntity role :
+                roleLocalizationsEntityList) {
+            if(role.getLenguageId()==3)
+                roles.put(role.getRoleId(), role.getName());
+        }
+        mav.addObject("roles", roles);
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+    @RequestMapping (value = "/Hr/Head", method = RequestMethod.POST)
+     public String HrHeadPost(String[] usersList, Principal principal){
+        System.out.println("POSTHead: " + usersList);
+
+        return "redirect: /Hr/Head";
+    }
 
     @RequestMapping(value = "/Hr/Profile/Evaluation", method = RequestMethod.GET)
     public ModelAndView Evaluation(Principal principal) {

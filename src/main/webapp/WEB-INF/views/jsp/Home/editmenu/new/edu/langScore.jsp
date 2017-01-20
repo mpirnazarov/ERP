@@ -55,7 +55,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Degree: </label>
-                    <div class="col-lg-5"><form:input placeholder="Degree" required="true"
+                    <div class="col-lg-5"><form:input placeholder="Degree"
                                                       cssClass="form-control text-box single-line"
                                                       path="degree" value="${cert.degree}"/></div>
                 </div>

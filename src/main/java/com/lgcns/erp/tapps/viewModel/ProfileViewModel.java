@@ -37,7 +37,7 @@ public class ProfileViewModel {
     private String position;
     private String jointType;
     private String status;
-    private String jobTitle;
+    private String jobTitle, external;
     private String passportNumber;
     private int roleId;
     private int languageId;
@@ -52,6 +52,7 @@ public class ProfileViewModel {
     private PersonalInformationViewModel personalInfo;
     private List<FamilyMember> familyLoc;
     private int chiefId;
+    private int externalId;
     public List<FamilyMember> getFamilyLoc() {
         return familyLoc;
     }
@@ -303,5 +304,21 @@ public class ProfileViewModel {
 
     public void setChiefId(int chiefId) {
         this.chiefId = chiefId;
+    }
+
+    public int getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(int externalId) {
+        this.externalId = externalId;
+    }
+
+    public String getExternal() {
+        return external;
+    }
+
+    public void setExternal(String external) {
+        this.external = external;
     }
 }

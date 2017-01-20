@@ -28,7 +28,7 @@ public class AppointmentrecViewModel {
         this.appointmentSummaries = appointmentSummaries;
     }
 
-    public void addAppointSummary(Date dateFrom, int contractType, int postId, int id, int departmentId, int roleId) {
+    public void addAppointSummary(Date dateFrom, int contractType, int postId, int id, int departmentId, int roleId, int externalId) {
         AppointmentSummary app=new AppointmentSummary();
         app.setAppointDate(dateFrom);
         app.setContractType(contractType);
@@ -36,6 +36,7 @@ public class AppointmentrecViewModel {
         app.setId(id);
         app.setDepartmentId(departmentId);
         app.setRoleId(roleId);
+        app.setExternalId(externalId);
         appointmentSummaries.add(app);
     }
 }

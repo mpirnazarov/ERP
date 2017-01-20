@@ -16,6 +16,7 @@
     <div class="col-lg-8 col-lg-offset-2">
         <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
+        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %></p>
         <h2 class="page-header">List of documents</h2>
         <table class="table">
             <thead>

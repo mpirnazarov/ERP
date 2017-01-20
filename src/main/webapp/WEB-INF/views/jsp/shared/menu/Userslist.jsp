@@ -44,9 +44,9 @@
                 <c:forEach items="${hrUserslistVM}" var="user">
                     <tr>
                         <td><c:out value="${user.id}"/></td>
-                        <td><c:out value="${user.firstName[2]}"/></td>
-                        <td><c:out value="${user.lastName[2]}"/></td>
-                        <td><c:out value="${user.username}"/></td>
+                        <td><c:out value="${user.firstName}"/></td>
+                        <td><c:out value="${user.lastName}"/></td>
+                        <td><c:out value="${user.userName}"/></td>
                         <td><c:out value="${roles.get(user.roleId)}"/></td>
                         <%
                             if((int)request.getAttribute("SystemRole")==1){

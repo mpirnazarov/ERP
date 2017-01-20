@@ -14,6 +14,7 @@
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-offset-2">
         <h1>${fullName}, ${jobTitle}</h1>
+        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;">${external}</p>
         <h2 class="page-header">Appointment Record</h2>
         <table class="table">
             <thead>
@@ -22,6 +23,7 @@
                 <th>Contract type</th>
                 <th>Department</th>
                 <th>Job title</th>
+                <th>External level</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -32,6 +34,7 @@
                     <td class="col-md-3">${contracts.get(appointment.contractType)}</td>
                     <td class="col-md-5">${departments.get(appointment.departmentId)}</td>
                     <td class="col-md-4">${posts.get(appointment.postId)}</td>
+                    <td class="col-md-4">${externals.get(appointment.externalId)}</td>
                     <td><a href="./Appointment/Edit/${appointment.id}" class="btn btn-default">Edit</a></td>
                 </tr>
             </c:forEach>

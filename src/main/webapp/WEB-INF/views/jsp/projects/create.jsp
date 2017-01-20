@@ -14,6 +14,20 @@
 <c:set var="now" value="<%=new java.util.Date()%>"/>
 <fmt:formatDate value="${now}" var="nowFormatted" pattern="yyyy-MM-dd"/>
 <fmt:formatDate value="${now}" var="curYear" pattern="yyyy"/>
+<script>
+    function isValidDate()
+    {
+        var startDate = new Date(document.getElementById("startDate").value);
+        var endDate = new Date(document.getElementById("endDate").value);
+
+        if (startDate.getTime() >= endDate.getTime())
+        {
+            alert ("Error on date. Start date cannot be more recent than end date!");
+            return false;
+        }
+
+    }
+</script>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
@@ -48,7 +62,7 @@
     <div class="col-md-offset-2 col-md-9">
         <div class="row">
             <div class="col-md-offset-2 col-md-9">
-                <form:form modelAttribute="createVM" cssClass="form" method="post" action="/Projects/Create"
+                <form:form modelAttribute="createVM" cssClass="form" method="post" action="/Projects/Create" onsubmit="return isValidDate();"
                            id="myForm">
 
                     <c:forEach items="${createVM.projects}" var="project" varStatus="i">
@@ -69,14 +83,14 @@
                             </div>
                             <div class="form-group col-md-offset-1 col-md-3">
                                 <label class="control-label">UZS amount</label>
-                                <form:input path="projects[${i.index}].moneyUzs" type="number"
+                                <form:input path="projects[${i.index}].moneyUzs" type="number" min="0"
                                             cssClass="form-control single-line"/>
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">Start Date <font color='red'>*</font></label>
                                     <%--<form:input path="projects[${i.index}].startDate" type="date"
                                                 cssClass="form-control text-box single-line requiredDate" value="${now}"/>--%>
-                                <input name="projects[${i.index}].startDate" type="date"
+                                <input name="projects[${i.index}].startDate" type="date" id="startDate"
                                        class="form-control text-box single-line requiredDate"
                                        value="<c:out value='${nowFormatted}' />">
                             </div>
@@ -91,13 +105,13 @@
                             <div class="form-group col-md-offset-1 col-md-3">
                                 <div>
                                     <label class="control-label">USD amount</label>
-                                    <form:input path="projects[${i.index}].moneyUsd" type="number"
+                                    <form:input path="projects[${i.index}].moneyUsd" type="number" min="0"
                                                 cssClass="form-control single-line"/>
                                 </div>
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">End Date <font color='red'>*</font></label>
-                                <input name="projects[${i.index}].endDate" type="date"
+                                <input name="projects[${i.index}].endDate" type="date" id="endDate"
                                        class="form-control text-box single-line requiredDate"
                                        value="<c:out value='${nowFormatted}' />">
                             </div>

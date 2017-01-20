@@ -20,14 +20,13 @@
         <div class="table-responsive">
 
             <br/>
-            <form:form method="post">
+            <form:form method="post" commandName="person">
                 <table id="myTable" class="display table" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>Employee ID</th>
                         <th>First name</th>
                         <th>Last name</th>
-                        <th>Role</th>
                         <th style="text-align: center">Checkbox</th>
                     </tr>
                     </thead>
@@ -35,10 +34,9 @@
                     <c:forEach items="${hrUserslistVM}" var="user">
                         <tr>
                             <td><c:out value="${user.id}"/></td>
-                            <td><c:out value="${user.firstName[2]}"/></td>
-                            <td><c:out value="${user.lastName[2]}"/></td>
-                            <td><c:out value="${roles.get(user.roleId)}"/></td>
-                            <td><input type="checkbox" name="userlist[]"></td>
+                            <td><c:out value="${user.firstName}"/></td>
+                            <td><c:out value="${user.lastName}"/></td>
+                            <td><form:checkbox path="isChecked" value="${user.id}"/></td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -57,7 +55,7 @@
             select: true,
             "order": [[0, "desc"]],
             buttons: [
-                'copy', 'excel', 'pdf', 'print',
+
             ]
         });
     });

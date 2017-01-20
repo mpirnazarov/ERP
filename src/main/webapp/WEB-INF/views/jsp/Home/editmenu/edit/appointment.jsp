@@ -45,6 +45,11 @@
                                 <div class="col-lg-5"><form:select path="postId" items="${posts}"
                                                                    cssClass="form-control text-box single-line"/></div>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">External: <font color='red'>*</font></label>
+                                <div class="col-lg-5"><form:select path="externalId" items="${externals}"
+                                                                   cssClass="form-control text-box single-line"/></div>
+                            </div>
 
             </div>
             <div class="form-group">

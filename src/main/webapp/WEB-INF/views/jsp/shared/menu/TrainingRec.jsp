@@ -38,6 +38,7 @@
     <div class="col-lg-offset-2">
         <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
+        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %></p>
         <h2 class="page-header">Training Record</h2>
         <!--Trainings table-->
         <table class="table">

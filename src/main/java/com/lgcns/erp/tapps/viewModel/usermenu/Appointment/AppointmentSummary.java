@@ -12,7 +12,7 @@ public class AppointmentSummary {
     private String role;
     private int userId;
     private int id;
-    private int contractType, postId, departmentId, roleId;
+    private int contractType, postId, departmentId, roleId, externalId;
 
     public AppointmentSummary() {
     }
@@ -112,6 +112,14 @@ public class AppointmentSummary {
 
     public void setRoleId(int roleId) {
         this.roleId = roleId;
+    }
+
+    public int getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(int externalId) {
+        this.externalId = externalId;
     }
 
     @Override

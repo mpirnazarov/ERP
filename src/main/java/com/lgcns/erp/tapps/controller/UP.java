@@ -62,5 +62,10 @@ public class UP {
         int postId = getMax(UserService.getUserInPost(user)).getPostId();
         if(UserService.getJobTitle(postId, Language.eng.getCode())!=null)
             userProfile.setJobTitle(UserService.getJobTitle(postId, 3).getName());
+        int externalId = getMax(UserService.getUserInPost(user)).getExternalId();
+        if(externalId >= 1) {
+            userProfile.setExternal(UserService.getExternalLoc(externalId));
+            userProfile.setExternalId(externalId);
+        }
     }
 }

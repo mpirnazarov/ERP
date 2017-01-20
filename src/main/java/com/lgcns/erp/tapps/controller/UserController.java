@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.registry.infomodel.User;
 import java.io.*;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
@@ -226,6 +227,12 @@ public class UserController {
     public ModelAndView Jobexp(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/JobExp");
+        Map<Integer, String> contracts = new HashMap<>();
+        for (Appoint ap :
+                Appoint.values()) {
+            contracts.put(ap.getValue(), ap.name().replace("_", " "));
+        }
+        mav.addObject("contracts", contracts);
         List<JobexpViewModel> jobexpViewModel = getJobExperience(principal.getName());
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("jobexpVM", jobexpViewModel);
@@ -276,7 +283,12 @@ public class UserController {
     public ModelAndView Evaluation(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/EvaluationHistory");
-        List<PersonalEvalutionsEntity> evaluations = UserService.getEvaluationsByUserId(UserService.getUserIdByUsername(principal.getName()));
+        List<PersonalEvalutionsEntity> evaluations = null;
+        try {
+            evaluations = UserService.getEvaluationsByUserId(UserService.getUserIdByUsername(principal.getName()));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("evaluationsVM", evaluations);
         List<UserLocalizationsEntity> usersEntities = UserService.getAllUserLocs();
@@ -392,19 +404,31 @@ public class UserController {
                 returning.setPolitical(false);
 
             //Getting Joint Type
-            if ((getMax(UserService.getUserInPost(user)).getContractType() - 1)>0)
-                returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());
+            if ((UserService.getUserInPost(user).get(0).getContractType() - 1)>=0)
+                returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString().replace("_", " "));
 
             //Getting status
-            if(UserService.getStatuses().get(3).getName()!=null)
-            returning.setStatus(UserService.getStatuses().get(3).getName());
+            List<StatusLocalizationsEntity> statuses;
+            statuses = UserService.getStatuses();
+            for (StatusLocalizationsEntity status :
+                    statuses) {
+                if (status.getStatusId() == user.getStatusId() && status.getLanguageId()==3)
+                    returning.setStatus(status.getName());
+            }
+            //returning.setStatus(UserService.getStatuses().get(3).getName());
 
             //Getting job title
             int postId=0;
+            int externId = 0;
             if(getMax(UserService.getUserInPost(user)).getPostId()>0) {
                 postId = getMax(UserService.getUserInPost(user)).getPostId();
                 if(UserService.getJobTitle(postId, 3).getName()!=null)
                     returning.setJobTitle(UserService.getJobTitle(postId, 3).getName());
+                externId = getMax(UserService.getUserInPost(user)).getExternalId();
+                if(externId>=1) {
+                    returning.setExternal(UserService.getExternalLoc(externId));
+                    returning.setExternalId(externId);
+                }
             }
 
             //RoleLocalizationsEntity roleLoc = UserService.getPosition(userInRoles);

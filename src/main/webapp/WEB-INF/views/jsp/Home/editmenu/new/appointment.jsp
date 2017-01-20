@@ -46,6 +46,11 @@
                                 <div class="col-lg-5"><form:select path="postId" items="${posts}" required="true"
                                                                    cssClass="form-control text-box single-line"/></div>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">External: <font color='red'>*</font></label>
+                                <div class="col-lg-5"><form:select path="externalId" items="${externals}" required="true"
+                                                                   cssClass="form-control text-box single-line"/></div>
+                            </div>
                         </div>
                 <div class="form-group">
                     <div class="col-md-offset-3 col-md-9">

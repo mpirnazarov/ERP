@@ -25,17 +25,14 @@
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName2") %>
-        </h1>
+    <div class="col-lg-offset-2">
+        <h1>${fullName}, ${jobTitle}</h1>
+        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;">${external}</p>
         <h2 class="page-header">Documents</h2>
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#listofdocs">List of documents</a></li>
-            <%--<li><a data-toggle="tab" href="#gen">Generatable documents</a></li>--%>
-        </ul>
+        <br/> <br/>
         <div class="tab-content">
             <div id="listofdocs" class="tab-pane fade in active">
-                <h3>List of documents</h3>
+                <%--<h3>List of documents</h3>--%>
                 <table class="table">
                     <thead>
                     <tr>
@@ -48,8 +45,8 @@
                     <c:forEach items="${docsVM}" var="doc" varStatus="status">
                         <tr>
                             <td>${doc.name}</td>
-                            <td>${doc.type}</td>
-                            <td><a href="Docs/download?id=<c:out value="${doc.docId}"/>"><i
+                            <td>${docType.get(docdoc.type)}</td>
+                            <td><a href="Docs/Download/<c:out value="${doc.docId}"/>"><i
                                     class="fa fa-fw fa-download"></i></a></td>
                         </tr>
                     </c:forEach>

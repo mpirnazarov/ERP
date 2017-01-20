@@ -20,6 +20,7 @@
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.DepartmentsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.DocumentsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.EducationLocalizationsEntity"/>
+        <mapping class="com.lgcns.erp.tapps.model.DbEntities.ExternalLocalizationsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.EducationsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.FamiliyInfoLocalizationsEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.FamilyInfosEntity"/>

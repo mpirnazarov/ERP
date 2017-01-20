@@ -15,6 +15,7 @@
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-8 col-lg-offset-2">
         <h1>${fullName}, ${jobTitle}</h1>
+        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;">${external}</p>
         <h2 class="page-header">Job Experience</h2>
         <!--Job experience table-->
         <table class="table">
@@ -35,7 +36,14 @@
                     <td class="col-md-2">${jobexp.position}</td>
                     <td class="col-md-2">${contractTypes.get(jobexp.contractType)}</td>
                     <td class="col-md-2 text-center">${jobexp.startDate}</td>
-                    <td class="col-md-2 text-center">${jobexp.endDate}</td>
+                    <c:choose>
+                        <c:when test="${jobexp.endDate != null}">
+                            <td class="col-md-2 text-center">${jobexp.endDate}</td>
+                        </c:when>
+                        <c:otherwise>
+                            <td class="col-md-2 text-center">Present</td>
+                        </c:otherwise>
+                    </c:choose>
                     <td class="col-md-1 text-center"><a href="./Jobexp/updateJob/${jobexp.id}" class="btn btn-default">Edit</a></td>
                 </tr>
             </c:forEach>

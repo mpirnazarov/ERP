@@ -16,6 +16,8 @@
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-offset-2">
         <h1>${fullName}, ${jobTitle}</h1>
+        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;">${external}</p>
+        <br />
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#headerinfo">Header information</a></li>
             <li><a data-toggle="tab" href="#personalinfo">Personal information</a></li>
@@ -113,7 +115,7 @@
                                     <div class="col-lg-5"><form:input placeholder="Ism" required="true"
                                                                       cssClass="form-control text-box single-line"
                                                                       path="firstName[1]"
-                                                                      value="${person.firstName[0]}"/></div>
+                                                                      value="${person.firstName[1]}"/></div>
                                 </div>
                                 <div class="form-group"><label class="control-label col-md-3">Sharf: </label>
                                     <div class="col-lg-5"><form:input placeholder="Sharf"
@@ -136,11 +138,6 @@
                         <div class="form-group"><label class="control-label col-md-3">Employee ID: </label>
                             <div class="col-lg-5">${person.id}</div>
                         </div>
-                        <div class="form-group"><label class="control-label col-md-3">Department: <font
-                                color='red'>*</font></label>
-                            <div class="col-lg-5"><form:select path="departmentId" items="${departments}" required="true"
-                                                               cssClass="form-control text-box single-line"/></div>
-                        </div>
                         <div class="form-group"><label class="control-label col-md-3">System role: <font
                                 color='red'>*</font></label>
                             <div class="col-lg-5"><form:select path="roleId" items="${roles}" required="true"
@@ -153,11 +150,6 @@
                         </div>--%>
                         <div class="form-group"><label class="control-label col-md-3">Status: <font color='red'>*</font></label>
                             <div class="col-lg-5"><form:select path="statusId" items="${statuses}" required="true"
-                                                               cssClass="form-control text-box single-line"/></div>
-                        </div>
-                        <div class="form-group"><label class="control-label col-md-3">Job title: <font
-                                color='red'>*</font></label>
-                            <div class="col-lg-5"><form:select path="postId" items="${jobTitles}" required="true"
                                                                cssClass="form-control text-box single-line"/></div>
                         </div>
                         <div class="form-group"><label class="control-label col-md-3">Passport Number: <font
@@ -398,9 +390,8 @@
                                             <td>${family.jobTitle[1]}</td>
                                             <td><a href="./Geninfo/updateFam/${family.id}/"
                                                    class="btn btn-default">Edit</a>
-                                                <a href="./Geninfo/deleteFam/${family.id}/" class="btn btn-danger">Delete</a>
+                                                <a href="./Geninfo/deleteFam/${family.id}/" class="btn btn-danger">a</a>
                                             </td>
-                                            <c:set var="count" value="${count + 1}" scope="page"/>
                                         </tr>
                                     </c:forEach>
                                     </tbody>

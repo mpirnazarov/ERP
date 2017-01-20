@@ -16,7 +16,7 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-offset-2">
-        <h1 class="page-header">Userslist</h1>
+        <h1 class="page-header">Evaluation page: </h1>
         <div class="table-responsive">
 
             <br/>
@@ -38,10 +38,6 @@
                             <td><c:out value="${forms.id}"/></td>
                             <td><c:out value="${forms.firstName}"/></td>
                             <td><c:out value="${forms.lastName}"/></td>
-                                <%--<td>
-                                    <spring:url value="/Manager/user/${user.id}/geninfo" var="userUrl" />
-                                    <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
-                                </td>--%>
                             <td><form:textarea path="forms[${status.index}].comments" placeholder="Comments"
                                                cssClass="form-control text-box" rows="3" cols="15"/></td>
                             <td>
@@ -57,24 +53,16 @@
                     </c:forEach>
                     </tbody>
                 </table>
-
-                <td><input type="submit" name="submit" value="Submit"></td>
+                <div class="form-group">
+                    <div class="col-lf-offset-1 col-md-9">
+                        <input type="submit" name="submit" value="Submit" class="btn btn-success"/>
+                        <input type="button" onclick="history.back()" value="Cancel"
+                               class="btn btn-default"/>
+                    </div>
+                </div>
             </form:form>
         </div>
 
     </div>
 </div>
-<%--<script>
-    $(document).ready(function(){
-        $('#myTable').DataTable({
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            dom: 'Bfrtip',
-            select: true,
-            "order": [[ 0, "desc" ]],
-            buttons: [
-                'copy', 'excel', 'pdf', 'print',
-            ]
-        });
-    });
-</script>--%>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

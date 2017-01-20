@@ -892,12 +892,11 @@ public class UserService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("update UsersEntity set dateOfBirth = :dateOfBirth, departmentId = :departmentId, mobilePhone = :mobilePhone, " +
+            Query query = session.createQuery("update UsersEntity set dateOfBirth = :dateOfBirth, mobilePhone = :mobilePhone, " +
                     "homePhone = :homePhone, eMail = :companyEmail, personalEmail = :personalEmail, statusId = :statusId, hiringDate=:hiringDate, " +
                     "political = :isPolitical, passport =:passport, roleId = :roleId  where id = :userid");
             query.setParameter("userid", Integer.parseInt(person.getId()));
             query.setParameter("dateOfBirth", person.getPersonalInfo().getDateOfBirth());
-            query.setParameter("departmentId", person.getDepartmentId());
             query.setParameter("mobilePhone", person.getPersonalInfo().getMobilePhone());
             query.setParameter("homePhone", person.getPersonalInfo().getHomePhone());
             query.setParameter("companyEmail", person.getPersonalInfo().getEmailCompany());
@@ -1088,7 +1087,6 @@ public class UserService {
 
             //Set foreign key items
             personalEvalutionsEntity.setUsersByUserId(session.load(UsersEntity.class, personalEvalutionsEntity.getUserId()));
-
             //Save the object in database
             session.save(personalEvalutionsEntity);
 
@@ -1739,11 +1737,13 @@ public class UserService {
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("update UserInPostsEntity set dateFrom = :dateFrom, contractType=:contractType, " +
-                    "postId=:postId, dateEnd=:dateEnd where id = :appId");
+                    "postId=:postId, dateEnd=:dateEnd, departmentId=:departmentId, externalId=:externalId where id = :appId");
             query.setParameter("dateFrom", userInPostsEntity.getDateFrom());
             query.setParameter("contractType", userInPostsEntity.getContractType());
             query.setParameter("postId", userInPostsEntity.getPostId());
+            query.setParameter("externalId", userInPostsEntity.getExternalId());
             query.setParameter("dateEnd", userInPostsEntity.getDateEnd());
+            query.setParameter("departmentId", userInPostsEntity.getDepartmentId());
             query.setParameter("appId", appId);
             query.executeUpdate();
             transaction.commit();
@@ -1786,6 +1786,7 @@ public class UserService {
             //Set foreign key items
             userInPostsEntity.setUsersByUserId(session.load(UsersEntity.class, userInPostsEntity.getUserId()));
             userInPostsEntity.setPostsByPostId(session.load(PostsEntity.class, userInPostsEntity.getPostId()));
+            userInPostsEntity.setExternalsByExternalId(session.load(ExternalLocalizationsEntity.class, userInPostsEntity.getExternalId()));
             //Save the object in database
             session.save(userInPostsEntity);
             //Commit the transaction
@@ -2256,5 +2257,68 @@ public class UserService {
         }
 
         return userLoc;
+    }
+
+    public static void updateHead(Integer userId, int headId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update UsersEntity set chiefId = :chiefId where id = :userId");
+            query.setParameter("chiefId", headId);
+            query.setParameter("userId", userId);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static String getExternalLoc(int externalId) {
+        ExternalLocalizationsEntity externalLocalizationsEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from ExternalLocalizationsEntity where id=:externId");
+            query.setParameter("externId", externalId);
+            externalLocalizationsEntity = (ExternalLocalizationsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return externalLocalizationsEntity.getExternalName();
+    }
+
+    public static List<ExternalLocalizationsEntity> getExternalLoc() {
+        List<ExternalLocalizationsEntity> externalLocalizationsEntities = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from ExternalLocalizationsEntity");
+            externalLocalizationsEntities = query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return externalLocalizationsEntities;
     }
 }

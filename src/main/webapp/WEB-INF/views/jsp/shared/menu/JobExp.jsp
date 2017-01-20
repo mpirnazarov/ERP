@@ -39,6 +39,7 @@
     <div class="col-lg-8 col-lg-offset-2">
         <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
+        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %></p>
         <h2 class="page-header">Job Experience</h2>
         <!--Job experience table-->
         <table class="table">
@@ -60,7 +61,7 @@
                 <tr>
                     <td>${jobexp.organization}</td>
                     <td>${jobexp.position}</td>
-                    <td>${jobexp.contractType}</td>
+                    <td>${contracts.get(jobexp.contractType)}</td>
                     <td class="col-md-2 text-center">${jobexp.startDate}</td>
                     <td class="col-md-2 text-center">${jobexp.endDate}</td>
                 </tr>

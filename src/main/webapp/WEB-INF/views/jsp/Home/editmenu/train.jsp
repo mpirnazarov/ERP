@@ -16,6 +16,7 @@
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-offset-2">
         <h1>${fullName}, ${jobTitle}</h1>
+        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;">${external}</p>
         <h2 class="page-header">Training Record</h2>
 
         <div class="tab-content">

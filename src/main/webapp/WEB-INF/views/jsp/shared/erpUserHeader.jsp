@@ -66,7 +66,15 @@
         request.setAttribute("FullName", a.getFirstName()[0] + " " + a.getLastName()[0]);
         request.setAttribute("SystemRole", a.getRoleId());
         request.setAttribute("FirstName", a.getFirstName()[0]);
-        request.setAttribute("JobTitle", a.getJobTitle());
+        if(a.getJobTitle()==null)
+            request.setAttribute("JobTitle", "");
+        else
+            request.setAttribute("JobTitle", a.getJobTitle());
+
+        if (a.getExternal()==null)
+            request.setAttribute("External", "");
+        else
+            request.setAttribute("External", a.getExternal());
         request.setAttribute("userId", a.getId());
     }
 %>

@@ -51,7 +51,8 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-8 col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName2") %></h1>
+        <h1>${fullName}, ${jobTitle}</h1>
+        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;">${external}</p>
         <h2 class="page-header">Education Certificate</h2>
 
         <ul class="nav nav-tabs">
@@ -125,22 +126,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <%--<c:forEach items="${eduVM.languageSummaryList}" var="language" varStatus="status">--%>
-                    <tr>
-                        <td>IELTS</td>
-                        <td>9.0</td>
-                        <td></td>
-                        <td>British Council</td>
-                        <td>2016-11-29</td>
-                    </tr>
-                    <tr>
-                        <td>TOEFL</td>
-                        <td>95</td>
-                        <td></td>
-                        <td>TOEFL Academy</td>
-                        <td>2016-11-29</td>
-                    </tr>
-                    <%--</c:forEach>--%>
+                        <c:forEach items="${eduVM.certificateList}" var="cer" varStatus="status">
+                            <c:if test="${cer.type==2}">
+                                <tr>
+                                    <td>${cer.name}</td>
+                                    <td>${cer.mark}</td>
+                                    <td>${cer.degree}</td>
+                                    <td>${cer.organization}</td>
+                                    <td class="text-center">${cer.dateTime}</td>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
                     </tbody>
                 </table>
                 <div style="border: solid #ffffff; width: 17%; right: 0; bottom: 0; position: fixed; border-radius: 10px;">

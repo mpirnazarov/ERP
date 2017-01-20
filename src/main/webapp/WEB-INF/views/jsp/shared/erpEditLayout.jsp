@@ -71,6 +71,9 @@
                     <li>
                         <a href="../ChangePass"><i class="fa fa-fw fa-gears"></i> User Change Password</a>
                     </li>
+                    <li>
+                        <a href="../Head"><i class="fa fa-fw fa-gears"></i> Change Head</a>
+                    </li>
                 <%
                     }}
                     else{ %>
@@ -100,6 +103,9 @@
                 </li>
                 <li>
                     <a href="./ChangePass"><i class="fa fa-fw fa-gears"></i> User Change Password</a>
+                </li>
+                <li>
+                    <a href="./Head"><i class="fa fa-fw fa-gears"></i> Change Head</a>
                 </li>
                 <% } %>
                 <hr/>

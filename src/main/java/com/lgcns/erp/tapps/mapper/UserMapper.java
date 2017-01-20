@@ -140,10 +140,10 @@ public class UserMapper {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int month = Calendar.getInstance().get(Calendar.MONTH);
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        personalEvalutionsEntity.setDate(new Date(year,month,day));
+        personalEvalutionsEntity.setDate(new java.util.Date());
         personalEvalutionsEntity.setEvaluatorId(id);
         personalEvalutionsEntity.setGrade(form.getGrade());
-
+        personalEvalutionsEntity.setComments(form.getComments());
         return personalEvalutionsEntity;
     }
 
@@ -163,6 +163,8 @@ public class UserMapper {
         userInPostsEntity.setContractType(appointmentSummary.getContractType());
         userInPostsEntity.setPostId(appointmentSummary.getPostId());
         userInPostsEntity.setDateEnd(appointmentSummary.getEndDate());
+        userInPostsEntity.setDepartmentId(appointmentSummary.getDepartmentId());
+        userInPostsEntity.setExternalId(appointmentSummary.getExternalId());
         return userInPostsEntity;
     }
 

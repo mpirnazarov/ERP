@@ -8,12 +8,9 @@ import com.lgcns.erp.tapps.Enums.Language_Ranking;
 import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.validator.UserFormValidator;
-import com.lgcns.erp.tapps.viewModel.FileBucket;
+import com.lgcns.erp.tapps.viewModel.*;
 import com.lgcns.erp.tapps.viewModel.HR.DocsViewModel;
 import com.lgcns.erp.tapps.viewModel.HR.HrJobexpViewModel;
-import com.lgcns.erp.tapps.viewModel.PersonalInformationViewModel;
-import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
-import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.Appointment.AppointmentSummary;
 import com.lgcns.erp.tapps.viewModel.usermenu.*;
 import com.lgcns.erp.tapps.viewModel.usermenu.Education.Certificates;
@@ -117,17 +114,21 @@ public class HrController {
         return new ModelAndView("redirect:/Hr/Userslist");
     }
 
+    // This controller manages view of users (not update)
     @RequestMapping(value = "/Hr/user/{userId}/{path}", method = RequestMethod.GET)
     public ModelAndView UpdateFamInfo(Principal principal, @PathVariable("userId") int userId, @PathVariable("path") String path){
         String username = UserService.getUsernameById(userId);
         ModelAndView mav = new ModelAndView();
         mav.addObject("path", "Hr");
+        // UserProfileUser is used to view the user data
         ProfileViewModel userProfile = UserController.getProfileByUsername(username);
         mav.addObject("userProfileUser", userProfile);
         mav.addObject("fullName", userProfile.getFirstName()[2]+" "+userProfile.getLastName()[2]);
         mav.addObject("jobTitle", userProfile.getJobTitle());
+        mav.addObject("external", userProfile.getExternal());
         ProfileViewModel userProfile2 = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile2);
+        mav = UP.includeUserProfile(mav, principal);
         if(path.compareTo("Geninfo")==0) {
             mav.setViewName("Home/IndexView");
             return mav;
@@ -147,7 +148,7 @@ public class HrController {
         if(path.compareTo("Jobexp")==0) {
             mav.setViewName("Home/viewmenu/JobExp");
             List<JobexpViewModel> jobExperience = UserController.getJobExperience(username);
-            mav.addObject("jobVM", jobExperience);
+            mav.addObject("jobexpVM", jobExperience);
             return mav;
         }
         if(path.compareTo("Train")==0) {
@@ -165,33 +166,42 @@ public class HrController {
         return null;
     }
 
+    // Hierarchy among all the pages is shown here
     @RequestMapping (value = "/Hierarchy", method = RequestMethod.GET)
     public ModelAndView Hierarchy(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/Hierarchy");
         mav = UP.includeUserProfile(mav, principal);
+
+        // Create the JSON object using data from db
         JSONObject root = new JSONObject();
         JSONObject jsonObject = null;
         JSONArray jsonArray = new JSONArray();
+        // Below data is necessary for GoJs. Must be included
         root.put("class", "go.TreeModel");
         UserLocalizationsEntity userLoc=null;
         for (UsersEntity user :
                 UserService.getAllUsers()) {
-            jsonObject = new JSONObject();
-            try{
-                userLoc = UserService.getUserLocByUserId(user.getId(),3);
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
+            if(user.isEnabled()==true) {
 
-            jsonObject.put("key", user.getId());
-            jsonObject.put("name", userLoc.getFirstName()+" "+userLoc.getLastName());
-            jsonObject.put("title", "1");
-            if(user.getChiefId()!=null)
-                jsonObject.put("parent", user.getChiefId());
-            jsonArray.add(jsonObject);
+                jsonObject = new JSONObject();
+                try {
+                    userLoc = UserService.getUserLocByUserId(user.getId(), 3);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                // Inserting Id as key, fullname as name, jobTitle as title
+                jsonObject.put("key", user.getId());
+                jsonObject.put("name", userLoc.getFirstName() + " " + userLoc.getLastName());
+                jsonObject.put("title", UserController.getProfileByUsername(user.getUserName()).getJobTitle());
+                // and chiefId if available
+                if (user.getChiefId() != null)
+                    jsonObject.put("parent", user.getChiefId());
+                // add object to array
+                jsonArray.add(jsonObject);
+            }
         }
+        // add JSON array to ModelAndView
         root.put("nodeDataArray", jsonArray);
         mav.addObject("jsonData", root);
         return mav;
@@ -248,6 +258,12 @@ public class HrController {
         mav.setViewName("shared/menu/JobExp");
         List<JobexpViewModel> jobexpViewModel = UserController.getJobExperience(principal.getName());
         mav.addObject("jobexpVM", jobexpViewModel);
+        Map<Integer, String> contracts = new HashMap<>();
+        for (Appoint ap :
+                Appoint.values()) {
+            contracts.put(ap.getValue(), ap.name().replace("_", " "));
+        }
+        mav.addObject("contracts", contracts);
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
@@ -274,7 +290,7 @@ public class HrController {
     @ResponseBody public ModelAndView HrUserslist(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("shared/menu/Userslist");
-        List<ProfileViewModel> users = getUsers();
+        List<PersonInfo> users = getUsers();
         mav.addObject("hrUserslistVM", users);
         Map<Integer, String> roles = new HashMap<Integer, String>();
         List<RoleLocalizationsEntity> roleLocalizationsEntityList = UserService.getRolesLoc();
@@ -287,28 +303,36 @@ public class HrController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
-    @RequestMapping (value = "/Hr/Head", method = RequestMethod.GET)
-    @ResponseBody public ModelAndView HrHead(Principal principal){
+    /*@RequestMapping (value = "/Hr/Head", method = RequestMethod.GET)
+    public ModelAndView HrHead(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/editmenu/head");
         List<ProfileViewModel> users = getUsers();
         mav.addObject("hrUserslistVM", users);
-        Map<Integer, String> roles = new HashMap<Integer, String>();
-        List<RoleLocalizationsEntity> roleLocalizationsEntityList = UserService.getRolesLoc();
-        for (RoleLocalizationsEntity role :
-                roleLocalizationsEntityList) {
-            if(role.getLenguageId()==3)
-                roles.put(role.getRoleId(), role.getName());
-        }
-        mav.addObject("roles", roles);
+        *//*Map<Integer, String> userLocs = new HashMap<Integer, String>();
+        for (ProfileViewModel user :
+                users) {
+            userLocs.put(Integer.parseInt(user.getId()), user.getFirstName()[2]+" "+user.getLastName()[2]);
+        }*//*
+        Map<Integer, String> availableSocialProfiles = new HashMap<Integer, String>();
+        availableSocialProfiles.put(1, "LinkedIN");
+        availableSocialProfiles.put(2, "FaceBook");
+        availableSocialProfiles.put(3, "Twitter");
+        availableSocialProfiles.put(4, "Google Plus");
+        mav.addObject("users", availableSocialProfiles);
+        mav.addObject("person", new PersonInfo());
         mav = UP.includeUserProfile(mav, principal);
         return mav;
-    }
-    @RequestMapping (value = "/Hr/Head", method = RequestMethod.POST)
-     public String HrHeadPost(String[] usersList, Principal principal){
-        System.out.println("POSTHead: " + usersList);
-
-        return "redirect: /Hr/Head";
+    }*/
+    @RequestMapping (value = "/Hr/user/{id}/update/Head", method = RequestMethod.POST)
+     public String HrHeadPost(Principal principal, PersonInfo personInfo, @PathVariable("id") int headId){
+        System.out.println("Person Info: "+personInfo.getIsChecked() + " / Head ID: "+headId);
+        List<Integer> isChecked = personInfo.getIsChecked();
+        for (Integer userId :
+                isChecked) {
+            UserService.updateHead(userId, headId);
+        }
+        return "redirect: /Hierarchy";
     }
 
     @RequestMapping(value = "/Hr/Profile/Evaluation", method = RequestMethod.GET)
@@ -428,11 +452,12 @@ public class HrController {
         UserInPostsEntity userInPostsEntity = UserService.getUserInPostById(appId);
         appointment.setUserId(userInPostsEntity.getUserId());
         appointment.setAppointDate(userInPostsEntity.getDateFrom());
-        appointment.setDepartmentId(UserService.getUserByUsername(principal.getName()).getDepartmentId());
+        appointment.setDepartmentId(userInPostsEntity.getDepartmentId());
         appointment.setContractType(userInPostsEntity.getContractType());
         appointment.setPostId(userInPostsEntity.getPostId());
         appointment.setEndDate(userInPostsEntity.getDateEnd());
         appointment.setRoleId(UserService.getUserByUsername(principal.getName()).getRoleId());
+        appointment.setExternalId(userInPostsEntity.getExternalId());
         model.addAttribute("appointmentVM", appointment);
 
         List<UserLocalizationsEntity> users = UserService.getAllUserLocs(3);
@@ -459,6 +484,13 @@ public class HrController {
         }
         model.addAttribute("posts", posts);
 
+        Map<Integer, String> externals = new HashMap<Integer, String>();
+        for(ExternalLocalizationsEntity ext:
+                UserService.getExternalLoc()){
+            externals.put(ext.getId(), ext.getExternalName());
+        }
+        model.addAttribute("externals", externals);
+
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
@@ -466,7 +498,7 @@ public class HrController {
     @RequestMapping ( value = "/Hr/user/{userId}/update/Appointment/Edit/{appId}", method = RequestMethod.POST )
     public String updateAppPost(Principal principal, @ModelAttribute  AppointmentSummary appointmentSummary, BindingResult result, @PathVariable("appId") int appId, @PathVariable("userId") String userId){
         UserService.updateUserInPosts(UserMapper.mapUserInPosts(appointmentSummary, userId), appId);
-        UserService.updateDepartmentId(appointmentSummary.getDepartmentId(), Integer.parseInt(userId));
+        /*UserService.updateDepartmentId(appointmentSummary.getDepartmentId(), Integer.parseInt(userId));*/
         return "redirect: /Hr/user/"+userId+"/update/Appointment";
     }
 
@@ -482,7 +514,7 @@ public class HrController {
         appointmentTypes.put(0, "--------");
         for (Appoint ap :
                 Appoint.values()) {
-            appointmentTypes.put(ap.getValue(), ap.name());
+            appointmentTypes.put(ap.getValue(), ap.name().replace(" ", " "));
         }
         model.addAttribute("types", appointmentTypes);
 
@@ -502,6 +534,14 @@ public class HrController {
         }
         model.addAttribute("posts", posts);
 
+        Map<Integer, String> externals = new HashMap<Integer, String>();
+        externals.put(0, "------");
+        for(ExternalLocalizationsEntity ext:
+                UserService.getExternalLoc()){
+            externals.put(ext.getId(), ext.getExternalName());
+        }
+        model.addAttribute("externals", externals);
+
         ProfileViewModel userProfile = UserController.getProfileByUsername(principal.getName());
         mav.addObject("userProfile", userProfile);
         return mav;
@@ -509,7 +549,7 @@ public class HrController {
     @RequestMapping ( value = "/Hr/user/{userId}/update/Appointment/Add", method = RequestMethod.POST )
     public String addAppPost(Principal principal, @ModelAttribute  AppointmentSummary appointmentSummary, BindingResult result, @PathVariable("userId") String userId){
         UserService.insertUserInPosts(UserMapper.mapUserInPosts(appointmentSummary, userId));
-        UserService.updateDepartmentId(appointmentSummary.getDepartmentId(), Integer.parseInt(userId));
+        /*UserService.updateDepartmentId(appointmentSummary.getDepartmentId(), Integer.parseInt(userId));*/
         return "redirect: /Hr/user/"+userId+"/update/Appointment";
     }
 
@@ -863,10 +903,54 @@ public class HrController {
         return "redirect: /Hr/user/"+userId+"/update/Salary";
     }
 
+    @RequestMapping(value = "/Hr/user/{id}/Docs/Download/{docId}")
+    public String downloadFileView(Principal principal, HttpServletResponse response, @PathVariable("id") int id, @PathVariable("docId") int docId) throws IOException {
+        File file = null;
+        String filePath = UserService.getDocumentById(docId, id).getLink();
+        file = new File(filePath);
+
+        if(!file.exists()){
+            String errorMessage = "Sorry. The file you are looking for does not exist";
+            System.out.println(errorMessage);
+            OutputStream outputStream = response.getOutputStream();
+            outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
+            outputStream.close();
+            return "redirect: /Hr/Docs/";
+        }
+
+        String mimeType= URLConnection.guessContentTypeFromName(file.getName());
+        if(mimeType==null){
+            System.out.println("mimetype is not detectable, will take default");
+            mimeType = "application/octet-stream";
+        }
+
+        System.out.println("mimetype : "+mimeType);
+
+        response.setContentType(mimeType);
+
+        /* "Content-Disposition : inline" will show viewable types [like images/text/pdf/anything viewable by browser] right on browser
+            while others(zip e.g) will be directly downloaded [may provide save as popup, based on your browser setting.]*/
+        response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() +"\""));
+
+
+        /* "Content-Disposition : attachment" will be directly download, may provide save as popup, based on your browser setting*/
+        //response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
+
+        response.setContentLength((int)file.length());
+
+        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+        //Copy bytes from source to destination(outputstream in this example), closes both streams.
+        FileCopyUtils.copy(inputStream, response.getOutputStream());
+
+
+
+        return "redirect: /Hr/Docs/";
+    }
+
     @RequestMapping(value = "/Hr/user/{id}/update/Docs/Download/{docId}")
     public String downloadFile(Principal principal, HttpServletResponse response, @PathVariable("id") int id, @PathVariable("docId") int docId) throws IOException {
         File file = null;
-        ClassLoader classLoader = this.getClass().getClassLoader();
         String filePath = UserService.getDocumentById(docId, id).getLink();
         file = new File(filePath);
 
@@ -953,7 +1037,9 @@ public class HrController {
         ProfileViewModel userProfile2 = UserController.getProfileByUsername(principal.getName());
         model.addAttribute("fullName", userProfile.getFirstName()[2] + " "+ userProfile.getLastName()[2]);
         model.addAttribute("jobTitle", userProfile.getJobTitle());
+        model.addAttribute("external", userProfile.getExternal());
         model.addAttribute("userProfile", userProfile2);
+        model.addAttribute("userProfile", UP.includeUserProfile(mav, principal));
         if(path.compareTo("Geninfo")==0) {
             mav.setViewName("Home/editmenu/edit/geninfo");
             userProfile = getProfileById(id);
@@ -998,6 +1084,7 @@ public class HrController {
                 jointType.put(a.getValue(), a.name());
             }
             model.addAttribute("jointType", jointType);
+
             return mav;
         }
         else if(path.compareTo("Appointment")==0) {
@@ -1014,7 +1101,7 @@ public class HrController {
             Map<Integer, String> contracts = new HashMap<Integer, String>();
             for (Appoint a :
                     Appoint.values()) {
-                contracts.put(a.getValue(), a.name());
+                contracts.put(a.getValue(), a.name().replace("_", " "));
             }
             model.addAttribute("contracts", contracts);
 
@@ -1031,6 +1118,13 @@ public class HrController {
                 posts.put(post.getPostId(), post.getName());
             }
             model.addAttribute("posts", posts);
+
+            Map<Integer, String> externals = new HashMap<Integer, String>();
+            for(ExternalLocalizationsEntity ext:
+                    UserService.getExternalLoc()){
+                externals.put(ext.getId(), ext.getExternalName());
+            }
+            model.addAttribute("externals", externals);
 
             return mav;
         }
@@ -1108,6 +1202,13 @@ public class HrController {
             mav.addObject("userChange", "1");
             return mav;
         }
+        else if(path.compareTo("Head")==0){
+            mav.setViewName("Home/editmenu/head");
+            List<PersonInfo> users = getUsers();
+            mav.addObject("hrUserslistVM", users);
+            mav.addObject("person", new PersonInfo());
+            return mav;
+        }
         else{
 
         }
@@ -1138,14 +1239,14 @@ public class HrController {
 
         for (UserInPostsEntity uip :
                 usersInPost) {
-            returning.addAppointSummary(uip.getDateFrom(), uip.getContractType(), uip.getPostId(), uip.getId(), user.getDepartmentId(), user.getRoleId());
+            returning.addAppointSummary(uip.getDateFrom(), uip.getContractType(), uip.getPostId(), uip.getId(), uip.getDepartmentId(), user.getRoleId(), uip.getExternalId());
         }
 
         return returning;
     }
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/updateFam/{famId}/", method = RequestMethod.GET)
-    public ModelAndView UpdateFamInfo(Principal principal, Model model, @PathVariable("userId") int userId, @PathVariable("famId") int famId){
+    public ModelAndView UpdateFamInfo(Principal principal, @PathVariable("userId") int userId, @PathVariable("famId") int famId){
         FamilyMember familyProfile = getUserFamily(userId, famId);
         ModelAndView mav = new ModelAndView();
         mav.setViewName("Home/editmenu/edit/faminfo");
@@ -1155,7 +1256,7 @@ public class HrController {
     }
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Geninfo/updateFam/{famId}/", method = RequestMethod.POST)
-    public String UpdateFamInfoPost(Model model, FamilyMember familyProfile, @PathVariable("userId") String userId, @PathVariable("famId") String famId){
+    public String UpdateFamInfoPost(FamilyMember familyProfile, @PathVariable("userId") String userId, @PathVariable("famId") String famId){
         UserService.updateUsersFamilyInfo(familyProfile);
         UserService.updateUsersFamilyInfoLocEn(familyProfile);
         UserService.updateUsersFamilyInfoLocRu(familyProfile);
@@ -1292,6 +1393,7 @@ public class HrController {
         ProfileViewModel userProfile2 = getProfileById(id);
         model.addAttribute("fullName", userProfile2.getFirstName()[2] + " "+ userProfile2.getLastName()[2]);
         model.addAttribute("jobTitle", userProfile2.getJobTitle());
+        model.addAttribute("external", userProfile2.getExternal());
         mav.addObject("userProfile", UserController.getProfileByUsername(principal.getName()));
         return mav;
     }
@@ -1345,34 +1447,29 @@ public class HrController {
 
     }
 
-    public static List<ProfileViewModel> getUsers() {
-        List<ProfileViewModel> returning = new LinkedList<ProfileViewModel>();
-        ProfileViewModel userProfile;
+    public static List<PersonInfo> getUsers() {
+        List<PersonInfo> returning = new LinkedList<PersonInfo>();
+        PersonInfo userProfile;
         List<UsersEntity> usersEntityList = UserService.getAllUsers();
-        for (UsersEntity u :
-                usersEntityList) {
-            System.out.println("ID: " + u.getId());
-        }
+
 
         for (UsersEntity userEntity:
                 usersEntityList) {
-            userProfile = new ProfileViewModel();
+            userProfile = new PersonInfo();
             // Getting data from users db
             UsersEntity user = UserService.getUserByUsername(userEntity.getUserName());
-            // Getting its localization data
-            userProfile.setUsername(userEntity.getUserName());
-            List<UserLocalizationsEntity> userLocalizationsEntities = UserService.getUserLocByUserId(user.getId());
-            PersonalInformationViewModel personalInformationViewModel = new PersonalInformationViewModel();
-            personalInformationViewModel.setEmailCompany(userEntity.geteMail());
-            userProfile.setPersonalInfo(personalInformationViewModel);
-            userProfile.setEnabled(user.isEnabled());
-            for (UserLocalizationsEntity ul :
-                    userLocalizationsEntities) {
-                userProfile.addData1(String.format("%05d", user.getId()), ul.getFirstName(), ul.getLastName(), ul.getFatherName(), ul.getAddress(), ul.getLanguageId());
-            }
-            if(user.getRoleId()!=null)
-                userProfile.setRoleId(user.getRoleId());
 
+            userProfile.setId(String.format("%05d", user.getId()));
+            userProfile.setRoleId(user.getRoleId());
+            if(user.getChiefId()!=null)
+                userProfile.setChiefId(user.getChiefId());
+            userProfile.setUserName(user.getUserName());
+
+            // Getting its localization data
+            UserLocalizationsEntity userLoc = UserService.getUserLocByUserId(user.getId(), 3);
+            userProfile.setFirstName(userLoc.getFirstName());
+            userProfile.setLastName(userLoc.getLastName());
+            userProfile.setEnabled(user.isEnabled());
             returning.add(userProfile);
         }
         return returning;
@@ -1419,10 +1516,11 @@ public class HrController {
 
             /*//Getting Joint Type
             returning.setJointType(Appoint.values()[getMax(UserService.getUserInPost(user)).getContractType() - 1].toString());*/
-            if(UserService.getUserInPost(user).size()!=0)
+            if(UserService.getUserInPost(user).size()!=0) {
                 returning.setPostId(UserService.getUserInPost(user).get(0).getPostId());
-            System.out.println("POST ID: "+returning.getPostId());
-                /*returning.setJobTitle(UserService.getJobTitle(UserService.getUserInPost(user).get(0).getPostId(),3).getName());*/
+                returning.setJobTitle(UserService.getJobTitle(UserService.getUserInPost(user).get(0).getPostId(), 3).getName());
+                returning.setExternal(UserService.getExternalLoc(UserService.getUserInPost(user).get(0).getExternalId()));
+            }
             //Getting status
             List<StatusLocalizationsEntity> statuses = UserService.getStatuses();
 

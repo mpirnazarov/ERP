@@ -14,9 +14,12 @@ public class UserInPostsEntity {
     private Date dateFrom;
     private int contractType;
     private int postId;
+    private int departmentId;
     private Date dateEnd;
     private UsersEntity usersByUserId;
     private PostsEntity postsByPostId;
+    private ExternalLocalizationsEntity externalsByExternalId;
+    private int externalId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -70,6 +73,26 @@ public class UserInPostsEntity {
     }
 
     @Basic
+    @Column(name = "external_id", insertable = false, updatable = false)
+    public int getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(int externalId) {
+        this.externalId = externalId;
+    }
+
+    @Basic
+    @Column(name = "department_id")
+    public int getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    @Basic
     @Column(name = "date_end", nullable = true)
     public Date getDateEnd() {
         return dateEnd;
@@ -115,6 +138,16 @@ public class UserInPostsEntity {
 
     public void setUsersByUserId(UsersEntity usersByUserId) {
         this.usersByUserId = usersByUserId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "external_id", referencedColumnName = "id", nullable = false)
+    public ExternalLocalizationsEntity getExternalsByExternalId() {
+        return externalsByExternalId;
+    }
+
+    public void setExternalsByExternalId(ExternalLocalizationsEntity externalsByExternalsId) {
+        this.externalsByExternalId = externalsByExternalsId;
     }
 
     @ManyToOne

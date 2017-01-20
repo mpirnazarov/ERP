@@ -16,6 +16,7 @@
     <div class="col-lg-offset-2">
         <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
+        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %></p>
         <h2 class="page-header">General Information</h2>
 
         <ul class="nav nav-tabs">
@@ -97,7 +98,7 @@
                     <div class="form-group"><label class="control-label col-md-3">Department: </label>
                         <div class="col-sm-2"><c:out value="${UserProfileUser.department}"></c:out></div>
                         <label class="control-label col-md-3">Job title: </label>
-                        <div class="col-sm-2"><c:out value="${UserProfileUser.jobTitle}"></c:out></div>
+                        <div class="col-sm-2"><c:out value="${UserProfileUser.jobTitle}, ${UserProfileUser.external}"></c:out></div>
                     </div>
                     <div class="form-group"><label class="control-label col-md-3">Work type: </label>
                         <div class="col-sm-2"><c:out value="${UserProfileUser.jointType}"></c:out></div>

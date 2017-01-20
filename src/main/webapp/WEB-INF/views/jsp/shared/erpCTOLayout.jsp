@@ -41,7 +41,7 @@
                     <a href="/Manager/Evaluation"><i class="fa fa-fw fa-bar-chart"></i> Evaluation</a>
                 </li>
                 <li>
-                    <a href="/Manager/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
+                    <a href="/Manager/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
                 </li>
                 <li>
                     <a href="/Hierarchy"><i class="fa fa-line-chart"></i> Hierarchy</a>

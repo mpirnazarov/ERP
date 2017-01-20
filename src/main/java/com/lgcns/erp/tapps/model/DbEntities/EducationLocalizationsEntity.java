@@ -29,7 +29,7 @@ public class EducationLocalizationsEntity {
     }
 
     @Basic
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(name = "name", nullable = false, length = 120)
     public String getName() {
         return name;
     }
@@ -39,7 +39,7 @@ public class EducationLocalizationsEntity {
     }
 
     @Basic
-    @Column(name = "major", nullable = false, length = 50)
+    @Column(name = "major", nullable = false, length = 120)
     public String getMajor() {
         return major;
     }
@@ -49,7 +49,7 @@ public class EducationLocalizationsEntity {
     }
 
     @Basic
-    @Column(name = "degree", nullable = false, length = 20)
+    @Column(name = "degree", nullable = false, length = 50)
     public String getDegree() {
         return degree;
     }

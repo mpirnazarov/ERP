@@ -15,12 +15,26 @@
 <c:set var="now" value="<%=new java.util.Date()%>"/>
 <fmt:formatDate value="${now}" var="nowFormatted" pattern="yyyy-MM-dd"/>
 <fmt:formatDate value="${viewModel.startDate}" var="yearOfProject" pattern="yyyy"/>
+<script>
+    function isValidDate()
+    {
+        var startDate = new Date(document.getElementById("startDate").value);
+        var endDate = new Date(document.getElementById("endDate").value);
+
+        if (startDate.getTime() >= endDate.getTime())
+        {
+            alert ("Error on date. Start date cannot be more recent than end date!");
+            return false;
+        }
+
+    }
+</script>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="col-sm-9 col-md-offset-1">
     <div class="col-lg-8 col-lg-offset-2">
         <h1 class="page-header">Edit Project</h1>
-        <form:form modelAttribute="viewModel" cssClass="form-horizontal" method="post" action="/Projects/Edit"
+        <form:form modelAttribute="viewModel" cssClass="form-horizontal" method="post" action="/Projects/Edit" onsubmit="return isValidDate();"
                    id="myForm">
 
         <br/>
@@ -67,7 +81,7 @@
             <div class="form-group">
                 <label class="control-label col-md-3">UZS amount</label>
                 <div class="col-lg-5">
-                    <form:input path="moneyUzs" type="number"
+                    <form:input path="moneyUzs" type="number" min="0"
                                 cssClass="form-control single-line"/>
                 </div>
             </div>
@@ -97,7 +111,7 @@
             <div class="form-group">
                 <label class="control-label col-md-3">USD amount</label>
                 <div class="col-lg-5">
-                    <form:input path="moneyUsd" type="number"
+                    <form:input path="moneyUsd" type="number" min="0"
                                 cssClass="form-control single-line"/>
                 </div>
             </div>

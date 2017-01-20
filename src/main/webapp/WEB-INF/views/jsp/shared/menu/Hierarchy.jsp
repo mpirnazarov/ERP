@@ -18,6 +18,7 @@
     <div class="col-lg-offset-2">
         <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
+        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %></p>
         <h2 class="page-header">Hierarchy</h2>
         <spring:url value="/resources/core/js/DataInspector.js" var="dataInspector"></spring:url>
 
@@ -152,20 +153,26 @@
                     return {font: "9pt  Segoe UI,sans-serif", stroke: "white"};
                 }
 
+                function pad(num, size) {
+                    var s = num+"";
+                    while (s.length < size) s = "0" + s;
+                    return s;
+                }
+
                 // This converter is used by the Picture.
                 function findHeadShot(key) {
-                    function exist(s) {
-                        var img = new Image();
-                        img.src = s;
-                        return img.height != 0;
+                    function exist(imageSource) {
+
+                        var obj = new Image();
+                        obj.src = imageSource;
+
+                        if (obj.complete) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     }
 
-                    if (!exist("/image/" + pad(key, 5) + ".jpg")) return "/resources/images/ppicture.png"; // There are only 16 images on the server
-                    function pad(num, size) {
-                        var s = num+"";
-                        while (s.length < size) s = "0" + s;
-                        return s;
-                    }
                     return "/image/" + pad(key, 5) + ".jpg";
                 }
 
@@ -254,12 +261,12 @@
                                 $(go.TextBlock, textStyle(),
                                     {row: 2, column: 0},
                                     new go.Binding("text", "key", function (v) {
-                                        return "ID: " + v;
+                                        return "ID: " + pad(v,5);
                                     })),
                                 $(go.TextBlock, textStyle(),
                                     {name: "boss", row: 2, column: 3,}, // we include a name so we can access this TextBlock when deleting Nodes/Links
                                     new go.Binding("text", "parent", function (v) {
-                                        return "Boss: " + v;
+                                        return "Head: " + pad(v,5);
                                     })),
                                 $(go.TextBlock, textStyle(),  // the comments
                                     {

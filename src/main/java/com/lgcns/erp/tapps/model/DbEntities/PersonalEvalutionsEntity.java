@@ -1,7 +1,7 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by Rafatdin on 06.10.2016.

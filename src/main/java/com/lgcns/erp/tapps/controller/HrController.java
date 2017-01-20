@@ -1466,9 +1466,11 @@ public class HrController {
             userProfile.setUserName(user.getUserName());
 
             // Getting its localization data
-            UserLocalizationsEntity userLoc = UserService.getUserLocByUserId(user.getId(), 3);
-            userProfile.setFirstName(userLoc.getFirstName());
-            userProfile.setLastName(userLoc.getLastName());
+            if(UserService.getUserLocByUserId(user.getId(), 3)!=null) {
+                UserLocalizationsEntity userLoc = UserService.getUserLocByUserId(user.getId(), 3);
+                userProfile.setFirstName(userLoc.getFirstName());
+                userProfile.setLastName(userLoc.getLastName());
+            }
             userProfile.setEnabled(user.isEnabled());
             returning.add(userProfile);
         }

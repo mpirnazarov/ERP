@@ -11,7 +11,7 @@ body {
     font-size: 15px;
     line-height: 1.4;
     font-family: 'Nunito Sans', sans-serif;
-    color: #ffffff;
+    color: white;
     background: #466368;
     background: -webkit-linear-gradient(#648880, #293f50);
     background: -moz-linear-gradient(#648880, #293f50);
@@ -368,7 +368,7 @@ html {
 body h1,
 body h3,
 body h4 {
-  color: #ffffff;
+    color: #ffffff;
     font-family: 'Oswald', sans-serif;
 }
 body h2 {
@@ -386,7 +386,7 @@ body a {
 }
 
 body a:hover {
-    color: #ffffff;
+    color: #2aabd2;
 }
 
 /* styles for validation helpers */
@@ -431,12 +431,43 @@ input.valid, textarea.valid {
     margin-left: 10px;
 }
 .userNavMenu{
-    position: fixed;
-    width: 300px;
+
     z-index: 10;
+    position: fixed;
+    width: 280px;
+    height: 100%;
+    border-right: 1px solid;
+    border-right-color: mintcream;
 }
 
 .header-color {
     color: #007fff;
     font-size: 32px;
 }
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+
+
+a {
+    color: white;
+}
+
+a:focus {
+    color: inherit;
+}
+
+.panel-group .panel {
+
+    font-size: 18px;
+    background: transparent;
+    border: transparent;
+}
+
+

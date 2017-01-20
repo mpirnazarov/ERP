@@ -9,7 +9,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<div class="col-md-2 userNavMenu">
+<%--Old Version--%>
+<%--<div class="col-md-2 userNavMenu">
     <!-- Sidebar -->
     <nav class="navbar navbar-inverse navbar-fixed-side __scrollBar">
             <div class="container">
@@ -21,7 +22,7 @@
                 <ul class="nav navbar-nav">
                     <!--Profile picture-->
 
-                    <%--<img src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"><br>--%>
+                    &lt;%&ndash;<img src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"><br>&ndash;%&gt;
                     <div class="userImgBox">
                         <img class="userimg" src="/image/<%= request.getAttribute("userId") %>.jpg" onerror="this.src='/resources/images/ppicture.png'">
                     </div>
@@ -40,17 +41,6 @@
                     <li>
                         <a href="/User/Profile/Edu"><i class="fa fa-fw fa-graduation-cap"></i> Education certificate</a>
                     </li>
-                    <%--<li class="dropdown">--%>
-                    <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> Dropdown <span class="caret"></span></a>--%>
-                    <%--<ul class="dropdown-menu" role="menu">--%>
-                    <%--<li class="dropdown-header">Dropdown heading</li>--%>
-                    <%--<li><a href="#">Action</a></li>--%>
-                    <%--<li><a href="#">Another action</a></li>--%>
-                    <%--<li><a href="#">Something else here</a></li>--%>
-                    <%--<li><a href="#">Separated link</a></li>--%>
-                    <%--<li><a href="#">One more separated link</a></li>--%>
-                    <%--</ul>--%>
-                    <%--</li>--%>
                     <li>
                         <a href="/User/Profile/Jobexp"><i class="fa fa-fw fa-briefcase"></i> Job experience</a>
                     </li>
@@ -101,7 +91,191 @@
             </div>
         </nav>
     <!-- /#sidebar-wrapper -->
+</div>--%>
+
+<%--MY Decision--%>
+<div class="col-md-2 userNavMenu">
+    <nav class="navbar navbar-fixed-side __scrollBar">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                Welcome <%= request.getAttribute("FirstName") %>
+            </a>
+        </div>
+        <div class="userImgBox">
+            <img class="userimg" src="/image/<%= request.getAttribute("userId") %>.jpg"
+                 onerror="this.src='/resources/images/ppicture.png'">
+        </div>
+        <a href="/"><i class="fa fa-fw fa-home"></i> Home</a>
+        <div style="background: transparent" class="panel-group" id="accordion" role="tablist"
+             aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                           aria-expanded="true" aria-controls="collapseOne">
+                            HR System
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        <ul style="list-style: none" class="list-group active">
+                            <li>
+                                <a href="/User/Profile"><i class="fa fa-fw fa-info-circle"></i> General information</a>
+                            </li>
+                            <li>
+                                <a href="/User/Profile/Appointment"><i class="fa fa-fw fa-hand-pointer-o"></i> Appointment
+                                    record</a>
+                            </li>
+                            <li>
+                                <a href="/User/Profile/Salary"><i class="fa fa-fw fa-money"></i> Salary details</a>
+                            </li>
+                            <li>
+                                <a href="/User/Profile/Edu"><i class="fa fa-fw fa-graduation-cap"></i> Education certificate</a>
+                            </li>
+                            <li>
+                                <a href="/User/Profile/Jobexp"><i class="fa fa-fw fa-briefcase"></i> Job experience</a>
+                            </li>
+                            <li>
+                                <a href="/User/Profile/Train"><i class="fa fa-fw fa-book"></i> Training record</a>
+                            </li>
+                            <li>
+                                <a href="/User/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
+                            </li>
+                            <li>
+                                <a href="/Projects/ProjectHistory"><i class="fa fa-fw fa-folder"></i> Project history</a>
+                            </li>
+                            <li>
+                                <a href="/User/Profile/Evaluation"><i class="fa fa-fw fa-bar-chart"></i> Evaluation history</a>
+                            </li>
+                            <li>
+                                <a href="/Hierarchy"><i class="fa fa-line-chart"></i> Hierarchy</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseTwo"
+                           aria-expanded="false" aria-controls="collapseTwo">
+                            TAAPS System
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                    <div class="panel-body">
+                        <ul style="list-style: none" class="list-group">
+
+                            <li>
+                                <a href="/Workload"><i class="fa fa-edit fa-fw"></i> Workload</a>
+                            </li>
+                            <li>
+                                <a href="/Projects"><i class="fa fa-file-powerpoint-o fa-fw"></i> Projects</a>
+                            </li>
+                            <li>
+                                <a href="/Monitor"><i class="fa fa-pie-chart fa-fw"></i> Monitor</a>
+                            </li>
+                            <li>
+                                <a href="/Roles"><i class="fa fa-male fa-fw"></i> Roles</a>
+                            </li>
+                            <li>
+                                <a href="/Appoint"><i class="fa fa-hand-o-up fa-fw"></i> Appoint</a>
+                            </li>
+                            <li>
+                                <a href="/Customers"><i class="fa fa-briefcase fa-fw"></i> Customers</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingWF">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseWF"
+                           aria-expanded="false" aria-controls="collapseWF">
+                            Workflow
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseWF" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingWF">
+                    <div class="panel-body">
+                        <ul style="list-style: none" class="list-group">
+
+                            <li>
+                                <a class="linkcolor" role="button" data-toggle="collapse"
+                                   href="#collapseNewForm" aria-expanded="false"
+                                   aria-controls="collapseNewForm"><span class="glyphicon glyphicon-edit"
+                                                                         aria-hidden="true"></span>
+                                    New Form
+                                </a>
+                                <div class="collapse" id="collapseNewForm">
+
+                                    <ul style="list-style: none" class="list-group">
+                                        <li><a class="linkcolor" href="/Hr/Profile">Business trip</a></li>
+                                        <li><a class="linkcolor" href="/Hr/Profile/Appointment">Leave approve</a>
+                                        </li>
+                                        <li><a class="linkcolor" href="/Workflow/Create/Unformatted">Unformatted</a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </li>
+                            <li>
+                                <a class="linkcolor" role="button" data-toggle="collapse"
+                                   href="#collapseMyForm" aria-expanded="false"
+                                   aria-controls="collapseMyForm"><span class="glyphicon glyphicon-check"
+                                                                        aria-hidden="true"></span>
+                                    My Forms
+                                </a>
+                                <div class="collapse" id="collapseMyForm">
+
+                                    <ul style="list-style: none" class="list-group">
+                                        <li><a class="linkcolor" href="/Hr/Profile">Request</a></li>
+                                        <li><a class="linkcolor" href="/Hr/Profile/Appointment">To-do</a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingThree">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseThree"
+                           aria-expanded="false" aria-controls="collapseThree">
+                            Settings
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                    <div class="panel-body">
+                        <ul style="list-style: none" class="list-group">
+                            <li>
+                                <a href="/User/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
+                            </li>
+                            <li>
+                                <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
 </div>
+
+
+
+
+
 <%--<!-- Page Content -->--%>
 <%--<div id="page-content-wrapper">--%>
 <%--<button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">--%>

@@ -12,12 +12,34 @@
 <c:set var="pageTitle" scope="request" value="Error"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-lg-offset-3">
-    <img style="width: 30%; height: 30%" src="/resources/images/stop.png">
+<style>
+    .btn3d {
+        transition:all .08s linear;
+        position:relative;
+        outline:medium none;
+        -moz-outline-style:none;
+        border:0px;
+        margin-right:10px;
+        margin-top:15px;
+    }
+    .btn3d:focus {
+        outline:medium none;
+        -moz-outline-style:none;
+    }
+    .btn3d:active {
+        top:9px;
+    }
+    .btn-default {
+        box-shadow:0 0 0 1px #ebebeb inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #adadad, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+        background-color:#fff;
+    }
+</style>
+<div class="col-lg-offset-4" style="width: 60%">
+    <img style="width: 70%; height: 50%; margin-left: -70px" src="/resources/images/404.png">
     <h1>Sorry, something went wrong!</h1>
     <h2>Please, contact to our developers</h2>
     <h3>
-        <button class="btn btn-default" type="button" name="back" onclick="history.back()">Back</button>
+        <button style="width: 53%" class="btn btn-default btn-lg btn3d" type="button" name="back" onclick="history.back()">Back</button>
     </h3>
 </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

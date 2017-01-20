@@ -1,4 +1,4 @@
-package com.lgcns.erp.workflow.mapper;
+package com.lgcns.erp.workflow.DBEntities;
 
 import javax.persistence.*;
 import java.sql.Date;

@@ -50,13 +50,13 @@
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.WorksEntity"/>
         <mapping class="com.lgcns.erp.tapps.model.DbEntities.UserInPostsEntity"/>
-        <mapping class="com.lgcns.erp.workflow.mapper.AttachmentsEntity"/>
-        <mapping class="com.lgcns.erp.workflow.mapper.InvolvementTypesEntity"/>
-        <mapping class="com.lgcns.erp.workflow.mapper.MembersEntity"/>
-        <mapping class="com.lgcns.erp.workflow.mapper.RequestsEntity"/>
-        <mapping class="com.lgcns.erp.workflow.mapper.StepsEntity"/>
-        <mapping class="com.lgcns.erp.workflow.mapper.ToDoEntity"/>
-        <mapping class="com.lgcns.erp.workflow.mapper.TripTypesEntity"/>
+        <mapping class="com.lgcns.erp.workflow.DBEntities.AttachmentsEntity"/>
+        <mapping class="com.lgcns.erp.workflow.DBEntities.InvolvementTypesEntity"/>
+        <mapping class="com.lgcns.erp.workflow.DBEntities.MembersEntity"/>
+        <mapping class="com.lgcns.erp.workflow.DBEntities.RequestsEntity"/>
+        <mapping class="com.lgcns.erp.workflow.DBEntities.StepsEntity"/>
+        <mapping class="com.lgcns.erp.workflow.DBEntities.ToDoEntity"/>
+        <mapping class="com.lgcns.erp.workflow.DBEntities.TripTypesEntity"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

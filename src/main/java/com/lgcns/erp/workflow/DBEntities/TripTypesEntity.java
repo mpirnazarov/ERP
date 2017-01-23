@@ -1,18 +1,20 @@
 package com.lgcns.erp.workflow.DBEntities;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by Muslimbek on 1/20/2017.
+ * Created by DS on 1/23/2017.
  */
 @Entity
 @Table(name = "trip_types", schema = "workflow", catalog = "LgErpSystem")
 public class TripTypesEntity {
     private long id;
     private String name;
+    private Collection<RequestsEntity> requestssById;
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     public long getId() {
         return id;
     }
@@ -22,7 +24,7 @@ public class TripTypesEntity {
     }
 
     @Basic
-    @Column(name = "name", nullable = false, length = 50)
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -49,5 +51,14 @@ public class TripTypesEntity {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "tripTypesByTripTypeId")
+    public Collection<RequestsEntity> getRequestssById() {
+        return requestssById;
+    }
+
+    public void setRequestssById(Collection<RequestsEntity> requestssById) {
+        this.requestssById = requestssById;
     }
 }

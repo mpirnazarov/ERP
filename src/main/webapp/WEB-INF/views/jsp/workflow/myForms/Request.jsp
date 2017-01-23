@@ -22,8 +22,28 @@
         </p>
         <h2 class="page-header">Request</h2>
 
-        <div class="w3-container">
-            asdfasdfasdfasdfasdf
+        <div class="tab-content">
+            <div id="jobexp" class="tab-pane fade in active">
+                <!--Job experience table-->
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${reqList}" var="req">
+                        <tr>
+                            <td>${req.id}</td>
+                            <td>${req.subject}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <%--<input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;"--%>
+                <%--value="Print this page" onclick="printpage()"/>--%>
+            </div>
         </div>
 
     </div>

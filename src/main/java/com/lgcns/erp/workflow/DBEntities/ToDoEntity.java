@@ -4,17 +4,19 @@ import javax.persistence.*;
 import java.sql.Date;
 
 /**
- * Created by Muslimbek on 1/20/2017.
+ * Created by DS on 1/23/2017.
  */
 @Entity
 @Table(name = "to_do", schema = "workflow", catalog = "LgErpSystem")
 public class ToDoEntity {
     private long id;
+    private int requestId;
     private Date date;
     private String description;
+    private RequestsEntity requestsByRequestId;
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     public long getId() {
         return id;
     }
@@ -24,7 +26,17 @@ public class ToDoEntity {
     }
 
     @Basic
-    @Column(name = "date", nullable = false)
+    @Column(name = "request_id")
+    public int getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(int requestId) {
+        this.requestId = requestId;
+    }
+
+    @Basic
+    @Column(name = "date")
     public Date getDate() {
         return date;
     }
@@ -34,7 +46,7 @@ public class ToDoEntity {
     }
 
     @Basic
-    @Column(name = "description", nullable = false, length = 600)
+    @Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -51,6 +63,7 @@ public class ToDoEntity {
         ToDoEntity that = (ToDoEntity) o;
 
         if (id != that.id) return false;
+        if (requestId != that.requestId) return false;
         if (date != null ? !date.equals(that.date) : that.date != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
 
@@ -60,8 +73,19 @@ public class ToDoEntity {
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + requestId;
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "request_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    public RequestsEntity getRequestsByRequestId() {
+        return requestsByRequestId;
+    }
+
+    public void setRequestsByRequestId(RequestsEntity requestsByRequestId) {
+        this.requestsByRequestId = requestsByRequestId;
     }
 }

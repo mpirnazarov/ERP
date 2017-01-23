@@ -2,17 +2,20 @@ package com.lgcns.erp.workflow.DBEntities;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 
 /**
- * Created by Muslimbek on 1/20/2017.
+ * Created by DS on 1/23/2017.
  */
 @Entity
 @Table(name = "requests", schema = "workflow", catalog = "LgErpSystem")
 public class RequestsEntity {
     private long id;
+    private int userFromId;
     private Integer leaveTypeId;
     private String subject;
     private Boolean isDomestic;
+    private int tripTypeId;
     private int typeId;
     private Date dateFrom;
     private Date dateTo;
@@ -20,9 +23,14 @@ public class RequestsEntity {
     private int statusId;
     private Date dateCreated;
     private String destination;
+    private Collection<AttachmentsEntity> attachmentssById;
+    private Collection<MembersEntity> memberssById;
+    private TripTypesEntity tripTypesByTripTypeId;
+    private Collection<StepsEntity> stepssById;
+    private Collection<ToDoEntity> toDosById;
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     public long getId() {
         return id;
     }
@@ -32,7 +40,17 @@ public class RequestsEntity {
     }
 
     @Basic
-    @Column(name = "leave_type_id", nullable = true)
+    @Column(name = "user_from_id")
+    public int getUserFromId() {
+        return userFromId;
+    }
+
+    public void setUserFromId(int userFromId) {
+        this.userFromId = userFromId;
+    }
+
+    @Basic
+    @Column(name = "leave_type_id")
     public Integer getLeaveTypeId() {
         return leaveTypeId;
     }
@@ -42,7 +60,7 @@ public class RequestsEntity {
     }
 
     @Basic
-    @Column(name = "subject", nullable = true, length = 50)
+    @Column(name = "subject")
     public String getSubject() {
         return subject;
     }
@@ -52,7 +70,7 @@ public class RequestsEntity {
     }
 
     @Basic
-    @Column(name = "is_domestic", nullable = true)
+    @Column(name = "is_domestic")
     public Boolean getDomestic() {
         return isDomestic;
     }
@@ -62,7 +80,17 @@ public class RequestsEntity {
     }
 
     @Basic
-    @Column(name = "type_id", nullable = false)
+    @Column(name = "trip_type_id")
+    public int getTripTypeId() {
+        return tripTypeId;
+    }
+
+    public void setTripTypeId(int tripTypeId) {
+        this.tripTypeId = tripTypeId;
+    }
+
+    @Basic
+    @Column(name = "type_id")
     public int getTypeId() {
         return typeId;
     }
@@ -72,7 +100,7 @@ public class RequestsEntity {
     }
 
     @Basic
-    @Column(name = "date_from", nullable = false)
+    @Column(name = "date_from")
     public Date getDateFrom() {
         return dateFrom;
     }
@@ -82,7 +110,7 @@ public class RequestsEntity {
     }
 
     @Basic
-    @Column(name = "date_to", nullable = true)
+    @Column(name = "date_to")
     public Date getDateTo() {
         return dateTo;
     }
@@ -92,7 +120,7 @@ public class RequestsEntity {
     }
 
     @Basic
-    @Column(name = "description", nullable = true, length = 600)
+    @Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -102,7 +130,7 @@ public class RequestsEntity {
     }
 
     @Basic
-    @Column(name = "status_id", nullable = false)
+    @Column(name = "status_id")
     public int getStatusId() {
         return statusId;
     }
@@ -112,7 +140,7 @@ public class RequestsEntity {
     }
 
     @Basic
-    @Column(name = "date_created", nullable = false)
+    @Column(name = "date_created")
     public Date getDateCreated() {
         return dateCreated;
     }
@@ -122,7 +150,7 @@ public class RequestsEntity {
     }
 
     @Basic
-    @Column(name = "destination", nullable = true, length = 100)
+    @Column(name = "destination")
     public String getDestination() {
         return destination;
     }
@@ -139,6 +167,8 @@ public class RequestsEntity {
         RequestsEntity that = (RequestsEntity) o;
 
         if (id != that.id) return false;
+        if (userFromId != that.userFromId) return false;
+        if (tripTypeId != that.tripTypeId) return false;
         if (typeId != that.typeId) return false;
         if (statusId != that.statusId) return false;
         if (leaveTypeId != null ? !leaveTypeId.equals(that.leaveTypeId) : that.leaveTypeId != null) return false;
@@ -156,9 +186,11 @@ public class RequestsEntity {
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + userFromId;
         result = 31 * result + (leaveTypeId != null ? leaveTypeId.hashCode() : 0);
         result = 31 * result + (subject != null ? subject.hashCode() : 0);
         result = 31 * result + (isDomestic != null ? isDomestic.hashCode() : 0);
+        result = 31 * result + tripTypeId;
         result = 31 * result + typeId;
         result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
         result = 31 * result + (dateTo != null ? dateTo.hashCode() : 0);
@@ -167,5 +199,75 @@ public class RequestsEntity {
         result = 31 * result + (dateCreated != null ? dateCreated.hashCode() : 0);
         result = 31 * result + (destination != null ? destination.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "requestsByRequestId")
+    public Collection<AttachmentsEntity> getAttachmentssById() {
+        return attachmentssById;
+    }
+
+    public void setAttachmentssById(Collection<AttachmentsEntity> attachmentssById) {
+        this.attachmentssById = attachmentssById;
+    }
+
+    @OneToMany(mappedBy = "requestsByRequestId")
+    public Collection<MembersEntity> getMemberssById() {
+        return memberssById;
+    }
+
+    public void setMemberssById(Collection<MembersEntity> memberssById) {
+        this.memberssById = memberssById;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "trip_type_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    public TripTypesEntity getTripTypesByTripTypeId() {
+        return tripTypesByTripTypeId;
+    }
+
+    public void setTripTypesByTripTypeId(TripTypesEntity tripTypesByTripTypeId) {
+        this.tripTypesByTripTypeId = tripTypesByTripTypeId;
+    }
+
+    @OneToMany(mappedBy = "requestsByRequestId")
+    public Collection<StepsEntity> getStepssById() {
+        return stepssById;
+    }
+
+    public void setStepssById(Collection<StepsEntity> stepssById) {
+        this.stepssById = stepssById;
+    }
+
+    @OneToMany(mappedBy = "requestsByRequestId")
+    public Collection<ToDoEntity> getToDosById() {
+        return toDosById;
+    }
+
+    public void setToDosById(Collection<ToDoEntity> toDosById) {
+        this.toDosById = toDosById;
+    }
+
+    @Override
+    public String toString() {
+        return "RequestsEntity{" +
+                "id=" + id +
+                ", userFromId=" + userFromId +
+                ", leaveTypeId=" + leaveTypeId +
+                ", subject='" + subject + '\'' +
+                ", isDomestic=" + isDomestic +
+                ", tripTypeId=" + tripTypeId +
+                ", typeId=" + typeId +
+                ", dateFrom=" + dateFrom +
+                ", dateTo=" + dateTo +
+                ", description='" + description + '\'' +
+                ", statusId=" + statusId +
+                ", dateCreated=" + dateCreated +
+                ", destination='" + destination + '\'' +
+                ", attachmentssById=" + attachmentssById +
+                ", memberssById=" + memberssById +
+                ", tripTypesByTripTypeId=" + tripTypesByTripTypeId +
+                ", stepssById=" + stepssById +
+                ", toDosById=" + toDosById +
+                '}';
     }
 }

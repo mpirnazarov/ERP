@@ -1,18 +1,20 @@
 package com.lgcns.erp.workflow.DBEntities;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by Muslimbek on 1/20/2017.
+ * Created by DS on 1/23/2017.
  */
 @Entity
 @Table(name = "involvement_types", schema = "workflow", catalog = "LgErpSystem")
 public class InvolvementTypesEntity {
     private long id;
     private String name;
+    private Collection<StepsEntity> stepssById;
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     public long getId() {
         return id;
     }
@@ -22,7 +24,7 @@ public class InvolvementTypesEntity {
     }
 
     @Basic
-    @Column(name = "name", nullable = false, length = 200)
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -49,5 +51,14 @@ public class InvolvementTypesEntity {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "involvementTypesByInvolvementTypeId")
+    public Collection<StepsEntity> getStepssById() {
+        return stepssById;
+    }
+
+    public void setStepssById(Collection<StepsEntity> stepssById) {
+        this.stepssById = stepssById;
     }
 }

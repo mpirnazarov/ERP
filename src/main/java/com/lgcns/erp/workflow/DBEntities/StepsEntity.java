@@ -4,19 +4,24 @@ import javax.persistence.*;
 import java.sql.Date;
 
 /**
- * Created by Muslimbek on 1/20/2017.
+ * Created by DS on 1/23/2017.
  */
 @Entity
 @Table(name = "steps", schema = "workflow", catalog = "LgErpSystem")
 public class StepsEntity {
     private long id;
+    private int requestId;
+    private int userId;
+    private int involvementTypeId;
     private Integer sequence;
     private int statusId;
     private Date statusDate;
     private String comment;
+    private RequestsEntity requestsByRequestId;
+    private InvolvementTypesEntity involvementTypesByInvolvementTypeId;
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     public long getId() {
         return id;
     }
@@ -26,7 +31,37 @@ public class StepsEntity {
     }
 
     @Basic
-    @Column(name = "sequence", nullable = true)
+    @Column(name = "request_id")
+    public int getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(int requestId) {
+        this.requestId = requestId;
+    }
+
+    @Basic
+    @Column(name = "user_id")
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "involvement_type_id")
+    public int getInvolvementTypeId() {
+        return involvementTypeId;
+    }
+
+    public void setInvolvementTypeId(int involvementTypeId) {
+        this.involvementTypeId = involvementTypeId;
+    }
+
+    @Basic
+    @Column(name = "sequence")
     public Integer getSequence() {
         return sequence;
     }
@@ -36,7 +71,7 @@ public class StepsEntity {
     }
 
     @Basic
-    @Column(name = "status_id", nullable = false)
+    @Column(name = "status_id")
     public int getStatusId() {
         return statusId;
     }
@@ -46,7 +81,7 @@ public class StepsEntity {
     }
 
     @Basic
-    @Column(name = "status_date", nullable = true)
+    @Column(name = "status_date")
     public Date getStatusDate() {
         return statusDate;
     }
@@ -56,7 +91,7 @@ public class StepsEntity {
     }
 
     @Basic
-    @Column(name = "comment", nullable = true, length = -1)
+    @Column(name = "comment")
     public String getComment() {
         return comment;
     }
@@ -73,6 +108,9 @@ public class StepsEntity {
         StepsEntity that = (StepsEntity) o;
 
         if (id != that.id) return false;
+        if (requestId != that.requestId) return false;
+        if (userId != that.userId) return false;
+        if (involvementTypeId != that.involvementTypeId) return false;
         if (statusId != that.statusId) return false;
         if (sequence != null ? !sequence.equals(that.sequence) : that.sequence != null) return false;
         if (statusDate != null ? !statusDate.equals(that.statusDate) : that.statusDate != null) return false;
@@ -84,10 +122,33 @@ public class StepsEntity {
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + requestId;
+        result = 31 * result + userId;
+        result = 31 * result + involvementTypeId;
         result = 31 * result + (sequence != null ? sequence.hashCode() : 0);
         result = 31 * result + statusId;
         result = 31 * result + (statusDate != null ? statusDate.hashCode() : 0);
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "request_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    public RequestsEntity getRequestsByRequestId() {
+        return requestsByRequestId;
+    }
+
+    public void setRequestsByRequestId(RequestsEntity requestsByRequestId) {
+        this.requestsByRequestId = requestsByRequestId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "involvement_type_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    public InvolvementTypesEntity getInvolvementTypesByInvolvementTypeId() {
+        return involvementTypesByInvolvementTypeId;
+    }
+
+    public void setInvolvementTypesByInvolvementTypeId(InvolvementTypesEntity involvementTypesByInvolvementTypeId) {
+        this.involvementTypesByInvolvementTypeId = involvementTypesByInvolvementTypeId;
     }
 }

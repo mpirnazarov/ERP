@@ -4,12 +4,14 @@ import javax.persistence.*;
 import java.sql.Date;
 
 /**
- * Created by Muslimbek on 1/20/2017.
+ * Created by DS on 1/23/2017.
  */
 @Entity
 @Table(name = "members", schema = "workflow", catalog = "LgErpSystem")
 public class MembersEntity {
     private int id;
+    private int requestId;
+    private int userId;
     private String organizationName;
     private Date dateFrom;
     private Date dateTo;
@@ -17,9 +19,10 @@ public class MembersEntity {
     private double dailyAllowance;
     private double expenseAccommodation;
     private double expenseOther;
+    private RequestsEntity requestsByRequestId;
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -29,7 +32,27 @@ public class MembersEntity {
     }
 
     @Basic
-    @Column(name = "organization_name", nullable = false, length = 200)
+    @Column(name = "request_id")
+    public int getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(int requestId) {
+        this.requestId = requestId;
+    }
+
+    @Basic
+    @Column(name = "user_id")
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "organization_name")
     public String getOrganizationName() {
         return organizationName;
     }
@@ -39,7 +62,7 @@ public class MembersEntity {
     }
 
     @Basic
-    @Column(name = "date_from", nullable = false)
+    @Column(name = "date_from")
     public Date getDateFrom() {
         return dateFrom;
     }
@@ -49,7 +72,7 @@ public class MembersEntity {
     }
 
     @Basic
-    @Column(name = "date_to", nullable = false)
+    @Column(name = "date_to")
     public Date getDateTo() {
         return dateTo;
     }
@@ -59,7 +82,7 @@ public class MembersEntity {
     }
 
     @Basic
-    @Column(name = "expense_transportation", nullable = false, precision = 0)
+    @Column(name = "expense_transportation")
     public double getExpenseTransportation() {
         return expenseTransportation;
     }
@@ -69,7 +92,7 @@ public class MembersEntity {
     }
 
     @Basic
-    @Column(name = "daily_allowance", nullable = false, precision = 0)
+    @Column(name = "daily_allowance")
     public double getDailyAllowance() {
         return dailyAllowance;
     }
@@ -79,7 +102,7 @@ public class MembersEntity {
     }
 
     @Basic
-    @Column(name = "expense_accommodation", nullable = false, precision = 0)
+    @Column(name = "expense_accommodation")
     public double getExpenseAccommodation() {
         return expenseAccommodation;
     }
@@ -89,7 +112,7 @@ public class MembersEntity {
     }
 
     @Basic
-    @Column(name = "expense_other", nullable = false, precision = 0)
+    @Column(name = "expense_other")
     public double getExpenseOther() {
         return expenseOther;
     }
@@ -106,6 +129,8 @@ public class MembersEntity {
         MembersEntity that = (MembersEntity) o;
 
         if (id != that.id) return false;
+        if (requestId != that.requestId) return false;
+        if (userId != that.userId) return false;
         if (Double.compare(that.expenseTransportation, expenseTransportation) != 0) return false;
         if (Double.compare(that.dailyAllowance, dailyAllowance) != 0) return false;
         if (Double.compare(that.expenseAccommodation, expenseAccommodation) != 0) return false;
@@ -123,6 +148,8 @@ public class MembersEntity {
         int result;
         long temp;
         result = id;
+        result = 31 * result + requestId;
+        result = 31 * result + userId;
         result = 31 * result + (organizationName != null ? organizationName.hashCode() : 0);
         result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
         result = 31 * result + (dateTo != null ? dateTo.hashCode() : 0);
@@ -135,5 +162,15 @@ public class MembersEntity {
         temp = Double.doubleToLongBits(expenseOther);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "request_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    public RequestsEntity getRequestsByRequestId() {
+        return requestsByRequestId;
+    }
+
+    public void setRequestsByRequestId(RequestsEntity requestsByRequestId) {
+        this.requestsByRequestId = requestsByRequestId;
     }
 }

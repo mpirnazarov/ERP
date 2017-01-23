@@ -235,8 +235,8 @@
                                 <div class="collapse" id="collapseMyForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a class="linkcolor" href="/Workflow/MyForms/Request">Request</a></li>
-                                        <li><a class="linkcolor" href="/Hr/Profile/Appointment">To-do</a>
+                                        <li><a class="linkcolor" href="/Workflow/MyForms/Request">Request <span class="badge">0</span></a></li>
+                                        <li><a class="linkcolor" href="/Hr/Profile/Appointment">To-do <span class="badge" style="background-color: red">2</span></a>
                                         </li>
                                     </ul>
 

@@ -20,13 +20,7 @@ import java.util.List;
 public class RequestController {
     @RequestMapping(value = "/Workflow/MyForms/Request", method = RequestMethod.GET)
     public ModelAndView Hrprofile(Principal principal){
-        List<RequestsEntity> requestsEntityList = WorkflowService.getRequests();
 
-        System.out.println("LIST OF REQUESTS: ");
-        for (RequestsEntity req :
-                requestsEntityList) {
-            System.out.println(req);
-        }
         ModelAndView mav = new ModelAndView();
         mav.setViewName("workflow/myForms/Request");
         mav = UP.includeUserProfile(mav, principal);

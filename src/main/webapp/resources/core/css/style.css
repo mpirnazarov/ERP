@@ -454,7 +454,6 @@ a:visited {
 }
 
 
-
 a {
     color: white;
 }
@@ -468,6 +467,13 @@ a:focus {
     font-size: 18px;
     background: transparent;
     border: transparent;
+}
+
+/*WorkFlowCss*/
+
+
+.searchtoolstyle {
+
 }
 
 

@@ -72,6 +72,8 @@
 
 /*************** CUSTOM SCROLLBAR ***************/
 .__scrollBar{
+
+    /*sarvar changed*/
     width: 100%;
 }
 .__scrollBar > .scroll-element, .__scrollBar > .scroll-element div {

@@ -30,6 +30,7 @@ html {
 .fc th, .fc td, .fc-toolbar h2 {
     color: #1a1a1a !important;
 }
+
 .nav .open > a {
     background-color: transparent;
 }
@@ -371,6 +372,7 @@ body h4 {
     color: #ffffff;
     font-family: 'Oswald', sans-serif;
 }
+
 body h2 {
     color: #d5d5d5;
     font-family: 'Oswald', sans-serif;
@@ -430,7 +432,8 @@ input.valid, textarea.valid {
     color: red;
     margin-left: 10px;
 }
-.userNavMenu{
+
+.userNavMenu {
 
     z-index: 10;
     position: fixed;
@@ -453,7 +456,6 @@ a:visited {
     text-decoration: none;
 }
 
-
 a {
     color: white;
 }
@@ -471,9 +473,24 @@ a:focus {
 
 /*WorkFlowCss*/
 
-
 .searchtoolstyle {
+    height: 180px;
+    transform: scale(0.9, 0.9);
+    margin-left: 46%;
+}
 
+.searchtoolstyle .input-group-addon {
+    background: transparent;
+    border: none;
+    color: white;
+}
+
+.b3form .input-group-addon {
+    background: transparent;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
 }
 
 

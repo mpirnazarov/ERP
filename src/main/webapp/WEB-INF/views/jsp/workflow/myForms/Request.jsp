@@ -1,6 +1,7 @@
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="com.lgcns.erp.tapps.viewModel.usermenu.AppointmentrecViewModel" %>
-<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
+<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %>
+<%--
   Created by IntelliJ IDEA.
   User: Dell
   Date: 25-Oct-16

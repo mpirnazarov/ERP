@@ -1,5 +1,7 @@
 package com.lgcns.erp.workflow.Mapper;
 
+import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepsEntity;
@@ -27,17 +29,20 @@ public class ToDoMapper {
 
             for (Type type : Type.values()) {
                 if (req.getTypeId()==type.getValue())
-                    model.setForm_type(type.toString());
+                    model.setForm_type(type.name().replace("_"," "));
             }
 
             for (UsersEntity user : users) {
-                if (user.getId()==req.getUserFromId())
-                    model.setUser_name(user.getUserName());
+                if (user.getId()==req.getUserFromId()){
+                    UserLocalizationsEntity userLoc = UserService.getUserLocByUserId(user.getId(), 3);
+                    model.setUser_name(userLoc.getLastName() + " " + userLoc.getFirstName());
+                }
+
             }
 
             for (Status status : Status.values()) {
                 if (status.getValue() == req.getStatusId())
-                    model.setStatus(status.toString());
+                    model.setStatus(status.name().replace("_"," "));
             }
 
             models.add(model);

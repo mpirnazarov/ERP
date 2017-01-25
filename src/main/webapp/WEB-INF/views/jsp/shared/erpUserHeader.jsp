@@ -28,19 +28,11 @@
     <spring:url value="/resources/core/css/jquery.scrollbar.css" var="scrollCss"/>
     <spring:url value="/resources/core/js/jquery.scrollbar.min.js" var="scrollJs"/>
     <spring:url value="/resources/core/js/main.js" var="main"/>
-
-
-<<<<<<< Updated upstream
     <spring:url value="/resources/core/js/bootstrap-datepicker.min.js" var="bootstrapDatePickerJS"/>
     <spring:url value="/resources/core/css/bootstrap-datepicker3.standalone.css" var="bootstrapDatePickerCSS"/>
-
-
-
-=======
     <spring:url value="/resources/core/css/token-input.css" var="tokenInputCss"/>
     <spring:url value="/resources/core/css/token-input-facebook.css" var="tokenInputFacebookCss"/>
->>>>>>> Stashed changes
-    <script src="${jquery}"></script>
+     <script src="${jquery}"></script>
     <link rel="stylesheet" href="${navbar}"/>
     <link rel="stylesheet" href="${scrollCss}"/>
     <link rel="icon" type="image/x-icon" href="<s:url value="/resources/images/favicon.ico"/>"/>

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.List;
+import org.springframework.stereotype.Controller;
 
 /**
  * Created by DScomputers3 on 20.01.2017.
@@ -45,6 +46,4 @@ public class ToDoController {
 
         return null;
     }
-
-
 }

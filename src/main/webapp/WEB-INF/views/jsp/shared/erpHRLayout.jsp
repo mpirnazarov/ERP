@@ -84,7 +84,19 @@
     </nav>
 </div>--%>
 <!-- /#sidebar-wrapper -->
+<style>
+    .quick-btn .label {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+    }
 
+    .btn-metis-4 {
+        color: #ffffff;
+        background-color: #a264e7;
+        border-color: #62309a;
+    }
+</style>
 <%--MY Decision--%>
 <div class="col-md-2 userNavMenu">
     <nav class="navbar navbar-fixed-side __scrollBar">
@@ -216,10 +228,11 @@
                                 <div class="collapse" id="collapseNewForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a class="linkcolor" href="/Hr/Profile">Business trip</a></li>
-                                        <li><a class="linkcolor" href="/Hr/Profile/Appointment">Leave approve</a>
+                                        <li><a href="/Workflow/NewForm/BusinessTripForm">Business trip</a></li>
+                                        <li><a href="/Hr/Profile/Appointment">Leave approve</a>
                                         </li>
-                                        <li><a class="linkcolor" href="/Workflow/Create/Unformatted">Unformatted</a>
+                                        <li>
+                                            <a href="/Workflow/Create/Unformatted">Unformatted</a>
                                         </li>
                                     </ul>
 
@@ -235,12 +248,14 @@
                                 <div class="collapse" id="collapseMyForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a class="linkcolor" href="/Workflow/MyForms/Request">Request <span class="badge">0</span></a></li>
-                                        <li><a class="linkcolor" href="/Workflow/MyForms/todo">To Do <span class="badge">0</span></a></li>
-                                        <li><a class="linkcolor" href="/Hr/Profile/Appointment">To-do <span class="badge" style="background-color: red">2</span></a>
+                                        <li><a href="/Workflow/MyForms/Request">Request <span
+                                                class="badge">0</span></a></li>
+                                        <li><a href="/Workflow/MyForms/todo">To-do <span
+                                                class="badge" style="background-color: red">2</span></a>
+                                        </li>
+                                        <li><a href="/Workflow/MyForms/Details">Details</a>
                                         </li>
                                     </ul>
-
                                 </div>
                             </li>
                         </ul>

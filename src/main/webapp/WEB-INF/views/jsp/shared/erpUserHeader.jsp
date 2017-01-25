@@ -28,23 +28,27 @@
     <spring:url value="/resources/core/css/jquery.scrollbar.css" var="scrollCss"/>
     <spring:url value="/resources/core/js/jquery.scrollbar.min.js" var="scrollJs"/>
     <spring:url value="/resources/core/js/main.js" var="main"/>
-
-
     <spring:url value="/resources/core/js/bootstrap-datepicker.min.js" var="bootstrapDatePickerJS"/>
     <spring:url value="/resources/core/css/bootstrap-datepicker3.standalone.css" var="bootstrapDatePickerCSS"/>
-
-
-
-    <script src="${jquery}"></script>
+    <spring:url value="/resources/core/css/token-input.css" var="tokenInputCss"/>
+    <spring:url value="/resources/core/css/token-input-facebook.css" var="tokenInputFacebookCss"/>
+     <script src="${jquery}"></script>
     <link rel="stylesheet" href="${navbar}"/>
     <link rel="stylesheet" href="${scrollCss}"/>
     <link rel="icon" type="image/x-icon" href="<s:url value="/resources/images/favicon.ico"/>"/>
     <link rel="stylesheet" href="${normalizeCss}"/>
     <link rel="stylesheet" href="${bootstrapminCss}"/>
     <link rel="stylesheet" type="text/css" href="${allInOneCss}"/>
-    <link rel="stylesheet" href="${styleCss}"/>
-    <script src="${main}"></script>
     <script type="text/javascript" src="${allInOneJs}"></script>
+    <link rel="stylesheet" href="${styleCss}"/>
+
+    <%--Token input CSS and Js--%>
+    <link rel="stylesheet" href="${tokenInputCss}" type="text/css" />
+    <link rel="stylesheet" href="${tokenInputFacebookCss}" type="text/css" />
+
+
+    <script src="${main}"></script>
+
     <script src="${scrollJs}"></script>
     <script src="${bootstrapJs}"></script>
 

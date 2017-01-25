@@ -1458,21 +1458,26 @@ public class HrController {
             userProfile = new PersonInfo();
             // Getting data from users db
             UsersEntity user = UserService.getUserByUsername(userEntity.getUserName());
+            if(user.getId()!=0) {
+                userProfile.setId(String.format("%05d", user.getId()));
+                userProfile.setRoleId(user.getRoleId());
+                if (user.getChiefId() != null)
+                    userProfile.setChiefId(user.getChiefId());
+                userProfile.setUserName(user.getUserName());
 
-            userProfile.setId(String.format("%05d", user.getId()));
-            userProfile.setRoleId(user.getRoleId());
-            if(user.getChiefId()!=null)
-                userProfile.setChiefId(user.getChiefId());
-            userProfile.setUserName(user.getUserName());
-
-            // Getting its localization data
-            if(UserService.getUserLocByUserId(user.getId(), 3)!=null) {
-                UserLocalizationsEntity userLoc = UserService.getUserLocByUserId(user.getId(), 3);
-                userProfile.setFirstName(userLoc.getFirstName());
-                userProfile.setLastName(userLoc.getLastName());
+                // Getting its localization data
+                try {
+                    if (UserService.getUserLocByUserId(user.getId(), 3) != null) {
+                        UserLocalizationsEntity userLoc = UserService.getUserLocByUserId(user.getId(), 3);
+                        userProfile.setFirstName(userLoc.getFirstName());
+                        userProfile.setLastName(userLoc.getLastName());
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                userProfile.setEnabled(user.isEnabled());
+                returning.add(userProfile);
             }
-            userProfile.setEnabled(user.isEnabled());
-            returning.add(userProfile);
         }
         return returning;
 

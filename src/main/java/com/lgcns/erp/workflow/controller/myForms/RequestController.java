@@ -51,4 +51,13 @@ public class RequestController {
 
         return null;
     }
+    @RequestMapping(value = "/MyForms/Details", method = RequestMethod.GET)
+    public ModelAndView ViewTest(Principal principal) {
+
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("workflow/myForms/details");
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
+        return mav;
+    }
 }

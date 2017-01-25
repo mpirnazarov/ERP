@@ -253,6 +253,8 @@
                                         <li><a href="/Hr/Profile/Appointment">To-do <span
                                                 class="badge" style="background-color: red">2</span></a>
                                         </li>
+                                        <li><a href="/Workflow/MyForms/Details">Details</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>

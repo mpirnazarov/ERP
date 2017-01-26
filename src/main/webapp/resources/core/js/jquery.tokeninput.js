@@ -18,10 +18,11 @@ var DEFAULT_SETTINGS = {
     searchDelay: 300,
     minChars: 1,
     propertyToSearch: "name",
+    userJob: "job",
     jsonContainer: null,
 
 	// Display settings
-    hintText: "Type in a search term",
+    hintText: "Type the name of employee",
     noResultsText: "No results",
     searchingText: "Searching...",
     deleteText: "&times;",
@@ -43,7 +44,7 @@ var DEFAULT_SETTINGS = {
     idPrefix: "token-input-",
 
 	// Formatters
-    resultsFormatter: function(item){ return "<li>" + item[this.propertyToSearch] + "</li>" },
+    resultsFormatter: function(item){ return "<li>" + item[this.propertyToSearch]+ "</li>" },
     tokenFormatter: function(item) { return "<li><p>" + item[this.propertyToSearch] + "</p></li>" },
 
 	// Callbacks

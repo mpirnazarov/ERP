@@ -12,12 +12,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Business trip"/>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
+<spring:url value="/resources/core/js/jquery.tokeninput.js" var="tokenInputJs"/>
+<script type="text/javascript" src="${tokenInputJs}"></script>
 
 <style>
     body :not(a) {
         color: inherit;
     }
-
 </style>
 
 
@@ -178,18 +179,15 @@
                 </div>
             </div>
             <div class="form-footer" style="margin-bottom: 5%">
-                <div class="input-group" style="width: 100%; margin-top: 1%">
+                <div class="input-group" style="width: 100%; margin-top: 2%">
                     <span class="input-group-addon" id="approvals-addon"
                           style="width: 25%">Approvals:</span>
-                    <select class="form-control" aria-describedby="approvals-addon" style="width: 40%">
-                        <option>Mr.1</option>
-                        <option>Mr.2</option>
-                        <option>Mr.3</option>
-                        <option>Mr.4</option>
-                        <option>Mr.5</option>
-                    </select>
+                    <div class="tab-content">
+                        <input type="text" id="demo-input-local" name="blah"/>
+                        <%--<input type="button" value="Submit" />--%>
+                    </div>
                 </div>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
+                <div class="input-group" style="width: 100%; margin-top: 2%">
                     <span class="input-group-addon" id="executive-addon"
                           style="width: 25%">Executive:</span>
                     <select class="form-control" aria-describedby="executive-addon" style="width: 40%">
@@ -200,7 +198,7 @@
                         <option>Mr.5</option>
                     </select>
                 </div>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
+                <div class="input-group" style="width: 100%; margin-top: 2%">
                     <span class="input-group-addon" id="reference-addon"
                           style="width: 25%">Reference:</span>
                     <select class="form-control" aria-describedby="reference-addon" style="width: 40%">
@@ -211,30 +209,64 @@
                         <option>Mr.5</option>
                     </select>
                 </div>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="attachment-addon"glyphicon glyphicon-open
+                <div class="input-group" style="width: 100%; margin-top: 2%">
+                    <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open
                           style="width: 25%">Attachment:</span>
-                    <button type="button" class="btn btn-default" aria-describedby="attachment-addon"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Upload</button>
+                    <button type="button" class="btn btn-default" aria-describedby="attachment-addon"><span
+                            class="glyphicon glyphicon-open" aria-hidden="true"></span> Upload
+                    </button>
                 </div>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
+                <div class="input-group" style="width: 100%; margin-top: 2%">
                     <span class="input-group-addon" id="date-addon"
                           style="width: 25%">Date(Start/End):</span>
-                    <input type="text" class="form-control" id="sandbox-container" style="width:36%" placeholder="Start">
+                    <input type="text" class="form-control" id="sandbox-container" style="width:36%"
+                           placeholder="Start">
                     <input type="text" class="form-control" id="sandbox-container2" style="width:36%" placeholder="End">
                 </div>
                 <div class="btn-group" role="group" aria-label="..." style="margin-left: 40%; margin-top: 3%">
-                    <button type="button" class="btn btn-warning">Save</button>
+                    <button type="button" class="btn btn-default">Save</button>
                     <button type="button" class="btn btn-success">Sumbit</button>
                     <button type="button" class="btn btn-danger">Cancel</button>
+
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
 <script>
     $('#sandbox-container').datepicker({format: "dd/mm/yyyy"});
     $('#sandbox-container2').datepicker({format: "dd/mm/yyyy"});
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[type=button]").click(function () {
+            var a = [];
+            a = $(this).siblings("input[type=text]").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Workflow/NewForm/BusinessTripForm",
+                data: {
+                    myArray: a //notice that "myArray" matches the value for @RequestParam
+                               //on the Java side
+                },
+                success: function (response) {
+                    alert("Would submit: " + response.toString());
+                },
+                error: function (e) {
+                    alert('Error: ' + e);
+                }
+            });
+
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#demo-input-local").tokenInput(${jsonData});
+    });
 </script>
 
 

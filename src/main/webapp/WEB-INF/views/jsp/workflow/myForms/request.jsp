@@ -82,10 +82,8 @@
             <tbody id="dynamicBody">
             </tbody>
 
-
         </table>
     </div>
-
 </div>
 </div>
 

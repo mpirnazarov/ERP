@@ -86,7 +86,6 @@
             </tbody>
         </table>
         <div id="pagedListContainer">
-
         </div>
     </div>
 
@@ -124,20 +123,42 @@
             }
         });
     }*/
+    var currentPage = 0;
+    var page = 0;
+
 
     function pagedList(id){
         var container = $('#pagedListContainer');
         var numberOfPages = 0;
+
         var table = $('#tablecha');
         var tbody = $('#tbodycha');
-            $.ajax({
+
+        if(id==-1){
+            page = currentPage+1;
+        }
+        else if (id==-2){
+            page=currentPage-1;
+        }
+        else {
+            page=id;
+        }
+
+        $.ajax({
                 type:"POST",
                 processData: false,
-                url : '${pageContext.request.contextPath}/Workflow/MyForms/list/'+id,
+                url : '${pageContext.request.contextPath}/Workflow/MyForms/list/'+page,
                 success : function(data) {
+
+                    //table
                     tbody.appendTo(table);
                     tbody.empty();
+
+                    //set current page
+                    currentPage=data.page;
+
                     $(data.models).each(function(i, req) {
+                        //generate table
                         $('<tr/>').appendTo(tbody)
                             .append($('<td/>').text(i+1))
                             .append($('<td/>').text(req.form_type))
@@ -147,19 +168,25 @@
                             .append($('<td/>').text(req.status))
                             .append($('<td/>').append($('<input type="button" value="View" style="color: red"/>')));
                     });
+
                     numberOfPages = data.maxPages;
                     container.empty();
+                    container.append($('<input type="button" value="Prev" id="-2" style="color: red" onclick="pagedList(this.id)">'));
+
+                    //generate pegination buttons
                     for(count=1; count<numberOfPages+1; count++){
                         container.append($('<input type="button" value="'+count+'" id="'+count+'" style="color: red" onclick="pagedList(this.id)">'));
                     }
+                    container.append($('<input type="button" value="Next" id="-1" style="color: red" onclick="pagedList(this.id)">'));
                 },
+
                 error: function () {
                     alert("error");
                 }
             });
     }
 
-    function generateTable(){
+   /* function generateTable(){
         var table = $('#tablecha');
         var tbody = $('#tbodycha');
 
@@ -185,7 +212,7 @@
                 alert("error");
             }
         });
-    }
+    }*/
 </script>
 
 <script type="text/javascript">

@@ -32,6 +32,7 @@
     <spring:url value="/resources/core/css/bootstrap-datepicker3.standalone.css" var="bootstrapDatePickerCSS"/>
     <spring:url value="/resources/core/css/token-input.css" var="tokenInputCss"/>
     <spring:url value="/resources/core/css/token-input-facebook.css" var="tokenInputFacebookCss"/>
+    
      <script src="${jquery}"></script>
     <link rel="stylesheet" href="${navbar}"/>
     <link rel="stylesheet" href="${scrollCss}"/>
@@ -54,6 +55,7 @@
 
     <script src="${bootstrapDatePickerJS}"></script>
     <link rel="stylesheet" href="${bootstrapDatePickerCSS}"/>
+    
 
 
     <%--Cloud JQ UI--%>

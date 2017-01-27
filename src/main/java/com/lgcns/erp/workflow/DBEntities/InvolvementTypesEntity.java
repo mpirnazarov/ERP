@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by DS on 1/23/2017.
+ * Created by Muslimbek Pirnazarov on 1/23/2017.
  */
 @Entity
 @Table(name = "involvement_types", schema = "workflow", catalog = "LgErpSystem")

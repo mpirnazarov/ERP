@@ -3,7 +3,7 @@ package com.lgcns.erp.workflow.DBEntities;
 import javax.persistence.*;
 
 /**
- * Created by DS on 1/23/2017.
+ * Created by Muslimbek Pirnazarov on 1/23/2017.
  */
 @Entity
 @Table(name = "attachments", schema = "workflow", catalog = "LgErpSystem")

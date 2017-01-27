@@ -21,7 +21,7 @@ var DEFAULT_SETTINGS = {
     jsonContainer: null,
 
 	// Display settings
-    hintText: "Type in a search term",
+    hintText: "Type the name of employee",
     noResultsText: "No results",
     searchingText: "Searching...",
     deleteText: "&times;",
@@ -43,7 +43,7 @@ var DEFAULT_SETTINGS = {
     idPrefix: "token-input-",
 
 	// Formatters
-    resultsFormatter: function(item){ return "<li>" + item[this.propertyToSearch] + "</li>" },
+    resultsFormatter: function(item){ return "<li>" + item[this.propertyToSearch]+ "</li>" },
     tokenFormatter: function(item) { return "<li><p>" + item[this.propertyToSearch] + "</p></li>" },
 
 	// Callbacks

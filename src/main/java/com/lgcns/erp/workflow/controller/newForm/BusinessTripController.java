@@ -2,8 +2,10 @@ package com.lgcns.erp.workflow.controller.newForm;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
+import com.lgcns.erp.tapps.controller.UserController;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -20,8 +22,10 @@ import java.security.Principal;
  */
 
 @Controller
+@RequestMapping(value = "/Workflow")
 public class BusinessTripController {
-    @RequestMapping(value = "/Workflow", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.GET)
     public ModelAndView WorkflowGET(Principal principal){
         JSONObject jsonObject = null;
         JSONArray jsonArray = new JSONArray();
@@ -35,14 +39,19 @@ public class BusinessTripController {
                 if(user.getId()!=0 || UserService.getUserLocByUserId(user.getId(), 3)!=null) {
                     try {
                         userLoc = UserService.getUserLocByUserId(user.getId(), 3);
+
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 // Inserting Id as key, fullname as name, jobTitle as title
-                jsonObject.put("id", user.getId());
+                ProfileViewModel prof =  UserController.getProfileByUsername(user.getUserName());
+
+                jsonObject.put("id", prof.getId());
                 jsonObject.put("name", userLoc.getFirstName() + " " + userLoc.getLastName());
-                //jsonObject.put("title", UserController.getProfileByUsername(user.getUserName()).getJobTitle());
+                jsonObject.put("jobTitle", prof.getJobTitle());
+                jsonObject.put("department", prof.getDepartment());
                 // and chiefId if available
 
                 // add object to array
@@ -54,13 +63,13 @@ public class BusinessTripController {
         ModelAndView mav = new ModelAndView();
         // add JSON array to ModelAndView
         mav.addObject("jsonData", jsonArray);
-        mav.setViewName("workflow/newForm/test");
+        mav.setViewName("workflow/newForm/businessTripForm");
         mav = UP.includeUserProfile(mav, principal);
 
         return mav;
     }
 
-    @RequestMapping(value = "/Workflow", method = RequestMethod.POST)
+    @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.POST)
     public @ResponseBody
     int[] WorkflowPost(@RequestParam(value="myArray") int[] a){
         for (int i:

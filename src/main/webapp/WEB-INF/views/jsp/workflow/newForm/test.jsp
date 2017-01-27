@@ -10,6 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="pageTitle" scope="request" value="Appointment Record"/>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <spring:url value="/resources/core/js/jquery.tokeninput.js" var="tokenInputJs"/>
@@ -86,7 +87,31 @@
                 <%--value="Print this page" onclick="printpage()"/>--%>
             </div>
         </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${products}" var="product" varStatus="status">
+                <c:url value="/user/detail/${product.ID}" var="detailUrl" />
+                <tr>
+                    <%--<td><a href="${detailUrl}">${product.ID}</a> <form:hidden path="products[${status.index}].ID" value="${product.ID}" /></td>--%>
+                    <td><form:input type="text" style="color: #0f0f0f" value="${products[status.index].firstName}" path="products[${status.index}].firstName"/></td>
+                    <%--<td><form:input path="products[${status.index}].lastName" class="input-mini" type="text" /></td>--%>
 
+                    <td><button id="save" name="save" value="${product.ID}" class="btn btn-success"><i class="fa fa-save"></i> Save </button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProduct${product.ID}"><i class="fa fa-edit"></i> Edit</button>
+                        <button id="delete" name="delete" value="${product.ID}" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
     </div>
 </div>
 

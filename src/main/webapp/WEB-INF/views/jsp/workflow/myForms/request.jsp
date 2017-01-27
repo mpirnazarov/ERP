@@ -82,13 +82,11 @@
             <tbody id="dynamicBody">
             </tbody>
 
-
         </table>
 
         <div id="pagedListContainer">
         </div>
     </div>
-
 </div>
 </div>
 

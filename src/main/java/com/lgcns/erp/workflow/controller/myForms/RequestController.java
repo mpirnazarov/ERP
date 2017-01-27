@@ -6,7 +6,9 @@ import com.lgcns.erp.tapps.controller.UserController;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
+import com.lgcns.erp.workflow.Mapper.RequestMapper;
 import com.lgcns.erp.workflow.ViewModel.RequestViewModel;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by DScomputers3 on 20.01.2017.
@@ -27,21 +31,60 @@ public class RequestController {
 
     @RequestMapping(value = "/MyForms/Request", method = RequestMethod.GET)
     public ModelAndView Hrprofile(Principal principal) {
+        ModelAndView mav = new ModelAndView("workflow/myForms/request");
 
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("statusList", Status.values());
-        mav.addObject("typeList", Type.values());
-        mav.setViewName("workflow/myForms/request");
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
+
+        Map<Integer, String> statusList = new HashMap<>();
+        statusList.put(0,"");
+        for (Status status : Status.values()) {
+            statusList.put(status.getValue(), status.name().replace('_',' '));
+        }
+
+        Map<Integer, String> typeList = new HashMap<>();
+        typeList.put(0,"");
+        for (Type type : Type.values()) {
+            typeList.put(type.getValue(), type.name().replace('_',' '));
+        }
+
+        mav.addObject("statusList", statusList);
+        mav.addObject("typeList", typeList);
+
         return mav;
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public @ResponseBody
     List<RequestViewModel> getRequestModels(){
-        List<RequestViewModel> models = com.lgcns.erp.workflow.Mapper.RequestMapper.queryTorequestModel(WorkflowService.getRequestList(), UserService.getAllUsers());
+        List<RequestViewModel> models = RequestMapper.queryTorequestModel(WorkflowService.getRequestList(), UserService.getAllUsers());
         return models;
+    }
+
+    @RequestMapping(value = "/list/{page}", method = RequestMethod.POST)
+    public @ResponseBody Map<String, Object> getRequestModels(@PathVariable Integer page){
+        Map<String, Object> mav = new HashMap<>();
+        //Pagination test
+        System.out.println(page);
+        PagedListHolder<RequestViewModel> pagedListHolder = new PagedListHolder<>(RequestMapper.
+                                                    queryTorequestModel(WorkflowService.getRequestList(), UserService.getAllUsers()));
+
+        pagedListHolder.setPageSize(1);
+
+        mav.put("maxPages", pagedListHolder.getPageCount());
+        if(page==null || page < 1 || page > pagedListHolder.getPageCount())
+            page=1;
+
+        mav.put("page", page);
+        if(page == null || page < 1 || page > pagedListHolder.getPageCount()){
+            pagedListHolder.setPage(0);
+            mav.put("models", pagedListHolder.getPageList());
+        }
+        else if(page <= pagedListHolder.getPageCount()) {
+            pagedListHolder.setPage(page-1);
+            mav.put("models", pagedListHolder.getPageList());
+        }
+        return mav;
     }
 
     @RequestMapping(value = "/filter/{id}/{name}", method = RequestMethod.POST)

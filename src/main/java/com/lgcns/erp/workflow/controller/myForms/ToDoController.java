@@ -55,30 +55,6 @@ public class ToDoController {
         return mav;
     }
 
-  /*  @RequestMapping(value = "/pagedList", method = RequestMethod.GET)
-    public @ResponseBody Map<String, Object> pagedList(@RequestParam(required = false)Integer page){
-        Map<String, Object> mav = new HashMap<>();
-        //Pagination test
-
-        PagedListHolder<ToDoViewModel> pagedListHolder = new PagedListHolder<>(ToDoMapper.queryTotodoModel(
-                WorkflowService.getRequestList(), UserService.getAllUsers()));
-
-        pagedListHolder.setPageSize(3);
-
-        mav.put("maxPages", pagedListHolder.getPageCount());
-        if(page==null || page < 1 || page > pagedListHolder.getPageCount())page=1;
-
-        mav.put("page", page);
-        if(page == null || page < 1 || page > pagedListHolder.getPageCount()){
-            pagedListHolder.setPage(0);
-            mav.put("models", pagedListHolder.getPageList());
-        }
-        else if(page <= pagedListHolder.getPageCount()) {
-            pagedListHolder.setPage(page-1);
-            mav.put("models", pagedListHolder.getPageList());
-        }
-        return mav;
-    }*/
 
     @RequestMapping(value = "/list/{page}", method = RequestMethod.POST)
     public @ResponseBody Map<String, Object> getToDoModels(@PathVariable Integer page){
@@ -106,49 +82,15 @@ public class ToDoController {
         return mav;
     }
 
-    /*@RequestMapping(value = "/listcha", method = RequestMethod.GET)
-    public @ResponseBody Map<String, Object> test(){
-        Integer page = null;
-        Map<String, Object> mav = new HashMap<>();
-        //Pagination test
-
-        PagedListHolder<ToDoViewModel> pagedListHolder = new PagedListHolder<>(ToDoMapper.queryTotodoModel(
-                WorkflowService.getRequestList(), UserService.getAllUsers()));
-
-        pagedListHolder.setPageSize(1);
-
-        mav.put("maxPages", pagedListHolder.getPageCount());
-        if(page==null || page < 1 || page > pagedListHolder.getPageCount())
-            page=1;
-
-        mav.put("page", page);
-        if(page == null || page < 1 || page > pagedListHolder.getPageCount()){
-            pagedListHolder.setPage(0);
-            mav.put("models", pagedListHolder.getPageList());
-        }
-        else if(page <= pagedListHolder.getPageCount()) {
-            pagedListHolder.setPage(page-1);
-            mav.put("models", pagedListHolder.getPageList());
-        }
-        return mav;
-    }
-*/
     @RequestMapping(value = "/filter/{selectedformType}/{selectedStatus}/{selectedAttribute}", method = RequestMethod.POST)
     public @ResponseBody List<ToDoViewModel> getfilters(@PathVariable int selectedformType,
                                                         @PathVariable int selectedStatus,
                                                         @PathVariable int selectedAttribute,
-                                                        @RequestParam("selectedDate") @DateTimeFormat(pattern="dd/mm/yyyy")Date selectedDate,
+                                                        @RequestParam("selectedDate") String selectedDate,
                                                         @RequestParam("attrValue")String attrValue){
-        System.out.println(selectedformType);
-        System.out.println(selectedStatus);
-        System.out.println(selectedAttribute);
-        System.out.println(selectedDate);
-        System.out.println(attrValue);
 
-        List<ToDoViewModel> models = Filter.filter(selectedformType, selectedStatus, selectedAttribute, attrValue);
+        List<ToDoViewModel> models = Filter.filter(selectedformType, selectedStatus, selectedAttribute, attrValue, selectedDate);
 
         return models;
     }
-
-
 }

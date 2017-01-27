@@ -104,7 +104,7 @@
         pagedList(0);
     }
 
-   /* function filter() {
+    function filter() {
         var selectedformType = $('#formTypeId option:selected').prop('id');
         var selectedStatus = $('#statusId option:selected').prop('id');
         var selectedAttribute =$('#attributeId option:selected').prop('id');
@@ -122,7 +122,7 @@
                 alert("sdasdasd");
             }
         });
-    }*/
+    }
     var currentPage = 0;
     var page = 0;
 

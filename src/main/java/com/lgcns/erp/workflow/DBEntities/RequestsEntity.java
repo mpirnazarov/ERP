@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.Collection;
 
 /**
- * Created by DS on 1/23/2017.
+ * Created by Muslimbek Pirnazarov on 1/23/2017.
  */
 @Entity
 @Table(name = "requests", schema = "workflow", catalog = "LgErpSystem")

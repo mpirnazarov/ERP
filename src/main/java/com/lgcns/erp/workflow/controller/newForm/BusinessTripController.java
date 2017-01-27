@@ -2,9 +2,10 @@ package com.lgcns.erp.workflow.controller.newForm;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
-import com.lgcns.erp.tapps.model.DbEntities.UserInPostsEntity;
+import com.lgcns.erp.tapps.controller.UserController;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import java.security.Principal;
 @Controller
 @RequestMapping(value = "/Workflow")
 public class BusinessTripController {
+
     @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.GET)
     public ModelAndView WorkflowGET(Principal principal){
         JSONObject jsonObject = null;
@@ -44,10 +46,12 @@ public class BusinessTripController {
                     }
                 }
                 // Inserting Id as key, fullname as name, jobTitle as title
-                jsonObject.put("id", user.getId());
+                ProfileViewModel prof =  UserController.getProfileByUsername(user.getUserName());
+
+                jsonObject.put("id", prof.getId());
                 jsonObject.put("name", userLoc.getFirstName() + " " + userLoc.getLastName());
-                /*jsonObject.put("job", userLoc.get)*/
-                //jsonObject.put("title", UserController.getProfileByUsername(user.getUserName()).getJobTitle());
+                jsonObject.put("jobTitle", prof.getJobTitle());
+                jsonObject.put("department", prof.getDepartment());
                 // and chiefId if available
 
                 // add object to array

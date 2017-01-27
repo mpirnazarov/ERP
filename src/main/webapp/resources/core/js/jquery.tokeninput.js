@@ -18,7 +18,6 @@ var DEFAULT_SETTINGS = {
     searchDelay: 300,
     minChars: 1,
     propertyToSearch: "name",
-    userJob: "job",
     jsonContainer: null,
 
 	// Display settings

@@ -56,13 +56,20 @@ public class ToDoController {
     }
 
 
+
     @RequestMapping(value = "/list/{page}", method = RequestMethod.POST)
-    public @ResponseBody Map<String, Object> getToDoModels(@PathVariable Integer page){
+    public @ResponseBody Map<String, Object> getToDoModels(@PathVariable Integer page,
+                                                           @RequestParam("selectedformType") int selectedformType,
+                                                           @RequestParam("selectedStatus") int selectedStatus,
+                                                           @RequestParam("selectedAttribute") int selectedAttribute,
+                                                           @RequestParam("selectedDate") String selectedDate,
+                                                           @RequestParam("attrValue")String attrValue){
         Map<String, Object> mav = new HashMap<>();
         //Pagination test
         System.out.println(page);
-        PagedListHolder<ToDoViewModel> pagedListHolder = new PagedListHolder<>(ToDoMapper.queryTotodoModel(
-                WorkflowService.getRequestList(), UserService.getAllUsers()));
+        PagedListHolder<ToDoViewModel> pagedListHolder = new PagedListHolder<>(Filter.
+                                                                                filter(selectedformType, selectedStatus,
+                                                                                        selectedAttribute, attrValue, selectedDate));
 
         pagedListHolder.setPageSize(2);
 
@@ -93,4 +100,5 @@ public class ToDoController {
 
         return models;
     }
+
 }

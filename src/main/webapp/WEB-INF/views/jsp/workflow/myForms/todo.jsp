@@ -61,7 +61,7 @@
                 <div class="input-group" style="margin-top: 10px; width: 100%">
                     <span class="input-group-addon" id="date-addon" style="width: 25%">Request date</span>
                     <input type="text" class="form-control" id="sandbox-container" style="width:36%"/>
-                    <button type="button" class="btn btn-success" style="margin-left: 20%; border-radius: 0; width: 25%" onclick="filter()"><span
+                    <button type="button" class="btn btn-success" style="margin-left: 20%; border-radius: 0; width: 25%" onclick="pagedList(this.id)" id="btnFilter"><span
                             class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                     </button>
                 </div>
@@ -103,43 +103,39 @@
     function initialize() {
         pagedList(0);
     }
-
-    function filter() {
-        var selectedformType = $('#formTypeId option:selected').prop('id');
-        var selectedStatus = $('#statusId option:selected').prop('id');
-        var selectedAttribute =$('#attributeId option:selected').prop('id');
-        var sandBoxcontainer = $('#sandbox-container').datepicker({format: "dd/mm/yyyy"}).val();
-        var attrValue = $('#searchInputId').val();
-         $.ajax({
-            type: "POST",
-            processData: false,
-             data:'selectedDate='+sandBoxcontainer+'&attrValue='+attrValue,
-            url : '${pageContext.request.contextPath}/Workflow/MyForms/filter/'+selectedformType+'/'+selectedStatus+'/'+selectedAttribute,
-            success : function(data) {
-                alert('success');
-            },
-            error: function () {
-                alert("sdasdasd");
-            }
-        });
-    }
     var currentPage = 0;
     var page = 0;
 
 
     function pagedList(id){
+        //Filter attributes
+        var selectedformType = $('#formTypeId option:selected').prop('id');
+        var selectedStatus = $('#statusId option:selected').prop('id');
+        var selectedAttribute =$('#attributeId option:selected').prop('id');
+        var sandBoxcontainer = $('#sandbox-container').datepicker({format: "dd/mm/yyyy"}).val();
+        var attrValue = $('#searchInputId').val();
+
+
+        //Page buttons container
         var container = $('#pagedListContainer');
         var numberOfPages = 0;
-
+        //table for todo list
         var table = $('#tablecha');
         var tbody = $('#tbodycha');
 
+        //if next
         if(id==-1){
             page = currentPage+1;
         }
+        //if previous
         else if (id==-2){
             page=currentPage-1;
         }
+        //if filter
+        else if(id=="btnFilter"){
+            id=0;
+        }
+        //if page number is clicked
         else {
             page=id;
         }
@@ -147,7 +143,8 @@
         $.ajax({
                 type:"POST",
                 processData: false,
-                url : '${pageContext.request.contextPath}/Workflow/MyForms/list/'+page,
+            data:'selectedformType='+selectedformType+'&selectedStatus='+selectedStatus+'&selectedAttribute='+selectedAttribute+'&selectedDate='+sandBoxcontainer+'&attrValue='+attrValue,
+            url : '${pageContext.request.contextPath}/Workflow/MyForms/list/'+page,
                 success : function(data) {
 
                     //table
@@ -186,33 +183,6 @@
             });
     }
 
-   /* function generateTable(){
-        var table = $('#tablecha');
-        var tbody = $('#tbodycha');
-
-        $.ajax({
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            processData: false,
-            url : '${pageContext.request.contextPath}/Workflow/MyForms/listcha',
-            success : function(data) {
-                tbody.appendTo(table);
-                $(data).each(function(i, req) {
-                    $('<tr/>').appendTo(tbody)
-                        .append($('<td/>').text(i+1))
-                        .append($('<td/>').text(req.form_type))
-                        .append($('<td/>').text(req.request_subject))
-                        .append($('<td/>').text(req.user_name))
-                        .append($('<td/>').text(req.date_created))
-                        .append($('<td/>').text(req.status))
-                        .append($('<td/>').append($('<input type="button" value="View" style="color: red"/>')));
-                });
-            },
-            error: function () {
-                alert("error");
-            }
-        });
-    }*/
 </script>
 
 <script type="text/javascript">

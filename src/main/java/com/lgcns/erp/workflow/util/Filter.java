@@ -61,7 +61,7 @@ public class Filter {
             }
         }
 
-        if (selectedDate!=null){
+        if (!selectedDate.equals("")){
 
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -71,8 +71,6 @@ public class Filter {
                 if (t.equals(selectedDate))
                     filteredRequestsResult.add(request);
             }
-
-            /*filteredRequestsResult = requests.stream().filter(f->f.getDateCreated()).collect(Collectors.toList());*/
 
             requests.clear();
             requests.addAll(filteredRequestsResult);

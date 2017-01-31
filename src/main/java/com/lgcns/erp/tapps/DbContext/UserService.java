@@ -2321,4 +2321,14 @@ public class UserService {
         }
         return externalLocalizationsEntities;
     }
+
+
+    public static int getUserFromIdByUserLocName(String attribute){
+        for (UserLocalizationsEntity userLocalizationsEntity : getAllUserLocs()) {
+            if (userLocalizationsEntity.getFirstName().compareTo(attribute)==0){
+                return userLocalizationsEntity.getUserId();
+            }
+        }
+        return -1;
+    }
 }

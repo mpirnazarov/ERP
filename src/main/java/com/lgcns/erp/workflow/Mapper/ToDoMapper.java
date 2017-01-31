@@ -37,7 +37,6 @@ public class ToDoMapper {
                     UserLocalizationsEntity userLoc = UserService.getUserLocByUserId(user.getId(), 3);
                     model.setUser_name(userLoc.getLastName() + " " + userLoc.getFirstName());
                 }
-
             }
 
             for (Status status : Status.values()) {

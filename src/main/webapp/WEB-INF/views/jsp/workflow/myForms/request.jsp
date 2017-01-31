@@ -83,6 +83,9 @@
             </tbody>
 
         </table>
+
+        <div id="pagedListContainer">
+        </div>
     </div>
 </div>
 </div>
@@ -99,36 +102,45 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>
 <script type="text/javascript">
     function initialize() {
-        generateTable();
+        pagedList(0);
     }
 
+    var currentPage = 0;
+    var page = 0;
 
-    function filter() {
-        $.ajax({
-            type: "POST",
-            processData: false,
-            url : '${pageContext.request.contextPath}/workflow/filter/'+1+'/'+"asdahdkjahsdk",
-            success : function(data) {
-                alert(data);
-            },
-            error: function () {
-                alert("sdasdasd");
-            }
-        });
-    }
 
-    function generateTable(){
+    function pagedList(id){
+        var container = $('#pagedListContainer');
+        var numberOfPages = 0;
+
         var table = $('#dynamicHead');
         var tbody = $('#dynamicBody');
 
+        if(id==-1){
+            page = currentPage+1;
+        }
+        else if (id==-2){
+            page=currentPage-1;
+        }
+        else {
+            page=id;
+        }
+
         $.ajax({
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
+            type:"POST",
             processData: false,
-            url : '${pageContext.request.contextPath}/workflow/list',
+            url : '${pageContext.request.contextPath}/Workflow/list/'+page,
             success : function(data) {
+
+                //table
                 tbody.appendTo(table);
-                $(data).each(function(i, req) {
+                tbody.empty();
+
+                //set current page
+                currentPage=data.page;
+
+                $(data.models).each(function(i, req) {
+                    //generate table
                     $('<tr/>').appendTo(tbody)
                         .append($('<td/>').text(i+1))
                         .append($('<td/>').text(req.form_type))
@@ -137,9 +149,20 @@
                         .append($('<td/>').text(req.status))
                         .append($('<td/>').append($('<input type="button" value="View" style="color: red"/>')));
                 });
+
+                numberOfPages = data.maxPages;
+                container.empty();
+                container.append($('<input type="button" value="Prev" id="-2" style="color: red" onclick="pagedList(this.id)">'));
+
+                //generate pegination buttons
+                for(count=1; count<numberOfPages+1; count++){
+                    container.append($('<input type="button" value="'+count+'" id="'+count+'" style="color: red" onclick="pagedList(this.id)">'));
+                }
+                container.append($('<input type="button" value="Next" id="-1" style="color: red" onclick="pagedList(this.id)">'));
             },
+
             error: function () {
-                alert("error");
+                alert("Table not loaded");
             }
         });
     }

@@ -5,6 +5,7 @@
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
+      <configured-by-url>true</configured-by-url>
       <remarks>$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml</remarks>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://192.168.1.77:5432/LgErpSystem</jdbc-url>
@@ -20,12 +21,14 @@
     <data-source source="LOCAL" name="PostgreSQL - LgErpSystem@192.168.1.77 [2]" uuid="42ff7a68-36c9-4f30-bba8-f5531b04dcc2">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://192.168.1.77:5432/LgErpSystem</jdbc-url>
     </data-source>
     <data-source source="LOCAL" name="LgErpSystemProd@192.168.1.77" uuid="871e83d9-7813-4535-94be-34544ebc1ca4">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://192.168.1.77:5432/LgErpSystemProd</jdbc-url>
     </data-source>

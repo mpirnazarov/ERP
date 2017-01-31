@@ -104,25 +104,7 @@
         pagedList(0);
     }
 
-   /* function filter() {
-        var selectedformType = $('#formTypeId option:selected').prop('id');
-        var selectedStatus = $('#statusId option:selected').prop('id');
-        var selectedAttribute =$('#attributeId option:selected').prop('id');
-        var sandBoxcontainer = $('#sandbox-container').datepicker({format: "dd/mm/yyyy"}).val();
-        var attrValue = $('#searchInputId').val();
-         $.ajax({
-            type: "POST",
-            processData: false,
-             data:'selectedDate='+sandBoxcontainer+'&attrValue='+attrValue,
-            url : '${pageContext.request.contextPath}/Workflow/MyForms/filter/'+selectedformType+'/'+selectedStatus+'/'+selectedAttribute,
-            success : function(data) {
-                alert('success');
-            },
-            error: function () {
-                alert("sdasdasd");
-            }
-        });
-    }*/
+
     var currentPage = 0;
     var page = 0;
 
@@ -178,6 +160,7 @@
                         container.append($('<input type="button" value="'+count+'" id="'+count+'" style="color: red" onclick="pagedList(this.id)">'));
                     }
                     container.append($('<input type="button" value="Next" id="-1" style="color: red" onclick="pagedList(this.id)">'));
+
                 },
 
                 error: function () {
@@ -186,33 +169,7 @@
             });
     }
 
-   /* function generateTable(){
-        var table = $('#tablecha');
-        var tbody = $('#tbodycha');
 
-        $.ajax({
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            processData: false,
-            url : '${pageContext.request.contextPath}/Workflow/MyForms/listcha',
-            success : function(data) {
-                tbody.appendTo(table);
-                $(data).each(function(i, req) {
-                    $('<tr/>').appendTo(tbody)
-                        .append($('<td/>').text(i+1))
-                        .append($('<td/>').text(req.form_type))
-                        .append($('<td/>').text(req.request_subject))
-                        .append($('<td/>').text(req.user_name))
-                        .append($('<td/>').text(req.date_created))
-                        .append($('<td/>').text(req.status))
-                        .append($('<td/>').append($('<input type="button" value="View" style="color: red"/>')));
-                });
-            },
-            error: function () {
-                alert("error");
-            }
-        });
-    }*/
 </script>
 
 <script type="text/javascript">

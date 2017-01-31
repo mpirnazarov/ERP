@@ -227,8 +227,32 @@
                     <button type="button" class="btn btn-default">Save</button>
                     <button type="button" class="btn btn-success">Sumbit</button>
                     <button type="button" class="btn btn-danger">Cancel</button>
+                </div>
+
+                <div class="row" style="width: 500px">
+                    <div class="userImgBox col-md-6" style="background-color: red">
+                        <img class="userimg" src="/image/00096.jpg" height="50px" width="50px"/>
+                    </div>
+                    <div class="col-md-6" style="background-color: blue">
+                        <p>SARVAR</p>
+                        <p>SARVAR</p>
+                        <p>SARVAR</p>
+                        <p>SARVAR</p>
+                    </div>
 
                 </div>
+
+                <%--<div class="input-group" style="width:100%; height: 100px; background-color: red">
+                    <div class="input-group-addon" id="myimg" style="background-color: green; width: 40%; height: 100%">
+                        <img class="userimg" src="/image/00096.jpg" height="50px" width="50px"/>
+                    </div>
+                    <div aria-describedby="myimg" style="background-color: darkslategrey;">
+                        <p>SARVAR</p>
+                        <p>SARVAR</p>
+                        <p>SARVAR</p>
+                        <p>SARVAR</p>
+                    </div>
+                </div>--%>
             </div>
         </div>
     </div>

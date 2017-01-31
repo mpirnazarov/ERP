@@ -18,6 +18,10 @@ var DEFAULT_SETTINGS = {
     searchDelay: 300,
     minChars: 1,
     propertyToSearch: "name",
+    myJobTitle: "jobTitle",
+    myDepartment: "department",
+    myId: "id",
+
     jsonContainer: null,
 
 	// Display settings
@@ -43,8 +47,10 @@ var DEFAULT_SETTINGS = {
     idPrefix: "token-input-",
 
 	// Formatters
-    resultsFormatter: function(item){ return "<li>" + item[this.propertyToSearch]+ "</li>" },
+    resultsFormatter: function(item){ return "<li>" + "<div style='display: inline-block; width: 100%;'>" + "<img src='/image/" + item[this.myId]+ ".jpg'" + " title='" + item[this.propertyToSearch] + "' height='25px' width='25px' />" + " Full name: " + item[this.propertyToSearch]+ "</div>"+ item[this.myJobTitle] + "</li>" },
     tokenFormatter: function(item) { return "<li><p>" + item[this.propertyToSearch] + "</p></li>" },
+    /*resultsFormatter: function(item){ return "<li>" + "<img src='" + item.url + "' title='" + item.first_name + " " + item.last_name + "' height='25px' width='25px' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='full_name'>" + item.first_name + " " + item.last_name + "</div><div class='email'>" + item.email + "</div></div></li>" },*/
+    /*resultsFormatter: function(item){ return "<li>" +  "<img src='/image/" + item[this.myId]+ ".jpg'" + " title='" + item[this.propertyToSearch] + "' height='25px' width='25px' />"+ "<div style='display: inline-block; width: 100%;  padding-left: 10px;'>" + item[this.propertyToSearch]+ "</div>" + item[this.myJobTitle] + "</li>" },*/
 
 	// Callbacks
     onResult: null,

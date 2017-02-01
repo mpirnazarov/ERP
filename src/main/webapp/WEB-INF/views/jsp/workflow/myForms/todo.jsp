@@ -83,8 +83,13 @@
             </tr>
             </thead>
             <tbody id="tbodycha">
+
             </tbody>
+
         </table>
+        <div>
+            <img style="margin-left: 43%" src="${pageContext.request.contextPath}/resources/images/ajax-loader%20(1).gif" id="loading_img">
+        </div>
         <div id="pagedListContainer">
         </div>
     </div>
@@ -114,7 +119,6 @@
         var selectedAttribute =$('#attributeId option:selected').prop('id');
         var sandBoxcontainer = $('#sandbox-container').datepicker({format: "yyyy-mm-dd"}).val();
         var attrValue = $('#searchInputId').val();
-
 
         //Page buttons container
         var container = $('#pagedListContainer');
@@ -186,7 +190,13 @@
 </script>
 
 <script type="text/javascript">
+    var loading_gif = $('#loading_img');
     $(document).ready(function () {
         initialize();
+    });
+    $(document).ajaxStart(function () {
+        loading_gif.show();
+    }).ajaxStop(function () {
+        loading_gif.hide();
     });
 </script>

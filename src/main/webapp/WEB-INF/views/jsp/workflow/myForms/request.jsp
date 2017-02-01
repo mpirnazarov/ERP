@@ -34,14 +34,16 @@
             <div class="col-md-7 searchtoolstyle">
                 <div class="input-group" style="margin-top: 10px; width: 100%;">
                     <span class="input-group-addon" id="formtype-addon" style="width: 25%;">Form type</span>
-                    <select class="form-control" aria-describedby="formtype-addon" style="">
-                        <option value=""></option>
-                        <c:forEach var="type" items="${typeList}">
-                            <option value="${type}">${type.toString()}</option>
+                    <select class="form-control" aria-describedby="formtype-addon" style="" id="reqTypeId">
+                        <c:forEach var="type" items="${typeList}" varStatus="i">
+                            <option id="${type.key}">${type.value}</option>
                         </c:forEach>
                     </select>
                     <span class="input-group-addon" id="datefrom-addon" style="width: 25%;">Status:</span>
-                    <select class="form-control" aria-describedby="datefrom-addon">
+                    <select class="form-control" aria-describedby="datefrom-addon" id="reqStatusId">
+                        <c:forEach var="status" items="${statusList}" varStatus="i">
+                            <option id="${status.key}">${status.value}</option>
+                        </c:forEach>
                         <%--<option>In progress</option>
                         <option>Revision</option>
                         <option>Draft</option>
@@ -49,18 +51,14 @@
                     </select>
                 </div>
                 <div class="input-group" style="margin-top: 10px; width: 100%">
-                    <span class="input-group-addon" id="saerchtype-addon" style="width: 25%">Attribute:</span>
-                    <select class="form-control" aria-describedby="saerchtype-addon" style="width: 36%">
-                        <option>Author</option>
-                        <option>Title</option>
-                    </select>
-                    <input type="text" class="form-control" style="width: 64%">
+                    <span class="input-group-addon" id="saerchtype-addon" style="width: 25%">Title:</span>
+
+                    <input type="text" class="form-control" style="width: 64%" id="reqsearchId">
                 </div>
                 <div class="input-group" style="margin-top: 10px; width: 100%">
                     <span class="input-group-addon" id="date-addon" style="width: 25%">Request date:</span>
-                    <input type="text" class="form-control" id="sandbox-container" style="width:36%">
-                    <button type="button" class="btn btn-success"
-                            style="margin-left: 20%; border-radius: 0; width: 25%"><span
+                    <input type="text" class="form-control" id="reqsandbox-container" style="width:36%">
+                    <button type="button" class="btn btn-success" onclick="pagedList(this.id)" id="btnReqFilter" style="margin-left: 20%; border-radius: 0; width: 25%"><span
                             class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                     </button>
                 </div>
@@ -93,7 +91,7 @@
 <script>
 
 
-    $('#sandbox-container').datepicker({format: "dd/mm/yyyy"});
+    $('#reqsandbox-container').datepicker({format: "yyyy-mm-dd"});
 
 
 </script>
@@ -110,18 +108,32 @@
 
 
     function pagedList(id){
+
+        var typeId = $('#reqTypeId option:selected').prop('id');
+        var statusId = $('#reqStatusId option:selected').prop('id');
+        var searchInput = $('#reqsearchId').val();
+        var reqsandBoxcontainer = $('#reqsandbox-container').datepicker({format: "yyyy-mm-dd"}).val();
+
+
         var container = $('#pagedListContainer');
         var numberOfPages = 0;
 
         var table = $('#dynamicHead');
         var tbody = $('#dynamicBody');
 
+        //if next
         if(id==-1){
             page = currentPage+1;
         }
+        //if previous
         else if (id==-2){
             page=currentPage-1;
         }
+        //if filter
+        else if(id=="btnReqFilter"){
+            id=0;
+        }
+        //if page number is clicked
         else {
             page=id;
         }
@@ -129,6 +141,7 @@
         $.ajax({
             type:"POST",
             processData: false,
+            data:'typeId='+typeId+'&statusId='+statusId+'&reqsandBoxcontainer='+reqsandBoxcontainer+'&searchInput='+searchInput,
             url : '${pageContext.request.contextPath}/Workflow/list/'+page,
             success : function(data) {
 

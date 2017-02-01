@@ -8,12 +8,11 @@ import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
 import com.lgcns.erp.workflow.Mapper.RequestMapper;
 import com.lgcns.erp.workflow.ViewModel.RequestViewModel;
+import com.lgcns.erp.workflow.ViewModel.ToDoViewModel;
+import com.lgcns.erp.workflow.util.Filter;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -62,14 +61,18 @@ public class RequestController {
     }
 
     @RequestMapping(value = "/list/{page}", method = RequestMethod.POST)
-    public @ResponseBody Map<String, Object> getRequestModels(@PathVariable Integer page){
+    public @ResponseBody Map<String, Object> getRequestModels(@PathVariable Integer page,
+                                                              @RequestParam("typeId") int selectedformType,
+                                                              @RequestParam("statusId") int selectedStatus,
+                                                              @RequestParam("reqsandBoxcontainer") String selectedDate,
+                                                              @RequestParam("searchInput")String attrValue){
         Map<String, Object> mav = new HashMap<>();
         //Pagination test
-        System.out.println(page);
-        PagedListHolder<RequestViewModel> pagedListHolder = new PagedListHolder<>(RequestMapper.
-                                                    queryTorequestModel(WorkflowService.getRequestList(), UserService.getAllUsers()));
 
-        pagedListHolder.setPageSize(1);
+        PagedListHolder<RequestViewModel> pagedListHolder = new PagedListHolder<>(Filter.
+                                                            filterRequest(selectedformType, selectedStatus, attrValue, selectedDate));
+
+        pagedListHolder.setPageSize(2);
 
         mav.put("maxPages", pagedListHolder.getPageCount());
         if(page==null || page < 1 || page > pagedListHolder.getPageCount())

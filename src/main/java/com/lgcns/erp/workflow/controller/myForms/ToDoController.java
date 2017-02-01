@@ -1,25 +1,19 @@
 package com.lgcns.erp.workflow.controller.myForms;
 
-import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
-import com.lgcns.erp.workflow.DBContext.WorkflowService;
-import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
-import com.lgcns.erp.workflow.Mapper.ToDoMapper;
 import com.lgcns.erp.workflow.ViewModel.ToDoViewModel;
 import com.lgcns.erp.workflow.util.Filter;
-import org.apache.poi.poifs.eventfilesystem.POIFSReader;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,10 +22,10 @@ import java.util.Map;
  * Created by DScomputers3 on 20.01.2017.
  */
 @Controller
-@RequestMapping(value = "/Workflow/MyForms")
+@RequestMapping(value = "/Workflow/MyForms/todo")
 public class ToDoController {
 
-    @RequestMapping(value = "/todo")
+    @RequestMapping(value = "/load")
     public ModelAndView get(Principal principal){
         ModelAndView mav = new ModelAndView("workflow/myForms/todo");
 
@@ -66,10 +60,13 @@ public class ToDoController {
                                                            @RequestParam("attrValue")String attrValue){
         Map<String, Object> mav = new HashMap<>();
         //Pagination test
-        System.out.println(page);
-        PagedListHolder<ToDoViewModel> pagedListHolder = new PagedListHolder<>(Filter.
+        System.out.println(selectedDate);
+       /* PagedListHolder<ToDoViewModel> pagedListHolder = new PagedListHolder<>(Filter.
                                                                                 filter(selectedformType, selectedStatus,
-                                                                                        selectedAttribute, attrValue, selectedDate));
+                                                                                        selectedAttribute, attrValue, selectedDate));*/
+
+        PagedListHolder<ToDoViewModel> pagedListHolder = new PagedListHolder<>(Filter.toDoFilter(selectedformType, selectedStatus,
+                selectedAttribute, attrValue, selectedDate));
 
         pagedListHolder.setPageSize(2);
 
@@ -87,18 +84,6 @@ public class ToDoController {
             mav.put("models", pagedListHolder.getPageList());
         }
         return mav;
-    }
-
-    @RequestMapping(value = "/filter/{selectedformType}/{selectedStatus}/{selectedAttribute}", method = RequestMethod.POST)
-    public @ResponseBody List<ToDoViewModel> getfilters(@PathVariable int selectedformType,
-                                                        @PathVariable int selectedStatus,
-                                                        @PathVariable int selectedAttribute,
-                                                        @RequestParam("selectedDate") String selectedDate,
-                                                        @RequestParam("attrValue")String attrValue){
-
-        List<ToDoViewModel> models = Filter.filter(selectedformType, selectedStatus, selectedAttribute, attrValue, selectedDate);
-
-        return models;
     }
 
 }

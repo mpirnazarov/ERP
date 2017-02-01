@@ -5,10 +5,13 @@ import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
+import com.lgcns.erp.workflow.Mapper.RequestMapper;
 import com.lgcns.erp.workflow.Mapper.ToDoMapper;
+import com.lgcns.erp.workflow.ViewModel.RequestViewModel;
 import com.lgcns.erp.workflow.ViewModel.ToDoViewModel;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,62 +23,100 @@ import java.util.stream.Collectors;
  */
 public class Filter {
 
-    public static List<ToDoViewModel> filter(final int formType, int status, int attribute, String attributeValue, String selectedDate) {
-        List<RequestsEntity> requests = WorkflowService.getRequestList();
-        List<RequestsEntity> filteredRequestsResult = new ArrayList<>();
+    public static List<ToDoViewModel> toDoFilter(int formType, int status, int attribute, String attributeValue, String selectedDate){
+        int counter = 0;
+        String whereClause = "";
 
-        if (formType==0&&status==0&&attribute==0&&selectedDate.equals(""))
-            return ToDoMapper.queryTotodoModel(requests, UserService.getAllUsers());
-
-        if (formType!=0){
-            filteredRequestsResult = requests.stream().filter(f->f.getTypeId()==formType).collect(Collectors.toList());
-            requests.clear();
-            requests.addAll(filteredRequestsResult);
-            filteredRequestsResult.clear();
-        }
-        if (status!=0){
-            filteredRequestsResult = requests.stream().filter(f->f.getStatusId()==status).collect(Collectors.toList());
-            requests.clear();
-            requests.addAll(filteredRequestsResult);
-            filteredRequestsResult.clear();
-        }
         if (attribute!=0){
             if (attribute==1){
-                for (RequestsEntity request : requests) {
-                    for (UsersEntity user : UserService.getAllUsers()) {
-                        if (user.getId()==request.getUserFromId()){
-                            if (UserService.getUserLocByUserId(user.getId(), 3).getFirstName().equals(attributeValue)){
-                                filteredRequestsResult.add(request);
-                            }
-                        }
-                    }
-                }
-                requests.clear();
-                requests.addAll(filteredRequestsResult);
-                filteredRequestsResult.clear();
+                    whereClause = ", UserLocalizationsEntity u WHERE r.userFromId=u.userId AND upper(u.firstName) LIKE "+"upper('"+attributeValue+"%') AND u.languageId=3";
+                    counter++;
             }else {
-                filteredRequestsResult = requests.stream().filter(f->f.getSubject().equals(attributeValue)).collect(Collectors.toList());
-                requests.clear();
-                requests.addAll(filteredRequestsResult);
-                filteredRequestsResult.clear();
+                if (counter==0){
+                    whereClause+= " WHERE upper(r.subject) LIKE "+"upper('"+attributeValue+"%')";
+                    counter++;
+                }
+                else{
+                    whereClause+=" AND upper(r.subject) LIKE "+"upper('"+attributeValue+"%')";
+                    counter++;
+                }
             }
         }
+
+        whereClause = check(formType, status, selectedDate, counter, whereClause);
+
+        if (formType==0&&status==0&&attribute==0&&selectedDate.equals("")){
+            whereClause="";
+        }
+
+        System.out.println(whereClause);
+        return ToDoMapper.queryTotodoModel(WorkflowService.filter(whereClause), UserService.getAllUsers());
+    }
+
+    public static List<RequestViewModel> filterRequest(int formType, int status, String attributeValue, String selectedDate) {
+
+        int counter = 0;
+        String whereClause = "";
+
+        if (!attributeValue.equals("")){
+                if (counter==0){
+                    whereClause+= " WHERE upper(r.subject) LIKE "+"upper('"+attributeValue+"%')";
+                    counter++;
+                }
+                else{
+                    whereClause+=" AND upper(r.subject) LIKE "+"upper('"+attributeValue+"%')";
+                    counter++;
+                }
+            }
+
+        whereClause = check(formType, status, selectedDate, counter, whereClause);
+
+        if (formType==0&&status==0&&selectedDate.equals("")&&attributeValue.equals("")){
+            whereClause="";
+        }
+
+        System.out.println(whereClause);
+        return RequestMapper.queryTorequestModel(WorkflowService.filter(whereClause), UserService.getAllUsers());
+    }
+
+    private static String check(int formType, int status, String selectedDate, int counter, String whereClause){
+
+
+        if (formType!=0){
+            if (counter==0){
+                whereClause+= " WHERE r.typeId="+formType;
+                counter++;
+            }
+            else{
+                whereClause+=" AND r.typeId="+formType;
+                counter++;
+            }
+        }
+
+        if (status!=0){
+            if (counter==0){
+                whereClause+= " WHERE r.statusId="+status;
+                counter++;
+            }
+            else{
+                whereClause+=" AND r.statusId="+status;
+                counter++;
+            }
+        }
+
 
         if (!selectedDate.equals("")){
 
-            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-
-            for (RequestsEntity request : requests) {
-                String t = df.format(request.getDateCreated());
-                System.out.println(t);
-                if (t.equals(selectedDate))
-                    filteredRequestsResult.add(request);
+            if (counter==0){
+                whereClause+= " WHERE r.dateCreated="+"to_date('"+selectedDate+"', ('YYYY-MM-DD'))";
+                counter++;
             }
-
-            requests.clear();
-            requests.addAll(filteredRequestsResult);
-            filteredRequestsResult.clear();
+            else{
+                whereClause+=" AND r.dateCreated="+"to_date('"+selectedDate+"', ('YYYY-MM-DD'))";
+                counter++;
+            }
         }
-        return ToDoMapper.queryTotodoModel(requests, UserService.getAllUsers());
+
+        return whereClause;
     }
 }

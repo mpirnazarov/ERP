@@ -93,7 +93,7 @@
 </div>
 
 <script>
-    $('#sandbox-container').datepicker({format: "dd/mm/yyyy"});
+    $('#sandbox-container').datepicker({format: "yyyy-mm-dd"});
 </script>
 
 
@@ -112,7 +112,7 @@
         var selectedformType = $('#formTypeId option:selected').prop('id');
         var selectedStatus = $('#statusId option:selected').prop('id');
         var selectedAttribute =$('#attributeId option:selected').prop('id');
-        var sandBoxcontainer = $('#sandbox-container').datepicker({format: "dd/mm/yyyy"}).val();
+        var sandBoxcontainer = $('#sandbox-container').datepicker({format: "yyyy-mm-dd"}).val();
         var attrValue = $('#searchInputId').val();
 
 
@@ -144,7 +144,7 @@
                 type:"POST",
                 processData: false,
             data:'selectedformType='+selectedformType+'&selectedStatus='+selectedStatus+'&selectedAttribute='+selectedAttribute+'&selectedDate='+sandBoxcontainer+'&attrValue='+attrValue,
-            url : '${pageContext.request.contextPath}/Workflow/MyForms/list/'+page,
+            url : '${pageContext.request.contextPath}/Workflow/MyForms/todo/list/'+page,
                 success : function(data) {
 
                     //table

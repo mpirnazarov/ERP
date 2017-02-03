@@ -16,102 +16,53 @@
 <spring:url value="/resources/core/js/jquery.tokeninput.js" var="tokenInputJs"/>
 <script type="text/javascript" src="${tokenInputJs}"></script>
 
+
 <script type="text/javascript">
     $(document).ready(function() {
-        $("input[type=button]").click(function () {
-            var a=[];
+        $("input[type=submit]").click(function () {
+            var a = [];
             a=$(this).siblings("input[type=text]").val();
-
             $.ajax({
                 type : "POST",
-                url : "/Workflow",
+                url : "/Workflow/Test",
                 data : {
                     myArray: a //notice that "myArray" matches the value for @RequestParam
                                //on the Java side
                 },
                 success : function(response) {
-                    alert("Would submit: " + response.toString());
+                    alert(a);
                 },
                 error : function(e) {
                     alert('Error: ' + e);
                 }
             });
-
+            alert("Would submit: " + $(this).siblings("input[type=text]").val());
         });
     });
 </script>
 
-
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
-        <div class="tab-content">
-            <input type="text" id="demo-input-local" name="blah" />
-            <input type="button" value="Submit" />
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $("#demo-input-local").tokenInput(${jsonData});
-                });
-            </script>
-        </div>
-    </div>
-</div>
-
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
-        </h1>
-        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
-        </p>
-        <h2 class="page-header">Request</h2>
-
-        <div class="tab-content">
-            <div id="jobexp" class="tab-pane fade in active">
-                <!--Job experience table-->
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${reqList}" var="req">
-                        <tr>
-                            <td>${req.id}</td>
-                            <td>${req.subject}</td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <%--<input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;"--%>
-                <%--value="Print this page" onclick="printpage()"/>--%>
-            </div>
-        </div>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${products}" var="product" varStatus="status">
-                <c:url value="/user/detail/${product.ID}" var="detailUrl" />
-                <tr>
-                    <%--<td><a href="${detailUrl}">${product.ID}</a> <form:hidden path="products[${status.index}].ID" value="${product.ID}" /></td>--%>
-                    <td><form:input type="text" style="color: #0f0f0f" value="${products[status.index].firstName}" path="products[${status.index}].firstName"/></td>
-                    <%--<td><form:input path="products[${status.index}].lastName" class="input-mini" type="text" /></td>--%>
-
-                    <td><button id="save" name="save" value="${product.ID}" class="btn btn-success"><i class="fa fa-save"></i> Save </button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProduct${product.ID}"><i class="fa fa-edit"></i> Edit</button>
-                        <button id="delete" name="delete" value="${product.ID}" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+<div class="col-sm-10 col-md-offset-1">
+    <div class="col-lg-offset-2">
+    <input type="text" id="demo-input-local" name="blah" />
+    <input type="submit" value="Submit" />
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#demo-input-local").tokenInput([
+                {id: 7, name: "Ruby"},
+                {id: 11, name: "Python"},
+                {id: 13, name: "JavaScript"},
+                {id: 17, name: "ActionScript"},
+                {id: 19, name: "Scheme"},
+                {id: 23, name: "Lisp"},
+                {id: 29, name: "C#"},
+                {id: 31, name: "Fortran"},
+                {id: 37, name: "Visual Basic"},
+                {id: 41, name: "C"},
+                {id: 43, name: "C++"},
+                {id: 47, name: "Java"}
+            ]);
+        });
+    </script>
     </div>
 </div>
 

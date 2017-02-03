@@ -5,6 +5,7 @@ import com.lgcns.erp.tapps.model.UserInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -46,6 +47,11 @@ public class Test {
         return mav;
     }
 
+    @RequestMapping(value = "/Test", method = RequestMethod.POST)
+    public void Test(@RequestParam(value = "myArray") int a) {
+        System.out.println("ARRAY: " + a);
+
+    }
 
 
 }

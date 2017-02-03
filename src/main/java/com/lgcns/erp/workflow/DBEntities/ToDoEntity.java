@@ -88,4 +88,15 @@ public class ToDoEntity {
     public void setRequestsByRequestId(RequestsEntity requestsByRequestId) {
         this.requestsByRequestId = requestsByRequestId;
     }
+
+    @Override
+    public String toString() {
+        return "ToDoEntity{" +
+                "id=" + id +
+                ", requestId=" + requestId +
+                ", date=" + date +
+                ", description='" + description + '\'' +
+                ", requestsByRequestId=" + requestsByRequestId +
+                '}';
+    }
 }

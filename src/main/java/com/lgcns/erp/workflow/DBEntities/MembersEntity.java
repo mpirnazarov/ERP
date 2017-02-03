@@ -173,4 +173,21 @@ public class MembersEntity {
     public void setRequestsByRequestId(RequestsEntity requestsByRequestId) {
         this.requestsByRequestId = requestsByRequestId;
     }
+
+    @Override
+    public String toString() {
+        return "MembersEntity{" +
+                "id=" + id +
+                ", requestId=" + requestId +
+                ", userId=" + userId +
+                ", organizationName='" + organizationName + '\'' +
+                ", dateFrom=" + dateFrom +
+                ", dateTo=" + dateTo +
+                ", expenseTransportation=" + expenseTransportation +
+                ", dailyAllowance=" + dailyAllowance +
+                ", expenseAccommodation=" + expenseAccommodation +
+                ", expenseOther=" + expenseOther +
+                ", requestsByRequestId=" + requestsByRequestId +
+                '}';
+    }
 }

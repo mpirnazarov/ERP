@@ -56,10 +56,10 @@
 
                     </form:select>
                     <label class="radio-inline" style="margin-left: 1%; margin-top: 1%">
-                        <form:radiobutton value="1" path="typeDomOver" /> Domestic
+                        <form:radiobutton value="true" path="domestic" /> Domestic
                     </label>
                     <label class="radio-inline" style="margin-top: 1%">
-                        <form:radiobutton value="2" path="typeDomOver" /> Overseas
+                        <form:radiobutton value="false" path="domestic" /> Overseas
                     </label>
                 </div>
                 <div class="input-group" style="width: 100%; margin-top: 1%">

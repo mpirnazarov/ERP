@@ -1,13 +1,7 @@
 package com.lgcns.erp.workflow.DBContext;
 
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
-import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
-import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
-import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
-import com.lgcns.erp.workflow.DBEntities.StepsEntity;
-import com.lgcns.erp.workflow.ViewModel.ToDoViewModel;
-import org.hibernate.Criteria;
-import com.lgcns.erp.workflow.DBEntities.TripTypesEntity;
+import com.lgcns.erp.workflow.DBEntities.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -165,5 +159,112 @@ public class WorkflowService {
             session.close();
         }
         return list;
+    }
+
+    public static int insertRequests(RequestsEntity requestsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            //Set foreign key items
+            requestsEntity.setTripTypesByTripTypeId(session.load(TripTypesEntity.class, requestsEntity.getTripTypeId()));
+            //Save the object in database
+            session.save(requestsEntity);
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return (int)requestsEntity.getId();
+    }
+
+    public static void insertMembers(MembersEntity membersEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            //Set foreign key items
+            membersEntity.setRequestsByRequestId(session.load(RequestsEntity.class, membersEntity.getRequestId()));
+            //Save the object in database
+            session.save(membersEntity);
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void insertToDo(ToDoEntity toDoEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            //Set foreign key items
+            toDoEntity.setRequestsByRequestId(session.load(RequestsEntity.class, toDoEntity.getRequestId()));
+            //Save the object in database
+            session.save(toDoEntity);
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void insertAttachments(AttachmentsEntity attachmentsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            //Set foreign key items
+            attachmentsEntity.setRequestsByRequestId(session.load(RequestsEntity.class, attachmentsEntity.getRequestId()));
+            //Save the object in database
+            session.save(attachmentsEntity);
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void insertTest() {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update StepsEntity set stepSequence = :statusId where id = :id");
+            query.setParameter("statusId", 2);
+            query.setParameter("id", 1);
+            int s = query.executeUpdate();
+            System.out.println("S= " + s);
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
     }
 }

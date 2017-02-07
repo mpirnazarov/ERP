@@ -11,7 +11,8 @@ import java.util.List;
  * Created by Muslimbek Pirnazarov on 1/30/2017.
  */
 public class BusinessTripVM {
-    int id, typeDomOver, tripType;
+    private boolean domestic;
+    private int id, tripType;
     private String subject, destination, purpose;
     private java.sql.Date start, end;
     private MultipartFile[] file;
@@ -26,12 +27,12 @@ public class BusinessTripVM {
         this.id = id;
     }
 
-    public int getTypeDomOver() {
-        return typeDomOver;
+    public boolean isDomestic() {
+        return domestic;
     }
 
-    public void setTypeDomOver(int typeDomOver) {
-        this.typeDomOver = typeDomOver;
+    public void setDomestic(boolean domestic) {
+        this.domestic = domestic;
     }
 
     public int getTripType() {
@@ -110,7 +111,7 @@ public class BusinessTripVM {
     public String toString() {
         return "BusinessTripVM{" +
                 "id=" + id +
-                ", typeDomOver=" + typeDomOver +
+                ", domestic=" + domestic +
                 ", tripType=" + tripType +
                 ", subject='" + subject + '\'' +
                 ", destination='" + destination + '\'' +

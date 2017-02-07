@@ -5,30 +5,30 @@ import java.sql.Date;
 import java.util.Collection;
 
 /**
- * Created by Muslimbek Pirnazarov on 1/23/2017.
+ * Created by Muslimbek Pirnazarov on 2/7/2017.
  */
 @Entity
 @Table(name = "steps", schema = "workflow", catalog = "LgErpSystem")
 public class StepsEntity {
-    private long id;
+    private int id;
     private int requestId;
     private int userId;
     private int involvementTypeId;
-    private Integer sequence;
+    private Integer stepSequence;
     private int statusId;
     private Date statusDate;
+    private Boolean isActive;
+    private Collection<StepCommentsEntity> stepCommentssById;
     private RequestsEntity requestsByRequestId;
     private InvolvementTypesEntity involvementTypesByInvolvementTypeId;
-    private Collection<StepCommentsEntity> stepCommentssById;
-    private Boolean isActive;
 
     @Id
     @Column(name = "id")
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -63,13 +63,13 @@ public class StepsEntity {
     }
 
     @Basic
-    @Column(name = "sequence")
-    public Integer getSequence() {
-        return sequence;
+    @Column(name = "step_sequence")
+    public Integer getStepSequence() {
+        return stepSequence;
     }
 
-    public void setSequence(Integer sequence) {
-        this.sequence = sequence;
+    public void setStepSequence(Integer stepSequence) {
+        this.stepSequence = stepSequence;
     }
 
     @Basic
@@ -92,6 +92,16 @@ public class StepsEntity {
         this.statusDate = statusDate;
     }
 
+    @Basic
+    @Column(name = "is_active")
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -104,8 +114,9 @@ public class StepsEntity {
         if (userId != that.userId) return false;
         if (involvementTypeId != that.involvementTypeId) return false;
         if (statusId != that.statusId) return false;
-        if (sequence != null ? !sequence.equals(that.sequence) : that.sequence != null) return false;
+        if (stepSequence != null ? !stepSequence.equals(that.stepSequence) : that.stepSequence != null) return false;
         if (statusDate != null ? !statusDate.equals(that.statusDate) : that.statusDate != null) return false;
+        if (isActive != null ? !isActive.equals(that.isActive) : that.isActive != null) return false;
 
         return true;
     }
@@ -116,10 +127,20 @@ public class StepsEntity {
         result = 31 * result + requestId;
         result = 31 * result + userId;
         result = 31 * result + involvementTypeId;
-        result = 31 * result + (sequence != null ? sequence.hashCode() : 0);
+        result = 31 * result + (stepSequence != null ? stepSequence.hashCode() : 0);
         result = 31 * result + statusId;
         result = 31 * result + (statusDate != null ? statusDate.hashCode() : 0);
+        result = 31 * result + (isActive != null ? isActive.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "stepsByStepsId")
+    public Collection<StepCommentsEntity> getStepCommentssById() {
+        return stepCommentssById;
+    }
+
+    public void setStepCommentssById(Collection<StepCommentsEntity> stepCommentssById) {
+        this.stepCommentssById = stepCommentssById;
     }
 
     @ManyToOne
@@ -140,24 +161,5 @@ public class StepsEntity {
 
     public void setInvolvementTypesByInvolvementTypeId(InvolvementTypesEntity involvementTypesByInvolvementTypeId) {
         this.involvementTypesByInvolvementTypeId = involvementTypesByInvolvementTypeId;
-    }
-
-    @OneToMany(mappedBy = "stepsByStepsId")
-    public Collection<StepCommentsEntity> getStepCommentssById() {
-        return stepCommentssById;
-    }
-
-    public void setStepCommentssById(Collection<StepCommentsEntity> stepCommentssById) {
-        this.stepCommentssById = stepCommentssById;
-    }
-
-    @Basic
-    @Column(name = "is_active")
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
     }
 }

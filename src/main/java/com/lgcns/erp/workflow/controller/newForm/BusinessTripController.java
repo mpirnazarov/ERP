@@ -8,7 +8,10 @@ import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
+import com.lgcns.erp.workflow.DBEntities.MembersEntity;
+import com.lgcns.erp.workflow.DBEntities.ToDoEntity;
 import com.lgcns.erp.workflow.DBEntities.TripTypesEntity;
+import com.lgcns.erp.workflow.Mapper.BusinessTripMapper;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -34,6 +37,9 @@ import java.util.Map;
 @RequestMapping(value = "/Workflow")
 public class BusinessTripController {
 
+    int[] approvalsGlobal = null;
+    int[] executivesGlobal = null;
+    int[] referencesGlobal = null;
     @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.GET)
     public ModelAndView WorkflowGET(Principal principal){
         ModelAndView mav = new ModelAndView();
@@ -103,9 +109,41 @@ public class BusinessTripController {
     }
 
     @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.POST)
-    public String WorkflowPost(@ModelAttribute BusinessTripVM businessTripVM ) throws IOException {
+    public String WorkflowPost(@ModelAttribute BusinessTripVM businessTripVM, Principal principal) throws IOException {
 
-        /*WorkflowService.insertRequests(RequestMapper(businessTripVM));*/
+        int userId = UserService.getIdByUsername(principal.getName());
+
+        /* Insert to table Requests */
+        int requestId = WorkflowService.insertRequests(BusinessTripMapper.RequestMapper(businessTripVM, userId));
+        businessTripVM.setId(requestId);
+
+        /* Insert to table Members */
+        for (MembersEntity member :
+                businessTripVM.getMembersEntityList()) {
+            if(member.getOrganizationName()!=null)
+                WorkflowService.insertMembers(BusinessTripMapper.MembersMapper(businessTripVM, member, userId));
+        }
+
+        /* Insert to table to_do */
+        for (ToDoEntity todo :
+                businessTripVM.getToDoEntityList()) {
+            WorkflowService.insertToDo(BusinessTripMapper.ToDoMapper(businessTripVM.getId(), todo));
+        }
+
+        /* Insert attachments info to table Attachments */
+        for (MultipartFile attachment :
+                businessTripVM.getFile()) {
+            WorkflowService.insertAttachments(BusinessTripMapper.AttachmentsMapper(businessTripVM.getId(), attachment));
+        }
+
+        int count=1;
+        /* Insert to table steps*/
+        for (int num :
+                approvalsGlobal) {
+            System.out.println("Approvals: " + num);
+            /*WorkflowService.insertSteps(BusinessTripMapper.StepsMapper(businessTripVM.getId(), userId, 1, count++, ))*/
+        }
+
         System.out.println("FORM:   BUSINESS TRIP: " + businessTripVM.toString());
         MultipartFile[] multipartFiles=null;
         if(!businessTripVM.getFile()[0].isEmpty()) {
@@ -126,14 +164,15 @@ public class BusinessTripController {
         return "redirect: /Workflow/NewForm/BusinessTripForm";
     }
 
+
+
     @RequestMapping(value = "/NewForm/BusinessTripFormAjax", method = RequestMethod.POST)
     public @ResponseBody
     int[] WorkflowPostAjax(@RequestParam("approvals") int[] approvals, @RequestParam("executives") int[] executives, @RequestParam("references") int[] references){
-        System.out.println("JSON: ");
-        for (int num :
-                approvals) {
-            System.out.println("Approvals: " + num);
-        }
+
+        approvalsGlobal = approvals;
+        executivesGlobal = executives;
+        referencesGlobal = references;
         for (int num :
                 executives) {
             System.out.println("Executives: " + num);
@@ -176,4 +215,8 @@ public class BusinessTripController {
         return users;
     }
 
+    @RequestMapping(value = "/Test")
+    public void WorkflowPostAjax() {
+        WorkflowService.insertTest();
+    }
 }

@@ -31,7 +31,7 @@
     </schema>
     <schema id="9" parent="2" name="workflow">
       <ObjectId>91301</ObjectId>
-      <IntrospectionTimestamp>2017-02-07.11:46:02.977</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2017-02-07.10:30:55.437</IntrospectionTimestamp>
       <IntrospectionStateNumber>3855</IntrospectionStateNumber>
       <Visible>1</Visible>
     </schema>

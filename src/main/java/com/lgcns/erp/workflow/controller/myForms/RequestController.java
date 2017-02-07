@@ -53,24 +53,24 @@ public class RequestController {
         return mav;
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+  /*  @RequestMapping(value = "/list", method = RequestMethod.GET)
     public @ResponseBody
     List<RequestViewModel> getRequestModels(){
         List<RequestViewModel> models = RequestMapper.queryTorequestModel(WorkflowService.getRequestList(), UserService.getAllUsers());
         return models;
     }
-
+*/
     @RequestMapping(value = "/list/{page}", method = RequestMethod.POST)
     public @ResponseBody Map<String, Object> getRequestModels(@PathVariable Integer page,
                                                               @RequestParam("typeId") int selectedformType,
                                                               @RequestParam("statusId") int selectedStatus,
                                                               @RequestParam("reqsandBoxcontainer") String selectedDate,
-                                                              @RequestParam("searchInput")String attrValue){
+                                                              @RequestParam("searchInput")String attrValue, Principal principal){
         Map<String, Object> mav = new HashMap<>();
         //Pagination test
-
+        int userId = UserService.getUserIdByUsername(principal.getName());
         PagedListHolder<RequestViewModel> pagedListHolder = new PagedListHolder<>(Filter.
-                                                            filterRequest(selectedformType, selectedStatus, attrValue, selectedDate));
+                                                            filterRequest(selectedformType, selectedStatus, attrValue, selectedDate, 2, userId));
 
         pagedListHolder.setPageSize(2);
 

@@ -167,7 +167,7 @@
                             .append($('<td/>').text(req.user_name))
                             .append($('<td/>').text(req.date_created))
                             .append($('<td/>').text(req.status))
-                            .append($('<td/>').append($('<input type="button" value="View" style="color: red"/>')));
+                            .append($('<td/>').append($('<button style="color: red" onclick="location.href=\'/Workflow/MyForms/todo/details/'+req.request_id+'\'"/>').text("View")));
                     });
 
                     numberOfPages = data.maxPages;
@@ -179,6 +179,7 @@
                         container.append($('<input type="button" value="'+count+'" id="'+count+'" style="color: red" onclick="pagedList(this.id)">'));
                     }
                     container.append($('<input type="button" value="Next" id="-1" style="color: red" onclick="pagedList(this.id)">'));
+
                 },
 
                 error: function () {
@@ -186,6 +187,23 @@
                 }
             });
     }
+/*
+
+    function redirectToEdit(id) {
+
+        $.ajax({
+            type:"GET",
+            processData:"false",
+            url:'${pageContext.request.contextPath}/Workflow/MyForms/todo/details/'+id,
+            success:function (data) {
+                alert("success");
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    }
+*/
 
 </script>
 

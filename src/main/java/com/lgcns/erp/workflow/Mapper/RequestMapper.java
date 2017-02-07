@@ -13,11 +13,11 @@ import java.util.List;
  * Created by DS on 23.01.2017.
  */
 public class RequestMapper {
-    public static List<RequestViewModel> queryTorequestModel(List<RequestsEntity> reqs, List<UsersEntity> users){
+    public static List<RequestViewModel> queryTorequestModel(List<RequestsEntity> reqs, List<UsersEntity> users, int userId){
 
         List<RequestViewModel> models = new ArrayList<>();
-
-        for (RequestsEntity req : reqs) {
+        List<RequestsEntity> requestsEntities = getValidReqs(reqs, userId);
+        for (RequestsEntity req : requestsEntities) {
             RequestViewModel model = new RequestViewModel();
             model.setRequest_id(req.getId());
             model.setRequest_subject(req.getSubject());
@@ -41,5 +41,15 @@ public class RequestMapper {
             models.add(model);
         }
         return models;
+    }
+
+    private static List<RequestsEntity> getValidReqs(List<RequestsEntity> reqs, int userId) {
+        List<RequestsEntity> requestsEntities = new ArrayList<>();
+        for (RequestsEntity req : reqs) {
+            if (req.getUserFromId()==userId){
+                requestsEntities.add(req);
+            }
+        }
+        return requestsEntities;
     }
 }

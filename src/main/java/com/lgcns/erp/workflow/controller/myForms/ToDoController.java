@@ -1,17 +1,34 @@
 package com.lgcns.erp.workflow.controller.myForms;
 
+import com.google.common.io.Files;
+import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
+import com.lgcns.erp.workflow.DBContext.WorkflowService;
+import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
+import com.lgcns.erp.workflow.Mapper.DetailsMapper;
+import com.lgcns.erp.workflow.ViewModel.DetailsViewModel;
 import com.lgcns.erp.workflow.ViewModel.ToDoViewModel;
+import com.lgcns.erp.workflow.util.ContentType;
 import com.lgcns.erp.workflow.util.Filter;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.activation.MimetypesFileTypeMap;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.security.Principal;
 import java.sql.Date;
 import java.util.HashMap;
@@ -35,7 +52,8 @@ public class ToDoController {
         Map<Integer, String> statusList = new HashMap<>();
         statusList.put(0,"");
         for (Status status : Status.values()) {
-            statusList.put(status.getValue(), status.name().replace('_',' '));
+            if (status.getValue()==1||status.getValue()==2)
+                    statusList.put(status.getValue(), status.name().replace('_',' '));
         }
 
         Map<Integer, String> typeList = new HashMap<>();
@@ -46,9 +64,10 @@ public class ToDoController {
 
         mav.addObject("statusList", statusList);
         mav.addObject("typeList", typeList);
+        int id = UserService.getUserIdByUsername(principal.getName());
+        System.out.println(id);
         return mav;
     }
-
 
 
     @RequestMapping(value = "/list/{page}", method = RequestMethod.POST)
@@ -57,16 +76,14 @@ public class ToDoController {
                                                            @RequestParam("selectedStatus") int selectedStatus,
                                                            @RequestParam("selectedAttribute") int selectedAttribute,
                                                            @RequestParam("selectedDate") String selectedDate,
-                                                           @RequestParam("attrValue")String attrValue){
+                                                           @RequestParam("attrValue")String attrValue, Principal principal){
         Map<String, Object> mav = new HashMap<>();
-        //Pagination test
-        System.out.println(selectedDate);
-       /* PagedListHolder<ToDoViewModel> pagedListHolder = new PagedListHolder<>(Filter.
-                                                                                filter(selectedformType, selectedStatus,
-                                                                                        selectedAttribute, attrValue, selectedDate));*/
+
+        int userId = UserService.getUserIdByUsername(principal.getName());
+
 
         PagedListHolder<ToDoViewModel> pagedListHolder = new PagedListHolder<>(Filter.toDoFilter(selectedformType, selectedStatus,
-                selectedAttribute, attrValue, selectedDate));
+                selectedAttribute, attrValue, selectedDate, 1, userId));
 
         pagedListHolder.setPageSize(2);
 
@@ -85,5 +102,47 @@ public class ToDoController {
         }
         return mav;
     }
+
+    @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
+    public ModelAndView details(Principal principal, @PathVariable(value = "id")int id){
+        ModelAndView mav = new ModelAndView("/workflow/myForms/details");
+
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
+
+        DetailsViewModel viewModel = DetailsMapper.toDetails(id);
+        mav.addObject("model", viewModel);
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/details", method = RequestMethod.POST)
+    public String details(@RequestParam("comment")String comment, @RequestParam("status")String status){
+
+
+
+        return "";
+    }
+
+    @RequestMapping(value = "/files/{id}", method = RequestMethod.GET)
+    public ResponseEntity<InputStreamResource> getFile(@PathVariable("id") Long id) {
+        String fullPath = WorkflowService.getAttachmentPathNameById(id);
+        File file = new File(fullPath);
+
+        String ext = Files.getFileExtension(fullPath);
+
+        HttpHeaders respHeaders = new HttpHeaders();
+        respHeaders.setContentType(MediaType.valueOf(ContentType.getContentType(ext)));
+        respHeaders.setContentDispositionFormData("attachment", "");
+
+        InputStreamResource isr = null;
+        try {
+            isr = new InputStreamResource(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(isr, respHeaders, HttpStatus.OK);
+    }
+
 
 }

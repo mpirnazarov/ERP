@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 public class Filter {
 
-    public static List<ToDoViewModel> toDoFilter(int formType, int status, int attribute, String attributeValue, String selectedDate){
+    public static List<ToDoViewModel> toDoFilter(int formType, int status, int attribute, String attributeValue, String selectedDate, int controllerId, int userId){
         int counter = 0;
         String whereClause = "";
 
@@ -43,17 +43,17 @@ public class Filter {
             }
         }
 
-        whereClause = check(formType, status, selectedDate, counter, whereClause);
+        whereClause = check(formType, status, selectedDate, counter, whereClause, controllerId);
 
         if (formType==0&&status==0&&attribute==0&&selectedDate.equals("")){
-            whereClause="";
+            whereClause=" WHERE r.statusId<>5";
         }
 
         System.out.println(whereClause);
-        return ToDoMapper.queryTotodoModel(WorkflowService.filter(whereClause), UserService.getAllUsers());
+        return ToDoMapper.queryTotodoModel(WorkflowService.filter(whereClause), UserService.getAllUsers(), userId);
     }
 
-    public static List<RequestViewModel> filterRequest(int formType, int status, String attributeValue, String selectedDate) {
+    public static List<RequestViewModel> filterRequest(int formType, int status, String attributeValue, String selectedDate, int controllerId, int userId) {
 
         int counter = 0;
         String whereClause = "";
@@ -69,17 +69,17 @@ public class Filter {
                 }
             }
 
-        whereClause = check(formType, status, selectedDate, counter, whereClause);
-
         if (formType==0&&status==0&&selectedDate.equals("")&&attributeValue.equals("")){
             whereClause="";
         }
 
+        whereClause = check(formType, status, selectedDate, counter, whereClause, controllerId);
+
         System.out.println(whereClause);
-        return RequestMapper.queryTorequestModel(WorkflowService.filter(whereClause), UserService.getAllUsers());
+        return RequestMapper.queryTorequestModel(WorkflowService.filter(whereClause), UserService.getAllUsers(), userId);
     }
 
-    private static String check(int formType, int status, String selectedDate, int counter, String whereClause){
+    private static String check(int formType, int status, String selectedDate, int counter, String whereClause, int controllerId){
 
 
         if (formType!=0){
@@ -117,6 +117,13 @@ public class Filter {
             }
         }
 
+        if (controllerId==1){
+            if (status!=5)
+                whereClause += " AND r.statusId<>5";
+        }
+        else {
+            whereClause +="";
+        }
         return whereClause;
     }
 }

@@ -2,12 +2,9 @@ package com.lgcns.erp.workflow.DBContext;
 
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
-import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
-import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
-import com.lgcns.erp.workflow.DBEntities.StepsEntity;
+import com.lgcns.erp.workflow.DBEntities.*;
 import com.lgcns.erp.workflow.ViewModel.ToDoViewModel;
 import org.hibernate.Criteria;
-import com.lgcns.erp.workflow.DBEntities.TripTypesEntity;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -155,6 +152,46 @@ public class WorkflowService {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from TripTypesEntity ");
             list = (List<TripTypesEntity>)query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return list;
+    }
+
+    public static List<StepCommentsEntity> getStepComments(){
+        List<StepCommentsEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from StepCommentsEntity ");
+            list = (List<StepCommentsEntity>)query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return list;
+    }
+
+    public static List<StepCommentsEntity> getStepCommentsByStepId(long id){
+        List<StepCommentsEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from StepCommentsEntity WHERE stepsId="+id);
+            list = (List<StepCommentsEntity>)query.list();
             transaction.commit();
         }
         catch (HibernateException e) {

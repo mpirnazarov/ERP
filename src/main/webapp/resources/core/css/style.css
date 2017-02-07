@@ -473,10 +473,9 @@ a:focus {
 
 /*WorkFlowCss*/
 
-.searchtoolstyle {
-    height: 180px;
-    transform: scale(0.9, 0.9);
-    margin-left: 46%;
+.searchtoolstyle .row {
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .searchtoolstyle .input-group-addon {
@@ -492,5 +491,40 @@ a:focus {
     font-weight: bold;
     border: none;
 }
+
+/*Workflow-SarTableStyle*/
+
+.sarTable {
+    background-color: rgba(0, 0, 0, 0.46);
+    border-radius: 1%;
+}
+
+.sarTable td th {
+    padding: 10px 8px;
+}
+
+.sarTable thead tr th {
+    border-bottom: 7px groove #1e7ee2;
+    font-size: 20px;
+    color: #1e7ee2;
+}
+
+.sarTable tbody tr:hover {
+    background-color: rgba(1, 23, 255, 0.22);
+}
+
+.sarTable .btn {
+    background-color: #1e7ee2;
+    border-radius: 0px;
+    font-size: 20px;
+    color: black;
+}
+
+.sarTable .btn:hover {
+    color: white;
+}
+
+
+
 
 

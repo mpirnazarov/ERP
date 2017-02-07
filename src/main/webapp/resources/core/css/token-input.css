@@ -67,7 +67,7 @@ li.token-input-selected-token span {
 
 div.token-input-dropdown {
     position: absolute;
-    width: 20.4%;    /*me 400px*/
+    width: 30%;/*width: 20.4%;*/    /*me 400px*/
     overflow: auto;   /*me hidden*/
     height: 200px;
     background-color: #e5e5e5;

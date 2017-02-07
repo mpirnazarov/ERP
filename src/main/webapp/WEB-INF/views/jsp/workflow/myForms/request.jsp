@@ -13,12 +13,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Requset"/>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
+
+
 <style>
     body :not(a) {
         color: inherit;
     }
 
+
 </style>
+<spring:url value="/resources/core/css/paginationsStyle.css" var="paginationCss"/>
+<link rel="stylesheet" href="${paginationCss}"/>
 
 
 <div class="col-sm-10 col-md-offset-1">
@@ -30,59 +35,77 @@
         <h2 class="page-header">Request</h2>
 
         <div class="w3-container">
+            <div class="searchtoolstyle" style="height: 20%">
 
-            <div class="col-md-7 searchtoolstyle">
-                <div class="input-group" style="margin-top: 10px; width: 100%;">
-                    <span class="input-group-addon" id="formtype-addon" style="width: 25%;">Form type</span>
-                    <select class="form-control" aria-describedby="formtype-addon" style="" id="reqTypeId">
-                        <c:forEach var="type" items="${typeList}" varStatus="i">
-                            <option id="${type.key}">${type.value}</option>
-                        </c:forEach>
-                    </select>
-                    <span class="input-group-addon" id="datefrom-addon" style="width: 25%;">Status:</span>
-                    <select class="form-control" aria-describedby="datefrom-addon" id="reqStatusId">
-                        <c:forEach var="status" items="${statusList}" varStatus="i">
-                            <option id="${status.key}">${status.value}</option>
-                        </c:forEach>
-                        <%--<option>In progress</option>
-                        <option>Revision</option>
-                        <option>Draft</option>
-                        <option>Completed</option>--%>
-                    </select>
-                </div>
-                <div class="input-group" style="margin-top: 10px; width: 100%">
-                    <span class="input-group-addon" id="saerchtype-addon" style="width: 25%">Title:</span>
+                <%--p1--%>
+                <div style="display: flex; margin-bottom: 1%;">
+                    <div style="margin-left: auto; width: 20%">
+                        <label>FormType</label>
+                        <select class="form-control" id="reqTypeId">
+                            <c:forEach var="type" items="${typeList}" varStatus="i">
+                                <option id="${type.key}">${type.value}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div style="margin-left: 1%; width: 20%">
+                        <label>Current status</label>
+                        <select class="form-control"  id="reqStatusId">
+                            <c:forEach var="status" items="${statusList}" varStatus="i">
+                                <option id="${status.key}">${status.value}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div style="margin-left: 1%; width: 20%">
+                        <label>Request date</label>
+                        <input type="text" class="form-control" id="reqsandbox-container">
+                    </div>
 
-                    <input type="text" class="form-control" style="width: 64%" id="reqsearchId">
+
+
                 </div>
-                <div class="input-group" style="margin-top: 10px; width: 100%">
-                    <span class="input-group-addon" id="date-addon" style="width: 25%">Request date:</span>
-                    <input type="text" class="form-control" id="reqsandbox-container" style="width:36%">
-                    <button type="button" class="btn btn-success" onclick="pagedList(this.id)" id="btnReqFilter" style="margin-left: 20%; border-radius: 0; width: 25%"><span
+
+                    <%--p2--%>
+                <div class="row">
+
+                    <div class="input-group col-md-5 col-md-offset-7 " style="margin-top: 25px">
+                        <span class="input-group-addon" id="search-addon1" style="background-color: white; border: none; color: black">Title:</span>
+                        <input type="text" placeholder="Search for ..." class="form-control" id="reqsearchId" aria-describedby="search-addon1" style="border: none">
+                        <div class="input-group-addon btn" onclick="pagedList(this.id)" id="btnReqFilter" style="background-color: white; color: #1e7ee2"><span
+                                class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                        </div>
+                    </div>
+
+
+                    <%--<div class="input-group">
+                        <span class="input-group-addon" id="saerchtype-addon">Title:</span>
+
+                        <input type="text" class="form-control" id="reqsearchId">
+                    </div>--%>
+
+                    <%--<button type="button" class="btn btn-success" onclick="pagedList(this.id)" id="btnReqFilter"
+                            style="margin-left: 20%; border-radius: 0; width: 25%"><span
                             class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                    </button>
+                    </button>--%>
                 </div>
-
             </div>
-        </div>
 
-        <table class="table table-bordered" style="background-color: #2b669a; color: inherit" id="dynamicHead">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Form type</th>
-                <th>Title</th>
-                <th>Request date</th>
-                <th>Current status</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody id="dynamicBody">
-            </tbody>
+            <table class="table sarTable" id="dynamicHead">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Form type</th>
+                    <th>Title</th>
+                    <th>Request date</th>
+                    <th>Current status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="dynamicBody">
+                </tbody>
 
-        </table>
+            </table>
+            <ul class="sagination modal-5" id="pagedListContainer" style="margin-left: 37%"></ul>
 
-        <div id="pagedListContainer">
         </div>
     </div>
 </div>
@@ -92,6 +115,12 @@
 
 
     $('#reqsandbox-container').datepicker({format: "yyyy-mm-dd"});
+
+    $("#reqsearchId").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#btnReqFilter").click();
+        }
+    });
 
 
 </script>
@@ -103,11 +132,11 @@
         pagedList(0);
     }
 
-    var currentPage = 0;
+    var currentPage = 1;
     var page = 0;
 
 
-    function pagedList(id){
+    function pagedList(id) {
 
         var typeId = $('#reqTypeId option:selected').prop('id');
         var statusId = $('#reqStatusId option:selected').prop('id');
@@ -122,61 +151,67 @@
         var tbody = $('#dynamicBody');
 
         //if next
-        if(id==-1){
-            page = currentPage+1;
+        if (id == -1) {
+            page = currentPage + 1;
         }
         //if previous
-        else if (id==-2){
-            page=currentPage-1;
+        else if (id == -2) {
+            page = currentPage - 1;
         }
         //if filter
-        else if(id=="btnReqFilter"){
-            id=0;
+        else if (id == "btnReqFilter") {
+            id = 0;
         }
         //if page number is clicked
         else {
-            page=id;
+            page = id;
         }
 
         $.ajax({
-            type:"POST",
+            type: "POST",
             processData: false,
-            data:'typeId='+typeId+'&statusId='+statusId+'&reqsandBoxcontainer='+reqsandBoxcontainer+'&searchInput='+searchInput,
-            url : '${pageContext.request.contextPath}/Workflow/list/'+page,
-            success : function(data) {
+            data: 'typeId=' + typeId + '&statusId=' + statusId + '&reqsandBoxcontainer=' + reqsandBoxcontainer + '&searchInput=' + searchInput,
+            url: '${pageContext.request.contextPath}/Workflow/list/' + page,
+            success: function (data) {
 
                 //table
                 tbody.appendTo(table);
                 tbody.empty();
 
                 //set current page
-                currentPage=data.page;
+                currentPage = data.page;
 
-                $(data.models).each(function(i, req) {
+                $(data.models).each(function (i, req) {
                     //generate table
                     $('<tr/>').appendTo(tbody)
-                        .append($('<td/>').text(i+1))
+                        .append($('<td/>').text(i + 1))
                         .append($('<td/>').text(req.form_type))
                         .append($('<td/>').text(req.request_subject))
                         .append($('<td/>').text(req.date_created))
                         .append($('<td/>').text(req.status))
-                        .append($('<td/>').append($('<input type="button" value="View" style="color: red"/>')));
+                        .append($('<td/>').append($('<div class="btn"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></div>')));
                 });
 
                 numberOfPages = data.maxPages;
                 container.empty();
-                container.append($('<input type="button" value="Prev" id="-2" style="color: red" onclick="pagedList(this.id)">'));
+                container.append($('<li><a href="#" id="-2" class="prev fa fa-arrow-left" onclick="pagedList(this.id)"></a></li>'));
 
                 //generate pegination buttons
-                for(count=1; count<numberOfPages+1; count++){
-                    container.append($('<input type="button" value="'+count+'" id="'+count+'" style="color: red" onclick="pagedList(this.id)">'));
+                for (count = 1; count < numberOfPages + 1; count++) {
+                    if (count == currentPage) {
+                        container.append($('<li><a href="#" id="' + count + '" class="active" id="' + count + '" onclick="pagedList(this.id)">' + count + '</a></li>'));
+                    }
+                    else {
+                        container.append($('<li><a href="#" id="' + count + '" onclick="pagedList(this.id)">' + count + '</a></li>'));
+                    }
                 }
-                container.append($('<input type="button" value="Next" id="-1" style="color: red" onclick="pagedList(this.id)">'));
+                container.append($('<li><a href="#" id="-1" class="prev fa fa-arrow-right" onclick="pagedList(this.id)"></a></li>'));
             },
 
             error: function () {
                 alert("Table not loaded");
             }
+
         });
     }
 </script>
@@ -185,4 +220,9 @@
     $(document).ready(function () {
         initialize();
     });
+
+
+
+
+
 </script>

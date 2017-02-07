@@ -215,8 +215,8 @@
                                 <div class="collapse" id="collapseNewForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a class="linkcolor" href="/Hr/Profile">Business trip</a></li>
-                                        <li><a class="linkcolor" href="/Hr/Profile/Appointment">Leave approve</a>
+                                        <li><a class="linkcolor" href="/Workflow//NewForm/BusinessTripForm">Business trip</a></li>
+                                        <li><a class="linkcolor" href="/Workflow/Create/Businesstr">Leave approve</a>
                                         </li>
                                         <li><a class="linkcolor" href="/Workflow/Create/Unformatted">Unformatted</a>
                                         </li>
@@ -234,9 +234,11 @@
                                 <div class="collapse" id="collapseMyForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a class="linkcolor" href="/Hr/Profile">Request</a></li>
-                                        <li><a class="linkcolor" href="/Hr/Profile/Appointment">To-do</a>
+                                        <li><a class="linkcolor" href="/Workflow/MyForms/Request">Request</a></li>
+                                        <li><a class="linkcolor" href="/Workflow/MyForms/todo">To-do</a>
                                         </li>
+                                        <li><a class="linkcolor" href="/Workflow/MyForms/Details">Details</a></li>
+
                                     </ul>
 
                                 </div>

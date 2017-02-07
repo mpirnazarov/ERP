@@ -6,18 +6,14 @@ import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
-import com.lgcns.erp.workflow.DBEntities.StepCommentsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepsEntity;
 import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
 import com.lgcns.erp.workflow.Model.Attachment;
-import com.lgcns.erp.workflow.Model.StepComment;
 import com.lgcns.erp.workflow.ViewModel.DetailsViewModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by DS on 01.02.2017.
@@ -78,7 +74,7 @@ public class DetailsMapper {
         }
         else {
             attachment = new Attachment();
-            attachment.setId(0L);
+            attachment.setId(0);
             attachment.setFileName("No attachment");
             attachment.setUrl("");
             attachs.add(attachment);

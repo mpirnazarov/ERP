@@ -6,7 +6,7 @@ import java.util.Date;
  * Created by DS on 23.01.2017.
  */
 public class ToDoViewModel {
-    private Long request_id;
+    private int request_id;
     private String form_type;
     private String request_subject;
     private Date date_created;
@@ -23,11 +23,11 @@ public class ToDoViewModel {
         this.form_type = form_type;
     }
 
-    public Long getRequest_id() {
+    public int getRequest_id() {
         return request_id;
     }
 
-    public void setRequest_id(Long request_id) {
+    public void setRequest_id(int request_id) {
         this.request_id = request_id;
     }
 

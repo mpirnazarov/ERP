@@ -10,7 +10,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "requests", schema = "workflow", catalog = "LgErpSystem")
 public class RequestsEntity {
-    private long id;
+    private int id;
     private int userFromId;
     private Integer leaveTypeId;
     private String subject;
@@ -31,11 +31,11 @@ public class RequestsEntity {
 
     @Id
     @Column(name = "id")
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

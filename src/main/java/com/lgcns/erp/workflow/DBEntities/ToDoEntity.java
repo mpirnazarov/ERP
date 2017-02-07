@@ -9,7 +9,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "to_do", schema = "workflow", catalog = "LgErpSystem")
 public class ToDoEntity {
-    private long id;
+    private int id;
     private int requestId;
     private Date date;
     private String description;
@@ -17,11 +17,11 @@ public class ToDoEntity {
 
     @Id
     @Column(name = "id")
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

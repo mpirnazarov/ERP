@@ -9,17 +9,17 @@ import java.util.Collection;
 @Entity
 @Table(name = "involvement_types", schema = "workflow", catalog = "LgErpSystem")
 public class InvolvementTypesEntity {
-    private long id;
+    private int id;
     private String name;
     private Collection<StepsEntity> stepssById;
 
     @Id
     @Column(name = "id")
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

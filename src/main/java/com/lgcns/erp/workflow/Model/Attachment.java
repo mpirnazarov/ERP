@@ -4,16 +4,16 @@ package com.lgcns.erp.workflow.Model;
  * Created by DS on 03.02.2017.
  */
 public class Attachment {
-    private Long id;
+    private int id;
     private String url;
     private String fileName;
 
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

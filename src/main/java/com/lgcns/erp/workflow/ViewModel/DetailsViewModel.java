@@ -10,7 +10,7 @@ import java.util.List;
  * Created by DS on 01.02.2017.
  */
 public class DetailsViewModel {
-    private Long request_id;
+    private int request_id;
     private String form_type;
     private int form_type_id;
     private String request_subject;
@@ -72,11 +72,11 @@ public class DetailsViewModel {
         this.form_type_id = form_type_id;
     }
 
-    public Long getRequest_id() {
+    public int getRequest_id() {
         return request_id;
     }
 
-    public void setRequest_id(Long request_id) {
+    public void setRequest_id(int request_id) {
         this.request_id = request_id;
     }
 

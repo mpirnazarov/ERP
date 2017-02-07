@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "attachments", schema = "workflow", catalog = "LgErpSystem")
 public class AttachmentsEntity {
-    private long id;
+    private int id;
     private int requestId;
     private String url;
     private String filename;
@@ -16,11 +16,11 @@ public class AttachmentsEntity {
 
     @Id
     @Column(name = "id")
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

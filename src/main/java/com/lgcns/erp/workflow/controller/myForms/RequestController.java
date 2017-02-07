@@ -6,7 +6,9 @@ import com.lgcns.erp.tapps.controller.UserController;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
+import com.lgcns.erp.workflow.Mapper.DetailsMapper;
 import com.lgcns.erp.workflow.Mapper.RequestMapper;
+import com.lgcns.erp.workflow.ViewModel.DetailsViewModel;
 import com.lgcns.erp.workflow.ViewModel.RequestViewModel;
 import com.lgcns.erp.workflow.ViewModel.ToDoViewModel;
 import com.lgcns.erp.workflow.util.Filter;
@@ -105,5 +107,24 @@ public class RequestController {
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
         return mav;
+    }
+
+    @RequestMapping(value = "/MyForms/Request/details/{id}", method = RequestMethod.GET)
+    public ModelAndView details(Principal principal, @PathVariable(value = "id")int id){
+        ModelAndView mav = new ModelAndView("/workflow/myForms/details");
+
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
+
+        DetailsViewModel viewModel = DetailsMapper.toDetails(id);
+        mav.addObject("model", viewModel);
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/MyForms/Request/details", method = RequestMethod.POST)
+    public String details(@RequestParam("comment")String comment, @RequestParam("status")String status){
+
+        return "";
     }
 }

@@ -193,37 +193,38 @@
                 <div class="input-group" style="width: 100%">
                     <span class="input-group-addon" id="type-addon" style="width: 35%">Form type:</span>
                     <input type="text" class="form-control" placeholder="" aria-describedby="type-addon"
-                           style="width: 80%">
+                           style="width: 80%" value="${model.form_type}">
                 </div>
                 <div class="input-group" style="width: 100%; margin-top: 1%">
                     <span class="input-group-addon" id="author-addon" style="width: 35%">Author:</span>
                     <input type="text" class="form-control" placeholder="" aria-describedby="author-addon"
-                           style="width: 80%">
+                           style="width: 80%" value="${model.user_name}">
                 </div>
                 <div class="input-group" style="width: 100%; margin-top: 1%">
                     <span class="input-group-addon" id="creation-addon" style="width: 35%">Creation date:</span>
                     <input type="text" class="form-control" placeholder="" aria-describedby="creation-addon"
-                           style="width: 80%">
+                           style="width: 80%" value="${model.date_created}">
                 </div>
                 <div class="input-group" style="width: 100%; margin-top: 1%">
                     <span class="input-group-addon" id="approvals-addon" style="width: 35%">Approvals:</span>
                     <input type="text" class="form-control" placeholder="" aria-describedby="approvals-addon"
-                           style="width: 80%">
+                           style="width: 80%" value="${model.approvals}">
                 </div>
                 <div class="input-group" style="width: 100%; margin-top: 1%">
                     <span class="input-group-addon" id="ex-addon" style="width: 35%">Executive:</span>
                     <input type="text" class="form-control" placeholder="" aria-describedby="ex-addon"
-                           style="width: 80%">
+                           style="width: 80%" value="${model.executives}">
                 </div>
                 <div class="input-group" style="width: 100%; margin-top: 1%">
                     <span class="input-group-addon" id="referenced-addon" style="width: 35%">Referenced:</span>
                     <input type="text" class="form-control" placeholder="" aria-describedby="referenced-addon"
-                           style="width: 80%">
+                           style="width: 80%" value="${model.references}">
                 </div>
                 <div class="input-group" style="width: 100%; margin-top: 1%">
                     <span class="input-group-addon" id="attach-addon" style="width: 35%">Attachment:</span>
-                    <button type="button" class="btn btn-default"></span>Download
-                    </button>
+                    <c:forEach items="${model.attachments}" var="attachment">
+                        <a href="/Workflow/MyForms/todo/files/${attachment.id}">${attachment.fileName}</a>
+                    </c:forEach>
                 </div>
 
                         <%--Decision section--%>
@@ -263,7 +264,8 @@
                                     <tbody id="commentTableBody">
                                     <c:forEach items="${model.comments}" var="comment" varStatus="status">
                                         <tr>
-                                            <td>${comment.comment}</td>
+                                            <td>${comment.author}</td>
+                                            <td>${comment.action}</td>
                                             <td>${comment.comment}</td>
                                         </tr>
                                     </c:forEach>

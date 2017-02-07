@@ -234,10 +234,10 @@
                                 <div class="collapse" id="collapseMyForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a class="linkcolor" href="/Workflow/MyForms/Request">Request</a></li>
+                                        <li><a class="linkcolor" href="/Workflow/MyForms/request/load">Request</a></li>
                                         <li><a class="linkcolor" href="/Workflow/MyForms/todo/load">To-do</a>
                                         </li>
-                                        <li><a class="linkcolor" href="/Workflow/MyForms/Details">Details</a></li>
+                                        <li><a class="linkcolor" href="/Workflow/MyForms/Test_Details">Details</a></li>
 
                                     </ul>
 

@@ -6,6 +6,7 @@ import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
+import com.lgcns.erp.workflow.DBEntities.StepCommentsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepsEntity;
 import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
@@ -36,6 +37,7 @@ public class DetailsMapper {
         viewModel.setReferences(getInvolvedUsers(requestsEntity, 3));
         viewModel.setExecutives(getInvolvedUsers(requestsEntity, 2));
         viewModel.setAttachments(attachments(requestsEntity));
+        viewModel.setComments(CommentMapper.MapToStepComment(requestsEntity));
 
         for (Type type : Type.values()) {
             if (requestsEntity.getTypeId()==type.getValue())
@@ -125,12 +127,5 @@ public class DetailsMapper {
             }
             return msg;
         }
-    }
-
-    private static List<StepComment> getStepsComments(RequestsEntity entity){
-        List<StepsEntity> stepsEntities = WorkflowService.getStepsList();
-
-
-        return null;
     }
 }

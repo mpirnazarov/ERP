@@ -235,7 +235,7 @@
 
                                     <ul style="list-style: none" class="list-group">
                                         <li><a class="linkcolor" href="/Workflow/MyForms/Request">Request</a></li>
-                                        <li><a class="linkcolor" href="/Workflow/MyForms/todo">To-do</a>
+                                        <li><a class="linkcolor" href="/Workflow/MyForms/todo/load">To-do</a>
                                         </li>
                                         <li><a class="linkcolor" href="/Workflow/MyForms/Details">Details</a></li>
 

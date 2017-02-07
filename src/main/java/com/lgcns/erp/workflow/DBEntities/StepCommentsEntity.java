@@ -79,7 +79,7 @@ public class StepCommentsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "steps_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "steps_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     public StepsEntity getStepsByStepsId() {
         return stepsByStepsId;
     }

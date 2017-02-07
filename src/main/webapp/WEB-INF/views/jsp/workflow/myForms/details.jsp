@@ -138,15 +138,10 @@
                                     </tr>
                                     </thead>
                                     <tbody id="commentTableBody">
-                                    <c:forEach items="${trainVM}" var="train" varStatus="status">
+                                    <c:forEach items="${model.comments}" var="comment" varStatus="status">
                                         <tr>
-                                            <td>${train.name}</td>
-                                            <td>${train.certificateId}</td>
-                                            <td>${train.organization}</td>
-                                            <td>${train.dateFrom}</td>
-                                            <td>${train.dateTo}</td>
-                                            <td>${train.numberOfHours}</td>
-                                            <td>${train.mark}</td>
+                                            <td>${comment.comment}</td>
+                                            <td>${comment.comment}</td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>

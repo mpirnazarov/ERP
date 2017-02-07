@@ -1,6 +1,7 @@
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="com.lgcns.erp.tapps.viewModel.usermenu.AppointmentrecViewModel" %>
-<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %><%--
+<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %>
+<%--
   Created by IntelliJ IDEA.
   User: Dell
   Date: 25-Oct-16
@@ -19,7 +20,7 @@
 <script src="/resources/core/js/jquery.easy-autocomplete.min.js"></script>
 
 <!-- CSS file of autocomplete -->
-<link rel="stylesheet" href="/resources/core/css/easy-autocomplete.min.css">
+<link rel="stylesheet" href="/resources/core/css/easy-autocomplete.min.css" />
 
 <%--<script src="/resources/core/js/jquery-1.12.4.min.js"></script>--%>
 
@@ -40,7 +41,7 @@
         </p>
         <h2 class="page-header">Business trip</h2>
 
-        <form:form modelAttribute="businessTripVM" cssClass="form-horizontal" method="post" id="myform">
+        <form:form modelAttribute="businessTripVM" cssClass="form-horizontal" method="post" id="myform" enctype="multipart/form-data">
             <div class="w3-container b3form">
             <div class="form-header">
                 <div class="input-group" style="width: 100%">
@@ -76,102 +77,69 @@
                     <label style="margin-top: 2%;">
                         List of Business Trip members:
                     </label>
-                    <table class="table table-bordered" style="background-color: #2b669a; color: inherit"
-                           id="dataTable">
+                    <div id="myTablecha" style="overflow: auto; width: 100%">
+                    <table class="table order-list table-bordered" style="background-color: #2b669a; color: inherit"
+                           id="myTable">
                         <thead>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Employee ID</th>
-                            <th>Job title</th>
-                            <th>Name of (Organization/Project)</th>
+                            <th>Name of (Organization)</th>
                             <th>From</th>
                             <th>To</th>
+                            <th>Transportation</th>
+                            <th>Daily Allowance</th>
+                            <th>Accommodation</th>
+                            <th>Other</th>
+                            <th>Overall</th>
                         </tr>
                         </thead>
-                        <tbody id="membersDynamicBody">
-                            <TR style="color: black">
-                                <TD> 1 </TD>
-                                <TD> <input id="members0name"  name="" onclick="f2(this.id)"/> </TD>
-                                <TD> <input type='text' id="members0userId" name = "membersEntityList[0].userId"  disabled/> </TD>
-                                <TD> <input type='text' id='members0jobTitle' name = "" disabled/> </TD>
-                                <TD> <input type='text' name = "membersEntityList[0].organizationName"/> </TD>
-                                <TD> <input type='date' name = "membersEntityList[0].dateFrom"/> </TD>
-                                <TD> <input type='date' name = "membersEntityList[0].dateTo"/> </TD>
-                            </TR>
-
+                        <tbody id="membersDynamicBody" style="color: #0f0f0f">
+                            <tr style="color: black">
+                                <td> 1 <form:hidden value="0" name = "membersEntityList[0].id" min="0" path="membersEntityList[0].id"/></td>
+                                <td><form:select path="membersEntityList[0].userId" items="${users}"
+                                                 cssClass="form-control text-box single-line"/>
+                                </td>
+                                <td> <form:input type='text' name = "membersEntityList[0].organizationName" path="membersEntityList[0].organizationName"/> </td>
+                                <td> <input type='date' name = "membersEntityList[0].dateFrom" /> </td>
+                                <td> <input type='date' name = "membersEntityList[0].dateTo" /> </td>
+                                <td><form:input type='number' name = "membersEntityList[0].expenseTransportation" min="0" path="membersEntityList[0].expenseTransportation"/></td>
+                                <td><form:input type='number' name = "membersEntityList[0].dailyAllowance" min="0" path="membersEntityList[0].dailyAllowance"/></td>
+                                <td><form:input type='number' name = "membersEntityList[0].expenseAccommodation" min="0" path="membersEntityList[0].expenseAccommodation"/></td>
+                                <td><form:input type='number' name = "membersEntityList[0].expenseOther" min="0" path="membersEntityList[0].expenseOther"/></td>
+                                <td><input type='number' value="" disabled/></td>
+                                <td><a class="deleteRow"/></td>
+                            </tr>
                         </tbody>
                     </table>
-                    <input type="button" class="btn btn-normal" value="Add Row" onclick="addRow('dataTable')"/>
+                </div>
+                    <input type="button" class="btn btn-normal" value="Add Row" id="addrow"/>
                 </div>
                 <div class="form-group">
                     <label style="margin-top: 2%;">
                         Detail scheadule and To-do list:
                     </label>
-                    <table class="table table-bordered" style="background-color: #2b669a; color: inherit"
+                    <table class="table table-bordered" style="background-color: #2b669a; color: black"
                            id="toDoDynamicHead">
                         <thead>
                         <tr>
+                            <td>ID</td>
                             <th>Date</th>
                             <th>Description</th>
                         </tr>
                         </thead>
-                        <tbody id="toDoDynamicBody">
+                        <tbody id="toDoDynamicBody" />
                         <tr>
-                            <td>01/02/2017</td>
-                            <td>Meeting</td>
-                        </tr>
-                        <tr>
-                            <td>02/02/2017</td>
-                            <td>Some activity</td>
+                            <td>1</td>
+                            <td><input type='date' name = "toDoEntityList[0].date" min="0" /></td>
+                            <td><input type='text' name = "toDoEntityList[0].description" min="0" /></td>
+                            <td><a class="deleteRow"/></td>
                         </tr>
                         </tbody>
                     </table>
+                    <input type="button" class="btn btn-normal" value="Add Row" id="addrowToDo"/>
                 </div>
-                <div class="form-group">
-                    <label style="margin-top: 2%;">
-                        Business trip expenses::
-                    </label>
-                    <table class="table table-bordered" style="background-color: #2b669a; color: inherit"
-                           id="expensesDynamicHead">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Airfair(A)</th>
-                            <th>Daily Allowance(B)</th>
-                            <th>Accommodation (C)</th>
-                            <th>Other(D)</th>
-                            <th>Total (A+B+C+D)</th>
-                        </tr>
-                        </thead>
-                        <tbody id="expensesDynamicBody">
-                        <tr>
-                            <td>Kamola HR</td>
-                            <td>900</td>
-                            <td>450</td>
-                            <td>1500</td>
-                            <td>200</td>
-                            <td>sum</td>
-                        </tr>
-                        <tr>
-                            <td>Sarvar Zokirov</td>
-                            <td>900</td>
-                            <td>450</td>
-                            <td>1500</td>
-                            <td>200</td>
-                            <td>sum</td>
-                        </tr>
-                        <tr>
-                            <td>Jasur Shaykhov</td>
-                            <td>900</td>
-                            <td>450</td>
-                            <td>1500</td>
-                            <td>200</td>
-                            <td>sum</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+
             </div>
             <div class="form-footer" style="margin-bottom: 5%">
                 <div class="input-group" style="width: 100%; margin-top: 2%">
@@ -198,53 +166,20 @@
                 <div class="input-group" style="width: 100%; margin-top: 2%">
                     <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open
                           style="width: 25%">Attachment:</span>
-                    <button type="button" class="btn btn-default" aria-describedby="attachment-addon"><span
-                            class="glyphicon glyphicon-open" aria-hidden="true"></span> Upload
-                    </button>
+                    <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
                 </div>
                 <div class="input-group" style="width: 100%; margin-top: 2%">
                     <span class="input-group-addon" id="date-addon"
                           style="width: 25%">Date(Start/End):</span>
-                    <%--<form:input type="date" class="form-control" style="width:36%" placeholder="Start" path="start" />
-                    <form:input type="date" class="form-control" style="width:36%" placeholder="End" path="end" />--%>
+                    <input type="date" class="form-control" style="width:36%" placeholder="Start" name="start" />
+                    <input type="date" class="form-control" style="width:36%" placeholder="End" name="end" />
                 </div>
                 <div class="btn-group" role="group" aria-label="..." style="margin-left: 40%; margin-top: 3%">
                     <button type="button" class="btn btn-default">Save</button>
                     <input id="tv" type="submit" value="Submit" class="btn btn-success"/>
-                    <%--<button id="tv" type="submit" class="btn btn-success">Submit</button>--%>
                     <button type="button" class="btn btn-danger">Cancel</button>
-<<<<<<< Updated upstream
-                </div>
-
-                <div class="row" style="width: 500px">
-                    <div class="userImgBox col-md-6" style="background-color: red">
-                        <img class="userimg" src="/image/00096.jpg" height="50px" width="50px"/>
-                    </div>
-                    <div class="col-md-6" style="background-color: blue">
-                        <p>SARVAR</p>
-                        <p>SARVAR</p>
-                        <p>SARVAR</p>
-                        <p>SARVAR</p>
-                    </div>
 
                 </div>
-
-                <%--<div class="input-group" style="width:100%; height: 100px; background-color: red">
-                    <div class="input-group-addon" id="myimg" style="background-color: green; width: 40%; height: 100%">
-                        <img class="userimg" src="/image/00096.jpg" height="50px" width="50px"/>
-                    </div>
-                    <div aria-describedby="myimg" style="background-color: darkslategrey;">
-                        <p>SARVAR</p>
-                        <p>SARVAR</p>
-                        <p>SARVAR</p>
-                        <p>SARVAR</p>
-                    </div>
-                </div>--%>
-=======
-                </div>
-                <input id="1" onclick="f1(this.id)">
-
->>>>>>> Stashed changes
             </div>
         </div>
         </form:form>
@@ -256,10 +191,6 @@
 
 
 <script type="text/javascript">
-
-    function f1(id) {
-        alert(id);
-    }
 
     /* Send input from approval list to controller by AJAX */
     $(document).ready(function() {
@@ -284,15 +215,8 @@
                 }
             });
         });
-
-
     });
 
-    $(document).ready(function () {
-        var form = $('#myForm').submit(function () {
-            alert($('#members0userId').val());
-        });
-    });
     /* Send json data for approvals list*/
     $(document).ready(function () {
         $("#demo-input-local").tokenInput(${jsonData});
@@ -305,128 +229,184 @@
     });
 
 
-    /* Add row and delete row from table*/
-    function addRow(tableID) {
-        var table = document.getElementById(tableID);
-
-        var rowCount = table.rows.length;
-        var row = table.insertRow(rowCount);
-
-        var cell2 = row.insertCell(0);
-        cell2.innerHTML = rowCount ;
 
 
-        var cell3 = row.insertCell(1);
-        var element2 = document.createElement("input");
+    $(document).ready(function () {
+        var counter = 1;
 
+        $("#addrow").on("click", function () {
+            var ab = document.getElementById('membersDynamicBody');
+            var tr = document.createElement('tr');
+            var td = document.createElement('td');
+            td.innerHTML = counter+1;
+            tr.appendChild(td);
+            var select = document.createElement('select');
+            select.name = "membersEntityList["+counter+"].userId";
+            /*select.className = "form-control text-box single-line";*/
+            var opt;
 
-        var length=(table.rows.length)-1;
-        element2.name = "";
-        element2.id = "members"+length+"name";
-        element2.onclick="f1(this.id)";
-        cell3.appendChild(element2);
+            $.ajax({
+                type : "GET",
+                url : "/Workflow/Users",
+                success: function(data){
+                    $.each(data, function (i, user) {
+                        opt = document.createElement('option');
+                        opt.value = user.id;
+                        opt.innerHTML = user.firstName;
+                        select.appendChild(opt);
+                    })
 
-
-        var cell4 = row.insertCell(2);
-        var element3 = document.createElement("input");
-        element3.type = "text";
-        var length=(table.rows.length)-1;
-        element3.name = "membersEntityList["+length+"].userId";
-        element3.id = "members"+length+"userId"
-        cell4.appendChild(element3);
-
-
-        var cell5 = row.insertCell(3);
-        var element4 = document.createElement("input");
-        element4.type = "text";
-        var length=(table.rows.length)-1;
-        element4.name = "";
-        cell5.appendChild(element4);
-
-        var cell6 = row.insertCell(4);
-        var element5 = document.createElement("input");
-        element5.type = "text";
-        var length=(table.rows.length)-1;
-        element5.name = "membersEntityList["+length+"].organizationName";
-        cell6.appendChild(element5);
-
-        var cell7 = row.insertCell(5);
-        var element6 = document.createElement("input");
-        element6.type = "date";
-        var length=(table.rows.length)-1;
-        element6.name = "membersEntityList["+length+"].dateFrom";
-        cell7.appendChild(element6);
-
-        var cell8 = row.insertCell(6);
-        var element7 = document.createElement("input");
-        element7.type = "date";
-        var length=(table.rows.length)-1;
-        element7.name = "membersEntityList["+length+"].dateTo";
-        cell8.appendChild(element7);
-
-        $('#members0name').trigger('click');
-    }
-
-    function deleteRow(tableID) {
-        try {
-            var table = document.getElementById(tableID);
-            var rowCount = table.rows.length;
-
-            for(var i=0; i<rowCount; i++) {
-                var row = table.rows[i];
-                var chkbox = row.cells[0].childNodes[0];
-                if(null != chkbox && true == chkbox.checked) {
-                    table.deleteRow(i);
-                    rowCount--;
-                    i--;
                 }
-            }
-        }catch(e) {
-            alert(e);
-        }
-    }
+            });
+
+            var td = document.createElement('td');
+            td.appendChild(select);
+            tr.appendChild(td);
 
 
-    /* Autocomplete functioning */
+            /*Input field for organization Name*/
+            var td = document.createElement('td');
+            var input = document.createElement('input');
+            input.name = "membersEntityList["+counter+"].organizationName";
+            td.appendChild(input);
+            tr.appendChild(td);
 
-    var options = {
-        data: ${jsonData},
+            /*Input field for from date*/
+            var td = document.createElement('td');
+            var date = document.createElement('input');
+            date.setAttribute('type', 'date');
+            date.name = "membersEntityList["+counter+"].dateFrom";
+            td.appendChild(date);
+            tr.appendChild(td);
 
-        getValue: "name",
+            /*Input field for to date*/
+            var td = document.createElement('td');
+            var date = document.createElement('input');
+            date.setAttribute('type', 'date');
+            date.name = "membersEntityList["+counter+"].dateTo";
+            td.appendChild(date);
+            tr.appendChild(td);
 
-        list: {
+            /*Input field for expence transportation*/
+            var td = document.createElement('td');
+            var num = document.createElement('input');
+            num.setAttribute('type', 'number');
+            num.setAttribute('min', 0);
+            num.name = "membersEntityList["+counter+"].expenseTransportation";
+            td.appendChild(num);
+            tr.appendChild(td);
 
-            onSelectItemEvent: function() {
-                 /*for(var i=id; i<500; i++)
-                 {
-                     var str = "";
-                     str = "#members"+i+"name";
-                     var str2 = "#members"+i+"userId";
-                     var str3 = "#members"+i+"jobTitle";
-                     var valueName = $(str).getSelectedItemData().id;
-                     var valueJobTitle = $(str).getSelectedItemData().jobTitle;
-                     $(str2).val(valueName).trigger("change");
-                     $(str3).val(valueJobTitle).trigger("change");
-                 }*/
-                $("#members0userId").val($("#members0name").getSelectedItemData().id).trigger("change");
-                $("#members2userId").val($("#members2name").getSelectedItemData().id).trigger("change");
+            /*Input field for dailyAllowance*/
+            var td = document.createElement('td');
+            var num = document.createElement('input');
+            num.setAttribute('type', 'number');
+            num.setAttribute('min', 0);
+            num.name = "membersEntityList["+counter+"].dailyAllowance";
+            td.appendChild(num);
+            tr.appendChild(td);
 
-            }
-         }
-    };
+            /*Input field for expenseAccommodation*/
+            var td = document.createElement('td');
+            var num = document.createElement('input');
+            num.setAttribute('type', 'number');
+            num.setAttribute('min', 0);
+            num.name = "membersEntityList["+counter+"].expenseAccommodation";
+            td.appendChild(num);
+            tr.appendChild(td);
 
-    $("#members0name").easyAutocomplete(options);
+            /*Input field for expenseOther*/
+            var td = document.createElement('td');
+            var num = document.createElement('input');
+            num.setAttribute('type', 'number');
+            num.setAttribute('min', 0);
+            num.name = "membersEntityList["+counter+"].expenseOther";
+            td.appendChild(num);
+            tr.appendChild(td);
 
-    /*function f2(id) {
-        for(var i=0; i<500; i++) {
-            str = "#members" + i + "name";
-            $(str).easyAutocomplete(options);
-        }
-    }*/
-    function f2(id) {
-        $("#members2name").easyAutocomplete(options);
-    }
+            /*Input field for expenceTotal*/
+            var td = document.createElement('td');
+            var num = document.createElement('input');
+            num.setAttribute('type', 'number');
+            num.setAttribute('value', 100);
+            num.setAttribute('disabled', true);
+            td.appendChild(num);
+            tr.appendChild(td);
 
+
+            /*Delete button*/
+            var td = document.createElement('td');
+            var input = document.createElement('input');
+
+            input.setAttribute('type', 'button');
+            input.className = "ibtnDel btn btn-md btn-danger";
+            input.value="Delete";
+            td.appendChild(input);
+            tr.appendChild(td);
+            ab.appendChild(tr);
+            counter++;
+
+
+        });
+
+
+
+        $("table.order-list.table-bordered").on("click", ".ibtnDel", function (event) {
+            $(this).closest("tr").remove();
+
+        });
+
+
+    });
+
+    $(document).ready(function () {
+        var counter = 1;
+
+        $("#addrowToDo").on("click", function () {
+            var ab = document.getElementById('toDoDynamicBody');
+            var tr = document.createElement('tr');
+            var td = document.createElement('td');
+            td.innerHTML = counter+1;
+            tr.appendChild(td);
+
+            /*Input field for date*/
+            var td = document.createElement('td');
+            var date = document.createElement('input');
+            date.setAttribute('type', 'date');
+            date.name = "toDoEntityList["+counter+"].date";
+            td.appendChild(date);
+            tr.appendChild(td);
+
+             /*Input field for description*/
+            var td = document.createElement('td');
+            var input = document.createElement('input');
+            input.name = "toDoEntityList["+counter+"].description";
+            td.appendChild(input);
+            tr.appendChild(td);
+
+            /*Delete button*/
+            var td = document.createElement('td');
+            var input = document.createElement('input');
+
+            input.setAttribute('type', 'button');
+            input.className = "ibtnDel btn btn-md btn-danger";
+            input.value="Delete";
+            td.appendChild(input);
+            tr.appendChild(td);
+            ab.appendChild(tr);
+            counter++;
+
+
+        });
+
+
+
+        $("table.table-bordered").on("click", ".ibtnDel", function (event) {
+            $(this).closest("tr").remove();
+
+        });
+
+
+    });
 
 </script>
 

@@ -18,6 +18,14 @@ public class UserInfo {
     private String Major;
     private Integer DirectHead; //using Integer instead of int, because first Integer is nullable class
 
+    public UserInfo(int i, String s) {
+        this.ID = i;
+        this.FirstName = s;
+    }
+
+    public UserInfo() {
+    }
+
     public int getID() {
         return ID;
     }

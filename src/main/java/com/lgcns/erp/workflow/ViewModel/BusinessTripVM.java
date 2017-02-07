@@ -2,6 +2,7 @@ package com.lgcns.erp.workflow.ViewModel;
 
 import com.lgcns.erp.workflow.DBEntities.MembersEntity;
 import com.lgcns.erp.workflow.DBEntities.ToDoEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
 import java.util.List;
@@ -11,10 +12,11 @@ import java.util.List;
  */
 public class BusinessTripVM {
     int id, typeDomOver, tripType;
-    String subject, destination, purpose;
-    java.sql.Date start, end;
-    List<MembersEntity> membersEntityList;
-    List<ToDoEntity> toDoEntityList;
+    private String subject, destination, purpose;
+    private java.sql.Date start, end;
+    private MultipartFile[] file;
+    private List<MembersEntity> membersEntityList;
+    private List<ToDoEntity> toDoEntityList;
 
     public int getId() {
         return id;
@@ -88,6 +90,14 @@ public class BusinessTripVM {
         this.membersEntityList = membersEntityList;
     }
 
+    public MultipartFile[] getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile[] file) {
+        this.file = file;
+    }
+
     public List<ToDoEntity> getToDoEntityList() {
         return toDoEntityList;
     }
@@ -107,6 +117,7 @@ public class BusinessTripVM {
                 ", purpose='" + purpose + '\'' +
                 ", start=" + start +
                 ", end=" + end +
+                ", file=" + file +
                 ", membersEntityList=" + membersEntityList +
                 ", toDoEntityList=" + toDoEntityList +
                 '}';

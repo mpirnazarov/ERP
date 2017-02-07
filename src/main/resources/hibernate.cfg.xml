@@ -59,6 +59,7 @@
         <mapping class="com.lgcns.erp.workflow.DBEntities.StepsEntity"/>
         <mapping class="com.lgcns.erp.workflow.DBEntities.ToDoEntity"/>
         <mapping class="com.lgcns.erp.workflow.DBEntities.TripTypesEntity"/>
+        <mapping class="com.lgcns.erp.workflow.DBEntities.StepCommentsEntity"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

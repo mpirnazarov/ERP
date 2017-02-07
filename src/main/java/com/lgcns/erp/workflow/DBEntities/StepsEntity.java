@@ -2,6 +2,7 @@ package com.lgcns.erp.workflow.DBEntities;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 
 /**
  * Created by Muslimbek Pirnazarov on 1/23/2017.
@@ -16,9 +17,10 @@ public class StepsEntity {
     private Integer sequence;
     private int statusId;
     private Date statusDate;
-    private String comment;
     private RequestsEntity requestsByRequestId;
     private InvolvementTypesEntity involvementTypesByInvolvementTypeId;
+    private Collection<StepCommentsEntity> stepCommentssById;
+    private Boolean isActive;
 
     @Id
     @Column(name = "id")
@@ -90,16 +92,6 @@ public class StepsEntity {
         this.statusDate = statusDate;
     }
 
-    @Basic
-    @Column(name = "comment")
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -114,7 +106,6 @@ public class StepsEntity {
         if (statusId != that.statusId) return false;
         if (sequence != null ? !sequence.equals(that.sequence) : that.sequence != null) return false;
         if (statusDate != null ? !statusDate.equals(that.statusDate) : that.statusDate != null) return false;
-        if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;
 
         return true;
     }
@@ -128,7 +119,6 @@ public class StepsEntity {
         result = 31 * result + (sequence != null ? sequence.hashCode() : 0);
         result = 31 * result + statusId;
         result = 31 * result + (statusDate != null ? statusDate.hashCode() : 0);
-        result = 31 * result + (comment != null ? comment.hashCode() : 0);
         return result;
     }
 
@@ -150,5 +140,24 @@ public class StepsEntity {
 
     public void setInvolvementTypesByInvolvementTypeId(InvolvementTypesEntity involvementTypesByInvolvementTypeId) {
         this.involvementTypesByInvolvementTypeId = involvementTypesByInvolvementTypeId;
+    }
+
+    @OneToMany(mappedBy = "stepsByStepsId")
+    public Collection<StepCommentsEntity> getStepCommentssById() {
+        return stepCommentssById;
+    }
+
+    public void setStepCommentssById(Collection<StepCommentsEntity> stepCommentssById) {
+        this.stepCommentssById = stepCommentssById;
+    }
+
+    @Basic
+    @Column(name = "is_active")
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

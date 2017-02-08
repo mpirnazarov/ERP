@@ -226,6 +226,7 @@
                         <a href="/Workflow/MyForms/todo/files/${attachment.id}">${attachment.fileName}</a>
                     </c:forEach>
                 </div>
+                <input value="${model.request_id}" id="requestId" hidden>
 
                         <%--Decision section--%>
                         <div class="input-group" style="width: 100%; margin-top: 4%; margin-left: 8%">
@@ -406,8 +407,9 @@
 
 <script>
     /*Murod*/
-    var status = 1;
+    var status = 5;
     var comment = "";
+    var reqId = 0;
     function checkedRadioBtn(id) {
        if(id=="approve"){
            status = 5;
@@ -419,7 +421,6 @@
            status = 2;
        }
 
-       alert(status);
 /*
         window.location.href = "/Workflow/MyForms/todo/load";
 */
@@ -427,11 +428,12 @@
 
     function submitTheForm(){
         comment = $('#detailComment').val();
+        reqId = $('#requestId').val();
 
         $.ajax({
             type:"POST",
             processData: false,
-            data:'comment='+comment+'&status='+status,
+            data:'comment='+comment+'&status='+status+'&reqId='+reqId,
             url:'${pageContext.request.contextPath}/Workflow/MyForms/todo/details',
             success:function () {
                 alert("Success");

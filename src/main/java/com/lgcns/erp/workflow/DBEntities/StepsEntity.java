@@ -154,7 +154,7 @@ public class StepsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "involvement_type_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "involvement_type_id", referencedColumnName = "id", nullable = false)
     public InvolvementTypesEntity getInvolvementTypesByInvolvementTypeId() {
         return involvementTypesByInvolvementTypeId;
     }

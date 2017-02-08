@@ -25,7 +25,7 @@ public class BusinessTripMapper {
         requestsEntity.setDescription(businessTripVM.getPurpose());
         // By default workflow status will be in progress = 1
         requestsEntity.setStatusId(1);
-        requestsEntity.setDateCreated(new java.util.Date());
+        //requestsEntity.setDateCreated(new java.sql.Date());
         requestsEntity.setDestination(businessTripVM.getDestination());
 
         return requestsEntity;

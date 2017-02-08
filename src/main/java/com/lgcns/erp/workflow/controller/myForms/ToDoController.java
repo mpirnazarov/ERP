@@ -12,6 +12,7 @@ import com.lgcns.erp.workflow.Mapper.DetailsMapper;
 import com.lgcns.erp.workflow.ViewModel.DetailsViewModel;
 import com.lgcns.erp.workflow.ViewModel.ToDoViewModel;
 import com.lgcns.erp.workflow.util.ContentType;
+import com.lgcns.erp.workflow.util.DetailsAction;
 import com.lgcns.erp.workflow.util.Filter;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.core.io.FileSystemResource;
@@ -117,9 +118,11 @@ public class ToDoController {
     }
 
     @RequestMapping(value = "/details", method = RequestMethod.POST)
-    public String details(@RequestParam("comment")String comment, @RequestParam("status")String status){
+    public String details(@RequestParam("comment")String comment, @RequestParam("status")int status, @RequestParam("reqId")int reqId){
 
+        System.out.println(comment+" "+status+" "+reqId);
 
+        DetailsAction.doAction(comment, status, reqId);
 
         return "";
     }

@@ -205,6 +205,28 @@ public class WorkflowService {
         return list;
     }
 
+    public static void stepAction(long reqId){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update StepCommentsEntity s set s.comments = 'sadadsadad' where s.id = 1");
+            /*query.setParameter("statusId", 2);
+            query.setParameter("id", 1);*/
+            int s = query.executeUpdate();
+            System.out.println("S= " + s);
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
     public static int insertRequests(RequestsEntity requestsEntity) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;

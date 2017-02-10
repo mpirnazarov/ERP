@@ -263,11 +263,6 @@ public class RequestsEntity {
                 ", statusId=" + statusId +
                 ", dateCreated=" + dateCreated +
                 ", destination='" + destination + '\'' +
-                ", attachmentssById=" + attachmentssById +
-                ", memberssById=" + memberssById +
-                ", tripTypesByTripTypeId=" + tripTypesByTripTypeId +
-                ", stepssById=" + stepssById +
-                ", toDosById=" + toDosById +
                 '}';
     }
 }

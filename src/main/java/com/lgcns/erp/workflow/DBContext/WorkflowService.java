@@ -333,4 +333,46 @@ public class WorkflowService {
             session.close();
         }
     }
+
+    public static List<MembersEntity> getMembersByRequestId(int requestId) {
+        List<MembersEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from MembersEntity WHERE requestId=:reqId");
+            query.setParameter("reqId", requestId);
+            list = (List<MembersEntity>)query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return list;
+    }
+
+    public static List<ToDoEntity> getToDoByRequestId(int requestId) {
+        List<ToDoEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from ToDoEntity WHERE requestId=:reqId");
+            query.setParameter("reqId", requestId);
+            list = (List<ToDoEntity>)query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return list;
+    }
 }

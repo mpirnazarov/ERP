@@ -102,7 +102,7 @@
     }
 %>
 <div class="container-fluid">
-    <div class="row">
+    <div id="headerRow" class="row">
             <%
             if(request.getAttribute("SystemRole")!=null || request.getAttribute("mode")!=null){
                 String pageType = "/WEB-INF/views/jsp/shared/erpUserLayout.jsp";

@@ -261,7 +261,7 @@ public class UserController {
         Map<Integer, String> docType = new HashMap<Integer, String>();
         for (Document_Type doc :
                 Document_Type.values()) {
-            docType.put(doc.getValue(), doc.name());
+             docType.put(doc.getValue(), doc.name());
         }
         mav.addObject("docType", docType);
         return mav;

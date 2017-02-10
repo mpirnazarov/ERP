@@ -1,11 +1,14 @@
 package com.lgcns.erp.workflow.Mapper;
 
+import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
 import com.lgcns.erp.workflow.DBEntities.MembersEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.ToDoEntity;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * Created by Muslimbek Pirnazarov on 2/7/2017.
@@ -25,7 +28,7 @@ public class BusinessTripMapper {
         requestsEntity.setDescription(businessTripVM.getPurpose());
         // By default workflow status will be in progress = 1
         requestsEntity.setStatusId(1);
-        requestsEntity.setDateCreated(new java.util.Date());
+        //requestsEntity.setDateCreated(new java.sq.Date());
         requestsEntity.setDestination(businessTripVM.getDestination());
 
         return requestsEntity;
@@ -66,4 +69,31 @@ public class BusinessTripMapper {
 
         return attachmentsEntity;
     }
+
+
+    ////SAAARVAR
+
+    public static BusinessTripVM fromBusinessTrip(int id){
+
+        RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(id);
+        List<MembersEntity> membersEntityList = WorkflowService.getMembersByRequestId(id);
+        List<ToDoEntity> toDoEntityList = WorkflowService.getToDoByRequestId(id);
+
+        BusinessTripVM viewModel = new BusinessTripVM();
+
+        viewModel.setStart(requestsEntity.getDateFrom());
+        viewModel.setEnd(requestsEntity.getDateTo());
+        viewModel.setSubject(requestsEntity.getSubject());
+        viewModel.setDomestic(requestsEntity.getDomestic());
+        viewModel.setTripType(requestsEntity.getTripTypeId());
+        viewModel.setDestination(requestsEntity.getDestination());
+        viewModel.setPurpose(requestsEntity.getDescription());
+        viewModel.setMembersEntityList(membersEntityList);
+        viewModel.setToDoEntityList(toDoEntityList);
+
+        return viewModel;
+    }
+
+
+
 }

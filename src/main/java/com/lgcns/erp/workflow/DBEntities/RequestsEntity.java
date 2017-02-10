@@ -1,7 +1,7 @@
 package com.lgcns.erp.workflow.DBEntities;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Collection;
 
 /**
@@ -263,11 +263,6 @@ public class RequestsEntity {
                 ", statusId=" + statusId +
                 ", dateCreated=" + dateCreated +
                 ", destination='" + destination + '\'' +
-                ", attachmentssById=" + attachmentssById +
-                ", memberssById=" + memberssById +
-                ", tripTypesByTripTypeId=" + tripTypesByTripTypeId +
-                ", stepssById=" + stepssById +
-                ", toDosById=" + toDosById +
                 '}';
     }
 }

@@ -2,10 +2,6 @@ package com.lgcns.erp.workflow.DBContext;
 
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
 import com.lgcns.erp.workflow.DBEntities.*;
-import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
-import com.lgcns.erp.workflow.DBEntities.*;
-import com.lgcns.erp.workflow.ViewModel.ToDoViewModel;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -312,17 +308,19 @@ public class WorkflowService {
         }
     }
 
-    public static void insertTest() {
+    public static void insertSteps(StepsEntity stepsEntity) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
-
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("update StepsEntity set stepSequence = :statusId where id = :id");
-            query.setParameter("statusId", 2);
-            query.setParameter("id", 1);
-            int s = query.executeUpdate();
-            System.out.println("S= " + s);
+            //Set foreign key items
+            stepsEntity.setRequestsByRequestId(session.load(RequestsEntity.class, stepsEntity.getRequestId()));
+            stepsEntity.setInvolvementTypesByInvolvementTypeId(session.load(InvolvementTypesEntity.class, stepsEntity.getInvolvementTypeId()));
+
+            //Save the object in database
+            session.save(stepsEntity);
+
+            //Commit the transaction
             transaction.commit();
         }
         catch (HibernateException e) {

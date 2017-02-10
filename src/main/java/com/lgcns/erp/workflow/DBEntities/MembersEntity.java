@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Date;
 
 /**
- * Created by Muslimbek Pirnazarov on 1/23/2017.
+ * Created by Muslimbek Pirnazarov on 2/9/2017.
  */
 @Entity
 @Table(name = "members", schema = "workflow", catalog = "LgErpSystem")
@@ -23,6 +23,7 @@ public class MembersEntity {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -172,21 +173,5 @@ public class MembersEntity {
 
     public void setRequestsByRequestId(RequestsEntity requestsByRequestId) {
         this.requestsByRequestId = requestsByRequestId;
-    }
-
-    @Override
-    public String toString() {
-        return "MembersEntity{" +
-                "id=" + id +
-                ", requestId=" + requestId +
-                ", userId=" + userId +
-                ", organizationName='" + organizationName + '\'' +
-                ", dateFrom=" + dateFrom +
-                ", dateTo=" + dateTo +
-                ", expenseTransportation=" + expenseTransportation +
-                ", dailyAllowance=" + dailyAllowance +
-                ", expenseAccommodation=" + expenseAccommodation +
-                ", expenseOther=" + expenseOther +
-                '}';
     }
 }

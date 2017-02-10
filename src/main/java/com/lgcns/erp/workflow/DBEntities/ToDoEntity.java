@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Date;
 
 /**
- * Created by Muslimbek Pirnazarov on 1/23/2017.
+ * Created by Muslimbek Pirnazarov on 2/9/2017.
  */
 @Entity
 @Table(name = "to_do", schema = "workflow", catalog = "LgErpSystem")
@@ -17,6 +17,7 @@ public class ToDoEntity {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -72,7 +73,7 @@ public class ToDoEntity {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id;
         result = 31 * result + requestId;
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
@@ -87,16 +88,5 @@ public class ToDoEntity {
 
     public void setRequestsByRequestId(RequestsEntity requestsByRequestId) {
         this.requestsByRequestId = requestsByRequestId;
-    }
-
-    @Override
-    public String toString() {
-        return "ToDoEntity{" +
-                "id=" + id +
-                ", requestId=" + requestId +
-                ", date=" + date +
-                ", description='" + description + '\'' +
-                ", requestsByRequestId=" + requestsByRequestId +
-                '}';
     }
 }

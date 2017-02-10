@@ -190,7 +190,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div>--%>
+                </div>
                 <%--<div id="unformattedFormGen">
                     <p>
                         Title: Going to Doctor
@@ -682,8 +682,8 @@
         '<td>' + memberFrom + '</td> ' +
         '<td>' + memberTo + '</td> ' +
         '</tr>');
-        
-        
+
+
         $("#tripExpensesTableBody").append('<tr> ' +
         '<td>' + memberId + ' </td> ' +
         '<td>' + memberAirfair + '</td> ' +
@@ -708,7 +708,7 @@
 
     }
     function generateUnformatted() {
-        
+
     }
 
     var ftype = "${model.form_type_id}";

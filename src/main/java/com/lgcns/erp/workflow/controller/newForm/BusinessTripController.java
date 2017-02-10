@@ -40,6 +40,7 @@ public class BusinessTripController {
     int[] approvalsGlobal = null;
     int[] executivesGlobal = null;
     int[] referencesGlobal = null;
+
     @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.GET)
     public ModelAndView WorkflowGET(Principal principal){
         ModelAndView mav = new ModelAndView();
@@ -108,40 +109,128 @@ public class BusinessTripController {
         return mav;
     }
 
-    @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.POST)
-    public String WorkflowPost(@ModelAttribute BusinessTripVM businessTripVM, Principal principal) throws IOException {
+    @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.POST, params = "Submit")
+    public String BusinessTripPostSubmit(@ModelAttribute BusinessTripVM businessTripVM, Principal principal) throws IOException {
 
         int userId = UserService.getIdByUsername(principal.getName());
 
         /* Insert to table Requests */
-        int requestId = WorkflowService.insertRequests(BusinessTripMapper.RequestMapper(businessTripVM, userId));
+
+        int requestId = WorkflowService.insertRequests(BusinessTripMapper.requestMapper(businessTripVM, userId, 1, 1));
         businessTripVM.setId(requestId);
 
         /* Insert to table Members */
         for (MembersEntity member :
                 businessTripVM.getMembersEntityList()) {
             if(member.getOrganizationName()!=null)
-                WorkflowService.insertMembers(BusinessTripMapper.MembersMapper(businessTripVM, member, userId));
+                WorkflowService.insertMembers(BusinessTripMapper.membersMapper(businessTripVM, member, userId));
         }
 
         /* Insert to table to_do */
         for (ToDoEntity todo :
                 businessTripVM.getToDoEntityList()) {
-            WorkflowService.insertToDo(BusinessTripMapper.ToDoMapper(businessTripVM.getId(), todo));
+            WorkflowService.insertToDo(BusinessTripMapper.toDoMapper(businessTripVM.getId(), todo));
         }
 
-        /* Insert attachments info to table Attachments */
+        /*  Insert attachments info to table Attachments */
         for (MultipartFile attachment :
                 businessTripVM.getFile()) {
-            WorkflowService.insertAttachments(BusinessTripMapper.AttachmentsMapper(businessTripVM.getId(), attachment));
+            WorkflowService.insertAttachments(BusinessTripMapper.attachmentsMapper(businessTripVM.getId(), attachment));
         }
 
         int count=1;
-        /* Insert to table steps*/
+        /* Insert to table steps */
         for (int num :
                 approvalsGlobal) {
             System.out.println("Approvals: " + num);
-            /*WorkflowService.insertSteps(BusinessTripMapper.StepsMapper(businessTripVM.getId(), userId, 1, count++, ))*/
+            if(count==1)
+                WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), num, 1, count++, 1, true));
+            else
+                WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), num, 1, count++, 1, false));
+        }
+
+        for (int num :
+                executivesGlobal) {
+            System.out.println("Executives: " + num);
+            WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), num, 2, 0, 1, false));
+        }
+
+        for (int num :
+                referencesGlobal) {
+            System.out.println("References: " + num);
+            WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), num, 3, 0, 1, false));
+        }
+
+        System.out.println("FORM:   BUSINESS TRIP: " + businessTripVM.toString());
+        MultipartFile[] multipartFiles=null;
+        if(!businessTripVM.getFile()[0].isEmpty()) {
+            multipartFiles = businessTripVM.getFile();
+
+            // Uploading files attached to C:/files/documents/workflow. Create folder if doesn't exist.
+            File f = new File("C:/files/documents/workflow/" + businessTripVM.getId() + "/");
+            if (f.mkdir()) {
+                System.out.println("DIRECTORY CREATED SECCESFULLY");
+            }
+            for (MultipartFile file :
+                    multipartFiles) {
+                FileCopyUtils.copy(file.getBytes(), new File("C:/files/documents/workflow/" + businessTripVM.getId() + "/" + file.getOriginalFilename()));
+            }
+
+            System.out.println("FILE WAS UPLOADED!");
+        }
+        return "redirect: /Workflow/NewForm/BusinessTripForm";
+    }
+
+    @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.POST, params = "Save")
+    public String BusinessTripPostSave(@ModelAttribute BusinessTripVM businessTripVM, Principal principal) throws IOException {
+
+        int userId = UserService.getIdByUsername(principal.getName());
+
+        /* Insert to table Requests */
+
+        int requestId = WorkflowService.insertRequests(BusinessTripMapper.requestMapper(businessTripVM, userId, 1,  4));
+        businessTripVM.setId(requestId);
+
+        /* Insert to table Members */
+        for (MembersEntity member :
+                businessTripVM.getMembersEntityList()) {
+            if(member.getOrganizationName()!=null)
+                WorkflowService.insertMembers(BusinessTripMapper.membersMapper(businessTripVM, member, userId));
+        }
+
+        /* Insert to table to_do */
+        for (ToDoEntity todo :
+                businessTripVM.getToDoEntityList()) {
+            WorkflowService.insertToDo(BusinessTripMapper.toDoMapper(businessTripVM.getId(), todo));
+        }
+
+        /*  Insert attachments info to table Attachments */
+        for (MultipartFile attachment :
+                businessTripVM.getFile()) {
+            WorkflowService.insertAttachments(BusinessTripMapper.attachmentsMapper(businessTripVM.getId(), attachment));
+        }
+
+        int count=1;
+        /* Insert to table steps */
+        for (int num :
+                approvalsGlobal) {
+            System.out.println("Approvals: " + num);
+            if(count==1)
+                WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), userId, 1, count++, 1, true));
+            else
+                WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), userId, 1, count++, 1, false));
+        }
+
+        for (int num :
+                executivesGlobal) {
+            System.out.println("Executives: " + num);
+            WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), userId, 2, 0, 1, false));
+        }
+
+        for (int num :
+                referencesGlobal) {
+            System.out.println("References: " + num);
+            WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), userId, 3, 0, 1, false));
         }
 
         System.out.println("FORM:   BUSINESS TRIP: " + businessTripVM.toString());
@@ -168,20 +257,11 @@ public class BusinessTripController {
 
     @RequestMapping(value = "/NewForm/BusinessTripFormAjax", method = RequestMethod.POST)
     public @ResponseBody
-    int[] WorkflowPostAjax(@RequestParam("approvals") int[] approvals, @RequestParam("executives") int[] executives, @RequestParam("references") int[] references){
+    int[] BusinessTripPostAjax(@RequestParam("approvals") int[] approvals, @RequestParam("executives") int[] executives, @RequestParam("references") int[] references){
 
         approvalsGlobal = approvals;
         executivesGlobal = executives;
         referencesGlobal = references;
-        for (int num :
-                executives) {
-            System.out.println("Executives: " + num);
-        }
-        for (int num :
-                references) {
-            System.out.println("References: " + num);
-        }
-
 
         return approvals;
     }
@@ -215,8 +295,4 @@ public class BusinessTripController {
         return users;
     }
 
-    @RequestMapping(value = "/Test")
-    public void WorkflowPostAjax() {
-        WorkflowService.insertTest();
-    }
 }

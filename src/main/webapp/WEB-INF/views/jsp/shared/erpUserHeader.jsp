@@ -62,6 +62,8 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">--%>
 
 
+
+
     <style>
         .error {
             color: #ff0000;
@@ -74,8 +76,30 @@
             padding: 8px;
             margin: 16px;
         }
+
+        .panel {
+            width: 246px;
+        }
     </style>
 </head>
+
+<div id="sarOv">
+    <div>
+        <img class="sarspinner" src="/resources/images/lg-logo.png">
+        <div class="sarspinnerBorder"></div>
+    </div>
+</div>
+
+<script>
+
+    var sarOv = document.getElementById("sarOv")
+
+    window.addEventListener('load', function () {
+        sarOv.style.animation = 'fadeout 1s ease';
+        setTimeout(function (){sarOv.style.display = 'none';}, 1000)
+    })
+
+</script>
 
 <%--Checking if Hierarchy page, if yes call init()--%>
 <% if(request.getAttribute("Hierarchy")!=null) { %>

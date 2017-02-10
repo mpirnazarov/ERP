@@ -97,42 +97,6 @@
         border-color: #62309a;
     }
 
-    #navigationButton.pressed {
-        background-color: yellow;
-    }
-
-    #navigationButton {
-        width: 50px;
-        height: 50px;
-        position: absolute;
-        background-color: green;
-        left: 100%;
-        top: 40%;
-        z-index: 5;
-    }
-
-    #UserNavigationMenuDiv.shownav {
-        margin-left: 0%;
-        -webkit-transition: all 1s ease;
-        transition: all 1s ease;
-
-    }
-
-    #sarcon {
-        -moz-transition: all 1s linear;
-        -webkit-transition: all 1s linear;
-        transition: all 1s linear;
-    }
-
-    #sarcon.twistIcon {
-        -ms-transform:rotate(360deg);
-        -moz-transform:rotate(360deg);
-        -webkit-transform:rotate(360deg);
-        transform:rotate(360deg);
-    }
-
-
-
 
 
 
@@ -331,8 +295,9 @@
     </nav>
 
     <div id="navigationButton" style="visibility: hidden">
-        <span id="sarcon" class="glyphicon glyphicon-chevron-right" aria-hidden="false" style="padding-top: 11px; padding-left: 13px; font-size: 20px"></span>
+        <span id="sarcon" class="glyphicon glyphicon-chevron-right" aria-hidden="false" style="margin-top: 11px; margin-left: 13px; font-size: 20px"></span>
     </div>
+
 </div>
 
 
@@ -346,16 +311,12 @@
             $('#sarcon').toggleClass('twistIcon');
         });
 
-        $('#headerRow').click(function () {
-            $(this).data('clicked', true);
-        })
-
 
 
         $('#detailBody').click(function () {
-
             if ($('#UserNavigationMenuDiv').hasClass('shownav')) {
                 $('#UserNavigationMenuDiv').toggleClass('shownav');
+                $('#sarcon').toggleClass('twistIcon');
             }
         })
 

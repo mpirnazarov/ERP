@@ -795,6 +795,73 @@ a:focus {
 }
 
 
+/** =====================
+ * Preload Spinner
+ ========================*/
+
+.sarspinner {
+    width: 150px;
+    height: 116px;
+
+    /*border: 2px solid black;
+    border-top: 3px solid red;
+    border-radius: 100%;*/
+
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right:0;
+    margin: auto;
+
+    /*animation: lgspin 1s linear infinite;*/
+}
+
+.sarspinnerBorder {
+    width: 120px;
+    height: 120px;
+
+    border: 4px solid black;
+    border-top: 3px solid red;
+    border-radius: 100%;
+
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right:0;
+    margin: auto;
+
+    animation: lgspin 1s linear infinite;
+}
+
+#sarOv {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0, .9);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999;
+}
+
+@keyframes lgspin {
+    from{
+        transform: rotate(0deg);
+    }to{
+        transform: rotate(360deg);
+         }
+}
+
+@keyframes fadeout {
+    from {opacity: 1;}
+    to{opacity: 0;}
+    
+}
+
+
+
+
 
 
 

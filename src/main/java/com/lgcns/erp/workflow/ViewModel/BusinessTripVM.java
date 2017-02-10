@@ -110,17 +110,14 @@ public class BusinessTripVM {
     @Override
     public String toString() {
         return "BusinessTripVM{" +
-                "id=" + id +
-                ", domestic=" + domestic +
+                "domestic=" + domestic +
+                ", id=" + id +
                 ", tripType=" + tripType +
                 ", subject='" + subject + '\'' +
                 ", destination='" + destination + '\'' +
                 ", purpose='" + purpose + '\'' +
                 ", start=" + start +
                 ", end=" + end +
-                ", file=" + file +
-                ", membersEntityList=" + membersEntityList +
-                ", toDoEntityList=" + toDoEntityList +
                 '}';
     }
 }

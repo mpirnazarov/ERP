@@ -29,6 +29,10 @@
         color: inherit;
     }
 
+    .sarvar {
+        width: 200px;
+    }
+
 
 </style>
 
@@ -97,9 +101,7 @@
                         <tbody id="membersDynamicBody" style="color: #0f0f0f">
                             <tr style="color: black">
                                 <td> 1 <form:hidden value="0" name = "membersEntityList[0].id" min="0" path="membersEntityList[0].id"/></td>
-                                <td><form:select path="membersEntityList[0].userId" items="${users}"
-                                                 cssClass="form-control text-box single-line"/>
-                                </td>
+                                <td><form:select path="membersEntityList[0].userId" items="${users}" cssClass="sarvar"/></td>
                                 <td> <form:input type='text' name = "membersEntityList[0].organizationName" path="membersEntityList[0].organizationName"/> </td>
                                 <td> <input type='date' name = "membersEntityList[0].dateFrom" /> </td>
                                 <td> <input type='date' name = "membersEntityList[0].dateTo" /> </td>
@@ -107,7 +109,6 @@
                                 <td><form:input type='number' name = "membersEntityList[0].dailyAllowance" min="0" path="membersEntityList[0].dailyAllowance"/></td>
                                 <td><form:input type='number' name = "membersEntityList[0].expenseAccommodation" min="0" path="membersEntityList[0].expenseAccommodation"/></td>
                                 <td><form:input type='number' name = "membersEntityList[0].expenseOther" min="0" path="membersEntityList[0].expenseOther"/></td>
-                                <td><input type='number' value="" disabled/></td>
                                 <td><a class="deleteRow"/></td>
                             </tr>
                         </tbody>
@@ -175,10 +176,9 @@
                     <input type="date" class="form-control" style="width:36%" placeholder="End" name="end" />
                 </div>
                 <div class="btn-group" role="group" aria-label="..." style="margin-left: 40%; margin-top: 3%">
-                    <button type="button" class="btn btn-default">Save</button>
-                    <input id="tv" type="submit" value="Submit" class="btn btn-success"/>
-                    <button type="button" class="btn btn-danger">Cancel</button>
-
+                    <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-success"/>
+                    <input id="tv" type="submit" name="Submit" value="Submit" class="btn btn-success"/>
+                    <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
                 </div>
             </div>
         </div>
@@ -242,7 +242,8 @@
             tr.appendChild(td);
             var select = document.createElement('select');
             select.name = "membersEntityList["+counter+"].userId";
-            /*select.className = "form-control text-box single-line";*/
+            /*elect.className = "form-control text-box single-line";*/
+            select.className = 'sarvar';
             var opt;
 
             $.ajax({
@@ -324,13 +325,13 @@
             tr.appendChild(td);
 
             /*Input field for expenceTotal*/
-            var td = document.createElement('td');
+            /*var td = document.createElement('td');
             var num = document.createElement('input');
             num.setAttribute('type', 'number');
             num.setAttribute('value', 100);
             num.setAttribute('disabled', true);
             td.appendChild(num);
-            tr.appendChild(td);
+            tr.appendChild(td);*/
 
 
             /*Delete button*/

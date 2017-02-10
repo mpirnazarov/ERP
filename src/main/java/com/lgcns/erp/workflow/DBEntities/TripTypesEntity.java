@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by Muslimbek Pirnazarov on 1/23/2017.
+ * Created by Muslimbek Pirnazarov on 2/9/2017.
  */
 @Entity
 @Table(name = "trip_types", schema = "workflow", catalog = "LgErpSystem")
@@ -15,6 +15,7 @@ public class TripTypesEntity {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -48,7 +49,7 @@ public class TripTypesEntity {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }

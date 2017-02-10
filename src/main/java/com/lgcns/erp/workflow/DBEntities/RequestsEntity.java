@@ -1,11 +1,11 @@
 package com.lgcns.erp.workflow.DBEntities;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Collection;
 
 /**
- * Created by Muslimbek Pirnazarov on 1/23/2017.
+ * Created by Muslimbek Pirnazarov on 2/9/2017.
  */
 @Entity
 @Table(name = "requests", schema = "workflow", catalog = "LgErpSystem")
@@ -31,6 +31,7 @@ public class RequestsEntity {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -185,7 +186,7 @@ public class RequestsEntity {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id;
         result = 31 * result + userFromId;
         result = 31 * result + (leaveTypeId != null ? leaveTypeId.hashCode() : 0);
         result = 31 * result + (subject != null ? subject.hashCode() : 0);
@@ -245,29 +246,5 @@ public class RequestsEntity {
 
     public void setToDosById(Collection<ToDoEntity> toDosById) {
         this.toDosById = toDosById;
-    }
-
-    @Override
-    public String toString() {
-        return "RequestsEntity{" +
-                "id=" + id +
-                ", userFromId=" + userFromId +
-                ", leaveTypeId=" + leaveTypeId +
-                ", subject='" + subject + '\'' +
-                ", isDomestic=" + isDomestic +
-                ", tripTypeId=" + tripTypeId +
-                ", typeId=" + typeId +
-                ", dateFrom=" + dateFrom +
-                ", dateTo=" + dateTo +
-                ", description='" + description + '\'' +
-                ", statusId=" + statusId +
-                ", dateCreated=" + dateCreated +
-                ", destination='" + destination + '\'' +
-                ", attachmentssById=" + attachmentssById +
-                ", memberssById=" + memberssById +
-                ", tripTypesByTripTypeId=" + tripTypesByTripTypeId +
-                ", stepssById=" + stepssById +
-                ", toDosById=" + toDosById +
-                '}';
     }
 }

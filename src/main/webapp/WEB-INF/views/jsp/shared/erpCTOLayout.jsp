@@ -206,10 +206,10 @@
                                 <div class="collapse" id="collapseNewForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a class="linkcolor" href="/Hr/Profile">Business trip</a></li>
-                                        <li><a class="linkcolor" href="/Hr/Profile/Appointment">Leave approve</a>
+                                        <li><a class="linkcolor" href="/Workflow/NewForm/BusinessTripForm">Business trip</a></li>
+                                        <li><a class="linkcolor" href="/Workflow/NewForm/LeaveApproveForm">Leave approve</a>
                                         </li>
-                                        <li><a class="linkcolor" href="/Workflow/Create/Unformatted">Unformatted</a>
+                                        <li><a class="linkcolor" href="/Workflow/NewForm/UnformattedForm">Unformatted</a>
                                         </li>
                                     </ul>
 
@@ -225,8 +225,12 @@
                                 <div class="collapse" id="collapseMyForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a class="linkcolor" href="/Hr/Profile">Request</a></li>
-                                        <li><a class="linkcolor" href="/Hr/Profile/Appointment">To-do</a>
+                                        <li><a href="/Workflow/MyForms/Request">Request <span
+                                                class="badge">0</span></a></li>
+                                        <li><a href="/Workflow/MyForms/todo/load">To-do <span
+                                                class="badge" style="background-color: red">2</span></a>
+                                        </li>
+                                        <li><a href="/Workflow/MyForms/Details">Details</a>
                                         </li>
                                     </ul>
 

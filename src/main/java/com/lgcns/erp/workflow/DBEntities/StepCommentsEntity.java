@@ -3,7 +3,7 @@ package com.lgcns.erp.workflow.DBEntities;
 import javax.persistence.*;
 
 /**
- * Created by Muslimbek Pirnazarov on 2/7/2017.
+ * Created by Muslimbek Pirnazarov on 2/9/2017.
  */
 @Entity
 @Table(name = "step_comments", schema = "workflow", catalog = "LgErpSystem")
@@ -16,6 +16,7 @@ public class StepCommentsEntity {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getId() {
         return id;
     }

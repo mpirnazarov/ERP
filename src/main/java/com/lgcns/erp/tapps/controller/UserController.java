@@ -23,9 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.registry.infomodel.User;
 import java.io.*;
 import java.net.URLConnection;
 import java.nio.charset.Charset;

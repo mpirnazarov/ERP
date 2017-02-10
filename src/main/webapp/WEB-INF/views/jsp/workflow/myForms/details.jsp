@@ -73,7 +73,7 @@
 
         <div class="row">
             <div id="left-info" class="col-md-7" style="border: double;">
-                <%--<div id="businessTripFormGen">
+                <div id="businessTripFormGen">
                     <div id="BusinessTripHeader">
                         <label>Subject:</label>
                         <p> First integration development</p>
@@ -177,7 +177,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div>--%>
+                </div>
                 <%--<div id="unformattedFormGen">
                     <p>
                         Title: Going to Doctor

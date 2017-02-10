@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.Collection;
 
 /**
- * Created by Muslimbek Pirnazarov on 2/7/2017.
+ * Created by Muslimbek Pirnazarov on 2/9/2017.
  */
 @Entity
 @Table(name = "steps", schema = "workflow", catalog = "LgErpSystem")
@@ -24,6 +24,7 @@ public class StepsEntity {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -123,7 +124,7 @@ public class StepsEntity {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id;
         result = 31 * result + requestId;
         result = 31 * result + userId;
         result = 31 * result + involvementTypeId;

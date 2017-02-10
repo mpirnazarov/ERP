@@ -229,10 +229,10 @@
 
                                     <ul style="list-style: none" class="list-group">
                                         <li><a href="/Workflow/NewForm/BusinessTripForm">Business trip</a></li>
-                                        <li><a href="/Hr/Profile/Appointment">Leave approve</a>
+                                        <li><a href="/Workflow/NewForm/LeaveApproveForm">Leave approve</a>
                                         </li>
                                         <li>
-                                            <a href="/Workflow/Create/Unformatted">Unformatted</a>
+                                            <a href="/Workflow/NewForm/UnformattedForm">Unformatted</a>
                                         </li>
                                     </ul>
 

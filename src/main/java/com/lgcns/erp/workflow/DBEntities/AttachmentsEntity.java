@@ -3,7 +3,7 @@ package com.lgcns.erp.workflow.DBEntities;
 import javax.persistence.*;
 
 /**
- * Created by Muslimbek Pirnazarov on 1/23/2017.
+ * Created by Muslimbek Pirnazarov on 2/9/2017.
  */
 @Entity
 @Table(name = "attachments", schema = "workflow", catalog = "LgErpSystem")
@@ -16,6 +16,7 @@ public class AttachmentsEntity {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -71,7 +72,7 @@ public class AttachmentsEntity {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id;
         result = 31 * result + requestId;
         result = 31 * result + (url != null ? url.hashCode() : 0);
         result = 31 * result + (filename != null ? filename.hashCode() : 0);

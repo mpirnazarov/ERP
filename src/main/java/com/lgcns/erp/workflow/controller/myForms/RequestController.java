@@ -58,7 +58,7 @@ public class RequestController {
   /*  @RequestMapping(value = "/list", method = RequestMethod.GET)
     public @ResponseBody
     List<RequestViewModel> getRequestModels(){
-        List<RequestViewModel> models = RequestMapper.queryTorequestModel(WorkflowService.getRequestList(), UserService.getAllUsers());
+        List<RequestViewModel> models = requestMapper.queryTorequestModel(WorkflowService.getRequestList(), UserService.getAllUsers());
         return models;
     }
 */

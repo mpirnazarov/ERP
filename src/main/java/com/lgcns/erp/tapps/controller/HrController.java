@@ -356,6 +356,7 @@ public class HrController {
         mav.addObject("users", users);
         return mav;
     }
+
     @RequestMapping(value = "/Hr/GenerateDocs", method = RequestMethod.GET)
     public ModelAndView Docs(Principal principal, Model model) {
         ModelAndView mav = new ModelAndView();
@@ -495,6 +496,7 @@ public class HrController {
         mav.addObject("userProfile", userProfile);
         return mav;
     }
+
     @RequestMapping ( value = "/Hr/user/{userId}/update/Appointment/Edit/{appId}", method = RequestMethod.POST )
     public String updateAppPost(Principal principal, @ModelAttribute  AppointmentSummary appointmentSummary, BindingResult result, @PathVariable("appId") int appId, @PathVariable("userId") String userId){
         UserService.updateUserInPosts(UserMapper.mapUserInPosts(appointmentSummary, userId), appId);
@@ -546,13 +548,13 @@ public class HrController {
         mav.addObject("userProfile", userProfile);
         return mav;
     }
+
     @RequestMapping ( value = "/Hr/user/{userId}/update/Appointment/Add", method = RequestMethod.POST )
     public String addAppPost(Principal principal, @ModelAttribute  AppointmentSummary appointmentSummary, BindingResult result, @PathVariable("userId") String userId){
         UserService.insertUserInPosts(UserMapper.mapUserInPosts(appointmentSummary, userId));
         /*UserService.updateDepartmentId(appointmentSummary.getDepartmentId(), Integer.parseInt(userId));*/
         return "redirect: /Hr/user/"+userId+"/update/Appointment";
     }
-
 
     @RequestMapping(value = "/Hr/user/{userId}/update/Jobexp/add", method = RequestMethod.GET)
     public ModelAndView addJob(Principal principal, Model model, @PathVariable("userId") int userId){
@@ -572,6 +574,7 @@ public class HrController {
 
         return mav;
     }
+
     @RequestMapping ( value = "/Hr/user/{userId}/update/Jobexp/add", method = RequestMethod.POST )
     public String AddJobPost(Principal principal, @ModelAttribute  JobexpViewModel jobexpViewModel, BindingResult result, @PathVariable("userId") String userId){
         System.out.println("Job Exp: " + jobexpViewModel.toString());
@@ -609,6 +612,7 @@ public class HrController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
+
     @RequestMapping ( value = "/Hr/user/{userId}/update/Jobexp/updateJob/{jobId}", method = RequestMethod.POST )
     public String updateJobPost(Principal principal, @ModelAttribute  JobexpViewModel jobexpViewModel, BindingResult result, @PathVariable("userId") String userId, @PathVariable("jobId") int jobId){
         UserService.updateWorks(UserMapper.mapAddWorks(jobexpViewModel, userId), jobId);
@@ -626,6 +630,7 @@ public class HrController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
+
     @RequestMapping ( value = "/Hr/user/{userId}/update/Train/add", method = RequestMethod.POST )
     public String AddTrainPost(Principal principal, @ModelAttribute  TrainViewModel trainViewModel, BindingResult result, @PathVariable("userId") String userId){
         int id = UserService.insertTrainings(UserMapper.mapTrainings(trainViewModel, userId));
@@ -643,7 +648,6 @@ public class HrController {
         model.addAttribute("trainVM", trainViewModel);
         return mav;
     }
-
     private TrainViewModel getTrainVM(int trainId, int userId) {
         TrainViewModel trainViewModel = new TrainViewModel();
         TrainingsEntity trainingsEntity = UserService.getTrainingEntity(trainId);
@@ -665,6 +669,7 @@ public class HrController {
         UserService.updateTrainVM(UserMapper.mapTrainings(trainViewModel, userId), Integer.parseInt(trainId));
         return "redirect: /Hr/user/"+userId+"/update/Train";
     }
+
     @RequestMapping(value = "/Hr/user/{userId}/update/Edu/AddLang", method = RequestMethod.GET)
     public ModelAndView addLang(Principal principal, Model model, @PathVariable("userId") int userId){
         ModelAndView mav = new ModelAndView();
@@ -688,6 +693,7 @@ public class HrController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
+
     @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/AddLang", method = RequestMethod.POST )
     public String AddLangPost(Principal principal, @ModelAttribute  LanguageSummary languageSummary, BindingResult result, @PathVariable("userId") String userId){
         System.out.println("Languages: " + languageSummary.toString());
@@ -712,6 +718,7 @@ public class HrController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
+
     @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/EditLang/{langId}", method = RequestMethod.POST )
     public String EditLangPost(Principal principal, @ModelAttribute  UserInLanguagesEntity languagesEntity, BindingResult result, @PathVariable("userId") String userId, @PathVariable("langId") String langId){
         System.out.println("Languages: "+languagesEntity);
@@ -730,6 +737,7 @@ public class HrController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
+
     @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/AddEdu", method = RequestMethod.POST )
     public String AddEduPost(Principal principal, @ModelAttribute  Educations educations, BindingResult result, @PathVariable("userId") String userId){
         System.out.println("EDUCATIONS: " + educations.toString());
@@ -749,7 +757,6 @@ public class HrController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
-
     private Educations getEducations(int userId, int eduId) {
         Educations educations = new Educations();
         EducationsEntity educationsEntity = UserService.getEducationById(eduId);
@@ -782,6 +789,7 @@ public class HrController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
+
     @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/AddCert", method = RequestMethod.POST )
     public String AddCertPost(Principal principal, @ModelAttribute  Certificates certificates, BindingResult result, @PathVariable("userId") String userId){
         int certId = UserService.insertCertificates(UserMapper.mapCertificates(certificates, userId, 1));
@@ -799,7 +807,6 @@ public class HrController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
-
     private Certificates getCertificate(int userId, int certId) {
         Certificates certificates = new Certificates();
         CertificatesEntity certificatesEntity = UserService.getCertificate(certId);
@@ -831,6 +838,7 @@ public class HrController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
+
     @RequestMapping ( value = "/Hr/user/{userId}/update/Edu/AddLangScore", method = RequestMethod.POST )
     public String AddLangScorePost(Principal principal, @ModelAttribute  Certificates certificates, BindingResult result, @PathVariable("userId") String userId){
         int certId = UserService.insertCertificates(UserMapper.mapCertificates(certificates, userId, 2));
@@ -873,6 +881,7 @@ public class HrController {
         mav = UP.includeUserProfile(mav, principal);
         return mav;
     }
+
     @RequestMapping ( value = "/Hr/user/{userId}/update/Salary/addSal", method = RequestMethod.POST )
     public String AddSalaryPost(Principal principal, @ModelAttribute  SalaryVewModel salaryVewModel, BindingResult result, @PathVariable("userId") String userId){
         UserService.insertSalary(UserMapper.mapSalaryEntity(salaryVewModel, userId));
@@ -992,6 +1001,7 @@ public class HrController {
 
         return "redirect: /Hr/Docs/";
     }
+
     @RequestMapping(value = "/Hr/user/{id}/update/Docs/Del/{docId}")
     public String deleteFile(Principal principal, @PathVariable("id") int id, @PathVariable("docId") int docId) throws IOException {
 
@@ -1228,7 +1238,6 @@ public class HrController {
         updateDBGenInfo(person);
         return "redirect: /Hr/user/"+id+"/update/"+path;
     }
-
     public static AppointmentrecViewModel getAppointmentByUsername(String userName) {
         AppointmentrecViewModel returning = new AppointmentrecViewModel();
 
@@ -1292,7 +1301,6 @@ public class HrController {
         UserService.insertUsersFamilyInfoLocUz(UserMapper.mapAddFamilyLoc(familyProfile, id, 2));
         return "redirect: /Hr/user/"+userId+"/update/Geninfo";
     }
-
     private FamilyMember getUserFamily(int userId, int famId) {
         FamilyMember familyMember = new FamilyMember(3);
         UsersEntity usersEntity = UserService.getUserById(userId);

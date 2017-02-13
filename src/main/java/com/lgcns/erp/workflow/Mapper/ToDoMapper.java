@@ -9,7 +9,6 @@ import com.lgcns.erp.workflow.DBEntities.StepsEntity;
 import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
 import com.lgcns.erp.workflow.ViewModel.ToDoViewModel;
-import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,9 +54,7 @@ public class ToDoMapper {
         List<RequestsEntity> validReqs = new ArrayList<>();
         for (StepsEntity step : steps) {
             for (RequestsEntity req : requestsEntities) {
-                if (req.getId() == step.getRequestId()
-                        &&step.getUserId()==userId
-                        &&step.getInvolvementTypeId()==1){
+                if (req.getId() == step.getRequestId()&&step.getUserId()==userId&&step.getInvolvementTypeId()==1&&step.getActive()){
                     validReqs.add(req);
                 }
             }

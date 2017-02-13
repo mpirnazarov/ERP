@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.Collection;
 
 /**
- * Created by Muslimbek Pirnazarov on 2/9/2017.
+ * Created by DS on 10.02.2017.
  */
 @Entity
 @Table(name = "steps", schema = "workflow", catalog = "LgErpSystem")
@@ -155,7 +155,7 @@ public class StepsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "involvement_type_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "involvement_type_id", referencedColumnName = "id", nullable = false, updatable = false, insertable = false)
     public InvolvementTypesEntity getInvolvementTypesByInvolvementTypeId() {
         return involvementTypesByInvolvementTypeId;
     }

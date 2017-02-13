@@ -135,8 +135,6 @@ public class ToDoController {
     @RequestMapping(value = "/details", method = RequestMethod.POST)
     public String details(@RequestParam("comment")String comment, @RequestParam("status")int status, @RequestParam("reqId")int reqId){
 
-        System.out.println(comment+" "+status+" "+reqId);
-
         DetailsAction.doAction(comment, status, reqId);
 
         return "";

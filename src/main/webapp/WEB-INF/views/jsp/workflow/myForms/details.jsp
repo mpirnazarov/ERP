@@ -739,32 +739,29 @@
 
 <script>
     /*Murod*/
-    var status = 1;
+    var status = 5;
     var comment = "";
+    var reqId = "${model.request_id}";
     function checkedRadioBtn(id) {
         if (id == "approve") {
             status = 5;
         }
         else if (id == "review") {
-            status = 3;
-        }
-        else if (id == "reject") {
             status = 2;
         }
-
-        alert(status);
-        /*
-         window.location.href = "/Workflow/MyForms/todo/load";
-         */
+        else if (id == "reject") {
+            status = 3;
+        }
     }
 
     function submitTheForm() {
         comment = $('#detailComment').val();
+        alert(reqId);
 
         $.ajax({
             type: "POST",
             processData: false,
-            data: 'comment=' + comment + '&status=' + status,
+            data: 'comment=' + comment + '&status=' + status+'&reqId='+reqId,
             url: '${pageContext.request.contextPath}/Workflow/MyForms/todo/details',
             success: function () {
                 alert("Success");

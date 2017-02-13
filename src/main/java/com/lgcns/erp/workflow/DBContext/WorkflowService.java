@@ -181,7 +181,7 @@ public class WorkflowService {
         return list;
     }
 
-    public static List<StepCommentsEntity> getStepCommentsByStepId(long id){
+    public static List<StepCommentsEntity> getStepCommentsByStepId(int id){
         List<StepCommentsEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -201,17 +201,30 @@ public class WorkflowService {
         return list;
     }
 
-    public static void stepAction(long reqId){
+    public static void stepApprove(int reqId, int statusId, String comment){
+        int newRowId = WorkflowToDoApproveService.getTheNextSequence(reqId, statusId, comment);
+        if (newRowId != -1){
+            WorkflowToDoApproveService.approve(reqId, statusId);
+            WorkflowToDoApproveService.setNewStep(newRowId);
+        }
+    }
+
+    public static void stepReject(int reqId, int statusId, String comment){
+        WorkFlowToDoRejectService.reject(reqId, statusId, comment);
+    }
+
+    public static void stepReview(int reqId, int statusId, String comment){
+        WorkFlowToDoReviewService.review(reqId, statusId, comment);
+    }
+
+    public static StepsEntity getStepById(int id){
+        StepsEntity entity = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
-
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("update StepCommentsEntity s set s.comments = 'sadadsadad' where s.id = 1");
-            /*query.setParameter("statusId", 2);
-            query.setParameter("id", 1);*/
-            int s = query.executeUpdate();
-            System.out.println("S= " + s);
+            Query query = session.createQuery("from StepsEntity where id="+id);
+            entity = (StepsEntity)query.getSingleResult();
             transaction.commit();
         }
         catch (HibernateException e) {
@@ -221,6 +234,8 @@ public class WorkflowService {
         finally {
             session.close();
         }
+
+        return entity;
     }
 
     public static int insertRequests(RequestsEntity requestsEntity) {

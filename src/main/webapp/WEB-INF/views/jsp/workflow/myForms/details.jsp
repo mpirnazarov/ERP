@@ -37,8 +37,9 @@
     }
 
     .detail-body {
-        width: 80%;
-        margin-left: 18%;
+        width: 85%;
+        margin-left: 7%;
+        margin-top: 4%;
     }
 
     .commentTable {
@@ -62,11 +63,59 @@
 
     }
 
+
     #UserNavigationMenuDiv {
         margin-left: -17%;
         -webkit-transition: all 1s ease;
         transition: all 1s ease;
+        background-color: rgba(87,120,118,0.92);
+        border-style: inset;
     }
+
+    #UserNavigationMenuDiv.shownav {
+        margin-left: 0%;
+        -webkit-transition: all 1s ease;
+        transition: all 1s ease;
+    }
+
+    #sarcon {
+        -moz-transition: all 1s linear;
+        -webkit-transition: all 1s linear;
+        transition: all 1s linear;
+    }
+
+    #sarcon.twistIcon {
+        -ms-transform:rotateY(179deg);
+        -moz-transform:rotateY(179deg);
+        -webkit-transform:rotateY(179deg);
+        transform: rotateY(179deg);
+    }
+
+    #navigationButton.pressed {
+        /*somelogic on press*/
+    }
+
+    #navigationButton {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        background-color: rgba(86,119,117,0.81);
+        border-style: inset;
+        border-left: 4px solid rgba(85,117,116,0.89);
+        left: 99%;
+        top: 40%;
+        z-index: 5;
+        border-top-right-radius: 18px;
+        border-bottom-right-radius: 18px;
+    }
+
+    #navigationButton:hover {
+        width: 60px;
+        -moz-transition: all 0.5s linear;
+        -webkit-transition: all 0.5s linear;
+        transition: all 0.5s linear;
+    }
+
 
 
 
@@ -743,6 +792,7 @@
     var comment = "";
     var reqId = "${model.request_id}";
     function checkedRadioBtn(id) {
+
         if (id == "approve") {
             status = 5;
         }

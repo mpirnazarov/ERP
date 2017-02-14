@@ -116,7 +116,6 @@ public class WorkflowToDoApproveService {
         finally {
             session.close();
         }
-
     }
 
 

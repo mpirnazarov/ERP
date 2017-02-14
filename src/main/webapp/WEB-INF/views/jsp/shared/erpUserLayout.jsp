@@ -218,7 +218,7 @@
                                         <li><a class="linkcolor" href="/Workflow/NewForm/BusinessTripForm">Business trip</a></li>
                                         <li><a class="linkcolor" href="/Workflow/NewForm/LeaveApproveForm">Leave approve</a>
                                         </li>
-                                        <li><a class="linkcolor" href="/Workflow/NewForm/UnformattedForm">Unformatted</a>
+                                        <li><a class="linkcolor" href="/Workflow/Create/Unformatted">Unformatted</a>
                                         </li>
                                     </ul>
 
@@ -237,7 +237,7 @@
                                         <li><a href="/Workflow/MyForms/Request">Request <span
                                                 class="badge">0</span></a></li>
                                         <li><a href="/Workflow/MyForms/todo/load">To-do <span
-                                                class="badge" style="background-color: red">2</span></a>
+                                                class="badge" style="background-color: red" id="userTodoSpan"></span></a>
                                         </li>
                                         <li><a href="/Workflow/MyForms/Details">Details</a>
                                         </li>
@@ -295,4 +295,19 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 <spring:url value="/resources/core/js/index.js" var="indexJs"></spring:url>
+
 <script src="${indexJs}"></script>
+<script>
+    setInterval(function () {
+        $.ajax({
+            type:"GET",
+            processData: false,
+            url : '${pageContext.request.contextPath}/Workflow/MyForms/todo/notification',
+            success: function(data){
+                $('#userTodoSpan').text(data);
+            },
+            error: function () {
+            }
+        });
+    }, 3000);
+</script>

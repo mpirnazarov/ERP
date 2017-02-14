@@ -209,7 +209,7 @@
                                         <li><a class="linkcolor" href="/Workflow/NewForm/BusinessTripForm">Business trip</a></li>
                                         <li><a class="linkcolor" href="/Workflow/NewForm/LeaveApproveForm">Leave approve</a>
                                         </li>
-                                        <li><a class="linkcolor" href="/Workflow/NewForm/UnformattedForm">Unformatted</a>
+                                        <li><a class="linkcolor" href="/Workflow/Create/Unformatted">Unformatted</a>
                                         </li>
                                     </ul>
 

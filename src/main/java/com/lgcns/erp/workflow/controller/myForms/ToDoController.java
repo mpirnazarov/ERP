@@ -4,6 +4,7 @@ import com.google.common.io.Files;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
+import com.lgcns.erp.workflow.DBContext.WorkflowNotificationService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.MembersEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
@@ -160,5 +161,11 @@ public class ToDoController {
         return new ResponseEntity<>(isr, respHeaders, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/notification", method = RequestMethod.GET)
+    public @ResponseBody int getNotification(Principal principal){
+        int userId = UserService.getUserIdByUsername(principal.getName());
 
+        int numberOfNotifications = WorkflowNotificationService.getToDoNotification(userId);
+        return numberOfNotifications;
+    }
 }

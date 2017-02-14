@@ -144,3 +144,6 @@
             }
         %>
         <jsp:include page='${pageType}' flush="true"/>
+<script>
+
+</script>

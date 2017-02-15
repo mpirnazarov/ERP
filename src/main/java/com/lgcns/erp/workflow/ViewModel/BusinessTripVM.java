@@ -2,6 +2,7 @@ package com.lgcns.erp.workflow.ViewModel;
 
 import com.lgcns.erp.workflow.DBEntities.MembersEntity;
 import com.lgcns.erp.workflow.DBEntities.ToDoEntity;
+import com.lgcns.erp.workflow.Model.Member;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
@@ -17,7 +18,17 @@ public class BusinessTripVM {
     private java.sql.Date start, end;
     private MultipartFile[] file;
     private List<MembersEntity> membersEntityList;
+    private List<Member> members;
     private List<ToDoEntity> toDoEntityList;
+
+
+    public List<Member> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<Member> members) {
+        this.members = members;
+    }
 
     public int getId() {
         return id;

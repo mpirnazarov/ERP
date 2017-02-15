@@ -1,14 +1,20 @@
 package com.lgcns.erp.workflow.Mapper;
 
+import com.lgcns.erp.tapps.DbContext.DepartmentService;
+import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.tapps.model.DbEntities.DepartmentLocalizationsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
 import com.lgcns.erp.workflow.DBEntities.MembersEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.ToDoEntity;
 import com.lgcns.erp.workflow.DBEntities.*;
+import com.lgcns.erp.workflow.Model.Member;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -105,10 +111,30 @@ public class BusinessTripMapper {
         viewModel.setPurpose(requestsEntity.getDescription());
         viewModel.setMembersEntityList(membersEntityList);
         viewModel.setToDoEntityList(toDoEntityList);
-
+        viewModel.setMembers(getMembers(membersEntityList));
         return viewModel;
     }
 
+    private static List<Member> getMembers(List<MembersEntity> membersEntityList){
+        List<Member> members = new ArrayList<>();
+        Member member;
+        for (MembersEntity entity : membersEntityList) {
+            UserLocalizationsEntity userLoc = UserService.getUserLocByUserId(entity.getUserId(), 3);
+            member = new Member();
+            member.setName(userLoc.getFirstName());
+            member.setSurname(userLoc.getLastName());
+            member.setDepartment(getDepartmentNameByUserId(entity.getUserId()));
 
+            members.add(member);
+        }
+        return members;
+    }
 
+    private static String getDepartmentNameByUserId(int id){
+        int deptId = UserService.getUserById(id).getDepartmentId();
+
+        DepartmentLocalizationsEntity entity = DepartmentService.getDepartmentLocsByDeptId(deptId, 3);
+
+        return entity.getName();
+    }
 }

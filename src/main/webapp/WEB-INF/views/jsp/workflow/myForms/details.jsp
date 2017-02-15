@@ -873,7 +873,6 @@
 
         </c:forEach>
 
-
     }
     function generateLeaveApprove() {
 

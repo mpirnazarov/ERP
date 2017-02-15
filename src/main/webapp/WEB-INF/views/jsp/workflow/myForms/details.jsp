@@ -123,7 +123,7 @@
 
     /*processssss CSSSS*/
 
-    body{margin:40px;}
+
 
     .stepwizard-step p {
         margin-top: 10px;
@@ -192,119 +192,6 @@
 
         <div class="row">
             <div id="left-info" class="col-md-7" style="border: dashed;">
-                <%--<div id="businessTripFormGen">
-                    <div id="BusinessTripHeader">
-                        <label>Subject:</label>
-                        <p> First integration development</p>
-                        <label>Type of business trip:</label>
-                        <p>Education or Certificate, Domestic</p>
-                        <label>Destination:</label>
-                        <p>Korea</p>
-                        <label>Purpose of business trip:</label>
-                        <p>Education and smth smth and Education and EducationEducation and smth smth and Education and
-                            EducationEducation and smth smth and Education and Education</p>
-                    </div>
-
-                    <div id="BusinessTripBody">
-                        <label>List of Business Trip Members:</label>
-                        <table class="table" style="color: inherit; font-size: 11px"
-                               id="tripMembersTable">
-                            <thead style="background-color: #2b669a; font-size: 15px">
-                            <tr>
-                                <th>Emoployee</th>
-                                <th>Name of (Organization/Project)</th>
-                                <th>From</th>
-                                <th>To</th>
-                            </tr>
-                            </thead>
-                            <tbody id="tripMembersTableBody">
-                            <tr>
-                                <td>
-                                    <p class="tablep">Kamola Mullamukhamedova</p>
-                                    <p>#23, HR Manager</p>
-                                </td>
-                                <td>LG CNS UZB</td>
-                                <td>01/02/2017</td>
-                                <td>19/02/2017</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p class="tablep">Sarvar Zokirov</p>
-                                    <p>#11, Developer</p>
-                                </td>
-                                <td>LG CNS UZB</td>
-                                <td>01/02/2017</td>
-                                <td>19/02/2017</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p class="tablep">Jasur Shaykhov</p>
-                                    <p>#14, Developer</p>
-                                </td>
-                                <td>LG CNS UZB</td>
-                                <td>01/02/2017</td>
-                                <td>19/02/2017</td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-                        <label>Detail Shceadule and To-do list:</label>
-                        <ul>
-                            <li>Date: 01/01/16 | Meeting</li>
-                            <li>Date: 02/01/16 | Some Activity</li>
-                            <li>Date: 03/01/16 | Another Activity</li>
-                        </ul>
-
-                        <label>Business trip Expanses:</label>
-                        <table class="table" style="color: inherit; font-size: 11px"
-                               id="tripExpensesTable">
-                            <thead style="background-color: #2b669a; font-size: 15px">
-                            <tr>
-                                <th>Name</th>
-                                <th>Airfair</th>
-                                <th>Daily Allowance</th>
-                                <th>Accommodation</th>
-                                <th>Other</th>
-                                <th>Total</th>
-                            </tr>
-                            </thead>
-                            <tbody id="tripExpensesTableBody">
-                            <tr>
-                                <td>Kamola HR</td>
-                                <td>900</td>
-                                <td>450</td>
-                                <td>1500</td>
-                                <td>200</td>
-                                <td>sum</td>
-                            </tr>
-                            <tr>
-                                <td>Sarvar Zokirov</td>
-                                <td>900</td>
-                                <td>450</td>
-                                <td>1500</td>
-                                <td>200</td>
-                                <td>sum</td>
-                            </tr>
-                            <tr>
-                                <td>Jasur Shaykhov</td>
-                                <td>900</td>
-                                <td>450</td>
-                                <td>1500</td>
-                                <td>200</td>
-                                <td>sum</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <%--<div id="unformattedFormGen">
-                    <p>
-                        Title: Going to Doctor
-                    </p>
-                    <p>
-                        Description: I need to go to Doctor, so please let me go
-                    </p>
-                </div>--%>
 
 
             </div>
@@ -512,7 +399,23 @@
             <div id="processStepsBar">
                 <div class="stepwizard">
                     <div class="stepwizard-row">
-                        <div class="stepwizard-step">
+                        <c:forEach items="${approvers}" var="approve" varStatus="i">
+                            <c:choose>
+                                <c:when test="${approve.active==true}">
+                                    <div class="stepwizard-step">
+                                        <button type="button" class="btn btn-primary btn-circle">${i.index+1}</button>
+                                        <p>${approve.name}</p>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="stepwizard-step">
+                                        <button type="button" class="btn btn-default btn-circle">${i.index+1}</button>
+                                        <p>${approve.name}</p>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                        <%--<div class="stepwizard-step">
                             <button type="button" class="btn btn-default btn-circle">1</button>
                             <p>Cart</p>
                         </div>
@@ -524,7 +427,7 @@
                             <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
                             <p>Payment</p>
                         </div>
-                    </div>
+                    </div>--%>
                 </div>
 
             </div>
@@ -539,109 +442,6 @@
 
     $('#sandbox-container').datepicker({format: "dd/mm/yyyy"});
 
-    /*textScripts*/
-    /*$("#generateBusinessTrip").click(function () {
-
-
-        $("#left-info").append('<div id="businessTripFormGen"> ' +
-            '<div id="BusinessTripHeader"> ' +
-            '<label>Subject:</label> ' +
-            '<p>' + subject + '</p> ' +
-            '<label>Type of business trip:</label> ' +
-            '<p>Education or Certificate, Domestic</p> ' +
-            '<label>Destination:</label> ' +
-            '<p>Korea</p> ' +
-            '<label>Purpose of business trip:</label> ' +
-            '<p>Education and smth smth and Education and EducationEducation and smth smth and Education and EducationEducation and smth smth and Education and Education</p> ' +
-            '</div> ' +
-            '<div id="BusinessTripBody"> ' +
-            '<label>List of Business Trip Members:</label> ' +
-            '<table class="table" style="color: inherit; font-size: 11px"id="tripMembersTable"> ' +
-            '<thead style="background-color: #2b669a; font-size: 15px"> ' +
-            '<tr> ' +
-            '<th>Emoployee</th> ' +
-            '<th>Name of (Organization/Project)</th> ' +
-            '<th>From</th> ' +
-            '<th>To</th> ' +
-            '</tr> ' +
-            '</thead> ' +
-            '<tbody id="tripMembersTableBody"> ' +
-            '<tr> ' +
-            '<td> ' +
-            '<p class="tablep">Kamola Mullamukhamedova</p> ' +
-            '<p>#23, HR Manager</p> ' +
-            '</td> ' +
-            '<td>LG CNS UZB</td> ' +
-            '<td>01/02/2017</td> ' +
-            '<td>19/02/2017</td> ' +
-            '</tr> ' +
-            '<tr> ' +
-            '<td> ' +
-            '<p class="tablep">Sarvar Zokirov</p> ' +
-            '<p>#11, Developer</p> ' +
-            '</td> ' +
-            '<td>LG CNS UZB</td> ' +
-            '<td>01/02/2017</td> ' +
-            '<td>19/02/2017</td> ' +
-            '</tr> ' +
-            '<tr> ' +
-            '<td> ' +
-            '<p class="tablep">Jasur Shaykhov</p>' +
-            '<p>#14, Developer</p> ' +
-            '</td> ' +
-            '<td>LG CNS UZB</td> ' +
-            '<td>01/02/2017</td> ' +
-            '<td>19/02/2017</td> ' +
-            '</tr> ' +
-            '</tbody> ' +
-            '</table> ' +
-            '<label>Detail Shceadule and To-do list:</label> ' +
-            '<ul> ' +
-            '<li>Date: 01/01/16 | Meeting</li> ' +
-            '<li>Date: 02/01/16 | Some Activity</li> ' +
-            '<li>Date: 03/01/16 | Another Activity</li> ' +
-            '</ul> ' +
-            '<label>Business trip Expanses:</label> ' +
-            '<table class="table" style="color: inherit; font-size: 11px"id="tripExpensesTable"> ' +
-            '<thead style="background-color: #2b669a; font-size: 15px"> ' +
-            '<tr> ' +
-            '<th>Name</th> ' +
-            '<th>Airfair</th> ' +
-            '<th>Daily Allowance</th> ' +
-            '<th>Accommodation</th> ' +
-            '<th>Other</th> ' +
-            '<th>Total</th> ' +
-            '</tr> ' +
-            '</thead> ' +
-            '<tbody id="tripExpensesTableBody"> ' +
-            '<tr> ' +
-            '<td>Kamola HR</td> ' +
-            '<td>900</td> ' +
-            '<td>450</td> ' +
-            '<td>1500</td> ' +
-            '<td>200</td> ' +
-            '<td>sum</td> ' +
-            '</tr> ' +
-            '<tr> ' +
-            '<td>Sarvar Zokirov</td> ' +
-            '<td>900</td> ' +
-            '<td>450</td> ' +
-            '<td>1500</td> ' +
-            '<td>200</td> ' +
-            '<td>sum</td> ' +
-            '</tr> ' +
-            '<tr> ' +
-            '<td>Jasur Shaykhov</td> ' +
-            '<td>900</td> ' +
-            '<td>450</td> ' +
-            '<td>1500</td> <td>200</td> ' +
-            '<td>sum</td> ' +
-            '</tr> ' +
-            '</tbody> ' +
-            '</table> ' +
-            '</div> ' +
-            '</div>');
-    });*/
     $("#generateUnformatted").click(function () {
         $("#left-info").append('<div id="unformattedFormGen"> ' +
             '<p> Title: Going to Doctor </p> ' +
@@ -669,7 +469,6 @@
             /*defaultSource*/
         }
 
-        
 
         /*Generation IF*/
         var formtype = ${model.form_type_id};

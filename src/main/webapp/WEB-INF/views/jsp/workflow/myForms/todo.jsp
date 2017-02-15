@@ -82,44 +82,6 @@
                 </div>
 
 
-            <%--?????????????????????????????????--%>
-
-
-
-
-            <%--<div class="col-md-8 col-md-offset-4"
-                 style="height: 180px; transform: scale(0.75, 0.75)">
-                <div class="input-group" style="margin-top: 10px; width: 100%">
-                    <span class="input-group-addon" id="formtype-addon" style="width: 25%">Form type</span>
-                    <select class="form-control" aria-describedby="formtype-addon" style="" id="formTypeId">
-                        <c:forEach var="type" items="${typeList}" varStatus="i">
-                            <option id="${type.key}">${type.value}</option>
-                        </c:forEach>
-                    </select>
-                    <span class="input-group-addon" id="datefrom-addon" style="width: 25%;">Status</span>
-                    <select class="form-control" aria-describedby="datefrom-addon" id="statusId">
-                        <c:forEach var="status" items="${statusList}" varStatus="i">
-                            <option id="${status.key}">${status.value}</option>
-                        </c:forEach>
-                    </select>
-                </div>
-                <div class="input-group" style="margin-top: 10px; width: 100%">
-                    <span class="input-group-addon" id="saerchtype-addon" style="width: 25%">Attribute</span>
-                    <select class="form-control" aria-describedby="saerchtype-addon" style="width: 36%" id="attributeId">
-                        <option id="0"></option>
-                        <option id="1">Author</option>
-                        <option id="2">Title</option>
-                    </select>
-                    <input type="text" class="form-control" style="width: 64%" id="searchInputId">
-                </div>
-                <div class="input-group" style="margin-top: 10px; width: 100%">
-                    <span class="input-group-addon" id="date-addon" style="width: 25%">Request date</span>
-                    <input type="text" class="form-control" id="sandbox-container" style="width:36%"/>
-                    <button type="button" class="btn btn-success" style="margin-left: 20%; border-radius: 0; width: 25%" onclick="pagedList(this.id)" id="btnFilter"><span
-                            class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                    </button>
-                </div>
-            </div>--%>
 
         </div>
 
@@ -254,23 +216,7 @@
                 }
             });
     }
-/*
 
-    function redirectToEdit(id) {
-
-        $.ajax({
-            type:"GET",
-            processData:"false",
-            url:'${pageContext.request.contextPath}/Workflow/MyForms/todo/details/'+id,
-            success:function (data) {
-                alert("success");
-            },
-            error: function () {
-                alert("error");
-            }
-        });
-    }
-*/
 
 </script>
 

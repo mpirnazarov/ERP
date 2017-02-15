@@ -3,6 +3,7 @@ package com.lgcns.erp.workflow.controller.myForms;
 import com.google.common.io.Files;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
+import com.lgcns.erp.workflow.DBContext.WorkflowProgressService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.TripTypesEntity;
 import com.lgcns.erp.workflow.Enums.LeaveType;
@@ -10,6 +11,8 @@ import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Mapper.BusinessTripMapper;
 import com.lgcns.erp.workflow.Mapper.DetailsMapper;
 import com.lgcns.erp.workflow.Mapper.LeaveApproveMapper;
+import com.lgcns.erp.workflow.Mapper.ProgressMapper;
+import com.lgcns.erp.workflow.Model.Approver;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
 import com.lgcns.erp.workflow.ViewModel.DetailsViewModel;
 import com.lgcns.erp.workflow.ViewModel.LeaveApproveVM;
@@ -32,6 +35,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -71,6 +75,10 @@ public class DetailsController {
         mav.addObject("model", viewModel);
 
         mav.addObject("controllerId", controller);
+
+        //Progress Bar
+        List<Approver> approvers = ProgressMapper.getApprovers(WorkflowProgressService.getStepsByReqId(id));
+        mav.addObject("approvers", approvers);
 
         return mav;
     }

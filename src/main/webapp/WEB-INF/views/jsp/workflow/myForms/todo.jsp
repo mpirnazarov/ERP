@@ -88,7 +88,6 @@
 
         </table>
         <div>
-            <img style="margin-left: 43%" src="${pageContext.request.contextPath}/resources/images/ajax-loader%20(1).gif" id="loading_img">
         </div>
         <div id="pagedListContainer">
         </div>
@@ -187,23 +186,7 @@
                 }
             });
     }
-/*
 
-    function redirectToEdit(id) {
-
-        $.ajax({
-            type:"GET",
-            processData:"false",
-            url:'${pageContext.request.contextPath}/Workflow/MyForms/todo/details/'+id,
-            success:function (data) {
-                alert("success");
-            },
-            error: function () {
-                alert("error");
-            }
-        });
-    }
-*/
 
 </script>
 

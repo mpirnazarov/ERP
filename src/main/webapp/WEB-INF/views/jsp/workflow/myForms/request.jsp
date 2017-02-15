@@ -220,9 +220,4 @@
     $(document).ready(function () {
         initialize();
     });
-
-
-
-
-
 </script>

@@ -754,7 +754,6 @@
 
         </c:forEach>
 
-
     }
     function generateUnformatted() {
 

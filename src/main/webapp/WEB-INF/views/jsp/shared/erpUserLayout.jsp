@@ -94,7 +94,7 @@
 </div>--%>
 
 <%--MY Decision--%>
-<div class="col-md-2 userNavMenu">
+<div id="UserNavigationMenuDiv" class="col-md-2 userNavMenu">
     <nav class="navbar navbar-fixed-side __scrollBar">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">
@@ -275,7 +275,31 @@
             </div>
         </div>
     </nav>
+    <div id="navigationButton" style="visibility: hidden">
+        <span id="sarcon" class="glyphicon glyphicon-chevron-right" aria-hidden="false" style="margin-top: 11px; margin-left: 13px; font-size: 20px"></span>
+    </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+
+        $('#navigationButton').click(function () {
+            $('#navigationButton').toggleClass('pressed');
+            $('#UserNavigationMenuDiv').toggleClass('shownav');
+            $('#sarcon').toggleClass('twistIcon');
+        });
+
+
+
+        $('#detailBody').click(function () {
+            if ($('#UserNavigationMenuDiv').hasClass('shownav')) {
+                $('#UserNavigationMenuDiv').toggleClass('shownav');
+                $('#sarcon').toggleClass('twistIcon');
+            }
+        })
+
+    });
+</script>
 
 
 

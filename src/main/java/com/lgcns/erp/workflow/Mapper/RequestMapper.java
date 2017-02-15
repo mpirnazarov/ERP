@@ -21,6 +21,7 @@ public class RequestMapper {
             RequestViewModel model = new RequestViewModel();
             model.setRequest_id(req.getId());
             model.setRequest_subject(req.getSubject());
+            model.setRequest_description(req.getDescription());
             model.setDate_created(req.getDateCreated());
 
             for (Type type : Type.values()) {

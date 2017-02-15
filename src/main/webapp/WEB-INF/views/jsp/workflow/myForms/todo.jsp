@@ -20,6 +20,8 @@
     }
 
 </style>
+<spring:url value="/resources/core/css/paginationsStyle.css" var="paginationCss"/>
+<link rel="stylesheet" href="${paginationCss}"/>
 
 
 <div class="col-sm-10 col-md-offset-1">
@@ -32,8 +34,60 @@
 
         <div class="w3-container">
 
+            <%--????????????????????????--%>
 
-            <div class="col-md-8 col-md-offset-4"
+
+                <div class="searchtoolstyle" style="height: 20%">
+
+                    <%--p1--%>
+                    <div style="display: flex; margin-bottom: 1%;">
+                        <div style="margin-left: auto; width: 20%">
+                            <label>FormType</label>
+                            <select class="form-control" id="formTypeId">
+                                <c:forEach var="type" items="${typeList}" varStatus="i">
+                                    <option id="${type.key}">${type.value}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div style="margin-left: 1%; width: 20%">
+                            <label>Current status</label>
+                            <select class="form-control"  id="statusId">
+                                <c:forEach var="status" items="${statusList}" varStatus="i">
+                                    <option id="${status.key}">${status.value}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div style="margin-left: 1%; width: 20%">
+                            <label>Request date</label>
+                            <input type="text" class="form-control" id="sandbox-container">
+                        </div>
+                    </div>
+
+                    <%--p2--%>
+                    <div class="row">
+
+                        <div class="input-group col-md-5 col-md-offset-7 " style="margin-top: 25px">
+                            <span class="input-group-addon" id="search-addon1" style="background-color: white; border: none; color: black">Title:</span>
+                            <select class="form-control" aria-describedby="search-addon1" id="attributeId">
+                                <option id="0"></option>
+                                <option id="1">Author</option>
+                                <option id="2">Title</option>
+                            </select>
+                            <input type="text" placeholder="Search for ..." class="form-control" id="searchInputId" aria-describedby="search-addon1" style="border: none">
+                            <div class="input-group-addon btn" onclick="pagedList(this.id)" id="btnFilter" style="background-color: white; color: #1e7ee2"><span
+                                    class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            <%--?????????????????????????????????--%>
+
+
+
+
+            <%--<div class="col-md-8 col-md-offset-4"
                  style="height: 180px; transform: scale(0.75, 0.75)">
                 <div class="input-group" style="margin-top: 10px; width: 100%">
                     <span class="input-group-addon" id="formtype-addon" style="width: 25%">Form type</span>
@@ -65,12 +119,12 @@
                             class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                     </button>
                 </div>
+            </div>--%>
 
-            </div>
         </div>
 
 
-        <table class="table table-bordered" style="background-color: #2b669a; color: inherit" id="tablecha">
+        <table class="table sarTable"id="tablecha">
             <thead>
             <tr>
                 <th>#</th>
@@ -87,10 +141,10 @@
             </tbody>
 
         </table>
-        <div>
-            <img style="margin-left: 43%" src="${pageContext.request.contextPath}/resources/images/ajax-loader%20(1).gif" id="loading_img">
+        <div id="notFoundDiv">
+            <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Empty
         </div>
-        <div id="pagedListContainer">
+            <ul class="sagination modal-5" id="pagedListContainer" style="margin-left: 37%"></ul>
         </div>
     </div>
 
@@ -158,29 +212,42 @@
                     //set current page
                     currentPage=data.page;
 
-                    $(data.models).each(function(i, req) {
-                        //generate table
-                        $('<tr/>').appendTo(tbody)
-                            .append($('<td/>').text(i+1))
-                            .append($('<td/>').text(req.form_type))
-                            .append($('<td/>').text(req.request_subject))
-                            .append($('<td/>').text(req.user_name))
-                            .append($('<td/>').text(req.date_created))
-                            .append($('<td/>').text(req.status))
-                            .append($('<td/>').append($('<button style="color: red" onclick="location.href=\'/Workflow/MyForms/details/1/'+req.request_id+'\'"/>').text("View")));
-                    });
+                    if(data.models.length == 0) {
+                        $('#notFoundDiv').show();
+
+                    }
+                    else {
+                        $('#notFoundDiv').hide();
+                        $(data.models).each(function(i, req) {
+                            //generate table
+                            $('<tr/>').appendTo(tbody)
+                                .append($('<td/>').text(i+1))
+                                .append($('<td/>').text(req.form_type))
+                                .append($('<td/>').text(req.request_subject))
+                                .append($('<td/>').text(req.user_name))
+                                .append($('<td/>').text(req.date_created))
+                                .append($('<td/>').text(req.status))
+                                .append($('<td/>').append($('<div class="btn" onclick="location.href=\'/Workflow/MyForms/details/1/' + req.request_id + '\'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></div>')));
+                        });
+                    }
 
                     numberOfPages = data.maxPages;
                     container.empty();
-                    container.append($('<input type="button" value="Prev" id="-2" style="color: red" onclick="pagedList(this.id)">'));
+                    container.append($('<li><a href="#" id="-2" class="prev fa fa-arrow-left" onclick="pagedList(this.id)"></a></li>'));
 
                     //generate pegination buttons
-                    for(count=1; count<numberOfPages+1; count++){
-                        container.append($('<input type="button" value="'+count+'" id="'+count+'" style="color: red" onclick="pagedList(this.id)">'));
+                    for (count = 1; count < numberOfPages + 1; count++) {
+                        if (count == currentPage) {
+                            container.append($('<li><a href="#" id="' + count + '" class="active" id="' + count + '" onclick="pagedList(this.id)">' + count + '</a></li>'));
+                        }
+                        else {
+                            container.append($('<li><a href="#" id="' + count + '" onclick="pagedList(this.id)">' + count + '</a></li>'));
+                        }
                     }
-                    container.append($('<input type="button" value="Next" id="-1" style="color: red" onclick="pagedList(this.id)">'));
-
+                    container.append($('<li><a href="#" id="-1" class="prev fa fa-arrow-right" onclick="pagedList(this.id)"></a></li>'));
                 },
+
+
 
                 error: function () {
                     alert("error");
@@ -210,11 +277,9 @@
 <script type="text/javascript">
     var loading_gif = $('#loading_img');
     $(document).ready(function () {
+
+        $('#notFoundDiv').hide();
         initialize();
-    });
-    $(document).ajaxStart(function () {
-        loading_gif.show();
-    }).ajaxStop(function () {
-        loading_gif.hide();
+
     });
 </script>

@@ -5,10 +5,14 @@ import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.TripTypesEntity;
+import com.lgcns.erp.workflow.Enums.LeaveType;
+import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Mapper.BusinessTripMapper;
 import com.lgcns.erp.workflow.Mapper.DetailsMapper;
+import com.lgcns.erp.workflow.Mapper.LeaveApproveMapper;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
 import com.lgcns.erp.workflow.ViewModel.DetailsViewModel;
+import com.lgcns.erp.workflow.ViewModel.LeaveApproveVM;
 import com.lgcns.erp.workflow.util.ContentType;
 import com.lgcns.erp.workflow.util.DetailsAction;
 import org.springframework.core.io.InputStreamResource;
@@ -46,17 +50,26 @@ public class DetailsController {
 
         BusinessTripVM businessTripVM = BusinessTripMapper.fromBusinessTrip(id);
         mav.addObject("bmodel", businessTripVM);
-        System.out.println("MODEL: "+businessTripVM);
-        Map<Integer, String> tripTypeName = new HashMap<Integer, String>();
 
+        LeaveApproveVM leaveApproveVM = LeaveApproveMapper.fromLeaveApprove(id);
+        mav.addObject("leavemodel", leaveApproveVM);
+
+        Map<Integer, String> leaveTypeName = new HashMap<Integer, String>();
+        for (LeaveType lv : LeaveType.values()){
+            leaveTypeName.put(lv.getValue(), lv.name().replace('_',' '));
+        }
+        mav.addObject("leaveTypeName", leaveTypeName);
+
+        Map<Integer, String> tripTypeName = new HashMap<Integer, String>();
         for(TripTypesEntity trip:
                 WorkflowService.getTripTypes()){
             tripTypeName.put(trip.getId(), trip.getName());
         }
-
         mav.addObject("tripTypeName", tripTypeName);
+
         DetailsViewModel viewModel = DetailsMapper.toDetails(id);
         mav.addObject("model", viewModel);
+
         mav.addObject("controllerId", controller);
 
         return mav;

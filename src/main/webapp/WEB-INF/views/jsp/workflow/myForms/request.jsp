@@ -59,9 +59,6 @@
                         <label>Request date</label>
                         <input type="text" class="form-control" id="reqsandbox-container">
                     </div>
-
-
-
                 </div>
 
                     <%--p2--%>
@@ -104,8 +101,10 @@
                 </tbody>
 
             </table>
-            <ul class="sagination modal-5" id="pagedListContainer" style="margin-left: 37%"></ul>
-
+            <div id="notFoundDiv">
+                <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Empty
+            </div>
+                <ul class="sagination modal-5" id="pagedListContainer" style="margin-left: 37%"></ul>
         </div>
     </div>
 </div>
@@ -115,6 +114,7 @@
 
 
     $('#reqsandbox-container').datepicker({format: "yyyy-mm-dd"});
+
 
     $("#reqsearchId").keyup(function(event){
         if(event.keyCode == 13){
@@ -181,16 +181,24 @@
                 //set current page
                 currentPage = data.page;
 
-                $(data.models).each(function (i, req) {
-                    //generate table
-                    $('<tr/>').appendTo(tbody)
-                        .append($('<td/>').text(i + 1))
-                        .append($('<td/>').text(req.form_type))
-                        .append($('<td/>').text(req.request_subject))
-                        .append($('<td/>').text(req.date_created))
-                        .append($('<td/>').text(req.status))
-                        .append($('<td/>').append($('<div class="btn" onclick="location.href=\'/Workflow/MyForms/details/2/' + req.request_id + '\'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></div>')));
-                });
+                if(data.models == null || data.models == ' ') {
+                    $('#notFoundDiv').show();
+                }
+                else {
+                    $('#notFoundDiv').hide();
+                    $(data.models).each(function (i, req) {
+                        //generate table
+                        $('<tr/>').appendTo(tbody)
+                            .append($('<td/>').text(i + 1))
+                            .append($('<td/>').text(req.form_type))
+                            .append($('<td/>').text(req.request_subject))
+                            .append($('<td/>').text(req.date_created))
+                            .append($('<td/>').text(req.status))
+                            .append($('<td/>').append($('<div class="btn" onclick="location.href=\'/Workflow/MyForms/details/2/' + req.request_id + '\'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></div>')));
+                    });
+                }
+
+
 
                 numberOfPages = data.maxPages;
                 container.empty();
@@ -218,11 +226,9 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $('#notFoundDiv').hide();
         initialize();
     });
-
-
-
 
 
 </script>

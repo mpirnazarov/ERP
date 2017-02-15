@@ -9,11 +9,19 @@ public class RequestViewModel {
     private int request_id;
     private String form_type;
     private String request_subject;
+    private String request_description;
     private Date date_created;
     private Long user_id;
     private String user_name;
     private String status;
 
+    public String getRequest_description() {
+        return request_description;
+    }
+
+    public void setRequest_description(String request_description) {
+        this.request_description = request_description;
+    }
 
     public String getForm_type() {
         return form_type;

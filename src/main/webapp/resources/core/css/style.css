@@ -473,6 +473,17 @@ a:focus {
 
 /*WorkFlowCss*/
 
+#notFoundDiv {
+
+    text-align: center;
+    font-size: 24px;
+    width: 10%;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
 .searchtoolstyle .row {
     margin-left: 0;
     margin-right: 0;

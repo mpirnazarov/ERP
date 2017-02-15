@@ -1,5 +1,6 @@
 package com.lgcns.erp.workflow.Mapper;
 
+import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepsEntity;
@@ -49,5 +50,18 @@ public class LeaveApproveMapper {
         stepsEntity.setActive(isActive);
 
         return stepsEntity;
+    }
+
+    public static LeaveApproveVM fromLeaveApprove(int id){
+        RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(id);
+
+        LeaveApproveVM viewModel = new LeaveApproveVM();
+
+        viewModel.setStart(requestsEntity.getDateFrom());
+        viewModel.setEnd(requestsEntity.getDateTo());
+        viewModel.setAbsenceType(requestsEntity.getLeaveTypeId());
+        viewModel.setDescription(requestsEntity.getDescription());
+
+        return viewModel;
     }
 }

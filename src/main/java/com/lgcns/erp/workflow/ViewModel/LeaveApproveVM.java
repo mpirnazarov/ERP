@@ -60,4 +60,15 @@ public class LeaveApproveVM {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "LeaveApproveVM{" +
+                "id=" + id +
+                ", absenceType=" + absenceType +
+                ", description='" + description + '\'' +
+                ", start=" + start +
+                ", end=" + end +
+                '}';
+    }
 }

@@ -16,12 +16,10 @@
 
 <style>
 
-    body {
-
-    }
 
     body :not(a) {
         color: inherit;
+
     }
 
     .btn span.glyphicon {
@@ -114,8 +112,67 @@
         -moz-transition: all 0.5s linear;
         -webkit-transition: all 0.5s linear;
         transition: all 0.5s linear;
+        cursor: pointer;
+        color: #5bcaff;
     }
 
+    #editButton {
+        margin: 0 0 10px 17px;
+    }
+
+
+    /*processssss CSSSS*/
+
+    body{margin:40px;}
+
+    .stepwizard-step p {
+        margin-top: 10px;
+    }
+
+    .stepwizard-row {
+        display: table-row;
+    }
+
+    .stepwizard {
+        display: table;
+        width: 100%;
+        position: relative;
+    }
+
+    .stepwizard-step button[disabled] {
+        opacity: 1 !important;
+        filter: alpha(opacity=100) !important;
+    }
+
+    .stepwizard-row:before {
+        top: 14px;
+        bottom: 0;
+        position: absolute;
+        content: " ";
+        width: 100%;
+        height: 1px;
+        background-color: #ccc;
+        z-order: 0;
+
+    }
+
+    .stepwizard-step {
+        display: table-cell;
+        text-align: center;
+        position: relative;
+    }
+
+    .btn-circle {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        padding: 6px 0;
+        font-size: 12px;
+        line-height: 1.428571429;
+        border-radius: 15px;
+    }
+
+    /*processssss CSSSS*/
 
 
 
@@ -130,7 +187,7 @@
     <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
     </p>--%>
     <h2 class="page-header" style="padding-left: 1%">Details</h2>
-
+    <button id="editButton" type="button" class="btn btn-default">Edit Button</button>
     <div class="w3-container col-md-12 b3form" style="margin-left: 1%">
 
         <div class="row">
@@ -290,7 +347,7 @@
                 </div>
 
                 <%--Decision section--%>
-                <div class="input-group" style="width: 100%; margin-top: 4%; margin-left: 8%">
+                <div id="decisionSection" class="input-group" style="width: 100%; margin-top: 4%; margin-left: 8%">
                     <div class="btn-group" data-toggle="buttons" style="width: 100%">
                         <label class="btn btn-success active" style="width: 27%">
                             Approve
@@ -336,12 +393,12 @@
                         </tbody>
                     </table>
                 </div>
-                <div style="width: 100%; padding-left: 15px; padding-right: 15px">
+                <div id="commentTextArea" style="width: 100%; padding-left: 15px; padding-right: 15px">
                     <textarea placeholder="Comment..." class="form-control" rows="5" id="detailComment"></textarea>
                 </div>
 
                 <%--Submit Button--%>
-                <div style="padding-left: 80%; padding-top: 1%">
+                <div id="submitButton" style="padding-left: 80%; padding-top: 1%">
                     <button class="btn btn-default" onclick="submitTheForm()">Submit</button>
                 </div>
 
@@ -450,6 +507,25 @@
                 </div>--%>
                 <%--Test Comment Section END--%>
 
+
+            </div>
+            <div id="processStepsBar">
+                <div class="stepwizard">
+                    <div class="stepwizard-row">
+                        <div class="stepwizard-step">
+                            <button type="button" class="btn btn-default btn-circle">1</button>
+                            <p>Cart</p>
+                        </div>
+                        <div class="stepwizard-step">
+                            <button type="button" class="btn btn-primary btn-circle">2</button>
+                            <p>Shipping</p>
+                        </div>
+                        <div class="stepwizard-step">
+                            <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
+                            <p>Payment</p>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -572,15 +648,58 @@
             '<p> Description: I need to go to Doctor, so please let me go </p> ' +
             '</div>')
     })
+
 </script>
 
 <script>
     /*Sarvar*/
 
+    $(document).ready(function () {
+        $('#navigationButton').css('visibility','visible');
+
+        /*Source Identification*/
+        var sourceId = ${controllerId};
+        if (sourceId == 1) {
+            isFromToDo()
+        }
+        else if(sourceId == 2){
+            isFromRequest();
+        }
+        else {
+            /*defaultSource*/
+        }
+
+        
+
+        /*Generation IF*/
+        var formtype = ${model.form_type_id};
+        if(formtype==1){
+            generateBusinessTrip();
+        }
+        else if(formtype==2){
+            generateLeaveApprove();
+        }
+        else if(formtype==3){
+            generateUnformatted();
+        }
+        else {
+            alert("No Form");
+        }
 
 
+        alert(formtype);
+    });
 
+    function isFromToDo() {
 
+        $('#editButton').hide()
+    }
+    function isFromRequest() {
+
+        $('#decisionSection').hide();
+        $('#submitButton').hide();
+        $('#commentTextArea').hide();
+    }
     function generateBusinessTrip() {
 
 
@@ -756,37 +875,34 @@
 
 
     }
-    function generateUnformatted() {
+    function generateLeaveApprove() {
+
+
+
+        var absenceType = '${leaveTypeName.get(leavemodel.absenceType)}';
+        var description = '${leavemodel.description}';
+        var start = '${leavemodel.start.toString()}';
+        var end = '${leavemodel.end.toString()}';
+
+
+        $("#left-info").append('<div id="unformattedFormGen"> ' +
+            '<p> Absence Type : ' + absenceType + '</p> ' +
+            '<p> Description: ' + description + '</p> ' +
+            '<label>Business Duration:</label> ' +
+            '<p>Start: ' + start + ' | ' + 'End: ' + end +'</p> ' +
+            '</div>')
 
     }
-
-    var ftype = "${model.form_type_id}";
-
-    $(document).ready(function () {
-
-        $('#navigationButton').css("visibility",'visible');
-
-        if (ftype == 1){
-            generateBusinessTrip();
-        }else if (ftype == 2) {
-            /*generateLeave*/
-        }else if (ftype == 3) {
-            /*genereateUnformatted*/
-        } else {
-            /*generatedefault*/
-        }
-
-        alert(ftype);
-
-    })
-
-
+    function generateUnformatted() {
+        alert("Unformatted");
+    }
 
 </script>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>
 
 <script>
+
     /*Murod*/
     var status = 5;
     var comment = "";

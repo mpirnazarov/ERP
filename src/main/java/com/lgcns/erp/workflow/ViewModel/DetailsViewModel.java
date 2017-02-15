@@ -14,6 +14,7 @@ public class DetailsViewModel {
     private String form_type;
     private int form_type_id;
     private String request_subject;
+    private String request_description;
     private Date date_created;
     private int user_id;
     private String user_name;
@@ -94,6 +95,14 @@ public class DetailsViewModel {
 
     public void setRequest_subject(String request_subject) {
         this.request_subject = request_subject;
+    }
+
+    public String getRequest_description() {
+        return request_description;
+    }
+
+    public void setRequest_description(String request_description) {
+        this.request_description = request_description;
     }
 
     public Date getDate_created() {

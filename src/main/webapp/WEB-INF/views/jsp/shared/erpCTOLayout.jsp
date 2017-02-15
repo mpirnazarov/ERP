@@ -228,7 +228,7 @@
                                         <li><a href="/Workflow/MyForms/Request">Request <span
                                                 class="badge">0</span></a></li>
                                         <li><a href="/Workflow/MyForms/todo/load">To-do <span
-                                                class="badge" style="background-color: red">2</span></a>
+                                                class="badge" style="background-color: red" id="ctoNotif"></span></a>
                                         </li>
                                         <li><a href="/Workflow/MyForms/Details">Details</a>
                                         </li>
@@ -271,4 +271,17 @@
 <%--<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--%>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-
+<script>
+    setInterval(function () {
+        $.ajax({
+            type:"GET",
+            processData: false,
+            url : '${pageContext.request.contextPath}/Workflow/MyForms/todo/notification',
+            success: function(data){
+                $('#ctoNotif').text(data);
+            },
+            error: function () {
+            }
+        });
+    }, 1000);
+</script>

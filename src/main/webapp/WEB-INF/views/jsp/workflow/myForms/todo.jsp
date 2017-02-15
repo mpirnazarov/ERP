@@ -167,7 +167,7 @@
                             .append($('<td/>').text(req.user_name))
                             .append($('<td/>').text(req.date_created))
                             .append($('<td/>').text(req.status))
-                            .append($('<td/>').append($('<button style="color: red" onclick="location.href=\'/Workflow/MyForms/todo/details/'+req.request_id+'\'"/>').text("View")));
+                            .append($('<td/>').append($('<button style="color: red" onclick="location.href=\'/Workflow/MyForms/details/1/'+req.request_id+'\'"/>').text("View")));
                     });
 
                     numberOfPages = data.maxPages;

@@ -285,7 +285,7 @@
                 <div class="input-group" style="width: 100%; margin-top: 1%">
                     <span class="input-group-addon" id="attach-addon" style="width: 35%">Attachment:</span>
                     <c:forEach items="${model.attachments}" var="attachment">
-                        <a href="/Workflow/MyForms/todo/files/${attachment.id}">${attachment.fileName}</a>
+                        <a href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a>
                     </c:forEach>
                 </div>
 
@@ -812,7 +812,7 @@
             type: "POST",
             processData: false,
             data: 'comment=' + comment + '&status=' + status+'&reqId='+reqId,
-            url: '${pageContext.request.contextPath}/Workflow/MyForms/todo/details',
+            url: '${pageContext.request.contextPath}/Workflow/MyForms/details',
             success: function () {
                 alert("Success");
             },

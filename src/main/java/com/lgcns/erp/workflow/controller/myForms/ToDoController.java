@@ -109,57 +109,6 @@ public class ToDoController {
         return mav;
     }
 
-    @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
-    public ModelAndView details(Principal principal, @PathVariable(value = "id")int id){
-        ModelAndView mav = new ModelAndView("/workflow/myForms/details");
-
-        mav = UP.includeUserProfile(mav, principal);
-        mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
-
-        BusinessTripVM businessTripVM = BusinessTripMapper.fromBusinessTrip(id);
-        mav.addObject("bmodel", businessTripVM);
-        System.out.println("MODEL: "+businessTripVM);
-        Map<Integer, String> tripTypeName = new HashMap<Integer, String>();
-
-        for(TripTypesEntity trip:
-                WorkflowService.getTripTypes()){
-            tripTypeName.put(trip.getId(), trip.getName());
-        }
-
-        mav.addObject("tripTypeName", tripTypeName);
-        DetailsViewModel viewModel = DetailsMapper.toDetails(id);
-        mav.addObject("model", viewModel);
-
-        return mav;
-    }
-
-    @RequestMapping(value = "/details", method = RequestMethod.POST)
-    public String details(@RequestParam("comment")String comment, @RequestParam("status")int status, @RequestParam("reqId")int reqId){
-
-        DetailsAction.doAction(comment, status, reqId);
-
-        return "";
-    }
-
-    @RequestMapping(value = "/files/{id}", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> getFile(@PathVariable("id") Long id) {
-        String fullPath = WorkflowService.getAttachmentPathNameById(id);
-        File file = new File(fullPath);
-
-        String ext = Files.getFileExtension(fullPath);
-
-        HttpHeaders respHeaders = new HttpHeaders();
-        respHeaders.setContentType(MediaType.valueOf(ContentType.getContentType(ext)));
-        respHeaders.setContentDispositionFormData("attachment", "");
-
-        InputStreamResource isr = null;
-        try {
-            isr = new InputStreamResource(new FileInputStream(file));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(isr, respHeaders, HttpStatus.OK);
-    }
 
     @RequestMapping(value = "/notification", method = RequestMethod.GET)
     public @ResponseBody int getNotification(Principal principal){

@@ -19,7 +19,7 @@ public class WorkflowNotificationService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from StepsEntity where userId=:id AND active=true");
+            Query query = session.createQuery("from StepsEntity where userId=:id AND active=true AND statusId = 1");
             query.setParameter("id", id);
             list = (List<StepCommentsEntity>)query.list();
             transaction.commit();

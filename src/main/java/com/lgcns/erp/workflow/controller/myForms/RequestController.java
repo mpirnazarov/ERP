@@ -112,33 +112,7 @@ public class RequestController {
         return mav;
     }
 
-    @RequestMapping(value = "/MyForms/Request/details/{id}", method = RequestMethod.GET)
-    public ModelAndView details(Principal principal, @PathVariable(value = "id")int id){
-        ModelAndView mav = new ModelAndView("/workflow/myForms/details");
 
-        mav = UP.includeUserProfile(mav, principal);
-        mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
-
-        BusinessTripVM businessTripVM = BusinessTripMapper.fromBusinessTrip(id);
-        mav.addObject("bmodel", businessTripVM);
-        System.out.println("MODEL: "+businessTripVM);
-        Map<Integer, String> tripTypeName = new HashMap<Integer, String>();
-
-        for(TripTypesEntity trip:
-                WorkflowService.getTripTypes()){
-            tripTypeName.put(trip.getId(), trip.getName());
-        }
-
-        mav.addObject("tripTypeName", tripTypeName);
-
-        DetailsViewModel viewModel = DetailsMapper.toDetails(id);
-        mav.addObject("model", viewModel);
-
-
-
-
-        return mav;
-    }
 
     @RequestMapping(value = "/MyForms/Request/details", method = RequestMethod.POST)
     public String details(@RequestParam("comment")String comment, @RequestParam("status")String status){

@@ -189,7 +189,7 @@
                         .append($('<td/>').text(req.request_subject))
                         .append($('<td/>').text(req.date_created))
                         .append($('<td/>').text(req.status))
-                        .append($('<td/>').append($('<div class="btn" onclick="location.href=\'/Workflow/MyForms/Request/details/' + req.request_id + '\'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></div>')));
+                        .append($('<td/>').append($('<div class="btn" onclick="location.href=\'/Workflow/MyForms/details/2/' + req.request_id + '\'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></div>')));
                 });
 
                 numberOfPages = data.maxPages;

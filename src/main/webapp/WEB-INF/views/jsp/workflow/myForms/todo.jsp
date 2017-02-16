@@ -59,7 +59,7 @@
                         </div>
                         <div style="margin-left: 1%; width: 20%">
                             <label>Request date</label>
-                            <input type="text" class="form-control" id="sandbox-container">
+                            <input type="text" class="form-control" id="sandbox-container" maxlength="10">
                         </div>
                     </div>
 

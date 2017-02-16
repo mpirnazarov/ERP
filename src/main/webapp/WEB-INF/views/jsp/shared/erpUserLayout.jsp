@@ -235,7 +235,7 @@
 
                                     <ul style="list-style: none" class="list-group">
                                         <li><a href="/Workflow/MyForms/Request">Request <span
-                                                class="badge">0</span></a></li>
+                                                class="badge" id="userReqNotifSpan"></span></a></li>
                                         <li><a href="/Workflow/MyForms/todo/load">To-do <span
                                                 class="badge" style="background-color: red" id="userTodoSpan"></span></a>
                                         </li>
@@ -329,6 +329,18 @@
             url : '${pageContext.request.contextPath}/Workflow/MyForms/todo/notification',
             success: function(data){
                 $('#userTodoSpan').text(data);
+            },
+            error: function () {
+            }
+        });
+    }, 3000);
+    setInterval(function () {
+        $.ajax({
+            type:"GET",
+            processData: false,
+            url : '${pageContext.request.contextPath}/Workflow/MyForms/Request/Notification',
+            success: function(data){
+                $('#userReqNotifSpan').text(data);
             },
             error: function () {
             }

@@ -3,6 +3,7 @@ package com.lgcns.erp.workflow.controller.myForms;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
+import com.lgcns.erp.workflow.DBContext.WorkflowNotificationService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.TripTypesEntity;
 import com.lgcns.erp.workflow.Enums.Status;
@@ -118,5 +119,13 @@ public class RequestController {
     public String details(@RequestParam("comment")String comment, @RequestParam("status")String status){
 
         return "";
+    }
+
+    @RequestMapping(value = "/MyForms/Request/Notification", method = RequestMethod.GET)
+    public @ResponseBody int getNotification(Principal principal){
+        int userId = UserService.getUserIdByUsername(principal.getName());
+
+        int numberOfNotifications = WorkflowNotificationService.getRequestNotification(userId);
+        return numberOfNotifications;
     }
 }

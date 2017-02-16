@@ -226,7 +226,7 @@
 
                                     <ul style="list-style: none" class="list-group">
                                         <li><a href="/Workflow/MyForms/Request">Request <span
-                                                class="badge">0</span></a></li>
+                                                class="badge" id="userRequestNotifCto"></span></a></li>
                                         <li><a href="/Workflow/MyForms/todo/load">To-do <span
                                                 class="badge" style="background-color: red" id="ctoNotif"></span></a>
                                         </li>
@@ -308,4 +308,17 @@
             }
         });
     }, 1000);
+
+    setInterval(function () {
+        $.ajax({
+            type:"GET",
+            processData: false,
+            url : '${pageContext.request.contextPath}/Workflow/MyForms/Request/Notification',
+            success: function(data){
+                $('#userRequestNotifCto').text(data);
+            },
+            error: function () {
+            }
+        });
+    }, 3000);
 </script>

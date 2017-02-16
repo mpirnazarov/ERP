@@ -19,7 +19,8 @@ public class WorkflowProgressService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from StepsEntity where requestId="+id);
+            Query query = session.createQuery("from StepsEntity where requestId= :id and involvementTypeId =1 order by stepSequence");
+            query.setParameter("id", id);
             list = (List<StepsEntity>)query.list();
             transaction.commit();
         }

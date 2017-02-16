@@ -255,7 +255,7 @@
 
                                     <ul style="list-style: none" class="list-group">
                                         <li><a href="/Workflow/MyForms/Request">Request <span
-                                                class="badge">0</span></a></li>
+                                                class="badge" id="userRequestNotifHr"></span></a></li>
                                         <li><a href="/Workflow/MyForms/todo/load">To-do <span
                                                 class="badge" style="background-color: red" id="todoNotification"></span></a>
                                         </li>
@@ -332,6 +332,19 @@
             }
         });
     }, 1000);
+
+    setInterval(function () {
+        $.ajax({
+            type:"GET",
+            processData: false,
+            url : '${pageContext.request.contextPath}/Workflow/MyForms/Request/Notification',
+            success: function(data){
+                $('#userRequestNotifHr').text(data);
+            },
+            error: function () {
+            }
+        });
+    }, 3000);
 </script>
 
 <%--<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--%>

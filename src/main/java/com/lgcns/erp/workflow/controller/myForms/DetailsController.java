@@ -12,15 +12,13 @@ import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.TripTypesEntity;
 import com.lgcns.erp.workflow.Enums.LeaveType;
-import com.lgcns.erp.workflow.Mapper.BusinessTripMapper;
-import com.lgcns.erp.workflow.Mapper.DetailsMapper;
-import com.lgcns.erp.workflow.Mapper.LeaveApproveMapper;
-import com.lgcns.erp.workflow.Mapper.ProgressMapper;
+import com.lgcns.erp.workflow.Mapper.*;
 import com.lgcns.erp.workflow.Model.Approver;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
 import com.lgcns.erp.workflow.ViewModel.TerminationViewModel;
 import com.lgcns.erp.workflow.ViewModel.DetailsViewModel;
 import com.lgcns.erp.workflow.ViewModel.LeaveApproveVM;
+import com.lgcns.erp.workflow.ViewModel.UnformattedViewModel;
 import com.lgcns.erp.workflow.util.ContentType;
 import com.lgcns.erp.workflow.util.DetailsAction;
 import org.json.simple.JSONArray;
@@ -57,11 +55,21 @@ public class DetailsController {
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
 
-        BusinessTripVM businessTripVM = BusinessTripMapper.fromBusinessTrip(id);
-        mav.addObject("bmodel", businessTripVM);
+        RequestsEntity entity = WorkflowService.getRequestsEntityById(id);
 
-        LeaveApproveVM leaveApproveVM = LeaveApproveMapper.fromLeaveApprove(id);
-        mav.addObject("leavemodel", leaveApproveVM);
+        if (entity.getTypeId()==3) {
+            UnformattedViewModel unformattedViewModel = UnformattedMapper.fromUnformatted(id);
+            mav.addObject("umodel", unformattedViewModel);
+        }
+        else if (entity.getTypeId()==1){
+            BusinessTripVM businessTripVM = BusinessTripMapper.fromBusinessTrip(id);
+            mav.addObject("bmodel", businessTripVM);
+        }
+
+        else if (entity.getTypeId()==2){
+            LeaveApproveVM leaveApproveVM = LeaveApproveMapper.fromLeaveApprove(id);
+            mav.addObject("leavemodel", leaveApproveVM);
+        }
 
         Map<Integer, String> leaveTypeName = new HashMap<Integer, String>();
         for (LeaveType lv : LeaveType.values()){

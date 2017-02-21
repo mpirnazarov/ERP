@@ -1,5 +1,6 @@
 package com.lgcns.erp.workflow.Mapper;
 
+import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepsEntity;
@@ -50,4 +51,20 @@ public class UnformattedMapper {
 
         return stepsEntity;
     }
+
+    //Sarvaaaaar
+
+    public static UnformattedViewModel fromUnformatted(int id){
+        RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(id);
+
+        UnformattedViewModel viewModel = new UnformattedViewModel();
+        viewModel.setSubject(requestsEntity.getSubject());
+        viewModel.setDescription(requestsEntity.getDescription());
+        viewModel.setStart(requestsEntity.getDateFrom());
+        viewModel.setEnd(requestsEntity.getDateTo());
+
+        return viewModel;
+    }
+
+
 }

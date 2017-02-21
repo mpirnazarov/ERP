@@ -2,6 +2,7 @@ package com.lgcns.erp.workflow.Mapper;
 
 import com.lgcns.erp.tapps.DbContext.DepartmentService;
 import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.tapps.controller.UserController;
 import com.lgcns.erp.tapps.model.DbEntities.DepartmentLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
@@ -100,7 +101,6 @@ public class BusinessTripMapper {
         List<ToDoEntity> toDoEntityList = WorkflowService.getToDoByRequestId(id);
 
         BusinessTripVM viewModel = new BusinessTripVM();
-
         viewModel.setStart(requestsEntity.getDateFrom());
         viewModel.setEnd(requestsEntity.getDateTo());
         viewModel.setSubject(requestsEntity.getSubject());
@@ -120,8 +120,10 @@ public class BusinessTripMapper {
         for (MembersEntity entity : membersEntityList) {
             UserLocalizationsEntity userLoc = UserService.getUserLocByUserId(entity.getUserId(), 3);
             member = new Member();
+            member.setId(userLoc.getUserId());
             member.setName(userLoc.getFirstName());
             member.setSurname(userLoc.getLastName());
+            member.setJobTitle(UserController.getProfileByUsername(UserService.getUsernameById(userLoc.getUserId())).getJobTitle());
             member.setDepartment(getDepartmentNameByUserId(entity.getUserId()));
 
             members.add(member);

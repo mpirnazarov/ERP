@@ -495,19 +495,23 @@ a:focus {
     color: white;
 }
 
-.b3form .input-group-addon {
-    background: transparent;
-    color: white;
-    font-size: 15px;
-    font-weight: bold;
-    border: none;
-}
+
 
 /*Workflow-SarTableStyle*/
 
 .sarTable {
-    background-color: rgba(0, 0, 0, 0.46);
-    border-radius: 1%;
+    /*background-color: rgba(0, 0, 0, 0.46);
+    border-radius: 1%;*/
+
+    background-color: white;
+}
+
+.sarTable tbody tr td {
+    border: none;
+}
+
+.sarTable tbody {
+    color: grey;
 }
 
 .sarTable td th {
@@ -515,24 +519,31 @@ a:focus {
 }
 
 .sarTable thead tr th {
-    border-bottom: 7px groove #1e7ee2;
+    /*border-bottom: 7px groove #1e7ee2;*/
     font-size: 20px;
-    color: #1e7ee2;
+    color: #bd2828;
 }
 
 .sarTable tbody tr:hover {
-    background-color: rgba(1, 23, 255, 0.22);
+    background-color: rgba(189, 40, 40, 0.2);
+    border-bottom:  2px solid #b94a48;
 }
 
 .sarTable .btn {
-    background-color: #1e7ee2;
+
     border-radius: 0px;
     font-size: 20px;
     color: black;
 }
 
 .sarTable .btn:hover {
-    color: white;
+    color: #bd2828;
+}
+
+.sarTableBoxShadow {
+    -webkit-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+    -moz-box-shadow:    0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+    box-shadow:         0px 10px 20px 0px rgba(0, 0, 0, 0.62)
 }
 
 /*WorkFlow-Comment*/
@@ -570,13 +581,14 @@ a:focus {
  * Lista de Comentarios
  =======================*/
 .comments-container {
-    margin: 60px auto 15px;
-    width: 768px;
+    margin: 30px -14px 15px;
+    width: 100%;
 }
 
 .comments-container h1 {
+    margin-left: 4%;
     font-size: 36px;
-    color: #283035;
+    color: #fff;
     font-weight: 400;
 }
 
@@ -593,7 +605,7 @@ a:focus {
 /**
  * Lineas / Detalles
  -----------------------*/
-.comments-list:before {
+/*.comments-list:before {
     content: '';
     width: 2px;
     height: 100%;
@@ -601,9 +613,9 @@ a:focus {
     position: absolute;
     left: 32px;
     top: 0;
-}
+}*/
 
-.comments-list:after {
+/*.comments-list:after {
     content: '';
     position: absolute;
     background: #c7cacb;
@@ -615,7 +627,7 @@ a:focus {
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
-}
+}*/
 
 .reply-list:before, .reply-list:after {display: none;}
 .reply-list li:before {
@@ -688,8 +700,8 @@ a:focus {
  * Caja del Comentario
  ---------------------------*/
 .comments-list .comment-box {
-    width: 680px;
-    float: right;
+    width: 100%;
+    /*float: right;*/
     position: relative;
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
     -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
@@ -705,7 +717,7 @@ a:focus {
     border-width: 10px 12px 10px 0;
     border-style: solid;
     border-color: transparent #FCFCFC;
-    top: 8px;
+    top: 29px;
     left: -11px;
 }
 
@@ -716,11 +728,11 @@ a:focus {
 }
 
 .reply-list .comment-box {
-    width: 610px;
+    width: 100%;
 }
 .comment-box .comment-head {
     background: #FCFCFC;
-    padding: 10px 12px;
+    padding: 2px 12px;
     border-bottom: 1px solid #E5E5E5;
     overflow: hidden;
     -webkit-border-radius: 4px 4px 0 0;
@@ -740,12 +752,34 @@ a:focus {
     transition: color 0.3s ease;
 }
 
+.comment-box .comment-head div {
+
+    top: 7px;
+    color: #000000;
+    float: right;
+    margin-left: 13px;
+    position: relative;
+}
+
+.comment-box .comment-head p {
+
+    color: #03658c;
+    float: right;
+    margin-left: 5px;
+    position: relative;
+    font-weight: 700;
+    /*cursor: pointer;*/
+    -webkit-transition: color 0.3s ease;
+    -o-transition: color 0.3s ease;
+    transition: color 0.3s ease;
+}
+
 .comment-box .comment-head i:hover {
     color: #03658c;
 }
 
 .comment-box .comment-name {
-    color: #283035;
+    color: #03658c;
     font-size: 14px;
     font-weight: 700;
     float: left;
@@ -753,7 +787,7 @@ a:focus {
 }
 
 .comment-box .comment-name a {
-    color: #283035;
+    color: #03658c;
 }
 
 .comment-box .comment-head span {
@@ -774,7 +808,7 @@ a:focus {
     border-radius: 0 0 4px 4px;
 }
 
-.comment-box .comment-name.by-author, .comment-box .comment-name.by-author a {color: #03658c;}
+/*.comment-box .comment-name.by-author, .comment-box .comment-name.by-author a {color: #03658c;}
 .comment-box .comment-name.by-author:after {
     content: 'autor';
     background: #03658c;
@@ -786,7 +820,7 @@ a:focus {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-}
+}*/
 
 /** =====================
  * Responsive

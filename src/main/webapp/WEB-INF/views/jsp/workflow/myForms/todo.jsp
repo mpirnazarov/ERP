@@ -49,7 +49,7 @@
                                 </c:forEach>
                             </select>
                         </div>
-                        <div style="margin-left: 1%; width: 20%">
+                        <div style="margin-left: 2%; width: 20%">
                             <label>Current status</label>
                             <select class="form-control"  id="statusId">
                                 <c:forEach var="status" items="${statusList}" varStatus="i">
@@ -57,7 +57,7 @@
                                 </c:forEach>
                             </select>
                         </div>
-                        <div style="margin-left: 1%; width: 20%">
+                        <div style="margin-left: 2%; width: 20%">
                             <label>Request date</label>
                             <input type="text" class="form-control" id="sandbox-container" maxlength="10">
                         </div>
@@ -66,14 +66,14 @@
                     <%--p2--%>
                     <div class="row">
 
-                        <div class="input-group col-md-5 col-md-offset-7 " style="margin-top: 25px">
-                            <span class="input-group-addon" id="search-addon1" style="background-color: white; border: none; color: black">Title:</span>
+                        <div class="input-group col-md-5 col-md-offset-7 " style="margin-top: 10px">
+                            <span class="input-group-addon" id="search-addon1" style="background-color: white; color: black">Attribute:</span>
                             <select class="form-control" aria-describedby="search-addon1" id="attributeId">
                                 <option id="0"></option>
                                 <option id="1">Author</option>
                                 <option id="2">Title</option>
                             </select>
-                            <input type="text" placeholder="Search for ..." class="form-control" id="searchInputId" aria-describedby="search-addon1" style="border: none">
+                            <input type="text" placeholder="Search for ..." class="form-control" id="searchInputId" aria-describedby="search-addon1">
                             <div class="input-group-addon btn" onclick="pagedList(this.id)" id="btnFilter" style="background-color: white; color: #1e7ee2"><span
                                     class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                             </div>
@@ -86,10 +86,10 @@
         </div>
 
 
-        <table class="table sarTable"id="tablecha">
+        <table class="table sarTable sarTableBoxShadow"id="tablecha">
             <thead>
             <tr>
-                <th>#</th>
+                <%--<th>#</th>--%>
                 <th>Form type</th>
                 <th>Title</th>
                 <th>Author</th>
@@ -106,7 +106,7 @@
         <div id="notFoundDiv">
             <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Empty
         </div>
-            <ul class="sagination modal-5" id="pagedListContainer" style="margin-left: 37%"></ul>
+            <ul class="sagination modal-6" id="pagedListContainer" style="margin-left: 37%"></ul>
         </div>
     </div>
 
@@ -183,7 +183,7 @@
                         $(data.models).each(function(i, req) {
                             //generate table
                             $('<tr/>').appendTo(tbody)
-                                .append($('<td/>').text(i+1))
+                                /*.append($('<td/>').text(i+1))*/
                                 .append($('<td/>').text(req.form_type))
                                 .append($('<td/>').text(req.request_subject))
                                 .append($('<td/>').text(req.user_name))
@@ -206,7 +206,7 @@
                             container.append($('<li><a href="#" id="' + count + '" onclick="pagedList(this.id)">' + count + '</a></li>'));
                         }
                     }
-                    container.append($('<li><a href="#" id="-1" class="prev fa fa-arrow-right" onclick="pagedList(this.id)"></a></li>'));
+                    container.append($('<li><a href="#" id="-1" class="next fa fa-arrow-right" onclick="pagedList(this.id)"></a></li>'));
                 },
 
 

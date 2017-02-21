@@ -22,6 +22,63 @@
 
     }
 
+    .b3form .input-group-addon {
+        background: transparent;
+        font-size: 15px;
+        font-weight: bold;
+        border: none;
+    }
+
+    #commentTextArea {
+        width: 95%;
+        margin: 0 auto 0 auto;
+
+        -webkit-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        -moz-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+    }
+
+    #input-group-div {
+        background-color: #fff;
+        color: #000;
+
+        border-radius: 1%;
+
+
+    }
+
+    #left-info {
+        background-color: #fff;
+        color: #000;
+
+        border-radius: 1%;
+
+        -webkit-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        -moz-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+    }
+
+    #left-info::after {
+        height: 20px;
+        background-color: red;
+    }
+
+    .labelDiv {
+        display: inline-flex;
+        width: 100%;
+        margin: 15px 0px 0px 0px;
+    }
+
+    .labelDiv p {
+        margin-left: 3px;
+        border-bottom: 1px solid #000;
+        font-style: italic;
+    }
+
+    .labelDiv label {
+        display: table;
+    }
+
     .btn span.glyphicon {
         opacity: 0;
     }
@@ -32,6 +89,7 @@
 
     .userNavMenu {
         width: 17%;
+        z-index: 20;
     }
 
     .detail-body {
@@ -51,22 +109,20 @@
         text-align: right;
     }
 
-    .tablep {
+    /*.tablep {
         font-size: 15px;
-        font-weight: bolder;
-    }
+    }*/
 
     #tripMembersTable td {
         line-height: 10px;
 
     }
 
-
     #UserNavigationMenuDiv {
         margin-left: -17%;
         -webkit-transition: all 1s ease;
         transition: all 1s ease;
-        background-color: rgba(87,120,118,0.92);
+        background-color: rgba(87, 120, 118, 0.92);
         border-style: inset;
     }
 
@@ -83,9 +139,9 @@
     }
 
     #sarcon.twistIcon {
-        -ms-transform:rotateY(179deg);
-        -moz-transform:rotateY(179deg);
-        -webkit-transform:rotateY(179deg);
+        -ms-transform: rotateY(179deg);
+        -moz-transform: rotateY(179deg);
+        -webkit-transform: rotateY(179deg);
         transform: rotateY(179deg);
     }
 
@@ -97,9 +153,9 @@
         width: 50px;
         height: 50px;
         position: absolute;
-        background-color: rgba(86,119,117,0.81);
+        background-color: rgba(86, 119, 117, 0.81);
         border-style: inset;
-        border-left: 4px solid rgba(85,117,116,0.89);
+        border-left: 4px solid rgba(85, 117, 116, 0.89);
         left: 99%;
         top: 40%;
         z-index: 5;
@@ -116,17 +172,10 @@
         color: #5bcaff;
     }
 
-    #editButton {
-        margin: 0 0 10px 17px;
-    }
-
-
     /*processssss CSSSS*/
 
-
-
     .stepwizard-step p {
-        margin-top: 10px;
+        margin-top: 6px;
     }
 
     .stepwizard-row {
@@ -135,8 +184,11 @@
 
     .stepwizard {
         display: table;
-        width: 100%;
+        width: 95%;
         position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1%;
     }
 
     .stepwizard-step button[disabled] {
@@ -145,7 +197,7 @@
     }
 
     .stepwizard-row:before {
-        top: 14px;
+        top: 18px;
         bottom: 0;
         position: absolute;
         content: " ";
@@ -163,18 +215,50 @@
     }
 
     .btn-circle {
-        width: 30px;
-        height: 30px;
+        width: 45px;
+        height: 45px;
         text-align: center;
         padding: 6px 0;
         font-size: 12px;
         line-height: 1.428571429;
-        border-radius: 15px;
+        border-radius: 100%;
+    }
+
+    #processStepsBar {
+
+        color: black;
+        background-color: #ffffff;
+        width: 80%;
+        height: 12%;
+        position: fixed;
+        bottom: 3px;
+        left: 0;
+        right: 0;
+        margin: auto;
+        z-index: 10;
+
+        border: 2px solid rgba(0, 0, 0, 0.82);
+
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+
+        -webkit-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        -moz-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+
+        -ms-transform: scale(0.9);
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+
+    }
+
+    #processStepsBar:hover {
+        opacity: 1;
     }
 
     /*processssss CSSSS*/
-
-
 
 
 </style>
@@ -187,51 +271,108 @@
     <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
     </p>--%>
     <h2 class="page-header" style="padding-left: 1%">Details</h2>
-    <button id="editButton" type="button" class="btn btn-default">Edit Button</button>
-        <button id="cancelButton" type="button" class="btn btn-default" onclick="location.href='/Workflow/MyForms/cancellation/${model.request_id}'">Cancel Button</button>
-    <div class="w3-container col-md-12 b3form" style="margin-left: 1%">
+    <div style="margin-bottom: 1%" id="authorsTools" class="col-md-5 col-md-offset-1">
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+                <button style="color: #008000" id="editButton" type="button" class="btn btn-default"><span
+                        style="opacity: 1" class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
+                </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button style="color: #ff0000" id="deleteButton" type="button" class="btn btn-default"><span
+                        style="opacity: 1" class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete
+                </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button style="color: #1a85e0" id="terminationButton" type="button" class="btn btn-default"><span
+                        style="opacity: 1" class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Terminate
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="processStepsBar">
+        <div class="stepwizard">
+            <div class="stepwizard-row">
+                <c:forEach items="${approvers}" var="approve" varStatus="i">
+                    <c:choose>
+                        <c:when test="${approve.active==true}">
+                            <div class="stepwizard-step">
+                                <button type="button" class="btn btn-success btn-circle">${i.index+1}</button>
+                                <p>${approve.name} ${approve.surname}</p>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="stepwizard-step">
+                                <button type="button" class="btn btn-default btn-circle">${i.index+1}</button>
+                                <p>${approve.name} ${approve.surname} </p>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                <%--<div class="stepwizard-step">
+                    <button type="button" class="btn btn-default btn-circle">1</button>
+                    <p>Cart</p>
+                </div>
+                <div class="stepwizard-step">
+                    <button type="button" class="btn btn-primary btn-circle">2</button>
+                    <p>Shipping</p>
+                </div>
+                <div class="stepwizard-step">
+                    <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
+                    <p>Payment</p>
+                </div>
+            </div>--%>
+            </div>
+
+        </div>
+    </div>
+    <div id="w3Cont" class="w3-container col-md-12 b3form" style="margin-left: 1%; margin-bottom: 8%">
 
         <div class="row">
-            <div id="left-info" class="col-md-7" style="border: dashed;">
-
-
+            <div id="left-info" class="col-md-7">
+                <%--generated Field--%>
             </div>
             <div id="right-info" class="col-md-5">
-                <div class="input-group" style="width: 100%">
-                    <span class="input-group-addon" id="type-addon" style="width: 35%">Form type:</span>
-                    <input type="text" class="form-control" placeholder="" aria-describedby="type-addon"
-                           style="width: 80%" value="${model.form_type}">
-                </div>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="author-addon" style="width: 35%">Author:</span>
-                    <input type="text" class="form-control" placeholder="" aria-describedby="author-addon"
-                           style="width: 80%" value="${model.user_name}">
-                </div>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="creation-addon" style="width: 35%">Creation date:</span>
-                    <input type="text" class="form-control" placeholder="" aria-describedby="creation-addon"
-                           style="width: 80%" value="${model.date_created}">
-                </div>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="approvals-addon" style="width: 35%">Approvals:</span>
-                    <input type="text" class="form-control" placeholder="" aria-describedby="approvals-addon"
-                           style="width: 80%" value="${model.approvals}">
-                </div>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="ex-addon" style="width: 35%">Executive:</span>
-                    <input type="text" class="form-control" placeholder="" aria-describedby="ex-addon"
-                           style="width: 80%" value="${model.executives}">
-                </div>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="referenced-addon" style="width: 35%">Referenced:</span>
-                    <input type="text" class="form-control" placeholder="" aria-describedby="referenced-addon"
-                           style="width: 80%" value="${model.references}">
-                </div>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="attach-addon" style="width: 35%">Attachment:</span>
-                    <c:forEach items="${model.attachments}" var="attachment">
-                        <a href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a>
-                    </c:forEach>
+                <div id="input-group-div">
+                    <div class="input-group" style="width: 100%">
+                        <span class="input-group-addon" id="type-addon" style="width: 35%">Form type:</span>
+                        <input type="text" disabled class="form-control" placeholder="" aria-describedby="type-addon"
+                               style="width: 80%" value="${model.form_type}">
+                    </div>
+                    <div class="input-group" style="width: 100%; margin-top: 1%">
+                        <span class="input-group-addon" id="author-addon" style="width: 35%">Author:</span>
+                        <input type="text" disabled class="form-control" placeholder="" aria-describedby="author-addon"
+                               style="width: 80%" value="${model.user_name}">
+                    </div>
+                    <div class="input-group" style="width: 100%; margin-top: 1%">
+                        <span class="input-group-addon" id="creation-addon" style="width: 35%">Creation date:</span>
+                        <input type="text" disabled class="form-control" placeholder="" aria-describedby="creation-addon"
+                               style="width: 80%" value="${model.date_created}">
+                    </div>
+                    <div class="input-group" style="width: 100%; margin-top: 1%">
+                        <span class="input-group-addon" id="approvals-addon" style="width: 35%">Approvals:</span>
+                        <input type="text" disabled class="form-control" placeholder="" aria-describedby="approvals-addon"
+                               style="width: 80%" value="${model.approvals}">
+                    </div>
+                    <div class="input-group" style="width: 100%; margin-top: 1%">
+                        <span class="input-group-addon" id="ex-addon" style="width: 35%">Executive:</span>
+                        <input type="text" disabled class="form-control" placeholder="" aria-describedby="ex-addon"
+                               style="width: 80%" value="${model.executives}">
+                    </div>
+                    <div class="input-group" style="width: 100%; margin-top: 1%">
+                        <span class="input-group-addon" id="referenced-addon" style="width: 35%">Referenced:</span>
+                        <input type="text" disabled class="form-control" placeholder="" aria-describedby="referenced-addon"
+                               style="width: 80%" value="${model.references}">
+                    </div>
+                    <div class="input-group" style="width: 100%; margin-top: 1%">
+                        <span class="input-group-addon" id="attach-addon" style="width: 35%">Attachment:</span>
+                        <c:forEach items="${model.attachments}" var="attachment">
+                            <div id="attachmentDiv"><span class="glyphicon glyphicon-list-alt"
+                                                          aria-hidden="false"></span>
+                                <a href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a></div>
+                        </c:forEach>
+                    </div>
                 </div>
 
                 <%--Decision section--%>
@@ -261,7 +402,35 @@
                 </div>
                 <%--Comment section--%>
                 <div class="commentTable">
-                    <table class="table table-bordered table-condensed" id="commentTableParent"
+                    <div class="comment-section">
+                        <!-- Contenedor Principal -->
+                        <div class="comments-container">
+                            <h1>Comments</h1>
+
+                            <ul id="comments-list" class="comments-list">
+                                <c:forEach items="${model.comments}" var="comment" varStatus="status">
+                                    <li>
+                                        <div class="comment-main-level">
+                                            <!-- Avatar -->
+                                            <!-- Contenedor del Comentario -->
+                                            <div class="comment-box">
+                                                <div class="comment-head">
+                                                    <h6 class="comment-name by-author"><a>${comment.author}</a></h6>
+                                                    <div><label>Action:</label>
+                                                        <p class="comment-action-text">${comment.action}</p></div>
+
+                                                </div>
+                                                <div class="comment-content">
+                                                        ${comment.comment}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </div>
+                    <%--<table class="table table-bordered table-condensed" id="commentTableParent"
                            style="margin-bottom: 0px">
                         <thead>
                         <tr style="background-color: #2b669a">
@@ -279,9 +448,9 @@
                             </tr>
                         </c:forEach>
                         </tbody>
-                    </table>
+                    </table>--%>
                 </div>
-                <div id="commentTextArea" style="width: 100%; padding-left: 15px; padding-right: 15px">
+                <div id="commentTextArea">
                     <textarea placeholder="Comment..." class="form-control" rows="5" id="detailComment"></textarea>
                 </div>
 
@@ -289,451 +458,329 @@
                 <div id="submitButton" style="padding-left: 80%; padding-top: 1%">
                     <button class="btn btn-default" onclick="submitTheForm()">Submit</button>
                 </div>
-
-
-
-                <%--Test Comment Section Start--%>
-                <%--<div class="comment-section">
-                    <!-- Contenedor Principal -->
-                    <div class="comments-container">
-                        <h1>Comentarios <a href="http://creaticode.com">creaticode.com</a></h1>
-
-                        <ul id="comments-list" class="comments-list">
-                            <li>
-                                <div class="comment-main-level">
-                                    <!-- Avatar -->
-                                    <div class="comment-avatar"><img
-                                            src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg"
-                                            alt=""></div>
-                                    <!-- Contenedor del Comentario -->
-                                    <div class="comment-box">
-                                        <div class="comment-head">
-                                            <h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin
-                                                Ortiz</a></h6>
-                                            <span>hace 20 minutos</span>
-                                            <i class="fa fa-reply"></i>
-                                            <i class="fa fa-heart"></i>
-                                        </div>
-                                        <div class="comment-content">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi
-                                            et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Respuestas de los comentarios -->
-                                <ul class="comments-list reply-list">
-                                    <li>
-                                        <!-- Avatar -->
-                                        <div class="comment-avatar"><img
-                                                src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg"
-                                                alt=""></div>
-                                        <!-- Contenedor del Comentario -->
-                                        <div class="comment-box">
-                                            <div class="comment-head">
-                                                <h6 class="comment-name"><a href="http://creaticode.com/blog">Lorena
-                                                    Rojero</a></h6>
-                                                <span>hace 10 minutos</span>
-                                                <i class="fa fa-reply"></i>
-                                                <i class="fa fa-heart"></i>
-                                            </div>
-                                            <div class="comment-content">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis
-                                                animi et iure laudantium vitae, praesentium optio, sapiente distinctio
-                                                illo?
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <!-- Avatar -->
-                                        <div class="comment-avatar"><img
-                                                src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg"
-                                                alt=""></div>
-                                        <!-- Contenedor del Comentario -->
-                                        <div class="comment-box">
-                                            <div class="comment-head">
-                                                <h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin
-                                                    Ortiz</a></h6>
-                                                <span>hace 10 minutos</span>
-                                                <i class="fa fa-reply"></i>
-                                                <i class="fa fa-heart"></i>
-                                            </div>
-                                            <div class="comment-content">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis
-                                                animi et iure laudantium vitae, praesentium optio, sapiente distinctio
-                                                illo?
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li>
-                                <div class="comment-main-level">
-                                    <!-- Avatar -->
-                                    <div class="comment-avatar"><img
-                                            src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg"
-                                            alt=""></div>
-                                    <!-- Contenedor del Comentario -->
-                                    <div class="comment-box">
-                                        <div class="comment-head">
-                                            <h6 class="comment-name"><a href="http://creaticode.com/blog">Lorena
-                                                Rojero</a></h6>
-                                            <span>hace 10 minutos</span>
-                                            <i class="fa fa-reply"></i>
-                                            <i class="fa fa-heart"></i>
-                                        </div>
-                                        <div class="comment-content">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi
-                                            et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>--%>
-                <%--Test Comment Section END--%>
-
-
-            </div>
-            <div id="processStepsBar">
-                <div class="stepwizard">
-                    <div class="stepwizard-row">
-                        <c:forEach items="${approves}" var="approve" varStatus="i">
-                            <c:choose>
-                                <c:when test="${approve.active==true}">
-                                    <div class="stepwizard-step">
-                                        <button type="button" class="btn btn-primary btn-circle">${i.index+1}</button>
-                                        <p>${approve.name}</p>
-                                    </div>
-                                </c:when>
-                                <c:otherwise>
-                                    <div class="stepwizard-step">
-                                        <button type="button" class="btn btn-default btn-circle">${i.index+1}</button>
-                                        <p>${approve.name}</p>
-                                    </div>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                        <%--<div class="stepwizard-step">
-                            <button type="button" class="btn btn-default btn-circle">1</button>
-                            <p>Cart</p>
-                        </div>
-                        <div class="stepwizard-step">
-                            <button type="button" class="btn btn-primary btn-circle">2</button>
-                            <p>Shipping</p>
-                        </div>
-                        <div class="stepwizard-step">
-                            <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
-                            <p>Payment</p>
-                        </div>
-                    </div>--%>
-                </div>
-
             </div>
         </div>
 
     </div>
-</div>
-<%--</div>--%>
+    <%--</div>--%>
 
-<script>
-
-
-    $('#sandbox-container').datepicker({format: "dd/mm/yyyy"});
-
-    $("#generateUnformatted").click(function () {
-        $("#left-info").append('<div id="unformattedFormGen"> ' +
-            '<p> Title: Going to Doctor </p> ' +
-            '<p> Description: I need to go to Doctor, so please let me go </p> ' +
-            '</div>')
-    })
-
-</script>
-
-<script>
-    /*Sarvar*/
-
-    $(document).ready(function () {
-        $('#navigationButton').css('visibility','visible');
-
-        /*Source Identification*/
-        var sourceId = ${controllerId};
-        if (sourceId == 1) {
-            isFromToDo()
-        }
-        else if(sourceId == 2){
-            isFromRequest();
-        }
-        else {
-            /*defaultSource*/
-        }
+    <script>
 
 
-        /*Generation IF*/
-        var formtype = ${model.form_type_id};
-        if(formtype==1){
-            generateBusinessTrip();
-        }
-        else if(formtype==2){
-            generateLeaveApprove();
-        }
-        else if(formtype==3){
-            generateUnformatted();
-        }
-        else {
-            alert("No Form");
-        }
+        $('#sandbox-container').datepicker({format: "dd/mm/yyyy"});
 
+    </script>
 
-        alert(formtype);
-    });
+    <script>
+        /*Sarvar*/
 
-    function isFromToDo() {
-
-        $('#editButton').hide()
-    }
-    function isFromRequest() {
-
-        $('#decisionSection').hide();
-        $('#submitButton').hide();
-        $('#commentTextArea').hide();
-    }
-    function generateBusinessTrip() {
-
-
-        var subject = "${bmodel.subject}";
-        var domestic = ${bmodel.domestic};
-        var tripType = "${tripTypeName.get(bmodel.tripType)}";
-        var destination = "${bmodel.destination}";
-        var purpose = "${bmodel.purpose}";
-        var startDate = "${bmodel.start.toString()}";
-        var endDate = "${bmodel.end.toString()}";
-
-
-        /*alert(members);*/
-
-
-        if (domestic) {
-            tripType = tripType + "," + " Domestic";
-        }else {
-            tripType = tripType + "," + " Overseas";
-        }
-
-
-
-
-        $("#left-info").append('<div id="businessTripFormGen"> ' +
-            '<div id="BusinessTripHeader"> ' +
-            '<label>Subject:</label> ' +
-            '<p>' + subject + '</p> ' +
-            '<label>Type of business trip:</label> ' +
-            '<p>' + tripType + '</p> ' +
-            '<label>Destination:</label> ' +
-            '<p>' + destination + '</p> ' +
-            '<label>Purpose of business trip:</label> ' +
-            '<p>' + purpose + '</p> ' +
-            '<label>Business Duration:</label> ' +
-            '<p>Start: ' + startDate + ' | ' + 'End: ' + endDate +'</p> ' +
-            '</div> ' +
-            '<div id="BusinessTripBody"> ' +
-            '<label>List of Business Trip Members:</label> ' +
-            '<table class="table" style="color: inherit; font-size: 11px"id="tripMembersTable"> ' +
-            '<thead style="background-color: #2b669a; font-size: 15px"> ' +
-            '<tr> ' +
-            '<th>Emoployee</th> ' +
-            '<th>Name of (Organization/Project)</th> ' +
-            '<th>From</th> ' +
-            '<th>To</th> ' +
-            '</tr> ' +
-            '</thead> ' +
-            '<tbody id="tripMembersTableBody"> ' +
-            '<tr> ' +
-            '<td> ' +
-            '<p class="tablep">Kamola Mullamukhamedova</p> ' +
-            '<p>#23, HR Manager</p> ' +
-            '</td> ' +
-            '<td>LG CNS UZB</td> ' +
-            '<td>01/02/2017</td> ' +
-            '<td>19/02/2017</td> ' +
-            '</tr> ' +
-            '<tr> ' +
-            '<td> ' +
-            '<p class="tablep">Sarvar Zokirov</p> ' +
-            '<p>#11, Developer</p> ' +
-            '</td> ' +
-            '<td>LG CNS UZB</td> ' +
-            '<td>01/02/2017</td> ' +
-            '<td>19/02/2017</td> ' +
-            '</tr> ' +
-            '<tr> ' +
-            '<td> ' +
-            '<p class="tablep">Jasur Shaykhov</p>' +
-            '<p>#14, Developer</p> ' +
-            '</td> ' +
-            '<td>LG CNS UZB</td> ' +
-            '<td>01/02/2017</td> ' +
-            '<td>19/02/2017</td> ' +
-            '</tr> ' +
-            '</tbody> ' +
-            '</table> ' +
-            '<label>Detail Shceadule and To-do list:</label> ' +
-            '<ul id = "ToDoListBody"> ' +
-            '<li>Date: 01/01/16 | Meeting</li> ' +
-            '<li>Date: 02/01/16 | Some Activity</li> ' +
-            '<li>Date: 03/01/16 | Another Activity</li> ' +
-            '</ul> ' +
-            '<label>Business trip Expanses:</label> ' +
-            '<table class="table" style="color: inherit; font-size: 11px"id="tripExpensesTable"> ' +
-            '<thead style="background-color: #2b669a; font-size: 15px"> ' +
-            '<tr> ' +
-            '<th>Name</th> ' +
-            '<th>Airfair</th> ' +
-            '<th>Daily Allowance</th> ' +
-            '<th>Accommodation</th> ' +
-            '<th>Other</th> ' +
-            '<th>Total</th> ' +
-            '</tr> ' +
-            '</thead> ' +
-            '<tbody id="tripExpensesTableBody"> ' +
-            '<tr> ' +
-            '<td>Kamola HR</td> ' +
-            '<td>900</td> ' +
-            '<td>450</td> ' +
-            '<td>1500</td> ' +
-            '<td>200</td> ' +
-            '<td>sum</td> ' +
-            '</tr> ' +
-            '<tr> ' +
-            '<td>Sarvar Zokirov</td> ' +
-            '<td>900</td> ' +
-            '<td>450</td> ' +
-            '<td>1500</td> ' +
-            '<td>200</td> ' +
-            '<td>sum</td> ' +
-            '</tr> ' +
-            '<tr> ' +
-            '<td>Jasur Shaykhov</td> ' +
-            '<td>900</td> ' +
-            '<td>450</td> ' +
-            '<td>1500</td> <td>200</td> ' +
-            '<td>sum</td> ' +
-            '</tr> ' +
-            '</tbody> ' +
-            '</table> ' +
-            '</div> ' +
-            '</div>');
-
-
-        /*Members ForEach*/
-        var members = [];
-        <c:forEach var="m" items="${bmodel.membersEntityList}">
-
-        var memberId = ${m.userId};
-        var memberName = ${m.userId};
-        var memberOrg = "${m.organizationName}";
-        var memberFrom = "${m.dateFrom.toString()}";
-        var memberTo = "${m.dateTo.toString()}";
-        var memberAirfair = ${m.expenseTransportation};
-        var memberDailyAllowance = ${m.dailyAllowance};
-        var memberAccommodation = ${m.expenseAccommodation};
-        var memberOtherExpenses = ${m.expenseOther};
-        var memberOverAllExpenses = memberAirfair + memberDailyAllowance + memberAccommodation + memberOtherExpenses;
-
-        $("#tripMembersTableBody").append('<tr>' +
-        '<td> ' +
-        '<p class="tablep">' + memberName + '</p> ' +
-        '<p>' + memberId + ', HR Manager</p> ' +
-        '</td> ' +
-        '<td>' + memberOrg + '</td> ' +
-        '<td>' + memberFrom + '</td> ' +
-        '<td>' + memberTo + '</td> ' +
-        '</tr>');
-
-
-        $("#tripExpensesTableBody").append('<tr> ' +
-        '<td>' + memberId + ' </td> ' +
-        '<td>' + memberAirfair + '</td> ' +
-        '<td>' + memberDailyAllowance + '</td> ' +
-        '<td>' + memberAccommodation + '</td> ' +
-        '<td>' + memberOtherExpenses + '</td> ' +
-        '<td>' + memberOverAllExpenses + '</td> ' +
-        '</tr>');
-
-        </c:forEach>
-
-        /*foreach of todoinglist*/
-        <c:forEach var="m" items="${bmodel.toDoEntityList}">
-
-        var toDoDate = "${m.date.toString()}";
-        var toDoDescription = "${m.description}";
-
-        $("#ToDoListBody").append('<li>Date: ' + toDoDate + ' | ' + toDoDescription + ' </li> ')
-
-        </c:forEach>
-
-    }
-    function generateLeaveApprove() {
-
-
-
-        var absenceType = '${leaveTypeName.get(leavemodel.absenceType)}';
-        var description = '${leavemodel.description}';
-        var start = '${leavemodel.start.toString()}';
-        var end = '${leavemodel.end.toString()}';
-
-
-        $("#left-info").append('<div id="unformattedFormGen"> ' +
-            '<p> Absence Type : ' + absenceType + '</p> ' +
-            '<p> Description: ' + description + '</p> ' +
-            '<label>Business Duration:</label> ' +
-            '<p>Start: ' + start + ' | ' + 'End: ' + end +'</p> ' +
-            '</div>')
-
-    }
-    function generateUnformatted() {
-        alert("Unformatted");
-    }
-
-</script>
-
-<jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>
-
-<script>
-
-    /*Murod*/
-    var status = 5;
-    var comment = "";
-    var reqId = "${model.request_id}";
-    function checkedRadioBtn(id) {
-
-        if (id == "approve") {
-            status = 5;
-        }
-        else if (id == "review") {
-            status = 2;
-        }
-        else if (id == "reject") {
-            status = 3;
-        }
-    }
-
-    function submitTheForm() {
-        comment = $('#detailComment').val();
-        alert(reqId);
-
-        $.ajax({
-            type: "POST",
-            processData: false,
-            data: 'comment=' + comment + '&status=' + status+'&reqId='+reqId,
-            url: '${pageContext.request.contextPath}/Workflow/MyForms/details',
-            success: function () {
-                alert("Success");
-            },
-            error: function () {
-                window.location.href = "/Workflow/MyForms/todo/load";
-            }
+        /*processBarScript*/
+        var elem = $('#processStepsBar');
+        $(window).scroll(function () {
+            setTimeout(function () {
+                elem.css({"opacity": "0.1", "transition": "1s"});
+            }, 1500);
+            elem.css({"opacity": "1", "transition": "1s"});
         });
-    }
-</script>
+        elem.hover(function () {
+            elem.css({"opacity": "1", "transition": "0.1s"});
+        })
+        elem.mouseleave(function () {
+            elem.css({"opacity": "0.1", "transition": "1s"});
+        })
+        /*processBarScript*/
+
+
+        $(document).ready(function () {
+
+            /*action Color changer*/
+
+            $('.comment-action-text:contains("Rejected")').css('color', '#ff0000');
+            $('.comment-action-text:contains("Approved")').css('color', '#00e200');
+            $('.comment-action-text:contains("Revision")').css('color', '#fec91f');
+
+            /*action Color changer*/
+
+            $('#navigationButton').css('visibility', 'visible');
+
+            /*Source Identification*/
+            var sourceId = ${controllerId};
+            if (sourceId == 1) {
+                isFromToDo()
+            }
+            else if (sourceId == 2) {
+                isFromRequest();
+            }
+            else {
+                /*defaultSource*/
+            }
+
+            function isFromToDo() {
+                $('#authorsTools').hide()
+            }
+
+            function isFromRequest() {
+                $('#decisionSection').hide();
+                $('#submitButton').hide();
+                $('#commentTextArea').hide();
+            }
+
+            /*Source Identification*/
+
+            /*Generation IF*/
+            var formtype = ${model.form_type_id};
+            if (formtype == 1) {
+                generateBusinessTrip();
+            }
+            else if (formtype == 2) {
+                generateLeaveApprove();
+            }
+            else if (formtype == 3) {
+                generateUnformatted();
+            }
+            else {
+                alert("No Form");
+            }
+
+            alert(formtype);
+        });
+
+        function generateBusinessTrip() {
+
+
+            var subject = "${bmodel.subject}";
+            var domestic = "${bmodel.domestic}";
+            var tripType = "${tripTypeName.get(bmodel.tripType)}";
+            var destination = "${bmodel.destination}";
+            var purpose = "${bmodel.purpose}";
+            var startDate = "${bmodel.start.toString()}";
+            var endDate = "${bmodel.end.toString()}";
+
+
+            /*alert(members);*/
+
+
+            if (domestic) {
+                tripType = tripType + "," + " Domestic";
+            } else {
+                tripType = tripType + "," + " Overseas";
+            }
+
+
+            $("#left-info").append('<div id="businessTripFormGen"> ' +
+                '<div id="BusinessTripHeader"> ' +
+                '<div class="labelDiv">' +
+                '<label>Subject:</label> ' +
+                '<p>' + subject + '</p> ' +
+                '</div>' +
+                '<div class="labelDiv">' +
+                '<label>Type of business trip:</label> ' +
+                '<p>' + tripType + '</p> ' +
+                '</div>' +
+                '<div class="labelDiv">' +
+                '<label>Destination:</label> ' +
+                '<p>' + destination + '</p> ' +
+                '</div>' +
+                '<div class="labelDiv">' +
+                '<label>Purpose of business trip:</label> ' +
+                '<p>' + purpose + '</p> ' +
+                '</div>' +
+                '<div class="labelDiv">' +
+                '<label>Duration:</label> ' +
+                '<p>Start: ' + startDate + ' | ' + 'End: ' + endDate + '</p> ' +
+                '</div>' +
+                '</div> ' +
+                '<div id="BusinessTripBody" style="margin-top: 15px"> ' +
+                '<label>List of Business Trip Members:</label> ' +
+                '<table class="table table-bordered table-hover" style="color: inherit; font-size: 13px"id="tripMembersTable"> ' +
+                '<thead style="background-color: #b1beca; font-size: 15px"> ' +
+                '<tr> ' +
+                '<th>Emoployee</th> ' +
+                '<th>Name of (Organization/Project)</th> ' +
+                '<th>From</th> ' +
+                '<th>To</th> ' +
+                '</tr> ' +
+                '</thead> ' +
+                '<tbody id="tripMembersTableBody"> ' +
+                '</tbody> ' +
+                '</table> ' +
+                '<label>Detail Schedule and To-do list:</label> ' +
+                '<ul id = "ToDoListBody"> ' +
+                '</ul> ' +
+                '<label>Business trip Expanses:</label> ' +
+                '<table class="table table-bordered table-hover" style="color: inherit; font-size: 13px"id="tripExpensesTable"> ' +
+                '<thead style="background-color: #b1beca; font-size: 15px"> ' +
+                '<tr> ' +
+                '<th>Name</th> ' +
+                '<th>Airfair</th> ' +
+                '<th>Daily Allowance</th> ' +
+                '<th>Accommodation</th> ' +
+                '<th>Other</th> ' +
+                '<th>Total</th> ' +
+                '</tr> ' +
+                '</thead> ' +
+                '<tbody id="tripExpensesTableBody"> ' +
+                '</tbody> ' +
+                '</table> ' +
+                '</div> ' +
+                '</div>');
+
+
+            /*Members ForEach*/
+            var memberTotal = 0;
+            <c:forEach var="m" items="${bmodel.membersEntityList}">
+
+            var memberId = ${m.userId};
+            var memberName = "";
+            var memberSurename = "";
+            var memberJobTitle = "";
+
+            <c:forEach var="member" items="${bmodel.members}">
+            if (memberId == ${member.id}) {
+                memberName = '${member.name}';
+                memberSurename = '${member.surname}';
+                memberJobTitle = '${member.jobTitle}';
+            }
+            </c:forEach>
+
+            var memberFullName = memberName + ' ' + memberSurename;
+            var memberOrg = "${m.organizationName}";
+            var memberFrom = "${m.dateFrom.toString()}";
+            var memberTo = "${m.dateTo.toString()}";
+            var memberAirfair = ${m.expenseTransportation};
+            var memberDailyAllowance = ${m.dailyAllowance};
+            var memberAccommodation = ${m.expenseAccommodation};
+            var memberOtherExpenses = ${m.expenseOther};
+            var memberSubTotalExpenses = memberAirfair + memberDailyAllowance + memberAccommodation + memberOtherExpenses;
+            memberTotal += memberSubTotalExpenses;
+
+
+            $("#tripMembersTableBody").append('<tr>' +
+                '<td> ' +
+                '<p class="tablep">' + memberFullName + '</p> ' +
+                '<p>' + '#' + memberId + ', ' + memberJobTitle + '</p> ' +
+                '</td> ' +
+                '<td>' + ' <p class="tablep"> ' + memberOrg + ' </p> ' + '</td> ' +
+                '<td>' + ' <p class="tablep"> ' + memberFrom + ' </p> ' + '</td> ' +
+                '<td>' + ' <p class="tablep"> ' + memberTo + ' </p> ' + '</td> ' +
+                '</tr>');
+
+
+            $("#tripExpensesTableBody").append('<tr> ' +
+                '<td>' + memberFullName + ' </td> ' +
+                '<td>' + memberAirfair + '</td> ' +
+                '<td>' + memberDailyAllowance + '</td> ' +
+                '<td>' + memberAccommodation + '</td> ' +
+                '<td>' + memberOtherExpenses + '</td> ' +
+                '<td>' + memberSubTotalExpenses + '</td> ' +
+                '</tr>');
+            </c:forEach>
+            $('#tripExpensesTable').append('<div class="labelDiv">' +
+                '<label style="font-size: 15px" > Overall :</label>' +
+                '<p style="font-size: 15px">' + memberTotal + '</p>' +
+                '</div>')
+
+
+            /*foreach of todoinglist*/
+            <c:forEach var="m" items="${bmodel.toDoEntityList}">
+
+            var toDoDate = "${m.date.toString()}";
+            var toDoDescription = "${m.description}";
+
+            $("#ToDoListBody").append('<li>Date: ' + toDoDate + ' | ' + toDoDescription + ' </li> ')
+
+            </c:forEach>
+
+
+        }
+        function generateLeaveApprove() {
+
+
+            var absenceType = '${leaveTypeName.get(leavemodel.absenceType)}';
+            var description = '${leavemodel.description}';
+            var start = '${leavemodel.start.toString()}';
+            var end = '${leavemodel.end.toString()}';
+
+
+            $("#left-info").append('<div id="unformattedFormGen"> ' +
+                '<div class="labelDiv">' +
+                '<label>Absence Type: </label>' +
+                '<p>' + absenceType + '</p>' +
+                '</div>' +
+                '<div class="labelDiv">' +
+                '<label>Description: </label>' +
+                '<p>' + description + '</p>' +
+                '</div>' +
+                '<div class="labelDiv">' +
+                '<label>Duration: </label>' +
+                '<p>Start: ' + start + ' | ' + 'End: ' + end + '</p> ' +
+                '</div>' +
+                '</div>')
+
+        }
+        function generateUnformatted() {
+
+            var title = '${umodel.subject}';
+            var description = '${umodel.description}';
+            var start = '${umodel.start.toString()}';
+            var end = '${umodel.end.toString()}';
+
+            $("#left-info").append('<div id="unformattedFormGen"> ' +
+                '<div class="labelDiv">' +
+                '<label>Title: </label>' +
+                '<p>' + title + '</p>' +
+                '</div>' +
+                '<div class="labelDiv">' +
+                '<label>Description: </label>' +
+                '<p>' + description + '</p>' +
+                '</div>' +
+                '<div class="labelDiv">' +
+                '<label>Duration: </label>' +
+                '<p>Start: ' + start + ' | ' + 'End: ' + end + '</p> ' +
+                '</div>' +
+                '</div>');
+
+        }
+        /*Generation IF*/
+
+    </script>
+
+    <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>
+
+    <script>
+
+        /*Murod*/
+        var status = 5;
+        var comment = "";
+        var reqId = "${model.request_id}";
+        function checkedRadioBtn(id) {
+
+            if (id == "approve") {
+                status = 5;
+            }
+            else if (id == "review") {
+                status = 2;
+            }
+            else if (id == "reject") {
+                status = 3;
+            }
+        }
+
+        function submitTheForm() {
+            comment = $('#detailComment').val();
+            alert(reqId);
+
+            $.ajax({
+                type: "POST",
+                processData: false,
+                data: 'comment=' + comment + '&status=' + status + '&reqId=' + reqId,
+                url: '${pageContext.request.contextPath}/Workflow/MyForms/details',
+                success: function () {
+                    alert("Success");
+                },
+                error: function () {
+                    window.location.href = "/Workflow/MyForms/todo/load";
+                }
+            });
+        }
+    </script>

@@ -104,7 +104,7 @@
             <div id="notFoundDiv">
                 <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Empty
             </div>
-                <ul class="sagination modal-5" id="pagedListContainer" style="margin-left: 37%"></ul>
+                <ul class="sagination modal-6" id="pagedListContainer" style="margin-left: 37%"></ul>
         </div>
     </div>
 </div>
@@ -213,7 +213,7 @@
                         container.append($('<li><a href="#" id="' + count + '" onclick="pagedList(this.id)">' + count + '</a></li>'));
                     }
                 }
-                container.append($('<li><a href="#" id="-1" class="prev fa fa-arrow-right" onclick="pagedList(this.id)"></a></li>'));
+                container.append($('<li><a href="#" id="-1" class="next fa fa-arrow-right" onclick="pagedList(this.id)"></a></li>'));
             },
 
             error: function () {

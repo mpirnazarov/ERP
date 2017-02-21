@@ -4,8 +4,10 @@ package com.lgcns.erp.workflow.Model;
  * Created by DS on 15.02.2017.
  */
 public class Member {
+    private int id;
     private String name;
     private String surname;
+    private String jobTitle;
     private String department;
 
     public String getName() {
@@ -30,5 +32,21 @@ public class Member {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
     }
 }

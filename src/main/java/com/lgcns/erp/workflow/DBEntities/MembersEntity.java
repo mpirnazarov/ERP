@@ -19,6 +19,7 @@ public class MembersEntity {
     private double dailyAllowance;
     private double expenseAccommodation;
     private double expenseOther;
+    private int accomodationCurrency;
     private RequestsEntity requestsByRequestId;
 
     @Id
@@ -110,6 +111,16 @@ public class MembersEntity {
 
     public void setExpenseAccommodation(double expenseAccommodation) {
         this.expenseAccommodation = expenseAccommodation;
+    }
+
+    @Basic
+    @Column(name = "accom_currency")
+    public int getAccomodationCurrency() {
+        return accomodationCurrency;
+    }
+
+    public void setAccomodationCurrency(int accomodationCurrency) {
+        this.accomodationCurrency = accomodationCurrency;
     }
 
     @Basic

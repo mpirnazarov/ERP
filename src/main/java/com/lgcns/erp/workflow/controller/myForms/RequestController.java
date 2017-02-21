@@ -128,4 +128,9 @@ public class RequestController {
         int numberOfNotifications = WorkflowNotificationService.getRequestNotification(userId);
         return numberOfNotifications;
     }
+
+    @RequestMapping(value = "example")
+    public void doIt(){
+
+    }
 }

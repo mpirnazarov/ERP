@@ -142,7 +142,6 @@ public class BusinessTripController {
         /* Insert to table steps */
         for (int num :
                 approvalsGlobal) {
-            System.out.println("Approvals: " + num);
             if(count==1)
                 WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), num, 1, count++, 1, true));
             else
@@ -212,8 +211,7 @@ public class BusinessTripController {
 
         int count=1;
         /* Insert to table steps */
-        for (int num :
-                approvalsGlobal) {
+        for (int num :approvalsGlobal) {
             System.out.println("Approvals: " + num);
             if(count==1)
                 WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), userId, 1, count++, 1, true));
@@ -221,14 +219,12 @@ public class BusinessTripController {
                 WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), userId, 1, count++, 1, false));
         }
 
-        for (int num :
-                executivesGlobal) {
+        for (int num :executivesGlobal) {
             System.out.println("Executives: " + num);
             WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), userId, 2, 0, 1, false));
         }
 
-        for (int num :
-                referencesGlobal) {
+        for (int num :referencesGlobal) {
             System.out.println("References: " + num);
             WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), userId, 3, 0, 1, false));
         }

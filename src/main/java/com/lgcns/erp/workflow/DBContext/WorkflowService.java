@@ -244,9 +244,12 @@ public class WorkflowService {
         try {
             transaction = session.beginTransaction();
             //Set foreign key items
+/*
             requestsEntity.setTripTypesByTripTypeId(session.load(TripTypesEntity.class, requestsEntity.getTripTypeId()));
+*/
             //Save the object in database
-            session.save(requestsEntity);
+           int id = (int)session.save(requestsEntity);
+            System.out.println(id);
             //Commit the transaction
             transaction.commit();
         }
@@ -257,7 +260,7 @@ public class WorkflowService {
         finally {
             session.close();
         }
-        return (int)requestsEntity.getId();
+        return requestsEntity.getId();
     }
 
     public static void insertMembers(MembersEntity membersEntity) {

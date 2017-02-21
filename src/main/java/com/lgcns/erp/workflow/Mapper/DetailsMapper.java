@@ -11,6 +11,7 @@ import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
 import com.lgcns.erp.workflow.Model.Attachment;
 import com.lgcns.erp.workflow.ViewModel.DetailsViewModel;
+import com.lgcns.erp.workflow.ViewModel.TerminationViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,7 @@ public class DetailsMapper {
         return attachs;
     }
 
-    private static String getInvolvedUsers(RequestsEntity entity, int involvementType){
+    public static String getInvolvedUsers(RequestsEntity entity, int involvementType){
         List<StepsEntity> listOfApprovals = new ArrayList<>();
         List<StepsEntity> stepsEntities = WorkflowService.getStepsList();
         List<UserLocalizationsEntity> userlocs = new ArrayList<>();
@@ -123,5 +124,39 @@ public class DetailsMapper {
             }
             return msg;
         }
+    }
+
+    public static TerminationViewModel getTerminationViewModel(int id){
+        RequestsEntity entity = WorkflowService.getRequestsEntityById(id);
+        TerminationViewModel viewModel = new TerminationViewModel();
+        viewModel.setSubject(entity.getSubject());
+        viewModel.setOld_req_id(entity.getId());
+        viewModel.setApproves(getInvolvedUsers(entity, 1));
+        viewModel.setExecutives(getInvolvedUsers(entity, 2));
+        viewModel.setReferences(getInvolvedUsers(entity, 3));
+        viewModel.setDescription("");
+
+        return viewModel;
+    }
+
+    public static StepsEntity getStepFromViewModel(int reqId, int userId, int involvementTypeId, int sequence, int statusId, boolean isActive){
+
+
+        return null;
+    }
+
+    public static RequestsEntity getRequestFromViewModel(TerminationViewModel viewModel, RequestsEntity old_requestsEntity){
+        RequestsEntity requestsEntity = new RequestsEntity();
+
+        requestsEntity.setSubject(viewModel.getSubject());
+        requestsEntity.setDescription(viewModel.getDescription());
+        requestsEntity.setDateCreated(new java.sql.Date(new java.util.Date().getTime()));
+        requestsEntity.setUserFromId(old_requestsEntity.getUserFromId());
+        requestsEntity.setReqLinkId(old_requestsEntity.getId());
+        requestsEntity.setTypeId(4);
+        requestsEntity.setStatusId(1);
+        requestsEntity.setViewed(false);
+
+        return requestsEntity;
     }
 }

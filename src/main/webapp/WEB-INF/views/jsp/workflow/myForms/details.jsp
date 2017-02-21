@@ -188,6 +188,7 @@
     </p>--%>
     <h2 class="page-header" style="padding-left: 1%">Details</h2>
     <button id="editButton" type="button" class="btn btn-default">Edit Button</button>
+        <button id="cancelButton" type="button" class="btn btn-default" onclick="location.href='/Workflow/MyForms/cancellation/${model.request_id}'">Cancel Button</button>
     <div class="w3-container col-md-12 b3form" style="margin-left: 1%">
 
         <div class="row">
@@ -399,7 +400,7 @@
             <div id="processStepsBar">
                 <div class="stepwizard">
                     <div class="stepwizard-row">
-                        <c:forEach items="${approvers}" var="approve" varStatus="i">
+                        <c:forEach items="${approves}" var="approve" varStatus="i">
                             <c:choose>
                                 <c:when test="${approve.active==true}">
                                     <div class="stepwizard-step">

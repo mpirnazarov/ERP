@@ -1,7 +1,6 @@
 package com.lgcns.erp.workflow.DBContext;
 
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
-import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepCommentsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepsEntity;
 import com.lgcns.erp.workflow.Mapper.CommentMapper;

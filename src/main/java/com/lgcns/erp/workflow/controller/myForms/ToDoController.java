@@ -1,44 +1,20 @@
 package com.lgcns.erp.workflow.controller.myForms;
 
-import com.google.common.io.Files;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
 import com.lgcns.erp.workflow.DBContext.WorkflowNotificationService;
-import com.lgcns.erp.workflow.DBContext.WorkflowService;
-import com.lgcns.erp.workflow.DBEntities.MembersEntity;
-import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
-import com.lgcns.erp.workflow.DBEntities.TripTypesEntity;
 import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
-import com.lgcns.erp.workflow.Mapper.BusinessTripMapper;
-import com.lgcns.erp.workflow.Mapper.DetailsMapper;
-import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
-import com.lgcns.erp.workflow.ViewModel.DetailsViewModel;
 import com.lgcns.erp.workflow.ViewModel.ToDoViewModel;
-import com.lgcns.erp.workflow.util.ContentType;
-import com.lgcns.erp.workflow.util.DetailsAction;
 import com.lgcns.erp.workflow.util.Filter;
 import org.springframework.beans.support.PagedListHolder;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.activation.MimetypesFileTypeMap;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.security.Principal;
-import java.sql.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

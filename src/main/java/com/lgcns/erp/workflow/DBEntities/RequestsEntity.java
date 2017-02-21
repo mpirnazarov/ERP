@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.Collection;
 
 /**
- * Created by Muslimbek Pirnazarov on 2/9/2017.
+ * Created by DS on 21.02.2017.
  */
 @Entity
 @Table(name = "requests", schema = "workflow", catalog = "LgErpSystem")
@@ -15,17 +15,21 @@ public class RequestsEntity {
     private Integer leaveTypeId;
     private String subject;
     private Boolean isDomestic;
-    private int tripTypeId;
-    private int typeId;
+    private Integer tripTypeId;
+    private Integer typeId;
     private Date dateFrom;
     private Date dateTo;
     private String description;
     private int statusId;
     private Date dateCreated;
     private String destination;
+    private Boolean isViewed;
+    private Integer reqLinkId;
     private Collection<AttachmentsEntity> attachmentssById;
     private Collection<MembersEntity> memberssById;
     private TripTypesEntity tripTypesByTripTypeId;
+    private RequestsEntity requestsByReqLinkId;
+    private Collection<RequestsEntity> requestssById;
     private Collection<StepsEntity> stepssById;
     private Collection<ToDoEntity> toDosById;
 
@@ -82,21 +86,21 @@ public class RequestsEntity {
 
     @Basic
     @Column(name = "trip_type_id")
-    public int getTripTypeId() {
+    public Integer getTripTypeId() {
         return tripTypeId;
     }
 
-    public void setTripTypeId(int tripTypeId) {
+    public void setTripTypeId(Integer tripTypeId) {
         this.tripTypeId = tripTypeId;
     }
 
     @Basic
     @Column(name = "type_id")
-    public int getTypeId() {
+    public Integer getTypeId() {
         return typeId;
     }
 
-    public void setTypeId(int typeId) {
+    public void setTypeId(Integer typeId) {
         this.typeId = typeId;
     }
 
@@ -160,26 +164,48 @@ public class RequestsEntity {
         this.destination = destination;
     }
 
+    @Basic
+    @Column(name = "is_viewed")
+    public Boolean getViewed() {
+        return isViewed;
+    }
+
+    public void setViewed(Boolean viewed) {
+        isViewed = viewed;
+    }
+
+    @Basic
+    @Column(name = "req_link_id")
+    public Integer getReqLinkId() {
+        return reqLinkId;
+    }
+
+    public void setReqLinkId(Integer reqLinkId) {
+        this.reqLinkId = reqLinkId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        RequestsEntity that = (RequestsEntity) o;
+        RequestsEntity entity = (RequestsEntity) o;
 
-        if (id != that.id) return false;
-        if (userFromId != that.userFromId) return false;
-        if (tripTypeId != that.tripTypeId) return false;
-        if (typeId != that.typeId) return false;
-        if (statusId != that.statusId) return false;
-        if (leaveTypeId != null ? !leaveTypeId.equals(that.leaveTypeId) : that.leaveTypeId != null) return false;
-        if (subject != null ? !subject.equals(that.subject) : that.subject != null) return false;
-        if (isDomestic != null ? !isDomestic.equals(that.isDomestic) : that.isDomestic != null) return false;
-        if (dateFrom != null ? !dateFrom.equals(that.dateFrom) : that.dateFrom != null) return false;
-        if (dateTo != null ? !dateTo.equals(that.dateTo) : that.dateTo != null) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (dateCreated != null ? !dateCreated.equals(that.dateCreated) : that.dateCreated != null) return false;
-        if (destination != null ? !destination.equals(that.destination) : that.destination != null) return false;
+        if (id != entity.id) return false;
+        if (userFromId != entity.userFromId) return false;
+        if (statusId != entity.statusId) return false;
+        if (leaveTypeId != null ? !leaveTypeId.equals(entity.leaveTypeId) : entity.leaveTypeId != null) return false;
+        if (subject != null ? !subject.equals(entity.subject) : entity.subject != null) return false;
+        if (isDomestic != null ? !isDomestic.equals(entity.isDomestic) : entity.isDomestic != null) return false;
+        if (tripTypeId != null ? !tripTypeId.equals(entity.tripTypeId) : entity.tripTypeId != null) return false;
+        if (typeId != null ? !typeId.equals(entity.typeId) : entity.typeId != null) return false;
+        if (dateFrom != null ? !dateFrom.equals(entity.dateFrom) : entity.dateFrom != null) return false;
+        if (dateTo != null ? !dateTo.equals(entity.dateTo) : entity.dateTo != null) return false;
+        if (description != null ? !description.equals(entity.description) : entity.description != null) return false;
+        if (dateCreated != null ? !dateCreated.equals(entity.dateCreated) : entity.dateCreated != null) return false;
+        if (destination != null ? !destination.equals(entity.destination) : entity.destination != null) return false;
+        if (isViewed != null ? !isViewed.equals(entity.isViewed) : entity.isViewed != null) return false;
+        if (reqLinkId != null ? !reqLinkId.equals(entity.reqLinkId) : entity.reqLinkId != null) return false;
 
         return true;
     }
@@ -191,14 +217,16 @@ public class RequestsEntity {
         result = 31 * result + (leaveTypeId != null ? leaveTypeId.hashCode() : 0);
         result = 31 * result + (subject != null ? subject.hashCode() : 0);
         result = 31 * result + (isDomestic != null ? isDomestic.hashCode() : 0);
-        result = 31 * result + tripTypeId;
-        result = 31 * result + typeId;
+        result = 31 * result + (tripTypeId != null ? tripTypeId.hashCode() : 0);
+        result = 31 * result + (typeId != null ? typeId.hashCode() : 0);
         result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
         result = 31 * result + (dateTo != null ? dateTo.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + statusId;
         result = 31 * result + (dateCreated != null ? dateCreated.hashCode() : 0);
         result = 31 * result + (destination != null ? destination.hashCode() : 0);
+        result = 31 * result + (isViewed != null ? isViewed.hashCode() : 0);
+        result = 31 * result + (reqLinkId != null ? reqLinkId.hashCode() : 0);
         return result;
     }
 
@@ -221,13 +249,32 @@ public class RequestsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "trip_type_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "trip_type_id", referencedColumnName = "id", insertable = false, updatable = false)
     public TripTypesEntity getTripTypesByTripTypeId() {
         return tripTypesByTripTypeId;
     }
 
     public void setTripTypesByTripTypeId(TripTypesEntity tripTypesByTripTypeId) {
         this.tripTypesByTripTypeId = tripTypesByTripTypeId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "req_link_id", referencedColumnName = "id", insertable = false, updatable = false)
+    public RequestsEntity getRequestsByReqLinkId() {
+        return requestsByReqLinkId;
+    }
+
+    public void setRequestsByReqLinkId(RequestsEntity requestsByReqLinkId) {
+        this.requestsByReqLinkId = requestsByReqLinkId;
+    }
+
+    @OneToMany(mappedBy = "requestsByReqLinkId")
+    public Collection<RequestsEntity> getRequestssById() {
+        return requestssById;
+    }
+
+    public void setRequestssById(Collection<RequestsEntity> requestssById) {
+        this.requestssById = requestssById;
     }
 
     @OneToMany(mappedBy = "requestsByRequestId")

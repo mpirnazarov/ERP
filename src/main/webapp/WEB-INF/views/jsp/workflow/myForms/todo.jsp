@@ -228,4 +228,6 @@
         initialize();
 
     });
+
+    var source = new EventSource()
 </script>

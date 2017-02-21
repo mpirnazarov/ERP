@@ -1,33 +1,37 @@
 package com.lgcns.erp.workflow.controller.myForms;
 
 import com.google.common.io.Files;
+import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
+import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.workflow.DBContext.WorkflowProgressService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
+import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.TripTypesEntity;
 import com.lgcns.erp.workflow.Enums.LeaveType;
-import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Mapper.BusinessTripMapper;
 import com.lgcns.erp.workflow.Mapper.DetailsMapper;
 import com.lgcns.erp.workflow.Mapper.LeaveApproveMapper;
 import com.lgcns.erp.workflow.Mapper.ProgressMapper;
 import com.lgcns.erp.workflow.Model.Approver;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
+import com.lgcns.erp.workflow.ViewModel.TerminationViewModel;
 import com.lgcns.erp.workflow.ViewModel.DetailsViewModel;
 import com.lgcns.erp.workflow.ViewModel.LeaveApproveVM;
 import com.lgcns.erp.workflow.util.ContentType;
 import com.lgcns.erp.workflow.util.DetailsAction;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
@@ -44,6 +48,7 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/Workflow/MyForms")
 public class DetailsController {
+
     @RequestMapping(value = "/details/{controllerId}/{id}", method = RequestMethod.GET)
     public ModelAndView details(Principal principal, @PathVariable(value = "id")int id, @PathVariable(value = "controllerId") int controller){
         ModelAndView mav = new ModelAndView("/workflow/myForms/details");
@@ -109,5 +114,95 @@ public class DetailsController {
             e.printStackTrace();
         }
         return new ResponseEntity<>(isr, respHeaders, HttpStatus.OK);
+    }
+
+    //Cancel
+    @RequestMapping(value = "/cancellation/{id}", method = RequestMethod.GET)
+    public ModelAndView doCancel(Principal principal, @PathVariable("id")int id){
+        ModelAndView mav = new ModelAndView("/workflow/myForms/termination");
+
+
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
+
+        TerminationViewModel viewModel = DetailsMapper.getTerminationViewModel(id);
+        mav.addObject("termination", viewModel);
+
+        JSONObject jsonObject = null;
+        JSONArray jsonArray = new JSONArray();
+
+        // Retrieving data of all users from DB
+        UserLocalizationsEntity userLoc=null;
+        for (UsersEntity user :
+                UserService.getAllUsers()) {
+            jsonObject = new JSONObject();
+            if(user.isEnabled()==true) {
+                jsonObject = new JSONObject();
+                // Retrieving user localizations info from DB for all users and check for null
+                if(user.getId()!=0 || UserService.getUserLocByUserId(user.getId(), 3)!=null) {
+                    try {
+                        userLoc = UserService.getUserLocByUserId(user.getId(), 3);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                // Inserting user Id as id, fullname as name, jobTitle as jobTitle and department as department
+                ProfileViewModel prof =  UserController.getProfileByUsername(user.getUserName());
+
+                jsonObject.put("id", prof.getId());
+                jsonObject.put("name", userLoc.getFirstName() + " " + userLoc.getLastName());
+                jsonObject.put("jobTitle", prof.getJobTitle());
+                jsonObject.put("department", prof.getDepartment());
+
+                // add object to array
+                jsonArray.add(jsonObject);
+
+            }
+        }
+
+        mav.addObject("jsonData", jsonArray);
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/cancellation", method = RequestMethod.POST)
+    public  ModelAndView doCancel(@RequestParam("approvals") int[] approvals,
+                                  @RequestParam("executives") int[] executives,
+                                  @RequestParam("references") int[] references,
+                                  @RequestParam("description") String description,
+                                  @RequestParam("old_id") int old_id,
+                                  @RequestParam("subject")String subject){
+
+        RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(old_id);
+
+        TerminationViewModel viewModel = new TerminationViewModel();
+        viewModel.setDescription(description);
+        viewModel.setOld_req_id(old_id);
+        viewModel.setSubject(subject);
+
+        int new_req_Id = WorkflowService.insertRequests(DetailsMapper.getRequestFromViewModel(viewModel, requestsEntity));
+
+        int count=1;
+        /* Insert to table steps */
+        for (int num :approvals) {
+            System.out.println("Approvals: " + num);
+            if(count==1)
+                WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(new_req_Id, requestsEntity.getUserFromId(), 1, count++, 1, true));
+            else
+                WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(new_req_Id, requestsEntity.getUserFromId(), 1, count++, 1, false));
+        }
+
+        for (int num :executives) {
+            System.out.println("Executives: " + num);
+            WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(new_req_Id, requestsEntity.getUserFromId(), 2, 0, 1, false));
+        }
+
+        for (int num :references) {
+            System.out.println("References: " + num);
+            WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(new_req_Id, requestsEntity.getUserFromId(), 3, 0, 1, false));
+        }
+
+
+        return new ModelAndView("redirect:/Workflow/MyForms/Request");
     }
 }

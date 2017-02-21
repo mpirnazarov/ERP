@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-02-10.15:19:21.114</IntrospectionTimestamp>
-      <IntrospectionStateNumber>3997</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-02-21.12:46:45.299</IntrospectionTimestamp>
+      <IntrospectionStateNumber>4092</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -31,8 +31,8 @@
     </schema>
     <schema id="9" parent="2" name="workflow">
       <ObjectId>91301</ObjectId>
-      <IntrospectionTimestamp>2017-02-10.15:19:21.114</IntrospectionTimestamp>
-      <IntrospectionStateNumber>4049</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-02-21.12:46:45.299</IntrospectionTimestamp>
+      <IntrospectionStateNumber>4285</IntrospectionStateNumber>
       <Visible>1</Visible>
     </schema>
     <schema id="10" parent="2" name="migration">
@@ -393,7 +393,7 @@
     </table>
     <table id="89" parent="3" name="users">
       <ObjectId>16913</ObjectId>
-      <StateNumber>3997</StateNumber>
+      <StateNumber>4092</StateNumber>
     </table>
     <table id="90" parent="3" name="vocation_status">
       <ObjectId>17411</ObjectId>
@@ -472,11 +472,11 @@
     </table>
     <table id="106" parent="9" name="members">
       <ObjectId>91364</ObjectId>
-      <StateNumber>3994</StateNumber>
+      <StateNumber>4277</StateNumber>
     </table>
     <table id="107" parent="9" name="requests">
       <ObjectId>91304</ObjectId>
-      <StateNumber>3987</StateNumber>
+      <StateNumber>4281</StateNumber>
     </table>
     <table id="108" parent="9" name="step_comments">
       <ObjectId>115924</ObjectId>
@@ -484,7 +484,7 @@
     </table>
     <table id="109" parent="9" name="steps">
       <ObjectId>91315</ObjectId>
-      <StateNumber>3997</StateNumber>
+      <StateNumber>4092</StateNumber>
     </table>
     <table id="110" parent="9" name="to_do">
       <ObjectId>91323</ObjectId>
@@ -2823,298 +2823,318 @@ workload_type</ColNames>
       <NotNull>1</NotNull>
       <StateNumber>3580</StateNumber>
     </column>
-    <index id="498" parent="106" name="members_pkey">
+    <column id="498" parent="106" name="accom_currency">
+      <Position>11</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>4277</StateNumber>
+    </column>
+    <index id="499" parent="106" name="members_pkey">
       <ObjectId>91368</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="499" parent="106" name="members_pkey">
+    <key id="500" parent="106" name="members_pkey">
       <ObjectId>91369</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>members_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="500" parent="106" name="fk_request_id">
+    <foreign-key id="501" parent="106" name="fk_request_id">
       <ObjectId>115975</ObjectId>
       <ColNames>request_id</ColNames>
       <RefTableName>requests</RefTableName>
       <RefKeyName>Requests_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="501" parent="106" name="fk_get_user_id">
+    <foreign-key id="502" parent="106" name="fk_get_user_id">
       <ObjectId>116105</ObjectId>
       <ColNames>user_id</ColNames>
     </foreign-key>
-    <column id="502" parent="107" name="id">
+    <column id="503" parent="107" name="id">
       <Position>1</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3873</StateNumber>
       <DefaultExpression>nextval(&apos;requests_id_seq&apos;::regclass)</DefaultExpression>
     </column>
-    <column id="503" parent="107" name="user_from_id">
+    <column id="504" parent="107" name="user_from_id">
       <Position>2</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3571</StateNumber>
     </column>
-    <column id="504" parent="107" name="leave_type_id">
+    <column id="505" parent="107" name="leave_type_id">
       <Position>3</Position>
       <DataType>integer|0</DataType>
       <StateNumber>3571</StateNumber>
     </column>
-    <column id="505" parent="107" name="subject">
+    <column id="506" parent="107" name="subject">
       <Position>4</Position>
       <DataType>varchar(50)|0</DataType>
       <StateNumber>3571</StateNumber>
     </column>
-    <column id="506" parent="107" name="is_domestic">
+    <column id="507" parent="107" name="is_domestic">
       <Position>5</Position>
       <DataType>boolean|0</DataType>
       <StateNumber>3571</StateNumber>
     </column>
-    <column id="507" parent="107" name="trip_type_id">
+    <column id="508" parent="107" name="trip_type_id">
       <Position>6</Position>
       <DataType>integer|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>3571</StateNumber>
+      <StateNumber>4284</StateNumber>
     </column>
-    <column id="508" parent="107" name="type_id">
+    <column id="509" parent="107" name="type_id">
       <Position>7</Position>
       <DataType>integer|0</DataType>
       <StateNumber>4049</StateNumber>
     </column>
-    <column id="509" parent="107" name="date_from">
+    <column id="510" parent="107" name="date_from">
       <Position>8</Position>
       <DataType>date|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>3571</StateNumber>
+      <StateNumber>4285</StateNumber>
     </column>
-    <column id="510" parent="107" name="date_to">
+    <column id="511" parent="107" name="date_to">
       <Position>9</Position>
       <DataType>date|0</DataType>
       <StateNumber>3571</StateNumber>
     </column>
-    <column id="511" parent="107" name="description">
+    <column id="512" parent="107" name="description">
       <Position>10</Position>
       <DataType>varchar(600)|0</DataType>
       <StateNumber>3571</StateNumber>
     </column>
-    <column id="512" parent="107" name="status_id">
+    <column id="513" parent="107" name="status_id">
       <Position>11</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3571</StateNumber>
     </column>
-    <column id="513" parent="107" name="date_created">
+    <column id="514" parent="107" name="date_created">
       <Position>12</Position>
       <DataType>date|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3571</StateNumber>
     </column>
-    <column id="514" parent="107" name="destination">
+    <column id="515" parent="107" name="destination">
       <Position>13</Position>
       <DataType>varchar(100)|0</DataType>
       <StateNumber>3608</StateNumber>
     </column>
-    <index id="515" parent="107" name="Requests_pkey">
+    <column id="516" parent="107" name="is_viewed">
+      <Position>14</Position>
+      <DataType>boolean|0</DataType>
+      <StateNumber>4248</StateNumber>
+    </column>
+    <column id="517" parent="107" name="req_link_id">
+      <Position>16</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>4276</StateNumber>
+    </column>
+    <index id="518" parent="107" name="Requests_pkey">
       <ObjectId>115973</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="516" parent="107" name="Requests_pkey">
+    <key id="519" parent="107" name="Requests_pkey">
       <ObjectId>115974</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>Requests_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="517" parent="107" name="fk_get_trip_id">
+    <foreign-key id="520" parent="107" name="fk_get_trip_id">
       <ObjectId>116085</ObjectId>
       <ColNames>trip_type_id</ColNames>
       <RefTableName>trip_types</RefTableName>
       <RefKeyName>trip_types_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="518" parent="108" name="id">
+    <foreign-key id="521" parent="107" name="get_req_link_id">
+      <ObjectId>116139</ObjectId>
+      <ColNames>req_link_id</ColNames>
+      <RefTableName>requests</RefTableName>
+      <RefKeyName>Requests_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="522" parent="108" name="id">
       <Position>1</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3852</StateNumber>
       <DefaultExpression>nextval(&apos;workflow.step_comments_id_seq&apos;::regclass)</DefaultExpression>
     </column>
-    <column id="519" parent="108" name="status_id">
+    <column id="523" parent="108" name="status_id">
       <Position>2</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3852</StateNumber>
     </column>
-    <column id="520" parent="108" name="steps_id">
+    <column id="524" parent="108" name="steps_id">
       <Position>3</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3852</StateNumber>
     </column>
-    <column id="521" parent="108" name="comments">
+    <column id="525" parent="108" name="comments">
       <Position>4</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3852</StateNumber>
     </column>
-    <index id="522" parent="108" name="step_comments_pkey">
+    <index id="526" parent="108" name="step_comments_pkey">
       <ObjectId>115931</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="523" parent="108" name="step_comments_pkey">
+    <key id="527" parent="108" name="step_comments_pkey">
       <ObjectId>115932</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>step_comments_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="524" parent="108" name="fk_get_step_id">
+    <foreign-key id="528" parent="108" name="fk_get_step_id">
       <ObjectId>115941</ObjectId>
       <ColNames>steps_id</ColNames>
       <RefTableName>steps</RefTableName>
       <RefKeyName>Steps_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="525" parent="109" name="id">
+    <column id="529" parent="109" name="id">
       <Position>1</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3864</StateNumber>
       <DefaultExpression>nextval(&apos;&quot;Steps_id_seq&quot;&apos;::regclass)</DefaultExpression>
     </column>
-    <column id="526" parent="109" name="request_id">
+    <column id="530" parent="109" name="request_id">
       <Position>2</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3572</StateNumber>
     </column>
-    <column id="527" parent="109" name="user_id">
+    <column id="531" parent="109" name="user_id">
       <Position>3</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3572</StateNumber>
     </column>
-    <column id="528" parent="109" name="involvement_type_id">
+    <column id="532" parent="109" name="involvement_type_id">
       <Position>4</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3572</StateNumber>
     </column>
-    <column id="529" parent="109" name="step_sequence">
+    <column id="533" parent="109" name="step_sequence">
       <Position>5</Position>
       <DataType>integer|0</DataType>
       <StateNumber>3868</StateNumber>
     </column>
-    <column id="530" parent="109" name="status_id">
+    <column id="534" parent="109" name="status_id">
       <Position>6</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3572</StateNumber>
     </column>
-    <column id="531" parent="109" name="status_date">
+    <column id="535" parent="109" name="status_date">
       <Position>7</Position>
       <DataType>date|0</DataType>
       <StateNumber>3615</StateNumber>
     </column>
-    <column id="532" parent="109" name="is_active">
+    <column id="536" parent="109" name="is_active">
       <Position>9</Position>
       <DataType>boolean|0</DataType>
       <StateNumber>3854</StateNumber>
     </column>
-    <index id="533" parent="109" name="Steps_pkey">
+    <index id="537" parent="109" name="Steps_pkey">
       <ObjectId>115939</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="534" parent="109" name="Steps_pkey">
+    <key id="538" parent="109" name="Steps_pkey">
       <ObjectId>115940</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>Steps_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="535" parent="109" name="fk_req_id">
+    <foreign-key id="539" parent="109" name="fk_req_id">
       <ObjectId>115985</ObjectId>
       <ColNames>request_id</ColNames>
       <RefTableName>requests</RefTableName>
       <RefKeyName>Requests_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="536" parent="109" name="get_user_id">
-      <ObjectId>116110</ObjectId>
+    <foreign-key id="540" parent="109" name="get_user_id">
+      <ObjectId>116115</ObjectId>
       <ColNames>user_id</ColNames>
     </foreign-key>
-    <foreign-key id="537" parent="109" name="get_involvent_type">
+    <foreign-key id="541" parent="109" name="get_involvent_type">
       <ObjectId>116100</ObjectId>
       <ColNames>involvement_type_id</ColNames>
       <RefTableName>involvement_types</RefTableName>
       <RefKeyName>involvement_types_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="538" parent="110" name="id">
+    <column id="542" parent="110" name="id">
       <Position>1</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3876</StateNumber>
       <DefaultExpression>nextval(&apos;to_do_id_seq&apos;::regclass)</DefaultExpression>
     </column>
-    <column id="539" parent="110" name="request_id">
+    <column id="543" parent="110" name="request_id">
       <Position>2</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3575</StateNumber>
     </column>
-    <column id="540" parent="110" name="date">
+    <column id="544" parent="110" name="date">
       <Position>3</Position>
       <DataType>date|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3575</StateNumber>
     </column>
-    <column id="541" parent="110" name="description">
+    <column id="545" parent="110" name="description">
       <Position>4</Position>
       <DataType>varchar(600)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3575</StateNumber>
     </column>
-    <index id="542" parent="110" name="to_do_pkey">
+    <index id="546" parent="110" name="to_do_pkey">
       <ObjectId>116006</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="543" parent="110" name="to_do_pkey">
+    <key id="547" parent="110" name="to_do_pkey">
       <ObjectId>116007</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>to_do_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="544" parent="110" name="get_request_id">
+    <foreign-key id="548" parent="110" name="get_request_id">
       <ObjectId>115980</ObjectId>
       <ColNames>request_id</ColNames>
       <RefTableName>requests</RefTableName>
       <RefKeyName>Requests_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="545" parent="111" name="id">
+    <column id="549" parent="111" name="id">
       <Position>1</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3877</StateNumber>
       <DefaultExpression>nextval(&apos;trip_types_id_seq&apos;::regclass)</DefaultExpression>
     </column>
-    <column id="546" parent="111" name="name">
+    <column id="550" parent="111" name="name">
       <Position>2</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>3576</StateNumber>
     </column>
-    <index id="547" parent="111" name="trip_types_pkey">
+    <index id="551" parent="111" name="trip_types_pkey">
       <ObjectId>116016</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="548" parent="111" name="trip_types_pkey">
+    <key id="552" parent="111" name="trip_types_pkey">
       <ObjectId>116017</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>trip_types_pkey</UnderlyingIndexName>

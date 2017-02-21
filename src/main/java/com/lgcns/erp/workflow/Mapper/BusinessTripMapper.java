@@ -7,7 +7,6 @@ import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
 import com.lgcns.erp.workflow.DBEntities.MembersEntity;
-import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.ToDoEntity;
 import com.lgcns.erp.workflow.DBEntities.*;
 import com.lgcns.erp.workflow.Model.Member;

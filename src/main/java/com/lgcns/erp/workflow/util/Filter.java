@@ -1,22 +1,13 @@
 package com.lgcns.erp.workflow.util;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
-import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
-import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
-import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.Mapper.RequestMapper;
 import com.lgcns.erp.workflow.Mapper.ToDoMapper;
 import com.lgcns.erp.workflow.ViewModel.RequestViewModel;
 import com.lgcns.erp.workflow.ViewModel.ToDoViewModel;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by DS on 25.01.2017.

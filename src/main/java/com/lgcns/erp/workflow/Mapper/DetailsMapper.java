@@ -139,11 +139,7 @@ public class DetailsMapper {
         return viewModel;
     }
 
-    public static StepsEntity getStepFromViewModel(int reqId, int userId, int involvementTypeId, int sequence, int statusId, boolean isActive){
 
-
-        return null;
-    }
 
     public static RequestsEntity getRequestFromViewModel(TerminationViewModel viewModel, RequestsEntity old_requestsEntity){
         RequestsEntity requestsEntity = new RequestsEntity();
@@ -156,6 +152,9 @@ public class DetailsMapper {
         requestsEntity.setTypeId(4);
         requestsEntity.setStatusId(1);
         requestsEntity.setViewed(false);
+        requestsEntity.setDomestic(old_requestsEntity.getDomestic());
+        requestsEntity.setTripTypeId(old_requestsEntity.getTripTypeId());
+        requestsEntity.setDestination(old_requestsEntity.getDestination());
 
         return requestsEntity;
     }

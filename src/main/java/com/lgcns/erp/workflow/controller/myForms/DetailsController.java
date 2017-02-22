@@ -7,6 +7,7 @@ import com.lgcns.erp.tapps.controller.UserController;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
+import com.lgcns.erp.workflow.DBContext.WorkflowDeleteService;
 import com.lgcns.erp.workflow.DBContext.WorkflowProgressService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
@@ -93,6 +94,13 @@ public class DetailsController {
         List<Approver> approvers = ProgressMapper.getApprovers(WorkflowProgressService.getStepsByReqId(id));
         mav.addObject("approvers", approvers);
 
+
+        //Set the request viewed true if controller is ToDo
+        if (controller==1)
+            WorkflowService.setIsViewed(id);
+
+        mav.addObject("isViewed", entity.getViewed());
+
         return mav;
     }
 
@@ -100,7 +108,6 @@ public class DetailsController {
     public String details(@RequestParam("comment")String comment, @RequestParam("status")int status, @RequestParam("reqId")int reqId){
 
         DetailsAction.doAction(comment, status, reqId);
-
         return "";
     }
 
@@ -174,7 +181,7 @@ public class DetailsController {
     }
 
     @RequestMapping(value = "/cancellation", method = RequestMethod.POST)
-    public  ModelAndView doCancel(@RequestParam("approvals") int[] approvals,
+    public  String doCancel(@RequestParam("approvals") int[] approvals,
                                   @RequestParam("executives") int[] executives,
                                   @RequestParam("references") int[] references,
                                   @RequestParam("description") String description,
@@ -210,7 +217,14 @@ public class DetailsController {
             WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(new_req_Id, requestsEntity.getUserFromId(), 3, 0, 1, false));
         }
 
+        return "redirect:/";
+    }
 
-        return new ModelAndView("redirect:/Workflow/MyForms/Request");
+    @RequestMapping(value = "/Delete/{id}")
+    public String delete(@PathVariable("id")int id){
+
+        System.out.println(id);
+        WorkflowDeleteService.DeleteRequest(id, 8);
+        return "redirect:/Workflow/MyForms/Request";
     }
 }

@@ -279,13 +279,13 @@
                 </button>
             </div>
             <div class="btn-group" role="group">
-                <button style="color: #ff0000" id="deleteButton" type="button" class="btn btn-default"><span
+                <button style="color: #ff0000" id="deleteButton" type="button" class="btn btn-default" onclick="location.href='/Workflow/MyForms/Delete/${model.request_id}'"><span
                         style="opacity: 1" class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete
                 </button>
             </div>
             <div class="btn-group" role="group">
-                <button style="color: #1a85e0" id="terminationButton" type="button" class="btn btn-default"><span
-                        style="opacity: 1" class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Terminate
+                <button style="color: #1a85e0" id="terminationButton" type="button" class="btn btn-default" onclick="location.href='/Workflow/MyForms/cancellation/${model.request_id}'">
+                    <span style="opacity: 1" class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Terminate
                 </button>
             </div>
         </div>

@@ -1,6 +1,7 @@
 package com.lgcns.erp.workflow.DBContext;
 
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
+import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepCommentsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepsEntity;
 import com.lgcns.erp.workflow.Mapper.CommentMapper;
@@ -45,11 +46,17 @@ public class WorkflowToDoApproveService {
         if (isNext)
             return nextStepId;
         else{
+            // if it is termination
+            RequestsEntity entity = WorkflowService.getRequestsEntityById(requestId);
+            if (entity.getTypeId()==4)
+                submitRequest(entity.getReqLinkId(), 6);
+
             approve(requestId, statusId);
             submitRequest(requestId, statusId);
             return -1;
         }
     }
+
 
     protected static List<StepsEntity> getTheStepsByReqId(int requestId){
         List<StepsEntity> list = null;

@@ -50,10 +50,11 @@
             </div>
 
              <div class="input-group" style="width: 100%; margin-top: 1%">
-                        <span class="input-group-addon" id="purpose-addon"
+                        <span class="input-group-addon" id="term_span"
                               style="width: 25%">Description:</span>
                         <textarea class="form-control" rows="15" id="termination_desc" aria-describedby="purpose-addon"
                            style="width: 60%" path="description">${termination.description}</textarea>
+                 <span class="error text-danger" id="error_desc" style="display: none">Description cannot be empty</span>
              </div>
 
             <div class="input-group" style="width: 100%; margin-top: 1%">
@@ -119,6 +120,9 @@
             var description = $('#termination_desc').val();
             var subject = '${termination.subject}';
 
+            if($(this).isDisabled){
+                alert("disabled");
+            }
             alert(description+old_Id);
 
             a = $("#approvals1").children().siblings("input[type=text]").val();
@@ -129,7 +133,7 @@
                 url : "/Workflow/MyForms/cancellation",
                 data :'approvals='+a+'&references='+b+'&executives='+c+'&description='+description+'&old_id='+old_Id+'&subject='+subject,
                 success : function(response) {
-//                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
+                    window.location.href = "/Workflow/MyForms/Request";
                 },
                 error : function(e) {
                     alert('Error: ');
@@ -149,5 +153,15 @@
     $(document).ready(function () {
         $("#demo-input-local3").tokenInput(${jsonData});
     });
+
+    //validation
+   $(document).ready(function () {
+       var desc = document.getElementById("error_desc");
+           $('#termination_desc').blur(function(){
+               if($(this).val().trim()==""){
+
+               }
+            });
+   });
 
 </script>

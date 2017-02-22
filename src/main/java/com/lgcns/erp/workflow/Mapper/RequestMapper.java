@@ -47,7 +47,7 @@ public class RequestMapper {
     private static List<RequestsEntity> getValidReqs(List<RequestsEntity> reqs, int userId) {
         List<RequestsEntity> requestsEntities = new ArrayList<>();
         for (RequestsEntity req : reqs) {
-            if (req.getUserFromId()==userId){
+            if (req.getUserFromId()==userId&&req.getStatusId()!=8){
                 requestsEntities.add(req);
             }
         }

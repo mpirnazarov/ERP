@@ -391,4 +391,24 @@ public class WorkflowService {
         }
         return list;
     }
+
+    public static void setIsViewed(int req_id){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update RequestsEntity set viewed=true WHERE id=:req_id");
+            query.setParameter("req_id", req_id);
+
+            int s = query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
 }

@@ -307,7 +307,7 @@
             error: function () {
             }
         });
-    }, 1000);
+    }, 5000);
 
     setInterval(function () {
         $.ajax({
@@ -320,5 +320,5 @@
             error: function () {
             }
         });
-    }, 3000);
+    }, 5000);
 </script>

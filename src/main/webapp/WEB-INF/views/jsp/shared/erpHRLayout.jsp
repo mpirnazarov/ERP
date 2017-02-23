@@ -331,7 +331,7 @@
             error: function () {
             }
         });
-    }, 1000);
+    }, 5000);
 
     setInterval(function () {
         $.ajax({
@@ -344,7 +344,7 @@
             error: function () {
             }
         });
-    }, 3000);
+    }, 5000);
 </script>
 
 <%--<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--%>

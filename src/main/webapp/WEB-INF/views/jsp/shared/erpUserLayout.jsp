@@ -333,7 +333,7 @@
             error: function () {
             }
         });
-    }, 3000);
+    }, 5000);
     setInterval(function () {
         $.ajax({
             type:"GET",
@@ -345,5 +345,5 @@
             error: function () {
             }
         });
-    }, 3000);
+    }, 5000);
 </script>

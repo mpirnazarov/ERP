@@ -128,6 +128,7 @@ public class LeaveApproveController {
             WorkflowService.insertAttachments(LeaveApproveMapper.attachmentsMapper(leaveApproveVM.getId(), attachment));
         }
 
+        System.out.println(approvalsGlobal);
         int count=1;
         /* Insert to table steps */
         for (int num :

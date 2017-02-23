@@ -126,10 +126,7 @@
             }
 
             /* file size limitation */
-            if($("#file").val().trim() == "") {
-                msg += "Attached file cannot be empty \n";
-            }
-            else{
+            if($("#file").val().trim() != "") {
                 var size = 0;
                 input = document.getElementById('file');
                 for (var i = 0; i < input.files.length; i++) {

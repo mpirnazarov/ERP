@@ -25,7 +25,7 @@ public class LeaveApproveMapper {
         // By default workflow status will be in progress = 1
         requestsEntity.setStatusId(statusId);
         requestsEntity.setDateCreated(new java.sql.Date(new java.util.Date().getTime()));
-
+        requestsEntity.setViewed(isViewed);
         return requestsEntity;
     }
 

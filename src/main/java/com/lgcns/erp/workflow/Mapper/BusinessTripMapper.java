@@ -37,6 +37,7 @@ public class BusinessTripMapper {
         requestsEntity.setStatusId(statusId);
         requestsEntity.setDateCreated(new java.sql.Date(new java.util.Date().getTime()));
         requestsEntity.setDestination(businessTripVM.getDestination());
+        requestsEntity.setViewed(isViewed);
 
         return requestsEntity;
     }

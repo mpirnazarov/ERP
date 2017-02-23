@@ -129,10 +129,7 @@
             }
 
             /* file size limitation */
-            if($("#file").val().trim() == "") {
-                msg += "Attached file cannot be empty \n";
-            }
-            else{
+            if($("#file").val().trim() != "") {
                 var size = 0;
                 input = document.getElementById('file');
                 for (var i = 0; i < input.files.length; i++) {
@@ -176,10 +173,10 @@
                 msg += "At least one approval should be selected \n";
                 flag = false;
             }
-
-            alert(msg);
+            if(msg != "")
+                alert(msg);
             msg = "";
-            return flag;
+
 
 
             b = $("#references").children().siblings("input[type=text]").val();
@@ -195,6 +192,7 @@
                     alert('Error: ' + e);
                 }
             });
+            return flag;
         });
     });
 

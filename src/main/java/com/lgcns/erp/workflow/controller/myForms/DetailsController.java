@@ -202,19 +202,19 @@ public class DetailsController {
         for (int num :approvals) {
             System.out.println("Approvals: " + num);
             if(count==1)
-                WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(new_req_Id, requestsEntity.getUserFromId(), 1, count++, 1, true));
+                WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(new_req_Id, num, 1, count++, 1, true));
             else
-                WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(new_req_Id, requestsEntity.getUserFromId(), 1, count++, 1, false));
+                WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(new_req_Id, num, 1, count++, 1, false));
         }
 
         for (int num :executives) {
             System.out.println("Executives: " + num);
-            WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(new_req_Id, requestsEntity.getUserFromId(), 2, 0, 1, false));
+            WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(new_req_Id, num, 2, 0, 1, false));
         }
 
         for (int num :references) {
             System.out.println("References: " + num);
-            WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(new_req_Id, requestsEntity.getUserFromId(), 3, 0, 1, false));
+            WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(new_req_Id, num, 3, 0, 1, false));
         }
 
         return "redirect:/";

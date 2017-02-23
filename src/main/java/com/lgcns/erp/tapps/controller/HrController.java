@@ -93,9 +93,7 @@ public class HrController {
         ModelAndView mav = new ModelAndView();
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("registrationVM", registrationViewModel);
-        System.out.println("ERROR2!!!");
         if (bindingResult.hasErrors()) {
-            System.out.println("ERROR!!!");
             mav.addObject("heads", getDirectHeadIdAndName());
             mav.addObject("departments", getDepartmentsIdAndName());
             mav.addObject("statuses", getStatusesIdAndName());
@@ -391,12 +389,13 @@ public class HrController {
     public String deleteDoc(Principal principal, @PathVariable("docId") int docId) throws IOException {
         String path = UserService.getDocumentByDocId(docId).getLink();
         File file = new File(path);
-        if(file.delete())
+        if(file.delete()) {
             System.out.println(file.getName() + " is deleted!");
+            UserService.deleteDocument(docId);
+        }
         else
             System.out.println("Delete operation is failed.");
 
-        UserService.deleteDocument(docId);
         return "redirect: /Hr/Docs/Manage";
     }
 

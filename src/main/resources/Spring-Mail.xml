@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="mail.lgcns.uz" />
+		<property name="port" value="587" />
+		<property name="username" value="subscription@lgcns.uz" />
+		<property name="password" value="PkGv4614yBWn" />
+		
+		<property name="javaMailProperties">
+			<props>
+            	<prop key="mail.smtp.auth">true</prop>
+            	<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.ssl.trust">mail.lgcns.uz</prop>
+        	</props>
+		</property>
+		
+	</bean>
+
+	<bean id="mailMail" class="com.lgcns.erp.workflow.controller.email.MailMail">
+		<property name="mailSender" ref="mailSender" />
+	</bean>
+	
+
+
+
+</beans>

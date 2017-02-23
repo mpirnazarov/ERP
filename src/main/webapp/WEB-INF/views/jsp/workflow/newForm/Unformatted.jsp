@@ -1,6 +1,4 @@
-<%@ page import="java.text.DecimalFormat" %>
-<%@ page import="com.lgcns.erp.tapps.viewModel.usermenu.AppointmentrecViewModel" %>
-<%@ page import="com.lgcns.erp.tapps.viewModel.ProfileViewModel" %>
+<%@ page import="java.util.Date" %>
 <%--
   Created by IntelliJ IDEA.
   User: Muslimbek Pirnazarov
@@ -49,7 +47,7 @@
                     <span class="input-group-addon" id="saerchtype-addon"
                           style="width: 25%">Subject:</span>
                         <div class="input-group" id="">
-                            <form:input type="text" class="form-control" path="subject"/>
+                            <form:input type="text" class="form-control" path="subject" id="subject"/>
                         </div>
                     </div>
                     <div class="input-group" style="width: 100%; margin-top: 1%">
@@ -89,8 +87,8 @@
                     <div class="input-group" style="width: 100%; margin-top: 2%">
                     <span class="input-group-addon" id="date-addon"
                           style="width: 25%">Date(Start/End):</span>
-                        <input type="date" class="form-control" style="width:36%" placeholder="Start" name="start" />
-                        <input type="date" class="form-control" style="width:36%" placeholder="End" name="end" />
+                        <input type="date" class="form-control" style="width:36%" name="start" id="dateStart"/>
+                        <input type="date" class="form-control" style="width:36%" name="end" id="dateEnd"/>
                     </div>
                     <div class="btn-group" role="group" aria-label="..." style="margin-left: 40%; margin-top: 3%">
                         <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-success"/>
@@ -111,8 +109,61 @@
 
     /* Send input from approval list to controller by AJAX */
     $(document).ready(function() {
-        /*$("input[type=submit]").click(function ()*/
+        var flag = true;
+        var msg = "";
         $("#tv").click(function (){
+
+            /* Subject cannot be empty*/
+            if($("#subject").val().trim() == ""){
+                flag = false;
+                msg += "Subject cannot be empty \n";
+            }
+
+            /* Comments cannot be empty*/
+            if($("#comment").val().trim() == ""){
+                flag = false;
+                msg += "Comment cannot be empty \n";
+            }
+
+            /* file size limitation */
+            if($("#file").val().trim() == "") {
+                msg += "Attached file cannot be empty \n";
+            }
+            else{
+                var size = 0;
+                input = document.getElementById('file');
+                for (var i = 0; i < input.files.length; i++) {
+                    size += input.files[0].size;
+                }
+                    if (size > 104857600) {
+                        flag = false
+                        msg += "Attached files cannot be more than 100MB \n";
+                    }
+                }
+
+
+            /* Date start cannot be empty */
+            if($("#dateStart").val().trim() == "") {
+                flag = false;
+                msg += "Start date cannot be empty \n";
+            }
+
+            /* Date end cannot be empty */
+            if($("#dateEnd").val().trim() == "") {
+                flag = false;
+                msg += "End date cannot be empty \n";
+            }
+            var dStart = new Date($("#dateStart").val());
+            var dEnd = new Date($("#dateEnd").val());
+
+            /* Start date cannot be more than end date*/
+            if(dStart > dEnd){
+                flag = false;
+                msg += "Start date cannot be later than end date \n";
+            }
+            alert(msg);
+            msg = "";
+            return flag;
             var a=[];
             var b=[];
             var c=[];
@@ -122,7 +173,7 @@
             c = $("#executives").children().siblings("input[type=text]").val();
             $.ajax({
                 type : "POST",
-                url : "/Workflow/NewForm/BusinessTripFormAjax",
+                url : "/Workflow/NewForm/UnformattedFormAjax",
                 data :'approvals='+a+'&references='+b+'&executives='+c,
                 success : function(response) {
 //                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
@@ -137,13 +188,18 @@
     /* Send json data for approvals list*/
     $(document).ready(function () {
         $("#demo-input-local").tokenInput(${jsonData});
-    });
-    $(document).ready(function () {
         $("#demo-input-local2").tokenInput(${jsonData});
-    });
-    $(document).ready(function () {
         $("#demo-input-local3").tokenInput(${jsonData});
+
+
+
+
+
+
     });
+
+
+
 </script>
 
 

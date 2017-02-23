@@ -274,7 +274,7 @@
     <div style="margin-bottom: 1%" id="authorsTools" class="col-md-5 col-md-offset-1">
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
             <div class="btn-group" role="group">
-                <button style="color: #008000" id="editButton" type="button" class="btn btn-default"><span
+                <button style="color: #008000" id="editButton" type="button" class="btn btn-default"  onclick="location.href='/Workflow/EditForm/LeaveApprove/${model.request_id}';"><span
                         style="opacity: 1" class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
                 </button>
             </div>
@@ -547,7 +547,7 @@
                 alert("No Form");
             }
 
-            alert(formtype);
+            /*alert(formtype);*/
         });
 
         function generateBusinessTrip() {

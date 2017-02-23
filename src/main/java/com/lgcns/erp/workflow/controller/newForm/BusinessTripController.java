@@ -60,9 +60,18 @@ public class BusinessTripController {
         Map<Integer, String> users = new HashMap<>();
         // Retrieving data of all users from DB
         UserLocalizationsEntity userLoc=null;
+        users.put(0, "");
+        jsonObject = new JSONObject();
+        jsonObject.put("id", "0");
+        jsonObject.put("name", "");
+        jsonObject.put("jobTitle", "");
+        jsonObject.put("department", "");
+
+        jsonArray.add(jsonObject);
+
         for (UsersEntity user :
                 UserService.getAllUsers()) {
-            jsonObject = new JSONObject();
+
             if(user.isEnabled()==true) {
                 jsonObject = new JSONObject();
                 // Retrieving user localizations info from DB for all users and check for null
@@ -98,6 +107,7 @@ public class BusinessTripController {
         mav.addObject("users", users);
         // Retriving data about type of Business trip
         Map<Integer, String> tripTypeList = new HashMap<>();
+        tripTypeList.put(0, "");
         for (TripTypesEntity tripType :
                 WorkflowService.getTripTypes()) {
             tripTypeList.put(Integer.valueOf((int) tripType.getId()), tripType.getName());
@@ -116,7 +126,7 @@ public class BusinessTripController {
 
         /* Insert to table Requests */
 
-        int requestId = WorkflowService.insertRequests(BusinessTripMapper.requestMapper(businessTripVM, userId, 1, 1));
+        int requestId = WorkflowService.insertRequests(BusinessTripMapper.requestMapper(businessTripVM, userId, 1, 1, false));
         businessTripVM.setId(requestId);
 
         /* Insert to table Members */
@@ -177,6 +187,18 @@ public class BusinessTripController {
 
             System.out.println("FILE WAS UPLOADED!");
         }
+
+        // E-mail is sent here
+
+        /*MailMail mm = (MailMail) context.getBean("mailMail");
+        mm.sendMailApproval(approvalsGlobal, principal);
+        mm.sendMailReference(referencesGlobal, principal);
+        mm.sendMailExecutive(executivesGlobal, principal);*/
+        /*mm.sendMail("muslimbek.pirnazarov@gmail.com",
+                "muslimbek.pirnazarov@gmail.com",
+                "Testing123",
+                msg);*/
+
         return "redirect: /Workflow/NewForm/BusinessTripForm";
     }
 
@@ -187,7 +209,7 @@ public class BusinessTripController {
 
         /* Insert to table Requests */
 
-        int requestId = WorkflowService.insertRequests(BusinessTripMapper.requestMapper(businessTripVM, userId, 1,  4));
+        int requestId = WorkflowService.insertRequests(BusinessTripMapper.requestMapper(businessTripVM, userId, 1,  4, false));
         businessTripVM.setId(requestId);
 
         /* Insert to table Members */
@@ -267,7 +289,7 @@ public class BusinessTripController {
     List<UserInfo> ReturnUsers() {
 
         List<UserInfo> users = new ArrayList<>();
-
+        users.add(new UserInfo(0, ""));
 
         UserLocalizationsEntity userLoc=null;
         for (UsersEntity user :

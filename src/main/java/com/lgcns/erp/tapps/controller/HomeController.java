@@ -14,6 +14,7 @@ import java.security.Principal;
 public class HomeController {
     @RequestMapping(value = "/")
     public String printWelcome(Principal principal) {
+
         int roleId = UserService.getRoleByUserName(principal.getName());
         System.out.println("ROLE: " + roleId);
         if(roleId==1)

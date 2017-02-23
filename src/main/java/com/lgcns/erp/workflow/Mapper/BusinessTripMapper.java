@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Muslimbek Pirnazarov on 2/7/2017.
  */
 public class BusinessTripMapper {
-    public static RequestsEntity requestMapper(BusinessTripVM businessTripVM, int idByUsername, int typeId, int statusId) {
+    public static RequestsEntity requestMapper(BusinessTripVM businessTripVM, int idByUsername, int typeId, int statusId, boolean isViewed) {
         RequestsEntity requestsEntity = new RequestsEntity();
 
         requestsEntity.setUserFromId(idByUsername);

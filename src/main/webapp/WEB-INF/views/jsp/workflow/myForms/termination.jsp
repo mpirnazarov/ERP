@@ -16,11 +16,11 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <spring:url value="/resources/core/js/jquery.tokeninput.js" var="tokenInputJs"/>
 <script type="text/javascript" src="${tokenInputJs}"></script>
-<!-- JS file of autocomplete -->
+<!-- JS file of autocomplete --><%--
 <script src="/resources/core/js/jquery.easy-autocomplete.min.js"></script>
 
 <!-- CSS file of autocomplete -->
-<link rel="stylesheet" href="/resources/core/css/easy-autocomplete.min.css" />
+<link rel="stylesheet" href="/resources/core/css/easy-autocomplete.min.css" />--%>
 
 <%--<script src="/resources/core/js/jquery-1.12.4.min.js"></script>--%>
 
@@ -49,12 +49,12 @@
                 </div>
             </div>
 
-             <div class="input-group" style="width: 100%; margin-top: 1%">
+             <div class="input-group" id="desc_container" style="width: 100%; margin-top: 1%">
                         <span class="input-group-addon" id="term_span"
                               style="width: 25%">Description:</span>
                         <textarea class="form-control" rows="15" id="termination_desc" aria-describedby="purpose-addon"
                            style="width: 60%" path="description">${termination.description}</textarea>
-                 <span class="error text-danger" id="error_desc" style="display: none">Description cannot be empty</span>
+                 <span class="glyphicon glyphicon-record" id="error_desc" style="display: none">Description cannot be empty</span>
              </div>
 
             <div class="input-group" style="width: 100%; margin-top: 1%">
@@ -86,6 +86,7 @@
                           style="width: 25%">Approvals:</span>
             <div class="tab-content" id="approvals1">
                 <input type="text" id="demo-input-local"/>
+                <span class="error text-danger" id="error_approves" style="display: none">Description cannot be empty</span>
             </div>
         </div>
         <div class="input-group" style="width: 100%; margin-top: 2%">
@@ -107,6 +108,14 @@
 
     </div>
 </div>
+<%--
+<div class="form-group has-warning has-feedback">
+    <label class="col-sm-2 control-label" for="inputWarning">Input with warning and glyphicon</label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputWarning">
+        <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+    </div>
+</div>--%>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -155,11 +164,17 @@
     });
 
     //validation
-   $(document).ready(function () {
-       var desc = document.getElementById("error_desc");
+    $(document).ready(function () {
            $('#termination_desc').blur(function(){
                if($(this).val().trim()==""){
+                   $('#error_desc').css("display", "block");
+                   $("#submit_btn").prop("disabled", true);
+                   $('#desc_container').addClass('has-error has-feedback');
 
+               }else {
+                   $('#error_desc').css("display", "none");
+                   $("#submit_btn").prop("disabled", false);
+                   $('#desc_container').removeClass('has-error has-feedback');
                }
             });
    });

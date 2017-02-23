@@ -26,7 +26,7 @@ public class RequestMapper {
 
             for (Type type : Type.values()) {
                 if (req.getTypeId()==type.getValue())
-                    model.setForm_type(type.toString());
+                    model.setForm_type(type.name().replace("_"," "));
             }
 
             for (UsersEntity user : users) {
@@ -36,7 +36,7 @@ public class RequestMapper {
 
             for (Status status : Status.values()) {
                 if (status.getValue() == req.getStatusId())
-                    model.setStatus(status.toString());
+                    model.setStatus(status.name().replace("_"," "));
             }
 
             models.add(model);

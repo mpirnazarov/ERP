@@ -405,7 +405,13 @@
                     <div class="comment-section">
                         <!-- Contenedor Principal -->
                         <div class="comments-container">
-                            <h1>Comments</h1>
+
+                            <c:if test="${empty model.comments}">
+                                <h1 id="detail_comment">There is no comment</h1>
+                            </c:if>
+                            <c:if test="${not empty model.comments}">
+                                <h1 id="detail_comment">Comments</h1>
+                            </c:if>
 
                             <ul id="comments-list" class="comments-list">
                                 <c:forEach items="${model.comments}" var="comment" varStatus="status">
@@ -418,7 +424,6 @@
                                                     <h6 class="comment-name by-author"><a>${comment.author}</a></h6>
                                                     <div><label>Action:</label>
                                                         <p class="comment-action-text">${comment.action}</p></div>
-
                                                 </div>
                                                 <div class="comment-content">
                                                         ${comment.comment}
@@ -783,4 +788,5 @@
                 }
             });
         }
+
     </script>

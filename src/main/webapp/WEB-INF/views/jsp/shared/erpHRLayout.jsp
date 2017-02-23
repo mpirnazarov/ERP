@@ -238,7 +238,7 @@
                                         <li><a href="/Workflow/NewForm/LeaveApproveForm">Leave approve</a>
                                         </li>
                                         <li>
-                                            <a href="/Workflow/Create/Unformatted">Unformatted</a>
+                                            <a href="/Workflow/NewForm/Unformatted">Unformatted</a>
                                         </li>
                                     </ul>
 

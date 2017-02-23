@@ -11,12 +11,13 @@ import org.springframework.web.multipart.MultipartFile;
  * Created by Muslimbek Pirnazarov on 2/7/2017.
  */
 public class LeaveApproveMapper {
-    public static RequestsEntity requestMapper(LeaveApproveVM leaveApproveVM, int idByUsername, int typeId, int statusId) {
+    public static RequestsEntity requestMapper(LeaveApproveVM leaveApproveVM, int idByUsername, int typeId, int statusId, boolean isViewed) {
         RequestsEntity requestsEntity = new RequestsEntity();
 
         requestsEntity.setUserFromId(idByUsername);
-        requestsEntity.setTripTypeId(leaveApproveVM.getAbsenceType());
+        requestsEntity.setLeaveTypeId(leaveApproveVM.getAbsenceType());
         // Type of workflow. 1-Business trip
+        requestsEntity.setTripTypeId(1);
         requestsEntity.setTypeId(typeId);
         requestsEntity.setDateFrom(leaveApproveVM.getStart());
         requestsEntity.setDateTo(leaveApproveVM.getEnd());
@@ -63,5 +64,17 @@ public class LeaveApproveMapper {
         viewModel.setDescription(requestsEntity.getDescription());
 
         return viewModel;
+    }
+
+    public static RequestsEntity requestMapperUpdate(LeaveApproveVM leaveApproveVM) {
+        RequestsEntity requestsEntity = new RequestsEntity();
+
+        requestsEntity.setId(leaveApproveVM.getId());
+        requestsEntity.setLeaveTypeId(leaveApproveVM.getAbsenceType());
+        requestsEntity.setDescription(leaveApproveVM.getDescription());
+        requestsEntity.setDateFrom(leaveApproveVM.getStart());
+        requestsEntity.setDateTo(leaveApproveVM.getEnd());
+
+        return requestsEntity;
     }
 }

@@ -8,6 +8,15 @@ public class Attachment {
     private String url;
     private String fileName;
 
+    public Attachment() {
+    }
+
+    public Attachment(int id, String url, String filename) {
+        this.id = id;
+        this.url = url;
+        this.fileName = filename;
+    }
+
 
     public int getId() {
         return id;

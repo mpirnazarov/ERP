@@ -392,6 +392,100 @@ public class WorkflowService {
         return list;
     }
 
+    public static void deleteAttachment(Long id) {
+
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("delete from AttachmentsEntity where id = :docId");
+            query.setParameter("docId", id);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static AttachmentsEntity getAttachmentById(Long id) {
+        AttachmentsEntity entity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from AttachmentsEntity where id="+id);
+            entity = (AttachmentsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return entity;
+    }
+
+    public static void updateRequestUnformatted(RequestsEntity requestsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update RequestsEntity set subject = :subject, description=:descrtiption, " +
+                    "dateFrom=:dateFrom, dateTo=:dateTo where id = :id");
+
+            query.setParameter("id", requestsEntity.getId());
+            query.setParameter("subject", requestsEntity.getSubject());
+            query.setParameter("descrtiption", requestsEntity.getDescription());
+            query.setParameter("dateFrom", requestsEntity.getDateFrom());
+            query.setParameter("dateTo", requestsEntity.getDateTo());
+
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+    }
+
+    public static void updateRequestLeaveApprove(RequestsEntity requestsEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update RequestsEntity set leaveTypeId = :leaveTypeId, description= :description, " +
+                    "dateFrom=:dateFrom, dateTo=:dateTo where id = :id");
+
+            query.setParameter("id", requestsEntity.getId());
+            query.setParameter("leaveTypeId", requestsEntity.getLeaveTypeId());
+            query.setParameter("description", requestsEntity.getDescription());
+            query.setParameter("dateFrom", requestsEntity.getDateFrom());
+            query.setParameter("dateTo", requestsEntity.getDateTo());
+
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
     public static void setIsViewed(int req_id){
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;

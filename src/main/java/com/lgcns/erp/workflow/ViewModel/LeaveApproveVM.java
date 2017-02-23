@@ -1,8 +1,10 @@
 package com.lgcns.erp.workflow.ViewModel;
 
+import com.lgcns.erp.workflow.Model.Attachment;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by Muslimbek Pirnazarov on 02/07/2017.
@@ -12,6 +14,7 @@ public class LeaveApproveVM {
     private String description;
     private Date start, end;
     private MultipartFile[] file;
+    private List<Attachment> attachments;
 
     public int getId() {
         return id;
@@ -59,6 +62,14 @@ public class LeaveApproveVM {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
     }
 
     @Override

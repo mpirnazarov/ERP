@@ -86,7 +86,6 @@
                            id="myTable">
                         <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Name of (Organization)</th>
                             <th>From</th>
@@ -95,12 +94,10 @@
                             <th>Daily Allowance</th>
                             <th>Accommodation</th>
                             <th>Other</th>
-                            <th>Overall</th>
                         </tr>
                         </thead>
                         <tbody id="membersDynamicBody" style="color: #0f0f0f">
                             <tr style="color: black">
-                                <td> 1 <form:hidden value="0" name = "membersEntityList[0].id" min="0" path="membersEntityList[0].id"/></td>
                                 <td><form:select path="membersEntityList[0].userId" items="${users}" cssClass="sarvar"/></td>
                                 <td> <form:input type='text' name = "membersEntityList[0].organizationName" path="membersEntityList[0].organizationName"/> </td>
                                 <td> <input type='date' name = "membersEntityList[0].dateFrom" /> </td>
@@ -172,8 +169,8 @@
                 <div class="input-group" style="width: 100%; margin-top: 2%">
                     <span class="input-group-addon" id="date-addon"
                           style="width: 25%">Date(Start/End):</span>
-                    <input type="date" class="form-control" style="width:36%" placeholder="Start" name="start" />
-                    <input type="date" class="form-control" style="width:36%" placeholder="End" name="end" />
+                    <input type="date" class="form-control" style="width:36%" name="start" />
+                    <input type="date" class="form-control" style="width:36%" name="end" />
                 </div>
                 <div class="btn-group" role="group" aria-label="..." style="margin-left: 40%; margin-top: 3%">
                     <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-success"/>
@@ -238,8 +235,6 @@
             var ab = document.getElementById('membersDynamicBody');
             var tr = document.createElement('tr');
             var td = document.createElement('td');
-            td.innerHTML = counter+1;
-            tr.appendChild(td);
             var select = document.createElement('select');
             select.name = "membersEntityList["+counter+"].userId";
             /*elect.className = "form-control text-box single-line";*/

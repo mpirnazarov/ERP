@@ -546,14 +546,38 @@ a:focus {
     box-shadow:         0px 10px 20px 0px rgba(0, 0, 0, 0.62)
 }
 
+/*Workflow-labels*/
+
+.inline-label{
+    position: relative;
+}
+.inline-label label {
+    position: absolute;
+    top: 0;
+    font-size: 80%;
+    color: #788991;
+    font-weight: bold;
+    padding: 6px 12px;
+}
+
+.inline-label .form-control{
+    padding-top: 24px;
+    height: auto;
+}
+
+.inline-label .form-control:focus{
+    box-shadow: none;
+}
+
+.inline-label .form-control:focus + label{
+    color: #29abe9;
+}
+
+/*Workflow-labels*/
+
 /*WorkFlow-Comment*/
 
-/**
- * Oscuro: #283035
- * Azul: #03658c
- * Detalle: #c7cacb
- * Fondo: #dee1e3
- ----------------------------------*/
+/**----------------------------------*/
 
 .comment-section {
     margin: 0;
@@ -587,7 +611,7 @@ a:focus {
 
 .comments-container h1 {
     margin-left: 4%;
-    font-size: 36px;
+    font-size: 30px;
     color: #fff;
     font-weight: 400;
 }

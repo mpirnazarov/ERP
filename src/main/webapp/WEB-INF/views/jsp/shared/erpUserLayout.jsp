@@ -208,7 +208,7 @@
                             <li>
                                 <a class="linkcolor" role="button" data-toggle="collapse"
                                    href="#collapseNewForm" aria-expanded="false"
-                                   aria-controls="collapseNewForm"><span class="glyphicon glyphicon-edit"
+                                   aria-controls="collapseNewForm"><span class="glyphicon glyphicon-plus-sign"
                                                                          aria-hidden="true"></span>
                                     New Form
                                 </a>

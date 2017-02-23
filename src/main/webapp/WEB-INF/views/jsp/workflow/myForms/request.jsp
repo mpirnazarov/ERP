@@ -89,7 +89,6 @@
             <table class="table sarTable" id="dynamicHead">
                 <thead>
                 <tr>
-                    <th>#</th>
                     <th>Form type</th>
                     <th>Title</th>
                     <th>Request date</th>
@@ -189,7 +188,6 @@
                     $(data.models).each(function (i, req) {
                         //generate table
                         $('<tr/>').appendTo(tbody)
-                            .append($('<td/>').text(i + 1))
                             .append($('<td/>').text(req.form_type))
                             .append($('<td/>').text(req.request_subject))
                             .append($('<td/>').text(req.date_created))

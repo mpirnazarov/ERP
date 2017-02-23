@@ -90,6 +90,9 @@ public class DetailsController {
 
         mav.addObject("controllerId", controller);
 
+        TerminationViewModel terminationViewModel = DetailsMapper.getTerminationViewModel(id);
+        mav.addObject("termination", terminationViewModel);
+
         //Progress Bar
         List<Approver> approvers = ProgressMapper.getApprovers(WorkflowProgressService.getStepsByReqId(id));
         mav.addObject("approvers", approvers);

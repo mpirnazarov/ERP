@@ -45,7 +45,7 @@
                     <span class="input-group-addon" id="saerchtype-addon"
                           style="width: 25%">Subject:</span>
                 <div class="input-group" id="subject">
-                    <input type="text" class="form-control" value="${termination.subject}"/>
+                    <input type="text" class="form-control" value="${termination.subject}" id="termination_subject"/>
                 </div>
             </div>
 
@@ -119,7 +119,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        /*$("input[type=submit]").click(function ()*/
+         /*$("input[type=submit]").click(function ()*/
         $("#submit_btn").click(function (){
             var a=[];
             var b=[];
@@ -127,7 +127,7 @@
 
             var old_Id = '${termination.old_req_id}';
             var description = $('#termination_desc').val();
-            var subject = '${termination.subject}';
+            var subject = $('#termination_subject').val();
 
             if($(this).isDisabled){
                 alert("disabled");

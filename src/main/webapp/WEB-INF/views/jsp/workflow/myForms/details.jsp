@@ -22,7 +22,67 @@
 
     }
 
+    /*verificationButtons*/
+
+    #deleteVerificationOverflow {
+        background-color: #fff;
+        position: absolute;
+        z-index: -10;
+        opacity: 0;
+        visibility: hidden;
+        color: black;
+        width: 100%;
+        height: 1%;
+        top:-10px;
+        border-radius: 34%;
+
+        -webkit-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }
+
+    #deleteVerificationOverflow.showValidation {
+
+        width: 100%;
+        height: 100%;
+
+        z-index: 10;
+        opacity: 1;
+        visibility: visible;
+
+        -webkit-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }
+
+
+    #deleteVerificationOverflow span.glyphicon {
+        opacity: 1;
+    }
+
+    #deleteVerificationOverflow label {
+        width: 100%;
+        height: 50%;
+        text-align: center;
+    }
+
+    #deleteVerificationOverflow .btn-group {
+        width: 100.5%;
+        height: 50%;
+    }
+
+    #deleteVerificationOverflow button {
+        width: 50%;
+        color: #fff;
+    }
+
+
+
+
+
+    /*verificationButtons*/
+
     .b3form .input-group-addon {
+
+        color: #fff;
         background: transparent;
         font-size: 15px;
         font-weight: bold;
@@ -38,12 +98,20 @@
         box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
     }
 
-    #input-group-div {
-        background-color: #fff;
-        color: #000;
+    #detailHeaderDiv {
 
-        border-radius: 1%;
+        display: flex;
+        font-size: 25px;
+        border-bottom: 1px solid #fff;
+        margin-bottom: 1%;
 
+    }
+
+    #detailHeaderDiv2 {
+
+        font-size: 25px;
+        border-bottom: 1px solid #fff;
+        margin-bottom: 1%;
 
     }
 
@@ -270,7 +338,13 @@
     </h1>
     <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
     </p>--%>
-    <h2 class="page-header" style="padding-left: 1%">Details</h2>
+    <%--<h2 class="page-header" style="padding-left: 1%">Details</h2>--%>
+        <div id="detailHeaderDiv">
+            <div class="col-md-4 col-md-offset-1" style="display: inline-flex" id="typeHeader"><label style="margin-right: 1%">Workflow type: </label><p style="border-bottom: 1px solid #fff ">${model.form_type}</p></div>
+            <div class="col-md-3 col-md-offset-3" style="display: inline-flex" id="statusHeader"><label style="margin-right: 1%">Current status: </label><p class="statusTextColor" >${model.status}</p></div>
+        </div>
+
+
     <div style="margin-bottom: 1%" id="authorsTools" class="col-md-5 col-md-offset-1">
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
             <div class="btn-group" role="group">
@@ -279,9 +353,16 @@
                 </button>
             </div>
             <div class="btn-group" role="group">
-                <button style="color: #ff0000" id="deleteButton" type="button" class="btn btn-default" onclick="location.href='/Workflow/MyForms/Delete/${model.request_id}'"><span
+                <button style="color: #ff0000" id="deleteButton" type="button" class="btn btn-default" onclick="deleteShow()"><span
                         style="opacity: 1" class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete
                 </button>
+                <div id="deleteVerificationOverflow">
+                    <label>Are you sure?</label>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button id="deleteVerificationTrue" style="background-color: green" type="button" class="btn btn-default" onclick="location.href='/Workflow/MyForms/Delete/${model.request_id}'"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></button>
+                        <button id="deleteVerificationFalse" style="background-color: red" type="button" class="btn btn-default" onclick="deleteHide()"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></button>
+                    </div>
+                </div>
             </div>
             <div class="btn-group" role="group">
                 <button style="color: #1a85e0" id="terminationButton" type="button" class="btn btn-default" onclick="location.href='/Workflow/MyForms/cancellation/${model.request_id}'">
@@ -310,19 +391,6 @@
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
-                <%--<div class="stepwizard-step">
-                    <button type="button" class="btn btn-default btn-circle">1</button>
-                    <p>Cart</p>
-                </div>
-                <div class="stepwizard-step">
-                    <button type="button" class="btn btn-primary btn-circle">2</button>
-                    <p>Shipping</p>
-                </div>
-                <div class="stepwizard-step">
-                    <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
-                    <p>Payment</p>
-                </div>
-            </div>--%>
             </div>
 
         </div>
@@ -335,11 +403,11 @@
             </div>
             <div id="right-info" class="col-md-5">
                 <div id="input-group-div">
-                    <div class="input-group" style="width: 100%">
+                    <%--<div class="input-group" style="width: 100%">
                         <span class="input-group-addon" id="type-addon" style="width: 35%">Form type:</span>
                         <input type="text" disabled class="form-control" placeholder="" aria-describedby="type-addon"
                                style="width: 80%" value="${model.form_type}">
-                    </div>
+                    </div>--%>
                     <div class="input-group" style="width: 100%; margin-top: 1%">
                         <span class="input-group-addon" id="author-addon" style="width: 35%">Author:</span>
                         <input type="text" disabled class="form-control" placeholder="" aria-describedby="author-addon"
@@ -347,23 +415,24 @@
                     </div>
                     <div class="input-group" style="width: 100%; margin-top: 1%">
                         <span class="input-group-addon" id="creation-addon" style="width: 35%">Creation date:</span>
-                        <input type="text" disabled class="form-control" placeholder="" aria-describedby="creation-addon"
+                        <input type="text" disabled class="form-control" placeholder=""
+                               aria-describedby="creation-addon"
                                style="width: 80%" value="${model.date_created}">
                     </div>
                     <div class="input-group" style="width: 100%; margin-top: 1%">
                         <span class="input-group-addon" id="approvals-addon" style="width: 35%">Approvals:</span>
-                        <input type="text" disabled class="form-control" placeholder="" aria-describedby="approvals-addon"
-                               style="width: 80%" value="${model.approvals}">
+                        <textarea style="width: 80%;" disabled placeholder="Comment..." class="form-control" rows="3"
+                                  id="approvalsTextArea">${model.approvals} </textarea>
                     </div>
                     <div class="input-group" style="width: 100%; margin-top: 1%">
                         <span class="input-group-addon" id="ex-addon" style="width: 35%">Executive:</span>
-                        <input type="text" disabled class="form-control" placeholder="" aria-describedby="ex-addon"
-                               style="width: 80%" value="${model.executives}">
+                        <textarea style="width: 80%;" disabled placeholder="Comment..." class="form-control" rows="3"
+                                  id="executivesTextArea">${model.executives} </textarea>
                     </div>
                     <div class="input-group" style="width: 100%; margin-top: 1%">
                         <span class="input-group-addon" id="referenced-addon" style="width: 35%">Referenced:</span>
-                        <input type="text" disabled class="form-control" placeholder="" aria-describedby="referenced-addon"
-                               style="width: 80%" value="${model.references}">
+                        <textarea style="width: 80%;" disabled placeholder="Comment..." class="form-control" rows="3"
+                                  id="referencesTextArea">${model.references} </textarea>
                     </div>
                     <div class="input-group" style="width: 100%; margin-top: 1%">
                         <span class="input-group-addon" id="attach-addon" style="width: 35%">Attachment:</span>
@@ -435,25 +504,6 @@
                             </ul>
                         </div>
                     </div>
-                    <%--<table class="table table-bordered table-condensed" id="commentTableParent"
-                           style="margin-bottom: 0px">
-                        <thead>
-                        <tr style="background-color: #2b669a">
-                            <th>Approval</th>
-                            <th>Action</th>
-                            <th>Comment</th>
-                        </tr>
-                        </thead>
-                        <tbody id="commentTableBody">
-                        <c:forEach items="${model.comments}" var="comment" varStatus="status">
-                            <tr>
-                                <td>${comment.author}</td>
-                                <td>${comment.action}</td>
-                                <td>${comment.comment}</td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>--%>
                 </div>
                 <div id="commentTextArea">
                     <textarea placeholder="Comment..." class="form-control" rows="5" id="detailComment"></textarea>
@@ -479,6 +529,19 @@
     <script>
         /*Sarvar*/
 
+        var buttonOverlay = $("#deleteVerificationOverflow");
+
+        function deleteShow() {
+            buttonOverlay.toggleClass("showValidation");
+        }
+
+        function deleteHide() {
+            buttonOverlay.toggleClass("showValidation");
+        }
+
+
+        var currentStatus = "${model.status}";
+
         /*processBarScript*/
         var elem = $('#processStepsBar');
         $(window).scroll(function () {
@@ -498,15 +561,51 @@
 
         $(document).ready(function () {
 
-            /*action Color changer*/
+            /*action & status Color changer*/
 
             $('.comment-action-text:contains("Rejected")').css('color', '#ff0000');
             $('.comment-action-text:contains("Approved")').css('color', '#00e200');
             $('.comment-action-text:contains("Revision")').css('color', '#fec91f');
 
+            $('.statusTextColor:contains("In progress")').css('color', '#1efe1a');
+            $('.statusTextColor:contains("Revision")').css('color', '#fec91f');
+            $('.statusTextColor:contains("Rejected")').css('color', '#ff0000');
+            $('.statusTextColor:contains("Draft")').css('color', '#f9fef3');
+            $('.statusTextColor:contains("Approved")').css('color', '#1efe1a');
+            $('.statusTextColor:contains("Terminated")').css('color', '#ff0000');
+            $('.statusTextColor:contains("Finished")').css('color', '#59feef');
+            $('.statusTextColor:contains("Deleted")').css('color', '#000000');
+
+
+
+
             /*action Color changer*/
 
             $('#navigationButton').css('visibility', 'visible');
+
+
+            /*Generation IF*/
+            var formtype = ${model.form_type_id};
+            var isOpened = ${isViewed};
+
+            if (formtype == 1) {
+                generateBusinessTrip();
+            }
+            else if (formtype == 2) {
+                generateLeaveApprove();
+            }
+            else if (formtype == 3) {
+                generateUnformatted();
+            }
+            else if (formtype == 4) {
+                generateTermination()
+            }
+            else {
+                alert("No Form");
+            }
+
+            alert("Form Type is: " + formtype + " | " + "Form is Viewed: " + isOpened);
+
 
             /*Source Identification*/
             var sourceId = ${controllerId};
@@ -520,34 +619,44 @@
                 /*defaultSource*/
             }
 
+
             function isFromToDo() {
                 $('#authorsTools').hide()
+
             }
 
             function isFromRequest() {
+
+                var viewed = ${isViewed};
+
+
+                if (currentStatus == "Approved" && formtype != 4) {
+                    $('#terminationButton').prop('disabled', false);
+                }else {
+                    $('#terminationButton').prop('disabled', true);
+                }
+
+                if (viewed == false || currentStatus == "Revision" ){
+                    $("#editButton").prop('disabled',false);
+                }else {
+                    $("#editButton").prop('disabled',true);
+                }
+
+                if (viewed == false || currentStatus == "Finished") {
+                    $("#deleteButton").prop('disabled',false);
+                }else {
+                    $("#deleteButton").prop('disabled',true);
+                }
+
                 $('#decisionSection').hide();
                 $('#submitButton').hide();
                 $('#commentTextArea').hide();
+
+
+
             }
 
-            /*Source Identification*/
 
-            /*Generation IF*/
-            var formtype = ${model.form_type_id};
-            if (formtype == 1) {
-                generateBusinessTrip();
-            }
-            else if (formtype == 2) {
-                generateLeaveApprove();
-            }
-            else if (formtype == 3) {
-                generateUnformatted();
-            }
-            else {
-                alert("No Form");
-            }
-
-            /*alert(formtype);*/
         });
 
         function generateBusinessTrip() {
@@ -601,7 +710,7 @@
                 '<thead style="background-color: #b1beca; font-size: 15px"> ' +
                 '<tr> ' +
                 '<th>Emoployee</th> ' +
-                '<th>Name of (Organization/Project)</th> ' +
+                '<th>Department</th> ' +
                 '<th>From</th> ' +
                 '<th>To</th> ' +
                 '</tr> ' +
@@ -746,7 +855,31 @@
                 '</div>');
 
         }
+        function generateTermination() {
+
+            var terminationTarget = ${termination.old_req_id};
+            var title = "${termination.subject}";
+            var description = "${termination.description}";
+            var approvers = "${termination.approves}";
+            var executives = "${termination.executives}";
+            var references = "${termination.references}"
+
+            alert(description);
+
+            $("#left-info").append('<div id="unformattedFormGen"> ' +
+                '<div class="labelDiv">' +
+                '<label>Title: </label>' +
+                '<p>' + title + '</p>' +
+                '</div>' +
+                '<div class="labelDiv">' +
+                '<label>Description: </label>' +
+                '<p>' + description + '</p>' +
+                '</div>' +
+                '</div>');
+
+        }
         /*Generation IF*/
+
 
     </script>
 

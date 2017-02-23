@@ -29,8 +29,20 @@
         color: inherit;
     }
 
+    div.input-group span.input-group-addon {
+        width: 19%;
+    }
+
+    .w3-container {
+        width: 63%;
+        height: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
 
 </style>
+
 
 
 <div class="col-sm-10 col-md-offset-1">
@@ -46,49 +58,41 @@
             <div class="form-header">
 
                 <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="saerchtype-addon"
-                          style="width: 25%">Absence type:</span>
+                    <span class="input-group-addon" id="saerchtype-addon">Absence type:</span>
                     <form:select class="form-control" aria-describedby="saerchtype-addon" style="width: 40%" path="absenceType" items="${absenceType}">
-
                     </form:select>
                 </div>
                 <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="purpose-addon"
-                          style="width: 25%">Description:</span>
-                    <form:textarea class="form-control" rows="15" id="comment" aria-describedby="purpose-addon"
-                              style="width: 60%" path="description"></form:textarea>
+                    <span class="input-group-addon" id="purpose-addon">Description</span>
+                    <form:textarea class="form-control" rows="3" id="comment" aria-describedby="purpose-addon"
+                              style="width: 100%" path="description"></form:textarea>
                 </div>
             </div>
             <div class="form-footer" style="margin-bottom: 5%">
                 <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="approvals-addon"
-                          style="width: 25%">Approvals:</span>
+                    <span class="input-group-addon" id="approvals-addon">Approvals</span>
                     <div class="tab-content" id="approvals">
                         <input type="text" id="demo-input-local"/>
                     </div>
                 </div>
                 <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="executive-addon"
-                          style="width: 25%">Executive:</span>
+                    <span class="input-group-addon" id="executive-addon">Executive</span>
                     <div class="tab-content" id="executives">
                         <input type="text" id="demo-input-local2"/>
                     </div>
                 </div>
                 <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="reference-addon"
-                          style="width: 25%">Reference:</span>
+                    <span class="input-group-addon" id="reference-addon">Reference</span>
                     <div class="tab-content" id="references">
                         <input type="text" id="demo-input-local3"/>
                     </div>
                 </div>
                 <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open
-                          style="width: 25%">Attachment:</span>
+                    <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open>Attachment</span>
                     <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
                 </div>
                 <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="date-addon"
-                          style="width: 25%">Date(Start/End):</span>
+                    <span class="input-group-addon" id="date-addon">Date(Start/End)</span>
                     <form:input type="date" class="form-control" style="width:36%" name="start" id="dateStart" path="start"/>
                     <form:input type="date" class="form-control" style="width:36%" name="end" id="dateEnd" path="end"/>
                 </div>

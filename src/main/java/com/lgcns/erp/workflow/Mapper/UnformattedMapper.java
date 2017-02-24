@@ -26,6 +26,7 @@ public class UnformattedMapper {
         requestsEntity.setStatusId(statusId);
         requestsEntity.setDateCreated(new java.sql.Date(new java.util.Date().getTime()));
         requestsEntity.setViewed(isViewed);
+
         return requestsEntity;
     }
 

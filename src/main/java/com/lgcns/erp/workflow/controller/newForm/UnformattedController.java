@@ -185,6 +185,7 @@ public class UnformattedController {
     public @ResponseBody
     int[] UnformattedPostAjax(@RequestParam("approvals") int[] approvals, @RequestParam("executives") int[] executives, @RequestParam("references") int[] references){
         System.out.println("Unformatted is working.");
+
         approvalsGlobal = approvals;
         executivesGlobal = executives;
         referencesGlobal = references;

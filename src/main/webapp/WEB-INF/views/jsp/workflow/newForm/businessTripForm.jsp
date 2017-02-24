@@ -88,24 +88,26 @@
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Name of (Organization)</th>
+                            <%--<th>Department</th>--%>
                             <th>From</th>
                             <th>To</th>
                             <th>Transportation</th>
                             <th>Daily Allowance</th>
                             <th>Accommodation</th>
+                            <th>Currency for accomodation</th>
                             <th>Other</th>
                         </tr>
                         </thead>
                         <tbody id="membersDynamicBody" style="color: #0f0f0f">
                             <tr style="color: black">
                                 <td><form:select path="membersEntityList[0].userId" items="${users}" cssClass="sarvar"/></td>
-                                <td> <form:input type='text' name = "membersEntityList[0].organizationName" path="membersEntityList[0].organizationName"/> </td>
+                                <%--<td> <form:input type='text' name = "membersEntityList[0].organizationName" path="membersEntityList[0].organizationName"/> </td>--%>
                                 <td> <input type='date' name = "membersEntityList[0].dateFrom" /> </td>
                                 <td> <input type='date' name = "membersEntityList[0].dateTo" /> </td>
                                 <td><form:input type='number' name = "membersEntityList[0].expenseTransportation" min="0" path="membersEntityList[0].expenseTransportation"/></td>
                                 <td><form:input type='number' name = "membersEntityList[0].dailyAllowance" min="0" path="membersEntityList[0].dailyAllowance"/></td>
                                 <td><form:input type='number' name = "membersEntityList[0].expenseAccommodation" min="0" path="membersEntityList[0].expenseAccommodation"/></td>
+                                <td><form:select path="membersEntityList[0].accomodationCurrency" items="${currency}" cssClass="sarvar"/></td>
                                 <td><form:input type='number' name = "membersEntityList[0].expenseOther" min="0" path="membersEntityList[0].expenseOther"/></td>
                                 <td><a class="deleteRow"/></td>
                             </tr>
@@ -122,14 +124,12 @@
                            id="toDoDynamicHead">
                         <thead>
                         <tr>
-                            <td>ID</td>
                             <th>Date</th>
                             <th>Description</th>
                         </tr>
                         </thead>
                         <tbody id="toDoDynamicBody" />
                         <tr>
-                            <td>1</td>
                             <td><input type='date' name = "toDoEntityList[0].date" min="0" /></td>
                             <td><input type='text' name = "toDoEntityList[0].description" min="0" /></td>
                             <td><a class="deleteRow"/></td>
@@ -242,6 +242,7 @@
         $("#addrow").on("click", function () {
             var ab = document.getElementById('membersDynamicBody');
             var tr = document.createElement('tr');
+
             var td = document.createElement('td');
             var select = document.createElement('select');
             select.name = "membersEntityList["+counter+"].userId";
@@ -262,18 +263,16 @@
 
                 }
             });
-
-            var td = document.createElement('td');
             td.appendChild(select);
             tr.appendChild(td);
 
 
             /*Input field for organization Name*/
-            var td = document.createElement('td');
+            /*var td = document.createElement('td');
             var input = document.createElement('input');
             input.name = "membersEntityList["+counter+"].organizationName";
             td.appendChild(input);
-            tr.appendChild(td);
+            tr.appendChild(td);*/
 
             /*Input field for from date*/
             var td = document.createElement('td');
@@ -316,6 +315,31 @@
             num.setAttribute('min', 0);
             num.name = "membersEntityList["+counter+"].expenseAccommodation";
             td.appendChild(num);
+            tr.appendChild(td);
+
+            /*Input field for select currency*/
+            var td = document.createElement('td');
+            var select2 = document.createElement('select');
+            select2.name = "membersEntityList["+counter+"].accomodationCurrency";
+            /*elect.className = "form-control text-box single-line";*/
+            select2.className = 'sarvar';
+
+            opt2 = document.createElement('option');
+            opt2.value = "0";
+            opt2.innerHTML = "";
+            select2.appendChild(opt2);
+
+            opt2 = document.createElement('option');
+            opt2.value = "1";
+            opt2.innerHTML = "UZS";
+            select2.appendChild(opt2);
+
+            opt2 = document.createElement('option');
+            opt2.value = "2";
+            opt2.innerHTML = "USD";
+            select2.appendChild(opt2);
+
+            td.appendChild(select2);
             tr.appendChild(td);
 
             /*Input field for expenseOther*/
@@ -368,9 +392,6 @@
         $("#addrowToDo").on("click", function () {
             var ab = document.getElementById('toDoDynamicBody');
             var tr = document.createElement('tr');
-            var td = document.createElement('td');
-            td.innerHTML = counter+1;
-            tr.appendChild(td);
 
             /*Input field for date*/
             var td = document.createElement('td');
@@ -398,13 +419,9 @@
             tr.appendChild(td);
             ab.appendChild(tr);
             counter++;
-
-
         });
 
-
-
-        $("table.table-bordered").on("click", ".ibtnDel", function (event) {
+     $("table.table-bordered").on("click", ".ibtnDel", function (event) {
             $(this).closest("tr").remove();
 
         });

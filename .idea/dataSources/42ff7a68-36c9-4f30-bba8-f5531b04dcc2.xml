@@ -31,8 +31,8 @@
     </schema>
     <schema id="9" parent="2" name="workflow">
       <ObjectId>91301</ObjectId>
-      <IntrospectionTimestamp>2017-02-23.11:19:04.017</IntrospectionTimestamp>
-      <IntrospectionStateNumber>4285</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-02-24.12:52:05.103</IntrospectionTimestamp>
+      <IntrospectionStateNumber>5659</IntrospectionStateNumber>
       <Visible>1</Visible>
     </schema>
     <schema id="10" parent="2" name="migration">
@@ -2876,8 +2876,7 @@ workload_type</ColNames>
     <column id="511" parent="106" name="organization_name">
       <Position>4</Position>
       <DataType>varchar(200)|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>3580</StateNumber>
+      <StateNumber>5659</StateNumber>
     </column>
     <column id="512" parent="106" name="date_from">
       <Position>5</Position>

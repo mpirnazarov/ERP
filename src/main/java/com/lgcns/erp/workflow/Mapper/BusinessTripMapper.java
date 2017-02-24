@@ -54,7 +54,7 @@ public class BusinessTripMapper {
         membersEntity.setDailyAllowance(member.getDailyAllowance());
         membersEntity.setExpenseAccommodation(member.getExpenseAccommodation());
         membersEntity.setExpenseOther(member.getExpenseOther());
-
+        membersEntity.setAccomodationCurrency(member.getAccomodationCurrency());
         return membersEntity;
     }
 

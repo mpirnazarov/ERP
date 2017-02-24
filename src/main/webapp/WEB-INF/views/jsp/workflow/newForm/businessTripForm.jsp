@@ -45,6 +45,7 @@
         </p>
         <h2 class="page-header">Business trip</h2>
 
+
         <form:form modelAttribute="businessTripVM" cssClass="form-horizontal" method="post" id="myform" enctype="multipart/form-data">
             <div class="w3-container b3form">
             <div class="form-header">
@@ -74,7 +75,7 @@
                 <div class="input-group" style="width: 100%; margin-top: 1%">
                     <span class="input-group-addon" id="purpose-addon"
                           style="width: 25%">Purpose of Business trip:</span>
-                    <form:textarea class="form-control" rows="5" id="comment" aria-describedby="purpose-addon"
+                    <form:textarea class="form-control" rows="3" id="comment" aria-describedby="purpose-addon"
                               style="width: 40%" path="purpose"></form:textarea>
                 </div>
                 <div class="form-group">
@@ -189,6 +190,7 @@
 
 <script type="text/javascript">
 
+
     /* Send input from approval list to controller by AJAX */
     $(document).ready(function() {
         /*$("input[type=submit]").click(function ()*/
@@ -229,6 +231,12 @@
 
 
     $(document).ready(function () {
+
+
+
+
+
+
         var counter = 1;
 
         $("#addrow").on("click", function () {

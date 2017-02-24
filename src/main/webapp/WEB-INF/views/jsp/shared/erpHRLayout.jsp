@@ -227,7 +227,7 @@
                             <li>
                                 <a class="linkcolor" role="button" data-toggle="collapse"
                                    href="#collapseNewForm" aria-expanded="false"
-                                   aria-controls="collapseNewForm"><span class="glyphicon glyphicon-edit"
+                                   aria-controls="collapseNewForm"><span class="glyphicon glyphicon-plus-sign"
                                                                          aria-hidden="true"></span>
                                     New Form
                                 </a>
@@ -331,7 +331,7 @@
             error: function () {
             }
         });
-    }, 1000);
+    }, 5000);
 
     setInterval(function () {
         $.ajax({
@@ -344,7 +344,7 @@
             error: function () {
             }
         });
-    }, 3000);
+    }, 5000);
 </script>
 
 <%--<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--%>

@@ -85,7 +85,9 @@
 
 <div id="sarOv">
     <div>
-        <img class="sarspinner" src="/resources/images/lg-logo.png">
+
+
+        <%--<img class="sarspinner" src="/images/lg-logo.jpg">--%>
         <div class="sarspinnerBorder"></div>
     </div>
 </div>

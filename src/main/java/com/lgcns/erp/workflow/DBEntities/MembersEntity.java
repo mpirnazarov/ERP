@@ -114,16 +114,6 @@ public class MembersEntity {
     }
 
     @Basic
-    @Column(name = "accom_currency")
-    public int getAccomodationCurrency() {
-        return accomodationCurrency;
-    }
-
-    public void setAccomodationCurrency(int accomodationCurrency) {
-        this.accomodationCurrency = accomodationCurrency;
-    }
-
-    @Basic
     @Column(name = "expense_other")
     public double getExpenseOther() {
         return expenseOther;
@@ -133,6 +123,16 @@ public class MembersEntity {
         this.expenseOther = expenseOther;
     }
 
+    @Basic
+    @Column(name = "accom_currency")
+    public int getAccomodationCurrency() {
+        return accomodationCurrency;
+    }
+
+    public void setAccomodationCurrency(int accomodationCurrency) {
+        this.accomodationCurrency = accomodationCurrency;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

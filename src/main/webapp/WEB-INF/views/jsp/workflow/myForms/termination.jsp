@@ -16,11 +16,11 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <spring:url value="/resources/core/js/jquery.tokeninput.js" var="tokenInputJs"/>
 <script type="text/javascript" src="${tokenInputJs}"></script>
-<!-- JS file of autocomplete -->
+<!-- JS file of autocomplete --><%--
 <script src="/resources/core/js/jquery.easy-autocomplete.min.js"></script>
 
 <!-- CSS file of autocomplete -->
-<link rel="stylesheet" href="/resources/core/css/easy-autocomplete.min.css" />
+<link rel="stylesheet" href="/resources/core/css/easy-autocomplete.min.css" />--%>
 
 <%--<script src="/resources/core/js/jquery-1.12.4.min.js"></script>--%>
 
@@ -45,15 +45,16 @@
                     <span class="input-group-addon" id="saerchtype-addon"
                           style="width: 25%">Subject:</span>
                 <div class="input-group" id="subject">
-                    <input type="text" class="form-control" value="${termination.subject}"/>
+                    <input type="text" class="form-control" value="${termination.subject}" id="termination_subject"/>
                 </div>
             </div>
 
-             <div class="input-group" style="width: 100%; margin-top: 1%">
-                        <span class="input-group-addon" id="purpose-addon"
+             <div class="input-group" id="desc_container" style="width: 100%; margin-top: 1%">
+                        <span class="input-group-addon" id="term_span"
                               style="width: 25%">Description:</span>
                         <textarea class="form-control" rows="15" id="termination_desc" aria-describedby="purpose-addon"
                            style="width: 60%" path="description">${termination.description}</textarea>
+                 <span class="glyphicon glyphicon-record" id="error_desc" style="display: none">Description cannot be empty</span>
              </div>
 
             <div class="input-group" style="width: 100%; margin-top: 1%">
@@ -85,6 +86,7 @@
                           style="width: 25%">Approvals:</span>
             <div class="tab-content" id="approvals1">
                 <input type="text" id="demo-input-local"/>
+                <span class="error text-danger" id="error_approves" style="display: none">Description cannot be empty</span>
             </div>
         </div>
         <div class="input-group" style="width: 100%; margin-top: 2%">
@@ -106,10 +108,18 @@
 
     </div>
 </div>
+<%--
+<div class="form-group has-warning has-feedback">
+    <label class="col-sm-2 control-label" for="inputWarning">Input with warning and glyphicon</label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputWarning">
+        <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+    </div>
+</div>--%>
 
 <script type="text/javascript">
     $(document).ready(function() {
-        /*$("input[type=submit]").click(function ()*/
+         /*$("input[type=submit]").click(function ()*/
         $("#submit_btn").click(function (){
             var a=[];
             var b=[];
@@ -117,8 +127,11 @@
 
             var old_Id = '${termination.old_req_id}';
             var description = $('#termination_desc').val();
-            var subject = '${termination.subject}';
+            var subject = $('#termination_subject').val();
 
+            if($(this).isDisabled){
+                alert("disabled");
+            }
             alert(description+old_Id);
 
             a = $("#approvals1").children().siblings("input[type=text]").val();
@@ -129,7 +142,7 @@
                 url : "/Workflow/MyForms/cancellation",
                 data :'approvals='+a+'&references='+b+'&executives='+c+'&description='+description+'&old_id='+old_Id+'&subject='+subject,
                 success : function(response) {
-//                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
+                    window.location.href = "/Workflow/MyForms/Request";
                 },
                 error : function(e) {
                     alert('Error: ');
@@ -149,5 +162,22 @@
     $(document).ready(function () {
         $("#demo-input-local3").tokenInput(${jsonData});
     });
+
+    //validation
+    $(document).ready(function () {
+           $('#termination_desc').blur(function(){
+               if($(this).val().trim()==""){
+                   $('#error_desc').css("display", "block");
+                   $("#submit_btn").prop("disabled", true);
+                   $('#desc_container').addClass('has-error has-feedback');
+
+               }else {
+
+                   $('#error_desc').css("display", "none");
+                   $("#submit_btn").prop("disabled", false);
+                   $('#desc_container').removeClass('has-error has-feedback');
+               }
+            });
+   });
 
 </script>

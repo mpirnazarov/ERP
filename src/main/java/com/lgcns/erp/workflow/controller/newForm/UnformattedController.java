@@ -7,18 +7,15 @@ import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
-import com.lgcns.erp.workflow.Enums.LeaveType;
-import com.lgcns.erp.workflow.Mapper.LeaveApproveMapper;
 import com.lgcns.erp.workflow.Mapper.UnformattedMapper;
-import com.lgcns.erp.workflow.ViewModel.LeaveApproveVM;
 import com.lgcns.erp.workflow.ViewModel.UnformattedViewModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,16 +30,16 @@ import java.util.Map;
  */
 
 @Controller
-@RequestMapping(value = "/Workflow/Create")
+@RequestMapping(value = "/Workflow")
 public class UnformattedController {
     int[] approvalsGlobal = null;
     int[] executivesGlobal = null;
     int[] referencesGlobal = null;
 
-    @RequestMapping(value = "/Unformatted", method = RequestMethod.GET)
+    @RequestMapping(value = "NewForm/Unformatted", method = RequestMethod.GET)
     public ModelAndView Hrprofile(Principal principal){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("workflow/newForm/Unformatted");
+        mav.setViewName("workflow/newForm/unformatted");
         mav = UP.includeUserProfile(mav, principal);
 
         // Creating Unformatted ViewModel
@@ -98,20 +95,22 @@ public class UnformattedController {
 
         return mav;
     }
-    @RequestMapping(value = "/Unformatted", method = RequestMethod.POST, params = "Submit")
+    @RequestMapping(value = "NewForm/Unformatted", method = RequestMethod.POST, params = "Submit")
     public String Hrprofile(@ModelAttribute UnformattedViewModel unformattedVM, Principal principal) throws IOException {
 
         int userId = UserService.getIdByUsername(principal.getName());
 
         /* Insert to table Requests */
 
-        int requestId = WorkflowService.insertRequests(UnformattedMapper.requestMapper(unformattedVM, userId, 2, 1));
+        int requestId = WorkflowService.insertRequests(UnformattedMapper.requestMapper(unformattedVM, userId, 3, 1, false));
         unformattedVM.setId(requestId);
 
         /*  Insert attachments info to table Attachments */
-        for (MultipartFile attachment :
-                unformattedVM.getFile()) {
-            WorkflowService.insertAttachments(UnformattedMapper.attachmentsMapper(unformattedVM.getId(), attachment));
+        if(!unformattedVM.getFile()[0].isEmpty()) {
+            for (MultipartFile attachment :
+                    unformattedVM.getFile()) {
+                WorkflowService.insertAttachments(UnformattedMapper.attachmentsMapper(unformattedVM.getId(), attachment));
+            }
         }
 
         int count=1;
@@ -120,21 +119,21 @@ public class UnformattedController {
                 approvalsGlobal) {
             System.out.println("Approvals: " + num);
             if(count==1)
-                WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), userId, 1, count++, 1, true));
+                WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), num, 1, count++, 1, true));
             else
-                WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), userId, 1, count++, 1, false));
+                WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), num, 1, count++, 1, false));
         }
 
         for (int num :
                 executivesGlobal) {
             System.out.println("Executives: " + num);
-            WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), userId, 2, 0, 1, false));
+            WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), num, 2, 0, 1, false));
         }
 
         for (int num :
                 referencesGlobal) {
             System.out.println("References: " + num);
-            WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), userId, 3, 0, 1, false));
+            WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), num, 3, 0, 1, false));
         }
 
         System.out.println("FORM:   LEAVE APPROVAL: " + unformattedVM.toString());
@@ -154,6 +153,43 @@ public class UnformattedController {
 
             System.out.println("FILE WAS UPLOADED!");
         }
-        return "redirect: /Workflow/NewForm/";
+
+
+
+        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+
+        String msg = "";
+        for (int appr :
+                approvalsGlobal) {
+            msg += "  [Approval: " + appr + "]";
+        }
+
+
+        // E-mail is sent here
+
+        /*MailMail mm = (MailMail) context.getBean("mailMail");
+        mm.sendMailApproval(approvalsGlobal, principal);
+        mm.sendMailReference(referencesGlobal, principal);
+        mm.sendMailExecutive(executivesGlobal, principal);
+        mm.sendMail("muslimbek.pirnazarov@gmail.com",
+                "muslimbek.pirnazarov@gmail.com",
+                "Testing123",
+                msg);*/
+
+
+
+        return "redirect: /Workflow/NewForm/Unformatted";
+    }
+
+    @RequestMapping(value = "/NewForm/UnformattedFormAjax", method = RequestMethod.POST)
+    public @ResponseBody
+    int[] UnformattedPostAjax(@RequestParam("approvals") int[] approvals, @RequestParam("executives") int[] executives, @RequestParam("references") int[] references){
+        System.out.println("Unformatted is working.");
+
+        approvalsGlobal = approvals;
+        executivesGlobal = executives;
+        referencesGlobal = references;
+
+        return approvals;
     }
 }

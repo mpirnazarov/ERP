@@ -127,23 +127,22 @@ public class DetailsMapper {
     }
 
     public static TerminationViewModel getTerminationViewModel(int id){
-        RequestsEntity entity = WorkflowService.getRequestsEntityById(id);
+         RequestsEntity entity = WorkflowService.getRequestsEntityById(id);
         TerminationViewModel viewModel = new TerminationViewModel();
         viewModel.setSubject(entity.getSubject());
         viewModel.setOld_req_id(entity.getId());
         viewModel.setApproves(getInvolvedUsers(entity, 1));
         viewModel.setExecutives(getInvolvedUsers(entity, 2));
         viewModel.setReferences(getInvolvedUsers(entity, 3));
-        viewModel.setDescription("");
+        if (entity.getTypeId()==Type.Termination.getValue())
+            viewModel.setDescription(entity.getDescription());
+        else
+            viewModel.setDescription("");
 
-        return viewModel;
+         return viewModel;
     }
 
-    public static StepsEntity getStepFromViewModel(int reqId, int userId, int involvementTypeId, int sequence, int statusId, boolean isActive){
 
-
-        return null;
-    }
 
     public static RequestsEntity getRequestFromViewModel(TerminationViewModel viewModel, RequestsEntity old_requestsEntity){
         RequestsEntity requestsEntity = new RequestsEntity();
@@ -156,6 +155,9 @@ public class DetailsMapper {
         requestsEntity.setTypeId(4);
         requestsEntity.setStatusId(1);
         requestsEntity.setViewed(false);
+        requestsEntity.setDomestic(true);
+        requestsEntity.setTripTypeId(old_requestsEntity.getTripTypeId());
+        requestsEntity.setDestination(old_requestsEntity.getDestination());
 
         return requestsEntity;
     }

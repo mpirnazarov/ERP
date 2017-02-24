@@ -67,7 +67,7 @@ public class ToDoController {
         PagedListHolder<ToDoViewModel> pagedListHolder = new PagedListHolder<>(Filter.toDoFilter(selectedformType, selectedStatus,
                 selectedAttribute, attrValue, selectedDate, 1, userId));
 
-        pagedListHolder.setPageSize(2);
+        pagedListHolder.setPageSize(10);
 
         mav.put("maxPages", pagedListHolder.getPageCount());
         if(page==null || page < 1 || page > pagedListHolder.getPageCount())

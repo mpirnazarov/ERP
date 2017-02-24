@@ -58,26 +58,15 @@
                     </div>
                 </div>
                 <div class="form-footer" style="margin-bottom: 5%">
-                    <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="approvals-addon"
-                          style="width: 25%">Approvals:</span>
-                        <div class="tab-content" id="approvals">
-                            <input type="text" id="demo-input-local"/>
-                        </div>
-                    </div>
-                    <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="executive-addon"
-                          style="width: 25%">Executive:</span>
-                        <div class="tab-content" id="executives">
-                            <input type="text" id="demo-input-local2"/>
-                        </div>
-                    </div>
-                    <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="reference-addon"
-                          style="width: 25%">Reference:</span>
-                        <div class="tab-content" id="references">
-                            <input type="text" id="demo-input-local3"/>
-                        </div>
+
+                    <%-- Approvals, references, executors shouldn't be edited --%>
+                    <div class="input-group" style="width: 100%; margin-top: 1%">
+                        <span class="input-group-addon" id="attach-addon" style="width: 35%">Attachment:</span>
+                        <c:forEach items="${unformattedVM.attachments}" var="attachment">
+                            <div id="attachmentDiv"><span class="glyphicon glyphicon-list-alt"  aria-hidden="false"></span>
+                                <a href="/Workflow/EditForm/files/delete/${attachment.id}"><span class="glyphicon glyphicon-remove-sign" aria-hidden="false" ></span></a>
+                            <a href="/Workflow/EditForm/files/${attachment.id}">${attachment.fileName}</a></div>
+                        </c:forEach>
                     </div>
                     <div class="input-group" style="width: 100%; margin-top: 2%">
                     <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open
@@ -87,12 +76,11 @@
                     <div class="input-group" style="width: 100%; margin-top: 2%">
                     <span class="input-group-addon" id="date-addon"
                           style="width: 25%">Date(Start/End):</span>
-                        <input type="date" class="form-control" style="width:36%" name="start" id="dateStart"/>
-                        <input type="date" class="form-control" style="width:36%" name="end" id="dateEnd"/>
+                        <form:input type="date" class="form-control" style="width:36%" name="start" id="dateStart" path="start"/>
+                        <form:input type="date" class="form-control" style="width:36%" name="end" id="dateEnd" path="end"/>
                     </div>
                     <div class="btn-group" role="group" aria-label="..." style="margin-left: 40%; margin-top: 3%">
-                        <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-success"/>
-                        <input id="tv" type="submit" name="Submit" value="Submit" class="btn btn-success"/>
+                        <input type="submit" name="Save" value="Save" class="btn btn-success"/>
                         <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
                     </div>
                 </div>
@@ -132,11 +120,11 @@
                 for (var i = 0; i < input.files.length; i++) {
                     size += input.files[0].size;
                 }
-                    if (size > 104857600) {
+                if (size > 104857600) {
                         flag = false
                         msg += "Attached files cannot be more than 100MB \n";
-                    }
                 }
+            }
 
 
             /* Date start cannot be empty */

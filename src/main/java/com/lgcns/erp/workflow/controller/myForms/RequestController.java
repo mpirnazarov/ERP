@@ -44,7 +44,8 @@ public class RequestController {
         Map<Integer, String> statusList = new HashMap<>();
         statusList.put(0,"");
         for (Status status : Status.values()) {
-            statusList.put(status.getValue(), status.name().replace('_',' '));
+            if (status.getValue()!=8)
+                statusList.put(status.getValue(), status.name().replace('_',' '));
         }
 
         Map<Integer, String> typeList = new HashMap<>();
@@ -78,7 +79,7 @@ public class RequestController {
         PagedListHolder<RequestViewModel> pagedListHolder = new PagedListHolder<>(Filter.
                                                             filterRequest(selectedformType, selectedStatus, attrValue, selectedDate, 2, userId));
 
-        pagedListHolder.setPageSize(2);
+        pagedListHolder.setPageSize(10);
 
         mav.put("maxPages", pagedListHolder.getPageCount());
         if(page==null || page < 1 || page > pagedListHolder.getPageCount())

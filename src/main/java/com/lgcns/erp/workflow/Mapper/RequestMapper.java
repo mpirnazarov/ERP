@@ -26,7 +26,7 @@ public class RequestMapper {
 
             for (Type type : Type.values()) {
                 if (req.getTypeId()==type.getValue())
-                    model.setForm_type(type.toString());
+                    model.setForm_type(type.name().replace("_"," "));
             }
 
             for (UsersEntity user : users) {
@@ -36,7 +36,7 @@ public class RequestMapper {
 
             for (Status status : Status.values()) {
                 if (status.getValue() == req.getStatusId())
-                    model.setStatus(status.toString());
+                    model.setStatus(status.name().replace("_"," "));
             }
 
             models.add(model);
@@ -47,7 +47,7 @@ public class RequestMapper {
     private static List<RequestsEntity> getValidReqs(List<RequestsEntity> reqs, int userId) {
         List<RequestsEntity> requestsEntities = new ArrayList<>();
         for (RequestsEntity req : reqs) {
-            if (req.getUserFromId()==userId){
+            if (req.getUserFromId()==userId&&req.getStatusId()!=Status.Deleted.getValue()){
                 requestsEntities.add(req);
             }
         }

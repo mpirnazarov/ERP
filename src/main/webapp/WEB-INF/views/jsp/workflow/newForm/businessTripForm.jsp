@@ -45,6 +45,7 @@
         </p>
         <h2 class="page-header">Business trip</h2>
 
+
         <form:form modelAttribute="businessTripVM" cssClass="form-horizontal" method="post" id="myform" enctype="multipart/form-data">
             <div class="w3-container b3form">
             <div class="form-header">
@@ -74,7 +75,7 @@
                 <div class="input-group" style="width: 100%; margin-top: 1%">
                     <span class="input-group-addon" id="purpose-addon"
                           style="width: 25%">Purpose of Business trip:</span>
-                    <form:textarea class="form-control" rows="5" id="comment" aria-describedby="purpose-addon"
+                    <form:textarea class="form-control" rows="3" id="comment" aria-describedby="purpose-addon"
                               style="width: 40%" path="purpose"></form:textarea>
                 </div>
                 <div class="form-group">
@@ -86,28 +87,27 @@
                            id="myTable">
                         <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Name</th>
-                            <th>Name of (Organization)</th>
+                            <%--<th>Department</th>--%>
                             <th>From</th>
                             <th>To</th>
                             <th>Transportation</th>
                             <th>Daily Allowance</th>
                             <th>Accommodation</th>
+                            <th>Currency for accomodation</th>
                             <th>Other</th>
-                            <th>Overall</th>
                         </tr>
                         </thead>
                         <tbody id="membersDynamicBody" style="color: #0f0f0f">
                             <tr style="color: black">
-                                <td> 1 <form:hidden value="0" name = "membersEntityList[0].id" min="0" path="membersEntityList[0].id"/></td>
                                 <td><form:select path="membersEntityList[0].userId" items="${users}" cssClass="sarvar"/></td>
-                                <td> <form:input type='text' name = "membersEntityList[0].organizationName" path="membersEntityList[0].organizationName"/> </td>
+                                <%--<td> <form:input type='text' name = "membersEntityList[0].organizationName" path="membersEntityList[0].organizationName"/> </td>--%>
                                 <td> <input type='date' name = "membersEntityList[0].dateFrom" /> </td>
                                 <td> <input type='date' name = "membersEntityList[0].dateTo" /> </td>
                                 <td><form:input type='number' name = "membersEntityList[0].expenseTransportation" min="0" path="membersEntityList[0].expenseTransportation"/></td>
                                 <td><form:input type='number' name = "membersEntityList[0].dailyAllowance" min="0" path="membersEntityList[0].dailyAllowance"/></td>
                                 <td><form:input type='number' name = "membersEntityList[0].expenseAccommodation" min="0" path="membersEntityList[0].expenseAccommodation"/></td>
+                                <td><form:select path="membersEntityList[0].accomodationCurrency" items="${currency}" cssClass="sarvar"/></td>
                                 <td><form:input type='number' name = "membersEntityList[0].expenseOther" min="0" path="membersEntityList[0].expenseOther"/></td>
                                 <td><a class="deleteRow"/></td>
                             </tr>
@@ -124,14 +124,12 @@
                            id="toDoDynamicHead">
                         <thead>
                         <tr>
-                            <td>ID</td>
                             <th>Date</th>
                             <th>Description</th>
                         </tr>
                         </thead>
                         <tbody id="toDoDynamicBody" />
                         <tr>
-                            <td>1</td>
                             <td><input type='date' name = "toDoEntityList[0].date" min="0" /></td>
                             <td><input type='text' name = "toDoEntityList[0].description" min="0" /></td>
                             <td><a class="deleteRow"/></td>
@@ -172,8 +170,8 @@
                 <div class="input-group" style="width: 100%; margin-top: 2%">
                     <span class="input-group-addon" id="date-addon"
                           style="width: 25%">Date(Start/End):</span>
-                    <input type="date" class="form-control" style="width:36%" placeholder="Start" name="start" />
-                    <input type="date" class="form-control" style="width:36%" placeholder="End" name="end" />
+                    <input type="date" class="form-control" style="width:36%" name="start" />
+                    <input type="date" class="form-control" style="width:36%" name="end" />
                 </div>
                 <div class="btn-group" role="group" aria-label="..." style="margin-left: 40%; margin-top: 3%">
                     <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-success"/>
@@ -191,6 +189,7 @@
 
 
 <script type="text/javascript">
+
 
     /* Send input from approval list to controller by AJAX */
     $(document).ready(function() {
@@ -232,14 +231,19 @@
 
 
     $(document).ready(function () {
+
+
+
+
+
+
         var counter = 1;
 
         $("#addrow").on("click", function () {
             var ab = document.getElementById('membersDynamicBody');
             var tr = document.createElement('tr');
+
             var td = document.createElement('td');
-            td.innerHTML = counter+1;
-            tr.appendChild(td);
             var select = document.createElement('select');
             select.name = "membersEntityList["+counter+"].userId";
             /*elect.className = "form-control text-box single-line";*/
@@ -259,18 +263,16 @@
 
                 }
             });
-
-            var td = document.createElement('td');
             td.appendChild(select);
             tr.appendChild(td);
 
 
             /*Input field for organization Name*/
-            var td = document.createElement('td');
+            /*var td = document.createElement('td');
             var input = document.createElement('input');
             input.name = "membersEntityList["+counter+"].organizationName";
             td.appendChild(input);
-            tr.appendChild(td);
+            tr.appendChild(td);*/
 
             /*Input field for from date*/
             var td = document.createElement('td');
@@ -313,6 +315,31 @@
             num.setAttribute('min', 0);
             num.name = "membersEntityList["+counter+"].expenseAccommodation";
             td.appendChild(num);
+            tr.appendChild(td);
+
+            /*Input field for select currency*/
+            var td = document.createElement('td');
+            var select2 = document.createElement('select');
+            select2.name = "membersEntityList["+counter+"].accomodationCurrency";
+            /*elect.className = "form-control text-box single-line";*/
+            select2.className = 'sarvar';
+
+            opt2 = document.createElement('option');
+            opt2.value = "0";
+            opt2.innerHTML = "";
+            select2.appendChild(opt2);
+
+            opt2 = document.createElement('option');
+            opt2.value = "1";
+            opt2.innerHTML = "UZS";
+            select2.appendChild(opt2);
+
+            opt2 = document.createElement('option');
+            opt2.value = "2";
+            opt2.innerHTML = "USD";
+            select2.appendChild(opt2);
+
+            td.appendChild(select2);
             tr.appendChild(td);
 
             /*Input field for expenseOther*/
@@ -365,9 +392,6 @@
         $("#addrowToDo").on("click", function () {
             var ab = document.getElementById('toDoDynamicBody');
             var tr = document.createElement('tr');
-            var td = document.createElement('td');
-            td.innerHTML = counter+1;
-            tr.appendChild(td);
 
             /*Input field for date*/
             var td = document.createElement('td');
@@ -395,13 +419,9 @@
             tr.appendChild(td);
             ab.appendChild(tr);
             counter++;
-
-
         });
 
-
-
-        $("table.table-bordered").on("click", ".ibtnDel", function (event) {
+     $("table.table-bordered").on("click", ".ibtnDel", function (event) {
             $(this).closest("tr").remove();
 
         });

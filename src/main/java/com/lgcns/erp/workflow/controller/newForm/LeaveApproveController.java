@@ -45,6 +45,12 @@ public class LeaveApproveController {
         LeaveApproveVM leaveApproveVM = new LeaveApproveVM();
         mav.addObject("leaveApproveVM", leaveApproveVM);
 
+        // Creating current users entity
+        UsersEntity usersEntity = UserService.getUserByUsername(principal.getName());
+
+        mav.addObject("curUser", usersEntity);
+
+
         // Create Json data about userlist for Approvals, reference and executive persons list
         JSONObject jsonObject = null;
         JSONArray jsonArray = new JSONArray();
@@ -94,6 +100,7 @@ public class LeaveApproveController {
 
         // Retriving data about type of Business trip
         Map<Integer, String> absenceType = new HashMap<>();
+        absenceType.put(0, "");
         for (LeaveType leaveType :
                 LeaveType.values()) {
             absenceType.put(leaveType.getValue(), leaveType.name().replace("_", " "));
@@ -112,8 +119,7 @@ public class LeaveApproveController {
         int userId = UserService.getIdByUsername(principal.getName());
 
         /* Insert to table Requests */
-
-        int requestId = WorkflowService.insertRequests(LeaveApproveMapper.requestMapper(leaveApproveVM, userId, 2, 1));
+        int requestId = WorkflowService.insertRequests(LeaveApproveMapper.requestMapper(leaveApproveVM, userId, 2, 1, false));
         leaveApproveVM.setId(requestId);
 
         /*  Insert attachments info to table Attachments */
@@ -122,30 +128,30 @@ public class LeaveApproveController {
             WorkflowService.insertAttachments(LeaveApproveMapper.attachmentsMapper(leaveApproveVM.getId(), attachment));
         }
 
+        System.out.println(approvalsGlobal);
         int count=1;
         /* Insert to table steps */
         for (int num :
                 approvalsGlobal) {
             System.out.println("Approvals: " + num);
             if(count==1)
-                WorkflowService.insertSteps(LeaveApproveMapper.stepsMapper(leaveApproveVM.getId(), userId, 1, count++, 1, true));
+                WorkflowService.insertSteps(LeaveApproveMapper.stepsMapper(leaveApproveVM.getId(), num, 1, count++, 1, true));
             else
-                WorkflowService.insertSteps(LeaveApproveMapper.stepsMapper(leaveApproveVM.getId(), userId, 1, count++, 1, false));
+                WorkflowService.insertSteps(LeaveApproveMapper.stepsMapper(leaveApproveVM.getId(), num, 1, count++, 1, false));
         }
 
         for (int num :
                 executivesGlobal) {
             System.out.println("Executives: " + num);
-            WorkflowService.insertSteps(LeaveApproveMapper.stepsMapper(leaveApproveVM.getId(), userId, 2, 0, 1, false));
+            WorkflowService.insertSteps(LeaveApproveMapper.stepsMapper(leaveApproveVM.getId(), num, 2, 0, 1, false));
         }
 
         for (int num :
                 referencesGlobal) {
             System.out.println("References: " + num);
-            WorkflowService.insertSteps(LeaveApproveMapper.stepsMapper(leaveApproveVM.getId(), userId, 3, 0, 1, false));
+            WorkflowService.insertSteps(LeaveApproveMapper.stepsMapper(leaveApproveVM.getId(), num, 3, 0, 1, false));
         }
 
-        System.out.println("FORM:   LEAVE APPROVAL: " + leaveApproveVM.toString());
         MultipartFile[] multipartFiles=null;
         if(!leaveApproveVM.getFile()[0].isEmpty()) {
             multipartFiles = leaveApproveVM.getFile();
@@ -162,7 +168,19 @@ public class LeaveApproveController {
 
             System.out.println("FILE WAS UPLOADED!");
         }
-        return "redirect: /Workflow/NewForm/LeaveApprovalForm";
+
+        // E-mail is sent here
+
+        /*MailMail mm = (MailMail) context.getBean("mailMail");
+        mm.sendMailApproval(approvalsGlobal, principal);
+        mm.sendMailReference(referencesGlobal, principal);
+        mm.sendMailExecutive(executivesGlobal, principal);*/
+        /*mm.sendMail("muslimbek.pirnazarov@gmail.com",
+                "muslimbek.pirnazarov@gmail.com",
+                "Testing123",
+                msg);*/
+
+        return "redirect: /Workflow/NewForm/LeaveApproveForm";
     }
 
     @RequestMapping(value = "/NewForm/LeaveApproveForm", method = RequestMethod.POST, params = "Save")
@@ -172,7 +190,7 @@ public class LeaveApproveController {
 
         /* Insert to table Requests */
 
-        int requestId = WorkflowService.insertRequests(LeaveApproveMapper.requestMapper(leaveApproveVM, userId, 2, 4));
+        int requestId = WorkflowService.insertRequests(LeaveApproveMapper.requestMapper(leaveApproveVM, userId, 2, 4, false));
         leaveApproveVM.setId(requestId);
 
         /*  Insert attachments info to table Attachments */

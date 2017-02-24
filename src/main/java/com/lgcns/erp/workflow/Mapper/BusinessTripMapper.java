@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Muslimbek Pirnazarov on 2/7/2017.
  */
 public class BusinessTripMapper {
-    public static RequestsEntity requestMapper(BusinessTripVM businessTripVM, int idByUsername, int typeId, int statusId) {
+    public static RequestsEntity requestMapper(BusinessTripVM businessTripVM, int idByUsername, int typeId, int statusId, boolean isViewed) {
         RequestsEntity requestsEntity = new RequestsEntity();
 
         requestsEntity.setUserFromId(idByUsername);
@@ -37,6 +37,7 @@ public class BusinessTripMapper {
         requestsEntity.setStatusId(statusId);
         requestsEntity.setDateCreated(new java.sql.Date(new java.util.Date().getTime()));
         requestsEntity.setDestination(businessTripVM.getDestination());
+        requestsEntity.setViewed(isViewed);
 
         return requestsEntity;
     }
@@ -53,7 +54,7 @@ public class BusinessTripMapper {
         membersEntity.setDailyAllowance(member.getDailyAllowance());
         membersEntity.setExpenseAccommodation(member.getExpenseAccommodation());
         membersEntity.setExpenseOther(member.getExpenseOther());
-
+        membersEntity.setAccomodationCurrency(member.getAccomodationCurrency());
         return membersEntity;
     }
 

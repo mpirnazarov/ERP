@@ -1,4 +1,4 @@
-package com.lgcns.erp.workflow.controller.newForm;
+package com.lgcns.erp.workflow.controller.editForm;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
@@ -35,7 +35,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/Workflow")
-public class BusinessTripController {
+public class BusinessTripEditController {
 
     int[] approvalsGlobal = null;
     int[] executivesGlobal = null;

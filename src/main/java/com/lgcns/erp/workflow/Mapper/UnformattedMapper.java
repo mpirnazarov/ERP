@@ -11,19 +11,21 @@ import org.springframework.web.multipart.MultipartFile;
  * Created by Muslimbek Pirnazarov on 2/7/2017.
  */
 public class UnformattedMapper {
-    public static RequestsEntity requestMapper(UnformattedViewModel unformattedVM, int idByUsername, int typeId, int statusId) {
+    public static RequestsEntity requestMapper(UnformattedViewModel unformattedVM, int idByUsername, int typeId, int statusId, boolean isViewed) {
         RequestsEntity requestsEntity = new RequestsEntity();
 
         requestsEntity.setUserFromId(idByUsername);
         requestsEntity.setSubject(unformattedVM.getSubject());
-        // Type of workflow. 1-Business trip
+        // Type of workflow. 1-Business trip, 2-Leave approve, 3-Unformatted
         requestsEntity.setTypeId(typeId);
+        requestsEntity.setTripTypeId(1);
         requestsEntity.setDateFrom(unformattedVM.getStart());
         requestsEntity.setDateTo(unformattedVM.getEnd());
         requestsEntity.setDescription(unformattedVM.getDescription());
         // By default workflow status will be in progress = 1
         requestsEntity.setStatusId(statusId);
         requestsEntity.setDateCreated(new java.sql.Date(new java.util.Date().getTime()));
+        requestsEntity.setViewed(isViewed);
 
         return requestsEntity;
     }
@@ -67,4 +69,15 @@ public class UnformattedMapper {
     }
 
 
+    public static RequestsEntity requestMapperUpdate(UnformattedViewModel unformattedVM) {
+        RequestsEntity requestsEntity = new RequestsEntity();
+
+        requestsEntity.setId(unformattedVM.getId());
+        requestsEntity.setSubject(unformattedVM.getSubject());
+        requestsEntity.setDescription(unformattedVM.getDescription());
+        requestsEntity.setDateFrom(unformattedVM.getStart());
+        requestsEntity.setDateTo(unformattedVM.getEnd());
+
+        return requestsEntity;
+    }
 }

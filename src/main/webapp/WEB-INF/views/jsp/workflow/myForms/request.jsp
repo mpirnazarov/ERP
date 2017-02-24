@@ -122,6 +122,10 @@
     });
 
 
+
+
+
+
 </script>
 
 
@@ -191,12 +195,19 @@
                             .append($('<td/>').text(req.form_type))
                             .append($('<td/>').text(req.request_subject))
                             .append($('<td/>').text(req.date_created))
-                            .append($('<td/>').text(req.status))
+                            .append($('<td/>').text(req.status).addClass("statusTd"))
                             .append($('<td/>').append($('<div class="btn" onclick="location.href=\'/Workflow/MyForms/details/2/' + req.request_id + '\'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></div>')));
                     });
                 }
 
-
+                $('.statusTd:contains("In progress")').css('color', '#0be215');
+                $('.statusTd:contains("Revision")').css('color', '#fec91f');
+                $('.statusTd:contains("Rejected")').css('color', '#ff0000');
+                $('.statusTd:contains("Draft")').css('color', '#f9fef3');
+                $('.statusTd:contains("Approved")').css('color', '#0be215');
+                $('.statusTd:contains("Terminated")').css('color', '#ff0000');
+                $('.statusTd:contains("Finished")').css('color', '#59feef');
+                $('.statusTd:contains("Deleted")').css('color', '#000000');
 
                 numberOfPages = data.maxPages;
                 container.empty();
@@ -217,6 +228,8 @@
             error: function () {
                 alert("Table not loaded");
             }
+
+
 
         });
     }

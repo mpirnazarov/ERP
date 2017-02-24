@@ -37,9 +37,13 @@
 <script type="text/javascript" src="${jspdf}"></script>
 <script type="text/javascript" src="${base64}"></script>
 
+<style>
+    .panel{
+        width: 100%;
+    }
+</style>
 <div class="container-fluid">
     <div class="row">
-        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
 
         <div class="col-md-offset-1 col-sm-10">
             <div class=" col-lg-offset-2 col-lg-10">

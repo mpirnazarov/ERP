@@ -46,7 +46,7 @@ public class MonitorMapper {
             MonitorResponseViewModel temp = new MonitorResponseViewModel();
             temp.setEmployee(monitor.getUserName());
             temp.setProject(monitor.getProjectName());
-            temp.setType(monitor.getType());
+            temp.setType(setMonitorModelsType(monitor.getType()));
             temp.setDate(monitor.getDate().toString());
             temp.setDuration(monitor.getDuration());
             returning.add(temp);
@@ -64,5 +64,14 @@ public class MonitorMapper {
         });
 
         return returning;
+    }
+
+    private static String setMonitorModelsType(String typeId){
+        int id = Integer.valueOf(typeId);
+        for (WorkloadType wType : WorkloadType.values()){
+            if(wType.getValue() == id)
+                return wType.name().replace('_', ' ');
+        }
+        return "Work Administrative";
     }
 }

@@ -44,6 +44,20 @@ public class MonitorController {
         int userToRequest = 0;  //Requesting all users
         if(roleId == 2) {       //If user's role is USER, then request only his data
             userToRequest = curUser.getId();
+
+            Map<Integer, String> user = new LinkedHashMap<Integer, String>();
+            user.put(curUser.getId(), getFirstAndLastName(curUser.getId()));
+            mav.addObject("users", user);
+
+            Map<Integer, String> projects = new LinkedHashMap<Integer, String>();
+            List<ProjectsEntity> projectsList = ProjectServices.getUsersAllProjects(curUser.getId(), getDateRange().getKey(), getDateRange().getValue());
+            Calendar cal = Calendar.getInstance();
+            for (ProjectsEntity pe : projectsList) {
+                cal.setTime(pe.getStartDate());
+                int year = cal.get(Calendar.YEAR);
+                projects.put(pe.getId(), "PJ " + year + "-" + pe.getCode() + "-" + pe.getType());
+            }
+            mav.addObject("projects", projects);
         }else{
             mav.addObject("users", getUsersIdAndName());
             mav.addObject("projects", getProjectsIdAndName(getDateRange().getKey(), getDateRange().getValue()));
@@ -91,6 +105,14 @@ public class MonitorController {
             users.put(loc.getUserId(), loc.getFirstName() + " " + loc.getLastName());
         }
         return users;
+    }
+
+    private String getFirstAndLastName(int userId){
+        for (UserLocalizationsEntity loc : UserService.getAllUserLocs()) {
+            if (userId == loc.getUserId())
+                return loc.getFirstName() + " " + loc.getLastName();
+        }
+        return "";
     }
 
     private Map<Integer, String> getProjectsIdAndName(Date dateFrom, Date dateTo) {

@@ -38,7 +38,6 @@
 </style>
 <div class="container-fluid">
     <div class="row">
-        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserLayout.jsp"></jsp:include>
         <form hidden="hidden" method="post" action="/Appoint/Create">
             <input type="number" id="tbxProject" name="ProjectId"/>
             <input type="number" id="tbxEmp" name="EmpId"/>

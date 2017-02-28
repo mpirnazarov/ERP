@@ -8,16 +8,15 @@ import com.lgcns.erp.tapps.DbContext.ProjectServices;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.DbContext.WorkloadServices;
 import com.lgcns.erp.tapps.controller.UP;
-import com.lgcns.erp.tapps.model.DbEntities.*;
+import com.lgcns.erp.tapps.model.DbEntities.ProjectsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
 import javafx.util.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.method.P;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +27,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
-import java.util.Date;
 
 /**
  * Created by Rafatdin on 07.12.2016.
@@ -55,7 +53,10 @@ public class MonitorController {
             for (ProjectsEntity pe : projectsList) {
                 cal.setTime(pe.getStartDate());
                 int year = cal.get(Calendar.YEAR);
-                projects.put(pe.getId(), "PJ " + year + "-" + pe.getCode() + "-" + pe.getType());
+                if(pe.getId() == 0)
+                    projects.put(pe.getId(), "Overhead");
+                else
+                    projects.put(pe.getId(), "PJ " + year + "-" + pe.getCode() + "-" + pe.getType());
             }
             mav.addObject("projects", projects);
         }else{
@@ -121,7 +122,10 @@ public class MonitorController {
         for (ProjectsEntity project : ProjectServices.getAllProjects(dateFrom, dateTo)) {
             cal.setTime(project.getStartDate());
             int year = cal.get(Calendar.YEAR);
-            projects.put(project.getId(), "PJ " + year + "-" + project.getCode() + "-" + project.getType());
+            if(project.getId() == 0)
+                projects.put(project.getId(), "Overhead");
+            else
+                projects.put(project.getId(), "PJ " + year + "-" + project.getCode() + "-" + project.getType());
         }
         return projects;
     }

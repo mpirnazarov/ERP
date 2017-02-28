@@ -46,7 +46,7 @@ public class BusinessTripMapper {
         MembersEntity membersEntity = new MembersEntity();
 
         membersEntity.setRequestId(businessTripVM.getId());
-        membersEntity.setUserId(userId);
+        membersEntity.setUserId(member.getUserId());
         membersEntity.setOrganizationName(member.getOrganizationName());
         membersEntity.setDateFrom(member.getDateFrom());
         membersEntity.setDateTo(member.getDateTo());

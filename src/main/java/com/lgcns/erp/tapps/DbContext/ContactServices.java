@@ -1,6 +1,7 @@
 package com.lgcns.erp.tapps.DbContext;
 
-import com.lgcns.erp.tapps.model.DbEntities.*;
+import com.lgcns.erp.tapps.model.DbEntities.ContactsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.OrganizationEntity;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -34,13 +35,18 @@ public class ContactServices{
         return list;
     }
     public static List<OrganizationEntity> getAllOrganizations(){
-        List<OrganizationEntity> list = null;
+        List<OrganizationEntity> list = null, result = new ArrayList<>();
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from OrganizationEntity locs");
             list = (List<OrganizationEntity>)query.list();
+
+            for(OrganizationEntity oe : list){
+                if(oe.getId() != 0)
+                    result.add(oe);
+            }
             transaction.commit();
         }
         catch (HibernateException e) {
@@ -51,7 +57,7 @@ public class ContactServices{
             session.close();
         }
 
-        return list;
+        return result;
     }
 
     public static OrganizationEntity getOrganizationtById(int id) {

@@ -2,6 +2,7 @@ package com.lgcns.erp.workflow.ViewModel;
 
 import com.lgcns.erp.workflow.DBEntities.MembersEntity;
 import com.lgcns.erp.workflow.DBEntities.ToDoEntity;
+import com.lgcns.erp.workflow.Model.Attachment;
 import com.lgcns.erp.workflow.Model.Member;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +18,7 @@ public class BusinessTripVM {
     private String subject, destination, purpose;
     private java.sql.Date start, end;
     private MultipartFile[] file;
+    private List<Attachment> attachments;
     private List<MembersEntity> membersEntityList;
     private List<Member> members;
     private List<ToDoEntity> toDoEntityList;
@@ -116,6 +118,14 @@ public class BusinessTripVM {
 
     public void setToDoEntityList(List<ToDoEntity> toDoEntityList) {
         this.toDoEntityList = toDoEntityList;
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
     }
 
     @Override

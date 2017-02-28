@@ -1,31 +1,22 @@
 package com.lgcns.erp.hr.controller;
 
-import com.lgcns.erp.hr.enums.ProjectRole;
-import com.lgcns.erp.hr.mapper.ProjectMapper;
-import com.lgcns.erp.hr.viewModel.AppointViewModels.AppointCreate;
-import com.lgcns.erp.hr.viewModel.AppointViewModels.AppointEdit;
-import com.lgcns.erp.hr.viewModel.AppointViewModels.AppointViewModel;
-import com.lgcns.erp.hr.viewModel.AppointViewModels.ProjectMembers;
 import com.lgcns.erp.tapps.DbContext.ContactServices;
-import com.lgcns.erp.tapps.DbContext.ProjectServices;
-import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
-import com.lgcns.erp.tapps.model.DbEntities.*;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.springframework.http.MediaType;
+import com.lgcns.erp.tapps.model.DbEntities.OrganizationEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.security.Principal;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by Rafatdin on 07.12.2016.

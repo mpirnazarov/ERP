@@ -33,11 +33,6 @@
         width: 200px;
     }
 
-    .reqfield:before {
-        content: "*";
-        color: #ff0000;
-    }
-
 
 </style>
 
@@ -62,7 +57,7 @@
                 <div class="input-group" style="width: 100%; margin-top: 1%">
                     <span class="input-group-addon" id="saerchtype-addon"
                           style="width: 25%">Type of business trip:</span>
-                    <form:select class="form-control" aria-describedby="saerchtype-addon" style="width: 40%" path="tripType" items="${triptypeList}">
+                    <form:select class="form-control" aria-describedby="saerchtype-addon" style="width: 40%" path="tripType" items="${tripTypeList}">
 
                     </form:select>
                     <label class="radio-inline" style="margin-left: 1%; margin-top: 1%">
@@ -88,7 +83,7 @@
                         List of Business Trip members:
                     </label>
                     <div id="myTablecha" style="overflow: auto; width: 100%">
-                    <table class="table order-list table-bordered" style="background-color: #2b669a; color: inherit">
+                    <table class="table order-list table-bordered" style="background-color: #2b669a; color: inherit" id="myTable">
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -103,18 +98,20 @@
                         </tr>
                         </thead>
                         <tbody id="membersDynamicBody" style="color: #0f0f0f">
+                        <c:forEach items="${businessTripVM.membersEntityList}" varStatus="i">
                             <tr style="color: black">
-                                <td><form:select path="membersEntityList[0].userId" items="${users}" cssClass="sarvar"/></td>
+                                <td><form:select path="membersEntityList[${i.index}].userId" items="${users}" cssClass="sarvar" id="userId"/></td>
                                 <%--<td> <form:input type='text' name = "membersEntityList[0].organizationName" path="membersEntityList[0].organizationName"/> </td>--%>
-                                <td> <input type='date' name = "membersEntityList[0].dateFrom" /> </td>
-                                <td> <input type='date' name = "membersEntityList[0].dateTo" /> </td>
-                                <td><form:input type='number' name = "membersEntityList[0].expenseTransportation" min="0" path="membersEntityList[0].expenseTransportation"/></td>
-                                <td><form:input type='number' name = "membersEntityList[0].dailyAllowance" min="0" path="membersEntityList[0].dailyAllowance"/></td>
-                                <td><form:input type='number' name = "membersEntityList[0].expenseAccommodation" min="0" path="membersEntityList[0].expenseAccommodation"/></td>
-                                <td><form:select path="membersEntityList[0].accomodationCurrency" items="${currency}" cssClass="sarvar"/></td>
-                                <td><form:input type='number' name = "membersEntityList[0].expenseOther" min="0" path="membersEntityList[0].expenseOther"/></td>
-                                <td><a class="deleteRow"/></td>
+                                <td><form:input type='date' path="membersEntityList[${i.index}].dateFrom" id="dateFrom"/> </td>
+                                <td><form:input type='date' path="membersEntityList[${i.index}].dateTo" id="dateTo"/> </td>
+                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseTransportation" id="expenseTransportation"/></td>
+                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].dailyAllowance" id="dailyAllowance"/></td>
+                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseAccommodation" id="expenseAccomodation"/></td>
+                                <td><form:select path="membersEntityList[${i.index}].accomodationCurrency" items="${currency}" cssClass="sarvar" id="accomodationCurrency"/></td>
+                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseOther" id="expenseOther"/></td>
+                                <td><input type="button" class="ibtnDel btn btn-md btn-danger" value="Delete"/></td>
                             </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -133,11 +130,13 @@
                         </tr>
                         </thead>
                         <tbody id="toDoDynamicBody" />
-                        <tr>
-                            <td><input type='date' name = "toDoEntityList[0].date" min="0" /></td>
-                            <td><input type='text' name = "toDoEntityList[0].description" min="0" /></td>
-                            <td><a class="deleteRow"/></td>
-                        </tr>
+                        <c:forEach items="${businessTripVM.toDoEntityList}" varStatus="i">
+                            <tr>
+                                <td><form:input type='date' min="0"  path="toDoEntityList[${i.index}].date"/></td>
+                                <td><form:input type='text' min="0"  path="toDoEntityList[${i.index}].description"/></td>
+                                <td><input type="button" class="ibtnDel btn btn-md btn-danger" value="Delete"/></td>
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                     <input type="button" class="btn btn-normal" value="Add Row" id="addrowToDo"/>
@@ -145,27 +144,17 @@
 
             </div>
             <div class="form-footer" style="margin-bottom: 5%">
-                <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="approvals-addon"
-                          style="width: 25%">Approvals:</span>
-                    <div class="tab-content" id="approvals">
-                        <input type="text" id="demo-input-local"/>
-                    </div>
+
+                <%-- Approvals, references, executors shouldn't be edited --%>
+                <div class="input-group" style="width: 100%; margin-top: 1%">
+                    <span class="input-group-addon" id="attach-addon" style="width: 35%">Attachment:</span>
+                    <c:forEach items="${unformattedVM.attachments}" var="attachment">
+                        <div id="attachmentDiv"><span class="glyphicon glyphicon-list-alt"  aria-hidden="false"></span>
+                            <a href="/Workflow/EditForm/files/delete/${attachment.id}"><span class="glyphicon glyphicon-remove-sign" aria-hidden="false" ></span></a>
+                            <a href="/Workflow/EditForm/files/${attachment.id}">${attachment.fileName}</a></div>
+                    </c:forEach>
                 </div>
-                <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="executive-addon"
-                          style="width: 25%">Executive:</span>
-                    <div class="tab-content" id="executives">
-                        <input type="text" id="demo-input-local2"/>
-                    </div>
-                </div>
-                <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="reference-addon"
-                          style="width: 25%">Reference:</span>
-                    <div class="tab-content" id="references">
-                        <input type="text" id="demo-input-local3"/>
-                    </div>
-                </div>
+
                 <div class="input-group" style="width: 100%; margin-top: 2%">
                     <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open
                           style="width: 25%">Attachment:</span>
@@ -174,12 +163,11 @@
                 <div class="input-group" style="width: 100%; margin-top: 2%">
                     <span class="input-group-addon" id="date-addon"
                           style="width: 25%">Date(Start/End):</span>
-                    <input type="date" class="form-control" style="width:36%" name="start" />
-                    <input type="date" class="form-control" style="width:36%" name="end" />
+                    <form:input type="date" class="form-control" style="width:36%" name="start"  path="start"/>
+                    <form:input type="date" class="form-control" style="width:36%" name="end"  path="end"/>
                 </div>
                 <div class="btn-group" role="group" aria-label="..." style="margin-left: 40%; margin-top: 3%">
-                    <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-success"/>
-                    <input id="tv" type="submit" name="Submit" value="Submit" class="btn btn-success"/>
+                    <input id="tv" type="submit" name="submitBusinessTrip" value="Save" class="btn btn-success"/>
                     <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
                 </div>
             </div>
@@ -194,13 +182,41 @@
 
 <script type="text/javascript">
 
+
+    /* Send input from approval list to controller by AJAX */
+    $(document).ready(function() {
+        /*$("input[type=submit]").click(function ()*/
+        $("#tv").click(function (){
+            var a=[];
+            var b=[];
+            var c=[];
+
+            a = $("#approvals").children().siblings("input[type=text]").val();
+            b = $("#references").children().siblings("input[type=text]").val();
+            c = $("#executives").children().siblings("input[type=text]").val();
+            $.ajax({
+                type : "POST",
+                url : "/Workflow/NewForm/BusinessTripFormAjax",
+                data :'approvals='+a+'&references='+b+'&executives='+c,
+                success : function(response) {
+//                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
+                },
+                error : function(e) {
+                    alert('Error: ' + e);
+                }
+            });
+        });
+    });
+
     /* Send json data for approvals list*/
-    $(document).ready(function () {
+
+    $("#demo-input-local").tokenInput(${jsonData});
+    $("#demo-input-local2").tokenInput(${jsonData});
+    $("#demo-input-local3").tokenInput(${jsonData});
 
 
-        var targetB = $('#membersDynamicBody');
-
-        var counter = 1;
+    var doc = document.getElementById("myTablecha");
+        var counter = 4;
 
         $("#addrow").on("click", function () {
             var ab = document.getElementById('membersDynamicBody');
@@ -314,16 +330,6 @@
             td.appendChild(num);
             tr.appendChild(td);
 
-            /*Input field for expenceTotal*/
-            /*var td = document.createElement('td');
-            var num = document.createElement('input');
-            num.setAttribute('type', 'number');
-            num.setAttribute('value', 100);
-            num.setAttribute('disabled', true);
-            td.appendChild(num);
-            tr.appendChild(td);*/
-
-
             /*Delete button*/
             var td = document.createElement('td');
             var input = document.createElement('input');
@@ -337,7 +343,7 @@
             counter++;
 
 
-        });
+
 
 
 

@@ -357,6 +357,8 @@
 
     <div style="margin-bottom: 1%" id="authorsTools" class="col-md-5 col-md-offset-1">
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+                <button style="color: #008000" id="editButton" type="button" class="btn btn-default"  onclick="location.href='/Workflow/EditForm/${model.request_id}';"><span
             <div id="editButtons" class="btn-group" role="group">
                 <button style="color: #008000" id="editButton" type="button" class="btn btn-default"  onclick="location.href='/Workflow/EditForm/${model.request_id}';"><span
                         style="opacity: 1" class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
@@ -444,9 +446,12 @@
                         <textarea style="width: 80%;" disabled placeholder="Comment..." class="form-control" rows="3"
                                   id="referencesTextArea">${model.references} </textarea>
                     </div>
+                        ${model.attachments.size()}
                     <div class="input-group" style="width: 100%; margin-top: 1%">
                         <span class="input-group-addon" id="attach-addon" style="width: 35%">Attachment:</span>
+
                         <c:forEach items="${model.attachments}" var="attachment">
+
                             <div id="attachmentDiv"><span class="glyphicon glyphicon-list-alt"
                                                           aria-hidden="false"></span>
                                 <a href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a></div>

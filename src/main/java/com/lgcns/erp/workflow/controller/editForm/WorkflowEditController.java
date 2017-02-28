@@ -2,13 +2,18 @@ package com.lgcns.erp.workflow.controller.editForm;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
+import com.lgcns.erp.tapps.controller.UserController;
+import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
+import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
-import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
-import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
+import com.lgcns.erp.workflow.DBEntities.*;
 import com.lgcns.erp.workflow.Enums.LeaveType;
 import com.lgcns.erp.workflow.Mapper.LeaveApproveMapper;
 import com.lgcns.erp.workflow.Model.Attachment;
+import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
 import com.lgcns.erp.workflow.ViewModel.LeaveApproveVM;
+import com.lgcns.erp.workflow.ViewModel.UnformattedViewModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,18 +29,15 @@ import java.security.Principal;
 import java.util.*;
 
 /**
- * Created by DScomputers3 on 20.01.2017.
+ * Created by Muslimbek Pirnazarov on 24.02.2017.
  */
 @Controller
 @RequestMapping(value = "/Workflow/EditForm")
 public class WorkflowEditController {
 
-    int[] approvalsGlobal = null;
-    int[] executivesGlobal = null;
-    int[] referencesGlobal = null;
-
     @RequestMapping(value = "/{reqId}", method = RequestMethod.GET)
     public ModelAndView WorkflowEditGET(Principal principal, @PathVariable int reqId){
+
         ModelAndView mav = new ModelAndView();
 
         mav = UP.includeUserProfile(mav, principal);
@@ -46,6 +48,42 @@ public class WorkflowEditController {
         /* Business trip form editing */
         if(type == 1) {
             mav.setViewName("workflow/editForm/businessTrip");
+            // Retrieving Leave approve ViewModel
+            BusinessTripVM businessTripVM = getBusinessTrip(reqId);
+            mav.addObject("businessTripVM", businessTripVM);
+
+            // Retriving data about type of Business trip
+            Map<Integer, String> tripTypeList = new HashMap<>();
+            tripTypeList.put(0, "");
+            for (TripTypesEntity tripTypesEntity :
+                    WorkflowService.getTripTypes()) {
+                tripTypeList.put(tripTypesEntity.getId(), tripTypesEntity.getName());
+            }
+
+            // Add trip type data to ModelAndView
+            mav.addObject("tripTypeList", tripTypeList);
+
+            Map<Integer, String> users = new HashMap<>();
+            users.put(0, "");
+            UserLocalizationsEntity userLoc=null;
+            for (UsersEntity user :
+                    UserService.getAllUsers()) {
+                ProfileViewModel prof =  UserController.getProfileByUsername(user.getUserName());
+                userLoc = UserService.getUserLocByUserId(user.getId(), 3);
+                if (user.isEnabled() == true) {
+                    users.put(Integer.parseInt(prof.getId()), userLoc.getFirstName() + " " + userLoc.getLastName());
+                }
+            }
+            mav.addObject("users", users);
+
+            Map<Integer, String> currency = new HashMap<>();
+            currency.put(0, "");
+            currency.put(1, "UZS");
+            currency.put(2, "USD");
+            mav.addObject("currency", currency);
+
+        } else if(type == 2){
+            mav.setViewName("workflow/editForm/leaveApprove");
             // Retrieving Leave approve ViewModel
             LeaveApproveVM leaveApproveVM = getLeaveApprove(reqId);
             mav.addObject("leaveApproveVM", leaveApproveVM);
@@ -60,8 +98,73 @@ public class WorkflowEditController {
 
             // Add trip type data to ModelAndView
             mav.addObject("absenceType", absenceType);
+        } else if(type == 3){
+            mav.setViewName("workflow/editForm/unformatted");
+            mav = UP.includeUserProfile(mav, principal);
+
+            // Creating Unformatted ViewModel
+            UnformattedViewModel unformattedVM = getUnformattedVM(reqId);
+            mav.addObject("unformattedVM", unformattedVM);
         }
         return mav;
+    }
+
+    private BusinessTripVM getBusinessTrip(int reqId) {
+        BusinessTripVM businessTripVM = new BusinessTripVM();
+        RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(reqId);
+
+        /* Input data to Business Trip */
+        businessTripVM.setSubject(requestsEntity.getSubject());
+        businessTripVM.setTripType(requestsEntity.getTripTypeId());
+        businessTripVM.setDomestic(requestsEntity.getDomestic());
+        businessTripVM.setDestination(requestsEntity.getDestination());
+        businessTripVM.setPurpose(requestsEntity.getDescription());
+        businessTripVM.setStart(requestsEntity.getDateFrom());
+        businessTripVM.setEnd(requestsEntity.getDateTo());
+
+        List<MembersEntity> membersEntities = WorkflowService.getMembersByRequestId(reqId);
+        businessTripVM.setMembersEntityList(membersEntities);
+
+        List<ToDoEntity> toDoEntities = WorkflowService.getToDoByRequestId(reqId);
+        businessTripVM.setToDoEntityList(toDoEntities);
+
+        Collection<AttachmentsEntity> attachmentsEntities = WorkflowService.getAttachmentList();
+        List<Attachment> attachments = new LinkedList<>();
+        if(attachmentsEntities.size()!=0) {
+            for (AttachmentsEntity atEn :
+                    attachmentsEntities) {
+                if(atEn.getRequestId() == reqId)
+                    attachments.add(new Attachment(atEn.getId(), atEn.getUrl(), atEn.getFilename()));
+            }
+        }
+        businessTripVM.setAttachments(attachments);
+
+
+        return businessTripVM;
+    }
+
+    private UnformattedViewModel getUnformattedVM(int reqId) {
+        UnformattedViewModel unformattedVM = new UnformattedViewModel();
+        RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(reqId);
+
+        /* Input data to View Model */
+        unformattedVM.setSubject(requestsEntity.getSubject());
+        unformattedVM.setDescription(requestsEntity.getDescription());
+        unformattedVM.setStart(requestsEntity.getDateFrom());
+        unformattedVM.setEnd(requestsEntity.getDateTo());
+
+        Collection<AttachmentsEntity> attachmentsEntities = WorkflowService.getAttachmentList();
+        List<Attachment> attachments = new LinkedList<>();
+        if(attachmentsEntities.size()!=0) {
+            for (AttachmentsEntity atEn :
+                    attachmentsEntities) {
+                if(atEn.getRequestId() == reqId)
+                    attachments.add(new Attachment(atEn.getId(), atEn.getUrl(), atEn.getFilename()));
+            }
+        }
+        unformattedVM.setAttachments(attachments);
+
+        return unformattedVM;
     }
 
     private LeaveApproveVM getLeaveApprove(int reqId) {
@@ -89,10 +192,12 @@ public class WorkflowEditController {
         return leaveApproveVM;
     }
 
-    @RequestMapping(value = "/LeaveApprove/{reqId}", method = RequestMethod.POST, params = "Save")
-    public String LeaveApprovePostSave(@ModelAttribute LeaveApproveVM leaveApproveVM, Principal principal, @PathVariable int reqId) throws IOException {
+    @RequestMapping(value = "/{reqId}", method = RequestMethod.POST, params = "Save")
+    public String WorkflowPostSave(@ModelAttribute LeaveApproveVM leaveApproveVM, Principal principal, @PathVariable int reqId) throws IOException {
 
         int userId = UserService.getIdByUsername(principal.getName());
+
+
         leaveApproveVM.setId(reqId);
 
         /* Update table Requests */

@@ -505,4 +505,71 @@ public class WorkflowService {
             session.close();
         }
     }
+
+    public static void deleteMembers(int reqId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("delete from MembersEntity where requestId = :reqId");
+            query.setParameter("reqId", reqId);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void deleteToDo(int reqId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("delete from ToDoEntity where requestId = :reqId");
+            query.setParameter("reqId", reqId);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void updateRequestBusinessTrip(RequestsEntity requestsEntity, int reqId) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update RequestsEntity set subject = :subject, " +
+                    "tripTypeId = :tripTypeId, destination = :destination, description= :description, " +
+                    "dateFrom=:dateFrom, dateTo=:dateTo where id = :id");
+
+            query.setParameter("id", reqId);
+            query.setParameter("subject", requestsEntity.getSubject());
+            query.setParameter("tripTypeId", requestsEntity.getTripTypeId());
+            query.setParameter("destination", requestsEntity.getDestination());
+            query.setParameter("description", requestsEntity.getDescription());
+            query.setParameter("dateFrom", requestsEntity.getDateFrom());
+            query.setParameter("dateTo", requestsEntity.getDateTo());
+
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
 }

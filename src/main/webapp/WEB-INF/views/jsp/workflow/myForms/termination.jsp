@@ -29,82 +29,130 @@
         color: inherit;
     }
 
+    .w3-container {
+        background-color: #FFFFFF;
+
+        -webkit-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        -moz-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+    }
+
+    .w3-container input {
+        width: 98%;
+
+        border: 1px solid #999999;
+
+    }
+
+    .w3-container span {
+        width: 20%;
+        font-style: italic;
+        font-size: 17px;
+        border: none;
+        background-color: #FFFFFF;
+    }
+
+    .paper {
+        background: #fff;
+        box-shadow: /* The top layer shadow */ 0 -1px 1px rgba(0, 0, 0, 0.15),
+            /* The second layer */ 0 -10px 0 -5px #eee,
+            /* The second layer shadow */ 0 -10px 1px -4px rgba(0, 0, 0, 0.15),
+            /* The third layer */ 0 -20px 0 -10px #eee,
+            /* The third layer shadow */ 0 -20px 1px -9px rgba(0, 0, 0, 0.15);
+        /* Padding for demo purposes */
+        padding: 30px;
+    }
+
+    div .input-group {
+        width: 98%;
+    }
+
+    #buttonGroupcha {
+        margin-left: 40%;
+        margin-top: 2%;
+    }
+
+    #buttonGroupcha input {
+        width: 71px;
+        margin-left: 8px;
+
+
+    }
+
 
 </style>
 
 
 <div class="col-sm-10 col-md-offset-1">
     <div class="col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
+        <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
-        </p>
-        <h2 class="page-header">Termination</h2>
+        </p>--%>
+        <h2 class="page-header" style="border: none; padding-top: 6%"><span class="glyphicon glyphicon-ban-circle"
+                                                                            aria-hidden="true"></span> Termination</h2>
 
-            <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="saerchtype-addon"
-                          style="width: 25%">Subject:</span>
-                <div class="input-group" id="subject">
-                    <input type="text" class="form-control" value="${termination.subject}" id="termination_subject"/>
+        <div class="w3-container b3form">
+            <div class="divBody" style="padding: 1% 0 2% 0;">
+
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon" id="saerchtype-addon">Subject:</span>
+                    <div class="div" id="subject">
+                        <input type="text" class="form-control" value="${termination.subject}"
+                               id="termination_subject"/>
+                    </div>
                 </div>
-            </div>
 
-             <div class="input-group" id="desc_container" style="width: 100%; margin-top: 1%">
-                        <span class="input-group-addon" id="term_span"
-                              style="width: 25%">Description:</span>
-                        <textarea class="form-control" rows="15" id="termination_desc" aria-describedby="purpose-addon"
-                           style="width: 60%" path="description">${termination.description}</textarea>
-                 <span class="glyphicon glyphicon-record" id="error_desc" style="display: none">Description cannot be empty</span>
-             </div>
-
-            <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon"
-                          style="width: 25%">Approves:</span>
-                <div class="input-group">
-                    <input type="text" class="form-control" value="${termination.approves}"/>
+                <div class="input-group" id="desc_container" style="margin-top: 2%">
+                    <span class="input-group-addon" id="term_span">Description:</span>
+                    <textarea class="form-control" rows="3" id="termination_desc" aria-describedby="purpose-addon"
+                              style="width: 100%; border-color:#999999" path="description">${termination.description}</textarea>
+                    <span class="glyphicon glyphicon-record" id="error_desc" style="display: none">Description cannot be empty</span>
                 </div>
-            </div>
 
-            <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon"
-                          style="width: 25%">References:</span>
-                <div class="input-group">
-                    <input type="text" class="form-control" value="${termination.references}"/>
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon">Assigned approves:</span>
+                    <input disabled type="text" class="form-control" value="${termination.approves}"/>
                 </div>
-            </div>
 
-            <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon"
-                          style="width: 25%">Executives:</span>
-                <div class="input-group">
-                    <input type="text" class="form-control" value="${termination.executives}"/>
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon">Assigned references:</span>
+                    <input disabled type="text" class="form-control" value="${termination.references}"/>
                 </div>
-            </div>
 
-            <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="approvals-addon"
-                          style="width: 25%">Approvals:</span>
-            <div class="tab-content" id="approvals1">
-                <input type="text" id="demo-input-local"/>
-                <span class="error text-danger" id="error_approves" style="display: none">Description cannot be empty</span>
-            </div>
-        </div>
-        <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="executive-addon"
-                          style="width: 25%">Executive:</span>
-            <div class="tab-content" id="executives1">
-                <input type="text" id="demo-input-local2"/>
-            </div>
-        </div>
-        <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="reference-addon"
-                          style="width: 25%">Reference:</span>
-            <div class="tab-content" id="references1">
-                <input type="text" id="demo-input-local3"/>
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon">Assigned executives:</span>
+                    <input disabled type="text" class="form-control" value="${termination.executives}"/>
+                </div>
+
+                <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="approvals-addon">New approvals:</span>
+                    <div class="tab-content" id="approvals1">
+                        <input type="text" id="demo-input-local"/>
+                        <span class="error text-danger" id="error_approves" style="display: none">Description cannot be empty</span>
+                    </div>
+                </div>
+                <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="executive-addon">New executives:</span>
+                    <div class="tab-content" id="executives1">
+                        <input type="text" id="demo-input-local2"/>
+                    </div>
+                </div>
+                <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="reference-addon">New reference:</span>
+                    <div class="tab-content" id="references1">
+                        <input type="text" id="demo-input-local3"/>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <input type="button" value="Submit" class="btn btn-primary" id="submit_btn"/>
+            <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
+                <input type="button" value="Submit" class="btn btn-success" id="submit_btn"/>
+                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger"/>
+            </div>
+
+
 
     </div>
 </div>
@@ -118,33 +166,33 @@
 </div>--%>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-         /*$("input[type=submit]").click(function ()*/
-        $("#submit_btn").click(function (){
-            var a=[];
-            var b=[];
-            var c=[];
+    $(document).ready(function () {
+        /*$("input[type=submit]").click(function ()*/
+        $("#submit_btn").click(function () {
+            var a = [];
+            var b = [];
+            var c = [];
 
             var old_Id = '${termination.old_req_id}';
             var description = $('#termination_desc').val();
             var subject = $('#termination_subject').val();
 
-            if($(this).isDisabled){
+            if ($(this).isDisabled) {
                 alert("disabled");
             }
-            alert(description+old_Id);
+            alert(description + old_Id);
 
             a = $("#approvals1").children().siblings("input[type=text]").val();
             b = $("#references1").children().siblings("input[type=text]").val();
             c = $("#executives1").children().siblings("input[type=text]").val();
             $.ajax({
-                type : "POST",
-                url : "/Workflow/MyForms/cancellation",
-                data :'approvals='+a+'&references='+b+'&executives='+c+'&description='+description+'&old_id='+old_Id+'&subject='+subject,
-                success : function(response) {
+                type: "POST",
+                url: "/Workflow/MyForms/cancellation",
+                data: 'approvals=' + a + '&references=' + b + '&executives=' + c + '&description=' + description + '&old_id=' + old_Id + '&subject=' + subject,
+                success: function (response) {
                     window.location.href = "/Workflow/MyForms/Request";
                 },
-                error : function(e) {
+                error: function (e) {
                     alert('Error: ');
                 }
             });
@@ -165,19 +213,19 @@
 
     //validation
     $(document).ready(function () {
-           $('#termination_desc').blur(function(){
-               if($(this).val().trim()==""){
-                   $('#error_desc').css("display", "block");
-                   $("#submit_btn").prop("disabled", true);
-                   $('#desc_container').addClass('has-error has-feedback');
+        $('#termination_desc').blur(function () {
+            if ($(this).val().trim() == "") {
+                /*$('#error_desc').css("display", "block");*/
+                $("#submit_btn").prop("disabled", true);
+                $('#desc_container').addClass('has-error has-feedback');
 
-               }else {
+            } else {
 
-                   $('#error_desc').css("display", "none");
-                   $("#submit_btn").prop("disabled", false);
-                   $('#desc_container').removeClass('has-error has-feedback');
-               }
-            });
-   });
+                $('#error_desc').css("display", "none");
+                $("#submit_btn").prop("disabled", false);
+                $('#desc_container').removeClass('has-error has-feedback');
+            }
+        });
+    });
 
 </script>

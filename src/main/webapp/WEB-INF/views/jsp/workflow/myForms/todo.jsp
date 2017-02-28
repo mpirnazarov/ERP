@@ -65,8 +65,7 @@
 
                     <%--p2--%>
                     <div class="row">
-
-                        <div class="input-group col-md-5 col-md-offset-7 " style="margin-top: 10px">
+                        <div class="input-group col-md-5 col-md-offset-7 " style="margin-top: 10px; margin-bottom: 2%">
                             <span class="input-group-addon" id="search-addon1" style="background-color: white; color: #bd2828">Attribute:</span>
                             <select class="form-control" aria-describedby="search-addon1" id="attributeId">
                                 <option id="0"></option>
@@ -115,6 +114,12 @@
 
 <script>
     $('#sandbox-container').datepicker({format: "yyyy-mm-dd"});
+
+    $("#searchInputId").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#btnFilter").click();
+        }
+    });
 </script>
 
 
@@ -193,11 +198,11 @@
                         });
                     }
 
-                    $('.statusTd:contains("In progress")').css('color', '#0be215');
+                    $('.statusTd:contains("In progress")').css('color', '#0bbf15');
                     $('.statusTd:contains("Revision")').css('color', '#fec91f');
                     $('.statusTd:contains("Rejected")').css('color', '#ff0000');
                     $('.statusTd:contains("Draft")').css('color', '#f9fef3');
-                    $('.statusTd:contains("Approved")').css('color', '#0be215');
+                    $('.statusTd:contains("Approved")').css('color', '#0bbf15');
                     $('.statusTd:contains("Terminated")').css('color', '#ff0000');
                     $('.statusTd:contains("Finished")').css('color', '#59feef');
                     $('.statusTd:contains("Deleted")').css('color', '#000000');

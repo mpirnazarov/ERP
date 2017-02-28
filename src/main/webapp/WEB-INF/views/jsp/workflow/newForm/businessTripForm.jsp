@@ -33,6 +33,11 @@
         width: 200px;
     }
 
+    .reqfield:before {
+        content: "*";
+        color: #ff0000;
+    }
+
 
 </style>
 

@@ -179,13 +179,13 @@
                                 <a href="/Monitor"><i class="fa fa-pie-chart fa-fw"></i> Monitor</a>
                             </li>
                             <li>
-                                <a href="/Roles"><i class="fa fa-male fa-fw"></i> Roles</a>
+                                <a href="/Contacts"><i class="fa fa-male fa-fw"></i> Contacts</a>
                             </li>
                             <li>
                                 <a href="/Appoint"><i class="fa fa-hand-o-up fa-fw"></i> Appoint</a>
                             </li>
                             <li>
-                                <a href="/Customers"><i class="fa fa-briefcase fa-fw"></i> Customers</a>
+                                <a href="/Organizations"><i class="fa fa-briefcase fa-fw"></i> Organizations</a>
                             </li>
                         </ul>
                     </div>
@@ -206,7 +206,7 @@
                         <ul style="list-style: none" class="list-group">
 
                             <li>
-                                <a class="linkcolor" role="button" data-toggle="collapse"
+                                <a id="workflowPanelButton" class="linkcolor" role="button" data-toggle="collapse"
                                    href="#collapseNewForm" aria-expanded="false"
                                    aria-controls="collapseNewForm"><span class="glyphicon glyphicon-plus-sign"
                                                                          aria-hidden="true"></span>
@@ -215,31 +215,31 @@
                                 <div class="collapse" id="collapseNewForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a class="linkcolor" href="/Workflow/NewForm/BusinessTripForm">Business trip</a></li>
-                                        <li><a class="linkcolor" href="/Workflow/NewForm/LeaveApproveForm">Leave approve</a>
+                                        <li><a class="linkcolor" href="/Workflow/NewForm/BusinessTripForm">-Business trip</a></li>
+                                        <li><a class="linkcolor" href="/Workflow/NewForm/LeaveApproveForm">-Leave approve</a>
                                         </li>
-                                        <li><a class="linkcolor" href="/Workflow/Create/Unformatted">Unformatted</a>
+                                        <li><a class="linkcolor" href="/Workflow/Create/Unformatted">-Unformatted</a>
                                         </li>
                                     </ul>
 
                                 </div>
                             </li>
                             <li>
-                                <a class="linkcolor" role="button" data-toggle="collapse"
+                                <a id="workflowPanelButton2" class="linkcolor" role="button" data-toggle="collapse"
                                    href="#collapseMyForm" aria-expanded="false"
-                                   aria-controls="collapseMyForm"><span class="glyphicon glyphicon-check"
+                                   aria-controls="collapseMyForm"><span class="glyphicon glyphicon-plus-sign"
                                                                         aria-hidden="true"></span>
                                     My Forms
                                 </a>
                                 <div class="collapse" id="collapseMyForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a href="/Workflow/MyForms/Request">Request <span
+                                        <li><a href="/Workflow/MyForms/Request">-Request <span
                                                 class="badge" id="userReqNotifSpan"></span></a></li>
-                                        <li><a href="/Workflow/MyForms/todo/load">To-do <span
+                                        <li><a href="/Workflow/MyForms/todo/load">-To-do <span
                                                 class="badge" style="background-color: red" id="userTodoSpan"></span></a>
                                         </li>
-                                        <li><a href="/Workflow/MyForms/Details">Details</a>
+                                        <li><a href="/Workflow/MyForms/Details">-Details</a>
                                         </li>
 
                                     </ul>

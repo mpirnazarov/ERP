@@ -65,9 +65,9 @@
                 <div class="row">
 
                     <div class="input-group col-md-5 col-md-offset-7 " style="margin-top: 25px">
-                        <span class="input-group-addon" id="search-addon1" style="background-color: white; border: none; color: black">Title:</span>
+                        <span class="input-group-addon" id="search-addon1" style="background-color: white; border: none; color: #bd2828">Title:</span>
                         <input type="text" placeholder="Search for ..." class="form-control" id="reqsearchId" aria-describedby="search-addon1" style="border: none">
-                        <div class="input-group-addon btn" onclick="pagedList(this.id)" id="btnReqFilter" style="background-color: white; color: #1e7ee2"><span
+                        <div class="input-group-addon btn" onclick="pagedList(this.id)" id="btnReqFilter" style="background-color: white; color: #bd2828"><span
                                 class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                         </div>
                     </div>
@@ -200,11 +200,11 @@
                     });
                 }
 
-                $('.statusTd:contains("In progress")').css('color', '#0be215');
+                $('.statusTd:contains("In progress")').css('color', '#0bbf15');
                 $('.statusTd:contains("Revision")').css('color', '#fec91f');
                 $('.statusTd:contains("Rejected")').css('color', '#ff0000');
                 $('.statusTd:contains("Draft")').css('color', '#f9fef3');
-                $('.statusTd:contains("Approved")').css('color', '#0be215');
+                $('.statusTd:contains("Approved")').css('color', '#0bbf15');
                 $('.statusTd:contains("Terminated")').css('color', '#ff0000');
                 $('.statusTd:contains("Finished")').css('color', '#59feef');
                 $('.statusTd:contains("Deleted")').css('color', '#000000');

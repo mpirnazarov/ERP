@@ -14,6 +14,7 @@
 <c:set var="pageTitle" scope="request" value="Details"/>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 
+
 <style>
 
 
@@ -98,22 +99,29 @@
         box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
     }
 
+    #submitButton {
+        margin-top: 3%;
+    }
+
+    #submitButton button{
+        width: 50%;
+        margin-left: 27%;
+        border-radius: 0;
+
+        -webkit-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        -moz-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+    }
+
     #detailHeaderDiv {
 
         display: flex;
         font-size: 25px;
-        border-bottom: 1px solid #fff;
         margin-bottom: 1%;
 
     }
 
-    #detailHeaderDiv2 {
 
-        font-size: 25px;
-        border-bottom: 1px solid #fff;
-        margin-bottom: 1%;
-
-    }
 
     #left-info {
         background-color: #fff;
@@ -341,14 +349,16 @@
     <%--<h2 class="page-header" style="padding-left: 1%">Details</h2>--%>
         <div id="detailHeaderDiv">
             <div class="col-md-4 col-md-offset-1" style="display: inline-flex" id="typeHeader"><label style="margin-right: 1%">Workflow type: </label><p style="border-bottom: 1px solid #fff ">${model.form_type}</p></div>
-            <div class="col-md-3 col-md-offset-3" style="display: inline-flex" id="statusHeader"><label style="margin-right: 1%">Current status: </label><p class="statusTextColor" >${model.status}</p></div>
+            <div class="col-md-4 col-md-offset-2" style="display: inline-flex" id="statusHeader"><label style="margin-right: 1%">Current status: </label><p class="statusTextColor" >${model.status}</p></div>
         </div>
+
+
 
 
     <div style="margin-bottom: 1%" id="authorsTools" class="col-md-5 col-md-offset-1">
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
-            <div class="btn-group" role="group">
-                <button style="color: #008000" id="editButton" type="button" class="btn btn-default"  onclick="location.href='/Workflow/EditForm/LeaveApprove/${model.request_id}';"><span
+            <div id="editButtons" class="btn-group" role="group">
+                <button style="color: #008000" id="editButton" type="button" class="btn btn-default"  onclick="location.href='/Workflow/EditForm/${model.request_id}';"><span
                         style="opacity: 1" class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
                 </button>
             </div>
@@ -510,7 +520,7 @@
                 </div>
 
                 <%--Submit Button--%>
-                <div id="submitButton" style="padding-left: 80%; padding-top: 1%">
+                <div id="submitButton">
                     <button class="btn btn-default" onclick="submitTheForm()">Submit</button>
                 </div>
             </div>
@@ -637,9 +647,12 @@
                 }
 
                 if (viewed == false || currentStatus == "Revision" ){
-                    $("#editButton").prop('disabled',false);
+                    $('#editButtons').find('button').prop('disabled',false);
+
+
                 }else {
-                    $("#editButton").prop('disabled',true);
+
+                    $('#editButtons').find('button').prop('disabled',true);
                 }
 
                 if (viewed == false || currentStatus == "Finished") {
@@ -730,7 +743,6 @@
                 '<th>Daily Allowance</th> ' +
                 '<th>Accommodation</th> ' +
                 '<th>Other</th> ' +
-                '<th>Total</th> ' +
                 '</tr> ' +
                 '</thead> ' +
                 '<tbody id="tripExpensesTableBody"> ' +
@@ -741,32 +753,69 @@
 
 
             /*Members ForEach*/
-            var memberTotal = 0;
+            var TotalUZS = 0;
+            var TotalUSD = 0;
             <c:forEach var="m" items="${bmodel.membersEntityList}">
 
             var memberId = ${m.userId};
+            var accomodationCurrency = ${m.accomodationCurrency};
             var memberName = "";
             var memberSurename = "";
             var memberJobTitle = "";
+            var memberDepartment = "";
 
             <c:forEach var="member" items="${bmodel.members}">
             if (memberId == ${member.id}) {
                 memberName = '${member.name}';
                 memberSurename = '${member.surname}';
                 memberJobTitle = '${member.jobTitle}';
+                memberDepartment = '${member.department}';
             }
             </c:forEach>
 
             var memberFullName = memberName + ' ' + memberSurename;
-            var memberOrg = "${m.organizationName}";
+            var currencyString = "";
             var memberFrom = "${m.dateFrom.toString()}";
             var memberTo = "${m.dateTo.toString()}";
             var memberAirfair = ${m.expenseTransportation};
             var memberDailyAllowance = ${m.dailyAllowance};
             var memberAccommodation = ${m.expenseAccommodation};
             var memberOtherExpenses = ${m.expenseOther};
-            var memberSubTotalExpenses = memberAirfair + memberDailyAllowance + memberAccommodation + memberOtherExpenses;
-            memberTotal += memberSubTotalExpenses;
+            /*var memberSubTotalExpenses = memberAirfair + memberDailyAllowance + memberAccommodation + memberOtherExpenses;
+             TotalUZS += memberSubTotalExpenses;*/
+
+            if (domestic) {
+
+                if (accomodationCurrency == 1){
+
+                    TotalUZS += memberAccommodation;
+
+                    memberAccommodation += " UZS";
+
+
+                }else if (accomodationCurrency == 2){
+
+                    TotalUSD += memberAccommodation;
+
+                    memberAccommodation += " USD"
+                }
+
+                TotalUZS += memberAirfair + memberDailyAllowance + memberOtherExpenses;
+
+                memberAirfair += " UZS";
+                memberDailyAllowance += " UZS";
+                memberOtherExpenses += " UZS";
+
+            } else {
+
+                TotalUSD += memberAirfair + memberDailyAllowance + memberOtherExpenses + memberAccommodation;
+
+                memberAirfair += " USD";
+                memberDailyAllowance += " USD";
+                memberOtherExpenses += " USD";
+                memberAccommodation += " USD";
+
+            }
 
 
             $("#tripMembersTableBody").append('<tr>' +
@@ -774,7 +823,7 @@
                 '<p class="tablep">' + memberFullName + '</p> ' +
                 '<p>' + '#' + memberId + ', ' + memberJobTitle + '</p> ' +
                 '</td> ' +
-                '<td>' + ' <p class="tablep"> ' + memberOrg + ' </p> ' + '</td> ' +
+                '<td>' + ' <p class="tablep"> ' + memberDepartment + ' </p> ' + '</td> ' +
                 '<td>' + ' <p class="tablep"> ' + memberFrom + ' </p> ' + '</td> ' +
                 '<td>' + ' <p class="tablep"> ' + memberTo + ' </p> ' + '</td> ' +
                 '</tr>');
@@ -786,12 +835,14 @@
                 '<td>' + memberDailyAllowance + '</td> ' +
                 '<td>' + memberAccommodation + '</td> ' +
                 '<td>' + memberOtherExpenses + '</td> ' +
-                '<td>' + memberSubTotalExpenses + '</td> ' +
                 '</tr>');
             </c:forEach>
             $('#tripExpensesTable').append('<div class="labelDiv">' +
-                '<label style="font-size: 15px" > Overall :</label>' +
-                '<p style="font-size: 15px">' + memberTotal + '</p>' +
+                '<label for="currencyDiv" style="font-size: 15px; margin-top: 5%; margin-right: 7%" > Total:</label>' +
+                '<div id="currencyDiv" style="font-size: 18px">' +
+                '<div>' + 'USD ' + ':' + ' ' + TotalUSD + '</div>' +
+                '<div>' + 'UZS ' + ':' + ' ' + TotalUZS + '</div>' +
+                '</div>' +
                 '</div>')
 
 

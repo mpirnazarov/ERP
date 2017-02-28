@@ -29,16 +29,89 @@
         color: inherit;
     }
 
-    div.input-group span.input-group-addon {
-        width: 19%;
+    .w3-container {
+        background-color: #FFFFFF;
+
+        -webkit-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        -moz-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
     }
 
-    .w3-container {
-        width: 63%;
-        height: 90%;
-        margin-left: auto;
-        margin-right: auto;
+    .w3-container input {
+        width: 98%;
+
+        border: 1px solid #999999;
+
     }
+
+    .w3-container span {
+        width: 17%;
+        font-style: italic;
+        font-size: 17px;
+        border: none;
+        background-color: #FFFFFF;
+    }
+
+    .paper {
+        background-color: #fff;
+        /* Need position to allow stacking of pseudo-elements */
+        position: relative;
+        /* Padding for demo purposes */
+        padding: 30px;
+    }
+
+    .paper,
+    .paper::before,
+    .paper::after {
+        /* Add shadow to distinguish sheets from one another */
+        box-shadow: 2px 1px 1px rgba(0,0,0,0.15);
+    }
+
+    .paper::before,
+    .paper::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #eee;
+    }
+
+    /* Second sheet of paper */
+    .paper::before {
+        left: 7px;
+        top: 5px;
+        z-index: -1;
+    }
+
+    /* Third sheet of paper */
+    .paper::after {
+        left: 12px;
+        top: 10px;
+        z-index: -2;
+    }
+
+    div .input-group {
+        width: 98%;
+    }
+
+    #buttonGroupcha {
+        margin-left: 40%;
+        margin-top: 2%;
+    }
+
+    #buttonGroupcha input {
+        width: 71px;
+        margin-left: 8px;
+
+
+    }
+
+    .reqfield:before {
+        content: "*";
+        color: #ff0000;
+    }
+
+
 
 
 </style>
@@ -47,62 +120,64 @@
 
 <div class="col-sm-10 col-md-offset-1">
     <div class="col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
+        <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
-        </p>
-        <h2 class="page-header">Leave approve</h2>
+        </p>--%>
+        <h2 class="page-header"style="border: none; padding-top: 6%"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Leave approve</h2>
 
         <form:form modelAttribute="leaveApproveVM" cssClass="form-horizontal" method="post" id="myform" enctype="multipart/form-data">
-            <div class="w3-container b3form">
-            <div class="form-header">
+            <div class="w3-container b3form paper">
+            <div class="form-header" style="padding-top: 1%">
 
-                <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="saerchtype-addon">Absence type:</span>
-                    <form:select class="form-control" aria-describedby="saerchtype-addon" style="width: 40%" path="absenceType" items="${absenceType}">
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon" id="saerchtype-addon"><span class="reqfield"></span>Absence type:</span>
+                    <form:select class="form-control" aria-describedby="saerchtype-addon" style="width: 100%; border-color:#999999" path="absenceType" items="${absenceType}">
                     </form:select>
                 </div>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
+                <div class="input-group" style="margin-top: 1%">
                     <span class="input-group-addon" id="purpose-addon">Description</span>
                     <form:textarea class="form-control" rows="3" id="comment" aria-describedby="purpose-addon"
-                              style="width: 100%" path="description"></form:textarea>
+                              style="width: 100%; border-color:#999999" path="description"></form:textarea>
                 </div>
             </div>
-            <div class="form-footer" style="margin-bottom: 5%">
-                <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="approvals-addon">Approvals</span>
+            <div class="form-footer" style="padding-bottom: 2%">
+                <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="approvals-addon"><span class="reqfield"></span>Approvals</span>
                     <div class="tab-content" id="approvals">
                         <input type="text" id="demo-input-local"/>
                     </div>
                 </div>
-                <div class="input-group" style="width: 100%; margin-top: 2%">
+                <div class="input-group" style="margin-top: 2%">
                     <span class="input-group-addon" id="executive-addon">Executive</span>
                     <div class="tab-content" id="executives">
                         <input type="text" id="demo-input-local2"/>
                     </div>
                 </div>
-                <div class="input-group" style="width: 100%; margin-top: 2%">
+                <div class="input-group" style="margin-top: 2%">
                     <span class="input-group-addon" id="reference-addon">Reference</span>
                     <div class="tab-content" id="references">
                         <input type="text" id="demo-input-local3"/>
                     </div>
                 </div>
-                <div class="input-group" style="width: 100%; margin-top: 2%">
+                <div class="input-group" style="margin-top: 2%">
                     <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open>Attachment</span>
                     <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
                 </div>
-                <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="date-addon">Date(Start/End)</span>
-                    <form:input type="date" class="form-control" style="width:36%" name="start" id="dateStart" path="start"/>
-                    <form:input type="date" class="form-control" style="width:36%" name="end" id="dateEnd" path="end"/>
-                </div>
-                <div class="btn-group" role="group" aria-label="..." style="margin-left: 40%; margin-top: 3%">
-                    <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-success"/>
-                    <input id="tv" type="submit" name="Submit" value="Submit" class="btn btn-success"/>
-                    <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
+                <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="date-addon"><span class="reqfield"></span>Date(Start/End)</span>
+                    <form:input type="date" class="form-control" style="width:50%" name="start" id="dateStart" path="start"/>
+                    <form:input type="date" class="form-control" style="width:50%" name="end" id="dateEnd" path="end"/>
                 </div>
             </div>
         </div>
+
+            <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
+                <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-warning"/>
+                <input id="tv" type="submit" name="Submit" value="Submit" class="btn btn-success"/>
+                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
+            </div>
+
         </form:form>
     </div>
 

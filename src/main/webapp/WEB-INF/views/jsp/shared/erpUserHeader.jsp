@@ -80,13 +80,47 @@
         .panel {
             width: 246px;
         }
+
+
+        #workflowPanelButton {
+            font-family: 'Oswald', sans-serif;
+            color: #333333;
+        }
+
+        #workflowPanelButton2 {
+            font-family: 'Oswald', sans-serif;
+            color: #333333;
+        }
+
+        #collapseNewForm a {
+            color: #333333;
+        }
+
+        #collapseMyForm a{
+            color: #333333;
+        }
+
+        #workflowPanelButton:hover, #workflowPanelButton2:hover, #collapseNewForm a:hover, #collapseMyForm a:hover{
+            color: #2aabd2;
+        }
+
+        .list-group {
+            margin-bottom: 0;
+        }
+
+
+
+        .well {
+            padding: 0;
+            margin-bottom: 10px;
+        }
+
+
     </style>
 </head>
 
 <div id="sarOv">
     <div>
-
-
         <%--<img class="sarspinner" src="/images/lg-logo.jpg">--%>
         <div class="sarspinnerBorder"></div>
     </div>
@@ -147,5 +181,69 @@
         %>
         <jsp:include page='${pageType}' flush="true"/>
 <script>
+
+    var hrbutton = $("#collapseOne");
+    var taapsbutton = $("#collapseTwo");
+    var wfbutton = $("#collapseWF");
+    var profilebutton = $("#collapseExample");
+
+    var currentOpenedPanel = 0;
+
+    $(document).ready(function () {
+
+        if(window.location.href.indexOf("Workflow") > -1) {
+            wfbutton.addClass("in")
+            hrbutton.removeClass("in")
+        }else if(window.location.href.indexOf("Profile") > -1){
+            hrbutton.addClass("in")
+            wfbutton.removeClass("in")
+            taapsbutton.removeClass("in")
+            profilebutton.addClass("in")
+
+        }else if(window.location.href.indexOf("Hr") > -1) {
+            hrbutton.addClass("in")
+            wfbutton.removeClass("in")
+        }else if(window.location.href.indexOf("Workload") > -1
+              || window.location.href.indexOf("Projects") > -1
+              || window.location.href.indexOf("Monitor") > -1
+              || window.location.href.indexOf("Roles") > -1
+              || window.location.href.indexOf("Appoint") > -1
+              || window.location.href.indexOf("Customer") > -1) {
+            hrbutton.removeClass("in")
+            wfbutton.removeClass("in")
+            taapsbutton.addClass("in")
+        }else {
+           /* def*/
+        }
+    })
+
+    var newFormButton = $("#workflowPanelButton");
+    var myFormButton = $("#workflowPanelButton2");
+
+    newFormButton.click(function () {
+
+        if ($("a#workflowPanelButton span").hasClass("glyphicon-plus-sign")){
+            $("a#workflowPanelButton span").removeClass("glyphicon-plus-sign");
+            $("a#workflowPanelButton span").addClass("glyphicon-minus-sign");
+        }else {
+            $("a#workflowPanelButton span").addClass("glyphicon-plus-sign");
+            $("a#workflowPanelButton span").removeClass("glyphicon-minus-sign");
+        }
+    })
+
+    myFormButton.click(function () {
+
+        if ($("a#workflowPanelButton2 span").hasClass("glyphicon-plus-sign")){
+            $("a#workflowPanelButton2 span").removeClass("glyphicon-plus-sign");
+            $("a#workflowPanelButton2 span").addClass("glyphicon-minus-sign");
+        }else {
+            $("a#workflowPanelButton2 span").addClass("glyphicon-plus-sign");
+            $("a#workflowPanelButton2 span").removeClass("glyphicon-minus-sign");
+        }
+    })
+
+
+
+
 
 </script>

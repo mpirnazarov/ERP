@@ -135,7 +135,7 @@
             <img class="userimg" src="/image/<%= request.getAttribute("userId") %>.jpg"
                  onerror="this.src='/resources/images/ppicture.png'">
         </div>
-        <a href="/Hr/Profile"><i class="fa fa-fw fa-home"></i> Home</a>
+        <a href="/"><i class="fa fa-fw fa-home"></i> Home</a>
         <div style="background: transparent" class="panel-group" id="accordion" role="tablist"
              aria-multiselectable="true">
             <div class="panel panel-default">

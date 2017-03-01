@@ -579,12 +579,12 @@
 
             $('.comment-action-text:contains("Rejected")').css('color', '#ff0000');
             $('.comment-action-text:contains("Approved")').css('color', '#00e200');
-            $('.comment-action-text:contains("Revision")').css('color', '#fec91f');
+            $('.comment-action-text:contains("Revision")').css('color', '#edb81f');
 
-            $('.statusTextColor:contains("In progress")').css('color', '#1efe1a');
+            $('.statusTextColor:contains("In progress")').css('color', '#35bce1');
             $('.statusTextColor:contains("Revision")').css('color', '#fec91f');
             $('.statusTextColor:contains("Rejected")').css('color', '#ff0000');
-            $('.statusTextColor:contains("Draft")').css('color', '#f9fef3');
+            $('.statusTextColor:contains("Draft")').css('color', '#edb81f');
             $('.statusTextColor:contains("Approved")').css('color', '#1efe1a');
             $('.statusTextColor:contains("Terminated")').css('color', '#ff0000');
             $('.statusTextColor:contains("Finished")').css('color', '#59feef');
@@ -653,12 +653,12 @@
                 }
 
                 if (viewed == false || currentStatus == "Revision" ){
-                    $('#editButtons').find('button').prop('disabled',false);
+                    $('#editButton').prop('disabled',false);
 
 
                 }else {
 
-                    $('#editButtons').find('button').prop('disabled',true);
+                    $('#editButton').prop('disabled',true);
                 }
 
                 if (viewed == false || currentStatus == "Finished") {

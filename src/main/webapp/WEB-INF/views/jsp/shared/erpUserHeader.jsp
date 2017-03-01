@@ -67,7 +67,7 @@
     <style>
 
         #UserNavigationMenuDiv {
-            background-color: rgb(95, 129, 124);
+            background-color: rgb(76, 106, 108);
         }
 
 
@@ -123,6 +123,8 @@
             padding: 0;
             margin-bottom: 10px;
             background-color: transparent;
+
+            border: none;
 
 
         }

@@ -254,7 +254,7 @@
 
                                     <ul style="list-style: none" class="list-group">
                                         <li><a href="/Workflow/MyForms/Request"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Request <span
-                                                class="badge" id="userRequestNotifHr"></span></a></li>
+                                                class="badge" style="background-color: red" id="userRequestNotifHr"></span></a></li>
                                         <li><a href="/Workflow/MyForms/todo/load"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> To-do <span
                                                 class="badge" style="background-color: red" id="todoNotification"></span></a>
                                         </li>

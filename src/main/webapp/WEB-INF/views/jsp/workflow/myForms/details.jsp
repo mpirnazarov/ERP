@@ -644,6 +644,9 @@
             function isFromRequest() {
 
                 var viewed = ${isViewed};
+                var cstatus = "${model.status}"
+
+                alert(cstatus);
 
 
                 if (currentStatus == "Approved" && formtype != 4) {
@@ -652,16 +655,15 @@
                     $('#terminationButton').prop('disabled', true);
                 }
 
+
+
                 if (viewed == false || currentStatus == "Revision" ){
                     $('#editButton').prop('disabled',false);
-
-
                 }else {
-
                     $('#editButton').prop('disabled',true);
                 }
 
-                if (viewed == false || currentStatus == "Finished") {
+                if (viewed == false || currentStatus == "In progress") {
                     $("#deleteButton").prop('disabled',false);
                 }else {
                     $("#deleteButton").prop('disabled',true);

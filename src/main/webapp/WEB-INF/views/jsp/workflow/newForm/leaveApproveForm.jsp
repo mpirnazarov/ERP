@@ -233,10 +233,11 @@
     /* Send input from approval list to controller by AJAX */
     $(document).ready(function() {
 
-        var flag = true;
+
         var msg = "";
 
         $("#tv").click(function (){
+            var flag = true;
             msg = "";
             /* Subject cannot be empty*/
             if($("#absenseSelect option:selected").text() == ""){
@@ -329,11 +330,14 @@
                 $('#approvalSpan').removeClass('glyphicon-info-sign');
             }
 
-                /*alert(msg);*/
+                alert(flag);
             if (flag == false){
                 $('#message').html(msg);
                 $('#myModal').modal('show');
             }
+
+
+
 
 
 

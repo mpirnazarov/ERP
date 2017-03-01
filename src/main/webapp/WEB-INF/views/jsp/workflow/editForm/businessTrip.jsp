@@ -30,7 +30,119 @@
     }
 
     .sarvar {
-        width: 200px;
+        width: 100%;
+    }
+
+    .w3-container {
+        background-color: #FFFFFF;
+
+        width: 115%;
+        margin-left: -3%;
+
+        -webkit-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        -moz-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+    }
+
+    .w3-container input {
+        width: 98%;
+
+        border: 1px solid #999999;
+
+    }
+
+    .w3-container select {
+        border: 1px solid #999999;
+    }
+
+    .w3-container span {
+        width: 26%;
+        font-style: italic;
+        font-size: 17px;
+        border: none;
+        background-color: #FFFFFF;
+    }
+
+
+    div .input-group {
+        width: 98%;
+    }
+
+    #buttonGroupcha {
+        margin-left: 45%;
+        margin-top: 2%;
+    }
+
+    #buttonGroupcha input {
+        width: 71px;
+        margin-left: 8px;
+    }
+
+    .reqfield:before {
+        content: "*";
+        color: #ff0000;
+    }
+
+    .w3-container span.warningIcon {
+
+        position: absolute;
+        color: #ff0000;
+        width: 0%;
+        font-style: normal;
+        margin-left: 6px;
+
+    }
+
+
+
+    label.radio-inline {
+        color: #000;
+    }
+
+    label.radio-inline input {
+        width: 25%;
+    }
+
+    .form-group, .form-horizontal {
+        margin-left: 0px; !important;
+        margin-right: 0px; !important;
+    }
+
+    .table {
+        margin-bottom: 0px;
+    }
+
+    thead {
+        background-color: #b1beca;
+
+    }
+
+    thead th {
+        text-align: center;
+        color: #0c0c0c;
+    }
+
+    td {
+        background-color: #FFFFFF;
+    }
+
+    .descInput {
+        width: 50%;
+    }
+
+    .tableLabel {
+
+        width: 100%;
+        color: black;
+        font-style: italic;
+        font-size: 17px;
+        margin-left: 2%;
+        margin-top: 2%;
+    }
+
+    #addrow, #addrowToDo  {
+        width: 100%;
+        color: #000;
     }
 
 
@@ -39,47 +151,46 @@
 
 <div class="col-sm-10 col-md-offset-1">
     <div class="col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
+        <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
-        </p>
-        <h2 class="page-header">Business trip</h2>
+        </p>--%>
+        <h2 class="page-header"style="border: none; margin-left: -3%; padding-top: 6%;"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Business trip</h2>
 
 
         <form:form modelAttribute="businessTripVM" cssClass="form-horizontal" method="post" id="myform" enctype="multipart/form-data">
             <div class="w3-container b3form">
-            <div class="form-header">
-                <div class="input-group" style="width: 100%">
-                    <span class="input-group-addon" id="subject-addon" style="width: 25%">Subject:</span>
-                    <form:input type="text" class="form-control" placeholder="" aria-describedby="subject-addon"
-                           style="width: 40%" path="subject" />
+            <div class="form-header" style="padding-top: 1%">
+                <div class="input-group">
+                    <span class="input-group-addon" id="subject-addon">Subject:</span>
+                    <form:input type="text" class="form-control" placeholder="" aria-describedby="subject-addon" path="subject" />
                 </div>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="saerchtype-addon"
-                          style="width: 25%">Type of business trip:</span>
-                    <form:select class="form-control" aria-describedby="saerchtype-addon" style="width: 40%" path="tripType" items="${tripTypeList}">
-
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon" id="saerchtype-addon">Type of business trip:</span>
+                    <form:select class="form-control" aria-describedby="saerchtype-addon" path="tripType" items="${tripTypeList}">
                     </form:select>
-                    <label class="radio-inline" style="margin-left: 1%; margin-top: 1%">
-                        <form:radiobutton value="true" path="domestic" /> Domestic
-                    </label>
-                    <label class="radio-inline" style="margin-top: 1%">
-                        <form:radiobutton value="false" path="domestic" /> Overseas
-                    </label>
+
+                    <div class="input-group">
+                        <label class="radio-inline">
+                            <form:radiobutton value="true" path="domestic" /> Domestic
+                        </label>
+                        <label class="radio-inline">
+                            <form:radiobutton value="false" path="domestic" /> Overseas
+                        </label>
+                    </div>
+
                 </div>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="destination-addon" style="width: 25%">Destination:</span>
-                    <form:input type="text" class="form-control" placeholder="" aria-describedby="destination-addon"
-                           style="width: 40%" path="destination" />
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon" id="destination-addon">Destination:</span>
+                    <form:input type="text" class="form-control" placeholder="" aria-describedby="destination-addon" path="destination" />
                 </div>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="purpose-addon"
-                          style="width: 25%">Purpose of Business trip:</span>
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon" id="purpose-addon">Purpose of Business trip:</span>
                     <form:textarea class="form-control" rows="3" id="comment" aria-describedby="purpose-addon"
-                              style="width: 40%" path="purpose"></form:textarea>
+                              style="width: 100%; border-color:#999999" path="purpose"></form:textarea>
                 </div>
-                <div class="form-group">
-                    <label style="margin-top: 2%;">
+                <div class="form-group" style="margin-right: 0px; margin-left: 0px">
+                    <label class="tableLabel"><span class="glyphicon glyphicon-user" aria-hidden="true" style="width: 2%; font-style: normal"></span>
                         List of Business Trip members:
                     </label>
                     <div id="myTablecha" style="overflow: auto; width: 100%">
@@ -93,8 +204,9 @@
                             <th>Transportation</th>
                             <th>Daily Allowance</th>
                             <th>Accommodation</th>
-                            <th>Currency for accomodation</th>
+                            <th>Accomodation Currency</th>
                             <th>Other</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody id="membersDynamicBody" style="color: #0f0f0f">
@@ -115,18 +227,19 @@
                         </tbody>
                     </table>
                 </div>
-                    <input type="button" class="btn btn-normal" value="Add Row" id="addrow"/>
+                    <input type="button" class="btn btn-normal" value="+ Add Row" id="addrow"/>
                 </div>
-                <div class="form-group">
-                    <label style="margin-top: 2%;">
+                <div class="form-group" style="margin-right: 0px; margin-left: 0px">
+                    <label class="tableLabel"><span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="width: 2%; font-style: normal"></span>
                         Detail scheadule and To-do list:
                     </label>
                     <table class="table table-bordered" style="background-color: #2b669a; color: black"
                            id="toDoDynamicHead">
                         <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Description</th>
+                            <th width="25%">Date</th>
+                            <th width="75%">Description</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody id="toDoDynamicBody" />
@@ -139,39 +252,43 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <input type="button" class="btn btn-normal" value="Add Row" id="addrowToDo"/>
+                    <input type="button" class="btn btn-normal" value="+ Add Row" id="addrowToDo"/>
                 </div>
 
             </div>
-            <div class="form-footer" style="margin-bottom: 5%">
+            <div class="form-footer" style="padding-bottom: 2%">
 
                 <%-- Approvals, references, executors shouldn't be edited --%>
-                <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="attach-addon" style="width: 35%">Attachment:</span>
-                    <c:forEach items="${unformattedVM.attachments}" var="attachment">
-                        <div id="attachmentDiv"><span class="glyphicon glyphicon-list-alt"  aria-hidden="false"></span>
-                            <a href="/Workflow/EditForm/files/delete/${attachment.id}"><span class="glyphicon glyphicon-remove-sign" aria-hidden="false" ></span></a>
-                            <a href="/Workflow/EditForm/files/${attachment.id}">${attachment.fileName}</a></div>
-                    </c:forEach>
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon" id="attach-addon">Attachment:</span>
+                    <div id="attachmentDiv">
+                        <c:forEach items="${leaveApproveVM.attachments}" var="attachment">
+                            <p>
+                                <a href="/Workflow/EditForm/files/${attachment.id}">${attachment.fileName}</a>
+                                <a href="/Workflow/EditForm/files/delete/${attachment.id}"><span style="color: #ff0000"
+                                                                                                 class="glyphicon glyphicon-remove-sign" aria-hidden="false"></span></a>
+                            </p>
+                        </c:forEach>
+                    </div>
                 </div>
 
-                <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open
-                          style="width: 25%">Attachment:</span>
+                <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="attachment-addon">Attachment:</span>
                     <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
                 </div>
-                <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="date-addon"
-                          style="width: 25%">Date(Start/End):</span>
+                <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="date-addon">Date(Start/End):</span>
                     <form:input type="date" class="form-control" style="width:36%" name="start"  path="start"/>
                     <form:input type="date" class="form-control" style="width:36%" name="end"  path="end"/>
                 </div>
-                <div class="btn-group" role="group" aria-label="..." style="margin-left: 40%; margin-top: 3%">
-                    <input id="tv" type="submit" name="submitBusinessTrip" value="Save" class="btn btn-success"/>
-                    <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
-                </div>
             </div>
         </div>
+
+            <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
+                <input id="tv" type="submit" name="submitBusinessTrip" value="Save" class="btn btn-success"/>
+                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
+            </div>
+
         </form:form>
     </div>
 

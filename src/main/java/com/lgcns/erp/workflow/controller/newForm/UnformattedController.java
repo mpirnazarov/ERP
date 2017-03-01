@@ -179,7 +179,7 @@ public class UnformattedController {
 
 
 
-        return "redirect: /Workflow/NewForm/Unformatted";
+        return "redirect: /Workflow/MyForms/Request";
     }
 
     @RequestMapping(value = "NewForm/Unformatted", method = RequestMethod.POST, params = "Save")
@@ -237,7 +237,7 @@ public class UnformattedController {
 
 
 
-        return "redirect: /Workflow/NewForm/Unformatted";
+        return "redirect: /Workflow/MyForms/Request";
     }
 
     @RequestMapping(value = "/NewForm/UnformattedFormAjax", method = RequestMethod.POST)

@@ -179,7 +179,7 @@
                 </div>
                 <div class="btn-group" role="group" aria-label="..." style="margin-left: 40%; margin-top: 3%">
                     <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-success"/>
-                    <input id="tv" type="submit" name="Submit" value="Submit" class="btn btn-success"/>
+                    <input id="tv3" type="submit" name="Submit" value="Submit" class="btn btn-success"/>
                     <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
                 </div>
             </div>
@@ -189,7 +189,27 @@
 
 </div>
 
+<script type="text/javascript">
+    $("#tv3").click(function (){
+        var a=[];
+        var b=[];
+        var c=[];
 
+        a = $("#approvals").children().siblings("input[type=text]").val();
+        b = $("#references").children().siblings("input[type=text]").val();
+        c = $("#executives").children().siblings("input[type=text]").val();
+        $.ajax({
+            type : "POST",
+            url : "/Workflow/NewForm/BusinessTripFormAjax",
+            data :'approvals='+a+'&references='+b+'&executives='+c,
+            success : function(response) {
+            },
+            error : function(e) {
+                alert('Error: ' + e);
+            }
+        });
+    });
+</script>
 
 
 <script type="text/javascript">
@@ -197,6 +217,9 @@
     /* Send json data for approvals list*/
     $(document).ready(function () {
 
+        $("#demo-input-local").tokenInput(${jsonData});
+        $("#demo-input-local2").tokenInput(${jsonData});
+        $("#demo-input-local3").tokenInput(${jsonData});
 
         var targetB = $('#membersDynamicBody');
 
@@ -350,6 +373,8 @@
     });
 
     $(document).ready(function () {
+
+
         var counter = 1;
 
         $("#addrowToDo").on("click", function () {

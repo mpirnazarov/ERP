@@ -282,9 +282,18 @@
                 $('#approvals').css("border", "1px solid #999999");
                 $('#approvalSpan').removeClass('glyphicon-info-sign');
             }
+<<<<<<< HEAD
 
             $('#message').html(msg);
             $('#myModal').modal('show');
+=======
+            alert(msg);
+            msg = "";
+
+            var a=[];
+            var b=[];
+            var c=[];
+>>>>>>> origin/master
 
             a = $("#approvals").children().siblings("input[type=text]").val();
             b = $("#references").children().siblings("input[type=text]").val();

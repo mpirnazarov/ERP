@@ -1,10 +1,13 @@
 package com.lgcns.erp.workflow.controller.newForm;
 
+import com.lgcns.erp.hr.enums.WorkloadType;
 import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.tapps.DbContext.WorkloadServices;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.Enums.LeaveType;
@@ -21,7 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,6 +58,8 @@ public class LeaveApproveController {
 
         mav.addObject("curUser", usersEntity);
 
+        mav.addObject("vacationAvailable", getUsedVacationsNumber(usersEntity));
+        mav.addObject("sixMonthPassed", getUsedVacationsNumber(usersEntity));
 
         // Create Json data about userlist for Approvals, reference and executive persons list
         JSONObject jsonObject = null;
@@ -111,6 +121,30 @@ public class LeaveApproveController {
 
 
         return mav;
+    }
+
+    private static int getUsedVacationsNumber(UsersEntity user) {
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        Instant i = Instant.ofEpochMilli(user.getHiringDate().getTime());
+        LocalDateTime hiringDateTime = LocalDateTime.ofInstant(i, ZoneOffset.UTC);
+
+        hiringDateTime = hiringDateTime.withYear(currentTime.getYear());
+        List<WorkloadEntity> workloads;
+
+        if(currentTime.isAfter(hiringDateTime) || currentTime.isEqual(hiringDateTime)){
+            LocalDateTime temp = hiringDateTime.plusYears(1);
+            Instant instant = hiringDateTime.toInstant(ZoneOffset.UTC), instant1 = temp.toInstant(ZoneOffset.UTC);
+            java.util.Date from = Date.from(instant), to = Date.from(instant1);
+            workloads = WorkloadServices.getWorkloadByPeriod(user.getId(), 0, WorkloadType.Annual_leave.getValue(), from, to);
+        }else{
+            LocalDateTime temp = hiringDateTime.minusYears(1);
+            Instant instant = hiringDateTime.toInstant(ZoneOffset.UTC), instant1 = temp.toInstant(ZoneOffset.UTC);
+            java.util.Date from = Date.from(instant1), to = Date.from(instant);
+            workloads = WorkloadServices.getWorkloadByPeriod(user.getId(), 0, WorkloadType.Annual_leave.getValue(), from, to);
+        }
+
+        return workloads.size();
     }
 
     @RequestMapping(value = "/NewForm/LeaveApproveForm", method = RequestMethod.POST, params = "Submit")

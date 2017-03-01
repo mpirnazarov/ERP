@@ -438,10 +438,12 @@ public class WorkflowService {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
 
-        if (requestsEntity.getStatusId()== Status.Draft.getValue()){
+        RequestsEntity requestsEntityForStatus = getRequestsEntityById(requestsEntity.getId());
+
+        if (requestsEntityForStatus.getStatusId()== Status.Draft.getValue()){
             setDraftToInProgressSteps(requestsEntity.getId());
         }else {
-            WorkflowToDoApproveService.approve(requestsEntity.getId(), 1);
+            requestHasReviewed(requestsEntity.getId());
         }
 
         try {
@@ -509,14 +511,35 @@ public class WorkflowService {
         }
     }
 
+    private static void requestHasReviewed(int id){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        setDraftInactiveToActiveSteps(id);
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update StepsEntity set statusId = 1 where requestId= :reqId AND active=true");
+            query.setParameter("reqId", id);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
     public static void updateRequestLeaveApprove(RequestsEntity requestsEntity) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
+        RequestsEntity requestsEntityForStatus = getRequestsEntityById(requestsEntity.getId());
 
-        if (requestsEntity.getStatusId()==Status.Draft.getValue()){
+        if (requestsEntityForStatus.getStatusId()==Status.Draft.getValue()){
             setDraftToInProgressSteps(requestsEntity.getId());
         }else {
-            WorkflowToDoApproveService.approve(requestsEntity.getId(), 1);
+            requestHasReviewed(requestsEntity.getId());
         }
 
         try {
@@ -603,11 +626,12 @@ public class WorkflowService {
     public static void updateRequestBusinessTrip(RequestsEntity requestsEntity, int reqId) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
+        RequestsEntity requestsEntityForStatus = getRequestsEntityById(requestsEntity.getId());
 
-        if (requestsEntity.getStatusId()==Status.Draft.getValue()){
+        if (requestsEntityForStatus.getStatusId()==Status.Draft.getValue()){
             setDraftToInProgressSteps(reqId);
         }else {
-            WorkflowToDoApproveService.approve(requestsEntity.getId(), 1);
+            requestHasReviewed(reqId);
         }
 
         try {

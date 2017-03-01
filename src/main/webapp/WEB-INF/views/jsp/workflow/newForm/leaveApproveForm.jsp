@@ -103,13 +103,28 @@
         width: 71px;
         margin-left: 8px;
 
-
     }
 
     .reqfield:before {
         content: "*";
         color: #ff0000;
     }
+
+    .w3-container span.warningIcon {
+
+        position: absolute;
+        color: #ff0000;
+        width: 0%;
+        font-style: normal;
+        margin-left: 6px;
+
+    }
+
+    .warningBorder {
+
+    }
+
+
 
 
 
@@ -132,12 +147,14 @@
 
                 <div class="input-group" style="margin-top: 1%">
                     <span class="input-group-addon" id="saerchtype-addon"><span class="reqfield"></span>Absence type:</span>
-                    <form:select class="form-control" aria-describedby="saerchtype-addon" style="width: 100%; border-color:#999999" path="absenceType" items="${absenceType}">
+                    <form:select id="absenseSelect" class="form-control" aria-describedby="saerchtype-addon" style="width: 100%; border-color:#999999" path="absenceType" items="${absenceType}">
                     </form:select>
+                    <span class="glyphicon warningIcon " aria-hidden="true"></span>
                 </div>
+
                 <div class="input-group" style="margin-top: 1%">
                     <span class="input-group-addon" id="purpose-addon">Description</span>
-                    <form:textarea class="form-control" rows="3" id="comment" aria-describedby="purpose-addon"
+                    <form:textarea class="form-control warningBorder" rows="3" id="comment" aria-describedby="purpose-addon"
                               style="width: 100%; border-color:#999999" path="description"></form:textarea>
                 </div>
             </div>
@@ -145,6 +162,7 @@
                 <div class="input-group" style="margin-top: 2%">
                     <span class="input-group-addon" id="approvals-addon"><span class="reqfield"></span>Approvals</span>
                     <div class="tab-content" id="approvals">
+                        <span style="margin-left: 83.7%" id="approvalSpan" class="glyphicon warningIcon " aria-hidden="true"></span>
                         <input type="text" id="demo-input-local"/>
                     </div>
                 </div>
@@ -163,11 +181,13 @@
                 <div class="input-group" style="margin-top: 2%">
                     <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open>Attachment</span>
                     <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
+                    <span class="glyphicon warningIcon " aria-hidden="true"></span>
                 </div>
                 <div class="input-group" style="margin-top: 2%">
                     <span class="input-group-addon" id="date-addon"><span class="reqfield"></span>Date(Start/End)</span>
                     <form:input type="date" class="form-control" style="width:50%" name="start" id="dateStart" path="start"/>
                     <form:input type="date" class="form-control" style="width:50%" name="end" id="dateEnd" path="end"/>
+                    <span class="glyphicon warningIcon" aria-hidden="true"></span>
                 </div>
             </div>
         </div>
@@ -177,35 +197,63 @@
                 <input id="tv" type="submit" name="Submit" value="Submit" class="btn btn-success"/>
                 <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
             </div>
-
         </form:form>
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Warning</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span id="message"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
     </div>
 
 </div>
 
 
 
+<script>
+
+
+    $(document).ready(function () {
+    })
+</script>
 
 <script type="text/javascript">
-
     /* Send input from approval list to controller by AJAX */
     $(document).ready(function() {
 
         var flag = true;
         var msg = "";
-        $("#tv").click(function (){
 
+        $("#tv").click(function (){
+            msg = "";
             /* Subject cannot be empty*/
-            if($("#absenceType").val().trim() == ""){
+            if($("#absenseSelect option:selected").text() == ""){
+                $('#absenseSelect').css("border","2px solid red");
+                $('#absenseSelect').next('span').addClass('glyphicon-info-sign')
                 flag = false;
-                msg += "Absence type cannot be empty \n";
+                msg += "⛔ Absence type cannot be empty" + "<br/>";
+            }else {
+                $('#absenseSelect').css("border", "1px solid #999999");
+                $('#absenseSelect').next('span').removeClass('glyphicon-info-sign')
             }
 
             /* Comments cannot be empty*/
-            if($("#comment").val().trim() == ""){
+            /*if($("#comment").val().trim() == ""){
                 flag = false;
                 msg += "Comment cannot be empty \n";
-            }
+            }*/
 
             /* file size limitation */
             if($("#file").val().trim() != "") {
@@ -216,31 +264,54 @@
                 }
                 if (size > 104857600) {
                     flag = false;
-                    msg += "Attached files cannot be more than 100MB \n";
+                    msg += "⛔ Attached files cannot be more than 100MB" + "<br/>";
+                    $('#file').css("border","2px solid red");
+                    $('#file').next('span').addClass('glyphicon-info-sign');
+                }else {
+                    $('#file').css("border", "1px solid #999999");
+                    $('#file').next('span').removeClass('glyphicon-info-sign')
                 }
+            }
+
+            /* Start date cannot be more than end date*/
+
+            var dStart = new Date($("#dateStart").val());
+            var dEnd = new Date($("#dateEnd").val());
+
+            if(dStart > dEnd){
+                flag = false;
+                msg += "⛔ Start date cannot be later than end date" + "<br/>";
+                $('#dateStart').css("border","2px solid red");
+                $('#dateEnd').css("border","2px solid red");
+                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+            } else {
+                $('#dateStart').css("border", "1px solid #999999");
+                $('#dateEnd').css("border", "1px solid #999999");
+                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
             }
 
 
             /* Date start cannot be empty */
             if($("#dateStart").val().trim() == "") {
                 flag = false;
-                msg += "Start date cannot be empty \n";
+                msg += "⛔ Start date cannot be empty" + "<br/>";
+                $("#dateStart").css("border","2px solid red");
+                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+            }else {
+                $('#dateStart').css("border", "1px solid #999999");
+                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
             }
 
             /* Date end cannot be empty */
             if($("#dateEnd").val().trim() == "") {
                 flag = false;
-                msg += "End date cannot be empty \n";
+                msg += "⛔ End date cannot be empty" + "<br/>";
+                $('#dateEnd').css("border","2px solid red");
+                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+            }else {
+                $('#dateEnd').css("border", "1px solid #999999");
+                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
             }
-            var dStart = new Date($("#dateStart").val());
-            var dEnd = new Date($("#dateEnd").val());
-
-            /* Start date cannot be more than end date*/
-            if(dStart > dEnd){
-                flag = false;
-                msg += "Start date cannot be later than end date \n";
-            }
-
 
             var a=[];
             var b=[];
@@ -249,12 +320,22 @@
             a = $("#approvals").children().siblings("input[type=text]").val();
             if(a.length == 0)
             {
-                msg += "At least one approval should be selected \n";
+                msg += "⛔ At least one approval should be selected" + "<br/>";
                 flag = false;
+                $('#approvals').css("border","2px solid red");
+                $('#approvalSpan').addClass('glyphicon-info-sign');
+            } else {
+                $('#approvals').css("border", "1px solid #999999");
+                $('#approvalSpan').removeClass('glyphicon-info-sign');
             }
-            if(msg != "")
-                alert(msg);
-            msg = "";
+
+                /*alert(msg);*/
+            if (flag == false){
+                $('#message').html(msg);
+                $('#myModal').modal('show');
+            }
+
+
 
 
 

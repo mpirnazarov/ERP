@@ -206,10 +206,10 @@
                                 <div class="collapse" id="collapseNewForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a class="linkcolor" href="/Workflow/NewForm/BusinessTripForm">-Business trip</a></li>
-                                        <li><a class="linkcolor" href="/Workflow/NewForm/LeaveApproveForm">-Leave approve</a>
+                                        <li><a class="linkcolor" href="/Workflow/NewForm/BusinessTripForm"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Business trip</a></li>
+                                        <li><a class="linkcolor" href="/Workflow/NewForm/LeaveApproveForm"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Leave approve</a>
                                         </li>
-                                        <li><a class="linkcolor" href="/Workflow/Create/Unformatted">-Unformatted</a>
+                                        <li><a class="linkcolor" href="/Workflow/Create/Unformatted"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Unformatted</a>
                                         </li>
                                     </ul>
 
@@ -225,12 +225,10 @@
                                 <div class="collapse" id="collapseMyForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a href="/Workflow/MyForms/Request">-Request <span
+                                        <li><a href="/Workflow/MyForms/Request"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Request <span
                                                 class="badge" id="userRequestNotifCto"></span></a></li>
-                                        <li><a href="/Workflow/MyForms/todo/load">-To-do <span
+                                        <li><a href="/Workflow/MyForms/todo/load"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> To-do <span
                                                 class="badge" style="background-color: red" id="ctoNotif"></span></a>
-                                        </li>
-                                        <li><a href="/Workflow/MyForms/Details">-Details</a>
                                         </li>
                                     </ul>
 

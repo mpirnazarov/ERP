@@ -27,6 +27,75 @@
         color: inherit;
     }
 
+    .w3-container {
+        background-color: #FFFFFF;
+
+        -webkit-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        -moz-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+        box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+    }
+
+    .w3-container input {
+        width: 98%;
+
+        border: 1px solid #999999;
+
+    }
+
+    .w3-container span {
+        width: 17%;
+        font-style: italic;
+        font-size: 17px;
+        border: none;
+        background-color: #FFFFFF;
+    }
+
+    .paper {
+        background: #fff;
+        box-shadow:
+            /* The top layer shadow */
+                0 -1px 1px rgba(0,0,0,0.15),
+                    /* The second layer */
+                0 -10px 0 -5px #eee,
+                    /* The second layer shadow */
+                0 -10px 1px -4px rgba(0,0,0,0.15),
+                    /* The third layer */
+                0 -20px 0 -10px #eee,
+                    /* The third layer shadow */
+                0 -20px 1px -9px rgba(0,0,0,0.15);
+        /* Padding for demo purposes */
+        padding: 30px;
+    }
+
+    div .input-group {
+        width: 98%;
+    }
+
+    #buttonGroupcha {
+        margin-left: 40%;
+        margin-top: 2%;
+    }
+
+    #buttonGroupcha input {
+        width: 71px;
+        margin-left: 8px;
+    }
+
+    .reqfield:before {
+        content: "*";
+        color: #ff0000;
+    }
+
+    .w3-container span.warningIcon {
+
+        position: absolute;
+        color: #ff0000;
+        width: 0%;
+        font-style: normal;
+        margin-left: 6px;
+
+    }
+
 
 </style>
 
@@ -41,50 +110,50 @@
 
         <form:form modelAttribute="unformattedVM" cssClass="form-horizontal" method="post" id="myform" enctype="multipart/form-data">
             <div class="w3-container b3form">
-                <div class="form-header">
+                <div class="form-header" style="padding-top: 1%">
 
-                    <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="saerchtype-addon"
-                          style="width: 25%">Subject:</span>
-                        <div class="input-group" id="">
+                    <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon" id="saerchtype-addon">Subject:</span>
                             <form:input type="text" class="form-control" path="subject" id="subject"/>
-                        </div>
                     </div>
-                    <div class="input-group" style="width: 100%; margin-top: 1%">
-                    <span class="input-group-addon" id="purpose-addon"
-                          style="width: 25%">Description:</span>
-                        <form:textarea class="form-control" rows="15" id="comment" aria-describedby="purpose-addon"
-                                       style="width: 60%" path="description"></form:textarea>
+                    <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon" id="purpose-addon">Description:</span>
+                        <form:textarea class="form-control" rows="3" id="comment" aria-describedby="purpose-addon"
+                                       style="width: 100%; border-color:#999999" path="description"></form:textarea>
                     </div>
                 </div>
-                <div class="form-footer" style="margin-bottom: 5%">
+                <div class="form-footer" style="padding-bottom: 2%">
 
                     <%-- Approvals, references, executors shouldn't be edited --%>
-                    <div class="input-group" style="width: 100%; margin-top: 1%">
-                        <span class="input-group-addon" id="attach-addon" style="width: 35%">Attachment:</span>
-                        <c:forEach items="${unformattedVM.attachments}" var="attachment">
-                            <div id="attachmentDiv"><span class="glyphicon glyphicon-list-alt"  aria-hidden="false"></span>
-                                <a href="/Workflow/EditForm/files/delete/${attachment.id}"><span class="glyphicon glyphicon-remove-sign" aria-hidden="false" ></span></a>
-                            <a href="/Workflow/EditForm/files/${attachment.id}">${attachment.fileName}</a></div>
-                        </c:forEach>
+                    <div class="input-group" style="margin-top: 1%">
+                        <span class="input-group-addon" id="attach-addon">Attachment:</span>
+                        <div id="attachmentDiv">
+                            <c:forEach items="${leaveApproveVM.attachments}" var="attachment">
+                                <p>
+                                    <a href="/Workflow/EditForm/files/${attachment.id}">${attachment.fileName}</a>
+                                    <a href="/Workflow/EditForm/files/delete/${attachment.id}"><span style="color: #ff0000"
+                                                                                                     class="glyphicon glyphicon-remove-sign" aria-hidden="false"></span></a>
+                                </p>
+                            </c:forEach>
+                        </div>
                     </div>
-                    <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open
-                          style="width: 25%">Attachment:</span>
+                    <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open>Attachment:</span>
                         <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
                     </div>
-                    <div class="input-group" style="width: 100%; margin-top: 2%">
-                    <span class="input-group-addon" id="date-addon"
-                          style="width: 25%">Date(Start/End):</span>
-                        <form:input type="date" class="form-control" style="width:36%" name="start" id="dateStart" path="start"/>
-                        <form:input type="date" class="form-control" style="width:36%" name="end" id="dateEnd" path="end"/>
-                    </div>
-                    <div class="btn-group" role="group" aria-label="..." style="margin-left: 40%; margin-top: 3%">
-                        <input type="submit" name="submitUnformatted" value="Save" class="btn btn-success"/>
-                        <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
+                    <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="date-addon">Date(Start/End):</span>
+                        <form:input type="date" class="form-control" style="width:50%" name="start" id="dateStart" path="start"/>
+                        <form:input type="date" class="form-control" style="width:50%" name="end" id="dateEnd" path="end"/>
                     </div>
                 </div>
             </div>
+
+            <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
+                <input type="submit" name="submitUnformatted" value="Save" class="btn btn-success"/>
+                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
+            </div>
+
         </form:form>
     </div>
 

@@ -22,6 +22,25 @@
 <c:set var="pageTitle" scope="request" value="Manage Workload"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
+
+<style>
+    table h3 {
+        color: #000000;
+    }
+
+    thead tr, td.duration {
+        background-color: #FFFFFF;
+        color: #000000;
+    }
+
+    tr#weekDays , .btn-default, td.td-head-default, tr.headers {
+        background-color: #eaeaea;
+        color: #000000;
+    }
+
+
+</style>
+
 <div class="col-md-offset-1 col-sm-10">
     <div class=" col-lg-offset-2 col-lg-10">
         <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>

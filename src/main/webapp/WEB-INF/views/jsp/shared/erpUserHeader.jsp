@@ -65,6 +65,16 @@
 
 
     <style>
+
+        /*body {
+            min-width: 1024px;
+            min-height: 765px;
+            margin: 0 auto;
+        }*/
+
+
+
+
         .error {
             color: #ff0000;
         }
@@ -84,20 +94,22 @@
 
         #workflowPanelButton {
             font-family: 'Oswald', sans-serif;
-            color: #333333;
+            color: #cfd8d8;;
         }
 
         #workflowPanelButton2 {
             font-family: 'Oswald', sans-serif;
-            color: #333333;
+            color: #cfd8d8;;
         }
 
         #collapseNewForm a {
-            color: #333333;
+            color: #cfd8d8;;
+            padding-left: 22px;
         }
 
         #collapseMyForm a{
-            color: #333333;
+            color: #cfd8d8;;
+            padding-left: 22px;
         }
 
         #workflowPanelButton:hover, #workflowPanelButton2:hover, #collapseNewForm a:hover, #collapseMyForm a:hover{
@@ -105,7 +117,8 @@
         }
 
         .list-group {
-            margin-bottom: 0;
+            margin-bottom: 2%;
+            margin-top: 2%;
         }
 
 
@@ -113,11 +126,22 @@
         .well {
             padding: 0;
             margin-bottom: 10px;
+            background-color: transparent;
+
+
         }
 
 
     </style>
 </head>
+
+<%--<div id="restrictOv">
+    <div>
+        &lt;%&ndash;<img class="sarspinner" src="/images/lg-logo.jpg">&ndash;%&gt;
+        <div class="restrictBody"><<img style="width: 70%; height: 50%; margin-left: -70px" src="/resources/images/wh.png"></div>
+        </div>
+    </div>
+</div>--%>
 
 <div id="sarOv">
     <div>
@@ -126,14 +150,41 @@
     </div>
 </div>
 
+
+
 <script>
 
-    var sarOv = document.getElementById("sarOv")
+
+
+    /*load Ovrelay*/
+    var sarOv = document.getElementById("sarOv");
+    /*var resOv = document.getElementById("restrictOv");
+    var unav = document.getElementById("usernavigationmenudiv");*/
 
     window.addEventListener('load', function () {
         sarOv.style.animation = 'fadeout 1s ease';
         setTimeout(function (){sarOv.style.display = 'none';}, 1000)
     })
+    /*load Ovrelay*/
+
+
+    /*Resize Prevent*/
+        /*$(window).resize(function() {
+            if ($(this).width() < 1200){
+
+                unav.style.display = 'none';
+
+                alert("tvar");
+
+            }else if ($(this).width() < 1024) {
+
+                resOv.style.display = 'block';
+            } else {
+                resOv.style.display = 'none';
+
+            }
+        });*/
+    /*Resize Prevent*/
 
 </script>
 

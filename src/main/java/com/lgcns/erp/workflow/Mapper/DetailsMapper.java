@@ -36,6 +36,7 @@ public class DetailsMapper {
         viewModel.setExecutives(getInvolvedUsers(requestsEntity, 2));
         viewModel.setAttachments(attachments(requestsEntity));
         viewModel.setComments(CommentMapper.MapToStepComment(requestsEntity));
+        viewModel.setStatus_id(requestsEntity.getStatusId());
 
         for (Type type : Type.values()) {
             if (requestsEntity.getTypeId()==type.getValue())

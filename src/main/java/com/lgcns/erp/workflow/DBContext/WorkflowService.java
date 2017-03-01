@@ -139,7 +139,7 @@ public class WorkflowService {
         finally {
             session.close();
         }
-        return entity.getUrl()+entity.getFilename();
+        return entity.getUrl();
     }
 
     public static List<TripTypesEntity> getTripTypes() {

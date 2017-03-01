@@ -19,11 +19,20 @@ public class DetailsViewModel {
     private int user_id;
     private String user_name;
     private String status;
+    private int status_id;
     private String approvals;
     private String executives;
     private String references;
     private List<Attachment> attachments;
     private List<StepComment> comments;
+
+    public int getStatus_id() {
+        return status_id;
+    }
+
+    public void setStatus_id(int status_id) {
+        this.status_id = status_id;
+    }
 
     public List<StepComment> getComments() {
         return comments;

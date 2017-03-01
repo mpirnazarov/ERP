@@ -680,12 +680,11 @@
 
         function generateBusinessTrip() {
 
-
             var subject = "${bmodel.subject}";
             var domestic = "${bmodel.domestic}";
             var tripType = "${tripTypeName.get(bmodel.tripType)}";
             var destination = "${bmodel.destination}";
-            var purpose = "${fn:replace(bmodel.purpose.trim(),"\n", "<br/>")}";
+            var purpose = "${bmodel.purpose}";
             var startDate = "${bmodel.start.toString()}";
             var endDate = "${bmodel.end.toString()}";
 

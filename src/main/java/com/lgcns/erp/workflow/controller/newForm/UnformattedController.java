@@ -202,6 +202,23 @@ public class UnformattedController {
 
         int count=1;
         /* Insert to table steps */
+        for (int num :
+                approvalsGlobal) {
+            System.out.println("Approvals: " + num);
+            WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), num, 1, count++, 4, false));
+        }
+
+        for (int num :
+                executivesGlobal) {
+            System.out.println("Executives: " + num);
+            WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), num, 2, 0, 4, false));
+        }
+
+        for (int num :
+                referencesGlobal) {
+            System.out.println("References: " + num);
+            WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), num, 3, 0, 4, false));
+        }
 
 
         System.out.println("FORM:   LEAVE APPROVAL: " + unformattedVM.toString());

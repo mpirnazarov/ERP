@@ -160,7 +160,7 @@
             }
             alert(msg);
             msg = "";
-            return flag;
+
             var a=[];
             var b=[];
             var c=[];
@@ -179,6 +179,7 @@
                     alert('Error: ' + e);
                 }
             });
+            return flag;
         });
     });
 

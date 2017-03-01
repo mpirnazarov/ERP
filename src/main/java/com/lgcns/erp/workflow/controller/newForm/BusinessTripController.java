@@ -204,7 +204,7 @@ public class BusinessTripController {
                 "Testing123",
                 msg);*/
 
-        return "redirect: /Workflow/NewForm/BusinessTripForm";
+        return "redirect: /Workflow/MyForms/Request";
     }
 
     @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.POST, params = "Save")
@@ -220,8 +220,7 @@ public class BusinessTripController {
         /* Insert to table Members */
         for (MembersEntity member :
                 businessTripVM.getMembersEntityList()) {
-            if(member.getOrganizationName()!=null)
-                WorkflowService.insertMembers(BusinessTripMapper.membersMapper(businessTripVM, member, userId));
+            WorkflowService.insertMembers(BusinessTripMapper.membersMapper(businessTripVM, member, userId));
         }
 
         /* Insert to table to_do */
@@ -273,7 +272,7 @@ public class BusinessTripController {
 
             System.out.println("FILE WAS UPLOADED!");
         }
-        return "redirect: /Workflow/NewForm/BusinessTripForm";
+        return "redirect: /Workflow/MyForms/Request";
     }
 
 

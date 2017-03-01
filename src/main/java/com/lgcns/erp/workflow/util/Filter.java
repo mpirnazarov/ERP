@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Filter {
 
-    public static List<ToDoViewModel> toDoFilter(int formType, int status, int attribute, String attributeValue, String selectedDate, int controllerId, int userId){
+    public static List<ToDoViewModel> toDoFilter(int formType, int status, int attribute, String attributeValue, String selectedDateFrom, String selectedDateTo, int controllerId, int userId){
         int counter = 0;
         String whereClause = "";
 
@@ -34,9 +34,9 @@ public class Filter {
             }
         }
 
-        whereClause = check(formType, status, selectedDate, counter, whereClause, controllerId);
+        whereClause = check(formType, status, selectedDateFrom, selectedDateTo, counter, whereClause, controllerId);
 
-        if (formType==0&&status==0&&attribute==0&&selectedDate.equals("")){
+        if (formType==0&&status==0&&attribute==0&&selectedDateFrom.equals("")&&selectedDateTo.equals("")){
             whereClause=" WHERE r.statusId<>5";
         }
 
@@ -44,7 +44,7 @@ public class Filter {
         return ToDoMapper.queryTotodoModel(WorkflowService.filter(whereClause), UserService.getAllUsers(), userId);
     }
 
-    public static List<RequestViewModel> filterRequest(int formType, int status, String attributeValue, String selectedDate, int controllerId, int userId) {
+    public static List<RequestViewModel> filterRequest(int formType, int status, String attributeValue, String selectedDateFrom, String selectedDateTo, int controllerId, int userId) {
 
         int counter = 0;
         String whereClause = "";
@@ -60,17 +60,17 @@ public class Filter {
                 }
             }
 
-        if (formType==0&&status==0&&selectedDate.equals("")&&attributeValue.equals("")){
+        if (formType==0&&status==0&&selectedDateFrom.equals("")&&attributeValue.equals("")&&selectedDateTo.equals("")){
             whereClause="";
         }
 
-        whereClause = check(formType, status, selectedDate, counter, whereClause, controllerId);
+        whereClause = check(formType, status, selectedDateFrom, selectedDateTo, counter, whereClause, controllerId);
 
         System.out.println(whereClause);
         return RequestMapper.queryTorequestModel(WorkflowService.filter(whereClause), UserService.getAllUsers(), userId);
     }
 
-    private static String check(int formType, int status, String selectedDate, int counter, String whereClause, int controllerId){
+    private static String check(int formType, int status, String selectedDateFrom, String selectedDateTo,int counter, String whereClause, int controllerId){
 
 
         if (formType!=0){
@@ -96,14 +96,36 @@ public class Filter {
         }
 
 
-        if (!selectedDate.equals("")){
+        if (!selectedDateFrom.equals("")&& !selectedDateTo.equals("")){
 
             if (counter==0){
-                whereClause+= " WHERE r.dateCreated="+"to_date('"+selectedDate+"', ('YYYY-MM-DD'))";
+                whereClause+= " WHERE r.dateCreated >= "+"to_date('"+selectedDateFrom+"', ('YYYY-MM-DD'))"+" AND "+"r.dateCreated <= "+"to_date('"+selectedDateTo+"', ('YYYY-MM-DD'))";
                 counter++;
             }
             else{
-                whereClause+=" AND r.dateCreated="+"to_date('"+selectedDate+"', ('YYYY-MM-DD'))";
+                whereClause+=" AND r.dateCreated >= "+"to_date('"+selectedDateFrom+"', ('YYYY-MM-DD'))"+" AND "+"r.dateCreated <= "+"to_date('"+selectedDateTo+"', ('YYYY-MM-DD'))";
+                counter++;
+            }
+        }
+
+        if (!selectedDateFrom.equals("") && selectedDateTo.equals("")){
+            if (counter==0){
+                whereClause+= " WHERE r.dateCreated >= "+"to_date('"+selectedDateFrom+"', ('YYYY-MM-DD'))";
+                counter++;
+            }
+            else{
+                whereClause+=" AND r.dateCreated >= "+"to_date('"+selectedDateFrom+"', ('YYYY-MM-DD'))";
+                counter++;
+            }
+        }
+
+        if (selectedDateFrom.equals("") && !selectedDateTo.equals("")){
+            if (counter==0){
+                whereClause+= " WHERE r.dateCreated <= "+"to_date('"+selectedDateTo+"', ('YYYY-MM-DD'))";
+                counter++;
+            }
+            else{
+                whereClause+=" AND r.dateCreated <= "+"to_date('"+selectedDateTo+"', ('YYYY-MM-DD'))";
                 counter++;
             }
         }

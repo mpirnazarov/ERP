@@ -6,6 +6,7 @@ import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepsEntity;
+import com.lgcns.erp.workflow.Enums.LeaveType;
 import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
 import com.lgcns.erp.workflow.ViewModel.ToDoViewModel;
@@ -25,7 +26,16 @@ public class ToDoMapper {
         for (RequestsEntity req : validReqs) {
             ToDoViewModel model = new ToDoViewModel();
             model.setRequest_id(req.getId());
-            model.setRequest_subject(req.getSubject());
+
+            if (req.getTypeId()==Type.Leave.getValue()){
+                for (LeaveType leaveType : LeaveType.values()) {
+                    if (req.getLeaveTypeId()==leaveType.getValue())
+                        model.setRequest_subject(leaveType.name().replace("_"," "));
+                }
+            }else {
+                model.setRequest_subject(req.getSubject());
+            }
+
             model.setDate_created(req.getDateCreated());
 
             for (Type type : Type.values()) {

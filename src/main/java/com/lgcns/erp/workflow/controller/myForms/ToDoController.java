@@ -57,15 +57,16 @@ public class ToDoController {
                                                            @RequestParam("selectedformType") int selectedformType,
                                                            @RequestParam("selectedStatus") int selectedStatus,
                                                            @RequestParam("selectedAttribute") int selectedAttribute,
-                                                           @RequestParam("selectedDate") String selectedDate,
-                                                           @RequestParam("attrValue")String attrValue, Principal principal){
+                                                           @RequestParam("selectedDateFrom") String selectedDateFrom,
+                                                           @RequestParam("attrValue")String attrValue,
+                                                           @RequestParam("selectedDateTo")String selectedDateTo, Principal principal){
         Map<String, Object> mav = new HashMap<>();
 
         int userId = UserService.getUserIdByUsername(principal.getName());
 
-
+        System.out.println(selectedDateTo);
         PagedListHolder<ToDoViewModel> pagedListHolder = new PagedListHolder<>(Filter.toDoFilter(selectedformType, selectedStatus,
-                selectedAttribute, attrValue, selectedDate, 1, userId));
+                selectedAttribute, attrValue, selectedDateFrom, selectedDateTo, 1, userId));
 
         pagedListHolder.setPageSize(10);
 

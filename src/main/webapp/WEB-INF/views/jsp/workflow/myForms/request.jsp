@@ -56,8 +56,13 @@
                         </select>
                     </div>
                     <div style="margin-left: 1%; width: 20%">
-                        <label>Request date</label>
-                        <input type="text" class="form-control" id="reqsandbox-container">
+                        <label>Request date from</label>
+                        <input type="text" class="form-control" id="reqsandbox-container-from">
+                    </div>
+
+                    <div style="margin-left: 1%; width: 20%">
+                        <label>Request date to</label>
+                        <input type="text" class="form-control" id="reqsandbox-container-to">
                     </div>
                 </div>
 
@@ -112,7 +117,8 @@
 <script>
 
 
-    $('#reqsandbox-container').datepicker({format: "yyyy-mm-dd"});
+    $('#reqsandbox-container-from').datepicker({format: "yyyy-mm-dd"});
+    $('#reqsandbox-container-to').datepicker({format: "yyyy-mm-dd"});
 
 
     $("#reqsearchId").keyup(function(event){
@@ -144,7 +150,8 @@
         var typeId = $('#reqTypeId option:selected').prop('id');
         var statusId = $('#reqStatusId option:selected').prop('id');
         var searchInput = $('#reqsearchId').val();
-        var reqsandBoxcontainer = $('#reqsandbox-container').datepicker({format: "yyyy-mm-dd"}).val();
+        var reqsandBoxcontainerFrom = $('#reqsandbox-container-from').datepicker({format: "yyyy-mm-dd"}).val();
+        var reqsandBoxcontainerTo = $('#reqsandbox-container-to').datepicker({format: "yyyy-mm-dd"}).val();
 
 
         var container = $('#pagedListContainer');
@@ -173,7 +180,11 @@
         $.ajax({
             type: "POST",
             processData: false,
-            data: 'typeId=' + typeId + '&statusId=' + statusId + '&reqsandBoxcontainer=' + reqsandBoxcontainer + '&searchInput=' + searchInput,
+            data:   'typeId=' + typeId +
+                    '&statusId=' + statusId +
+                    '&reqsandBoxcontainerFrom=' + reqsandBoxcontainerFrom +
+                    '&reqsandBoxcontainerTo=' + reqsandBoxcontainerTo +
+                    '&searchInput=' + searchInput,
             url: '${pageContext.request.contextPath}/Workflow/list/' + page,
             success: function (data) {
 

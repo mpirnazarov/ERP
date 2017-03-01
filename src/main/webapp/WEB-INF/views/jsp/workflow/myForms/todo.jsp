@@ -58,8 +58,12 @@
                             </select>
                         </div>
                         <div style="margin-left: 2%; width: 20%">
-                            <label>Request date</label>
-                            <input type="text" class="form-control" id="sandbox-container" maxlength="10">
+                            <label>Request date from</label>
+                            <input type="text" class="form-control" id="sandbox-container-from" maxlength="10">
+                        </div>
+                        <div style="margin-left: 2%; width: 20%">
+                            <label>Request date to</label>
+                            <input type="text" class="form-control" id="sandbox-container-to" maxlength="10">
                         </div>
                     </div>
 
@@ -113,13 +117,13 @@
 </div>
 
 <script>
-    $('#sandbox-container').datepicker({format: "yyyy-mm-dd"});
-
-    $("#searchInputId").keyup(function(event){
+       $("#searchInputId").keyup(function(event){
         if(event.keyCode == 13){
             $("#btnFilter").click();
         }
     });
+    $('#sandbox-container-from').datepicker({format: "yyyy-mm-dd"});
+    $('#sandbox-container-to').datepicker({format: "yyyy-mm-dd"});
 </script>
 
 
@@ -138,7 +142,8 @@
         var selectedformType = $('#formTypeId option:selected').prop('id');
         var selectedStatus = $('#statusId option:selected').prop('id');
         var selectedAttribute =$('#attributeId option:selected').prop('id');
-        var sandBoxcontainer = $('#sandbox-container').datepicker({format: "yyyy-mm-dd"}).val();
+        var sandBoxcontainerfrom = $('#sandbox-container-from').datepicker({format: "yyyy-mm-dd"}).val();
+        var sandBoxcontainerto = $('#sandbox-container-to').datepicker({format: "yyyy-mm-dd"}).val();
         var attrValue = $('#searchInputId').val();
 
         //Page buttons container
@@ -168,7 +173,12 @@
         $.ajax({
                 type:"POST",
                 processData: false,
-            data:'selectedformType='+selectedformType+'&selectedStatus='+selectedStatus+'&selectedAttribute='+selectedAttribute+'&selectedDate='+sandBoxcontainer+'&attrValue='+attrValue,
+            data:'selectedformType='+selectedformType+
+                    '&selectedStatus='+selectedStatus+
+                    '&selectedAttribute='+selectedAttribute+
+                    '&selectedDateFrom='+sandBoxcontainerfrom+
+                    '&attrValue='+attrValue+
+                    '&selectedDateTo='+sandBoxcontainerto,
             url : '${pageContext.request.contextPath}/Workflow/MyForms/todo/list/'+page,
                 success : function(data) {
 

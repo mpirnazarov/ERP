@@ -7,6 +7,7 @@ import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepsEntity;
+import com.lgcns.erp.workflow.Enums.LeaveType;
 import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
 import com.lgcns.erp.workflow.Model.Attachment;
@@ -129,7 +130,16 @@ public class DetailsMapper {
     public static TerminationViewModel getTerminationViewModel(int id){
          RequestsEntity entity = WorkflowService.getRequestsEntityById(id);
         TerminationViewModel viewModel = new TerminationViewModel();
-        viewModel.setSubject(entity.getSubject());
+
+        if (entity.getTypeId()==Type.Leave.getValue()){
+            for (LeaveType leaveType : LeaveType.values()) {
+                if (leaveType.getValue()==entity.getLeaveTypeId()){
+                    viewModel.setSubject(leaveType.name().replace("_"," "));
+                }
+            }
+        }else {
+            viewModel.setSubject(entity.getSubject());
+        }
         viewModel.setOld_req_id(entity.getId());
         viewModel.setApproves(getInvolvedUsers(entity, 1));
         viewModel.setExecutives(getInvolvedUsers(entity, 2));

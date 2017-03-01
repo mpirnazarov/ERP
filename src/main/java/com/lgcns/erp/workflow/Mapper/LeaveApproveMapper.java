@@ -21,7 +21,7 @@ public class LeaveApproveMapper {
         requestsEntity.setTypeId(typeId);
         requestsEntity.setDateFrom(leaveApproveVM.getStart());
         requestsEntity.setDateTo(leaveApproveVM.getEnd());
-        requestsEntity.setDescription(leaveApproveVM.getDescription());
+        requestsEntity.setDescription(leaveApproveVM.getDescription().replace("\n", "").replace("\r", ""));
         // By default workflow status will be in progress = 1
         requestsEntity.setStatusId(statusId);
         requestsEntity.setDateCreated(new java.sql.Date(new java.util.Date().getTime()));

@@ -108,7 +108,7 @@ public class BusinessTripMapper {
         viewModel.setDomestic(requestsEntity.getDomestic());
         viewModel.setTripType(requestsEntity.getTripTypeId());
         viewModel.setDestination(requestsEntity.getDestination());
-        viewModel.setPurpose(requestsEntity.getDescription());
+        viewModel.setPurpose(requestsEntity.getDescription().replace("\n", "").replace("\r", ""));
         viewModel.setMembersEntityList(membersEntityList);
         viewModel.setToDoEntityList(toDoEntityList);
         viewModel.setMembers(getMembers(membersEntityList));

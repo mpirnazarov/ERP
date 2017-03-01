@@ -31,6 +31,8 @@ public class BusinessTripEditController {
 
         int userId = UserService.getIdByUsername(principal.getName());
 
+        System.out.println(businessTripVM);
+
         /* Pre initialize table, delete members and toDo table data */
         WorkflowService.deleteMembers(reqId);
         WorkflowService.deleteToDo(reqId);

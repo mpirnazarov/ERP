@@ -2,6 +2,7 @@ package com.lgcns.erp.workflow.Mapper;
 
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
+import com.lgcns.erp.workflow.Enums.LeaveType;
 import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
 import com.lgcns.erp.workflow.ViewModel.RequestViewModel;
@@ -20,7 +21,16 @@ public class RequestMapper {
         for (RequestsEntity req : requestsEntities) {
             RequestViewModel model = new RequestViewModel();
             model.setRequest_id(req.getId());
-            model.setRequest_subject(req.getSubject());
+
+            if (req.getTypeId()==Type.Leave.getValue()){
+                for (LeaveType leaveType : LeaveType.values()) {
+                    if (req.getLeaveTypeId()==leaveType.getValue())
+                        model.setRequest_subject(leaveType.name().replace("_"," "));
+                }
+            }else {
+                model.setRequest_subject(req.getSubject());
+            }
+
             model.setRequest_description(req.getDescription());
             model.setDate_created(req.getDateCreated());
 

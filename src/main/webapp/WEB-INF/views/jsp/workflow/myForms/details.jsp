@@ -618,7 +618,9 @@
                 alert("No Form");
             }
 
+/*
             alert("Form Type is: " + formtype + " | " + "Form is Viewed: " + isOpened);
+*/
 
 
             /*Source Identification*/
@@ -919,7 +921,6 @@
             var executives = "${termination.executives}";
             var references = "${termination.references}"
 
-            alert(description);
 
             $("#left-info").append('<div id="unformattedFormGen"> ' +
                 '<div class="labelDiv">' +
@@ -961,7 +962,6 @@
 
         function submitTheForm() {
             comment = $('#detailComment').val();
-            alert(reqId);
 
             $.ajax({
                 type: "POST",
@@ -976,5 +976,4 @@
                 }
             });
         }
-
     </script>

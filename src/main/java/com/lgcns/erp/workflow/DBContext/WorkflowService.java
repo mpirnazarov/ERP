@@ -2,6 +2,7 @@ package com.lgcns.erp.workflow.DBContext;
 
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
 import com.lgcns.erp.workflow.DBEntities.*;
+import com.lgcns.erp.workflow.Enums.Status;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -43,7 +44,7 @@ public class WorkflowService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery(q+whereClause+" order by r.dateCreated, r.statusId");
+            Query query = session.createQuery(q+whereClause+" order by r.statusId, r.dateCreated");
             list = (List<RequestsEntity>)query.list();
             transaction.commit();
         }
@@ -436,9 +437,16 @@ public class WorkflowService {
     public static void updateRequestUnformatted(RequestsEntity requestsEntity) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
+
+        if (requestsEntity.getStatusId()== Status.Draft.getValue()){
+            setDraftToInProgressSteps(requestsEntity.getId());
+        }else {
+            WorkflowToDoApproveService.approve(requestsEntity.getId(), 1);
+        }
+
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("update RequestsEntity set subject = :subject, description=:descrtiption, " +
+            Query query = session.createQuery("update RequestsEntity set subject = :subject, statusId=1, description=:descrtiption, " +
                     "dateFrom=:dateFrom, dateTo=:dateTo where id = :id");
 
             query.setParameter("id", requestsEntity.getId());
@@ -460,12 +468,60 @@ public class WorkflowService {
 
     }
 
+    private static void setDraftToInProgressSteps(int id) {
+
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        setDraftInactiveToActiveSteps(id);
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update StepsEntity set statusId = 1 where requestId= :reqId");
+            query.setParameter("reqId", id);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    private static void setDraftInactiveToActiveSteps(int id){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update StepsEntity set active=true where requestId= :reqId AND stepSequence=1");
+            query.setParameter("reqId", id);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
     public static void updateRequestLeaveApprove(RequestsEntity requestsEntity) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
+
+        if (requestsEntity.getStatusId()==Status.Draft.getValue()){
+            setDraftToInProgressSteps(requestsEntity.getId());
+        }else {
+            WorkflowToDoApproveService.approve(requestsEntity.getId(), 1);
+        }
+
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("update RequestsEntity set leaveTypeId = :leaveTypeId, description= :description, " +
+            Query query = session.createQuery("update RequestsEntity set leaveTypeId = :leaveTypeId, statusId = 1, description= :description, " +
                     "dateFrom=:dateFrom, dateTo=:dateTo where id = :id");
 
             query.setParameter("id", requestsEntity.getId());
@@ -547,9 +603,16 @@ public class WorkflowService {
     public static void updateRequestBusinessTrip(RequestsEntity requestsEntity, int reqId) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
+
+        if (requestsEntity.getStatusId()==Status.Draft.getValue()){
+            setDraftToInProgressSteps(reqId);
+        }else {
+            WorkflowToDoApproveService.approve(requestsEntity.getId(), 1);
+        }
+
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("update RequestsEntity set subject = :subject, " +
+            Query query = session.createQuery("update RequestsEntity set subject = :subject, statusId=1," +
                     "tripTypeId = :tripTypeId, destination = :destination, description= :description, " +
                     "dateFrom=:dateFrom, dateTo=:dateTo where id = :id");
 

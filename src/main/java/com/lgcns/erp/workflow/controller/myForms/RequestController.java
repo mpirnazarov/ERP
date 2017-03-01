@@ -71,13 +71,14 @@ public class RequestController {
     public @ResponseBody Map<String, Object> getRequestModels(@PathVariable Integer page,
                                                               @RequestParam("typeId") int selectedformType,
                                                               @RequestParam("statusId") int selectedStatus,
-                                                              @RequestParam("reqsandBoxcontainer") String selectedDate,
+                                                              @RequestParam("reqsandBoxcontainerFrom") String selectedDateFrom,
+                                                              @RequestParam("reqsandBoxcontainerTo") String selectedDateTo,
                                                               @RequestParam("searchInput")String attrValue, Principal principal){
         Map<String, Object> mav = new HashMap<>();
         //Pagination test
         int userId = UserService.getUserIdByUsername(principal.getName());
         PagedListHolder<RequestViewModel> pagedListHolder = new PagedListHolder<>(Filter.
-                                                            filterRequest(selectedformType, selectedStatus, attrValue, selectedDate, 2, userId));
+                                                            filterRequest(selectedformType, selectedStatus, attrValue, selectedDateFrom, selectedDateTo, 2, userId));
 
         pagedListHolder.setPageSize(10);
 

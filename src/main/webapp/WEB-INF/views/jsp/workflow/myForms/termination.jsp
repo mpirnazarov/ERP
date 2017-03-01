@@ -220,7 +220,6 @@
                 $('#desc_container').addClass('has-error has-feedback');
 
             } else {
-
                 $('#error_desc').css("display", "none");
                 $("#submit_btn").prop("disabled", false);
                 $('#desc_container').removeClass('has-error has-feedback');

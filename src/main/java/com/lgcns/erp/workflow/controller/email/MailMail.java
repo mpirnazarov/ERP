@@ -4,8 +4,6 @@ import com.lgcns.erp.tapps.DbContext.UserService;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
-import java.security.Principal;
-
 public class MailMail
 {
 	private MailSender mailSender;
@@ -19,60 +17,29 @@ public class MailMail
 		this.mailSender = mailSender;
 	}
 
-	public void sendMail(String from, String to, String subject, String msg) {
+	public void sendMail(int[] idTo, int[] idCC, String subject, String msg) {
 
 		SimpleMailMessage message = new SimpleMailMessage();
+		String[] sentTo = new String[idTo.length];
+		int i=0;
+		for (int userId :
+				idTo) {
+			sentTo[i++] = UserService.getUserById(userId).geteMail();
+		}
 
-		message.setFrom(from);
-		message.setTo(to);
+		String[] sentToCC = new String[idCC.length];
+		int j=0;
+		for (int userId :
+				idCC) {
+			sentToCC[j++] = UserService.getUserById(userId).geteMail();
+		}
+
+		message.setFrom("subscription@lgcns.uz");
+		message.setTo(sentTo);
+		if(sentToCC != null)
+			message.setCc(sentToCC);
 		message.setSubject(subject);
 		message.setText(msg);
-		mailSender.send(message);
-	}
-
-
-	public void sendMailApproval(int[] approvalsGlobal, Principal principal) {
-		SimpleMailMessage message = new SimpleMailMessage();
-		String[] sentTo = new String[approvalsGlobal.length];
-		int i=0;
-		for (int userId :
-				approvalsGlobal) {
-			sentTo[i++] = UserService.getUserById(userId).geteMail();
-		}
-		message.setFrom(UserService.getUserByUsername(principal.getName()).geteMail());
-		message.setTo(sentTo);
-		message.setSubject("Subject");
-		message.setText("Text is send");
-		mailSender.send(message);
-	}
-
-	public void sendMailReference(int[] referencesGlobal, Principal principal) {
-		SimpleMailMessage message = new SimpleMailMessage();
-		String[] sentTo = new String[referencesGlobal.length];
-		int i=0;
-		for (int userId :
-				referencesGlobal) {
-			sentTo[i++] = UserService.getUserById(userId).geteMail();
-		}
-		message.setFrom(UserService.getUserByUsername(principal.getName()).geteMail());
-		message.setTo(sentTo);
-		message.setSubject("Subject");
-		message.setText("Text is send");
-		mailSender.send(message);
-	}
-
-	public void sendMailExecutive(int[] executivesGlobal, Principal principal) {
-		SimpleMailMessage message = new SimpleMailMessage();
-		String[] sentTo = new String[executivesGlobal.length];
-		int i=0;
-		for (int userId :
-				executivesGlobal) {
-			sentTo[i++] = UserService.getUserById(userId).geteMail();
-		}
-		message.setFrom(UserService.getUserByUsername(principal.getName()).geteMail());
-		message.setTo(sentTo);
-		message.setSubject("Subject");
-		message.setText("Text is send");
 		mailSender.send(message);
 	}
 }

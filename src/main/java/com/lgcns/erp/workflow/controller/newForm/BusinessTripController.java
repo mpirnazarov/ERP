@@ -13,8 +13,13 @@ import com.lgcns.erp.workflow.DBEntities.ToDoEntity;
 import com.lgcns.erp.workflow.DBEntities.TripTypesEntity;
 import com.lgcns.erp.workflow.Mapper.BusinessTripMapper;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
+import com.lgcns.erp.workflow.controller.email.MailMail;
+import com.lgcns.erp.workflow.controller.email.MailMessage;
+import org.apache.commons.lang3.ArrayUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
@@ -194,15 +199,13 @@ public class BusinessTripController {
         }
 
         // E-mail is sent here
+        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+        MailMail mm = (MailMail) context.getBean("mailMail");
+        String subject = MailMessage.generateSubject(requestId, 1);
+        String msg = MailMessage.generateMessage(requestId, 1);
+        int[] cc = (int[]) ArrayUtils.addAll(referencesGlobal, executivesGlobal);
 
-        /*MailMail mm = (MailMail) context.getBean("mailMail");
-        mm.sendMailApproval(approvalsGlobal, principal);
-        mm.sendMailReference(referencesGlobal, principal);
-        mm.sendMailExecutive(executivesGlobal, principal);*/
-        /*mm.sendMail("muslimbek.pirnazarov@gmail.com",
-                "muslimbek.pirnazarov@gmail.com",
-                "Testing123",
-                msg);*/
+        mm.sendMail(approvalsGlobal, cc, subject, msg);
 
         return "redirect: /Workflow/MyForms/Request";
     }

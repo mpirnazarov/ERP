@@ -354,6 +354,26 @@
             });
             return flag;
         });
+
+        $("#tv2").click(function () {
+            var a=[];
+            var b=[];
+            var c=[];
+            a = $("#approvals").children().siblings("input[type=text]").val();
+            b = $("#references").children().siblings("input[type=text]").val();
+            c = $("#executives").children().siblings("input[type=text]").val();
+            $.ajax({
+                type : "POST",
+                url : "/Workflow/NewForm/LeaveApproveFormAjax",
+                data :'approvals='+a+'&references='+b+'&executives='+c,
+                success : function(response) {
+//                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
+                },
+                error : function(e) {
+                    alert('Error: ' + e);
+                }
+            });
+        });
     });
 
     /* Send json data for approvals list*/

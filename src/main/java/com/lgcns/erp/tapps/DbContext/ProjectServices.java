@@ -15,6 +15,7 @@ import org.hibernate.query.Query;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Rafatdin on 31.10.2016.
@@ -69,6 +70,28 @@ public class ProjectServices {
 
         return list;
     }
+
+    public static List<ProjectsEntity> getAllProjects() {
+        List<ProjectsEntity> list = null, result = new ArrayList<>();
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from ProjectsEntity uip");
+            list = (List<ProjectsEntity>) query.list();
+            result.addAll(list.stream().filter(project -> project.getId() != 0 && project.getId() != 1).collect(Collectors.toList()));
+            transaction.commit();
+
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return result;
+    }
+
 
     public static List<UserInProjectsEntity> getUserInProjectsInfoByUserId(int userId){
         List<UserInProjectsEntity> list = null;

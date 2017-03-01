@@ -15,6 +15,7 @@ import com.lgcns.erp.tapps.mapper.UserMapper;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.RegistrationViewModel;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +37,27 @@ public class ProjectController {
     public ModelAndView Project(Principal principal) {
         ModelAndView mav = new ModelAndView("projects/index");
         UsersEntity user = UserService.getUserByUsername(principal.getName());
+            if(user.getRoleId() != 0)
+                return new ModelAndView("redirect:/Projects/all_projects");
         List<UserInProjectsEntity> projects = ProjectServices.getUserInProjectsInfoByUserId(user.getId());
         if(projects.isEmpty())
             return new ModelAndView("redirect:/Projects/Error");
+        mav.addObject("projects", projects);
+        mav = UP.includeUserProfile(mav, principal);
+        return mav;
+    }
+
+    @RequestMapping(value = "/all_projects", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView AllProjects(Principal principal){
+        ModelAndView mav = new ModelAndView("projects/indexForManager");
+        UsersEntity user = UserService.getUserByUsername(principal.getName());
+        List<ProjectsEntity> projects = null;
+        if(user.getRoleId() == 1) //if user is in role MANAGER
+            projects = ProjectServices.getAllProjects();
+        else
+            return new ModelAndView("redirect:/Projects");
+
         mav.addObject("projects", projects);
         mav = UP.includeUserProfile(mav, principal);
         return mav;

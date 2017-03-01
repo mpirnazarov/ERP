@@ -82,7 +82,7 @@
                         <form:input type="date" class="form-control" style="width:36%" name="end"  path="end" id="end"/>
                     </div>
                     <div class="btn-group" role="group" aria-label="..." style="margin-left: 40%; margin-top: 3%">
-                        <input id="tv" type="submit" name="Save" value="SaveLeaveApprove" class="btn btn-success"/>
+                        <input id="tv" type="submit" name="submitLeaveApprove" value="Save" class="btn btn-success"/>
                         <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
                     </div>
                 </div>

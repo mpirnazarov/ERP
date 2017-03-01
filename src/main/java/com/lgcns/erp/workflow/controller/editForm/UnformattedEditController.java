@@ -2,12 +2,10 @@ package com.lgcns.erp.workflow.controller.editForm;
 
 import com.google.common.io.Files;
 import com.lgcns.erp.tapps.DbContext.UserService;
-import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.Mapper.UnformattedMapper;
-import com.lgcns.erp.workflow.Model.Attachment;
 import com.lgcns.erp.workflow.ViewModel.UnformattedViewModel;
 import com.lgcns.erp.workflow.util.ContentType;
 import org.springframework.core.io.InputStreamResource;
@@ -22,16 +20,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by DScomputers3 on 20.01.2017.
@@ -40,7 +34,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/Workflow/EditForm")
 public class UnformattedEditController {
-    int[] approvalsGlobal = null;
+    /*int[] approvalsGlobal = null;
     int[] executivesGlobal = null;
     int[] referencesGlobal = null;
 
@@ -61,7 +55,7 @@ public class UnformattedEditController {
         UnformattedViewModel unformattedVM = new UnformattedViewModel();
         RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(reqId);
 
-        /* Input data to View Model */
+        *//* Input data to View Model *//*
         unformattedVM.setSubject(requestsEntity.getSubject());
         unformattedVM.setDescription(requestsEntity.getDescription());
         unformattedVM.setStart(requestsEntity.getDateFrom());
@@ -79,7 +73,7 @@ public class UnformattedEditController {
         unformattedVM.setAttachments(attachments);
 
         return unformattedVM;
-    }
+    }*/
 
     @RequestMapping(value = "/files/{id}", method = RequestMethod.GET)
     public ResponseEntity<InputStreamResource> getFile(@PathVariable("id") Long id) {
@@ -125,7 +119,7 @@ public class UnformattedEditController {
             return "redirect: /";
     }
 
-    @RequestMapping(value = "Unformatted/{reqId}", method = RequestMethod.POST, params = "Save")
+    @RequestMapping(value = "/{reqId}", method = RequestMethod.POST, params = "submitUnformatted")
     public String Hrprofile(@ModelAttribute UnformattedViewModel unformattedVM, Principal principal, @PathVariable int reqId) throws IOException {
 
         int userId = UserService.getIdByUsername(principal.getName());

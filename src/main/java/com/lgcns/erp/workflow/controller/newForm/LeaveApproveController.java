@@ -180,7 +180,7 @@ public class LeaveApproveController {
                 "Testing123",
                 msg);*/
 
-        return "redirect: /Workflow/NewForm/LeaveApproveForm";
+        return "redirect: /Workflow/MyForms/Request";
     }
 
     @RequestMapping(value = "/NewForm/LeaveApproveForm", method = RequestMethod.POST, params = "Save")
@@ -194,11 +194,12 @@ public class LeaveApproveController {
         leaveApproveVM.setId(requestId);
 
         /*  Insert attachments info to table Attachments */
-        for (MultipartFile attachment :
-                leaveApproveVM.getFile()) {
-            WorkflowService.insertAttachments(LeaveApproveMapper.attachmentsMapper(leaveApproveVM.getId(), attachment));
+        if(!leaveApproveVM.getFile()[0].isEmpty()) {
+            for (MultipartFile attachment :
+                    leaveApproveVM.getFile()) {
+                WorkflowService.insertAttachments(LeaveApproveMapper.attachmentsMapper(leaveApproveVM.getId(), attachment));
+            }
         }
-
         int count=1;
         /* Insert to table steps */
         for (int num :
@@ -239,7 +240,7 @@ public class LeaveApproveController {
 
             System.out.println("FILE WAS UPLOADED!");
         }
-        return "redirect: /Workflow/NewForm/LeaveApprovalForm";
+        return "redirect: /Workflow/MyForms/Request";
     }
 
 

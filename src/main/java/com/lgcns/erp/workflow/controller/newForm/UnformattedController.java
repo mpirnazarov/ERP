@@ -97,7 +97,7 @@ public class UnformattedController {
         return mav;
     }
     @RequestMapping(value = "NewForm/Unformatted", method = RequestMethod.POST, params = "Submit")
-    public String Hrprofile(@ModelAttribute UnformattedViewModel unformattedVM, Principal principal) throws IOException {
+    public String NewUnformattedSubmit(@ModelAttribute UnformattedViewModel unformattedVM, Principal principal) throws IOException {
 
         int userId = UserService.getIdByUsername(principal.getName());
 
@@ -164,6 +164,64 @@ public class UnformattedController {
                 approvalsGlobal) {
             msg += "  [Approval: " + appr + "]";
         }
+
+
+        // E-mail is sent here
+
+        /*MailMail mm = (MailMail) context.getBean("mailMail");
+        mm.sendMailApproval(approvalsGlobal, principal);
+        mm.sendMailReference(referencesGlobal, principal);
+        mm.sendMailExecutive(executivesGlobal, principal);
+        mm.sendMail("muslimbek.pirnazarov@gmail.com",
+                "muslimbek.pirnazarov@gmail.com",
+                "Testing123",
+                msg);*/
+
+
+
+        return "redirect: /Workflow/NewForm/Unformatted";
+    }
+
+    @RequestMapping(value = "NewForm/Unformatted", method = RequestMethod.POST, params = "Save")
+    public String NewUnformattedSave(@ModelAttribute UnformattedViewModel unformattedVM, Principal principal) throws IOException {
+
+        int userId = UserService.getIdByUsername(principal.getName());
+
+        /* Insert to table Requests */
+
+        int requestId = WorkflowService.insertRequests(UnformattedMapper.requestMapper(unformattedVM, userId, 3, 4, false));
+        unformattedVM.setId(requestId);
+
+        /*  Insert attachments info to table Attachments */
+        if(!unformattedVM.getFile()[0].isEmpty()) {
+            for (MultipartFile attachment :
+                    unformattedVM.getFile()) {
+                WorkflowService.insertAttachments(UnformattedMapper.attachmentsMapper(unformattedVM.getId(), attachment));
+            }
+        }
+
+        int count=1;
+        /* Insert to table steps */
+
+
+        System.out.println("FORM:   LEAVE APPROVAL: " + unformattedVM.toString());
+        MultipartFile[] multipartFiles=null;
+        if(!unformattedVM.getFile()[0].isEmpty()) {
+            multipartFiles = unformattedVM.getFile();
+
+            // Uploading files attached to C:/files/documents/workflow. Create folder if doesn't exist.
+            File f = new File("C:/files/documents/workflow/"+unformattedVM.getId()+"/");
+            if (f.mkdir()) {
+                System.out.println("DIRECTORY CREATED SECCESFULLY");
+            }
+            for (MultipartFile file :
+                    multipartFiles) {
+                FileCopyUtils.copy(file.getBytes(), new File("C:/files/documents/workflow/" + unformattedVM.getId() + "/" + file.getOriginalFilename()));
+            }
+
+            System.out.println("FILE WAS UPLOADED!");
+        }
+
 
 
         // E-mail is sent here

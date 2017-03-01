@@ -1,37 +1,33 @@
 package com.lgcns.erp.workflow.controller.editForm;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
-import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
-import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
-import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
-import com.lgcns.erp.workflow.Enums.LeaveType;
 import com.lgcns.erp.workflow.Mapper.LeaveApproveMapper;
-import com.lgcns.erp.workflow.Model.Attachment;
 import com.lgcns.erp.workflow.ViewModel.LeaveApproveVM;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.*;
 
 /**
  * Created by DScomputers3 on 20.01.2017.
  */
 @Controller
-@RequestMapping(value = "/Workflow/EditForm")
+@RequestMapping(value = "/Workflow")
 public class LeaveApproveEditController {
 
-    int[] approvalsGlobal = null;
+    /*int[] approvalsGlobal = null;
     int[] executivesGlobal = null;
     int[] referencesGlobal = null;
 
-    @RequestMapping(value = "/LeaveApprove/{reqId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/EditForm/{reqId}", method = RequestMethod.POST, params = "submitLeaveApprove")
     public ModelAndView LeaveApproveEditGET(Principal principal, @PathVariable int reqId){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("workflow/editForm/leaveApprove");
@@ -80,8 +76,8 @@ public class LeaveApproveEditController {
 
         return leaveApproveVM;
     }
-
-    @RequestMapping(value = "/LeaveApprove/{reqId}", method = RequestMethod.POST, params = "Save")
+*/
+    @RequestMapping(value = "/EditForm/{reqId}", method = RequestMethod.POST, params = "submitLeaveApprove")
     public String LeaveApprovePostSave(@ModelAttribute LeaveApproveVM leaveApproveVM, Principal principal, @PathVariable int reqId) throws IOException {
 
         int userId = UserService.getIdByUsername(principal.getName());

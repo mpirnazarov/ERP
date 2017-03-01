@@ -66,13 +66,9 @@
 
     <style>
 
-        /*body {
-            min-width: 1024px;
-            min-height: 765px;
-            margin: 0 auto;
-        }*/
-
-
+        #UserNavigationMenuDiv {
+            background-color: rgb(95, 129, 124);
+        }
 
 
         .error {

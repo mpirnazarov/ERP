@@ -19,6 +19,10 @@
         color: inherit;
     }
 
+    .statusTd {
+        font-weight: 800;
+    }
+
 </style>
 <spring:url value="/resources/core/css/paginationsStyle.css" var="paginationCss"/>
 <link rel="stylesheet" href="${paginationCss}"/>
@@ -208,10 +212,10 @@
                         });
                     }
 
-                    $('.statusTd:contains("In progress")').css('color', '#0bbf15');
-                    $('.statusTd:contains("Revision")').css('color', '#fec91f');
+                    $('.statusTd:contains("In progress")').css('color', '#339abf');
+                    $('.statusTd:contains("Revision")').css('color', '#edb81f');
                     $('.statusTd:contains("Rejected")').css('color', '#ff0000');
-                    $('.statusTd:contains("Draft")').css('color', '#f9fef3');
+                    $('.statusTd:contains("Draft")').css('color', '#edb81f');
                     $('.statusTd:contains("Approved")').css('color', '#0bbf15');
                     $('.statusTd:contains("Terminated")').css('color', '#ff0000');
                     $('.statusTd:contains("Finished")').css('color', '#59feef');

@@ -206,7 +206,7 @@ public class WorkflowService {
         int newRowId = WorkflowToDoApproveService.getTheNextSequence(reqId, statusId, comment);
         if (newRowId != -1){
             WorkflowToDoApproveService.approve(reqId, statusId);
-            WorkflowToDoApproveService.setNewStep(newRowId);
+            WorkflowToDoApproveService.setNewStep(newRowId, reqId);
         }
     }
 

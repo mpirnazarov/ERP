@@ -3,6 +3,7 @@ package com.lgcns.erp.workflow.DBContext;
 import com.lgcns.erp.hr.enums.WorkloadType;
 import com.lgcns.erp.hr.viewModel.WorkloadViewModels.WorkloadCreateModel;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
+import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.DbContext.WorkloadServices;
 import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
@@ -11,10 +12,15 @@ import com.lgcns.erp.workflow.DBEntities.StepsEntity;
 import com.lgcns.erp.workflow.Enums.LeaveType;
 import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Mapper.CommentMapper;
+import com.lgcns.erp.workflow.controller.email.MailMail;
+import com.lgcns.erp.workflow.controller.email.MailMessage;
+import org.apache.commons.lang3.ArrayUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,23 +51,51 @@ public class WorkflowToDoApproveService {
                 isNext = true;
             }
         }
-        if (isNext) return nextStepId;
+        if (isNext)
+            return nextStepId;
         else{
             // if it is termination
             RequestsEntity entity = WorkflowService.getRequestsEntityById(requestId);
             if (entity.getTypeId()==4) {
                 submitRequest(entity.getReqLinkId(), Status.Terminated.getValue());
-                if (entity.getLeaveTypeId()!=null&&(entity.getLeaveTypeId()==LeaveType.Annual_leave.getValue()||entity.getLeaveTypeId()==LeaveType.Sick_leave.getValue())){
+                if (entity.getLeaveTypeId()!=null&&(entity.getLeaveTypeId()==LeaveType.Annual_leave.getValue()
+                        ||entity.getLeaveTypeId()==LeaveType.Sick_leave.getValue())){
                     RequestsEntity terminating_entity = WorkflowService.getRequestsEntityById(entity.getReqLinkId());
                     removeHours(terminating_entity);
                 }
             }
             approve(requestId, statusId);
             submitRequest(requestId, statusId);
-            if (entity.getLeaveTypeId()!=null&&(entity.getLeaveTypeId()==LeaveType.Annual_leave.getValue()||entity.getLeaveTypeId()==LeaveType.Sick_leave.getValue()))
+            if (entity.getLeaveTypeId()!=null&&(entity.getLeaveTypeId()==LeaveType.Annual_leave.getValue()
+                    ||entity.getLeaveTypeId()==LeaveType.Sick_leave.getValue()))
                 addHours(entity);
+
+            sendEmailAfterLastApproves(requestId);
+
             return -1;
         }
+    }
+
+    private static void sendEmailAfterLastApproves(int requestId){
+
+        // E-mail is sent here
+        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+        MailMail mm = (MailMail) context.getBean("mailMail");
+        String subject = "";
+        String msg = "";
+        int[] to;
+
+        /* Sending to references and executors */
+        subject = MailMessage.generateSubject(requestId, 5, 2);
+        msg = MailMessage.generateMessage(requestId, 5, 2);
+        to = (int[]) ArrayUtils.addAll(WorkflowEmailService.getInvolvementList(requestId, 2), WorkflowEmailService.getInvolvementList(requestId, 3));
+        mm.sendMail(to, subject, msg);
+
+        /* Sending to creator */
+        subject = MailMessage.generateSubject(requestId, 4, 4);
+        msg = MailMessage.generateMessage(requestId, 4, 4);
+        to[0] = WorkflowService.getRequestsEntityById(requestId).getUserFromId();
+        mm.sendMail(to, subject, msg);
     }
 
     private static void addHours(RequestsEntity entity){
@@ -150,7 +184,9 @@ public class WorkflowToDoApproveService {
     }
 
 
-    public static void setNewStep(int newStepId){
+    public static void setNewStep(int newStepId, int reqId){
+        sendEmailToTheNextApprover(newStepId, reqId);
+
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -167,6 +203,27 @@ public class WorkflowToDoApproveService {
         finally {
             session.close();
         }
+    }
+
+    private static void sendEmailToTheNextApprover(int requestId, int nextApproverId){
+        // E-mail is sent here
+        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+        MailMail mm = (MailMail) context.getBean("mailMail");
+        String subject = "";
+        String msg = "";
+        int[] to = new int[1];
+
+         /* Sending to approvals*/
+        subject = MailMessage.generateSubject(requestId, 4, 1);
+        msg = MailMessage.generateMessage(requestId, 4, 1);
+        to[0] = nextApproverId;
+        mm.sendMail(to, subject, msg);
+
+         /* Sending to creator */
+        subject = MailMessage.generateSubject(requestId, 4, 4);
+        msg = MailMessage.generateMessage(requestId, 4, 4);
+        to[0] = WorkflowService.getRequestsEntityById(requestId).getUserFromId();
+        mm.sendMail(to, subject, msg);
     }
 
     public static void submitRequest(int requestId, int statusId){

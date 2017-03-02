@@ -109,14 +109,6 @@ public class UnformattedController {
         int requestId = WorkflowService.insertRequests(UnformattedMapper.requestMapper(unformattedVM, userId, 3, 1, false));
         unformattedVM.setId(requestId);
 
-        /*  Insert attachments info to table Attachments */
-        if(!unformattedVM.getFile()[0].isEmpty()) {
-            for (MultipartFile attachment :
-                    unformattedVM.getFile()) {
-                WorkflowService.insertAttachments(UnformattedMapper.attachmentsMapper(unformattedVM.getId(), attachment));
-            }
-        }
-
         int count=1;
         /* Insert to table steps */
         for (int num :
@@ -141,6 +133,8 @@ public class UnformattedController {
         }
 
         System.out.println("FORM:   LEAVE APPROVAL: " + unformattedVM.toString());
+
+        /* File upload */
         MultipartFile[] multipartFiles=null;
         if(!unformattedVM.getFile()[0].isEmpty()) {
             multipartFiles = unformattedVM.getFile();
@@ -158,28 +152,38 @@ public class UnformattedController {
             System.out.println("FILE WAS UPLOADED!");
         }
 
-
-
-        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-
-        String msg = "";
-        for (int appr :
-                approvalsGlobal) {
-            msg += "  [Approval: " + appr + "]";
+        /*  Insert attachments info to table Attachments */
+        if(!unformattedVM.getFile()[0].isEmpty()) {
+            for (MultipartFile attachment :
+                    unformattedVM.getFile()) {
+                WorkflowService.insertAttachments(UnformattedMapper.attachmentsMapper(unformattedVM.getId(), attachment));
+            }
         }
 
-
         // E-mail is sent here
+        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+        MailMail mm = (MailMail) context.getBean("mailMail");
+        String subject = "";
+        String msg = "";
+        int[] to;
 
-        /*MailMail mm = (MailMail) context.getBean("mailMail");
-        mm.sendMailApproval(approvalsGlobal, principal);
-        mm.sendMailReference(referencesGlobal, principal);
-        mm.sendMailExecutive(executivesGlobal, principal);
-        mm.sendMail("muslimbek.pirnazarov@gmail.com",
-                "muslimbek.pirnazarov@gmail.com",
-                "Testing123",
-                msg);*/
+        /* Sending to approvals*/
+        subject = MailMessage.generateSubject(requestId, 1, 1);
+        msg = MailMessage.generateMessage(requestId, 1, 1);
+        to = approvalsGlobal;
+        mm.sendMail(to, subject, msg);
 
+        /* Sending to references and executors */
+        subject = MailMessage.generateSubject(requestId, 1, 2);
+        msg = MailMessage.generateMessage(requestId, 1, 2);
+        to = (int[]) ArrayUtils.addAll(referencesGlobal, executivesGlobal);
+        mm.sendMail(to, subject, msg);
+
+        /* Sending to creator */
+        subject = MailMessage.generateSubject(requestId, 1, 4);
+        msg = MailMessage.generateMessage(requestId, 1, 4);
+        to[0] = UserService.getIdByUsername(principal.getName());
+        mm.sendMail(to, subject, msg);
 
 
         return "redirect: /Workflow/MyForms/Request";
@@ -222,9 +226,9 @@ public class UnformattedController {
             System.out.println("References: " + num);
             WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), num, 3, 0, 4, false));
         }
-
-
         System.out.println("FORM:   LEAVE APPROVAL: " + unformattedVM.toString());
+
+        /* File upload */
         MultipartFile[] multipartFiles=null;
         if(!unformattedVM.getFile()[0].isEmpty()) {
             multipartFiles = unformattedVM.getFile();

@@ -190,6 +190,7 @@ public class LeaveApproveController {
             WorkflowService.insertSteps(LeaveApproveMapper.stepsMapper(leaveApproveVM.getId(), num, 3, 0, 1, false));
         }
 
+        /* File upload */
         MultipartFile[] multipartFiles=null;
         if(!leaveApproveVM.getFile()[0].isEmpty()) {
             multipartFiles = leaveApproveVM.getFile();
@@ -205,6 +206,14 @@ public class LeaveApproveController {
             }
 
             System.out.println("FILE WAS UPLOADED!");
+        }
+
+        /*  Insert attachments info to table Attachments */
+        if(!leaveApproveVM.getFile()[0].isEmpty()) {
+            for (MultipartFile attachment :
+                    leaveApproveVM.getFile()) {
+                WorkflowService.insertAttachments(LeaveApproveMapper.attachmentsMapper(leaveApproveVM.getId(), attachment));
+            }
         }
 
         // E-mail is sent here

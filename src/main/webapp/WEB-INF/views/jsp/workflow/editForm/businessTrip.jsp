@@ -263,9 +263,9 @@
                 <div class="input-group" style="margin-top: 1%">
                     <span class="input-group-addon" id="attach-addon">Attachment:</span>
                     <div id="attachmentDiv">
-                        <c:forEach items="${leaveApproveVM.attachments}" var="attachment">
+                        <c:forEach items="${businessTripVM.attachments}" var="attachment">
                             <p>
-                                <a href="/Workflow/EditForm/files/${attachment.id}">${attachment.fileName}</a>
+                                <a href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a>
                                 <a href="/Workflow/EditForm/files/delete/${attachment.id}"><span style="color: #ff0000"
                                                                                                  class="glyphicon glyphicon-remove-sign" aria-hidden="false"></span></a>
                             </p>

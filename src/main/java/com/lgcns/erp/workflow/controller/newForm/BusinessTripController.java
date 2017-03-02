@@ -150,14 +150,6 @@ public class BusinessTripController {
             WorkflowService.insertToDo(BusinessTripMapper.toDoMapper(businessTripVM.getId(), todo));
         }
 
-        /*  Insert attachments info to table Attachments */
-        for (MultipartFile attachment :
-                businessTripVM.getFile()) {
-            if(!businessTripVM.getFile()[0].isEmpty()) {
-                WorkflowService.insertAttachments(BusinessTripMapper.attachmentsMapper(businessTripVM.getId(), attachment));
-            }
-        }
-
         int count=1;
         /* Insert to table steps */
         for (int num :
@@ -181,6 +173,8 @@ public class BusinessTripController {
         }
 
         System.out.println("FORM:   BUSINESS TRIP: " + businessTripVM.toString());
+
+        /* File upload */
         MultipartFile[] multipartFiles=null;
         if(!businessTripVM.getFile()[0].isEmpty()) {
             multipartFiles = businessTripVM.getFile();
@@ -196,6 +190,14 @@ public class BusinessTripController {
             }
 
             System.out.println("FILE WAS UPLOADED!");
+        }
+
+        /*  Insert attachments info to table Attachments */
+        if(!businessTripVM.getFile()[0].isEmpty()) {
+            for (MultipartFile attachment :
+                    businessTripVM.getFile()) {
+                WorkflowService.insertAttachments(BusinessTripMapper.attachmentsMapper(businessTripVM.getId(), attachment));
+            }
         }
 
         // E-mail is sent here

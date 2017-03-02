@@ -1,18 +1,17 @@
 package com.lgcns.erp.workflow.controller.editForm;
 
-import com.google.common.io.Files;
 import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.workflow.DBContext.WorkflowEmailService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.Mapper.UnformattedMapper;
 import com.lgcns.erp.workflow.ViewModel.UnformattedViewModel;
-import com.lgcns.erp.workflow.util.ContentType;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import com.lgcns.erp.workflow.controller.email.MailMail;
+import com.lgcns.erp.workflow.controller.email.MailMessage;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.Principal;
 
@@ -75,68 +72,38 @@ public class UnformattedEditController {
         return unformattedVM;
     }*/
 
-    @RequestMapping(value = "/files/{id}", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> getFile(@PathVariable("id") Long id) {
-        String fullPath = WorkflowService.getAttachmentPathNameById(id);
-        File file = new File(fullPath);
-
-        String ext = Files.getFileExtension(fullPath);
-
-        HttpHeaders respHeaders = new HttpHeaders();
-        respHeaders.setContentType(MediaType.valueOf(ContentType.getContentType(ext)));
-        respHeaders.setContentDispositionFormData("attachment", "");
-
-        InputStreamResource isr = null;
-        try {
-            isr = new InputStreamResource(new FileInputStream(file));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(isr, respHeaders, HttpStatus.OK);
-    }
-
     @RequestMapping(value = "/files/delete/{id}", method = RequestMethod.GET)
-    public String deleteFile(@PathVariable("id") Long id) {
-        AttachmentsEntity attachmentsEntity = WorkflowService.getAttachmentById(id);
+    public String deleteFile(@PathVariable("id") int id) {
+        AttachmentsEntity attachmentsEntity = WorkflowService.getAttachmentById(Long.parseLong(""+id));
         File file = new File(attachmentsEntity.getUrl());
 
         if(file.delete()) {
             System.out.println(file.getName() + " is deleted!");
-            WorkflowService.deleteAttachment(id);
+
         }
         else
             System.out.println("Delete operation is failed.");
 
+        WorkflowService.deleteAttachment(id);
         RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(attachmentsEntity.getRequestId());
         int type = requestsEntity.getTypeId();
-        if(type == 1)
-            return "redirect: /Workflow/EditForm/BusinessTrip/"+requestsEntity.getId();
-        else if(type == 2)
-            return "redirect: /Workflow/EditForm/LeaveApprove/"+requestsEntity.getId();
-        else if(type == 3)
-            return "redirect: /Workflow/EditForm/Unformatted/"+requestsEntity.getId();
-        else
-            return "redirect: /";
+
+        return "redirect: /Workflow/EditForm/"+requestsEntity.getId();
+
     }
 
     @RequestMapping(value = "/{reqId}", method = RequestMethod.POST, params = "submitUnformatted")
     public String Hrprofile(@ModelAttribute UnformattedViewModel unformattedVM, Principal principal, @PathVariable int reqId) throws IOException {
 
         int userId = UserService.getIdByUsername(principal.getName());
-
+        RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(reqId);
         /* Update table Requests */
         unformattedVM.setId(reqId);
         WorkflowService.updateRequestUnformatted(UnformattedMapper.requestMapperUpdate(unformattedVM));
 
-        /* Insert attachments info to table Attachments */
-        if(!unformattedVM.getFile()[0].isEmpty()) {
-            for (MultipartFile attachment :
-                    unformattedVM.getFile()) {
-                WorkflowService.insertAttachments(UnformattedMapper.attachmentsMapper(unformattedVM.getId(), attachment));
-            }
-        }
-
         System.out.println("FORM:   LEAVE APPROVAL: " + unformattedVM.toString());
+
+        /* File upload */
         MultipartFile[] multipartFiles=null;
         if(!unformattedVM.getFile()[0].isEmpty()) {
             multipartFiles = unformattedVM.getFile();
@@ -153,6 +120,40 @@ public class UnformattedEditController {
 
             System.out.println("FILE WAS UPLOADED!");
         }
+
+        /* Insert attachments info to table Attachments */
+        if(!unformattedVM.getFile()[0].isEmpty()) {
+            for (MultipartFile attachment :
+                    unformattedVM.getFile()) {
+                WorkflowService.insertAttachments(UnformattedMapper.attachmentsMapper(unformattedVM.getId(), attachment));
+            }
+        }
+
+        // E-mail is sent here
+        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+        MailMail mm = (MailMail) context.getBean("mailMail");
+        String subject = "";
+        String msg = "";
+        int[] to;
+
+        if(requestsEntity.getViewed() == true){
+            /* Sending to approvals*/
+            subject = MailMessage.generateSubject(reqId, 3, 1);
+            msg = MailMessage.generateMessage(reqId, 3, 1);
+
+            to = WorkflowEmailService.getInvolvementList(reqId, 1);
+            mm.sendMail(to, subject, msg);
+
+            /* Sending to references and executors */
+            to = (int[]) ArrayUtils.addAll(WorkflowEmailService.getInvolvementList(reqId, 2), WorkflowEmailService.getInvolvementList(reqId, 3));
+            mm.sendMail(to, subject, msg);
+        }
+
+        /* Sending to creator (Creator is not taking the message in case of editing) */
+        /*subject = MailMessage.generateSubject(reqId, 3, 4);
+        msg = MailMessage.generateMessage(reqId, 3, 4);
+        to[0] = UserService.getIdByUsername(principal.getName());
+        mm.sendMail(to, subject, msg);*/
 
         return "redirect: /Workflow/MyForms/details/2/"+reqId;
     }

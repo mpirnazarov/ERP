@@ -1,9 +1,16 @@
 package com.lgcns.erp.workflow.controller.editForm;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.workflow.DBContext.WorkflowEmailService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
+import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.Mapper.LeaveApproveMapper;
 import com.lgcns.erp.workflow.ViewModel.LeaveApproveVM;
+import com.lgcns.erp.workflow.controller.email.MailMail;
+import com.lgcns.erp.workflow.controller.email.MailMessage;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -82,18 +89,11 @@ public class LeaveApproveEditController {
 
         int userId = UserService.getIdByUsername(principal.getName());
         leaveApproveVM.setId(reqId);
-
+        RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(reqId);
         /* Update table Requests */
         WorkflowService.updateRequestLeaveApprove(LeaveApproveMapper.requestMapperUpdate(leaveApproveVM));
 
-        /*  Insert attachments info to table Attachments */
-        if(!leaveApproveVM.getFile()[0].isEmpty()) {
-            for (MultipartFile attachment :
-                    leaveApproveVM.getFile()) {
-                WorkflowService.insertAttachments(LeaveApproveMapper.attachmentsMapper(leaveApproveVM.getId(), attachment));
-            }
-        }
-
+        /* File upload */
         MultipartFile[] multipartFiles=null;
         if(!leaveApproveVM.getFile()[0].isEmpty()) {
             multipartFiles = leaveApproveVM.getFile();
@@ -110,6 +110,42 @@ public class LeaveApproveEditController {
 
             System.out.println("FILE WAS UPLOADED!");
         }
+
+        /*  Insert attachments info to table Attachments */
+        if(!leaveApproveVM.getFile()[0].isEmpty()) {
+            for (MultipartFile attachment :
+                    leaveApproveVM.getFile()) {
+                WorkflowService.insertAttachments(LeaveApproveMapper.attachmentsMapper(leaveApproveVM.getId(), attachment));
+            }
+        }
+
+        // E-mail is sent here
+        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+        MailMail mm = (MailMail) context.getBean("mailMail");
+        String subject = "";
+        String msg = "";
+        int[] to;
+
+
+        if(requestsEntity.getViewed() == true){
+            /* Sending to approvals*/
+            subject = MailMessage.generateSubject(reqId, 3, 1);
+            msg = MailMessage.generateMessage(reqId, 3, 1);
+
+            to = WorkflowEmailService.getInvolvementList(reqId, 1);
+            mm.sendMail(to, subject, msg);
+
+            /* Sending to references and executors */
+            to = (int[]) ArrayUtils.addAll(WorkflowEmailService.getInvolvementList(reqId, 2), WorkflowEmailService.getInvolvementList(reqId, 3));
+            mm.sendMail(to, subject, msg);
+        }
+
+        /* Sending to creator (Creator is not taking the message in case of editing) */
+        /*subject = MailMessage.generateSubject(reqId, 3, 4);
+        msg = MailMessage.generateMessage(reqId, 3, 4);
+        to[0] = UserService.getIdByUsername(principal.getName());
+        mm.sendMail(to, subject, msg);*/
+
         return "redirect: /Workflow/MyForms/details/2/"+reqId;
     }
 }

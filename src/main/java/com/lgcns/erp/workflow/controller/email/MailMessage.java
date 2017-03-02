@@ -33,7 +33,7 @@ public class MailMessage {
         if(actionStep == 1) {
             if(involvementType != 4) {
                 msg = "Dear SmartOffice user,\n" +
-                        "Recently, " + formType + "form has been created by " + creator +
+                        "Recently, " + formType + " form has been created by " + creator +
                         "in the Workflow system.\n";
                 if (involvementType == 1) {
                     msg += "In order to finalize this workflow form, " +
@@ -54,8 +54,11 @@ public class MailMessage {
             }
         }
 
-        else if(actionStep == 2){
-
+        else if(actionStep == 3){
+            msg = "Dear SmartOffice user,\n" +
+                    "Recently created " + formType + "form was updated by" + creator + ".\n" +
+                    "Best regards\n" +
+                    "Technical Department team.";
         }
         return msg;
     }

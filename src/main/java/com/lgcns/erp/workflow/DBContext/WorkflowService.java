@@ -392,7 +392,7 @@ public class WorkflowService {
         return list;
     }
 
-    public static void deleteAttachment(Long id) {
+    public static void deleteAttachment(int id) {
 
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;

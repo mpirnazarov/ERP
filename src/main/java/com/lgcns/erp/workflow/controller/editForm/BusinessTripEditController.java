@@ -4,6 +4,7 @@ import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.workflow.DBContext.WorkflowEmailService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.MembersEntity;
+import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.ToDoEntity;
 import com.lgcns.erp.workflow.Mapper.BusinessTripMapper;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
@@ -36,7 +37,7 @@ public class BusinessTripEditController {
     public String BusinessTripPostSave(@ModelAttribute BusinessTripVM businessTripVM, Principal principal, @PathVariable int reqId) throws IOException {
 
         int userId = UserService.getIdByUsername(principal.getName());
-
+        RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(reqId);
         System.out.println(businessTripVM);
 
         /* Pre initialize table, delete members and toDo table data */
@@ -59,14 +60,9 @@ public class BusinessTripEditController {
             WorkflowService.insertToDo(BusinessTripMapper.toDoMapper(businessTripVM.getId(), todo));
         }
 
-        /*  Insert attachments info to table Attachments */
-        for (MultipartFile attachment :
-                businessTripVM.getFile()) {
-            if(!businessTripVM.getFile()[0].isEmpty())
-                WorkflowService.insertAttachments(BusinessTripMapper.attachmentsMapper(businessTripVM.getId(), attachment));
-        }
-
         System.out.println("FORM:   BUSINESS TRIP: " + businessTripVM.toString());
+
+        /* File upload */
         MultipartFile[] multipartFiles=null;
         if(!businessTripVM.getFile()[0].isEmpty()) {
             multipartFiles = businessTripVM.getFile();
@@ -84,6 +80,14 @@ public class BusinessTripEditController {
             System.out.println("FILE WAS UPLOADED!");
         }
 
+        /*  Insert attachments info to table Attachments */
+        if(!businessTripVM.getFile()[0].isEmpty()) {
+            for (MultipartFile attachment :
+                    businessTripVM.getFile()) {
+                WorkflowService.insertAttachments(BusinessTripMapper.attachmentsMapper(businessTripVM.getId(), attachment));
+            }
+        }
+
         // E-mail is sent here
         ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
         MailMail mm = (MailMail) context.getBean("mailMail");
@@ -92,19 +96,20 @@ public class BusinessTripEditController {
         int[] to;
 
 
-        /* Sending to approvals*/
-        subject = MailMessage.generateSubject(reqId, 3, 1);
-        msg = MailMessage.generateMessage(reqId, 3, 1);
-        to = WorkflowEmailService.getInvolvementList(reqId, 1);
-        mm.sendMail(to, subject, msg);
+        if(requestsEntity.getViewed() == true){
+            /* Sending to approvals*/
+            subject = MailMessage.generateSubject(reqId, 3, 1);
+            msg = MailMessage.generateMessage(reqId, 3, 1);
 
-        /* Sending to references and executors */
-        subject = MailMessage.generateSubject(reqId, 3, 2);
-        msg = MailMessage.generateMessage(reqId, 3, 2);
-        to = (int[]) ArrayUtils.addAll(WorkflowEmailService.getInvolvementList(reqId, 2), WorkflowEmailService.getInvolvementList(reqId, 3));
-        mm.sendMail(to, subject, msg);
+            to = WorkflowEmailService.getInvolvementList(reqId, 1);
+            mm.sendMail(to, subject, msg);
 
-        /* Sending to creator */
+            /* Sending to references and executors */
+            to = (int[]) ArrayUtils.addAll(WorkflowEmailService.getInvolvementList(reqId, 2), WorkflowEmailService.getInvolvementList(reqId, 3));
+            mm.sendMail(to, subject, msg);
+        }
+
+        /* Sending to creator (Creator is not taking the message in case of editing) */
         /*subject = MailMessage.generateSubject(reqId, 3, 4);
         msg = MailMessage.generateMessage(reqId, 3, 4);
         to[0] = UserService.getIdByUsername(principal.getName());

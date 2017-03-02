@@ -126,15 +126,26 @@
 
                     <%-- Approvals, references, executors shouldn't be edited --%>
                     <div class="input-group" style="margin-top: 1%">
-                        <span class="input-group-addon" id="attach-addon">Attachment:</span>
-                        <div id="attachmentDiv">
-                            <c:forEach items="${leaveApproveVM.attachments}" var="attachment">
-                                <p>
+                        <span class="input-group-addon" id="attach-addon">Attachments:</span>
+                        <div id="attachmentDiv" >
+                            <c:forEach items="${unformattedVM.attachments}" var="attachment">
+                                    <p >
+                                        <a style="color: #000" href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a>
+                                        <a style="color: #000" href="/Workflow/EditForm/files/delete/${attachment.id}"><span style="color: #ff0000; font-style: normal" class="glyphicon glyphicon-remove-sign" aria-hidden="false"></span></a>
+                                    </p>
+                            </c:forEach>
+
+                            <%--<c:forEach items="${leaveApproveVM.attachments}" var="attachment">
+                                <div>
+                                    <a href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a>
+                                </div>
+                                &lt;%&ndash; <p>
                                     <a href="/Workflow/EditForm/files/${attachment.id}">${attachment.fileName}</a>
                                     <a href="/Workflow/EditForm/files/delete/${attachment.id}"><span style="color: #ff0000"
                                                                                                      class="glyphicon glyphicon-remove-sign" aria-hidden="false"></span></a>
-                                </p>
+                                </p>&ndash;%&gt;
                             </c:forEach>
+--%>
                         </div>
                     </div>
                     <div class="input-group" style="margin-top: 2%">

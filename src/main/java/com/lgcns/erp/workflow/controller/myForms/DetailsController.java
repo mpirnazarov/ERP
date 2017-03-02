@@ -230,11 +230,16 @@ public class DetailsController {
     }
 
     @RequestMapping(value = "/Delete/{id}")
-    public String delete(@PathVariable("id")int id, Principal principal){
+    public String delete(@PathVariable("id")int id){
 
         System.out.println(id);
         WorkflowDeleteService.DeleteRequest(id, 8);
 
+        sendEmailAfterDelete(id);
+        return "redirect:/Workflow/MyForms/Request";
+    }
+
+    private static void sendEmailAfterDelete(int id){
         // E-mail is sent here
         ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
         MailMail mm = (MailMail) context.getBean("mailMail");
@@ -253,7 +258,5 @@ public class DetailsController {
         msg = MailMessage.generateMessage(id, 2, 3);
         to = WorkflowEmailService.getInvolvementList(id, 3);
         mm.sendMail(to, subject, msg);
-
-        return "redirect:/Workflow/MyForms/Request";
     }
 }

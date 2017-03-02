@@ -644,12 +644,13 @@
             function isFromRequest() {
 
                 var viewed = ${isViewed};
-                var cstatus = "${model.status}"
+                var cstatus = "${model.status}";
+                var statusid = ${model.status_id};
 
-                alert(cstatus);
+                alert(viewed);
 
 
-                if (currentStatus == "Approved" && formtype != 4) {
+                if (statusid == 5 && formtype != 4) {
                     $('#terminationButton').prop('disabled', false);
                 }else {
                     $('#terminationButton').prop('disabled', true);
@@ -657,13 +658,13 @@
 
 
 
-                if (viewed == false || currentStatus == "Revision" ){
+                if (viewed == false || statusid == 2 ){
                     $('#editButton').prop('disabled',false);
                 }else {
                     $('#editButton').prop('disabled',true);
                 }
 
-                if (viewed == false || currentStatus == "In progress") {
+                if (viewed == false || statusid == 7) {
                     $("#deleteButton").prop('disabled',false);
                 }else {
                     $("#deleteButton").prop('disabled',true);

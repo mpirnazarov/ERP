@@ -278,7 +278,7 @@
                     <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
                 </div>
                 <div class="input-group" style="margin-top: 2%">
-                    <span class="input-group-addon" id="date-addon"><span class="reqfield">Date(Start/End):</span>
+                    <span class="input-group-addon" id="date-addon"><span class="reqfield"></span>Date(Start/End):</span>
                     <form:input type="date" class="form-control" style="width:36%" name="start"  path="start"/>
                     <form:input type="date" class="form-control" style="width:36%" name="end"  path="end"/>
                 </div>

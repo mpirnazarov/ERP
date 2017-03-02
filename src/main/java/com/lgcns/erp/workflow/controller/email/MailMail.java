@@ -17,7 +17,7 @@ public class MailMail
 		this.mailSender = mailSender;
 	}
 
-	public void sendMail(int[] idTo, int[] idCC, String subject, String msg) {
+	public void sendMail(int[] idTo, String subject, String msg) {
 
 		SimpleMailMessage message = new SimpleMailMessage();
 		String[] sentTo = new String[idTo.length];
@@ -27,17 +27,8 @@ public class MailMail
 			sentTo[i++] = UserService.getUserById(userId).geteMail();
 		}
 
-		String[] sentToCC = new String[idCC.length];
-		int j=0;
-		for (int userId :
-				idCC) {
-			sentToCC[j++] = UserService.getUserById(userId).geteMail();
-		}
-
 		message.setFrom("subscription@lgcns.uz");
 		message.setTo(sentTo);
-		if(sentToCC != null)
-			message.setCc(sentToCC);
 		message.setSubject(subject);
 		message.setText(msg);
 		mailSender.send(message);

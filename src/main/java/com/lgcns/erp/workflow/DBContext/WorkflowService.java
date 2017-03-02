@@ -44,7 +44,7 @@ public class WorkflowService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery(q+whereClause+" order by r.statusId, r.dateCreated");
+            Query query = session.createQuery(q+whereClause+" order by r.dateCreated desc, r.statusId");
             list = (List<RequestsEntity>)query.list();
             transaction.commit();
         }
@@ -55,7 +55,6 @@ public class WorkflowService {
         finally {
             session.close();
         }
-
 
         return list;
     }
@@ -206,7 +205,7 @@ public class WorkflowService {
         int newRowId = WorkflowToDoApproveService.getTheNextSequence(reqId, statusId, comment);
         if (newRowId != -1){
             WorkflowToDoApproveService.approve(reqId, statusId);
-            WorkflowToDoApproveService.setNewStep(newRowId);
+            WorkflowToDoApproveService.setNewStep(newRowId, reqId);
         }
     }
 

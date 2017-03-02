@@ -8,6 +8,7 @@ import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.workflow.DBContext.WorkflowDeleteService;
+import com.lgcns.erp.workflow.DBContext.WorkflowEmailService;
 import com.lgcns.erp.workflow.DBContext.WorkflowProgressService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
@@ -20,10 +21,15 @@ import com.lgcns.erp.workflow.ViewModel.TerminationViewModel;
 import com.lgcns.erp.workflow.ViewModel.DetailsViewModel;
 import com.lgcns.erp.workflow.ViewModel.LeaveApproveVM;
 import com.lgcns.erp.workflow.ViewModel.UnformattedViewModel;
+import com.lgcns.erp.workflow.controller.email.MailMail;
+import com.lgcns.erp.workflow.controller.email.MailMessage;
 import com.lgcns.erp.workflow.util.ContentType;
 import com.lgcns.erp.workflow.util.DetailsAction;
+import org.apache.commons.lang3.ArrayUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -228,6 +234,29 @@ public class DetailsController {
 
         System.out.println(id);
         WorkflowDeleteService.DeleteRequest(id, 8);
+
+        sendEmailAfterDelete(id);
         return "redirect:/Workflow/MyForms/Request";
+    }
+
+    private static void sendEmailAfterDelete(int id){
+        // E-mail is sent here
+        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+        MailMail mm = (MailMail) context.getBean("mailMail");
+        String subject = "";
+        String msg = "";
+        int[] to;
+
+        /* Sending to approvals*/
+        subject = MailMessage.generateSubject(id, 2, 1);
+        msg = MailMessage.generateMessage(id, 2, 1);
+        to = WorkflowEmailService.getInvolvementList(id, 1);
+        mm.sendMail(to, subject, msg);
+
+        /* Sending to references */
+        subject = MailMessage.generateSubject(id, 2, 3);
+        msg = MailMessage.generateMessage(id, 2, 3);
+        to = WorkflowEmailService.getInvolvementList(id, 3);
+        mm.sendMail(to, subject, msg);
     }
 }

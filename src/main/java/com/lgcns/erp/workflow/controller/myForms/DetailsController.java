@@ -1,5 +1,6 @@
 package com.lgcns.erp.workflow.controller.myForms;
 
+import com.github.amr.mimetypes.MimeTypes;
 import com.google.common.io.Files;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
@@ -36,12 +37,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -121,23 +124,41 @@ public class DetailsController {
     }
 
     @RequestMapping(value = "/files/{id}", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> getFile(@PathVariable("id") Long id) {
+    public void getFile(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
         String fullPath = WorkflowService.getAttachmentPathNameById(id);
         File file = new File(fullPath);
 
-        String ext = Files.getFileExtension(fullPath);
-
-        HttpHeaders respHeaders = new HttpHeaders();
-        respHeaders.setContentType(MediaType.valueOf(ContentType.getContentType(ext)));
-        respHeaders.setContentDispositionFormData("attachment", "");
-
-        InputStreamResource isr = null;
-        try {
-            isr = new InputStreamResource(new FileInputStream(file));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if(!file.exists()){
+            String errorMessage = "Sorry. The file you are looking for does not exist";
+            OutputStream outputStream = response.getOutputStream();
+            outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
+            outputStream.close();
         }
-        return new ResponseEntity<>(isr, respHeaders, HttpStatus.OK);
+
+        String mimeType= URLConnection.guessContentTypeFromName(file.getName());
+        if(mimeType==null){
+            System.out.println("mimetype is not detectable, will take default");
+            mimeType = "application/octet-stream";
+        }
+
+        System.out.println("mimetype : "+mimeType);
+
+        response.setContentType(mimeType);
+
+        /* "Content-Disposition : inline" will show viewable types [like images/text/pdf/anything viewable by browser] right on browser
+            while others(zip e.g) will be directly downloaded [may provide save as popup, based on your browser setting.]*/
+        response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() +"\""));
+
+
+        /* "Content-Disposition : attachment" will be directly download, may provide save as popup, based on your browser setting*/
+        //response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
+
+        response.setContentLength((int)file.length());
+
+        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+        //Copy bytes from source to destination(outputstream in this example), closes both streams.
+        FileCopyUtils.copy(inputStream, response.getOutputStream());
     }
 
     //Cancel

@@ -6,6 +6,7 @@
 <%@ page import="java.util.Calendar" %>
 <%@ page import="com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity" %>
 <%@ page import="com.lgcns.erp.tapps.model.DbEntities.ProjectsEntity" %>
+<%@ page import="java.io.*,java.util.Locale" %>
 <%--
   Created by IntelliJ IDEA.
   User: Rafatdin
@@ -20,7 +21,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageTitle" scope="request" value="Manage Workload"/>
-
+<fmt:setLocale value="en_US" scope="session"/>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 
 <style>
@@ -54,7 +55,7 @@
         <div class="table-responsive">
             <%
                 int tabindex = 1;
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
                 CalendarReturningModel model = (CalendarReturningModel) request.getAttribute("model");
                 Calendar c = Calendar.getInstance();
                 c.setTime(model.getMonday());
@@ -85,8 +86,12 @@
                         </div>
                     </th>
                     <th colspan="5">
-                        <div style="text-align:center"><h3><fmt:formatDate value="${model.monday}"
-                                                                           pattern="dd MMM yyy"/></h3></div>
+                        <div style="text-align:center"><h3>
+                            <%
+                            SimpleDateFormat simpleDF = new SimpleDateFormat("dd MMMM yyy",Locale.ENGLISH);
+                            out.print(simpleDF.format(model.getMonday()) + " - " + simpleDF.format(tempDateNext));
+                            %>
+                        </h3></div>
                     </th>
                     <th id="next">
                         <div style="text-align:center">
@@ -107,7 +112,7 @@
                             Calendar c = Calendar.getInstance();
                             c.setTime(day);
                             c.add(Calendar.DATE, daysToAdd);
-                            SimpleDateFormat sdf = new SimpleDateFormat(format);
+                            SimpleDateFormat sdf = new SimpleDateFormat(format,Locale.ENGLISH);
 
                             return sdf.format(c.getTime());
                         }

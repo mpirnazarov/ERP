@@ -233,6 +233,13 @@
     /* Send input from approval list to controller by AJAX */
     $(document).ready(function() {
 
+        var today = new Date();
+        var month = today.getMonth().toString().length == 1 ? "0" + today.getMonth().toString() : today.getMonth().toString();
+        var dayOfMonth = today.getDate().toString().length == 1 ? "0" + today.getDate().toString() : today.getDate().toString();
+        var todayString = today.getFullYear() + "-" + month + "-" + dayOfMonth;
+        $('#dateStart').val(todayString);
+        $('#dateEnd').val(todayString);
+
 
         var msg = "";
 

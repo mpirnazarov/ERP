@@ -67,6 +67,7 @@
     <style>
 
         #UserNavigationMenuDiv {
+
             background-color: rgb(76, 106, 108);
         }
 

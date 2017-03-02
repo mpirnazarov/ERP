@@ -335,6 +335,10 @@
         opacity: 1;
     }
 
+    #attachmentDiv {
+        margin-top: 2%;
+    }
+
     /*processssss CSSSS*/
 
 

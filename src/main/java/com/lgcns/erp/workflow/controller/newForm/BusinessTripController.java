@@ -201,11 +201,27 @@ public class BusinessTripController {
         // E-mail is sent here
         ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
         MailMail mm = (MailMail) context.getBean("mailMail");
-        String subject = MailMessage.generateSubject(requestId, 1);
-        String msg = MailMessage.generateMessage(requestId, 1);
-        int[] cc = (int[]) ArrayUtils.addAll(referencesGlobal, executivesGlobal);
+        String subject = "";
+        String msg = "";
+        int[] to;
 
-        mm.sendMail(approvalsGlobal, cc, subject, msg);
+        /* Sending to approvals*/
+        subject = MailMessage.generateSubject(requestId, 1, 1);
+        msg = MailMessage.generateMessage(requestId, 1, 1);
+        to = approvalsGlobal;
+        mm.sendMail(to, subject, msg);
+
+        /* Sending to references and executors */
+        subject = MailMessage.generateSubject(requestId, 1, 2);
+        msg = MailMessage.generateMessage(requestId, 1, 2);
+        to = (int[]) ArrayUtils.addAll(referencesGlobal, executivesGlobal);
+        mm.sendMail(to, subject, msg);
+
+        /* Sending to creator */
+        subject = MailMessage.generateSubject(requestId, 1, 4);
+        msg = MailMessage.generateMessage(requestId, 1, 4);
+        to[0] = UserService.getIdByUsername(principal.getName());
+        mm.sendMail(to, subject, msg);
 
         return "redirect: /Workflow/MyForms/Request";
     }

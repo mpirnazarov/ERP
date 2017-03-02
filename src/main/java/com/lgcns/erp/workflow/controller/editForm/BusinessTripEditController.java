@@ -1,11 +1,17 @@
 package com.lgcns.erp.workflow.controller.editForm;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.workflow.DBContext.WorkflowEmailService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.MembersEntity;
 import com.lgcns.erp.workflow.DBEntities.ToDoEntity;
 import com.lgcns.erp.workflow.Mapper.BusinessTripMapper;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
+import com.lgcns.erp.workflow.controller.email.MailMail;
+import com.lgcns.erp.workflow.controller.email.MailMessage;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -77,6 +83,33 @@ public class BusinessTripEditController {
 
             System.out.println("FILE WAS UPLOADED!");
         }
+
+        // E-mail is sent here
+        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+        MailMail mm = (MailMail) context.getBean("mailMail");
+        String subject = "";
+        String msg = "";
+        int[] to;
+
+
+        /* Sending to approvals*/
+        subject = MailMessage.generateSubject(reqId, 3, 1);
+        msg = MailMessage.generateMessage(reqId, 3, 1);
+        to = WorkflowEmailService.getInvolvementList(reqId, 1);
+        mm.sendMail(to, subject, msg);
+
+        /* Sending to references and executors */
+        subject = MailMessage.generateSubject(reqId, 3, 2);
+        msg = MailMessage.generateMessage(reqId, 3, 2);
+        to = (int[]) ArrayUtils.addAll(WorkflowEmailService.getInvolvementList(reqId, 2), WorkflowEmailService.getInvolvementList(reqId, 3));
+        mm.sendMail(to, subject, msg);
+
+        /* Sending to creator */
+        /*subject = MailMessage.generateSubject(reqId, 3, 4);
+        msg = MailMessage.generateMessage(reqId, 3, 4);
+        to[0] = UserService.getIdByUsername(principal.getName());
+        mm.sendMail(to, subject, msg);*/
+
         return "redirect: /Workflow/MyForms/details/2/"+reqId;
     }
 

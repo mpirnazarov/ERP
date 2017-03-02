@@ -647,9 +647,6 @@
                 var cstatus = "${model.status}";
                 var statusid = ${model.status_id};
 
-                alert(viewed);
-
-
                 if (statusid == 5 && formtype != 4) {
                     $('#terminationButton').prop('disabled', false);
                 }else {
@@ -692,7 +689,7 @@
             var endDate = "${bmodel.end.toString()}";
 
 
-            /*alert(members);*/
+
 
 
             if (domestic) {

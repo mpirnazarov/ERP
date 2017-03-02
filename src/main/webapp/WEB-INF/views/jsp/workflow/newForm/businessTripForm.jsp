@@ -29,7 +29,7 @@
         color: inherit;
     }
 
-    .sarvar {
+    .sarvar, .currencyInput {
         width: 100%;
     }
 
@@ -219,12 +219,12 @@
                             <tr style="color: black">
                                 <td><form:select path="membersEntityList[0].userId" items="${users}" cssClass="sarvar"/></td>
                                 <%--<td> <form:input type='text' name = "membersEntityList[0].organizationName" path="membersEntityList[0].organizationName"/> </td>--%>
-                                <td> <input type='date' name = "membersEntityList[0].dateFrom" /> </td>
-                                <td> <input type='date' name = "membersEntityList[0].dateTo" /> </td>
+                                <td> <input type='date' name = "membersEntityList[0].dateFrom"  class="memfrom"/> </td>
+                                <td> <input type='date' name = "membersEntityList[0].dateTo" class="memto"/> </td>
                                 <td><form:input type='number' name = "membersEntityList[0].expenseTransportation" min="0" path="membersEntityList[0].expenseTransportation"/></td>
                                 <td><form:input type='number' name = "membersEntityList[0].dailyAllowance" min="0" path="membersEntityList[0].dailyAllowance"/></td>
                                 <td><form:input type='number' name = "membersEntityList[0].expenseAccommodation" min="0" path="membersEntityList[0].expenseAccommodation"/></td>
-                                <td><form:select path="membersEntityList[0].accomodationCurrency" items="${currency}" cssClass="sarvar"/></td>
+                                <td><form:select path="membersEntityList[0].accomodationCurrency" items="${currency}" cssClass="currencyInput"/></td>
                                 <td><form:input type='number' name = "membersEntityList[0].expenseOther" min="0" path="membersEntityList[0].expenseOther"/></td>
                                 <td id="deleteRowTd"><a class="deleteRow"/></td>
                             </tr>
@@ -350,16 +350,66 @@
         }
 
         /*Business trip  members*/
-        if($("select.sarvar option:selected").text() == ""){
+        
+
+        var memflag = true;
+        $("select.sarvar option:selected").each(function () {
+            if ($(this).text().trim() == ""){
+                memflag = false;
+            }
+        });
+
+        $("select.currencyInput option:selected").each(function () {
+            if ($(this).text().trim() == "") {
+                memflag = false;
+            }
+        });
+
+
+
+        $("input.memfrom").each(function () {
+            var memfromvar = new Date($(this).val());
+            if (memfromvar == "Invalid Date") {
+                memflag = false;
+            }
+
+        });
+
+        $("input.memto").each(function () {
+            var memtovar = new Date($(this).val());
+            if (memtovar == "Invalid Date") {
+                memflag = false;
+            }
+
+        });
+
+
+
+
+        if(memflag == false){
             $('#myTablecha').css("border","2px solid red");
             /*$('#memberLabel').next('span').addClass('glyphicon-info-sign')*/
             flag = false;
-            msg += "⛔ At least one member should be selected" + "<br/>";
+            msg += "⛔ All fields of members table should be filled" + "<br/>";
 
         }else {
             $('#myTablecha').css("border", "1px solid #999999");
             /*$('#memberLabel').next('span').removeClass('glyphicon-info-sign')*/
         }
+
+
+        
+        
+        /*if($("select.sarvar option:selected").text() == ""){
+            $('#myTablecha').css("border","2px solid red");
+            /!*$('#memberLabel').next('span').addClass('glyphicon-info-sign')*!/
+            flag = false;
+            msg += "⛔ At least one member should be selected" + "<br/>";
+
+        }else {
+            $('#myTablecha').css("border", "1px solid #999999");
+            /!*$('#memberLabel').next('span').removeClass('glyphicon-info-sign')*!/
+        }*/
 
 
         /*Destination*/
@@ -535,6 +585,7 @@
             var date = document.createElement('input');
             date.setAttribute('type', 'date');
             date.name = "membersEntityList["+counter+"].dateFrom";
+            date.className = "memFrom";
             td.appendChild(date);
             tr.appendChild(td);
 
@@ -543,6 +594,7 @@
             var date = document.createElement('input');
             date.setAttribute('type', 'date');
             date.name = "membersEntityList["+counter+"].dateTo";
+            date.className = "memTo";
             td.appendChild(date);
             tr.appendChild(td);
 
@@ -578,7 +630,7 @@
             var select2 = document.createElement('select');
             select2.name = "membersEntityList["+counter+"].accomodationCurrency";
             /*elect.className = "form-control text-box single-line";*/
-            select2.className = 'sarvar';
+            select2.className = 'currencyInput';
 
             opt2 = document.createElement('option');
             opt2.value = "0";

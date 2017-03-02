@@ -155,18 +155,19 @@
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="page-header"style="border: none; margin-left: -3%; padding-top: 6%;"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Business trip</h2>
+        <h2 class="page-header"style="border: none; margin-left: -3%; padding-top: 6%;"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Business trip {EDIT}</h2>
 
 
         <form:form modelAttribute="businessTripVM" cssClass="form-horizontal" method="post" id="myform" enctype="multipart/form-data">
             <div class="w3-container b3form">
             <div class="form-header" style="padding-top: 1%">
                 <div class="input-group">
-                    <span class="input-group-addon" id="subject-addon">Subject:</span>
+                    <span class="input-group-addon" id="subject-addon"><span class="reqfield"></span>Subject:</span>
                     <form:input type="text" class="form-control" placeholder="" aria-describedby="subject-addon" path="subject" />
+                    <span class="glyphicon warningIcon " aria-hidden="true"></span>
                 </div>
                 <div class="input-group" style="margin-top: 1%">
-                    <span class="input-group-addon" id="saerchtype-addon">Type of business trip:</span>
+                    <span class="input-group-addon" id="saerchtype-addon"><span class="reqfield"></span>Type of business trip:</span>
                     <form:select class="form-control" aria-describedby="saerchtype-addon" path="tripType" items="${tripTypeList}">
                     </form:select>
 
@@ -181,7 +182,7 @@
 
                 </div>
                 <div class="input-group" style="margin-top: 1%">
-                    <span class="input-group-addon" id="destination-addon">Destination:</span>
+                    <span class="input-group-addon" id="destination-addon"><span class="reqfield"></span>Destination:</span>
                     <form:input type="text" class="form-control" placeholder="" aria-describedby="destination-addon" path="destination" />
                 </div>
                 <div class="input-group" style="margin-top: 1%">
@@ -191,7 +192,7 @@
                 </div>
                 <div class="form-group" style="margin-right: 0px; margin-left: 0px">
                     <label class="tableLabel"><span class="glyphicon glyphicon-user" aria-hidden="true" style="width: 2%; font-style: normal"></span>
-                        List of Business Trip members:
+                        <span class="reqfield"></span>List of Business Trip members:
                     </label>
                     <div id="myTablecha" style="overflow: auto; width: 100%">
                     <table class="table order-list table-bordered" style="background-color: #2b669a; color: inherit" id="myTable">
@@ -230,7 +231,7 @@
                     <input type="button" class="btn btn-normal" value="+ Add Row" id="addrow"/>
                 </div>
                 <div class="form-group" style="margin-right: 0px; margin-left: 0px">
-                    <label class="tableLabel"><span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="width: 2%; font-style: normal"></span>
+                    <label class="tableLabel"></span><span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="width: 2%; font-style: normal"></span>
                         Detail scheadule and To-do list:
                     </label>
                     <table class="table table-bordered" style="background-color: #2b669a; color: black"
@@ -277,7 +278,7 @@
                     <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
                 </div>
                 <div class="input-group" style="margin-top: 2%">
-                    <span class="input-group-addon" id="date-addon">Date(Start/End):</span>
+                    <span class="input-group-addon" id="date-addon"><span class="reqfield">Date(Start/End):</span>
                     <form:input type="date" class="form-control" style="width:36%" name="start"  path="start"/>
                     <form:input type="date" class="form-control" style="width:36%" name="end"  path="end"/>
                 </div>
@@ -304,9 +305,143 @@
     $(document).ready(function() {
         /*$("input[type=submit]").click(function ()*/
         $("#tv").click(function (){
+
+            /*VALIDATION*/
+
+
+
+            if ($("#subject").val().trim() == "") {
+                flag = false;
+                msg += "⛔ Subject cannot be empty" + "<br/>";
+                $('#subject').css("border","2px solid red");
+                $('#subject').next('span').addClass('glyphicon-info-sign');
+            }else {
+                $('#subject').css("border", "1px solid #999999");
+                $('#subject').next('span').removeClass('glyphicon-info-sign')
+            }
+
+            /* Subject cannot be empty*/
+            if($("#tripType option:selected").text() == ""){
+                $('#tripType').css("border","2px solid red");
+                $('#tripType').next('span').addClass('glyphicon-info-sign')
+                flag = false;
+                msg += "⛔ Trip type cannot be empty" + "<br/>";
+            }else {
+                $('#tripType').css("border", "1px solid #999999");
+                $('#tripType').next('span').removeClass('glyphicon-info-sign')
+            }
+
+            /*Business trip  members*/
+            if($("select.sarvar option:selected").text() == ""){
+                $('#myTablecha').css("border","2px solid red");
+                /*$('#memberLabel').next('span').addClass('glyphicon-info-sign')*/
+                flag = false;
+                msg += "⛔ At least one member should be selected" + "<br/>";
+            }else {
+                $('#myTablecha').css("border", "1px solid #999999");
+                /*$('#memberLabel').next('span').removeClass('glyphicon-info-sign')*/
+            }
+
+
+            /*Destination*/
+            if ($("#destination").val().trim() == "") {
+                flag = false;
+                msg += "⛔ Destination cannot be empty" + "<br/>";
+                $('#destination').css("border","2px solid red");
+                $('#destination').next('span').addClass('glyphicon-info-sign');
+            }else {
+                $('#destination').css("border", "1px solid #999999");
+                $('#destination').next('span').removeClass('glyphicon-info-sign')
+            }
+
+            /* Comments cannot be empty*/
+            /*if($("#comment").val().trim() == ""){
+             flag = false;
+             msg += "Comment cannot be empty \n";
+             }*/
+
+            /* file size limitation */
+            if($("#file").val().trim() != "") {
+                var size = 0;
+                input = document.getElementById('file');
+                for (var i = 0; i < input.files.length; i++) {
+                    size += input.files[0].size;
+                }
+                if (size > 104857600) {
+                    flag = false;
+                    msg += "⛔ Attached files cannot be more than 100MB" + "<br/>";
+                    $('#file').css("border","2px solid red");
+                    $('#file').next('span').addClass('glyphicon-info-sign');
+                }else {
+                    $('#file').css("border", "1px solid #999999");
+                    $('#file').next('span').removeClass('glyphicon-info-sign')
+                }
+            }
+
+            /* Start date cannot be more than end date*/
+
+            var dStart = new Date($("#dateStart").val());
+            var dEnd = new Date($("#dateEnd").val());
+
+            if(dStart > dEnd){
+                flag = false;
+                msg += "⛔ Start date cannot be later than end date" + "<br/>";
+                $('#dateStart').css("border","2px solid red");
+                $('#dateEnd').css("border","2px solid red");
+                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+            } else {
+                $('#dateStart').css("border", "1px solid #999999");
+                $('#dateEnd').css("border", "1px solid #999999");
+                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+            }
+
+
+            /* Date start cannot be empty */
+            if($("#dateStart").val().trim() == "") {
+                flag = false;
+                msg += "⛔ Start date cannot be empty" + "<br/>";
+                $("#dateStart").css("border","2px solid red");
+                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+            }else {
+                $('#dateStart').css("border", "1px solid #999999");
+                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+            }
+
+            /* Date end cannot be empty */
+            if($("#dateEnd").val().trim() == "") {
+                flag = false;
+                msg += "⛔ End date cannot be empty" + "<br/>";
+                $('#dateEnd').css("border","2px solid red");
+                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+            }else {
+                $('#dateEnd').css("border", "1px solid #999999");
+                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+            }
+
+            /*VALIDATION*/
+
+
+
             var a=[];
             var b=[];
             var c=[];
+
+            a = $("#approvals").children().siblings("input[type=text]").val();
+            if(a.length == 0)
+            {
+                msg += "⛔ At least one approval should be selected" + "<br/>";
+                flag = false;
+                $('#approvals').css("border","2px solid red");
+                $('#approvalSpan').addClass('glyphicon-info-sign');
+            } else {
+                $('#approvals').css("border", "1px solid #999999");
+                $('#approvalSpan').removeClass('glyphicon-info-sign');
+            }
+
+            if (!flag){
+                $('#message').html(msg);
+                $('#myModal').modal('show');
+            }
 
             a = $("#approvals").children().siblings("input[type=text]").val();
             b = $("#references").children().siblings("input[type=text]").val();
@@ -322,6 +457,7 @@
                     alert('Error: ' + e);
                 }
             });
+            return flag;
         });
     });
 

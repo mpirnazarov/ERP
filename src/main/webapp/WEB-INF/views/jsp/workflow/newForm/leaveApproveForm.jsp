@@ -331,7 +331,7 @@
             }
 
                 alert(flag);
-            if (flag == false){
+            if (flag != false){
                 $('#message').html(msg);
                 $('#myModal').modal('show');
             }

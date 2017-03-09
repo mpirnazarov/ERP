@@ -320,9 +320,10 @@
 <script type="text/javascript">
 
     var msg = "";
+    var flag = true;
 
     $("#tv3").click(function (){
-        var flag = true;
+        flag = true;
         msg = "";
 
         /*VALIDATION*/
@@ -395,20 +396,6 @@
         }
 
 
-        
-        
-        /*if($("select.sarvar option:selected").text() == ""){
-            $('#myTablecha').css("border","2px solid red");
-            /!*$('#memberLabel').next('span').addClass('glyphicon-info-sign')*!/
-            flag = false;
-            msg += "⛔ At least one member should be selected" + "<br/>";
-
-        }else {
-            $('#myTablecha').css("border", "1px solid #999999");
-            /!*$('#memberLabel').next('span').removeClass('glyphicon-info-sign')*!/
-        }*/
-
-
         /*Destination*/
         if ($("#destination").val().trim() == "") {
             flag = false;
@@ -420,13 +407,7 @@
             $('#destination').next('span').removeClass('glyphicon-info-sign')
         }
 
-        /* Comments cannot be empty*/
-        /*if($("#comment").val().trim() == ""){
-         flag = false;
-         msg += "Comment cannot be empty \n";
-         }*/
 
-        validateFile();
 
         /* Start date cannot be more than end date*/
 
@@ -471,7 +452,6 @@
         /*VALIDATION*/
 
 
-
         var a=[];
         var b=[];
         var c=[];
@@ -498,6 +478,9 @@
         a = $("#approvals").children().siblings("input[type=text]").val();
         b = $("#references").children().siblings("input[type=text]").val();
         c = $("#executives").children().siblings("input[type=text]").val();
+
+        validateFile();
+
         $.ajax({
             type : "POST",
             url : "/Workflow/NewForm/BusinessTripFormAjax",
@@ -526,6 +509,7 @@
                 msg += "⛔ Attached files cannot be more than 100MB" + "<br/>";
                 $('#file').css("border","2px solid red");
                 $('#file').next('span').addClass('glyphicon-info-sign');
+                $("#file").val("");
                 isTrue = false;
             }else {
                 $('#file').css("border", "1px solid #999999");
@@ -534,6 +518,11 @@
             }
         }
     }
+
+    /*function setDefaultValueToEmptyTodoDate() {
+        var todocount = $(".dateInput").count();
+        alert(todocount);
+    }*/
 
 
 </script>

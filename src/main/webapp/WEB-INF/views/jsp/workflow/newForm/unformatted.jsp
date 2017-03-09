@@ -108,8 +108,7 @@
         </p>--%>
         <h2 class="page-header" style="border: none; padding-top: 6%"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Unformatted</h2>
 
-        <form:form modelAttribute="unformattedVM" cssClass="form-horizontal" method="post" id="myform"
-                   enctype="multipart/form-data">
+        <form:form modelAttribute="unformattedVM" cssClass="form-horizontal" method="post" id="myform" enctype="multipart/form-data">
             <div class="w3-container b3form paper">
                 <div class="form-header" style="padding-top: 1%">
 
@@ -180,7 +179,6 @@
                     </div>
                 </div>
             </div>
-
     </div>
 
 </div>
@@ -194,9 +192,9 @@
         var month = today.getMonth().toString().length == 1 ? "0" + today.getMonth().toString() : today.getMonth().toString();
         var dayOfMonth = today.getDate().toString().length == 1 ? "0" + today.getDate().toString() : today.getDate().toString();
          var todayString = today.getFullYear() + "-" + month + "-" + dayOfMonth;
-         $('#dateStart').val(todayString);
+        /* $('#dateStart').val(todayString);
          $('#dateEnd').val(todayString);
-
+*/
         var msg = "";
         $("#tv").click(function () {
             var flag = true;
@@ -323,14 +321,52 @@
             return flag;
         });
 
+        var isTrue = true;
+
+        function validateFile() {
+            /* file size limitation */
+            if($("#file").val().trim() != "") {
+                var size = 0;
+                input = document.getElementById('file');
+                for (var i = 0; i < input.files.length; i++) {
+                    size += input.files[0].size;
+                }
+                if (size > 104857600) {
+                    /*
+                     msg += "⛔ Attached files cannot be more than 100MB" + "<br/>";
+                     */
+                    $('#file').css("border","2px solid red");
+                    $('#file').next('span').addClass('glyphicon-info-sign');
+                    flag = false;
+                    isTrue = false;
+                }else {
+                    $('#file').css("border", "1px solid #999999");
+                    $('#file').next('span').removeClass('glyphicon-info-sign');
+                    flag = true;
+                    isTrue = true;
+                }
+            }
+        }
+
         $("#tv2").click(function (){
 
-            var dStart = new Date($("#dateStart").val());
-            var dEnd = new Date($("#dateEnd").val());
 
-            alert(dStart);
-            alert(dEnd);
+            var dEnd = $("#dateEnd").datepicker({format: "mm-dd-yyyy"}).val();
+            var dStart = $("#dateStart").datepicker({format: "mm-dd-yyyy"}).val();
 
+            var year = "1111";
+            var month = "11";
+            var dayOfMonth = "11";
+            var todayString = year + "-" + month + "-" + dayOfMonth;
+
+            validateFile();
+            if(dStart==""&&isTrue){
+                $("#dateStart").val(todayString);
+             }
+
+            if(dEnd==""&&isTrue){
+                $("#dateEnd").val(todayString);
+             }
 
             var a=[];
             var b=[];
@@ -349,6 +385,8 @@
                     alert('Error: ' + e);
                 }
             });
+
+            return isTrue;
         });
     });
 
@@ -358,10 +396,7 @@
         $("#demo-input-local2").tokenInput(${jsonData});
         $("#demo-input-local3").tokenInput(${jsonData});
 
-
     });
-
-
 </script>
 
 

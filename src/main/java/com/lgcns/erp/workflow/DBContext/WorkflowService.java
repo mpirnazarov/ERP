@@ -244,11 +244,10 @@ public class WorkflowService {
         try {
             transaction = session.beginTransaction();
             //Set foreign key items
-/*
-            requestsEntity.setTripTypesByTripTypeId(session.load(TripTypesEntity.class, requestsEntity.getTripTypeId()));
-*/
+
+            //requestsEntity.setTripTypesByTripTypeId(session.load(TripTypesEntity.class, requestsEntity.getTripTypeId()));
             //Save the object in database
-           int id = (int)session.save(requestsEntity);
+            int id = (int)session.save(requestsEntity);
             System.out.println(id);
             //Commit the transaction
             transaction.commit();

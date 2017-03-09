@@ -15,6 +15,8 @@ import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.TripTypesEntity;
 import com.lgcns.erp.workflow.Enums.LeaveType;
+import com.lgcns.erp.workflow.Enums.Status;
+import com.lgcns.erp.workflow.Enums.Type;
 import com.lgcns.erp.workflow.Mapper.*;
 import com.lgcns.erp.workflow.Model.Approver;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
@@ -46,9 +48,7 @@ import java.io.*;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by DS on 15.02.2017.
@@ -125,9 +125,10 @@ public class DetailsController {
 
     @RequestMapping(value = "/files/{id}", method = RequestMethod.GET)
     public void getFile(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
-        String fullPath = WorkflowService.getAttachmentPathNameById(id);
-        File file = new File(fullPath);
 
+        String fullPath = WorkflowService.getAttachmentPathNameById(id);
+
+        File file = new File(fullPath);
         if(!file.exists()){
             String errorMessage = "Sorry. The file you are looking for does not exist";
             OutputStream outputStream = response.getOutputStream();
@@ -141,24 +142,12 @@ public class DetailsController {
             mimeType = "application/octet-stream";
         }
 
-        System.out.println("mimetype : "+mimeType);
-
         response.setContentType(mimeType);
-
-        /* "Content-Disposition : inline" will show viewable types [like images/text/pdf/anything viewable by browser] right on browser
-            while others(zip e.g) will be directly downloaded [may provide save as popup, based on your browser setting.]*/
         response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() +"\""));
-
-
-        /* "Content-Disposition : attachment" will be directly download, may provide save as popup, based on your browser setting*/
-        //response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
-
         response.setContentLength((int)file.length());
-
         InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-
-        //Copy bytes from source to destination(outputstream in this example), closes both streams.
         FileCopyUtils.copy(inputStream, response.getOutputStream());
+
     }
 
     //Cancel
@@ -252,11 +241,12 @@ public class DetailsController {
 
     @RequestMapping(value = "/Delete/{id}")
     public String delete(@PathVariable("id")int id){
+        RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(id);
 
-        System.out.println(id);
+        if (requestsEntity.getStatusId()!= Status.Draft.getValue())
+            sendEmailAfterDelete(id);
+
         WorkflowDeleteService.DeleteRequest(id, 8);
-
-        sendEmailAfterDelete(id);
         return "redirect:/Workflow/MyForms/Request";
     }
 
@@ -268,16 +258,24 @@ public class DetailsController {
         String msg = "";
         int[] to;
 
+
         /* Sending to approvals*/
         subject = MailMessage.generateSubject(id, 2, 1);
         msg = MailMessage.generateMessage(id, 2, 1);
         to = WorkflowEmailService.getInvolvementList(id, 1);
-        mm.sendMail(to, subject, msg);
+        System.out.println(to.length);
+        if (to.length!=0) {
+            mm.sendMail(to, subject, msg);
+            to = null;
+        }
 
         /* Sending to references */
         subject = MailMessage.generateSubject(id, 2, 3);
         msg = MailMessage.generateMessage(id, 2, 3);
-        to = WorkflowEmailService.getInvolvementList(id, 3);
-        mm.sendMail(to, subject, msg);
+
+        if (to.length!=0){
+            to = WorkflowEmailService.getInvolvementList(id, 3);
+            mm.sendMail(to, subject, msg);
+        }
     }
 }

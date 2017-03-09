@@ -19,8 +19,20 @@ public class LeaveApproveMapper {
         // Type of workflow. 1-Business trip
         requestsEntity.setTripTypeId(1);
         requestsEntity.setTypeId(typeId);
-        requestsEntity.setDateFrom(leaveApproveVM.getStart());
-        requestsEntity.setDateTo(leaveApproveVM.getEnd());
+
+        //If Date is coming null
+        if (leaveApproveVM.getStart().toString().equals("1111-11-11")){
+            requestsEntity.setDateFrom(null);
+        }else {
+            requestsEntity.setDateFrom(leaveApproveVM.getStart());
+        }
+
+        if (leaveApproveVM.getEnd().toString().equals("1111-11-11")){
+            requestsEntity.setDateTo(null);
+        }else {
+            requestsEntity.setDateTo(leaveApproveVM.getEnd());
+        }
+
         requestsEntity.setDescription(leaveApproveVM.getDescription().replace("\n", "").replace("\r", ""));
         // By default workflow status will be in progress = 1
         requestsEntity.setStatusId(statusId);

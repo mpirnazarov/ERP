@@ -19,8 +19,21 @@ public class UnformattedMapper {
         // Type of workflow. 1-Business trip, 2-Leave approve, 3-Unformatted
         requestsEntity.setTypeId(typeId);
         requestsEntity.setTripTypeId(1);
-        requestsEntity.setDateFrom(unformattedVM.getStart());
-        requestsEntity.setDateTo(unformattedVM.getEnd());
+
+        //if date is coming null
+        if (unformattedVM.getStart().toString().equals("1111-11-11")){
+            requestsEntity.setDateFrom(null);
+        }else {
+            requestsEntity.setDateFrom(unformattedVM.getStart());
+        }
+
+        if (unformattedVM.getEnd().toString().equals("1111-11-11")){
+            requestsEntity.setDateTo(null);
+        }
+        else {
+            requestsEntity.setDateTo(unformattedVM.getEnd());
+        }
+
         requestsEntity.setDescription(unformattedVM.getDescription());
         // By default workflow status will be in progress = 1
         requestsEntity.setStatusId(statusId);

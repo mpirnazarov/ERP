@@ -95,12 +95,13 @@
         <div class="w3-container b3form">
             <div class="divBody" style="padding: 1% 0 2% 0;">
 
-                <div class="input-group" style="margin-top: 1%">
+                <div class="input-group" id="subject-container" style="margin-top: 1%">
                     <span class="input-group-addon" id="saerchtype-addon">Subject:</span>
                     <div class="div" id="subject">
                         <input type="text" class="form-control" value="${termination.subject}"
                                id="termination_subject"/>
                     </div>
+                    <span class="glyphicon glyphicon-record" id="error_subject" style="display: none">Description cannot be empty</span>
                 </div>
 
                 <div class="input-group" id="desc_container" style="margin-top: 2%">
@@ -166,7 +167,9 @@
 </div>--%>
 
 <script type="text/javascript">
+    var isTrue = false;
     $(document).ready(function () {
+
         /*$("input[type=submit]").click(function ()*/
         $("#submit_btn").click(function () {
             var a = [];
@@ -196,6 +199,9 @@
                     alert('Error: ');
                 }
             });
+
+            alert(isTrue);
+            return false;
         });
     });
 
@@ -213,18 +219,40 @@
 
     //validation
     $(document).ready(function () {
+
+
+        $('#termination_subject').blur(function () {
+            if ($(this).val().trim() == "") {
+                /*$('#error_desc').css("display", "block");*/
+                $("#submit_btn").prop("disabled", true);
+                $('#subject-container').addClass('has-error has-feedback');
+                isTrue = false;
+
+            } else {
+                $('#error_subject').css("display", "none");
+                $("#submit_btn").prop("disabled", false);
+                $('#subject-container').removeClass('has-error has-feedback');
+                isTrue = true;
+            }
+        });
+
         $('#termination_desc').blur(function () {
             if ($(this).val().trim() == "") {
                 /*$('#error_desc').css("display", "block");*/
                 $("#submit_btn").prop("disabled", true);
                 $('#desc_container').addClass('has-error has-feedback');
+                isTrue = false;
 
             } else {
                 $('#error_desc').css("display", "none");
                 $("#submit_btn").prop("disabled", false);
                 $('#desc_container').removeClass('has-error has-feedback');
+                isTrue = true;
             }
         });
+
     });
+
+
 
 </script>

@@ -18,10 +18,13 @@ import com.lgcns.erp.workflow.controller.email.MailMessage;
 import org.apache.commons.lang3.ArrayUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,10 +32,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by DScomputers3 on 20.01.2017.
@@ -211,22 +212,30 @@ public class BusinessTripController {
         subject = MailMessage.generateSubject(requestId, 1, 1);
         msg = MailMessage.generateMessage(requestId, 1, 1);
         to = approvalsGlobal;
-        mm.sendMail(to, subject, msg);
-
+        if (to.length!=0){
+            mm.sendMail(to, subject, msg);
+            to = null;
+        }
         /* Sending to references and executors */
         subject = MailMessage.generateSubject(requestId, 1, 2);
         msg = MailMessage.generateMessage(requestId, 1, 2);
         to = (int[]) ArrayUtils.addAll(referencesGlobal, executivesGlobal);
-        mm.sendMail(to, subject, msg);
-
+        if (to.length!=0){
+            mm.sendMail(to, subject, msg);
+            to = null;
+        }
         /* Sending to creator */
         subject = MailMessage.generateSubject(requestId, 1, 4);
         msg = MailMessage.generateMessage(requestId, 1, 4);
+        to = new int[1];
         to[0] = UserService.getIdByUsername(principal.getName());
-        mm.sendMail(to, subject, msg);
-
+        if (to.length!=0){
+            mm.sendMail(to, subject, msg);
+            to = null;
+        }
         return "redirect: /Workflow/MyForms/Request";
     }
+
 
     @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.POST, params = "Save")
     public String BusinessTripPostSave(@ModelAttribute BusinessTripVM businessTripVM, Principal principal) throws IOException {
@@ -239,38 +248,52 @@ public class BusinessTripController {
         businessTripVM.setId(requestId);
 
         /* Insert to table Members */
-        for (MembersEntity member :
-                businessTripVM.getMembersEntityList()) {
-            WorkflowService.insertMembers(BusinessTripMapper.membersMapper(businessTripVM, member, userId));
-        }
+             for (MembersEntity member :
+                    businessTripVM.getMembersEntityList()) {
+                 if (member.getUserId()!=0)
+                    WorkflowService.insertMembers(BusinessTripMapper.membersMapper(businessTripVM, member, userId));
+             }
 
         /* Insert to table to_do */
-        for (ToDoEntity todo :
-                businessTripVM.getToDoEntityList()) {
-            WorkflowService.insertToDo(BusinessTripMapper.toDoMapper(businessTripVM.getId(), todo));
-        }
+             for (ToDoEntity todo :
+                    businessTripVM.getToDoEntityList()) {
+                 if (todo.getRequestId() != 0)
+                    WorkflowService.insertToDo(BusinessTripMapper.toDoMapper(businessTripVM.getId(), todo));
+            }
+
 
         /*  Insert attachments info to table Attachments */
-        for (MultipartFile attachment :
-                businessTripVM.getFile()) {
-            WorkflowService.insertAttachments(BusinessTripMapper.attachmentsMapper(businessTripVM.getId(), attachment));
-        }
+
+            for (MultipartFile attachment :
+                    businessTripVM.getFile()) {
+                if (attachment.getSize()!=0)
+                    WorkflowService.insertAttachments(BusinessTripMapper.attachmentsMapper(businessTripVM.getId(), attachment));
+            }
+
+
 
         int count=1;
         /* Insert to table steps */
-        for (int num :approvalsGlobal) {
-            System.out.println("Approvals: " + num);
-            WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), num, 1, count++, 4, false));
+
+        if (approvalsGlobal != null){
+            for (int num :approvalsGlobal) {
+                System.out.println("Approvals: " + num);
+                WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), num, 1, count++, 4, false));
+            }
         }
 
-        for (int num :executivesGlobal) {
-            System.out.println("Executives: " + num);
-            WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), num, 2, 0, 4, false));
+        if (executivesGlobal != null){
+            for (int num :executivesGlobal) {
+                System.out.println("Executives: " + num);
+                WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), num, 2, 0, 4, false));
+            }
         }
 
-        for (int num :referencesGlobal) {
-            System.out.println("References: " + num);
-            WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), num, 3, 0, 4, false));
+        if (referencesGlobal != null){
+            for (int num :referencesGlobal) {
+                System.out.println("References: " + num);
+                WorkflowService.insertSteps(BusinessTripMapper.stepsMapper(businessTripVM.getId(), num, 3, 0, 4, false));
+            }
         }
 
         System.out.println("FORM:   BUSINESS TRIP: " + businessTripVM.toString());

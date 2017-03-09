@@ -7,6 +7,8 @@ import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
+import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
+import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Mapper.UnformattedMapper;
 import com.lgcns.erp.workflow.ViewModel.UnformattedViewModel;
 import com.lgcns.erp.workflow.controller.email.MailMail;
@@ -14,17 +16,24 @@ import com.lgcns.erp.workflow.controller.email.MailMessage;
 import org.apache.commons.lang3.ArrayUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletException;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -160,40 +169,27 @@ public class UnformattedController {
             }
         }
 
-        // E-mail is sent here
-        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-        MailMail mm = (MailMail) context.getBean("mailMail");
-        String subject = "";
-        String msg = "";
-        int[] to;
 
-        /* Sending to approvals*/
-        subject = MailMessage.generateSubject(requestId, 1, 1);
-        msg = MailMessage.generateMessage(requestId, 1, 1);
-        to = approvalsGlobal;
-        mm.sendMail(to, subject, msg);
-
-        /* Sending to references and executors */
-        subject = MailMessage.generateSubject(requestId, 1, 2);
-        msg = MailMessage.generateMessage(requestId, 1, 2);
-        to = (int[]) ArrayUtils.addAll(referencesGlobal, executivesGlobal);
-        mm.sendMail(to, subject, msg);
-
-        /* Sending to creator */
-        subject = MailMessage.generateSubject(requestId, 1, 4);
-        msg = MailMessage.generateMessage(requestId, 1, 4);
-        to[0] = UserService.getIdByUsername(principal.getName());
-        mm.sendMail(to, subject, msg);
+        sendEmail(requestId, principal);
 
 
         return "redirect: /Workflow/MyForms/Request";
     }
 
+
+   /* @InitBinder
+    public void initBinder( WebDataBinder binder) throws ServletException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+    }
+*/
     @RequestMapping(value = "NewForm/Unformatted", method = RequestMethod.POST, params = "Save")
     public String NewUnformattedSave(@ModelAttribute UnformattedViewModel unformattedVM, Principal principal) throws IOException {
 
         int userId = UserService.getIdByUsername(principal.getName());
 
+        System.out.println(unformattedVM.getEnd().toString());
         /* Insert to table Requests */
 
         int requestId = WorkflowService.insertRequests(UnformattedMapper.requestMapper(unformattedVM, userId, 3, 4, false));
@@ -209,23 +205,30 @@ public class UnformattedController {
 
         int count=1;
         /* Insert to table steps */
-        for (int num :
-                approvalsGlobal) {
-            System.out.println("Approvals: " + num);
-            WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), num, 1, count++, 4, false));
+        if (approvalsGlobal!=null){
+            for (int num :
+                    approvalsGlobal) {
+                System.out.println("Approvals: " + num);
+                WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), num, 1, count++, 4, false));
+            }
         }
 
-        for (int num :
-                executivesGlobal) {
-            System.out.println("Executives: " + num);
-            WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), num, 2, 0, 4, false));
+        if (executivesGlobal!=null){
+            for (int num :
+                    executivesGlobal) {
+                System.out.println("Executives: " + num);
+                WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), num, 2, 0, 4, false));
+            }
         }
 
-        for (int num :
-                referencesGlobal) {
-            System.out.println("References: " + num);
-            WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), num, 3, 0, 4, false));
+        if (referencesGlobal!=null){
+            for (int num :
+                    referencesGlobal) {
+                System.out.println("References: " + num);
+                WorkflowService.insertSteps(UnformattedMapper.stepsMapper(unformattedVM.getId(), num, 3, 0, 4, false));
+            }
         }
+
         System.out.println("FORM:   LEAVE APPROVAL: " + unformattedVM.toString());
 
         /* File upload */
@@ -246,8 +249,10 @@ public class UnformattedController {
             System.out.println("FILE WAS UPLOADED!");
         }
 
+        return "redirect: /Workflow/MyForms/Request";
+    }
 
-
+    private void sendEmail(int requestId, Principal principal){
         // E-mail is sent here
         ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
         MailMail mm = (MailMail) context.getBean("mailMail");
@@ -259,21 +264,53 @@ public class UnformattedController {
         subject = MailMessage.generateSubject(requestId, 1, 1);
         msg = MailMessage.generateMessage(requestId, 1, 1);
         to = approvalsGlobal;
+        if (to.length!=0){
+            mm.sendMail(to, subject, msg);
+            to = null;
+        }
+        /* Sending to references and executors */
+        subject = MailMessage.generateSubject(requestId, 1, 2);
+        msg = MailMessage.generateMessage(requestId, 1, 2);
+        to = (int[]) ArrayUtils.addAll(referencesGlobal, executivesGlobal);
+        if (to.length!=0){
+            mm.sendMail(to, subject, msg);
+            to = null;
+        }
+        /* Sending to creator */
+        subject = MailMessage.generateSubject(requestId, 1, 4);
+        msg = MailMessage.generateMessage(requestId, 1, 4);
+        to = new int[1];
+        to[0] = UserService.getIdByUsername(principal.getName());
+        if (to.length!=0){
+            mm.sendMail(to, subject, msg);
+            to = null;
+        }
+
+      /*  // E-mail is sent here
+        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+        MailMail mm = (MailMail) context.getBean("mailMail");
+        String subject = "";
+        String msg = "";
+        int[] to;
+
+        *//* Sending to approvals*//*
+        subject = MailMessage.generateSubject(requestId, 1, 1);
+        msg = MailMessage.generateMessage(requestId, 1, 1);
+        to = approvalsGlobal;
         mm.sendMail(to, subject, msg);
 
-        /* Sending to references and executors */
+        *//* Sending to references and executors *//*
         subject = MailMessage.generateSubject(requestId, 1, 2);
         msg = MailMessage.generateMessage(requestId, 1, 2);
         to = (int[]) ArrayUtils.addAll(referencesGlobal, executivesGlobal);
         mm.sendMail(to, subject, msg);
 
-        /* Sending to creator */
+        *//* Sending to creator *//*
         subject = MailMessage.generateSubject(requestId, 1, 4);
         msg = MailMessage.generateMessage(requestId, 1, 4);
         to[0] = UserService.getIdByUsername(principal.getName());
-        mm.sendMail(to, subject, msg);
+        mm.sendMail(to, subject, msg);*/
 
-        return "redirect: /Workflow/MyForms/Request";
     }
 
     @RequestMapping(value = "/NewForm/UnformattedFormAjax", method = RequestMethod.POST)

@@ -22,8 +22,4 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	<bean id="mailMail" class="com.lgcns.erp.workflow.controller.email.MailMail">
 		<property name="mailSender" ref="mailSender" />
 	</bean>
-	
-
-
-
 </beans>

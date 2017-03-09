@@ -383,9 +383,6 @@
 
         });
 
-
-
-
         if(memflag == false){
             $('#myTablecha').css("border","2px solid red");
             /*$('#memberLabel').next('span').addClass('glyphicon-info-sign')*/
@@ -429,23 +426,7 @@
          msg += "Comment cannot be empty \n";
          }*/
 
-        /* file size limitation */
-        if($("#file").val().trim() != "") {
-            var size = 0;
-            input = document.getElementById('file');
-            for (var i = 0; i < input.files.length; i++) {
-                size += input.files[0].size;
-            }
-            if (size > 104857600) {
-                flag = false;
-                msg += "⛔ Attached files cannot be more than 100MB" + "<br/>";
-                $('#file').css("border","2px solid red");
-                $('#file').next('span').addClass('glyphicon-info-sign');
-            }else {
-                $('#file').css("border", "1px solid #999999");
-                $('#file').next('span').removeClass('glyphicon-info-sign')
-            }
-        }
+        validateFile();
 
         /* Start date cannot be more than end date*/
 
@@ -529,10 +510,76 @@
         });
         return flag;
     });
+
+    var isTrue = true;
+
+    function validateFile() {
+        /* file size limitation */
+        if($("#file").val().trim() != "") {
+            var size = 0;
+            input = document.getElementById('file');
+            for (var i = 0; i < input.files.length; i++) {
+                size += input.files[0].size;
+            }
+            if (size > 104857600) {
+                flag = false;
+                msg += "⛔ Attached files cannot be more than 100MB" + "<br/>";
+                $('#file').css("border","2px solid red");
+                $('#file').next('span').addClass('glyphicon-info-sign');
+                isTrue = false;
+            }else {
+                $('#file').css("border", "1px solid #999999");
+                $('#file').next('span').removeClass('glyphicon-info-sign')
+                isTrue = true;
+            }
+        }
+    }
+
+
 </script>
 
 
 <script type="text/javascript">
+
+    $("#tv2").click(function (){
+        var a=[];
+        var b=[];
+        var c=[];
+
+        var year = "1111";
+        var month = "11";
+        var dayOfMonth = "11";
+        var todayString = year + "-" + month + "-" + dayOfMonth;
+
+        validateFile();
+
+        if(isTrue){
+            $('input[type="date"]').each(function () {
+                if($(this).val()==""){
+                    $(this).val(todayString);
+                }
+            });
+        }
+
+        a = $("#approvals").children().siblings("input[type=text]").val();
+        b = $("#references").children().siblings("input[type=text]").val();
+        c = $("#executives").children().siblings("input[type=text]").val();
+        $.ajax({
+            type : "POST",
+            url : "/Workflow/NewForm/BusinessTripFormAjax",
+            data :'approvals='+a+'&references='+b+'&executives='+c,
+            success : function(response) {
+
+            },
+            error : function(e) {
+                alert('Error: ' + e);
+            }
+        });
+
+        return isTrue;
+    });
+
+
 
     /* Send json data for approvals list*/
     $(document).ready(function () {

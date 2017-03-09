@@ -44,12 +44,17 @@ public class WorkFlowToDoRejectService {
         subject = MailMessage.generateSubject(requestId, 7, 1);
         msg = MailMessage.generateMessage(requestId, 7, 1);
         to = WorkflowEmailService.getInvolvementList(requestId, 1);
-        mm.sendMail(to, subject, msg);
-
+        if (to.length!=0) {
+            mm.sendMail(to, subject, msg);
+            to = null;
+        }
         /* Sending to creator */
         subject = MailMessage.generateSubject(requestId, 7, 4);
         msg = MailMessage.generateMessage(requestId, 7, 4);
         to[0] = WorkflowService.getRequestsEntityById(requestId).getUserFromId();
-        mm.sendMail(to, subject, msg);
+        if (to.length!=0) {
+            mm.sendMail(to, subject, msg);
+            to = null;
+        }
     }
 }

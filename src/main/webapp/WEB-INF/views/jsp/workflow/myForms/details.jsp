@@ -335,7 +335,7 @@
         opacity: 1;
     }
 
-    #attachmentDiv {
+    .attachmentDiv {
         margin-top: 2%;
     }
 
@@ -453,10 +453,17 @@
                     <div class="input-group" style="width: 100%; margin-top: 1%">
                         <span class="input-group-addon" id="attach-addon" style="width: 35%">Attachment:</span>
                         <c:forEach items="${model.attachments}" var="attachment">
-
-                            <div id="attachmentDiv"><span class="glyphicon glyphicon-list-alt"
+                            <div class="attachmentDiv"><span class="glyphicon glyphicon-list-alt"
                                                           aria-hidden="false"></span>
+                            <c:choose>
+                                <c:when test="${attachment.id == '0'}">
+                                <a href="#">${attachment.fileName}</a></div>
+                                </c:when>
+                                <c:otherwise>
                                 <a href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a></div>
+                                </c:otherwise>
+                            </c:choose>
+
                         </c:forEach>
 
                     </div>
@@ -972,7 +979,7 @@
                 data: 'comment=' + comment + '&status=' + status + '&reqId=' + reqId,
                 url: '${pageContext.request.contextPath}/Workflow/MyForms/details',
                 success: function () {
-                    alert("Success");
+                    window.location.href = "/Workflow/MyForms/todo/load";
                 },
                 error: function () {
                     window.location.href = "/Workflow/MyForms/todo/load";

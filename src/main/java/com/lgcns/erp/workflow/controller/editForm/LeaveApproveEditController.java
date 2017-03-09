@@ -133,11 +133,15 @@ public class LeaveApproveEditController {
             msg = MailMessage.generateMessage(reqId, 3, 1);
 
             to = WorkflowEmailService.getInvolvementList(reqId, 1);
-            mm.sendMail(to, subject, msg);
-
+            if (to.length!=0){
+                mm.sendMail(to, subject, msg);
+                to=null;
+            }
             /* Sending to references and executors */
             to = (int[]) ArrayUtils.addAll(WorkflowEmailService.getInvolvementList(reqId, 2), WorkflowEmailService.getInvolvementList(reqId, 3));
-            mm.sendMail(to, subject, msg);
+            if (to.length!=0){
+                mm.sendMail(to, subject, msg);
+            }
         }
 
         /* Sending to creator (Creator is not taking the message in case of editing) */

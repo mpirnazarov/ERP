@@ -272,9 +272,8 @@ public class DetailsController {
         /* Sending to references */
         subject = MailMessage.generateSubject(id, 2, 3);
         msg = MailMessage.generateMessage(id, 2, 3);
-
+        to = WorkflowEmailService.getInvolvementList(id, 3);
         if (to.length!=0){
-            to = WorkflowEmailService.getInvolvementList(id, 3);
             mm.sendMail(to, subject, msg);
         }
     }

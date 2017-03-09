@@ -89,13 +89,17 @@ public class WorkflowToDoApproveService {
         subject = MailMessage.generateSubject(requestId, 5, 2);
         msg = MailMessage.generateMessage(requestId, 5, 2);
         to = (int[]) ArrayUtils.addAll(WorkflowEmailService.getInvolvementList(requestId, 2), WorkflowEmailService.getInvolvementList(requestId, 3));
-        mm.sendMail(to, subject, msg);
-
+        if (to.length!=0) {
+            mm.sendMail(to, subject, msg);
+            to = null;
+        }
         /* Sending to creator */
         subject = MailMessage.generateSubject(requestId, 4, 4);
         msg = MailMessage.generateMessage(requestId, 4, 4);
         to[0] = WorkflowService.getRequestsEntityById(requestId).getUserFromId();
-        mm.sendMail(to, subject, msg);
+        if (to.length!=0) {
+            mm.sendMail(to, subject, msg);
+         }
     }
 
     private static void addHours(RequestsEntity entity){
@@ -217,13 +221,17 @@ public class WorkflowToDoApproveService {
         subject = MailMessage.generateSubject(requestId, 4, 1);
         msg = MailMessage.generateMessage(requestId, 4, 1);
         to[0] = nextApproverId;
-        mm.sendMail(to, subject, msg);
-
+        if (to.length!=0) {
+            mm.sendMail(to, subject, msg);
+            to = null;
+        }
          /* Sending to creator */
         subject = MailMessage.generateSubject(requestId, 4, 4);
         msg = MailMessage.generateMessage(requestId, 4, 4);
         to[0] = WorkflowService.getRequestsEntityById(requestId).getUserFromId();
-        mm.sendMail(to, subject, msg);
+        if (to.length!=0) {
+            mm.sendMail(to, subject, msg);
+        }
     }
 
     public static void submitRequest(int requestId, int statusId){

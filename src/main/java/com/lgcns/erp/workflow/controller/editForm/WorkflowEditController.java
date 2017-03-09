@@ -194,9 +194,7 @@ public class WorkflowEditController {
 
     @RequestMapping(value = "/{reqId}", method = RequestMethod.POST, params = "Save")
     public String WorkflowPostSave(@ModelAttribute LeaveApproveVM leaveApproveVM, Principal principal, @PathVariable int reqId) throws IOException {
-
         int userId = UserService.getIdByUsername(principal.getName());
-
 
         leaveApproveVM.setId(reqId);
 

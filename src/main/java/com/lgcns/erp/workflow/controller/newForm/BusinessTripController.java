@@ -148,7 +148,8 @@ public class BusinessTripController {
         /* Insert to table to_do */
         for (ToDoEntity todo :
                 businessTripVM.getToDoEntityList()) {
-            WorkflowService.insertToDo(BusinessTripMapper.toDoMapper(businessTripVM.getId(), todo));
+            if (!todo.getDate().toString().equals("1111-11-11"))
+                WorkflowService.insertToDo(BusinessTripMapper.toDoMapper(businessTripVM.getId(), todo));
         }
 
         int count=1;

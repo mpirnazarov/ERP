@@ -220,8 +220,6 @@
 
 
 <script>
-
-
     $(document).ready(function () {
     })
 </script>
@@ -239,9 +237,9 @@
 
 
         var msg = "";
-
+        var flag = true;
         $("#tv").click(function (){
-            var flag = true;
+            flag = true;
             msg = "";
             /* Subject cannot be empty*/
             if($("#absenseSelect option:selected").text() == ""){
@@ -254,14 +252,8 @@
                 $('#absenseSelect').next('span').removeClass('glyphicon-info-sign')
             }
 
-            /* Comments cannot be empty*/
-            /*if($("#comment").val().trim() == ""){
-                flag = false;
-                msg += "Comment cannot be empty \n";
-            }*/
-
             /* file size limitation */
-            if($("#file").val().trim() != "") {
+           /* if($("#file").val().trim() != "") {
                 var size = 0;
                 input = document.getElementById('file');
                 for (var i = 0; i < input.files.length; i++) {
@@ -272,11 +264,14 @@
                     msg += "⛔ Attached files cannot be more than 100MB" + "<br/>";
                     $('#file').css("border","2px solid red");
                     $('#file').next('span').addClass('glyphicon-info-sign');
+                    $('#file').val('');
                 }else {
                     $('#file').css("border", "1px solid #999999");
                     $('#file').next('span').removeClass('glyphicon-info-sign')
                 }
-            }
+            }*/
+
+           validateFile();
 
             /* Start date cannot be more than end date*/
 
@@ -334,7 +329,6 @@
                 $('#approvalSpan').removeClass('glyphicon-info-sign');
             }
 
-                alert(flag);
             if (flag != false){
                 $('#message').html(msg);
                 $('#myModal').modal('show');
@@ -354,7 +348,8 @@
                     alert('Error: ' + e);
                 }
             });
-            return flag;
+            if(flag&&isTrue) return flag;
+            else return !flag;
         });
     });
 
@@ -382,12 +377,11 @@
 */
                 $('#file').css("border","2px solid red");
                 $('#file').next('span').addClass('glyphicon-info-sign');
-                flag = false;
-                isTrue = false;
+                 isTrue = false;
+                $('#file').val('');
             }else {
                 $('#file').css("border", "1px solid #999999");
                 $('#file').next('span').removeClass('glyphicon-info-sign');
-                flag = true;
                 isTrue = true;
             }
         }
@@ -431,13 +425,6 @@
              alert('Error: ' + e);
              }
         });
-
-     /*   $(':input').each(function() {
-            if ($(this).val() !== '') {
-                alert($(this).val());
-            }
-        });*/
-
         return isTrue;
     });
 </script>

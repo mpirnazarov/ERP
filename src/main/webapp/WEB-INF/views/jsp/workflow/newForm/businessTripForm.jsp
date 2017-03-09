@@ -517,12 +517,25 @@
                 isTrue = true;
             }
         }
+
+        setDefaultValueToEmptyTodoDate();
+
     }
 
-    /*function setDefaultValueToEmptyTodoDate() {
-        var todocount = $(".dateInput").count();
-        alert(todocount);
-    }*/
+    function setDefaultValueToEmptyTodoDate() {
+        var year = "1111";
+        var month = "11";
+        var dayOfMonth = "11";
+        var todayString = year + "-" + month + "-" + dayOfMonth;
+
+        $("input.dateInput").each(function () {
+            var ins = new Date($(this).val());
+
+            if(ins=="Invalid Date"){
+                $(this).val(todayString);
+            }
+        });
+    }
 
 
 </script>
@@ -743,6 +756,7 @@
             var td = document.createElement('td');
             var date = document.createElement('input');
             date.setAttribute('type', 'date');
+            date.setAttribute('class', 'dateInput')
             date.name = "toDoEntityList["+counter+"].date";
             td.appendChild(date);
             tr.appendChild(td);

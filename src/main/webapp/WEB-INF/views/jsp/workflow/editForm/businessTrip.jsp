@@ -215,13 +215,13 @@
                             <tr style="color: black">
                                 <td><form:select path="membersEntityList[${i.index}].userId" items="${users}" cssClass="sarvar" id="userId"/></td>
                                 <%--<td> <form:input type='text' name = "membersEntityList[0].organizationName" path="membersEntityList[0].organizationName"/> </td>--%>
-                                <td><form:input type='date' path="membersEntityList[${i.index}].dateFrom" id="dateFrom"/> </td>
-                                <td><form:input type='date' path="membersEntityList[${i.index}].dateTo" id="dateTo"/> </td>
-                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseTransportation" id="expenseTransportation"/></td>
-                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].dailyAllowance" id="dailyAllowance"/></td>
-                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseAccommodation" id="expenseAccomodation"/></td>
-                                <td><form:select path="membersEntityList[${i.index}].accomodationCurrency" items="${currency}" cssClass="sarvar" id="accomodationCurrency"/></td>
-                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseOther" id="expenseOther"/></td>
+                                <td><form:input type='date' path="membersEntityList[${i.index}].dateFrom"/> </td>
+                                <td><form:input type='date' path="membersEntityList[${i.index}].dateTo"/> </td>
+                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseTransportation"/></td>
+                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].dailyAllowance"/></td>
+                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseAccommodation"/></td>
+                                <td><form:select path="membersEntityList[${i.index}].accomodationCurrency" items="${currency}" cssClass="sarvar"/></td>
+                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseOther"/></td>
                                 <td><input type="button" class="ibtnDel btn btn-md btn-danger" value="Delete"/></td>
                             </tr>
                         </c:forEach>
@@ -594,12 +594,6 @@
             tr.appendChild(td);
             ab.appendChild(tr);
             counter++;
-
-
-
-
-
-
         $("table.order-list.table-bordered").on("click", ".ibtnDel", function (event) {
             $(this).closest("tr").remove();
 
@@ -646,7 +640,7 @@
      $("table.table-bordered").on("click", ".ibtnDel", function (event) {
             $(this).closest("tr").remove();
 
-        });
+     });
 
 
     });

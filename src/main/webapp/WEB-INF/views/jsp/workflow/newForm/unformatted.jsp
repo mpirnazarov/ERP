@@ -318,7 +318,9 @@
                     alert('Error: ' + e);
                 }
             });
-            return flag;
+
+            if(isTrue&&flag) return flag;
+            else return !flag;
         });
 
         var isTrue = true;
@@ -337,12 +339,10 @@
                      */
                     $('#file').css("border","2px solid red");
                     $('#file').next('span').addClass('glyphicon-info-sign');
-                    flag = false;
                     isTrue = false;
                 }else {
                     $('#file').css("border", "1px solid #999999");
                     $('#file').next('span').removeClass('glyphicon-info-sign');
-                    flag = true;
                     isTrue = true;
                 }
             }
@@ -385,7 +385,6 @@
                     alert('Error: ' + e);
                 }
             });
-
             return isTrue;
         });
     });

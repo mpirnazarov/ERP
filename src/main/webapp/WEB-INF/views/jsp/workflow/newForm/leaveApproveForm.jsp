@@ -348,8 +348,8 @@
                     alert('Error: ' + e);
                 }
             });
-            if(flag&&isTrue) return flag;
-            else return !flag;
+            if(flag&&isTrue) return true;
+            else return false;
         });
     });
 

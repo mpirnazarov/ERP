@@ -128,7 +128,7 @@ public class WorkflowEditController {
         List<ToDoEntity> toDoEntities = WorkflowService.getToDoByRequestId(reqId);
         businessTripVM.setToDoEntityList(toDoEntities);
 
-        Collection<AttachmentsEntity> attachmentsEntities = WorkflowService.getAttachmentList();
+       /* Collection<AttachmentsEntity> attachmentsEntities = WorkflowService.getAttachmentList();
         List<Attachment> attachments = new LinkedList<>();
         if(attachmentsEntities.size()!=0) {
             for (AttachmentsEntity atEn :
@@ -136,8 +136,17 @@ public class WorkflowEditController {
                 if(atEn.getRequestId() == reqId)
                     attachments.add(new Attachment(atEn.getId(), atEn.getUrl(), atEn.getFilename()));
             }
-        }
-        businessTripVM.setAttachments(attachments);
+        }*/
+
+       List<Attachment> attachments = new ArrayList<>();
+       List<AttachmentsEntity> attachmentsEntities = WorkflowService.getRequestAttachmentsByReqId(reqId);
+
+       if (attachmentsEntities!=null){
+           for (AttachmentsEntity attachmentsEntity : attachmentsEntities) {
+               attachments.add(new Attachment(attachmentsEntity.getId(), attachmentsEntity.getUrl(), attachmentsEntity.getFilename()));
+           }
+       }
+       businessTripVM.setAttachments(attachments);
 
 
         return businessTripVM;

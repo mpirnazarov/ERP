@@ -61,6 +61,13 @@ public class MailMessage {
                         "Thank you for your effort.\n" +
                         "Best regards\n" +
                         "Technical Department team.";
+            }else {
+                msg = "Dear SmartOffice user,\n" +
+                        "Recently, "+formType+" form has been created by "+creator+" in the Workflow system.\n" +
+                        "In order to finalize this workflow form, you have to take an action by accessing to your account and following to the To-Do list section in the Workflow menu bar.\n" +
+                        "Thank you for your effort.\n" +
+                        "Best regards\n" +
+                        "Technical Department team.";
             }
         }
 

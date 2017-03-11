@@ -31,8 +31,8 @@
     </schema>
     <schema id="9" parent="2" name="workflow">
       <ObjectId>91301</ObjectId>
-      <IntrospectionTimestamp>2017-02-24.12:52:05.103</IntrospectionTimestamp>
-      <IntrospectionStateNumber>5659</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-03-10.17:29:29.066</IntrospectionTimestamp>
+      <IntrospectionStateNumber>7363</IntrospectionStateNumber>
       <Visible>1</Visible>
     </schema>
     <schema id="10" parent="2" name="migration">
@@ -2881,38 +2881,32 @@ workload_type</ColNames>
     <column id="512" parent="106" name="date_from">
       <Position>5</Position>
       <DataType>date|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>3580</StateNumber>
+      <StateNumber>7358</StateNumber>
     </column>
     <column id="513" parent="106" name="date_to">
       <Position>6</Position>
       <DataType>date|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>3580</StateNumber>
+      <StateNumber>7359</StateNumber>
     </column>
     <column id="514" parent="106" name="expense_transportation">
       <Position>7</Position>
       <DataType>double precision|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>3580</StateNumber>
+      <StateNumber>7360</StateNumber>
     </column>
     <column id="515" parent="106" name="daily_allowance">
       <Position>8</Position>
       <DataType>double precision|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>3580</StateNumber>
+      <StateNumber>7361</StateNumber>
     </column>
     <column id="516" parent="106" name="expense_accommodation">
       <Position>9</Position>
       <DataType>double precision|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>3580</StateNumber>
+      <StateNumber>7362</StateNumber>
     </column>
     <column id="517" parent="106" name="expense_other">
       <Position>10</Position>
       <DataType>double precision|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>3580</StateNumber>
+      <StateNumber>7363</StateNumber>
     </column>
     <column id="518" parent="106" name="accom_currency">
       <Position>11</Position>

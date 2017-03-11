@@ -24,6 +24,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -130,7 +131,7 @@ public class BusinessTripController {
     }
 
     @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.POST, params = "Submit")
-    public String BusinessTripPostSubmit(@ModelAttribute BusinessTripVM businessTripVM, Principal principal) throws IOException {
+    public String BusinessTripPostSubmit(@ModelAttribute BusinessTripVM businessTripVM, BindingResult result, Principal principal) throws IOException {
 
         int userId = UserService.getIdByUsername(principal.getName());
 
@@ -239,8 +240,9 @@ public class BusinessTripController {
 
 
     @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.POST, params = "Save")
-    public String BusinessTripPostSave(@ModelAttribute BusinessTripVM businessTripVM, Principal principal) throws IOException {
+    public String BusinessTripPostSave(@ModelAttribute BusinessTripVM businessTripVM, BindingResult result, Principal principal) throws IOException {
 
+        System.out.println(result);
         int userId = UserService.getIdByUsername(principal.getName());
 
         /* Insert to table Requests */

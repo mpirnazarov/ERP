@@ -217,7 +217,7 @@
                         </thead>
                         <tbody id="membersDynamicBody" style="color: #0f0f0f">
                             <tr style="color: black">
-                                <td><form:select path="membersEntityList[0].userId" items="${users}" cssClass="sarvar"/></td>
+                                <<td><form:select path="membersEntityList[0].userId" items="${users}" cssClass="sarvar"/></td>
                                 <%--<td> <form:input type='text' name = "membersEntityList[0].organizationName" path="membersEntityList[0].organizationName"/> </td>--%>
                                 <td> <input type='date' name = "membersEntityList[0].dateFrom"  class="memfrom"/> </td>
                                 <td> <input type='date' name = "membersEntityList[0].dateTo" class="memto"/> </td>
@@ -227,6 +227,7 @@
                                 <td><form:select path="membersEntityList[0].accomodationCurrency" items="${currency}" cssClass="currencyInput"/></td>
                                 <td><form:input type='number' name = "membersEntityList[0].expenseOther" min="0" path="membersEntityList[0].expenseOther"/></td>
                                 <td id="deleteRowTd"><a class="deleteRow"/></td>
+
                             </tr>
                         </tbody>
                     </table>
@@ -594,15 +595,26 @@
 
         var counter = 1;
 
+        var i = 1;
+
         $("#addrow").on("click", function () {
+            $("#membersDynamicBody tr:first").clone().find("input, select").each(function() {
+                var inputName = $(this).attr("name").toString();
+                 $(this).val('').attr('name', inputName.replace('0', i))
+                 $(this).val('').attr('path', inputName.replace('0', i))
+             }).end().appendTo("#membersDynamicBody");
+            i++;
+        });
+       /* $("#addrow").on("click", function () {
             var ab = document.getElementById('membersDynamicBody');
             var tr = document.createElement('tr');
 
             var td = document.createElement('td');
             var select = document.createElement('select');
             select.name = "membersEntityList["+counter+"].userId";
-            /*elect.className = "form-control text-box single-line";*/
+            /!*elect.className = "form-control text-box single-line";*!/
             select.className = 'sarvar';
+
             var opt;
 
             $.ajax({
@@ -621,15 +633,7 @@
             td.appendChild(select);
             tr.appendChild(td);
 
-
-            /*Input field for organization Name*/
-            /*var td = document.createElement('td');
-            var input = document.createElement('input');
-            input.name = "membersEntityList["+counter+"].organizationName";
-            td.appendChild(input);
-            tr.appendChild(td);*/
-
-            /*Input field for from date*/
+            /!*Input field for from date*!/
             var td = document.createElement('td');
             var date = document.createElement('input');
             date.setAttribute('type', 'date');
@@ -638,7 +642,7 @@
             td.appendChild(date);
             tr.appendChild(td);
 
-            /*Input field for to date*/
+            /!*Input field for to date*!/
             var td = document.createElement('td');
             var date = document.createElement('input');
             date.setAttribute('type', 'date');
@@ -647,7 +651,7 @@
             td.appendChild(date);
             tr.appendChild(td);
 
-            /*Input field for expence transportation*/
+            /!*Input field for expence transportation*!/
             var td = document.createElement('td');
             var num = document.createElement('input');
             num.setAttribute('type', 'number');
@@ -656,7 +660,7 @@
             td.appendChild(num);
             tr.appendChild(td);
 
-            /*Input field for dailyAllowance*/
+            /!*Input field for dailyAllowance*!/
             var td = document.createElement('td');
             var num = document.createElement('input');
             num.setAttribute('type', 'number');
@@ -665,20 +669,21 @@
             td.appendChild(num);
             tr.appendChild(td);
 
-            /*Input field for expenseAccommodation*/
+            /!*Input field for expenseAccommodation*!/
             var td = document.createElement('td');
             var num = document.createElement('input');
             num.setAttribute('type', 'number');
             num.setAttribute('min', 0);
             num.name = "membersEntityList["+counter+"].expenseAccommodation";
+
             td.appendChild(num);
             tr.appendChild(td);
 
-            /*Input field for select currency*/
+            /!*Input field for select currency*!/
             var td = document.createElement('td');
             var select2 = document.createElement('select');
             select2.name = "membersEntityList["+counter+"].accomodationCurrency";
-            /*elect.className = "form-control text-box single-line";*/
+            /!*elect.className = "form-control text-box single-line";*!/
             select2.className = 'currencyInput';
 
             opt2 = document.createElement('option');
@@ -699,7 +704,7 @@
             td.appendChild(select2);
             tr.appendChild(td);
 
-            /*Input field for expenseOther*/
+            /!*Input field for expenseOther*!/
             var td = document.createElement('td');
             var num = document.createElement('input');
             num.setAttribute('type', 'number');
@@ -708,17 +713,17 @@
             td.appendChild(num);
             tr.appendChild(td);
 
-            /*Input field for expenceTotal*/
-            /*var td = document.createElement('td');
+            /!*Input field for expenceTotal*!/
+            /!*var td = document.createElement('td');
             var num = document.createElement('input');
             num.setAttribute('type', 'number');
             num.setAttribute('value', 100);
             num.setAttribute('disabled', true);
             td.appendChild(num);
-            tr.appendChild(td);*/
+            tr.appendChild(td);*!/
 
 
-            /*Delete button*/
+            /!*Delete button*!/
             var td = document.createElement('td');
             var input = document.createElement('input');
 
@@ -732,7 +737,7 @@
 
 
         });
-
+*/
 
 
         $("table.order-list.table-bordered").on("click", ".ibtnDel", function (event) {

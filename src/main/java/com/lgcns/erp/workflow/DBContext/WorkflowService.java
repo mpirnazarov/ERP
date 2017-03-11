@@ -645,7 +645,7 @@ public class WorkflowService {
     public static void updateRequestBusinessTrip(RequestsEntity requestsEntity, int reqId) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
-        RequestsEntity requestsEntityForStatus = getRequestsEntityById(requestsEntity.getId());
+        RequestsEntity requestsEntityForStatus = getRequestsEntityById(reqId);
 
         if (requestsEntityForStatus.getStatusId()==Status.Draft.getValue()){
             setDraftToInProgressSteps(reqId);

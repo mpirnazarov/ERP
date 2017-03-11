@@ -215,20 +215,20 @@
                             <tr style="color: black">
                                 <td><form:select path="membersEntityList[${i.index}].userId" items="${users}" cssClass="sarvar" id="userId"/></td>
                                 <%--<td> <form:input type='text' name = "membersEntityList[0].organizationName" path="membersEntityList[0].organizationName"/> </td>--%>
-                                <td><form:input type='date' path="membersEntityList[${i.index}].dateFrom"/> </td>
-                                <td><form:input type='date' path="membersEntityList[${i.index}].dateTo"/> </td>
-                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseTransportation"/></td>
-                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].dailyAllowance"/></td>
-                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseAccommodation"/></td>
-                                <td><form:select path="membersEntityList[${i.index}].accomodationCurrency" items="${currency}" cssClass="sarvar"/></td>
-                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseOther"/></td>
+                                <td><form:input type='date' path="membersEntityList[${i.index}].dateFrom" name="membersEntityList[${i.index}].dateFrom"/> </td>
+                                <td><form:input type='date' path="membersEntityList[${i.index}].dateTo" name="membersEntityList[${i.index}].dateTo"/> </td>
+                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseTransportation" name="membersEntityList[${i.index}].expenseTransportation"/></td>
+                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].dailyAllowance" name="membersEntityList[${i.index}].dailyAllowance"/></td>
+                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseAccommodation" name="membersEntityList[${i.index}].expenseAccommodation"/></td>
+                                <td><form:select path="membersEntityList[${i.index}].accomodationCurrency" name="membersEntityList[${i.index}].accomodationCurrency" items="${currency}" cssClass="sarvar"/></td>
+                                <td><form:input type='number' min="0" path="membersEntityList[${i.index}].expenseOther" name="membersEntityList[${i.index}].expenseOther"/></td>
                                 <td><input type="button" class="ibtnDel btn btn-md btn-danger" value="Delete"/></td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
                 </div>
-                    <input type="button" class="btn btn-normal" value="+ Add Row" id="addrow"/>
+                    <input type="button" class="btn btn-normal" value="+ Add Row" id="addRowEdit"/>
                 </div>
                 <div class="form-group" style="margin-right: 0px; margin-left: 0px">
                     <label class="tableLabel"></span><span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="width: 2%; font-style: normal"></span>
@@ -471,7 +471,7 @@
     var doc = document.getElementById("myTablecha");
         var counter = 4;
 
-        $("#addrow").on("click", function () {
+        $("#addRowEdit").on("click", function () {
             var ab = document.getElementById('membersDynamicBody');
             var tr = document.createElement('tr');
 

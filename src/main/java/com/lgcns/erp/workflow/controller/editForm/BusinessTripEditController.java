@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,7 @@ import java.security.Principal;
 public class BusinessTripEditController {
 
     @RequestMapping(value = "/EditForm/{reqId}", method = RequestMethod.POST, params = "submitBusinessTrip")
-    public String BusinessTripPostSave(@ModelAttribute BusinessTripVM businessTripVM, Principal principal, @PathVariable int reqId) throws IOException {
+    public String BusinessTripPostSave(@ModelAttribute BusinessTripVM businessTripVM, BindingResult result, Principal principal, @PathVariable int reqId) throws IOException {
 
         int userId = UserService.getIdByUsername(principal.getName());
         RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(reqId);
@@ -51,13 +52,15 @@ public class BusinessTripEditController {
         /* Insert to table Members */
         for (MembersEntity member :
                 businessTripVM.getMembersEntityList()) {
-            WorkflowService.insertMembers(BusinessTripMapper.membersMapper(businessTripVM, member, userId));
+            if (member.getDateFrom()!=null)
+                WorkflowService.insertMembers(BusinessTripMapper.membersMapper(businessTripVM, member, userId));
         }
 
         /* Insert to table to_do */
         for (ToDoEntity todo :
                 businessTripVM.getToDoEntityList()) {
-            WorkflowService.insertToDo(BusinessTripMapper.toDoMapper(businessTripVM.getId(), todo));
+            if (todo.getDate()!=null)
+                WorkflowService.insertToDo(BusinessTripMapper.toDoMapper(businessTripVM.getId(), todo));
         }
 
         System.out.println("FORM:   BUSINESS TRIP: " + businessTripVM.toString());
@@ -68,13 +71,13 @@ public class BusinessTripEditController {
             multipartFiles = businessTripVM.getFile();
 
             // Uploading files attached to C:/files/documents/workflow. Create folder if doesn't exist.
-            File f = new File("C:/files/documents/workflow/");
+            File f = new File("C:/files/documents/workflow/"+reqId+"/");
             if (f.mkdir()) {
                 System.out.println("DIRECTORY CREATED SECCESFULLY");
             }
             for (MultipartFile file :
                     multipartFiles) {
-                FileCopyUtils.copy(file.getBytes(), new File("C:/files/documents/workflow/" + reqId +"/" + file.getOriginalFilename()));
+                FileCopyUtils.copy(file.getBytes(), new File("C:/files/documents/workflow/" + reqId + "/" + file.getOriginalFilename()));
             }
 
             System.out.println("FILE WAS UPLOADED!");

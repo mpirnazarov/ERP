@@ -226,8 +226,8 @@
                                 <td><form:input type='number' name = "membersEntityList[0].expenseAccommodation" min="0" path="membersEntityList[0].expenseAccommodation"/></td>
                                 <td><form:select path="membersEntityList[0].accomodationCurrency" items="${currency}" cssClass="currencyInput"/></td>
                                 <td><form:input type='number' name = "membersEntityList[0].expenseOther" min="0" path="membersEntityList[0].expenseOther"/></td>
+                                <td><input type="button" class="ibtnDel btn btn-md btn-danger" name="deletebutton0" value="Delete" style="display: none"/></td>
                                 <td id="deleteRowTd"><a class="deleteRow"/></td>
-
                             </tr>
                         </tbody>
                     </table>
@@ -646,6 +646,9 @@
                 var inputName = $(this).attr("name").toString();
                  $(this).val('').attr('name', inputName.replace('0', i))
                  $(this).val('').attr('path', inputName.replace('0', i))
+                if($(this).attr('type')=='button'){
+                     $(this).attr('value', 'Delete').show();
+                }
              }).end().appendTo("#membersDynamicBody");
             i++;
         });

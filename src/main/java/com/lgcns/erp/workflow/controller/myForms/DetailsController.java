@@ -28,6 +28,7 @@ import com.lgcns.erp.workflow.controller.email.MailMail;
 import com.lgcns.erp.workflow.controller.email.MailMessage;
 import com.lgcns.erp.workflow.util.ContentType;
 import com.lgcns.erp.workflow.util.DetailsAction;
+import com.lgcns.erp.workflow.util.ValidateRequestAccess;
 import org.apache.commons.lang3.ArrayUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -59,8 +60,17 @@ public class DetailsController {
 
     @RequestMapping(value = "/details/{controllerId}/{id}", method = RequestMethod.GET)
     public ModelAndView details(Principal principal, @PathVariable(value = "id")int id, @PathVariable(value = "controllerId") int controller){
-        ModelAndView mav = new ModelAndView("/workflow/myForms/details");
 
+        int userId = UserService.getIdByUsername(principal.getName());
+        if (controller==1&&!ValidateRequestAccess.ValidateTodoAccess(id, userId)){
+            return new ModelAndView("Error");
+        }
+
+        if (controller==2&&!ValidateRequestAccess.ValidRequestAccess(id, userId)){
+            return new ModelAndView("Error");
+        }
+
+        ModelAndView mav = new ModelAndView("/workflow/myForms/details");
 
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));

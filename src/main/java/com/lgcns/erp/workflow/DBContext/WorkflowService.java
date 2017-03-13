@@ -678,4 +678,25 @@ public class WorkflowService {
             session.close();
         }
     }
+
+    public static List<StepsEntity> getStepsByRequestId(int requestId){
+        List<StepsEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from StepsEntity WHERE requestId=:reqId");
+            query.setParameter("reqId", requestId);
+            list = (List<StepsEntity>)query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return list;
+    }
 }

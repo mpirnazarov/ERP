@@ -5,11 +5,20 @@ package com.lgcns.erp.workflow.ViewModel;
  */
 public class TerminationViewModel {
    private int old_req_id;
+   private int id;
    private String subject;
    private String description;
    private String executives;
    private String references;
    private String approves;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getDescription() {
         return description;

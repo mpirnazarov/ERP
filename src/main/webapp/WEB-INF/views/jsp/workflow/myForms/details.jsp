@@ -681,8 +681,6 @@
                 $('#submitButton').hide();
                 $('#commentTextArea').hide();
 
-
-
             }
 
 

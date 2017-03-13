@@ -311,6 +311,7 @@ public class UnformattedController {
         to[0] = UserService.getIdByUsername(principal.getName());
         mm.sendMail(to, subject, msg);*/
 
+
     }
 
     @RequestMapping(value = "/NewForm/UnformattedFormAjax", method = RequestMethod.POST)

@@ -77,7 +77,6 @@ public class WorkflowEditController {
             mav.addObject("users", users);
 
             Map<Integer, String> currency = new HashMap<>();
-            currency.put(0, "");
             currency.put(1, "UZS");
             currency.put(2, "USD");
             mav.addObject("currency", currency);

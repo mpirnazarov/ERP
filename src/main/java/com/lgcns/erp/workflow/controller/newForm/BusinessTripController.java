@@ -18,14 +18,11 @@ import com.lgcns.erp.workflow.controller.email.MailMessage;
 import org.apache.commons.lang3.ArrayUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,8 +30,10 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by DScomputers3 on 20.01.2017.
@@ -122,7 +121,6 @@ public class BusinessTripController {
         mav.addObject("triptypeList", tripTypeList);
 
         Map<Integer, String> currency = new HashMap<>();
-        currency.put(0, "");
         currency.put(1, "UZS");
         currency.put(2, "USD");
         mav.addObject("currency", currency);

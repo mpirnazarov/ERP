@@ -330,6 +330,7 @@
                 $('#approvalSpan').removeClass('glyphicon-info-sign');
             }
 
+
             if (!flag){
                 $('#message').html(msg);
                 $('#myModal').modal('show');

@@ -22,15 +22,18 @@ public class MailMail
 		SimpleMailMessage message = new SimpleMailMessage();
 		String[] sentTo = new String[idTo.length];
 		int i=0;
-		for (int userId :
-				idTo) {
-			sentTo[i++] = UserService.getUserById(userId).geteMail();
-		}
 
-		message.setFrom("subscription@lgcns.uz");
-		message.setTo(sentTo);
-		message.setSubject(subject);
-		message.setText(msg);
-		mailSender.send(message);
+		if(idTo.length != 0) {
+			for (int userId :
+					idTo) {
+				sentTo[i++] = UserService.getUserById(userId).geteMail();
+			}
+
+			message.setFrom("subscription@lgcns.uz");
+			message.setTo(sentTo);
+			message.setSubject(subject);
+			message.setText(msg);
+			mailSender.send(message);
+		}
 	}
 }

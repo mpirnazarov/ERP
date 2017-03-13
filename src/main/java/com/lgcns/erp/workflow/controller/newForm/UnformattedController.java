@@ -18,6 +18,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -176,11 +178,10 @@ public class UnformattedController {
     }
 */
     @RequestMapping(value = "NewForm/Unformatted", method = RequestMethod.POST, params = "Save")
-    public String NewUnformattedSave(@ModelAttribute UnformattedViewModel unformattedVM, Principal principal) throws IOException {
+    public String NewUnformattedSave(@ModelAttribute UnformattedViewModel unformattedVM, BindingResult result, Principal principal) throws IOException {
 
         int userId = UserService.getIdByUsername(principal.getName());
 
-        System.out.println(unformattedVM.getEnd().toString());
         /* Insert to table Requests */
 
         int requestId = WorkflowService.insertRequests(UnformattedMapper.requestMapper(unformattedVM, userId, 3, 4, false));

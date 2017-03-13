@@ -24,6 +24,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -244,14 +246,6 @@ public class LeaveApproveController {
             System.out.println("FILE WAS UPLOADED!");
         }
 
-        /*  Insert attachments info to table Attachments */
-        if(!leaveApproveVM.getFile()[0].isEmpty()) {
-            for (MultipartFile attachment :
-                    leaveApproveVM.getFile()) {
-                WorkflowService.insertAttachments(LeaveApproveMapper.attachmentsMapper(leaveApproveVM.getId(), attachment));
-            }
-        }
-
         // E-mail is sent here
         ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
         MailMail mm = (MailMail) context.getBean("mailMail");
@@ -291,7 +285,7 @@ public class LeaveApproveController {
     }
 
     @RequestMapping(value = "/NewForm/LeaveApproveForm", method = RequestMethod.POST, params = "Save")
-    public String LeaveApprovePostSave(@ModelAttribute LeaveApproveVM leaveApproveVM, Principal principal) throws IOException {
+    public String LeaveApprovePostSave(@ModelAttribute LeaveApproveVM leaveApproveVM, BindingResult result, Principal principal) throws IOException {
 
         int userId = UserService.getIdByUsername(principal.getName());
 

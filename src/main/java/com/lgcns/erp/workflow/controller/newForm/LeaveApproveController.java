@@ -77,7 +77,7 @@ public class LeaveApproveController {
 
         int hiringDateInterval = Math.abs(Months.monthsBetween(now, then).getMonths());
 
-        if(hiringDateInterval > 6){
+        if(hiringDateInterval >= 6){
             System.out.println("6 mo apart!");
             sixMonthPassed = true;
         }

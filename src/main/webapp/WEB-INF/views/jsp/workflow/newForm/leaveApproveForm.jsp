@@ -239,6 +239,8 @@
 
 
         $("#tv").click(function (){
+            var workedSixMonth = ${sixMonthPassed};
+            var vacationAvailable = ${vacationAvailable};
             var msg = "";
             var flag = true;
 
@@ -279,6 +281,9 @@
             var dStart = new Date($("#dateStart").val());
             var dEnd = new Date($("#dateEnd").val());
 
+
+
+
             if(dStart > dEnd){
                 flag = false;
                 msg += "⛔ Start date cannot be later than end date" + "<br/>";
@@ -289,30 +294,68 @@
                 $('#dateStart').css("border", "1px solid #999999");
                 $('#dateEnd').css("border", "1px solid #999999");
                 $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+
+
+
+                var selectedType = $("#absenseSelect option:selected").text();
+
+                if(selectedType == "Annual leave"){
+
+                    /*Vocation Check*/
+                    if (!workedSixMonth){
+                        flag = false;
+                        msg += "⛔ You can not take vacation because you worked less then 6 month" + "<br/>";
+                    }
+
+                    if($("#dateStart").val().trim() != "" && $("#dateEnd").val().trim() != "") {
+
+                        var diffDays = parseInt((dEnd - dStart) / (1000 * 60 * 60 * 24));
+                        var totalSundays = 0
+                        var daysRequested = 0;
+
+                        for (var i = dStart; i <= dEnd; ){
+                            if (i.getDay() == 0){
+                                totalSundays++;
+                            }
+                            i.setTime(i.getTime() + 1000*60*60*24);
+                        }
+
+                        daysRequested = diffDays - totalSundays;
+
+                        if (vacationAvailable <= daysRequested){
+                            flag = false;
+                            msg += "⛔ You can not apply for vacation because you have only : " + vacationAvailable + " days of vacation" + "<br/>";
+                        }
+                    }
+                }
+
+
+
+
+                /* Date start cannot be empty */
+                if($("#dateStart").val().trim() == "") {
+                    flag = false;
+                    msg += "⛔ Start date cannot be empty" + "<br/>";
+                    $("#dateStart").css("border","2px solid red");
+                    $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+                }else {
+                    $('#dateStart').css("border", "1px solid #999999");
+                    $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+                }
+
+                /* Date end cannot be empty */
+                if($("#dateEnd").val().trim() == "") {
+                    flag = false;
+                    msg += "⛔ End date cannot be empty" + "<br/>";
+                    $('#dateEnd').css("border","2px solid red");
+                    $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+                }else {
+                    $('#dateEnd').css("border", "1px solid #999999");
+                    $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+                }
             }
 
 
-            /* Date start cannot be empty */
-            if($("#dateStart").val().trim() == "") {
-                flag = false;
-                msg += "⛔ Start date cannot be empty" + "<br/>";
-                $("#dateStart").css("border","2px solid red");
-                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
-            }else {
-                $('#dateStart').css("border", "1px solid #999999");
-                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
-            }
-
-            /* Date end cannot be empty */
-            if($("#dateEnd").val().trim() == "") {
-                flag = false;
-                msg += "⛔ End date cannot be empty" + "<br/>";
-                $('#dateEnd').css("border","2px solid red");
-                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
-            }else {
-                $('#dateEnd').css("border", "1px solid #999999");
-                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
-            }
 
             var a=[];
             var b=[];

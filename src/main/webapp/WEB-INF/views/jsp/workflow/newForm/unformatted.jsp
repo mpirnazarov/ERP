@@ -258,6 +258,8 @@
                 $('#dateStart').css("border", "1px solid #999999");
                 $('#dateEnd').css("border", "1px solid #999999");
                 $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+
+
             }
 
             /* Date start cannot be empty */
@@ -281,6 +283,8 @@
                 $('#dateEnd').css("border", "1px solid #999999");
                 $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
             }
+
+
 
             var a = [];
             var b = [];

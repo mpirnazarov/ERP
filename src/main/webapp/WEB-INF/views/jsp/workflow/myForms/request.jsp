@@ -37,6 +37,15 @@
         text-align: center;
     }
 
+    .formTypeTd {
+        font-weight: 800;
+        font-size: 18px;
+    }
+
+    .titleTd {
+
+    }
+
 
 </style>
 <spring:url value="/resources/core/css/paginationsStyle.css" var="paginationCss"/>
@@ -306,33 +315,31 @@
                         //generate table
                         $('<tr/>').appendTo(tbody)
                             .append($('<td/>').text(req.form_type).addClass("formTypeTd"))
-                            .append($('<td/>').text(req.request_subject))
+                            .append($('<td/>').text(req.request_subject).addClass("titleTd"))
                             .append($('<td/>').text(req.date_created).addClass("requestDateTd"))
                             .append($('<td/>').text(req.status).addClass("statusTd"))
                             .append($('<td/>').append($('<div class="btn" onclick="location.href=\'/Workflow/MyForms/details/2/' + req.request_id + '\'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></div>')));
 
-                        $('<div id="newdiv' + x + '" class="newRequestLabel">New</div>').appendTo(tbody)
+                        /*$('<div id="newdiv' + x + '" class="newRequestLabel">New</div>').appendTo(tbody)*/
 
                         var nowDate = parseInt(todayString.slice(-2));
                         var targetDate = parseInt(req.date_created.slice(-2));
 
 
 
-
+                        /*$(this).prev("div").attr("newdiv", "newdiv" + x);
 
                         if (targetDate >= nowDate){
 
-                            $("#newdiv1").show();
+                            $(this).prev("div").attr("newdiv" + x).show();
                         }else {
 
-                            $('this.div.newRequestLabel').hide();
+                            $(this).prev("div").attr("newdiv" + x).hide();
 
-                        }
+                        }*/
 
                     });
                 }
-
-
 
 
 

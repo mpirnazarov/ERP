@@ -472,23 +472,23 @@
                 <%--Decision section--%>
                 <div id="decisionSection" class="input-group" style="width: 100%; margin-top: 4%; margin-left: 8%">
                     <div class="btn-group" data-toggle="buttons" style="width: 100%">
-                        <label class="btn btn-success active" style="width: 27%">
+                        <label id="approveButton" class="btn btn-success active" style="width: 27%">
                             Approve
                             <input type="radio" name="options" id="approve" autocomplete="off"
                                    onchange="checkedRadioBtn(this.id)" chacked>
                             <span class="glyphicon glyphicon-ok"></span>
                         </label>
 
-                        <label class="btn btn-danger" style="width: 27%">
+                        <label id="rejectButton" class="btn btn-danger" style="width: 27%">
                             Reject
                             <input type="radio" name="options" id="reject" autocomplete="off"
                                    onchange="checkedRadioBtn(this.id)">
                             <span class="glyphicon glyphicon-ok"></span>
                         </label>
 
-                        <label class="btn btn-warning" style="width: 27%">
+                        <label id="reviewButton" class="btn btn-warning" style="width: 27%">
                             Review
-                            <input type="radio" name="options" id="review" autocomplete="off"
+                            <input  type="radio" name="options" id="review" autocomplete="off"
                                    onchange="checkedRadioBtn(this.id)">
                             <span class="glyphicon glyphicon-ok"></span>
                         </label>
@@ -650,6 +650,12 @@
             function isFromToDo() {
                 $('#authorsTools').hide()
 
+                if (formtype == 4){
+                    $('#reviewButton').remove();
+                    $('#approveButton').css("width","43%");
+                    $('#rejectButton').css("width","43%");
+                }
+
             }
 
             function isFromRequest() {
@@ -665,13 +671,14 @@
                 }
 
 
+
                 if (viewed == false || statusid == 2 ){
                     $('#editButton').prop('disabled',false);
                 }else {
                     $('#editButton').prop('disabled',true);
                 }
 
-                if (viewed == false || statusid == 7 || statusid == 8) {
+                if (viewed == false || statusid == 7 || statusid == 8 || statusid == 3) {
                     $("#deleteButton").prop('disabled',false);
                 }else {
                     $("#deleteButton").prop('disabled',true);
@@ -875,7 +882,7 @@
 
 
             var absenceType = '${leaveTypeName.get(leavemodel.absenceType)}';
-            var description = '${leavemodel.description}';
+            var description = "${leavemodel.description}";
             var start = '${leavemodel.start.toString()}';
             var end = '${leavemodel.end.toString()}';
 

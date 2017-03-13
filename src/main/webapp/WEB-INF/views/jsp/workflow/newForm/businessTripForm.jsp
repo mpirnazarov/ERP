@@ -157,7 +157,7 @@
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="page-header"style="border: none; margin-left: -3%; padding-top: 6%;"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Business trip</h2>
+        <h2 class="page-header" style="border: none; margin-left: -3%; padding-top: 6%;"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Business trip</h2>
 
 
         <form:form modelAttribute="businessTripVM" cssClass="form-horizontal" method="post" id="myform" enctype="multipart/form-data">
@@ -232,7 +232,7 @@
                         </tbody>
                     </table>
                 </div>
-                    <input type="button" class="btn btn-normal" value="+ Add Row" id="addrow"/>
+                    <input type="button" class="btn btn-normal" value="+ Add member" id="addrow"/>
                 </div>
                 <div class="form-group" style="margin-left: 0px; margin-right: 0px">
                     <label id="toDoLabel" class="tableLabel"><span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="width: 2%; font-style: normal"></span>
@@ -255,7 +255,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <input type="button" class="btn btn-normal" value=" + Add Row" id="addrowToDo"/>
+                    <input type="button" class="btn btn-normal" value=" + Add activity" id="addrowToDo"/>
                 </div>
 
             </div>
@@ -263,7 +263,7 @@
                 <div class="input-group" style="margin-top: 2%">
                     <span class="input-group-addon" id="approvals-addon"><span class="reqfield"></span>Approvals:</span>
                     <div class="tab-content" id="approvals">
-                        <span style="margin-left: 83.7%" id="approvalSpan" class="glyphicon warningIcon " aria-hidden="true"></span>
+                        <span style="margin-left: 74.2%" id="approvalSpan" class="glyphicon warningIcon " aria-hidden="true"></span>
                         <input type="text" id="demo-input-local"/>
                     </div>
                 </div>
@@ -545,6 +545,44 @@
 <script type="text/javascript">
 
     $("#tv2").click(function (){
+
+        var draftApprovals = true;
+
+
+        var msg = "";
+
+        a = $("#approvals").children().siblings("input[type=text]").val();
+        if(a.length == 0)
+        {
+            msg += "⛔ At least one approval should be selected" + "<br/>";
+            draftApprovals = false;
+            $('#approvals').css("border","2px solid red");
+            $('#approvalSpan').addClass('glyphicon-info-sign');
+
+            $('#dateEnd').css("border", "1px solid #999999");
+            $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+
+            $('#dateStart').css("border", "1px solid #999999");
+            $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+
+            $('#subject').css("border", "1px solid #999999");
+            $('#subject').next('span').removeClass('glyphicon-info-sign')
+        } else {
+            $('#approvals').css("border", "1px solid #999999");
+            $('#approvalSpan').removeClass('glyphicon-info-sign');
+        }
+
+        if (!draftApprovals){
+            $('#message').html(msg);
+            $('#myModal').modal('show');
+
+            return draftApprovals;
+        }
+
+
+
+
+
         var a=[];
         var b=[];
         var c=[];
@@ -563,6 +601,12 @@
                 }
             });
         }
+
+
+
+
+
+        isTrue = draftApprovals;
 
         a = $("#approvals").children().siblings("input[type=text]").val();
         b = $("#references").children().siblings("input[type=text]").val();

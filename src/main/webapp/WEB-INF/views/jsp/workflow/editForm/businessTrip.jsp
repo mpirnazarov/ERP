@@ -228,7 +228,7 @@
                         </tbody>
                     </table>
                 </div>
-                    <input type="button" class="btn btn-normal" value="+ Add Row" id="addRowEdit"/>
+                    <input type="button" class="btn btn-normal" value="+ Add member" id="addRowEdit"/>
                 </div>
                 <div class="form-group" style="margin-right: 0px; margin-left: 0px">
                     <label class="tableLabel"></span><span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="width: 2%; font-style: normal"></span>
@@ -253,7 +253,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <input type="button" class="btn btn-normal" value="+ Add Row" id="addrowToDo"/>
+                    <input type="button" class="btn btn-normal" value="+ Add activity" id="addrowToDo"/>
                 </div>
 
             </div>
@@ -286,7 +286,7 @@
         </div>
 
             <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
-                <input id="tv" type="submit" name="submitBusinessTrip" value="Save" class="btn btn-success"/>
+                <input id="tv" type="submit" name="submitBusinessTrip" value="Submit" class="btn btn-success"/>
                 <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
             </div>
 

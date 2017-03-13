@@ -228,6 +228,7 @@
     /* Send input from approval list to controller by AJAX */
     $(document).ready(function() {
 
+
         var today = new Date();
         var month = today.getMonth().toString().length == 1 ? "0" + today.getMonth().toString() : today.getMonth().toString();
         var dayOfMonth = today.getDate().toString().length == 1 ? "0" + today.getDate().toString() : today.getDate().toString();
@@ -236,11 +237,11 @@
         $('#dateEnd').val(todayString);*/
 
 
-        var msg = "";
-        var flag = true;
+
         $("#tv").click(function (){
-            flag = true;
-            msg = "";
+            var msg = "";
+            var flag = true;
+
             /* Subject cannot be empty*/
             if($("#absenseSelect option:selected").text() == ""){
                 $('#absenseSelect').css("border","2px solid red");
@@ -253,7 +254,7 @@
             }
 
             /* file size limitation */
-           /* if($("#file").val().trim() != "") {
+            if($("#file").val().trim() != "") {
                 var size = 0;
                 input = document.getElementById('file');
                 for (var i = 0; i < input.files.length; i++) {
@@ -269,9 +270,9 @@
                     $('#file').css("border", "1px solid #999999");
                     $('#file').next('span').removeClass('glyphicon-info-sign')
                 }
-            }*/
+            }
 
-           validateFile();
+           /*validateFile();*/
 
             /* Start date cannot be more than end date*/
 
@@ -329,10 +330,11 @@
                 $('#approvalSpan').removeClass('glyphicon-info-sign');
             }
 
-            if (flag != false){
+            if (!flag){
                 $('#message').html(msg);
                 $('#myModal').modal('show');
             }
+
 
 
             b = $("#references").children().siblings("input[type=text]").val();
@@ -372,9 +374,7 @@
                 size += input.files[0].size;
             }
             if (size > 104857600) {
-/*
                 msg += "⛔ Attached files cannot be more than 100MB" + "<br/>";
-*/
                 $('#file').css("border","2px solid red");
                 $('#file').next('span').addClass('glyphicon-info-sign');
                  isTrue = false;
@@ -388,9 +388,47 @@
     }
 
     $("#tv2").click(function () {
+
+        var draftApprovals = true;
+
+
+
         var a=[];
         var b=[];
         var c=[];
+
+        var msg = "";
+
+        a = $("#approvals").children().siblings("input[type=text]").val();
+        if(a.length == 0)
+        {
+            msg += "⛔ At least one approval should be selected" + "<br/>";
+            draftApprovals = false;
+            $('#approvals').css("border","2px solid red");
+            $('#approvalSpan').addClass('glyphicon-info-sign');
+
+            $('#dateEnd').css("border", "1px solid #999999");
+            $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+
+            $('#dateStart').css("border", "1px solid #999999");
+            $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+
+            $('#absenseSelect').css("border", "1px solid #999999");
+            $('#absenseSelect').next('span').removeClass('glyphicon-info-sign')
+        } else {
+            $('#approvals').css("border", "1px solid #999999");
+            $('#approvalSpan').removeClass('glyphicon-info-sign');
+        }
+
+        if (!draftApprovals){
+            $('#message').html(msg);
+            $('#myModal').modal('show');
+        }
+
+
+        isTrue = draftApprovals;
+
+
         a = $("#approvals").children().siblings("input[type=text]").val();
         b = $("#references").children().siblings("input[type=text]").val();
         c = $("#executives").children().siblings("input[type=text]").val();

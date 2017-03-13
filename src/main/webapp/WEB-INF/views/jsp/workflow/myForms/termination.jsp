@@ -76,7 +76,6 @@
         width: 71px;
         margin-left: 8px;
 
-
     }
 
 
@@ -107,7 +106,8 @@
                 <div class="input-group" id="desc_container" style="margin-top: 2%">
                     <span class="input-group-addon" id="term_span">Description:</span>
                     <textarea class="form-control" rows="3" id="termination_desc" aria-describedby="purpose-addon"
-                              style="width: 100%; border-color:#999999" path="description">${termination.description}</textarea>
+                              style="width: 100%; border-color:#999999"
+                              path="description">${termination.description}</textarea>
                     <span class="glyphicon glyphicon-record" id="error_desc" style="display: none">Description cannot be empty</span>
                 </div>
 
@@ -126,7 +126,7 @@
                     <input disabled type="text" class="form-control" value="${termination.executives}"/>
                 </div>
 
-                <div class="input-group" style="margin-top: 2%">
+                <div id="approvals-container" class="input-group" style="margin-top: 2%">
                     <span class="input-group-addon" id="approvals-addon">New approvals:</span>
                     <div class="tab-content" id="approvals1">
                         <input type="text" id="demo-input-local"/>
@@ -148,11 +148,26 @@
             </div>
         </div>
 
-            <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
-                <input type="button" value="Submit" class="btn btn-success" id="submit_btn"/>
-                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger"/>
-            </div>
+        <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
+            <input type="button" value="Submit" onclick="testt()" class="btn btn-success" id="submit_btn"/>
+            <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger"/>
+        </div>
 
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign"
+                                                                        aria-hidden="true"></span> Warning</h4>
+                    </div>
+                    <div class="modal-body">
+                        <span id="message"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     </div>
@@ -168,26 +183,62 @@
 
 <script type="text/javascript">
     var isTrue = false;
-    $(document).ready(function () {
 
-        /*$("input[type=submit]").click(function ()*/
-        $("#submit_btn").click(function () {
-            var a = [];
-            var b = [];
-            var c = [];
 
-            var old_Id = '${termination.old_req_id}';
-            var description = $('#termination_desc').val();
-            var subject = $('#termination_subject').val();
+    /*$("input[type=submit]").click(function ()*/
+    //$("#submit_btn").click(function () {
 
-            if ($(this).isDisabled) {
-                alert("disabled");
-            }
-            alert(description + old_Id);
+    function testt() {
+        /*Validation*/
 
-            a = $("#approvals1").children().siblings("input[type=text]").val();
-            b = $("#references1").children().siblings("input[type=text]").val();
-            c = $("#executives1").children().siblings("input[type=text]").val();
+        var flag = true;
+        msg = "";
+        /* Subject cannot be empty*/
+        if ($("#termination_subject").val().trim() == "") {
+            flag = false;
+            msg += "⛔ Subject cannot be empty" + "<br/>";
+            $('#termination_subject').css("border", "2px solid red");
+            $('#termination_subject').next('span').addClass('glyphicon-info-sign');
+        } else {
+            $('#termination_subject').css("border", "1px solid #999999");
+            $('#termination_subject').next('span').removeClass('glyphicon-info-sign')
+        }
+
+
+        var a = [];
+        var b = [];
+        var c = [];
+
+
+        a = $("#approvals1").children().siblings("input[type=text]").val();
+        if (a.length == 0) {
+            msg += "⛔ At least one approval should be selected" + "<br/>";
+            flag = false;
+            $('#approvals1').css("border", "2px solid red");
+            $('#approvalSpan').addClass('glyphicon-info-sign');
+        } else {
+            $('#approvals1').css("border", "1px solid #999999");
+            $('#approvalSpan').removeClass('glyphicon-info-sign');
+        }
+
+
+
+        isTrue = flag;
+
+        var old_Id = '${termination.old_req_id}';
+        var description = $('#termination_desc').val();
+        var subject = $('#termination_subject').val();
+
+        if ($(this).isDisabled) {
+            alert("disabled");
+        }
+
+        a = $("#approvals1").children().siblings("input[type=text]").val();
+        b = $("#references1").children().siblings("input[type=text]").val();
+        c = $("#executives1").children().siblings("input[type=text]").val();
+
+
+        if (flag) {
             $.ajax({
                 type: "POST",
                 url: "/Workflow/MyForms/cancellation",
@@ -196,14 +247,21 @@
                     window.location.href = "/Workflow/MyForms/Request";
                 },
                 error: function (e) {
-                    alert('Error: ');
+                    msg += "⛔ JSON Error" + "<br/>";
+                    flag = false;
                 }
             });
+        }
 
-            alert(isTrue);
-            return false;
-        });
-    });
+        if (!flag) {
+            $('#message').html(msg);
+            $('#myModal').modal('show');
+        }
+
+
+        return flag;
+    }
+    ;
 
 
     /* Send json data for approvals list*/
@@ -236,22 +294,7 @@
             }
         });
 
-        $('#termination_desc').blur(function () {
-            if ($(this).val().trim() == "") {
-                /*$('#error_desc').css("display", "block");*/
-                $("#submit_btn").prop("disabled", true);
-                $('#desc_container').addClass('has-error has-feedback');
-                isTrue = false;
-
-            } else {
-                $('#error_desc').css("display", "none");
-                $("#submit_btn").prop("disabled", false);
-                $('#desc_container').removeClass('has-error has-feedback');
-                isTrue = true;
-            }
-        });
     });
-
 
 
 </script>

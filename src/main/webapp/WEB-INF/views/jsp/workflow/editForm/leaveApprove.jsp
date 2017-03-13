@@ -80,11 +80,11 @@
 
 <div class="col-sm-10 col-md-offset-1">
     <div class="col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
+        <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
-        </p>
-        <h2 class="page-header">Leave approve {EDIT}</h2>
+        </p>--%>
+        <h2 class="page-header" style="border: none; padding-top: 6%"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Leave approve {EDIT}</h2>
 
         <form:form modelAttribute="leaveApproveVM" cssClass="form-horizontal" method="post" id="myform"
                    enctype="multipart/form-data">
@@ -93,8 +93,7 @@
 
                     <div class="input-group" style=" margin-top: 1%">
                         <span class="input-group-addon" id="saerchtype-addon">Absence type:</span>
-                        <form:select class="form-control" aria-describedby="saerchtype-addon" style="width: 40%"
-                                     path="absenceType" id="absenceType" items="${absenceType}">
+                        <form:select class="form-control" aria-describedby="saerchtype-addon" path="absenceType" id="absenceType" items="${absenceType}">
 
                         </form:select>
                     </div>
@@ -110,18 +109,34 @@
                     <div class="input-group" style="margin-top: 1%">
                         <span class="input-group-addon" id="attach-addon">Attached:</span>
                         <div id="attachmentDiv">
-                            <c:forEach items="${leaveApproveVM.attachments}" var="attachment">
+
+                            <c:if test="${empty unformattedVM.attachments}">
+                                <p style="color:#000000;">
+                                    No attachment
+                                </p>
+                            </c:if>
+                            <c:if test="${not empty unformattedVM.attachments}">
+                                <c:forEach items="${unformattedVM.attachments}" var="attachment">
+                                    <p >
+                                        <a style="color: #000" href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a>
+                                        <a style="color: #000" href="/Workflow/EditForm/files/delete/${attachment.id}"><span style="color: #ff0000; font-style: normal" class="glyphicon glyphicon-remove-sign" aria-hidden="false"></span></a>
+                                    </p>
+                                </c:forEach>
+                            </c:if>
+
+
+
+                            <%--<c:forEach items="${leaveApproveVM.attachments}" var="attachment">
                                 <p>
                                     <a href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a>
                                     <a href="/Workflow/EditForm/files/delete/${attachment.id}"><span style="color: #ff0000"
                                             class="glyphicon glyphicon-remove-sign" aria-hidden="false"></span></a>
                                 </p>
-                            </c:forEach>
+                            </c:forEach>--%>
                         </div>
                     </div>
                     <div class="input-group" style="margin-top: 2%">
-                        <span class="input-group-addon" id="attachment-addon" glyphicon
-                              glyphicon-open>Attachment:</span>
+                        <span class="input-group-addon" id="attachment-addon">Attachment:</span>
                         <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
                     </div>
                     <div class="input-group" style="margin-top: 2%">
@@ -134,7 +149,7 @@
             </div>
 
             <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
-                <input id="tv" type="submit" name="submitLeaveApprove" value="Save" class="btn btn-success"/>
+                <input id="tv" type="submit" name="submitLeaveApprove" value="Submit" class="btn btn-success"/>
                 <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
             </div>
         </form:form>
@@ -148,20 +163,20 @@
     /* Send input from approval list to controller by AJAX */
     $(document).ready(function () {
 
-        var flag = true;
-        var msg = "";
+
         $("#tv").click(function () {
+            var flag = true;
+            var msg = "";
 
             /* Subject cannot be empty*/
-            if ($("#absenceType").val().trim() == "") {
+            if($("#absenseSelect option:selected").text() == ""){
+                $('#absenseSelect').css("border","2px solid red");
+                $('#absenseSelect').next('span').addClass('glyphicon-info-sign')
                 flag = false;
-                msg += "Absence type cannot be empty \n";
-            }
-
-            /* Comments cannot be empty*/
-            if ($("#comment").val().trim() == "") {
-                flag = false;
-                msg += "Comment cannot be empty \n";
+                msg += "⛔ Absence type cannot be empty" + "<br/>";
+            }else {
+                $('#absenseSelect').css("border", "1px solid #999999");
+                $('#absenseSelect').next('span').removeClass('glyphicon-info-sign')
             }
 
             /* file size limitation */
@@ -172,33 +187,60 @@
                     size += input.files[0].size;
                 }
                 if (size > 104857600) {
-                    flag = false;
-                    msg += "Attached files cannot be more than 100MB \n";
+                    flag = false
+                    msg += "⛔ Attached files cannot be more than 100MB" + "<br/>";
+                    $('#file').css("border","2px solid red");
+                    $('#file').next('span').addClass('glyphicon-info-sign');
+                }else {
+                    $('#file').css("border", "1px solid #999999");
+                    $('#file').next('span').removeClass('glyphicon-info-sign')
                 }
             }
 
 
-            /* Date start cannot be empty */
-            if ($("#dateStart").val().trim() == "") {
-                flag = false;
-                msg += "Start date cannot be empty \n";
-            }
-
-            /* Date end cannot be empty */
-            if ($("#dateEnd").val().trim() == "") {
-                flag = false;
-                msg += "End date cannot be empty \n";
-            }
             var dStart = new Date($("#dateStart").val());
             var dEnd = new Date($("#dateEnd").val());
 
             /* Start date cannot be more than end date*/
             if (dStart > dEnd) {
                 flag = false;
-                msg += "Start date cannot be later than end date \n";
+                msg += "⛔ Start date cannot be later than end date" + "<br/>";
+                $('#dateStart').css("border","2px solid red");
+                $('#dateEnd').css("border","2px solid red");
+                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+            } else {
+                $('#dateStart').css("border", "1px solid #999999");
+                $('#dateEnd').css("border", "1px solid #999999");
+                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
             }
-            alert(msg);
-            msg = "";
+
+            /* Date start cannot be empty */
+            if ($("#dateStart").val().trim() == "") {
+                flag = false;
+                msg += "⛔ Start date cannot be empty" + "<br/>";
+                $("#dateStart").css("border","2px solid red");
+                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+            }else {
+                $('#dateStart').css("border", "1px solid #999999");
+                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+            }
+
+            /* Date end cannot be empty */
+            if ($("#dateEnd").val().trim() == "") {
+                flag = false;
+                msg += "⛔ End date cannot be empty" + "<br/>";
+                $('#dateEnd').css("border","2px solid red");
+                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+            }else {
+                $('#dateEnd').css("border", "1px solid #999999");
+                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+            }
+
+            if (flag != false){
+                $('#message').html(msg);
+                $('#myModal').modal('show');
+            }
+
             return flag;
             var a = [];
             var b = [];

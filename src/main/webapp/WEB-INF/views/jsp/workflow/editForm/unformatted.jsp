@@ -102,11 +102,11 @@
 
 <div class="col-sm-10 col-md-offset-1">
     <div class="col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
+        <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
-        </p>
-        <h2 class="page-header">Unformatted {EDIT}</h2>
+        </p>--%>
+        <h2 class="page-header" style="border: none; padding-top: 6%"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Unformatted {EDIT}</h2>
 
         <form:form modelAttribute="unformattedVM" cssClass="form-horizontal" method="post" id="myform" enctype="multipart/form-data">
             <div class="w3-container b3form">
@@ -126,30 +126,27 @@
 
                     <%-- Approvals, references, executors shouldn't be edited --%>
                     <div class="input-group" style="margin-top: 1%">
-                        <span class="input-group-addon" id="attach-addon">Attachments:</span>
+                        <span class="input-group-addon" id="attach-addon">Attached files:</span>
                         <div id="attachmentDiv" >
-                            <c:forEach items="${unformattedVM.attachments}" var="attachment">
+
+                            <c:if test="${empty unformattedVM.attachments}">
+                                <p style="color:#000000;">
+                                    No attachment
+                                </p>
+                            </c:if>
+                            <c:if test="${not empty unformattedVM.attachments}">
+                                <c:forEach items="${unformattedVM.attachments}" var="attachment">
                                     <p >
                                         <a style="color: #000" href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a>
                                         <a style="color: #000" href="/Workflow/EditForm/files/delete/${attachment.id}"><span style="color: #ff0000; font-style: normal" class="glyphicon glyphicon-remove-sign" aria-hidden="false"></span></a>
                                     </p>
-                            </c:forEach>
+                                </c:forEach>
+                            </c:if>
 
-                            <%--<c:forEach items="${leaveApproveVM.attachments}" var="attachment">
-                                <div>
-                                    <a href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a>
-                                </div>
-                                &lt;%&ndash; <p>
-                                    <a href="/Workflow/EditForm/files/${attachment.id}">${attachment.fileName}</a>
-                                    <a href="/Workflow/EditForm/files/delete/${attachment.id}"><span style="color: #ff0000"
-                                                                                                     class="glyphicon glyphicon-remove-sign" aria-hidden="false"></span></a>
-                                </p>&ndash;%&gt;
-                            </c:forEach>
---%>
                         </div>
                     </div>
                     <div class="input-group" style="margin-top: 2%">
-                    <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open>Attachment:</span>
+                    <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open>New attachment:</span>
                         <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
                     </div>
                     <div class="input-group" style="margin-top: 2%">
@@ -161,11 +158,28 @@
             </div>
 
             <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
-                <input type="submit" name="submitUnformatted" value="Save" class="btn btn-success"/>
+                <input id="tv" type="submit" name="submitUnformatted" value="Submit" class="btn btn-success"/>
                 <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
             </div>
 
         </form:form>
+
+        <%--alertModal--%>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Warning</h4>
+                    </div>
+                    <div class="modal-body">
+                        <span id="message"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </div>
@@ -177,58 +191,107 @@
 
     /* Send input from approval list to controller by AJAX */
     $(document).ready(function() {
-        var flag = true;
-        var msg = "";
+
+        globalFlag = false;
+
+        $(document).ready(function() {
+            $(window).keydown(function(event){
+                if( (event.keyCode == 13) && (globalFlag == false) ) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+
+
         $("#tv").click(function (){
+            var flag = true;
+            var msg = "";
 
             /* Subject cannot be empty*/
-            if($("#subject").val().trim() == ""){
+
+
+            if ($("#subject").val().trim() == "") {
                 flag = false;
-                msg += "Subject cannot be empty \n";
+                msg += "⛔ Subject cannot be empty" + "<br/>";
+                $('#subject').css("border","2px solid red");
+                $('#subject').next('span').addClass('glyphicon-info-sign');
+            }else {
+                $('#subject').css("border", "1px solid #999999");
+                $('#subject').next('span').removeClass('glyphicon-info-sign')
             }
 
-            /* Comments cannot be empty*/
-            if($("#comment").val().trim() == ""){
-                flag = false;
-                msg += "Comment cannot be empty \n";
-            }
+
+
 
             /* file size limitation */
-            if($("#file").val().trim() != "") {
+            if ($("#file").val().trim() != "") {
                 var size = 0;
                 input = document.getElementById('file');
                 for (var i = 0; i < input.files.length; i++) {
                     size += input.files[0].size;
                 }
                 if (size > 104857600) {
-                        flag = false
-                        msg += "Attached files cannot be more than 100MB \n";
+                    flag = false
+                    msg += "⛔ Attached files cannot be more than 100MB" + "<br/>";
+                    $('#file').css("border","2px solid red");
+                    $('#file').next('span').addClass('glyphicon-info-sign');
+                }else {
+                    $('#file').css("border", "1px solid #999999");
+                    $('#file').next('span').removeClass('glyphicon-info-sign')
                 }
             }
 
-
-            /* Date start cannot be empty */
-            if($("#dateStart").val().trim() == "") {
-                flag = false;
-                msg += "Start date cannot be empty \n";
-            }
-
-            /* Date end cannot be empty */
-            if($("#dateEnd").val().trim() == "") {
-                flag = false;
-                msg += "End date cannot be empty \n";
-            }
             var dStart = new Date($("#dateStart").val());
             var dEnd = new Date($("#dateEnd").val());
 
+
             /* Start date cannot be more than end date*/
-            if(dStart > dEnd){
+            if (dStart > dEnd) {
                 flag = false;
-                msg += "Start date cannot be later than end date \n";
+                msg += "⛔ Start date cannot be later than end date" + "<br/>";
+                $('#dateStart').css("border","2px solid red");
+                $('#dateEnd').css("border","2px solid red");
+                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+            } else {
+                $('#dateStart').css("border", "1px solid #999999");
+                $('#dateEnd').css("border", "1px solid #999999");
+                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
             }
-            alert(msg);
-            msg = "";
+
+            /* Date start cannot be empty */
+            if ($("#dateStart").val().trim() == "") {
+                flag = false;
+                msg += "⛔ Start date cannot be empty" + "<br/>";
+                $("#dateStart").css("border","2px solid red");
+                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+            }else {
+                $('#dateStart').css("border", "1px solid #999999");
+                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+            }
+
+            /* Date end cannot be empty */
+            if ($("#dateEnd").val().trim() == "") {
+                flag = false;
+                msg += "⛔ End date cannot be empty" + "<br/>";
+                $('#dateEnd').css("border","2px solid red");
+                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+            }else {
+                $('#dateEnd').css("border", "1px solid #999999");
+                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+            }
+
+
+            if (!flag){
+                $('#message').html(msg);
+                $('#myModal').modal('show');
+            }
+
+            globalFlag = flag;
+
             return flag;
+
+
             var a=[];
             var b=[];
             var c=[];
@@ -247,21 +310,22 @@
                     alert('Error: ' + e);
                 }
             });
+
+
+
+
         });
     });
 
     /* Send json data for approvals list*/
-    $(document).ready(function () {
+   $(document).ready(function () {
         $("#demo-input-local").tokenInput(${jsonData});
         $("#demo-input-local2").tokenInput(${jsonData});
         $("#demo-input-local3").tokenInput(${jsonData});
 
-
-
-
-
-
     });
+
+
 
 
 

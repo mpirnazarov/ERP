@@ -665,14 +665,13 @@
                 }
 
 
-
                 if (viewed == false || statusid == 2 ){
                     $('#editButton').prop('disabled',false);
                 }else {
                     $('#editButton').prop('disabled',true);
                 }
 
-                if (viewed == false || statusid == 7) {
+                if (viewed == false || statusid == 7 || statusid == 8) {
                     $("#deleteButton").prop('disabled',false);
                 }else {
                     $("#deleteButton").prop('disabled',true);

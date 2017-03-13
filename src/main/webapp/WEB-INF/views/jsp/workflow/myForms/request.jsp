@@ -24,6 +24,19 @@
         font-weight: 800;
     }
 
+    .newRequestLabel {
+        color: #fff;
+        font-size: 13px;
+        font-weight: 100;
+        position: absolute;
+        margin-top: -39px;
+        margin-left: -41px;
+        background-color: #39d04a;
+        width: 36px;
+        border-radius: 23%;
+        text-align: center;
+    }
+
 
 </style>
 <spring:url value="/resources/core/css/paginationsStyle.css" var="paginationCss"/>
@@ -32,16 +45,16 @@
 
 <div class="col-sm-10 col-md-offset-1">
     <div class="col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
+        <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
-        </p>
-        <h2 class="page-header">Request</h2>
+        </p>--%>
+        <h2 class="page-header" style="border-bottom: 1px solid #fff;"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Request</h2>
 
         <div class="w3-container">
-            <div class="searchtoolstyle" style="height: 20%">
+            <%--<div class="searchtoolstyle" style="height: 20%">
 
-                <%--p1--%>
+                &lt;%&ndash;p1&ndash;%&gt;
                 <div style="display: flex; margin-bottom: 1%;">
                     <div style="margin-left: auto; width: 20%">
                         <label>FormType</label>
@@ -61,16 +74,16 @@
                     </div>
                     <div style="margin-left: 1%; width: 20%">
                         <label>Request date from</label>
-                        <input type="text" class="form-control" id="reqsandbox-container-from">
+                        <input placeholder="yyyy-mm-dd" type="text" class="form-control" id="reqsandbox-container-from">
                     </div>
 
                     <div style="margin-left: 1%; width: 20%">
                         <label>Request date to</label>
-                        <input type="text" class="form-control" id="reqsandbox-container-to">
+                        <input placeholder="yyyy-mm-dd" type="text" class="form-control" id="reqsandbox-container-to">
                     </div>
                 </div>
 
-                    <%--p2--%>
+                    &lt;%&ndash;p2&ndash;%&gt;
                 <div class="row">
 
                     <div class="input-group col-md-5 col-md-offset-7 " style="margin-top: 25px">
@@ -82,18 +95,73 @@
                     </div>
 
 
-                    <%--<div class="input-group">
+                    &lt;%&ndash;<div class="input-group">
                         <span class="input-group-addon" id="saerchtype-addon">Title:</span>
 
                         <input type="text" class="form-control" id="reqsearchId">
-                    </div>--%>
+                    </div>&ndash;%&gt;
 
-                    <%--<button type="button" class="btn btn-success" onclick="pagedList(this.id)" id="btnReqFilter"
+                    &lt;%&ndash;<button type="button" class="btn btn-success" onclick="pagedList(this.id)" id="btnReqFilter"
                             style="margin-left: 20%; border-radius: 0; width: 25%"><span
                             class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                    </button>--%>
+                    </button>&ndash;%&gt;
                 </div>
-            </div>
+            </div>--%>
+
+                <div class="searchtoolstyle" style="height: 20%">
+
+                    <%--p1--%>
+                    <div style="display: flex; margin-bottom: 1%;">
+                        <div style="margin-left: auto; width: 20%">
+                            <label>FormType</label>
+                            <select class="form-control" id="reqTypeId">
+                                <c:forEach var="type" items="${typeList}" varStatus="i">
+                                    <option id="${type.key}">${type.value}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div style="margin-left: 1%; width: 20%">
+                            <label>Current status</label>
+                            <select class="form-control"  id="reqStatusId">
+                                <c:forEach var="status" items="${statusList}" varStatus="i">
+                                    <option id="${status.key}">${status.value}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div style="margin-left: 1%; width: 20%">
+                            <label>From</label>
+                            <input placeholder="yyyy-mm-dd" type="text" class="form-control" id="reqsandbox-container-from">
+                        </div>
+
+                        <div style="margin-left: 1%; width: 20%">
+                            <label>To</label>
+                            <input placeholder="yyyy-mm-dd" type="text" class="form-control" id="reqsandbox-container-to">
+                        </div>
+                    </div>
+
+                    <%--p2--%>
+                    <div style="width: 41%; margin-left: auto">
+                        <div class="input-group " style="margin-top: 25px">
+                            <span class="input-group-addon" id="search-addon1" style="background-color: white; border: none; color: #bd2828">Title:</span>
+                            <input type="text" placeholder="Search for ..." class="form-control" id="reqsearchId" aria-describedby="search-addon1" style="border: none">
+                            <div class="input-group-addon btn" onclick="pagedList(this.id)" id="btnReqFilter" style="background-color: white; color: #bd2828"><span
+                                    class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                            </div>
+                        </div>
+
+
+                        <%--<div class="input-group">
+                            <span class="input-group-addon" id="saerchtype-addon">Title:</span>
+
+                            <input type="text" class="form-control" id="reqsearchId">
+                        </div>--%>
+
+                        <%--<button type="button" class="btn btn-success" onclick="pagedList(this.id)" id="btnReqFilter"
+                                style="margin-left: 20%; border-radius: 0; width: 25%"><span
+                                class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                        </button>--%>
+                    </div>
+                </div>
 
             <table class="table sarTable" id="dynamicHead">
                 <thead>
@@ -102,7 +170,7 @@
                     <th>Title</th>
                     <th>Request date</th>
                     <th>Current status</th>
-                    <th></th>
+                    <th>Details</th>
                 </tr>
                 </thead>
                 <tbody id="dynamicBody">
@@ -112,17 +180,18 @@
             <div id="notFoundDiv">
                 <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Empty
             </div>
-                <ul class="sagination modal-6" id="pagedListContainer" style="margin-left: 37%"></ul>
+                <ul class="sagination modal-6" id="pagedListContainer"></ul>
         </div>
     </div>
 </div>
 </div>
 
+
 <script>
 
 
-    $('#reqsandbox-container-from').datepicker({format: "yyyy-mm-dd"});
-    $('#reqsandbox-container-to').datepicker({format: "yyyy-mm-dd"});
+    $('#reqsandbox-container-from').datepicker({format: "yyyy-mm-dd", todayHighlight: true});
+    $('#reqsandbox-container-to').datepicker({format: "yyyy-mm-dd", todayHighlight: true});
 
 
     $("#reqsearchId").keyup(function(event){
@@ -136,11 +205,19 @@
 
 
 
+
+
+
+
+
 </script>
 
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>
 <script type="text/javascript">
+
+
+
     function initialize() {
         pagedList(0);
     }
@@ -199,21 +276,65 @@
                 //set current page
                 currentPage = data.page;
 
+
+                /*var d = new Date();
+                var todayDay = d.getDate();
+                var todayMonth = d.getMonth();
+                var todayYear = d.getFullYear();
+                var todayString = todayYear + "-" + todayMonth + "-" + todayDay;*/
+
+
+
+                var today = new Date();
+                var month = today.getMonth().toString().length == 1 ? "0" + today.getMonth().toString() : today.getMonth().toString();
+                var dayOfMonth = today.getDate().toString().length == 1 ? "0" + today.getDate().toString() : today.getDate().toString();
+                var todayString = today.getFullYear() + "-" + month + "-" + dayOfMonth;
+
+
+                var x = 0;
+
                 if(data.models == null || data.models == ' ') {
                     $('#notFoundDiv').show();
+
+
                 }
                 else {
                     $('#notFoundDiv').hide();
                     $(data.models).each(function (i, req) {
+
+                        x++;
                         //generate table
                         $('<tr/>').appendTo(tbody)
-                            .append($('<td/>').text(req.form_type))
+                            .append($('<td/>').text(req.form_type).addClass("formTypeTd"))
                             .append($('<td/>').text(req.request_subject))
-                            .append($('<td/>').text(req.date_created))
+                            .append($('<td/>').text(req.date_created).addClass("requestDateTd"))
                             .append($('<td/>').text(req.status).addClass("statusTd"))
                             .append($('<td/>').append($('<div class="btn" onclick="location.href=\'/Workflow/MyForms/details/2/' + req.request_id + '\'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></div>')));
+
+                        $('<div id="newdiv' + x + '" class="newRequestLabel">New</div>').appendTo(tbody)
+
+                        var nowDate = parseInt(todayString.slice(-2));
+                        var targetDate = parseInt(req.date_created.slice(-2));
+
+
+
+
+
+                        if (targetDate >= nowDate){
+
+                            $("#newdiv1").show();
+                        }else {
+
+                            $('this.div.newRequestLabel').hide();
+
+                        }
+
                     });
                 }
+
+
+
+
 
                 $('.statusTd:contains("In progress")').css('color', '#339abf');
                 $('.statusTd:contains("Revision")').css('color', '#edb81f');
@@ -224,20 +345,24 @@
                 $('.statusTd:contains("Finished")').css('color', '#59feef');
                 $('.statusTd:contains("Deleted")').css('color', '#000000');
 
+
+
+
+
                 numberOfPages = data.maxPages;
                 container.empty();
-                container.append($('<li><a href="#" id="-2" class="prev fa fa-arrow-left" onclick="pagedList(this.id)"></a></li>'));
+                container.append($('<li><a href="#" id="-2" class="prev fa fa-arrow-left" onclick="pagedList(this.id); return false"></a></li>'));
 
                 //generate pegination buttons
                 for (count = 1; count < numberOfPages + 1; count++) {
                     if (count == currentPage) {
-                        container.append($('<li><a href="#" id="' + count + '" class="active" id="' + count + '" onclick="pagedList(this.id)">' + count + '</a></li>'));
+                        container.append($('<li><a href="#" id="' + count + '" class="active" id="' + count + '" onclick="pagedList(this.id); return false">' + count + '</a></li>'));
                     }
                     else {
-                        container.append($('<li><a href="#" id="' + count + '" onclick="pagedList(this.id)">' + count + '</a></li>'));
+                        container.append($('<li><a href="#" id="' + count + '" onclick="pagedList(this.id); return false">' + count + '</a></li>'));
                     }
                 }
-                container.append($('<li><a href="#" id="-1" class="next fa fa-arrow-right" onclick="pagedList(this.id)"></a></li>'));
+                container.append($('<li><a href="#" id="-1" class="next fa fa-arrow-right" onclick="pagedList(this.id); return false"></a></li>'));
             },
 
             error: function () {
@@ -248,6 +373,8 @@
 
         });
     }
+
+
 </script>
 
 <script type="text/javascript">

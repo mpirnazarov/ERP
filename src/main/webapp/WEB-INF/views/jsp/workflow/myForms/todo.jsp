@@ -30,11 +30,11 @@
 
 <div class="col-sm-10 col-md-offset-1">
     <div class="col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
+        <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
-        </p>
-        <h2 class="page-header">To Do</h2>
+        </p>--%>
+        <h2 class="page-header" style="border-bottom: 1px solid #fff;"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> To Do</h2>
 
         <div class="w3-container">
 
@@ -62,11 +62,11 @@
                             </select>
                         </div>
                         <div style="margin-left: 2%; width: 20%">
-                            <label>Request date from</label>
+                            <label>From</label>
                             <input type="text" class="form-control" id="sandbox-container-from" maxlength="10">
                         </div>
                         <div style="margin-left: 2%; width: 20%">
-                            <label>Request date to</label>
+                            <label>To</label>
                             <input type="text" class="form-control" id="sandbox-container-to" maxlength="10">
                         </div>
                     </div>
@@ -113,7 +113,7 @@
         <div id="notFoundDiv">
             <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Empty
         </div>
-            <ul class="sagination modal-6" id="pagedListContainer" style="margin-left: 37%"></ul>
+            <ul class="sagination modal-6" id="pagedListContainer" ></ul>
         </div>
     </div>
 
@@ -223,18 +223,18 @@
 
                     numberOfPages = data.maxPages;
                     container.empty();
-                    container.append($('<li><a href="#" id="-2" class="prev fa fa-arrow-left" onclick="pagedList(this.id)"></a></li>'));
+                    container.append($('<li><a href="#" id="-2" class="prev fa fa-arrow-left" onclick="pagedList(this.id); return false"></a></li>'));
 
                     //generate pegination buttons
                     for (count = 1; count < numberOfPages + 1; count++) {
                         if (count == currentPage) {
-                            container.append($('<li><a href="#" id="' + count + '" class="active" id="' + count + '" onclick="pagedList(this.id)">' + count + '</a></li>'));
+                            container.append($('<li><a href="#" id="' + count + '" class="active" id="' + count + '" onclick="pagedList(this.id); return false">' + count + '</a></li>'));
                         }
                         else {
-                            container.append($('<li><a href="#" id="' + count + '" onclick="pagedList(this.id)">' + count + '</a></li>'));
+                            container.append($('<li><a href="#" id="' + count + '" onclick="pagedList(this.id); return false">' + count + '</a></li>'));
                         }
                     }
-                    container.append($('<li><a href="#" id="-1" class="next fa fa-arrow-right" onclick="pagedList(this.id)"></a></li>'));
+                    container.append($('<li><a href="#" id="-1" class="next fa fa-arrow-right" onclick="pagedList(this.id); return false"></a></li>'));
                 },
 
 

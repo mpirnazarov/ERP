@@ -507,6 +507,7 @@ a:focus {
     margin-top: 2%;
 }
 
+
 .sarTable tbody tr td {
     border: none;
 }
@@ -514,6 +515,8 @@ a:focus {
 .sarTable tbody {
     color: grey;
 }
+
+
 
 .sarTable td th {
     padding: 10px 8px;
@@ -527,7 +530,7 @@ a:focus {
 
 .sarTable tbody tr:hover {
     background-color: rgba(189, 40, 40, 0.2);
-    border-bottom:  2px solid #b94a48;
+
 }
 
 .sarTable .btn {

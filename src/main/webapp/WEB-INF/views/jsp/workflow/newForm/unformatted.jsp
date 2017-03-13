@@ -188,14 +188,28 @@
 
     /* Send input from approval list to controller by AJAX */
     $(document).ready(function () {
-        var today = new Date();
+
+        globalFlag = false;
+
+        $(document).ready(function() {
+            $(window).keydown(function(event){
+                if( (event.keyCode == 13) && (globalFlag == false) ) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+
+
+
+        /*var today = new Date();
         var month = today.getMonth().toString().length == 1 ? "0" + today.getMonth().toString() : today.getMonth().toString();
         var dayOfMonth = today.getDate().toString().length == 1 ? "0" + today.getDate().toString() : today.getDate().toString();
          var todayString = today.getFullYear() + "-" + month + "-" + dayOfMonth;
-        /* $('#dateStart').val(todayString);
-         $('#dateEnd').val(todayString);
-*/
-        var msg = "";
+         $('#dateStart').val(todayString);
+         $('#dateEnd').val(todayString);*/
+
+
         $("#tv").click(function () {
             var flag = true;
             msg = "";
@@ -210,11 +224,7 @@
                 $('#subject').next('span').removeClass('glyphicon-info-sign')
             }
 
-            /* Comments cannot be empty*/
-            /*if ($("#comment").val().trim() == "") {
-                flag = false;
-                msg += "Comment cannot be empty \n";
-            }*/
+
 
             /* file size limitation */
             if ($("#file").val().trim() != "") {
@@ -288,7 +298,7 @@
                 $('#approvalSpan').removeClass('glyphicon-info-sign');
             }
 
-            alert(flag);
+
 
             if (!flag){
                 $('#message').html(msg);
@@ -319,9 +329,13 @@
                 }
             });
 
-            if(isTrue&&flag) return flag;
-            else return !flag;
+            if(isTrue&&flag) return true;
+            else return false;
+
+            globalFlag = flag;
+
         });
+
 
         var isTrue = true;
 
@@ -350,6 +364,8 @@
 
         $("#tv2").click(function (){
 
+            var draftApprovals = true;
+
 
             var dEnd = $("#dateEnd").datepicker({format: "mm-dd-yyyy"}).val();
             var dStart = $("#dateStart").datepicker({format: "mm-dd-yyyy"}).val();
@@ -360,17 +376,57 @@
             var todayString = year + "-" + month + "-" + dayOfMonth;
 
             validateFile();
-            if(dStart==""&&isTrue){
+            if(dStart == "" && isTrue){
                 $("#dateStart").val(todayString);
              }
 
-            if(dEnd==""&&isTrue){
+            if(dEnd == "" && isTrue){
                 $("#dateEnd").val(todayString);
              }
+
+
+
 
             var a=[];
             var b=[];
             var c=[];
+
+            var msg = "";
+
+            a = $("#approvals").children().siblings("input[type=text]").val();
+            if(a.length == 0)
+            {
+                msg += "⛔ At least one approval should be selected" + "<br/>";
+                draftApprovals = false;
+                $('#approvals').css("border","2px solid red");
+                $('#approvalSpan').addClass('glyphicon-info-sign');
+
+                $('#dateEnd').css("border", "1px solid #999999");
+                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+
+                $('#dateStart').css("border", "1px solid #999999");
+                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+
+                $('#subject').css("border", "1px solid #999999");
+                $('#subject').next('span').removeClass('glyphicon-info-sign')
+
+            } else {
+                $('#approvals').css("border", "1px solid #999999");
+                $('#approvalSpan').removeClass('glyphicon-info-sign');
+
+
+            }
+
+            if (!draftApprovals){
+                $('#message').html(msg);
+                $('#myModal').modal('show');
+            }
+
+
+            isTrue = draftApprovals;
+
+
+
             a = $("#approvals").children().siblings("input[type=text]").val();
             b = $("#references").children().siblings("input[type=text]").val();
             c = $("#executives").children().siblings("input[type=text]").val();
@@ -387,6 +443,8 @@
             });
             return isTrue;
         });
+
+
     });
 
     /* Send json data for approvals list*/
@@ -396,6 +454,7 @@
         $("#demo-input-local3").tokenInput(${jsonData});
 
     });
+
 </script>
 
 

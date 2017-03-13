@@ -519,25 +519,7 @@
             }
         }
 
-        setDefaultValueToEmptyTodoDate();
-
     }
-
-    function setDefaultValueToEmptyTodoDate() {
-        var year = "1111";
-        var month = "11";
-        var dayOfMonth = "11";
-        var todayString = year + "-" + month + "-" + dayOfMonth;
-
-        $("input.dateInput").each(function () {
-            var ins = new Date($(this).val());
-
-            if(ins=="Invalid Date"){
-                $(this).val(todayString);
-            }
-        });
-    }
-
 
 </script>
 
@@ -545,17 +527,13 @@
 <script type="text/javascript">
 
     $("#tv2").click(function (){
-
-        var draftApprovals = true;
-
-
         var msg = "";
 
         a = $("#approvals").children().siblings("input[type=text]").val();
         if(a.length == 0)
         {
             msg += "⛔ At least one approval should be selected" + "<br/>";
-            draftApprovals = false;
+            isTrue = false;
             $('#approvals').css("border","2px solid red");
             $('#approvalSpan').addClass('glyphicon-info-sign');
 
@@ -572,41 +550,18 @@
             $('#approvalSpan').removeClass('glyphicon-info-sign');
         }
 
-        if (!draftApprovals){
-            $('#message').html(msg);
-            $('#myModal').modal('show');
-
-            return draftApprovals;
-        }
-
-
-
-
-
         var a=[];
         var b=[];
         var c=[];
 
-        var year = "1111";
-        var month = "11";
-        var dayOfMonth = "11";
-        var todayString = year + "-" + month + "-" + dayOfMonth;
-
         validateFile();
 
-        if(isTrue){
-            $('input[type="date"]').each(function () {
-                if($(this).val()==""){
-                    $(this).val(todayString);
-                }
-            });
+        if (!isTrue){
+            $('#message').html(msg);
+            $('#myModal').modal('show');
+
+            return isTrue;
         }
-
-
-
-
-
-        isTrue = draftApprovals;
 
         a = $("#approvals").children().siblings("input[type=text]").val();
         b = $("#references").children().siblings("input[type=text]").val();
@@ -789,7 +744,6 @@
 
         $("table.order-list.table-bordered").on("click", ".ibtnDel", function (event) {
             $(this).closest("tr").remove();
-
         });
 
 

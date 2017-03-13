@@ -369,6 +369,7 @@
 
             var dEnd = $("#dateEnd").datepicker({format: "mm-dd-yyyy"}).val();
             var dStart = $("#dateStart").datepicker({format: "mm-dd-yyyy"}).val();
+/*
 
             var year = "1111";
             var month = "11";
@@ -384,6 +385,7 @@
                 $("#dateEnd").val(todayString);
              }
 
+*/
 
 
 

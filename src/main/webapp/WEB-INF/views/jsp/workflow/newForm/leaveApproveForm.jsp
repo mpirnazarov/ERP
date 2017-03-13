@@ -437,22 +437,7 @@
 
         var dEnd = $("#dateEnd").datepicker({format: "mm-dd-yyyy"}).val();
         var dStart = $("#dateStart").datepicker({format: "mm-dd-yyyy"}).val();
-
-        var year = "1111";
-        var month = "11";
-        var dayOfMonth = "11";
-        var todayString = year + "-" + month + "-" + dayOfMonth;
-
         validateFile();
-
-        if(dStart==""&&isTrue){
-            $("#dateStart").val(todayString);
-        }
-
-        if(dEnd==""&&isTrue){
-            $("#dateEnd").val(todayString);
-        }
-
         $.ajax({
             type : "POST",
             url : "/Workflow/NewForm/LeaveApproveFormAjax",

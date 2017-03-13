@@ -32,16 +32,8 @@ public class BusinessTripMapper {
         else requestsEntity.setTripTypeId(1);
         // Type of workflow. 1-Business trip
         requestsEntity.setTypeId(typeId);
-
-        if (businessTripVM.getStart().toString().equals("1111-11-11"))
-            requestsEntity.setDateFrom(null);
-        else
-            requestsEntity.setDateFrom(businessTripVM.getStart());
-
-        if (businessTripVM.getEnd().toString().equals("1111-11-11"))
-            requestsEntity.setDateTo(null);
-        else
-            requestsEntity.setDateTo(businessTripVM.getEnd());
+        requestsEntity.setDateFrom(businessTripVM.getStart());
+        requestsEntity.setDateTo(businessTripVM.getEnd());
 
 
         requestsEntity.setDescription(businessTripVM.getPurpose());
@@ -60,17 +52,8 @@ public class BusinessTripMapper {
         membersEntity.setRequestId(businessTripVM.getId());
         membersEntity.setUserId(member.getUserId());
         membersEntity.setOrganizationName(member.getOrganizationName());
-
-        if (member.getDateFrom().toString().equals("1111-11-11"))
-            membersEntity.setDateFrom(null);
-        else
-            membersEntity.setDateFrom(member.getDateFrom());
-
-        if (member.getDateTo().toString().equals("1111-11-11"))
-            membersEntity.setDateTo(null);
-        else
-            membersEntity.setDateTo(member.getDateTo());
-
+        membersEntity.setDateFrom(member.getDateFrom());
+        membersEntity.setDateTo(member.getDateTo());
         membersEntity.setExpenseTransportation(member.getExpenseTransportation());
         membersEntity.setDailyAllowance(member.getDailyAllowance());
         membersEntity.setExpenseAccommodation(member.getExpenseAccommodation());

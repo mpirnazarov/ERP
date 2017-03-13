@@ -7,8 +7,6 @@ import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
-import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
-import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Mapper.UnformattedMapper;
 import com.lgcns.erp.workflow.ViewModel.UnformattedViewModel;
 import com.lgcns.erp.workflow.controller.email.MailMail;
@@ -16,24 +14,17 @@ import com.lgcns.erp.workflow.controller.email.MailMessage;
 import org.apache.commons.lang3.ArrayUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.beans.propertyeditors.CustomNumberEditor;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,7 +62,7 @@ public class UnformattedController {
         for (UsersEntity user :
                 UserService.getAllUsers()) {
             jsonObject = new JSONObject();
-            if(user.isEnabled()==true) {
+            if(user.isEnabled()==true && user.getUserName().compareTo(principal.getName())!=0) {
                 jsonObject = new JSONObject();
                 // Retrieving user localizations info from DB for all users and check for null
                 if(user.getId()!=0 || UserService.getUserLocByUserId(user.getId(), 3)!=null) {

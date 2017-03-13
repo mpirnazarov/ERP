@@ -15,6 +15,8 @@ import com.lgcns.erp.tapps.viewModel.PersonalInformationViewModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.*;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.joda.time.DateTime;
+import org.joda.time.Months;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -478,9 +480,25 @@ public class UserController {
             }
             returning.setFamilyLoc(familyMembers);
 
-            // (MUST BE FINISHED!) Getting and setting vacation days
+
+
+            // Getting and setting vacation days
+
+            Date hiringDate = user.getHiringDate();
+            DateTime now = new DateTime();
+            DateTime then = new DateTime(hiringDate.getTime());
+            int hiringDateInterval = Math.abs(Months.monthsBetween(now, then).getMonths());
+            if(hiringDateInterval < 6)
+                returning.setVacationDaysAll(0);
+
+            else if(hiringDateInterval >=6 && hiringDateInterval <=12)
+                returning.setVacationDaysAll(hiringDateInterval*2);
+
+            else
+                returning.setVacationDaysAll(24);
+
             returning.setVacationDaysLeft(getUsedVacationsNumber(user));
-            returning.setVacationDaysAll(24);
+
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -14,6 +14,9 @@ import com.lgcns.erp.workflow.Model.Attachment;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
 import com.lgcns.erp.workflow.ViewModel.LeaveApproveVM;
 import com.lgcns.erp.workflow.ViewModel.UnformattedViewModel;
+import com.lgcns.erp.workflow.controller.newForm.LeaveApproveController;
+import org.joda.time.DateTime;
+import org.joda.time.Months;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,7 +42,7 @@ public class WorkflowEditController {
     public ModelAndView WorkflowEditGET(Principal principal, @PathVariable int reqId){
 
         ModelAndView mav = new ModelAndView();
-
+        UsersEntity usersEntity = UserService.getUserByUsername(principal.getName());
         mav = UP.includeUserProfile(mav, principal);
 
         RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(reqId);
@@ -94,6 +97,43 @@ public class WorkflowEditController {
                     LeaveType.values()) {
                 absenceType.put(leaveType.getValue(), leaveType.name().replace("_", " "));
             }
+
+            boolean sixMonthPassed = false;
+            int vacationDaysAvailable=0;
+            int usedVacationNumber = LeaveApproveController.getUsedVacationsNumber(usersEntity);
+
+            java.sql.Date hiringDate = usersEntity.getHiringDate();
+            DateTime now = new DateTime();
+            DateTime then = new DateTime(hiringDate.getTime());
+
+            int hiringDateInterval = Math.abs(Months.monthsBetween(now, then).getMonths());
+
+            if(hiringDateInterval > 6){
+                System.out.println("6 mo apart!");
+                sixMonthPassed = true;
+            }
+            else{
+                System.out.println("6 mo NOT apart!");
+                sixMonthPassed = false;
+            }
+
+            if(hiringDateInterval < 6){
+                vacationDaysAvailable = 0;
+            }
+            else if(hiringDateInterval >=6 && hiringDateInterval <= 12){
+                vacationDaysAvailable = hiringDateInterval*2 - usedVacationNumber;
+            }
+            else{
+                vacationDaysAvailable = 24 - usedVacationNumber;
+            }
+
+            if(vacationDaysAvailable < 0){
+                vacationDaysAvailable = 0;
+            }
+
+            mav.addObject("vacationAvailable", vacationDaysAvailable);
+            mav.addObject("sixMonthPassed", sixMonthPassed);
+
 
             // Add trip type data to ModelAndView
             mav.addObject("absenceType", absenceType);

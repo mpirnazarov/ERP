@@ -78,7 +78,7 @@ public class BusinessTripController {
         for (UsersEntity user :
                 UserService.getAllUsers()) {
 
-            if(user.isEnabled()==true) {
+            if(user.isEnabled()==true && user.getUserName().compareTo(principal.getName())!=0) {
                 jsonObject = new JSONObject();
                 // Retrieving user localizations info from DB for all users and check for null
                 if(user.getId()!=0 || UserService.getUserLocByUserId(user.getId(), 3)!=null) {

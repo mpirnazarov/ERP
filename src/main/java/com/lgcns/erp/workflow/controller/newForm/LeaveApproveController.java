@@ -16,14 +16,14 @@ import com.lgcns.erp.workflow.ViewModel.LeaveApproveVM;
 import com.lgcns.erp.workflow.controller.email.MailMail;
 import com.lgcns.erp.workflow.controller.email.MailMessage;
 import org.apache.commons.lang3.ArrayUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Months;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,7 +32,6 @@ import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -66,8 +65,41 @@ public class LeaveApproveController {
 
         mav.addObject("curUser", usersEntity);
 
-        mav.addObject("vacationAvailable", getUsedVacationsNumber(usersEntity));
-        mav.addObject("sixMonthPassed", getUsedVacationsNumber(usersEntity));
+        boolean sixMonthPassed = false;
+        int vacationDaysAvailable=0;
+        int usedVacationNumber = getUsedVacationsNumber(usersEntity);
+
+        Date hiringDate = usersEntity.getHiringDate();
+        DateTime now = new DateTime();
+        DateTime then = new DateTime(hiringDate.getTime());
+
+        int hiringDateInterval = Math.abs(Months.monthsBetween(now, then).getMonths());
+
+        if(hiringDateInterval > 6){
+            System.out.println("6 mo apart!");
+            sixMonthPassed = true;
+        }
+        else{
+            System.out.println("6 mo NOT apart!");
+            sixMonthPassed = false;
+        }
+
+        if(hiringDateInterval < 6){
+            vacationDaysAvailable = 0;
+        }
+        else if(hiringDateInterval >=6 && hiringDateInterval <= 12){
+            vacationDaysAvailable = hiringDateInterval*2 - usedVacationNumber;
+        }
+        else{
+            vacationDaysAvailable = 24 - usedVacationNumber;
+        }
+
+        if(vacationDaysAvailable < 0){
+            vacationDaysAvailable = 0;
+        }
+
+        mav.addObject("vacationAvailable", vacationDaysAvailable);
+        mav.addObject("sixMonthPassed", sixMonthPassed);
 
         // Create Json data about userlist for Approvals, reference and executive persons list
         JSONObject jsonObject = null;
@@ -81,7 +113,7 @@ public class LeaveApproveController {
         for (UsersEntity user :
                 UserService.getAllUsers()) {
             jsonObject = new JSONObject();
-            if(user.isEnabled()==true) {
+            if(user.isEnabled()==true && user.getUserName().compareTo(principal.getName())!=0) {
                 jsonObject = new JSONObject();
                 // Retrieving user localizations info from DB for all users and check for null
                 if(user.getId()!=0 || UserService.getUserLocByUserId(user.getId(), 3)!=null) {
@@ -128,10 +160,11 @@ public class LeaveApproveController {
         mav.addObject("absenceType", absenceType);
 
 
+
         return mav;
     }
 
-    private static int getUsedVacationsNumber(UsersEntity user) {
+    public static int getUsedVacationsNumber(UsersEntity user) {
         LocalDateTime currentTime = LocalDateTime.now();
 
         Instant i = Instant.ofEpochMilli(user.getHiringDate().getTime());

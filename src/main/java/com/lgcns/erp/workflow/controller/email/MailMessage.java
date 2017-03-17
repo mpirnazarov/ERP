@@ -2,7 +2,6 @@ package com.lgcns.erp.workflow.controller.email;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
-import com.lgcns.erp.workflow.DBEntities.MembersEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepsEntity;
 import com.lgcns.erp.workflow.Enums.Type;
@@ -57,7 +56,7 @@ public class MailMessage {
         title = requestsEntity.getSubject();
         destination = requestsEntity.getDestination();
 
-        WorkflowService.getStepsByRequestId(requestId);
+        stepsEntities = WorkflowService.getStepsByRequestId(requestId);
 
         /* Get list of approvals, executives, references */
         for(StepsEntity stepsEntity:
@@ -75,8 +74,20 @@ public class MailMessage {
         }
 
         System.out.println("Approvals MAIL: " + approvals);
+        for (Member mem :
+                approvals) {
+            System.out.println("Approval member: " + mem);
+        }
         System.out.println("Executives MAIL: " + executives);
+        for (Member mem :
+                executives) {
+            System.out.println("Executives member: " + mem);
+        }
         System.out.println("References MAIL: " + references);
+        for (Member mem :
+                references) {
+            System.out.println("References member: " + mem);
+        }
 
         if(actionStep == 1) {
             if(involvementType != 4) {

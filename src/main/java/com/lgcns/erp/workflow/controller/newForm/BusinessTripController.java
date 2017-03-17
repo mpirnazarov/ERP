@@ -79,6 +79,15 @@ public class BusinessTripController {
 
                 Member member = MembersMapper.getMember(user.getId());
                 // Retrieving user localizations info from DB for all users and check for null
+                /*if(user.getId()!=0 || UserService.getUserLocByUserId(user.getId(), 3)!=null) {
+                    try {
+                        userLoc = UserService.getUserLocByUserId(user.getId(), 3);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }*/
+                // Inserting user Id as id, fullname as name, jobTitle as jobTitle and department as department
+                /*ProfileViewModel prof =  UserController.getProfileByUsername(user.getUserName());*/
 
                 jsonObject.put("id", member.getId());
                 jsonObject.put("name", member.getFirstName() + " " + member.getLastName());
@@ -86,7 +95,37 @@ public class BusinessTripController {
                 jsonObject.put("department", member.getDepartment());
 
                 users.put(member.getId(), member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
-
+                users.put(member.getId()+1, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
+                users.put(member.getId()+2, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
+                users.put(member.getId()+3, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
+                users.put(member.getId()+4, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
+                users.put(member.getId()+5, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
+                users.put(member.getId()+6, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
+                users.put(member.getId()+7, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
+                users.put(member.getId()+8, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
+                users.put(member.getId()+9, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
+                users.put(member.getId()+10, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
+                users.put(member.getId()+11, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
+                users.put(member.getId()+12, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
+                users.put(member.getId()+13, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
+                users.put(member.getId()+14, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
+                users.put(member.getId()+15, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
+                users.put(member.getId()+16, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
+                users.put(member.getId()+17, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
+                users.put(member.getId()+21, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
+                users.put(member.getId()+31, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
+                users.put(member.getId()+41, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
+                users.put(member.getId()+51, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
+                users.put(member.getId()+61, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
+                users.put(member.getId()+71, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
+                users.put(member.getId()+81, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
+                users.put(member.getId()+91, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
+                users.put(member.getId()+101, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
+                users.put(member.getId()+111, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
+                users.put(member.getId()+121, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
+                users.put(member.getId()+131, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
+                users.put(member.getId()+141, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
+                users.put(member.getId()+151, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
 
                 userId[i] = member.getId();
                 userName[i++] = member.getFirstName() + " " + member.getLastName();

@@ -49,4 +49,15 @@ public class Member {
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", department='" + department + '\'' +
+                '}';
+    }
 }

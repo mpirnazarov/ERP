@@ -785,8 +785,8 @@
 
             <c:forEach var="member" items="${bmodel.members}">
             if (memberId == ${member.id}) {
-                memberName = '${member.name}';
-                memberSurename = '${member.surname}';
+                memberName = '${member.firstName}';
+                memberSurename = '${member.lastName}';
                 memberJobTitle = '${member.jobTitle}';
                 memberDepartment = '${member.department}';
             }

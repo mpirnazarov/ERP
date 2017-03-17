@@ -115,6 +115,7 @@
                     <div class="input-group" style="margin-top: 1%">
                     <span class="input-group-addon" id="saerchtype-addon">Subject:</span>
                             <form:input type="text" class="form-control" path="subject" id="subject"/>
+                        <span class="glyphicon warningIcon" aria-hidden="true"></span>
                     </div>
                     <div class="input-group" style="margin-top: 1%">
                     <span class="input-group-addon" id="purpose-addon">Description:</span>
@@ -148,11 +149,13 @@
                     <div class="input-group" style="margin-top: 2%">
                     <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open>New attachment:</span>
                         <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
+                        <span class="glyphicon warningIcon" aria-hidden="true"></span>
                     </div>
                     <div class="input-group" style="margin-top: 2%">
                     <span class="input-group-addon" id="date-addon">Date(Start/End):</span>
-                        <form:input type="date" class="form-control" style="width:50%" name="start" id="dateStart" path="start"/>
-                        <form:input type="date" class="form-control" style="width:50%" name="end" id="dateEnd" path="end"/>
+                        <form:input type="text" class="form-control" style="width:50%" name="start" id="dateStart" path="start"/>
+                        <form:input type="text" class="form-control" style="width:50%" name="end" id="dateEnd" path="end"/>
+                        <span class="glyphicon warningIcon" aria-hidden="true"></span>
                     </div>
                 </div>
             </div>
@@ -192,6 +195,9 @@
     /* Send input from approval list to controller by AJAX */
     $(document).ready(function() {
 
+        $('#dateStart').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
+        $('#dateEnd').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
+
         globalFlag = false;
 
         $(document).ready(function() {
@@ -219,6 +225,26 @@
             }else {
                 $('#subject').css("border", "1px solid #999999");
                 $('#subject').next('span').removeClass('glyphicon-info-sign')
+
+                if ($("#subject").val().length > 50){
+                    msg += "⛔ Subject cannot be more than 50 characters" + "<br/>";
+                    flag = false
+                    $('#subject').next('span').addClass('glyphicon-info-sign')
+                    $(this).css("border", "2px solid red");
+                }else {
+                    $(this).css("border", "1px solid #999999");
+                    $('#subject').next('span').removeClass('glyphicon-info-sign')
+                }
+            }
+
+            if ($("#comment").val().length > 600) {
+                flag = false;
+                msg += "⛔ Description can not be more than 600 characters" + "<br/>";
+                $('#comment').css("border", "2px solid red");
+                $('#comment').next('span').addClass('glyphicon-info-sign');
+            } else {
+                $('#comment').css("border", "1px solid #999999");
+                $('#comment').next('span').removeClass('glyphicon-info-sign')
             }
 
 
@@ -257,29 +283,31 @@
                 $('#dateStart').css("border", "1px solid #999999");
                 $('#dateEnd').css("border", "1px solid #999999");
                 $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+
+                /* Date start cannot be empty */
+                if ($("#dateStart").val().trim() == "") {
+                    flag = false;
+                    msg += "⛔ Start date cannot be empty" + "<br/>";
+                    $("#dateStart").css("border","2px solid red");
+                    $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+                }else {
+                    $('#dateStart').css("border", "1px solid #999999");
+                    $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+                }
+
+                /* Date end cannot be empty */
+                if ($("#dateEnd").val().trim() == "") {
+                    flag = false;
+                    msg += "⛔ End date cannot be empty" + "<br/>";
+                    $('#dateEnd').css("border","2px solid red");
+                    $('#dateEnd').next('span').addClass('glyphicon-info-sign');
+                }else {
+                    $('#dateEnd').css("border", "1px solid #999999");
+                    $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+                }
             }
 
-            /* Date start cannot be empty */
-            if ($("#dateStart").val().trim() == "") {
-                flag = false;
-                msg += "⛔ Start date cannot be empty" + "<br/>";
-                $("#dateStart").css("border","2px solid red");
-                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
-            }else {
-                $('#dateStart').css("border", "1px solid #999999");
-                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
-            }
 
-            /* Date end cannot be empty */
-            if ($("#dateEnd").val().trim() == "") {
-                flag = false;
-                msg += "⛔ End date cannot be empty" + "<br/>";
-                $('#dateEnd').css("border","2px solid red");
-                $('#dateEnd').next('span').addClass('glyphicon-info-sign');
-            }else {
-                $('#dateEnd').css("border", "1px solid #999999");
-                $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
-            }
 
 
             if (!flag){

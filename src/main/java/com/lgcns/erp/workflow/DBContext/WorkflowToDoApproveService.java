@@ -91,6 +91,7 @@ public class WorkflowToDoApproveService {
         to = (int[]) ArrayUtils.addAll(WorkflowEmailService.getInvolvementList(requestId, 2), WorkflowEmailService.getInvolvementList(requestId, 3));
         if (to.length!=0) {
             mm.sendMail(to, subject, msg);
+            mm.sendHtmlMail(to, subject, msg);
             to = null;
         }
         /* Sending to creator */
@@ -282,15 +283,19 @@ public class WorkflowToDoApproveService {
         boolean doneStatus = false;
         try {
             List<Date> dates = getDaysBetweenDates(from, to);
+            Calendar c = Calendar.getInstance();
             for (Date date : dates) {
-                WorkloadEntity workload = new WorkloadEntity();
-                workload.setUserId(userId);
-                workload.setDate(date);
-                workload.setProjectId(0);
-                workload.setDuration(duration);
-                workload.setWorkloadType(workloadType);
+                c.set(date.getYear(), date.getMonth(), date.getDate());
+                if(c.get(Calendar.DAY_OF_WEEK) != 5) {
+                    WorkloadEntity workload = new WorkloadEntity();
+                    workload.setUserId(userId);
+                    workload.setDate(date);
+                    workload.setProjectId(0);
+                    workload.setDuration(duration);
+                    workload.setWorkloadType(workloadType);
 
-                doneStatus = WorkloadServices.saveOrUpdateWorklad(workload);
+                    doneStatus = WorkloadServices.saveOrUpdateWorklad(workload);
+                }
             }
         }catch (Exception e){
             doneStatus = false;

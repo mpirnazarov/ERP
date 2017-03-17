@@ -20,7 +20,7 @@
 <script src="/resources/core/js/jquery.easy-autocomplete.min.js"></script>
 
 <!-- CSS file of autocomplete -->
-<link rel="stylesheet" href="/resources/core/css/easy-autocomplete.min.css" />
+<link rel="stylesheet" href="/resources/core/css/easy-autocomplete.min.css"/>
 
 <%--<script src="/resources/core/js/jquery-1.12.4.min.js"></script>--%>
 
@@ -64,7 +64,7 @@
     .paper::before,
     .paper::after {
         /* Add shadow to distinguish sheets from one another */
-        box-shadow: 2px 1px 1px rgba(0,0,0,0.15);
+        box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.15);
     }
 
     .paper::before,
@@ -120,17 +120,14 @@
 
     }
 
-    .warningBorder {
-
+    .vacationSpan {
+        font-size: 20px;
+        float: right;
+        margin-top: 36px;
     }
 
 
-
-
-
-
 </style>
-
 
 
 <div class="col-sm-10 col-md-offset-1">
@@ -139,124 +136,166 @@
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="page-header" style="border: none; padding-top: 6%"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Leave approve</h2>
+        <h2 class="page-header" style="border: none; padding-top: 6%"><span class="glyphicon glyphicon-calendar"
+                                                                            aria-hidden="true"></span> Leave
+            approve<span class="vacationSpan">You have: ${vacationAvailable} days of vacation</span></h2>
 
-        <form:form modelAttribute="leaveApproveVM" cssClass="form-horizontal" method="post" id="myform" enctype="multipart/form-data">
+        <form:form modelAttribute="leaveApproveVM" cssClass="form-horizontal" method="post" id="myform"
+                   enctype="multipart/form-data">
             <div class="w3-container b3form paper">
-            <div class="form-header" style="padding-top: 1%">
+                <div class="form-header" style="padding-top: 1%">
 
-                <div class="input-group" style="margin-top: 1%">
-                    <span class="input-group-addon" id="saerchtype-addon"><span class="reqfield"></span>Absence type:</span>
-                    <form:select id="absenseSelect" class="form-control" aria-describedby="saerchtype-addon" style="width: 100%; border-color:#999999" path="absenceType" items="${absenceType}">
-                    </form:select>
-                    <span class="glyphicon warningIcon " aria-hidden="true"></span>
+                    <div class="input-group" style="margin-top: 1%">
+                        <span class="input-group-addon" id="saerchtype-addon"><span class="reqfield"></span>Absence type:</span>
+                        <form:select id="absenseSelect" class="form-control" aria-describedby="saerchtype-addon"
+                                     style="width: 100%; border-color:#999999" path="absenceType"
+                                     items="${absenceType}">
+                        </form:select>
+                        <span class="glyphicon warningIcon " aria-hidden="true"></span>
+                    </div>
+
+                    <div class="input-group" style="margin-top: 1%">
+                        <span class="input-group-addon" id="purpose-addon">Description</span>
+                        <form:textarea class="form-control warningBorder" rows="3" id="comment"
+                                       aria-describedby="purpose-addon"
+                                       style="width: 100%; border-color:#999999" path="description"></form:textarea>
+                    </div>
                 </div>
+                <div class="form-footer" style="padding-bottom: 2%">
+                    <div class="input-group" style="margin-top: 2%">
+                        <span class="input-group-addon" id="approvals-addon"><span
+                                class="reqfield"></span>Approvals</span>
+                        <div class="tab-content" id="approvals">
+                            <span style="margin-left: 83.7%" id="approvalSpan" class="glyphicon warningIcon "
+                                  aria-hidden="true"></span>
+                            <input type="text" id="demo-input-local"/>
+                        </div>
+                    </div>
+                    <div class="input-group" style="margin-top: 2%">
+                        <span class="input-group-addon" id="executive-addon">Executive</span>
+                        <div class="tab-content" id="executives">
+                            <input type="text" id="demo-input-local2"/>
+                        </div>
+                    </div>
+                    <div class="input-group" style="margin-top: 2%">
+                        <span class="input-group-addon" id="reference-addon">Reference</span>
+                        <div class="tab-content" id="references">
+                            <input type="text" id="demo-input-local3"/>
+                        </div>
+                    </div>
+                    <div class="input-group" style="margin-top: 2%">
+                        <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open>Attachment</span>
+                        <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
+                        <span class="glyphicon warningIcon " aria-hidden="true"></span>
+                    </div>
+                    <div class="input-group" style="margin-top: 2%">
+                        <span class="input-group-addon" id="date-addon"><span
+                                class="reqfield"></span>Date(Start/End)</span>
+                        <form:input type="text" class="form-control" style="width:50%" name="start" id="dateStart"
+                                    path="start"/>
+                        <form:input type="text" class="form-control" style="width:50%" name="end" id="dateEnd"
+                                    path="end"/>
+                        <span class="glyphicon warningIcon" aria-hidden="true"></span>
+                    </div>
+                    <div id="halfDay">
 
-                <div class="input-group" style="margin-top: 1%">
-                    <span class="input-group-addon" id="purpose-addon">Description</span>
-                    <form:textarea class="form-control warningBorder" rows="3" id="comment" aria-describedby="purpose-addon"
-                              style="width: 100%; border-color:#999999" path="description"></form:textarea>
+                    </div>
+
                 </div>
             </div>
-            <div class="form-footer" style="padding-bottom: 2%">
-                <div class="input-group" style="margin-top: 2%">
-                    <span class="input-group-addon" id="approvals-addon"><span class="reqfield"></span>Approvals</span>
-                    <div class="tab-content" id="approvals">
-                        <span style="margin-left: 83.7%" id="approvalSpan" class="glyphicon warningIcon " aria-hidden="true"></span>
-                        <input type="text" id="demo-input-local"/>
-                    </div>
-                </div>
-                <div class="input-group" style="margin-top: 2%">
-                    <span class="input-group-addon" id="executive-addon">Executive</span>
-                    <div class="tab-content" id="executives">
-                        <input type="text" id="demo-input-local2"/>
-                    </div>
-                </div>
-                <div class="input-group" style="margin-top: 2%">
-                    <span class="input-group-addon" id="reference-addon">Reference</span>
-                    <div class="tab-content" id="references">
-                        <input type="text" id="demo-input-local3"/>
-                    </div>
-                </div>
-                <div class="input-group" style="margin-top: 2%">
-                    <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open>Attachment</span>
-                    <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
-                    <span class="glyphicon warningIcon " aria-hidden="true"></span>
-                </div>
-                <div class="input-group" style="margin-top: 2%">
-                    <span class="input-group-addon" id="date-addon"><span class="reqfield"></span>Date(Start/End)</span>
-                    <form:input type="date" class="form-control" style="width:50%" name="start" id="dateStart" path="start"/>
-                    <form:input type="date" class="form-control" style="width:50%" name="end" id="dateEnd" path="end"/>
-                    <span class="glyphicon warningIcon" aria-hidden="true"></span>
-                </div>
-            </div>
-        </div>
 
             <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
                 <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-warning"/>
                 <input id="tv" type="submit" name="Submit" value="Submit" class="btn btn-success"/>
-                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
+                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger"/>
             </div>
         </form:form>
 
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Warning</h4>
-                        </div>
-                        <div class="modal-body">
-                            <span id="message"></span>
-                        </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign"
+                                                                        aria-hidden="true"></span> Warning</h4>
+                    </div>
+                    <div class="modal-body">
+                        <span id="message"></span>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 
 </div>
 
 
-
-<script>
-    $(document).ready(function () {
-    })
-</script>
-
 <script type="text/javascript">
     /* Send input from approval list to controller by AJAX */
-    $(document).ready(function() {
+
+
+    $(document).ready(function () {
+
+        var dStart = new Date($("#dateStart").val());
+        var dEnd = new Date($("#dateEnd").val());
+
+        $('#dateStart').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
+        $('#dateEnd').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
+
+        $('#dateStart').focusout(function () {
+            if (dStart == dEnd) {
+
+            }
+        });
+
+        $('#dateEnd').focusout(function () {
+            if (dStart == dEnd) {
+
+            }
+        });
 
 
         var today = new Date();
         var month = today.getMonth().toString().length == 1 ? "0" + today.getMonth().toString() : today.getMonth().toString();
         var dayOfMonth = today.getDate().toString().length == 1 ? "0" + today.getDate().toString() : today.getDate().toString();
         var todayString = today.getFullYear() + "-" + month + "-" + dayOfMonth;
-       /* $('#dateStart').val(todayString);
-        $('#dateEnd').val(todayString);*/
+        /* $('#dateStart').val(todayString);
+         $('#dateEnd').val(todayString);*/
 
 
-
-        $("#tv").click(function (){
+        $("#tv").click(function () {
             var workedSixMonth = ${sixMonthPassed};
             var vacationAvailable = ${vacationAvailable};
             var msg = "";
             var flag = true;
 
+
             /* Subject cannot be empty*/
-            if($("#absenseSelect option:selected").text() == ""){
-                $('#absenseSelect').css("border","2px solid red");
+            if ($("#absenseSelect option:selected").text() == "") {
+                $('#absenseSelect').css("border", "2px solid red");
                 $('#absenseSelect').next('span').addClass('glyphicon-info-sign')
                 flag = false;
                 msg += "⛔ Absence type cannot be empty" + "<br/>";
-            }else {
+            } else {
                 $('#absenseSelect').css("border", "1px solid #999999");
                 $('#absenseSelect').next('span').removeClass('glyphicon-info-sign')
             }
 
+
+            if ($("#comment").val().length > 600) {
+
+                flag = false;
+                msg += "⛔ Description can not be more than 600 characters" + "<br/>";
+                $('#comment').css("border", "2px solid red");
+                $('#comment').next('span').addClass('glyphicon-info-sign');
+            } else {
+                $('#comment').css("border", "1px solid #999999");
+                $('#comment').next('span').removeClass('glyphicon-info-sign')
+            }
+
             /* file size limitation */
-            if($("#file").val().trim() != "") {
+            if ($("#file").val().trim() != "") {
                 var size = 0;
                 input = document.getElementById('file');
                 for (var i = 0; i < input.files.length; i++) {
@@ -265,30 +304,25 @@
                 if (size > 104857600) {
                     flag = false;
                     msg += "⛔ Attached files cannot be more than 100MB" + "<br/>";
-                    $('#file').css("border","2px solid red");
+                    $('#file').css("border", "2px solid red");
                     $('#file').next('span').addClass('glyphicon-info-sign');
                     $('#file').val('');
-                }else {
+                } else {
                     $('#file').css("border", "1px solid #999999");
                     $('#file').next('span').removeClass('glyphicon-info-sign')
                 }
             }
 
-           /*validateFile();*/
+            /*validateFile();*/
 
             /* Start date cannot be more than end date*/
 
-            var dStart = new Date($("#dateStart").val());
-            var dEnd = new Date($("#dateEnd").val());
 
-
-
-
-            if(dStart > dEnd){
+            if (dStart > dEnd) {
                 flag = false;
                 msg += "⛔ Start date cannot be later than end date" + "<br/>";
-                $('#dateStart').css("border","2px solid red");
-                $('#dateEnd').css("border","2px solid red");
+                $('#dateStart').css("border", "2px solid red");
+                $('#dateEnd').css("border", "2px solid red");
                 $('#dateEnd').next('span').addClass('glyphicon-info-sign');
             } else {
                 $('#dateStart').css("border", "1px solid #999999");
@@ -296,77 +330,72 @@
                 $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
 
 
-
                 var selectedType = $("#absenseSelect option:selected").text();
 
-                if(selectedType == "Annual leave"){
+                if (selectedType == "Annual leave") {
 
                     /*Vocation Check*/
-                    if (!workedSixMonth){
+                    if (!workedSixMonth) {
                         flag = false;
                         msg += "⛔ You can not take vacation because you worked less then 6 month" + "<br/>";
                     }
 
-                    if($("#dateStart").val().trim() != "" && $("#dateEnd").val().trim() != "") {
+                    if ($("#dateStart").val().trim() != "" && $("#dateEnd").val().trim() != "") {
 
                         var diffDays = parseInt((dEnd - dStart) / (1000 * 60 * 60 * 24));
                         var totalSundays = 0
                         var daysRequested = 0;
 
-                        for (var i = dStart; i <= dEnd; ){
-                            if (i.getDay() == 0){
+                        for (var i = dStart; i <= dEnd;) {
+                            if (i.getDay() == 0) {
                                 totalSundays++;
                             }
-                            i.setTime(i.getTime() + 1000*60*60*24);
+                            i.setTime(i.getTime() + 1000 * 60 * 60 * 24);
                         }
 
                         daysRequested = diffDays - totalSundays;
 
-                        if (vacationAvailable <= daysRequested){
+                        if (vacationAvailable <= daysRequested) {
                             flag = false;
                             msg += "⛔ You can not apply for vacation because you have only : " + vacationAvailable + " days of vacation" + "<br/>";
+                            $('#dateEnd').next('span').addClass('glyphicon-info-sign');
                         }
                     }
                 }
 
-
-
-
                 /* Date start cannot be empty */
-                if($("#dateStart").val().trim() == "") {
+                if ($("#dateStart").val().trim() == "") {
                     flag = false;
                     msg += "⛔ Start date cannot be empty" + "<br/>";
-                    $("#dateStart").css("border","2px solid red");
+                    $("#dateStart").css("border", "2px solid red");
                     $('#dateEnd').next('span').addClass('glyphicon-info-sign');
-                }else {
+                } else {
                     $('#dateStart').css("border", "1px solid #999999");
                     $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
                 }
 
                 /* Date end cannot be empty */
-                if($("#dateEnd").val().trim() == "") {
+                if ($("#dateEnd").val().trim() == "") {
                     flag = false;
                     msg += "⛔ End date cannot be empty" + "<br/>";
-                    $('#dateEnd').css("border","2px solid red");
+                    $('#dateEnd').css("border", "2px solid red");
                     $('#dateEnd').next('span').addClass('glyphicon-info-sign');
-                }else {
+                } else {
                     $('#dateEnd').css("border", "1px solid #999999");
                     $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
                 }
             }
 
 
-
-            var a=[];
-            var b=[];
-            var c=[];
+            var a = [];
+            var b = [];
+            var c = [];
 
             a = $("#approvals").children().siblings("input[type=text]").val();
-            if(a.length == 0)
-            {
+            if (a.length == 0) {
                 msg += "⛔ At least one approval should be selected" + "<br/>";
                 flag = false;
-                $('#approvals').css("border","2px solid red");
+                $('#approvals').css("border", "2px solid red");
                 $('#approvalSpan').addClass('glyphicon-info-sign');
             } else {
                 $('#approvals').css("border", "1px solid #999999");
@@ -374,30 +403,30 @@
             }
 
 
-            if (!flag){
+            if (!flag) {
                 $('#message').html(msg);
                 $('#myModal').modal('show');
             }
 
 
-
             b = $("#references").children().siblings("input[type=text]").val();
             c = $("#executives").children().siblings("input[type=text]").val();
             $.ajax({
-                type : "POST",
-                url : "/Workflow/NewForm/LeaveApproveFormAjax",
-                data :'approvals='+a+'&references='+b+'&executives='+c,
-                success : function(response) {
+                type: "POST",
+                url: "/Workflow/NewForm/LeaveApproveFormAjax",
+                data: 'approvals=' + a + '&references=' + b + '&executives=' + c,
+                success: function (response) {
 //                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
                 },
-                error : function(e) {
+                error: function (e) {
                     alert('Error: ' + e);
                 }
             });
-            if(flag&&isTrue) return true;
+            if (flag && isTrue) return true;
             else return false;
         });
     });
+
 
     /* Send json data for approvals list*/
     $(document).ready(function () {
@@ -407,11 +436,13 @@
     });
 </script>
 <script>
+
+
     var isTrue = true;
 
     function validateFile() {
         /* file size limitation */
-        if($("#file").val().trim() != "") {
+        if ($("#file").val().trim() != "") {
             var size = 0;
             input = document.getElementById('file');
             for (var i = 0; i < input.files.length; i++) {
@@ -419,11 +450,11 @@
             }
             if (size > 104857600) {
                 msg += "⛔ Attached files cannot be more than 100MB" + "<br/>";
-                $('#file').css("border","2px solid red");
+                $('#file').css("border", "2px solid red");
                 $('#file').next('span').addClass('glyphicon-info-sign');
-                 isTrue = false;
+                isTrue = false;
                 $('#file').val('');
-            }else {
+            } else {
                 $('#file').css("border", "1px solid #999999");
                 $('#file').next('span').removeClass('glyphicon-info-sign');
                 isTrue = true;
@@ -436,19 +467,17 @@
         var draftApprovals = true;
 
 
-
-        var a=[];
-        var b=[];
-        var c=[];
+        var a = [];
+        var b = [];
+        var c = [];
 
         var msg = "";
 
         a = $("#approvals").children().siblings("input[type=text]").val();
-        if(a.length == 0)
-        {
+        if (a.length == 0) {
             msg += "⛔ At least one approval should be selected" + "<br/>";
             draftApprovals = false;
-            $('#approvals').css("border","2px solid red");
+            $('#approvals').css("border", "2px solid red");
             $('#approvalSpan').addClass('glyphicon-info-sign');
 
             $('#dateEnd').css("border", "1px solid #999999");
@@ -464,7 +493,7 @@
             $('#approvalSpan').removeClass('glyphicon-info-sign');
         }
 
-        if (!draftApprovals){
+        if (!draftApprovals) {
             $('#message').html(msg);
             $('#myModal').modal('show');
         }
@@ -482,15 +511,15 @@
         var dStart = $("#dateStart").datepicker({format: "mm-dd-yyyy"}).val();
         validateFile();
         $.ajax({
-            type : "POST",
-            url : "/Workflow/NewForm/LeaveApproveFormAjax",
-            data :'approvals='+a+'&references='+b+'&executives='+c,
-            success : function(response) {
-             //                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
-             },
-             error : function(e) {
-             alert('Error: ' + e);
-             }
+            type: "POST",
+            url: "/Workflow/NewForm/LeaveApproveFormAjax",
+            data: 'approvals=' + a + '&references=' + b + '&executives=' + c,
+            success: function (response) {
+                //                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
+            },
+            error: function (e) {
+                alert('Error: ' + e);
+            }
         });
         return isTrue;
     });

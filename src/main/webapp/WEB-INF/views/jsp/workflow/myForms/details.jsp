@@ -246,7 +246,6 @@
         -webkit-transition: all 0.5s linear;
         transition: all 0.5s linear;
         cursor: pointer;
-        color: #5bcaff;
     }
 
     /*processssss CSSSS*/

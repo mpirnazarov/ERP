@@ -29,14 +29,16 @@ public class MailMessage {
         String msg = "";
         String creator = "";
         String involvement = "";
+        String creationDate = "";
 
         formType = Type.values()[requestsEntity.getTypeId()-1].toString();
         creator = UserService.getUserFullNameInLanguageById(requestsEntity.getUserFromId(), 3);
+        creationDate = requestsEntity.getDateCreated().toString();
 
         if(actionStep == 1) {
             if(involvementType != 4) {
                 msg = "Dear SmartOffice user,\n" +
-                        "Recently, " + formType + " form has been created by " + creator +
+                        creationDate + " , " + formType + " form has been created by " + creator +
                         " in the Workflow system.\n";
                 if (involvementType == 1) {
                     msg += "In order to finalize this workflow form, " +
@@ -44,16 +46,12 @@ public class MailMessage {
                             "and following to the To-Do list section in the Workflow menu bar.\n" +
                             "Thank you for your effort. \n";
                 }
-                msg += "Best regards\n" +
-                        "Technical Department team.";
             }
             else{
                 msg = "Dear " + creator + ",\n" +
                         "Recently, " + formType + " form has been created by you in the SmartOffice system.\n" +
                         "You will be informed when one of the Approvals will take an action.\n" +
-                        "Thank you for your effort.\n" +
-                        "Best regards\n" +
-                        "Technical Department team.";
+                        "Thank you for your effort.\n";
             }
         }
         else if (actionStep==2){
@@ -61,26 +59,21 @@ public class MailMessage {
                 msg = "Dear SmartOffice user,\n" +
                         "Recently, "+formType+" form has been created by "+creator+" in the Workflow system.\n" +
                         "In order to finalize this workflow form, you have to take an action by accessing to your account and following to the To-Do list section in the Workflow menu bar.\n" +
-                        "Thank you for your effort.\n" +
-                        "Best regards\n" +
-                        "Technical Department team.";
+                        "Thank you for your effort.\n";
             }else {
                 msg = "Dear SmartOffice user,\n" +
                         "Recently, "+formType+" form has been created by "+creator+" in the Workflow system.\n" +
                         "In order to finalize this workflow form, you have to take an action by accessing to your account and following to the To-Do list section in the Workflow menu bar.\n" +
-                        "Thank you for your effort.\n" +
-                        "Best regards\n" +
-                        "Technical Department team.";
+                        "Thank you for your effort.\n";
             }
         }
 
         else if(actionStep == 3){
             msg = "Dear SmartOffice user,\n" +
-                    "Recently created " + formType + "form was updated by " + creator + ".\n" +
-                    "Best regards\n" +
-                    "Technical Department team.";
+                    "Recently created " + formType + "form was updated by " + creator + ".\n";
         }
-
+        msg += "Best regards\n" +
+                "Technical Department team.";
         return msg;
     }
 }

@@ -34,66 +34,68 @@
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="page-header" style="border-bottom: 1px solid #fff;"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> To Do</h2>
+        <h2 class="page-header" style="border-bottom: 1px solid #FFFFFF; padding-top: 6%"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> To Do</h2>
 
         <div class="w3-container">
 
             <%--????????????????????????--%>
 
 
-                <div class="searchtoolstyle" style="height: 20%">
+            <div class="searchtoolstyle" style="height: 20%">
 
-                    <%--p1--%>
-                    <div style="display: flex; margin-bottom: 1%;">
-                        <div style="margin-left: auto; width: 20%">
-                            <label>FormType</label>
-                            <select class="form-control" id="formTypeId">
-                                <c:forEach var="type" items="${typeList}" varStatus="i">
-                                    <option id="${type.key}">${type.value}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div style="margin-left: 2%; width: 20%">
-                            <label>Current status</label>
-                            <select class="form-control"  id="statusId">
-                                <c:forEach var="status" items="${statusList}" varStatus="i">
-                                    <option id="${status.key}">${status.value}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div style="margin-left: 2%; width: 20%">
-                            <label>From</label>
-                            <input type="text" class="form-control" id="sandbox-container-from" maxlength="10">
-                        </div>
-                        <div style="margin-left: 2%; width: 20%">
-                            <label>To</label>
-                            <input type="text" class="form-control" id="sandbox-container-to" maxlength="10">
-                        </div>
+                <%--p1--%>
+                <div style="display: flex; margin-bottom: 1%;">
+                    <div style="margin-left: auto; width: 20%">
+                        <label>FormType</label>
+                        <select class="form-control" id="formTypeId">
+                            <c:forEach var="type" items="${typeList}" varStatus="i">
+                                <option id="${type.key}">${type.value}</option>
+                            </c:forEach>
+                        </select>
                     </div>
-
-                    <%--p2--%>
-                    <div class="row">
-                        <div class="input-group col-md-5 col-md-offset-7 " style="margin-top: 10px; margin-bottom: 2%">
-                            <span class="input-group-addon" id="search-addon1" style="background-color: white; color: #bd2828">Attribute:</span>
-                            <select class="form-control" aria-describedby="search-addon1" id="attributeId">
-                                <option id="0"></option>
-                                <option id="1">Author</option>
-                                <option id="2">Title</option>
-                            </select>
-                            <input type="text" placeholder="Search for ..." class="form-control" id="searchInputId" aria-describedby="search-addon1">
-                            <div class="input-group-addon btn" onclick="pagedList(this.id)" id="btnFilter" style="background-color: white; color: #bd2828"><span
-                                    class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                            </div>
-                        </div>
+                    <div style="margin-left: 2%; width: 20%">
+                        <label>Current status</label>
+                        <select class="form-control" id="statusId">
+                            <c:forEach var="status" items="${statusList}" varStatus="i">
+                                <option id="${status.key}">${status.value}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div style="margin-left: 2%; width: 20%">
+                        <label>From</label>
+                        <input type="text" class="form-control" id="sandbox-container-from" maxlength="10">
+                    </div>
+                    <div style="margin-left: 2%; width: 20%">
+                        <label>To</label>
+                        <input type="text" class="form-control" id="sandbox-container-to" maxlength="10">
                     </div>
                 </div>
 
+                <%--p2--%>
+                <div class="row">
+                    <div class="input-group col-md-5 col-md-offset-7 " style="margin-top: 10px; margin-bottom: 2%">
+                        <span class="input-group-addon" id="search-addon1"
+                              style="background-color: white; color: #bd2828">Attribute:</span>
+                        <select class="form-control" aria-describedby="search-addon1" id="attributeId">
+                            <option id="0"></option>
+                            <option id="1">Author</option>
+                            <option id="2">Title</option>
+                        </select>
+                        <input type="text" placeholder="Search for ..." class="form-control" id="searchInputId"
+                               aria-describedby="search-addon1">
+                        <div class="input-group-addon btn" onclick="pagedList(this.id)" id="btnFilter"
+                             style="background-color: white; color: #bd2828"><span
+                                class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
         </div>
 
 
-        <table class="table sarTable sarTableBoxShadow"id="tablecha">
+        <table class="table sarTable sarTableBoxShadow" id="tablecha">
             <thead>
             <tr>
                 <%--<th>#</th>--%>
@@ -113,21 +115,21 @@
         <div id="notFoundDiv">
             <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Empty
         </div>
-            <ul class="sagination modal-6" id="pagedListContainer" ></ul>
-        </div>
+        <ul class="sagination modal-6" id="pagedListContainer"></ul>
     </div>
+</div>
 
 </div>
 </div>
 
 <script>
-       $("#searchInputId").keyup(function(event){
-        if(event.keyCode == 13){
+    $("#searchInputId").keyup(function (event) {
+        if (event.keyCode == 13) {
             $("#btnFilter").click();
         }
     });
-    $('#sandbox-container-from').datepicker({format: "yyyy-mm-dd"});
-    $('#sandbox-container-to').datepicker({format: "yyyy-mm-dd"});
+    $('#sandbox-container-from').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
+    $('#sandbox-container-to').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
 </script>
 
 
@@ -141,11 +143,11 @@
     var page = 0;
 
 
-    function pagedList(id){
+    function pagedList(id) {
         //Filter attributes
         var selectedformType = $('#formTypeId option:selected').prop('id');
         var selectedStatus = $('#statusId option:selected').prop('id');
-        var selectedAttribute =$('#attributeId option:selected').prop('id');
+        var selectedAttribute = $('#attributeId option:selected').prop('id');
         var sandBoxcontainerfrom = $('#sandbox-container-from').datepicker({format: "yyyy-mm-dd"}).val();
         var sandBoxcontainerto = $('#sandbox-container-to').datepicker({format: "yyyy-mm-dd"}).val();
         var attrValue = $('#searchInputId').val();
@@ -158,91 +160,90 @@
         var tbody = $('#tbodycha');
 
         //if next
-        if(id==-1){
-            page = currentPage+1;
+        if (id == -1) {
+            page = currentPage + 1;
         }
         //if previous
-        else if (id==-2){
-            page=currentPage-1;
+        else if (id == -2) {
+            page = currentPage - 1;
         }
         //if filter
-        else if(id=="btnFilter"){
-            id=0;
+        else if (id == "btnFilter") {
+            id = 0;
         }
         //if page number is clicked
         else {
-            page=id;
+            page = id;
         }
 
         $.ajax({
-                type:"POST",
-                processData: false,
-            data:'selectedformType='+selectedformType+
-                    '&selectedStatus='+selectedStatus+
-                    '&selectedAttribute='+selectedAttribute+
-                    '&selectedDateFrom='+sandBoxcontainerfrom+
-                    '&attrValue='+attrValue+
-                    '&selectedDateTo='+sandBoxcontainerto,
-            url : '${pageContext.request.contextPath}/Workflow/MyForms/todo/list/'+page,
-                success : function(data) {
+            type: "POST",
+            processData: false,
+            data: 'selectedformType=' + selectedformType +
+            '&selectedStatus=' + selectedStatus +
+            '&selectedAttribute=' + selectedAttribute +
+            '&selectedDateFrom=' + sandBoxcontainerfrom +
+            '&attrValue=' + attrValue +
+            '&selectedDateTo=' + sandBoxcontainerto,
+            url: '${pageContext.request.contextPath}/Workflow/MyForms/todo/list/' + page,
+            success: function (data) {
 
-                    //table
-                    tbody.appendTo(table);
-                    tbody.empty();
+                //table
+                tbody.appendTo(table);
+                tbody.empty();
 
-                    //set current page
-                    currentPage=data.page;
+                //set current page
+                currentPage = data.page;
 
-                    if(data.models.length == 0) {
-                        $('#notFoundDiv').show();
+                if (data.models.length == 0) {
+                    $('#notFoundDiv').show();
 
+                }
+                else {
+                    $('#notFoundDiv').hide();
+                    $(data.models).each(function (i, req) {
+                        //generate table
+                        $('<tr/>').appendTo(tbody)
+                        /*.append($('<td/>').text(i+1))*/
+                            .append($('<td/>').text(req.form_type))
+                            .append($('<td/>').text(req.request_subject))
+                            .append($('<td/>').text(req.user_name))
+                            .append($('<td/>').text(req.date_created))
+                            .append($('<td/>').text(req.status).addClass("statusTd"))
+                            .append($('<td/>').append($('<div class="btn" onclick="location.href=\'/Workflow/MyForms/details/1/' + req.request_id + '\'">View</div>')));
+                    });
+                }
+
+                $('.statusTd:contains("In progress")').css('color', '#339abf');
+                $('.statusTd:contains("Revision")').css('color', '#edb81f');
+                $('.statusTd:contains("Rejected")').css('color', '#ff0000');
+                $('.statusTd:contains("Draft")').css('color', '#edb81f');
+                $('.statusTd:contains("Approved")').css('color', '#0bbf15');
+                $('.statusTd:contains("Terminated")').css('color', '#ff0000');
+                $('.statusTd:contains("Finished")').css('color', '#59feef');
+                $('.statusTd:contains("Deleted")').css('color', '#000000');
+
+                numberOfPages = data.maxPages;
+                container.empty();
+                container.append($('<li><a href="#" id="-2" class="prev fa fa-arrow-left" onclick="pagedList(this.id); return false"></a></li>'));
+
+                //generate pegination buttons
+                for (count = 1; count < numberOfPages + 1; count++) {
+                    if (count == currentPage) {
+                        container.append($('<li><a href="#" id="' + count + '" class="active" id="' + count + '" onclick="pagedList(this.id); return false">' + count + '</a></li>'));
                     }
                     else {
-                        $('#notFoundDiv').hide();
-                        $(data.models).each(function(i, req) {
-                            //generate table
-                            $('<tr/>').appendTo(tbody)
-                                /*.append($('<td/>').text(i+1))*/
-                                .append($('<td/>').text(req.form_type))
-                                .append($('<td/>').text(req.request_subject))
-                                .append($('<td/>').text(req.user_name))
-                                .append($('<td/>').text(req.date_created))
-                                .append($('<td/>').text(req.status).addClass("statusTd"))
-                                .append($('<td/>').append($('<div class="btn" onclick="location.href=\'/Workflow/MyForms/details/1/' + req.request_id + '\'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></div>')));
-                        });
+                        container.append($('<li><a href="#" id="' + count + '" onclick="pagedList(this.id); return false">' + count + '</a></li>'));
                     }
-
-                    $('.statusTd:contains("In progress")').css('color', '#339abf');
-                    $('.statusTd:contains("Revision")').css('color', '#edb81f');
-                    $('.statusTd:contains("Rejected")').css('color', '#ff0000');
-                    $('.statusTd:contains("Draft")').css('color', '#edb81f');
-                    $('.statusTd:contains("Approved")').css('color', '#0bbf15');
-                    $('.statusTd:contains("Terminated")').css('color', '#ff0000');
-                    $('.statusTd:contains("Finished")').css('color', '#59feef');
-                    $('.statusTd:contains("Deleted")').css('color', '#000000');
-
-                    numberOfPages = data.maxPages;
-                    container.empty();
-                    container.append($('<li><a href="#" id="-2" class="prev fa fa-arrow-left" onclick="pagedList(this.id); return false"></a></li>'));
-
-                    //generate pegination buttons
-                    for (count = 1; count < numberOfPages + 1; count++) {
-                        if (count == currentPage) {
-                            container.append($('<li><a href="#" id="' + count + '" class="active" id="' + count + '" onclick="pagedList(this.id); return false">' + count + '</a></li>'));
-                        }
-                        else {
-                            container.append($('<li><a href="#" id="' + count + '" onclick="pagedList(this.id); return false">' + count + '</a></li>'));
-                        }
-                    }
-                    container.append($('<li><a href="#" id="-1" class="next fa fa-arrow-right" onclick="pagedList(this.id); return false"></a></li>'));
-                },
-
-
-
-                error: function () {
-                    alert("error");
                 }
-            });
+                container.append($('<li><a href="#" id="-1" class="next fa fa-arrow-right" onclick="pagedList(this.id); return false"></a></li>'));
+            },
+
+
+            error: function () {
+                alert("error");
+            }
+        });
     }
 
 

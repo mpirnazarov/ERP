@@ -1,9 +1,7 @@
 package com.lgcns.erp.workflow.DBContext;
 
 import com.lgcns.erp.hr.enums.WorkloadType;
-import com.lgcns.erp.hr.viewModel.WorkloadViewModels.WorkloadCreateModel;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
-import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.DbContext.WorkloadServices;
 import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
@@ -24,7 +22,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -106,9 +103,9 @@ public class WorkflowToDoApproveService {
     private static void addHours(RequestsEntity entity){
         if (entity.getDateFrom()!=null && entity.getDateTo()!=null) {
             if (entity.getLeaveTypeId() == LeaveType.Annual_leave.getValue())
-                addHours(entity.getUserFromId(), WorkloadType.Annual_leave.getValue(), entity.getDateFrom(), entity.getDateTo());
+                addHours(entity.getUserFromId(), WorkloadType.Annual_leave.getValue(), entity.getDateFrom(), entity.getDateTo(), true);
             else
-                addHours(entity.getUserFromId(), WorkloadType.Sick_leave.getValue(), entity.getDateFrom(), entity.getDateTo());
+                addHours(entity.getUserFromId(), WorkloadType.Sick_leave.getValue(), entity.getDateFrom(), entity.getDateTo(), true);
         }
      }
 
@@ -263,8 +260,11 @@ public class WorkflowToDoApproveService {
      @param to To which date the workloads should be added
      @return Returns boolean value, specifying whether the method was executed successfully
      */
-    public static boolean addHours (int userId, int workloadType, Date from, Date to){
-        return updateWorkloads(userId, workloadType, from, to, 8);
+    public static boolean addHours (int userId, int workloadType, Date from, Date to, boolean full){
+        if(full)
+            return updateWorkloads(userId, workloadType, from, to, 8);
+        else
+            return updateWorkloads(userId, workloadType, from, to, 4);
     }
 
     /**

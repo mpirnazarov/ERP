@@ -2,12 +2,12 @@ package com.lgcns.erp.workflow.controller.newForm;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
-import com.lgcns.erp.tapps.controller.UserController;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
-import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
+import com.lgcns.erp.workflow.Mapper.MembersMapper;
 import com.lgcns.erp.workflow.Mapper.UnformattedMapper;
+import com.lgcns.erp.workflow.Model.Member;
 import com.lgcns.erp.workflow.ViewModel.UnformattedViewModel;
 import com.lgcns.erp.workflow.controller.email.MailMail;
 import com.lgcns.erp.workflow.controller.email.MailMessage;
@@ -19,7 +19,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -64,31 +63,33 @@ public class UnformattedController {
         for (UsersEntity user :
                 UserService.getAllUsers()) {
             jsonObject = new JSONObject();
-            if(user.isEnabled()==true && user.getUserName().compareTo(principal.getName())!=0) {
+            if(user.isEnabled()==true) {
                 jsonObject = new JSONObject();
+                Member member = MembersMapper.getMember(user.getId());
+
                 // Retrieving user localizations info from DB for all users and check for null
-                if(user.getId()!=0 || UserService.getUserLocByUserId(user.getId(), 3)!=null) {
+                /*if(user.getId()!=0 || UserService.getUserLocByUserId(user.getId(), 3)!=null) {
                     try {
                         userLoc = UserService.getUserLocByUserId(user.getId(), 3);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
+                }*/
                 // Inserting user Id as id, fullname as name, jobTitle as jobTitle and department as department
-                ProfileViewModel prof =  UserController.getProfileByUsername(user.getUserName());
+                /*ProfileViewModel prof =  UserController.getProfileByUsername(user.getUserName());*/
 
-                jsonObject.put("id", prof.getId());
-                jsonObject.put("name", userLoc.getFirstName() + " " + userLoc.getLastName());
-                jsonObject.put("jobTitle", prof.getJobTitle());
-                jsonObject.put("department", prof.getDepartment());
+                jsonObject.put("id", member.getId());
+                jsonObject.put("name", member.getFirstName() + " " + member.getLastName());
+                jsonObject.put("jobTitle", member.getJobTitle());
+                jsonObject.put("department", member.getDepartment());
 
-                users.put(Integer.parseInt(prof.getId()), userLoc.getFirstName() + " " + userLoc.getLastName());
-                userId[i] = Integer.parseInt(prof.getId());
-                userName[i++] = userLoc.getFirstName() + " " + userLoc.getLastName();
-
-                // add object to array
-                jsonArray.add(jsonObject);
-
+                users.put(member.getId(), member.getFirstName() + " " + member.getLastName());
+                userId[i] = member.getId();
+                userName[i++] = member.getFirstName() + " " + member.getLastName();
+                if(user.getUserName().compareTo(principal.getName())!=0) {
+                    // add object to array
+                    jsonArray.add(jsonObject);
+                }
             }
         }
 

@@ -2,15 +2,14 @@ package com.lgcns.erp.workflow.controller.editForm;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
-import com.lgcns.erp.tapps.controller.UserController;
-import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
-import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.*;
 import com.lgcns.erp.workflow.Enums.LeaveType;
 import com.lgcns.erp.workflow.Mapper.LeaveApproveMapper;
+import com.lgcns.erp.workflow.Mapper.MembersMapper;
 import com.lgcns.erp.workflow.Model.Attachment;
+import com.lgcns.erp.workflow.Model.Member;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
 import com.lgcns.erp.workflow.ViewModel.LeaveApproveVM;
 import com.lgcns.erp.workflow.ViewModel.UnformattedViewModel;
@@ -68,13 +67,14 @@ public class WorkflowEditController {
 
             Map<Integer, String> users = new HashMap<>();
             users.put(0, "");
-            UserLocalizationsEntity userLoc=null;
+            /*UserLocalizationsEntity userLoc=null;*/
             for (UsersEntity user :
                     UserService.getAllUsers()) {
-                ProfileViewModel prof =  UserController.getProfileByUsername(user.getUserName());
-                userLoc = UserService.getUserLocByUserId(user.getId(), 3);
+                /*ProfileViewModel prof =  UserController.getProfileByUsername(user.getUserName());*/
+                /*userLoc = UserService.getUserLocByUserId(user.getId(), 3);*/
+                Member member = MembersMapper.getMember(user.getId());
                 if (user.isEnabled() == true) {
-                    users.put(Integer.parseInt(prof.getId()), userLoc.getFirstName() + " " + userLoc.getLastName());
+                    users.put(member.getId(), member.getFirstName() + " " + member.getLastName());
                 }
             }
             mav.addObject("users", users);

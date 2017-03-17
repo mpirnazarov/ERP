@@ -1730,6 +1730,28 @@ public class UserService {
         return userInPostsEntity;
     }
 
+    public static UserInPostsEntity getMaxUserInPostByUserId(int id) {
+        UserInPostsEntity userInPostsEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserInPostsEntity where userId = :id and dateFrom = (select max(dateFrom) from UserInPostsEntity where userId = :id)");
+            query.setParameter("id", id);
+            //query.setParameter("roleId", userInRoles.getRoleId());
+            userInPostsEntity = (UserInPostsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return userInPostsEntity;
+    }
+
 
     public static void updateUserInPosts(UserInPostsEntity userInPostsEntity, int appId) {
         Session session = HibernateUtility.getSessionFactory().openSession();
@@ -2330,5 +2352,18 @@ public class UserService {
             }
         }
         return -1;
+    }
+
+    public static String getUserJobTitle(int userId) {
+        String jobTitle = "";
+        UserInPostsEntity userInPostsEntity = null;
+
+        try {
+            userInPostsEntity = UserService.getMaxUserInPostByUserId(userId);
+            jobTitle = UserService.getJobTitle(userInPostsEntity.getPostId(), 3).getName();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return jobTitle;
     }
 }

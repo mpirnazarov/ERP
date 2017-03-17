@@ -191,7 +191,7 @@ public class HrController {
                 // Inserting Id as key, fullname as name, jobTitle as title
                 jsonObject.put("key", user.getId());
                 jsonObject.put("name", userLoc.getFirstName() + " " + userLoc.getLastName());
-                jsonObject.put("title", UserController.getProfileByUsername(user.getUserName()).getJobTitle());
+                jsonObject.put("title", UserService.getUserJobTitle(user.getId()));
                 // and chiefId if available
                 if (user.getChiefId() != null)
                     jsonObject.put("parent", user.getChiefId());

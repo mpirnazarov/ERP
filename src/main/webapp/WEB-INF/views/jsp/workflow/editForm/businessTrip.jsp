@@ -689,11 +689,6 @@
         select2.className = 'sarvar';
 
         opt2 = document.createElement('option');
-        opt2.value = "0";
-        opt2.innerHTML = "";
-        select2.appendChild(opt2);
-
-        opt2 = document.createElement('option');
         opt2.value = "1";
         opt2.innerHTML = "UZS";
         select2.appendChild(opt2);

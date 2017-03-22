@@ -10,16 +10,10 @@ import com.lgcns.erp.workflow.Enums.LeaveType;
 import com.lgcns.erp.workflow.Enums.Type;
 import com.lgcns.erp.workflow.Mapper.MembersMapper;
 import com.lgcns.erp.workflow.Model.Member;
-import com.lgcns.erp.workflow.controller.email.MailMail;
-import com.lgcns.erp.workflow.controller.email.MailMessage;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import sun.plugin2.message.Message;
 
 import java.security.Principal;
 import java.util.ArrayList;

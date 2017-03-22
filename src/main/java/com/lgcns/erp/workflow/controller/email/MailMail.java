@@ -27,9 +27,7 @@ public class MailMail {
 
     public void sendMail(int[] idTo, String subject, String msg) {
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
+
                 SimpleMailMessage message = new SimpleMailMessage();
                 String[] sentTo = new String[idTo.length];
                 int i = 0;
@@ -46,11 +44,6 @@ public class MailMail {
                     message.setText(msg);
                     mailSender.send(message);
                 }
-            }
-
-
-        });
-        thread.start();
     }
 
 

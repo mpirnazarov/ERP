@@ -10,6 +10,7 @@ import com.lgcns.erp.workflow.Mapper.MembersMapper;
 import com.lgcns.erp.workflow.Model.Member;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +26,19 @@ public class MailMessage {
             msg = "Creation of new workflow";
         }
         else if(actionStep == 2) {
-            msg = "Creation of new workflow";
+            msg = "Deletion of new workflow";
+        }
+        else if(actionStep == 3) {
+            msg = "Update of workflow";
+        }
+        else if(actionStep == 4 || actionStep ==5) {
+            msg = "Approve action on workflow";
+        }
+        else if(actionStep == 7) {
+            msg = "Reject workflow";
+        }
+        else if(actionStep == 8) {
+            msg = "Resubmit workflow";
         }
 
         return msg;
@@ -56,7 +69,9 @@ public class MailMessage {
         List<Member> executives = new ArrayList<>();
         List<Member> references = new ArrayList<>();
         List<Member> members = new ArrayList<>();
-
+        Collections.sort(approvals);
+        Collections.sort(executives);
+        Collections.sort(references);
         List<StepsEntity> stepsEntities = new LinkedList<>();
         Member member = new Member();
 
@@ -178,11 +193,11 @@ public class MailMessage {
         else if (actionStep == 4){
             if (involvementType == 1){
                 msg += "Dear Smart Office user,\n" +
-                        "\tWe would like to notify you that, you have to take an action on a " + formType +
+                        "\tWe would like to notify you that, you have to take an action on a " + formType + " form" +
                         " that was created by " + creator + ". Please go to Workflow/My Forms/To-do tab in Smart Office system," +
                         " and take corresponding actions.  ";
             } else if (involvementType == 4){
-                msg += "Dear" + creator + ",\n" +
+                msg += "Dear " + creator + ",\n" +
                         "One of the approvals has approved your" + formType + " form.";
             }
         }

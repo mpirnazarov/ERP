@@ -2,7 +2,11 @@ package com.lgcns.erp.workflow.controller.newForm;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
+import com.lgcns.erp.tapps.controller.UserController;
+import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.tapps.model.UserInfo;
+import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.MembersEntity;
 import com.lgcns.erp.workflow.DBEntities.ToDoEntity;
@@ -28,7 +32,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -95,37 +101,6 @@ public class BusinessTripController {
                 jsonObject.put("department", member.getDepartment());
 
                 users.put(member.getId(), member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
-                users.put(member.getId()+1, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
-                users.put(member.getId()+2, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
-                users.put(member.getId()+3, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
-                users.put(member.getId()+4, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
-                users.put(member.getId()+5, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
-                users.put(member.getId()+6, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
-                users.put(member.getId()+7, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
-                users.put(member.getId()+8, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
-                users.put(member.getId()+9, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
-                users.put(member.getId()+10, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
-                users.put(member.getId()+11, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
-                users.put(member.getId()+12, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
-                users.put(member.getId()+13, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
-                users.put(member.getId()+14, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
-                users.put(member.getId()+15, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
-                users.put(member.getId()+16, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
-                users.put(member.getId()+17, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
-                users.put(member.getId()+21, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
-                users.put(member.getId()+31, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
-                users.put(member.getId()+41, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
-                users.put(member.getId()+51, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
-                users.put(member.getId()+61, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
-                users.put(member.getId()+71, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
-                users.put(member.getId()+81, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
-                users.put(member.getId()+91, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
-                users.put(member.getId()+101, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
-                users.put(member.getId()+111, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
-                users.put(member.getId()+121, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      " );
-                users.put(member.getId()+131, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      1" );
-                users.put(member.getId()+141, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      2" );
-                users.put(member.getId()+151, member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      3" );
 
                 userId[i] = member.getId();
                 userName[i++] = member.getFirstName() + " " + member.getLastName();
@@ -138,9 +113,11 @@ public class BusinessTripController {
 
         mav.addObject("userId", userId);
         mav.addObject("userName", userName);
+
         // add JSON array to ModelAndView
         mav.addObject("jsonData", jsonArray);
         mav.addObject("users", users);
+
         // Retriving data about type of Business trip
         Map<Integer, String> tripTypeList = new HashMap<>();
         tripTypeList.put(0, "");
@@ -148,6 +125,7 @@ public class BusinessTripController {
                 WorkflowService.getTripTypes()) {
             tripTypeList.put(Integer.valueOf((int) tripType.getId()), tripType.getName());
         }
+
         // Add trip type data to ModelAndView
         mav.addObject("triptypeList", tripTypeList);
 
@@ -360,10 +338,8 @@ public class BusinessTripController {
         return approvals;
     }
 
-    /*@RequestMapping(value = "/Users")
-    public
-    @ResponseBody
-    List<UserInfo> ReturnUsers() {
+    @RequestMapping(value = "/Users")
+    public @ResponseBody List<UserInfo> ReturnUsers() {
 
         List<UserInfo> users = new ArrayList<>();
         users.add(new UserInfo(0, ""));
@@ -381,13 +357,13 @@ public class BusinessTripController {
                     }
                 }
                 // Inserting user Id as id, fullname as name, jobTitle as jobTitle and department as department
-                *//*ProfileViewModel prof = UserController.getProfileByUsername(user.getUserName());*//*
+                ProfileViewModel prof = UserController.getProfileByUsername(user.getUserName());
                 Member member = MembersMapper.getMember(user.getId());
                 users.add(new UserInfo(user.getId(), userLoc.getFirstName() + " " + userLoc.getLastName() + " " + member.getDepartment() + " | "+member.getJobTitle()));
             }
         }
 
         return users;
-    }*/
+    }
 
 }

@@ -297,12 +297,10 @@
                             <li>
                                 <a href="/Hr/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
                             </li>
-                            <li>
-                                <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
+                <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
             </div>
         </div>
     </nav>

@@ -741,4 +741,25 @@ public class WorkflowService {
 
         return entity.getName();
     }
+
+    public static int getUserIdFromSteps(int nextApproverId) {
+        StepsEntity entity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from StepsEntity where id=" + nextApproverId);
+            entity = (StepsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return entity.getUserId();
+    }
 }

@@ -66,7 +66,6 @@ public class WorkflowToDoApproveService {
             if (entity.getLeaveTypeId()!=null&&(entity.getLeaveTypeId()==LeaveType.Annual_leave.getValue()
                     ||entity.getLeaveTypeId()==LeaveType.Sick_leave.getValue()))
                 addHours(entity);
-
             sendEmailAfterLastApproves(requestId);
 
             return -1;
@@ -88,12 +87,12 @@ public class WorkflowToDoApproveService {
         to = (int[]) ArrayUtils.addAll(WorkflowEmailService.getInvolvementList(requestId, 2), WorkflowEmailService.getInvolvementList(requestId, 3));
         if (to.length!=0) {
             mm.sendMail(to, subject, msg);
-            mm.sendHtmlMail(to, subject, msg);
+            /*mm.sendHtmlMail(to, subject, msg);*/
             to = null;
         }
         /* Sending to creator */
-        subject = MailMessage.generateSubject(requestId, 4, 4);
-        msg = MailMessage.generateMessage(requestId, 4, 4);
+        subject = MailMessage.generateSubject(requestId, 5, 4);
+        msg = MailMessage.generateMessage(requestId, 5, 4);
         to[0] = WorkflowService.getRequestsEntityById(requestId).getUserFromId();
         if (to.length!=0) {
             mm.sendMail(to, subject, msg);
@@ -187,8 +186,6 @@ public class WorkflowToDoApproveService {
 
 
     public static void setNewStep(int newStepId, int reqId){
-        sendEmailToTheNextApprover(newStepId, reqId);
-
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -204,6 +201,7 @@ public class WorkflowToDoApproveService {
         }
         finally {
             session.close();
+            sendEmailToTheNextApprover(reqId, newStepId);
         }
     }
 
@@ -218,11 +216,12 @@ public class WorkflowToDoApproveService {
          /* Sending to approvals*/
         subject = MailMessage.generateSubject(requestId, 4, 1);
         msg = MailMessage.generateMessage(requestId, 4, 1);
-        to[0] = nextApproverId;
+        to[0] = WorkflowService.getUserIdFromSteps(nextApproverId);
         if (to.length!=0) {
             mm.sendMail(to, subject, msg);
             to = null;
         }
+        to = new int[1];
          /* Sending to creator */
         subject = MailMessage.generateSubject(requestId, 4, 4);
         msg = MailMessage.generateMessage(requestId, 4, 4);

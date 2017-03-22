@@ -18,11 +18,11 @@
 
 
 
-<textarea style="width: 50%; height: 50%; position: absolute; top: 100px; left: 500px; color: #000"  id="testdiv">${msg}
+<textarea style="width: 70%; height: 50%; position: absolute; top: 100px; left: 500px; color: #000"  id="testdiv">${msg}
 </textarea>
 <%
     String msg = String.format("<b>thereis a looooooooooooooooooooooooooooooooooooooot of stufff bold</b><br/>Fuck yall");
-    out.print(msg);
+    /*out.print(msg);*/
 %>
 
 <script>

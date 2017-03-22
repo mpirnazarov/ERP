@@ -699,4 +699,46 @@ public class WorkflowService {
         }
         return list;
     }
+
+    public static String getTripType(int typeOfBusinessTrip) {
+        TripTypesEntity entity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from TripTypesEntity where id=" + typeOfBusinessTrip);
+            entity = (TripTypesEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return entity.getName();
+    }
+
+    public static String getInvolvementType(int involvementType) {
+        InvolvementTypesEntity entity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from InvolvementTypesEntity where id=" + involvementType);
+            entity = (InvolvementTypesEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return entity.getName();
+    }
 }

@@ -254,9 +254,8 @@ public class DetailsController {
         RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(id);
 
         if (requestsEntity.getStatusId()!= Status.Draft.getValue())
-            sendEmailAfterDelete(id);
-
         WorkflowDeleteService.DeleteRequest(id, 8);
+        sendEmailAfterDelete(id);
         return "redirect:/Workflow/MyForms/Request";
     }
 

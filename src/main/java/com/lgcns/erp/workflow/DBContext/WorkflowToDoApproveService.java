@@ -9,6 +9,7 @@ import com.lgcns.erp.workflow.DBEntities.StepCommentsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepsEntity;
 import com.lgcns.erp.workflow.Enums.LeaveType;
 import com.lgcns.erp.workflow.Enums.Status;
+import com.lgcns.erp.workflow.Enums.Type;
 import com.lgcns.erp.workflow.Mapper.CommentMapper;
 import com.lgcns.erp.workflow.controller.email.MailMail;
 import com.lgcns.erp.workflow.controller.email.MailMessage;
@@ -53,7 +54,7 @@ public class WorkflowToDoApproveService {
         else{
             // if it is termination
             RequestsEntity entity = WorkflowService.getRequestsEntityById(requestId);
-            if (entity.getTypeId()==4) {
+            if (entity.getTypeId()== Type.Termination.getValue()) {
                 submitRequest(entity.getReqLinkId(), Status.Terminated.getValue());
                 if (entity.getLeaveTypeId()!=null&&(entity.getLeaveTypeId()==LeaveType.Annual_leave.getValue()
                         ||entity.getLeaveTypeId()==LeaveType.Sick_leave.getValue())){

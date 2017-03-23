@@ -1,11 +1,17 @@
 package com.lgcns.erp.workflow.controller.myForms;
 
+import com.google.gson.Gson;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
+import com.lgcns.erp.tapps.mapper.UserMapper;
+import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.workflow.DBContext.WorkflowNotificationService;
+import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
+import com.lgcns.erp.workflow.Mapper.RequestMapper;
+import com.lgcns.erp.workflow.ViewModel.RequestViewModel;
 import com.lgcns.erp.workflow.ViewModel.ToDoViewModel;
 import com.lgcns.erp.workflow.util.Filter;
 import org.springframework.beans.support.PagedListHolder;
@@ -13,8 +19,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +32,14 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/Workflow/MyForms/todo")
 public class ToDoController {
+
+    @RequestMapping(value = "/users")
+    public @ResponseBody String getUsers(){
+        List<RequestViewModel> viewModels = RequestMapper.queryTorequestModel(WorkflowService.getRequestList(), UserService.getAllUsers(), 1);
+        Gson gson = new Gson();
+        String json = gson.toJson(viewModels);
+        return json;
+    }
 
     @RequestMapping(value = "/load")
     public ModelAndView get(Principal principal){
@@ -59,7 +76,8 @@ public class ToDoController {
                                                            @RequestParam("selectedAttribute") int selectedAttribute,
                                                            @RequestParam("selectedDateFrom") String selectedDateFrom,
                                                            @RequestParam("attrValue")String attrValue,
-                                                           @RequestParam("selectedDateTo")String selectedDateTo, Principal principal){
+                                                           @RequestParam("selectedDateTo")String selectedDateTo,
+                                                           Principal principal){
         Map<String, Object> mav = new HashMap<>();
 
         int userId = UserService.getUserIdByUsername(principal.getName());

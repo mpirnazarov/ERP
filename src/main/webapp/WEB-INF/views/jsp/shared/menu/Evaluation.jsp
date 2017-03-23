@@ -21,7 +21,7 @@
 
             <br/>
             <form:form method="POST" modelAttribute="formModel">
-                <table id="myTable" class="display table" cellspacing="0" width="100%">
+                <table id="myTable" class="display table sartable" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>ID</th>

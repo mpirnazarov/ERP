@@ -49,8 +49,8 @@
         <div class="col-md-offset-1 col-sm-10">
             <div class=" col-lg-offset-2 col-lg-10">
                 <h1 class="page-header">Appoint project members</h1>
-                <table class="table" id="Projects">
-                    <tr>
+                <table class="table sartable" id="Projects">
+                    <tr style="color: #337ab7">
                         <th>Project name</th>
                         <th>Start date</th>
                         <th>Finish date</th>
@@ -64,9 +64,9 @@
                             <td>${model.status}</td>
                         </tr>
                         <div class="table table-hover" hidden="hidden" id="project_<c:out value="${model.projectId}"/>">
-                            <div class="row">
+                            <div class="row" >
                                 <div class="col-xs-12 col-sm-12">
-                                    <div class="row">
+                                    <div class="row" style="color: #337ab7">
                                         <div class="col-xs-3 col-sm-3">
                                             Name
                                         </div>
@@ -115,7 +115,7 @@
                             member
                         </button>
                     </p>
-                    <table class="table" id="myTable">
+                    <table class="table sartable" id="myTable">
                         <tr>
 
                             <th>

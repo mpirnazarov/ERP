@@ -27,6 +27,7 @@
     <spring:url value="/resources/core/css/token-input.css" var="tokenInputCss"/>
     <spring:url value="/resources/core/css/token-input-facebook.css" var="tokenInputFacebookCss"/>
 
+
     <link rel="stylesheet" href="${navbar}"/>
     <link rel="stylesheet" href="${scrollCss}"/>
     <link rel="stylesheet" href="${normalizeCss}"/>
@@ -36,6 +37,7 @@
     <link rel="stylesheet" href="${tokenInputFacebookCss}" type="text/css" />
     <link rel="stylesheet" href="${styleCss}"/>
     <link rel="stylesheet" href="${bootstrapDatePickerCSS}"/>
+
 
     <%--JS--%>
     <spring:url value="/resources/core/js/jquery.min.js" var="jquery"/>
@@ -134,13 +136,6 @@
     </style>
 </head>
 
-<%--<div id="restrictOv">
-    <div>
-        &lt;%&ndash;<img class="sarspinner" src="/images/lg-logo.jpg">&ndash;%&gt;
-        <div class="restrictBody"><<img style="width: 70%; height: 50%; margin-left: -70px" src="/resources/images/wh.png"></div>
-        </div>
-    </div>
-</div>--%>
 
 <div id="sarOv">
     <div>
@@ -148,6 +143,8 @@
         <div class="sarspinnerBorder"></div>
     </div>
 </div>
+
+<div id="restrictOv"><div style="width: 100px; height: 100px; position: absolute; left: 40%; top: 31%; font-size: 10px; text-align: center"><img style="width: 100%; height: 100%" src="/resources/images/wh.png">Smart office does not support mobile version of web site!</div></div>
 
 
 
@@ -157,8 +154,8 @@
 
     /*load Ovrelay*/
     var sarOv = document.getElementById("sarOv");
-    /*var resOv = document.getElementById("restrictOv");
-    var unav = document.getElementById("usernavigationmenudiv");*/
+    var resOv = document.getElementById("restrictOv");
+    var unav = document.getElementById("usernavigationmenudiv");
 
     window.addEventListener('load', function () {
         sarOv.style.animation = 'fadeout 0.3s ease';
@@ -168,21 +165,16 @@
 
 
     /*Resize Prevent*/
-        /*$(window).resize(function() {
-            if ($(this).width() < 1200){
-
-                unav.style.display = 'none';
-
-                alert("yahshi");
-
-            }else if ($(this).width() < 1024) {
+        $(window).resize(function() {
+            if ($(this).width() < 1000){
 
                 resOv.style.display = 'block';
+
             } else {
                 resOv.style.display = 'none';
 
             }
-        });*/
+        });
     /*Resize Prevent*/
 
 </script>

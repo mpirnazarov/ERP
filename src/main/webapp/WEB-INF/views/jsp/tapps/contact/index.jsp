@@ -39,7 +39,7 @@
                 %>
 
                 <div class="table-responsive">
-                    <table id="myTable" class="display table table-bordered">
+                    <table id="myTable" class="sartable display table table-bordered">
                         <thead>
                         <tr>
                             <th></th>

@@ -29,7 +29,7 @@
             <%--</div>--%>
             <% } %>
             <br/>
-            <table id="myTable" class="display table" cellspacing="0" width="100%">
+            <table id="myTable" class="display table sartable" cellspacing="0" width="100%">
                 <thead>
                 <tr>
                     <th>Employee ID</th>
@@ -67,14 +67,14 @@
                             <spring:url value="/Hr/user/${user.id}/enable/" var="enableUrl" />
                             <spring:url value="/Hr/user/${user.id}/update/Geninfo" var="updateUrl" />
 
-                            <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
-                            <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
+                            <button class="btn btn-blue" onclick="location.href='${userUrl}'">View</button>
+                            <button class="btn btn-darkblue" onclick="location.href='${updateUrl}'">Update</button>
                             <c:if test="${not user.enabled}">
-                            <button class="btn btn-success" onclick="location.href='${enableUrl}'">Enable</button></td>
+                            <button class="btn btn-green" onclick="location.href='${enableUrl}'">Enable</button></td>
 
                         </c:if>
                         <c:if test="${user.enabled}">
-                            <button class="btn btn-danger" onclick="location.href='${disableUrl}'">Disable</button></td>
+                            <button class="btn btn-red" onclick="location.href='${disableUrl}'">Disable</button></td>
                         </c:if>
 
                         <% } %>

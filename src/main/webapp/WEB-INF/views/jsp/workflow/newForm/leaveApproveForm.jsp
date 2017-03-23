@@ -245,13 +245,13 @@
 
         $('#dateStart').focusout(function () {
             if (dStart == dEnd) {
-
+                    alert("1")
             }
         });
 
         $('#dateEnd').focusout(function () {
             if (dStart == dEnd) {
-
+                alert("2")
             }
         });
 
@@ -328,6 +328,7 @@
                 $('#dateStart').css("border", "1px solid #999999");
                 $('#dateEnd').css("border", "1px solid #999999");
                 $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
+
 
 
                 var selectedType = $("#absenseSelect option:selected").text();

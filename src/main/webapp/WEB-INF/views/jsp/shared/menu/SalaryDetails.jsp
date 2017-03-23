@@ -38,7 +38,7 @@
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %></p>
         <h2 class="page-header">Salary Details</h2>
-        <table class="table">
+        <table class="table sartable">
             <thead>
             <tr>
                 <th class="text-center">Date<br/><text class="small">(YYYY-MM-DD)</text></th>

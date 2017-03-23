@@ -1,6 +1,7 @@
-@import "https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css";
+/*@import "https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css";*/
 @import "https://daneden.github.io/animate.css/animate.min.css";
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans|Oswald');
+@import "font-awesome-4.7.0/css/font-awesome.min.css";
 /*-------------------------------*/
 /*           VARIABLES           */
 /*-------------------------------*/
@@ -503,6 +504,10 @@ a:focus {
     /*background-color: rgba(0, 0, 0, 0.46);
     border-radius: 1%;*/
 
+    -webkit-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+    -moz-box-shadow:    0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+    box-shadow:         0px 10px 20px 0px rgba(0, 0, 0, 0.62);
+
     background-color: #FFFFFF;
     margin-top: 2%;
 }
@@ -524,21 +529,24 @@ a:focus {
 
 .sarTable thead tr th {
     /*border-bottom: 7px groove #1e7ee2;*/
-    font-size: 20px;
-    color: #bd2828;
+    font-size: 16px;
+    color: #337ab7;
 }
 
 .sarTable tbody tr:hover {
-    background-color: rgba(189, 40, 40, 0.2);
+    background-color: rgba(66, 133, 244, 0.2);
 
 }
 
-.sarTable .btn {
+.sarTable .btn-darkblue {
 
-    border: 1px solid #7a7777;
+    color: #337ab7;
+    border-color: #337ab7;
+
     border-radius: 0%;
     font-size: 16px;
-    color: #7a7777;
+    font-weight: 800;
+
     background-color: #FFFFFF;
 
     -webkit-transition: all 0.4s ease;
@@ -546,9 +554,58 @@ a:focus {
     transition: all 0.4s ease;
 }
 
-.sarTable .btn:hover {
+.sarTable .btn-red {
+
     color: #bd2828;
     border-color: #bd2828;
+
+    border-radius: 0%;
+    font-size: 16px;
+    font-weight: 800;
+
+    background-color: #FFFFFF;
+
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.41s ease;
+    transition: all 0.4s ease;
+}
+
+.sarTable .btn-green {
+
+    color: #449d44;
+    border-color: #449d44;
+
+    border-radius: 0%;
+    font-size: 16px;
+    font-weight: 800;
+
+    background-color: #FFFFFF;
+
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.41s ease;
+    transition: all 0.4s ease;
+}
+
+.sarTable .btn-blue {
+
+    color: #44b6f1;
+    border-color: #44b6f1;
+
+    border-radius: 0%;
+    font-size: 16px;
+    font-weight: 800;
+
+    background-color: #FFFFFF;
+
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.41s ease;
+    transition: all 0.4s ease;
+}
+
+.sarTable .btn-red:hover, .btn-blue:hover, .btn-green:hover, .btn-darkblue:hover {
+
+    color: #000000;
+    border: 1px solid #000000;
     border-radius: 15%;
 
 

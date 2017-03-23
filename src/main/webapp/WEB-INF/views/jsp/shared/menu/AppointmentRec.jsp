@@ -39,7 +39,7 @@
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %></p>
         <h2 class="page-header">Appointment Record</h2>
         <!--Appointment summary table-->
-        <table class="table">
+        <table class="table sartable">
             <thead>
             <tr>
                 <th class="text-center">Appointment date<br/><text class="small">(YYYY-MM-DD)</text></th>

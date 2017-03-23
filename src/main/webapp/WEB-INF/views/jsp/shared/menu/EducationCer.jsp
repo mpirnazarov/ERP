@@ -60,7 +60,7 @@
         <div class="tab-content">
             <div id="edu" class="tab-pane fade in active"><br/>
                 <!--Educations table-->
-                <table class="table">
+                <table class="table sartable">
                     <thead>
                     <tr>
                         <th class="col-md-4 text-center">Name of school</th>
@@ -89,7 +89,7 @@
             </div>
             <div id="langsum" class="tab-pane fade"><br/>
                 <!--Language summary table-->
-                <table class="table">
+                <table class="table sartable">
                     <thead>
                     <tr>
                         <th class="col-md-3">Language</th>
@@ -112,7 +112,7 @@
                     </tbody>
                 </table>
                 <h3>Language scores</h3>
-                <table class="table">
+                <table class="table sartable">
                     <thead>
                     <tr>
                         <th class="col-md-3">Type</th>
@@ -148,7 +148,7 @@
             </div>
             <div id="cersum" class="tab-pane fade"><br/>
                 <!--Certificates table-->
-                <table class="table">
+                <table class="table sartable">
                     <thead>
                     <tr>
                         <th class="col-md-3">Name</th>

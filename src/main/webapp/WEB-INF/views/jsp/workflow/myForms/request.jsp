@@ -143,9 +143,9 @@
                     <%--p2--%>
                     <div style="width: 41%; margin-left: auto">
                         <div class="input-group " style="margin-top: 25px">
-                            <span class="input-group-addon" id="search-addon1" style="background-color: white; border: none; color: #bd2828">Title:</span>
+                            <span class="input-group-addon" id="search-addon1" style="background-color: white; border: none; color: #4285f4; font-weight: 800">Title:</span>
                             <input type="text" placeholder="Search for ..." class="form-control" id="reqsearchId" aria-describedby="search-addon1" style="border: none">
-                            <div class="input-group-addon btn" onclick="pagedList(this.id)" id="btnReqFilter" style="background-color: white; color: #bd2828"><span
+                            <div class="input-group-addon btn" onclick="pagedList(this.id)" id="btnReqFilter" style="background-color: white; color: #4285f4; font-weight: 800"><span
                                     class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                             </div>
                         </div>
@@ -178,10 +178,7 @@
                 </tbody>
 
             </table>
-            <div id="notFoundDiv">
-                <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Empty
-            </div>
-                <ul class="sagination modal-6" id="pagedListContainer"></ul>
+                <ul class="sagination modal-1" id="pagedListContainer"></ul>
         </div>
     </div>
 </div>
@@ -310,7 +307,7 @@
                             .append($('<td/>').text(req.request_subject).addClass("titleTd"))
                             .append($('<td/>').text(req.date_created).addClass("requestDateTd"))
                             .append($('<td/>').text(req.status).addClass("statusTd"))
-                            .append($('<td/>').append($('<div class="btn" onclick="location.href=\'/Workflow/MyForms/details/2/' + req.request_id + '\'">View</div>')));
+                            .append($('<td/>').append($('<div class="btn btn-blue" onclick="location.href=\'/Workflow/MyForms/details/2/' + req.request_id + '\'">View</div>')));
 
                         /*$('<div id="newdiv' + x + '" class="newRequestLabel">New</div>').appendTo(tbody)*/
 
@@ -350,7 +347,7 @@
 
                 numberOfPages = data.maxPages;
                 container.empty();
-                container.append($('<li><a href="#" id="-2" class="prev fa fa-arrow-left" onclick="pagedList(this.id); return false"></a></li>'));
+                container.append($('<li><a href="#" id="-2" onclick="pagedList(this.id); return false">Previous</a></li>'));
 
                 //generate pegination buttons
                 for (count = 1; count < numberOfPages + 1; count++) {
@@ -361,7 +358,7 @@
                         container.append($('<li><a href="#" id="' + count + '" onclick="pagedList(this.id); return false">' + count + '</a></li>'));
                     }
                 }
-                container.append($('<li><a href="#" id="-1" class="next fa fa-arrow-right" onclick="pagedList(this.id); return false"></a></li>'));
+                container.append($('<li><a href="#" id="-1"  onclick="pagedList(this.id); return false">Next</a></li>'));
             },
 
             error: function () {

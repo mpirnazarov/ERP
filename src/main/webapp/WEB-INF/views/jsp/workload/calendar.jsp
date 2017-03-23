@@ -26,17 +26,17 @@
 
 <style>
     table h3 {
-        color: #000000;
+        color: #337ab7;
     }
 
     thead tr, td.duration {
         background-color: #FFFFFF;
-        color: #000000;
+        color: #337ab7;
     }
 
     tr#weekDays , .btn-default, td.td-head-default, tr.headers {
         background-color: #eaeaea;
-        color: #000000;
+        color: #337ab7;
     }
 
 

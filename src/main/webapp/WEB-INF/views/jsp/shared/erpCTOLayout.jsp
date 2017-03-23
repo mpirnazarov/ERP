@@ -209,7 +209,7 @@
                                         <li><a class="linkcolor" href="/Workflow/NewForm/BusinessTripForm"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Business trip</a></li>
                                         <li><a class="linkcolor" href="/Workflow/NewForm/LeaveApproveForm"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Leave approve</a>
                                         </li>
-                                        <li><a class="linkcolor" href="/Workflow/Create/Unformatted"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Unformatted</a>
+                                        <li><a class="linkcolor" href="/Workflow/NewForm/Unformatted"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Unformatted</a>
                                         </li>
                                     </ul>
 
@@ -254,12 +254,10 @@
                             <li>
                                 <a href="/Manager/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
                             </li>
-                            <li>
-                                <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
+                <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
             </div>
         </div>
     </nav>

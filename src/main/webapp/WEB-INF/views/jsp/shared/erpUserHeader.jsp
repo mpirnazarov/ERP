@@ -161,8 +161,8 @@
     var unav = document.getElementById("usernavigationmenudiv");*/
 
     window.addEventListener('load', function () {
-        sarOv.style.animation = 'fadeout 1s ease';
-        setTimeout(function (){sarOv.style.display = 'none';}, 1000)
+        sarOv.style.animation = 'fadeout 0.3s ease';
+        setTimeout(function (){sarOv.style.display = 'none';}, 300)
     })
     /*load Ovrelay*/
 
@@ -173,7 +173,7 @@
 
                 unav.style.display = 'none';
 
-                alert("tvar");
+                alert("yahshi");
 
             }else if ($(this).width() < 1024) {
 
@@ -240,6 +240,8 @@
     var currentOpenedPanel = 0;
 
     $(document).ready(function () {
+
+
 
         if(window.location.href.indexOf("Workflow") > -1) {
             wfbutton.addClass("in")

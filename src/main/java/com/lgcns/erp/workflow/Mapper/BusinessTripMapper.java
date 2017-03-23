@@ -126,8 +126,8 @@ public class BusinessTripMapper {
             UserLocalizationsEntity userLoc = UserService.getUserLocByUserId(entity.getUserId(), 3);
             member = new Member();
             member.setId(userLoc.getUserId());
-            member.setName(userLoc.getFirstName());
-            member.setSurname(userLoc.getLastName());
+            member.setFirstName(userLoc.getFirstName());
+            member.setLastName(userLoc.getLastName());
             member.setJobTitle(UserController.getProfileByUsername(UserService.getUsernameById(userLoc.getUserId())).getJobTitle());
             member.setDepartment(getDepartmentNameByUserId(entity.getUserId()));
 

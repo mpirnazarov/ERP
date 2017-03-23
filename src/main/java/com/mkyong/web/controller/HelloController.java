@@ -23,5 +23,8 @@ public class HelloController {
 
 
         /*Months.monthsBetween()*/
+        int a = 4, b = 8, c = 8;
+        float var = a + b + c;
+        System.out.println("this result is: " + (float)((var/8) ));
     }
 }

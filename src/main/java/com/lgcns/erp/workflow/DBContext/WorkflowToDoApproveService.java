@@ -1,9 +1,7 @@
 package com.lgcns.erp.workflow.DBContext;
 
 import com.lgcns.erp.hr.enums.WorkloadType;
-import com.lgcns.erp.hr.viewModel.WorkloadViewModels.WorkloadCreateModel;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
-import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.DbContext.WorkloadServices;
 import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
@@ -24,7 +22,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -69,7 +66,6 @@ public class WorkflowToDoApproveService {
             if (entity.getLeaveTypeId()!=null&&(entity.getLeaveTypeId()==LeaveType.Annual_leave.getValue()
                     ||entity.getLeaveTypeId()==LeaveType.Sick_leave.getValue()))
                 addHours(entity);
-
             sendEmailAfterLastApproves(requestId);
 
             return -1;
@@ -91,11 +87,12 @@ public class WorkflowToDoApproveService {
         to = (int[]) ArrayUtils.addAll(WorkflowEmailService.getInvolvementList(requestId, 2), WorkflowEmailService.getInvolvementList(requestId, 3));
         if (to.length!=0) {
             mm.sendMail(to, subject, msg);
+            /*mm.sendHtmlMail(to, subject, msg);*/
             to = null;
         }
         /* Sending to creator */
-        subject = MailMessage.generateSubject(requestId, 4, 4);
-        msg = MailMessage.generateMessage(requestId, 4, 4);
+        subject = MailMessage.generateSubject(requestId, 5, 4);
+        msg = MailMessage.generateMessage(requestId, 5, 4);
         to[0] = WorkflowService.getRequestsEntityById(requestId).getUserFromId();
         if (to.length!=0) {
             mm.sendMail(to, subject, msg);
@@ -105,9 +102,9 @@ public class WorkflowToDoApproveService {
     private static void addHours(RequestsEntity entity){
         if (entity.getDateFrom()!=null && entity.getDateTo()!=null) {
             if (entity.getLeaveTypeId() == LeaveType.Annual_leave.getValue())
-                addHours(entity.getUserFromId(), WorkloadType.Annual_leave.getValue(), entity.getDateFrom(), entity.getDateTo());
+                addHours(entity.getUserFromId(), WorkloadType.Annual_leave.getValue(), entity.getDateFrom(), entity.getDateTo(), true);
             else
-                addHours(entity.getUserFromId(), WorkloadType.Sick_leave.getValue(), entity.getDateFrom(), entity.getDateTo());
+                addHours(entity.getUserFromId(), WorkloadType.Sick_leave.getValue(), entity.getDateFrom(), entity.getDateTo(), true);
         }
      }
 
@@ -189,8 +186,6 @@ public class WorkflowToDoApproveService {
 
 
     public static void setNewStep(int newStepId, int reqId){
-        sendEmailToTheNextApprover(newStepId, reqId);
-
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -206,6 +201,7 @@ public class WorkflowToDoApproveService {
         }
         finally {
             session.close();
+            sendEmailToTheNextApprover(reqId, newStepId);
         }
     }
 
@@ -220,11 +216,12 @@ public class WorkflowToDoApproveService {
          /* Sending to approvals*/
         subject = MailMessage.generateSubject(requestId, 4, 1);
         msg = MailMessage.generateMessage(requestId, 4, 1);
-        to[0] = nextApproverId;
+        to[0] = WorkflowService.getUserIdFromSteps(nextApproverId);
         if (to.length!=0) {
             mm.sendMail(to, subject, msg);
             to = null;
         }
+        to = new int[1];
          /* Sending to creator */
         subject = MailMessage.generateSubject(requestId, 4, 4);
         msg = MailMessage.generateMessage(requestId, 4, 4);
@@ -262,8 +259,11 @@ public class WorkflowToDoApproveService {
      @param to To which date the workloads should be added
      @return Returns boolean value, specifying whether the method was executed successfully
      */
-    public static boolean addHours (int userId, int workloadType, Date from, Date to){
-        return updateWorkloads(userId, workloadType, from, to, 8);
+    public static boolean addHours (int userId, int workloadType, Date from, Date to, boolean full){
+        if(full)
+            return updateWorkloads(userId, workloadType, from, to, 8);
+        else
+            return updateWorkloads(userId, workloadType, from, to, 4);
     }
 
     /**
@@ -282,15 +282,19 @@ public class WorkflowToDoApproveService {
         boolean doneStatus = false;
         try {
             List<Date> dates = getDaysBetweenDates(from, to);
+            Calendar c = Calendar.getInstance();
             for (Date date : dates) {
-                WorkloadEntity workload = new WorkloadEntity();
-                workload.setUserId(userId);
-                workload.setDate(date);
-                workload.setProjectId(0);
-                workload.setDuration(duration);
-                workload.setWorkloadType(workloadType);
+                c.set(date.getYear(), date.getMonth(), date.getDate());
+                if(c.get(Calendar.DAY_OF_WEEK) != 5) {
+                    WorkloadEntity workload = new WorkloadEntity();
+                    workload.setUserId(userId);
+                    workload.setDate(date);
+                    workload.setProjectId(0);
+                    workload.setDuration(duration);
+                    workload.setWorkloadType(workloadType);
 
-                doneStatus = WorkloadServices.saveOrUpdateWorklad(workload);
+                    doneStatus = WorkloadServices.saveOrUpdateWorklad(workload);
+                }
             }
         }catch (Exception e){
             doneStatus = false;

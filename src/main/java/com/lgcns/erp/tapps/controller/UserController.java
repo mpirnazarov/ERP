@@ -505,7 +505,7 @@ public class UserController {
         return returning;
     }
 
-    private static int getUsedVacationsNumber(UsersEntity user) {
+    private static float getUsedVacationsNumber(UsersEntity user) {
         LocalDateTime currentTime = LocalDateTime.now();
 
         Instant i = Instant.ofEpochMilli(user.getHiringDate().getTime());
@@ -525,8 +525,12 @@ public class UserController {
             java.util.Date from = Date.from(instant1), to = Date.from(instant);
             workloads = WorkloadServices.getWorkloadByPeriod(user.getId(), 0, WorkloadType.Annual_leave.getValue(), from, to);
         }
+        float size = 0;
+        for (WorkloadEntity w : workloads) {
+            size += w.getDuration();
+        }
 
-        return workloads.size();
+        return (float)(size/8);
     }
 
 

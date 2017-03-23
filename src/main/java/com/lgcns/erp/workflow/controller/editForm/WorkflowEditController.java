@@ -2,15 +2,14 @@ package com.lgcns.erp.workflow.controller.editForm;
 
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
-import com.lgcns.erp.tapps.controller.UserController;
-import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
-import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.*;
 import com.lgcns.erp.workflow.Enums.LeaveType;
 import com.lgcns.erp.workflow.Mapper.LeaveApproveMapper;
+import com.lgcns.erp.workflow.Mapper.MembersMapper;
 import com.lgcns.erp.workflow.Model.Attachment;
+import com.lgcns.erp.workflow.Model.Member;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
 import com.lgcns.erp.workflow.ViewModel.LeaveApproveVM;
 import com.lgcns.erp.workflow.ViewModel.UnformattedViewModel;
@@ -39,7 +38,7 @@ import java.util.*;
 public class WorkflowEditController {
 
     @RequestMapping(value = "/{reqId}", method = RequestMethod.GET)
-    public ModelAndView WorkflowEditGET(Principal principal, @PathVariable int reqId){
+    public ModelAndView WorkflowEditGET(Principal principal, @PathVariable int reqId) {
 
         ModelAndView mav = new ModelAndView();
         UsersEntity usersEntity = UserService.getUserByUsername(principal.getName());
@@ -49,7 +48,7 @@ public class WorkflowEditController {
         int type = requestsEntity.getTypeId();
 
         /* Business trip form editing */
-        if(type == 1) {
+        if (type == 1) {
             mav.setViewName("workflow/editForm/businessTrip");
             // Retrieving Leave approve ViewModel
             BusinessTripVM businessTripVM = getBusinessTrip(reqId);
@@ -68,13 +67,12 @@ public class WorkflowEditController {
 
             Map<Integer, String> users = new HashMap<>();
             users.put(0, "");
-            UserLocalizationsEntity userLoc=null;
+
             for (UsersEntity user :
                     UserService.getAllUsers()) {
-                ProfileViewModel prof =  UserController.getProfileByUsername(user.getUserName());
-                userLoc = UserService.getUserLocByUserId(user.getId(), 3);
+                Member member = MembersMapper.getMember(user.getId());
                 if (user.isEnabled() == true) {
-                    users.put(Integer.parseInt(prof.getId()), userLoc.getFirstName() + " " + userLoc.getLastName());
+                    users.put(member.getId(), member.getFirstName() + " " + member.getLastName() + " | " + member.getDepartment() + " | " + member.getJobTitle() + "      ");
                 }
             }
             mav.addObject("users", users);
@@ -84,7 +82,7 @@ public class WorkflowEditController {
             currency.put(2, "USD");
             mav.addObject("currency", currency);
 
-        } else if(type == 2){
+        } else if (type == 2) {
             mav.setViewName("workflow/editForm/leaveApprove");
             // Retrieving Leave approve ViewModel
             LeaveApproveVM leaveApproveVM = getLeaveApprove(reqId);
@@ -99,7 +97,7 @@ public class WorkflowEditController {
             }
 
             boolean sixMonthPassed = false;
-            int vacationDaysAvailable=0;
+            int vacationDaysAvailable = 0;
             int usedVacationNumber = LeaveApproveController.getUsedVacationsNumber(usersEntity);
 
             java.sql.Date hiringDate = usersEntity.getHiringDate();
@@ -108,26 +106,23 @@ public class WorkflowEditController {
 
             int hiringDateInterval = Math.abs(Months.monthsBetween(now, then).getMonths());
 
-            if(hiringDateInterval >= 6){
-                System.out.println("6 mo apart!");
+            if (hiringDateInterval >= 6) {
+                System.out.println("6 month apart!");
                 sixMonthPassed = true;
-            }
-            else{
-                System.out.println("6 mo NOT apart!");
+            } else {
+                System.out.println("6 month NOT apart!");
                 sixMonthPassed = false;
             }
 
-            if(hiringDateInterval < 6){
+            if (hiringDateInterval < 6) {
                 vacationDaysAvailable = 0;
-            }
-            else if(hiringDateInterval >=6 && hiringDateInterval <= 12){
-                vacationDaysAvailable = hiringDateInterval*2 - usedVacationNumber;
-            }
-            else{
+            } else if (hiringDateInterval >= 6 && hiringDateInterval <= 12) {
+                vacationDaysAvailable = hiringDateInterval * 2 - usedVacationNumber;
+            } else {
                 vacationDaysAvailable = 24 - usedVacationNumber;
             }
 
-            if(vacationDaysAvailable < 0){
+            if (vacationDaysAvailable < 0) {
                 vacationDaysAvailable = 0;
             }
 
@@ -137,7 +132,7 @@ public class WorkflowEditController {
 
             // Add trip type data to ModelAndView
             mav.addObject("absenceType", absenceType);
-        } else if(type == 3){
+        } else if (type == 3) {
             mav.setViewName("workflow/editForm/unformatted");
             mav = UP.includeUserProfile(mav, principal);
 
@@ -167,25 +162,15 @@ public class WorkflowEditController {
         List<ToDoEntity> toDoEntities = WorkflowService.getToDoByRequestId(reqId);
         businessTripVM.setToDoEntityList(toDoEntities);
 
-       /* Collection<AttachmentsEntity> attachmentsEntities = WorkflowService.getAttachmentList();
-        List<Attachment> attachments = new LinkedList<>();
-        if(attachmentsEntities.size()!=0) {
-            for (AttachmentsEntity atEn :
-                    attachmentsEntities) {
-                if(atEn.getRequestId() == reqId)
-                    attachments.add(new Attachment(atEn.getId(), atEn.getUrl(), atEn.getFilename()));
+        List<Attachment> attachments = new ArrayList<>();
+        List<AttachmentsEntity> attachmentsEntities = WorkflowService.getRequestAttachmentsByReqId(reqId);
+
+        if (attachmentsEntities != null) {
+            for (AttachmentsEntity attachmentsEntity : attachmentsEntities) {
+                attachments.add(new Attachment(attachmentsEntity.getId(), attachmentsEntity.getUrl(), attachmentsEntity.getFilename()));
             }
-        }*/
-
-       List<Attachment> attachments = new ArrayList<>();
-       List<AttachmentsEntity> attachmentsEntities = WorkflowService.getRequestAttachmentsByReqId(reqId);
-
-       if (attachmentsEntities!=null){
-           for (AttachmentsEntity attachmentsEntity : attachmentsEntities) {
-               attachments.add(new Attachment(attachmentsEntity.getId(), attachmentsEntity.getUrl(), attachmentsEntity.getFilename()));
-           }
-       }
-       businessTripVM.setAttachments(attachments);
+        }
+        businessTripVM.setAttachments(attachments);
 
 
         return businessTripVM;
@@ -203,10 +188,10 @@ public class WorkflowEditController {
 
         Collection<AttachmentsEntity> attachmentsEntities = WorkflowService.getAttachmentList();
         List<Attachment> attachments = new LinkedList<>();
-        if(attachmentsEntities.size()!=0) {
+        if (attachmentsEntities.size() != 0) {
             for (AttachmentsEntity atEn :
                     attachmentsEntities) {
-                if(atEn.getRequestId() == reqId)
+                if (atEn.getRequestId() == reqId)
                     attachments.add(new Attachment(atEn.getId(), atEn.getUrl(), atEn.getFilename()));
             }
         }
@@ -228,10 +213,10 @@ public class WorkflowEditController {
 
         Collection<AttachmentsEntity> attachmentsEntities = WorkflowService.getAttachmentList();
         List<Attachment> attachments = new LinkedList<>();
-        if(attachmentsEntities.size()!=0) {
+        if (attachmentsEntities.size() != 0) {
             for (AttachmentsEntity atEn :
                     attachmentsEntities) {
-                if(atEn.getRequestId() == reqId)
+                if (atEn.getRequestId() == reqId)
                     attachments.add(new Attachment(atEn.getId(), atEn.getUrl(), atEn.getFilename()));
             }
         }
@@ -250,19 +235,19 @@ public class WorkflowEditController {
         WorkflowService.updateRequestLeaveApprove(LeaveApproveMapper.requestMapperUpdate(leaveApproveVM));
 
         /*  Insert attachments info to table Attachments */
-        if(!leaveApproveVM.getFile()[0].isEmpty()) {
+        if (!leaveApproveVM.getFile()[0].isEmpty()) {
             for (MultipartFile attachment :
                     leaveApproveVM.getFile()) {
                 WorkflowService.insertAttachments(LeaveApproveMapper.attachmentsMapper(leaveApproveVM.getId(), attachment));
             }
         }
 
-        MultipartFile[] multipartFiles=null;
-        if(!leaveApproveVM.getFile()[0].isEmpty()) {
+        MultipartFile[] multipartFiles = null;
+        if (!leaveApproveVM.getFile()[0].isEmpty()) {
             multipartFiles = leaveApproveVM.getFile();
 
-            // Uploading files attached to C:/files/documents/workflow. Create folder if doesn't exist.
-            File f = new File("C:/files/documents/workflow/"+leaveApproveVM.getId()+"/");
+            // Uploading files attached to C:/files/documents/workflow/{id}/. Create folder if doesn't exist.
+            File f = new File("C:/files/documents/workflow/" + leaveApproveVM.getId() + "/");
             if (f.mkdir()) {
                 System.out.println("DIRECTORY CREATED SECCESFULLY");
             }
@@ -273,6 +258,6 @@ public class WorkflowEditController {
 
             System.out.println("FILE WAS UPLOADED!");
         }
-        return "redirect: /Workflow/MyForms/details/2/"+reqId;
+        return "redirect: /Workflow/MyForms/details/2/" + reqId;
     }
 }

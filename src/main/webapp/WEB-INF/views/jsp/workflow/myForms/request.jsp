@@ -37,14 +37,6 @@
         text-align: center;
     }
 
-    .formTypeTd {
-        font-weight: 800;
-        font-size: 18px;
-    }
-
-    .titleTd {
-
-    }
 
 
 </style>
@@ -58,7 +50,7 @@
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="page-header" style="border-bottom: 1px solid #fff;"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Request</h2>
+        <h2 class="page-header" style="border-bottom: 1px solid #FFFFFF; padding-top: 6%"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Request</h2>
 
         <div class="w3-container">
             <%--<div class="searchtoolstyle" style="height: 20%">
@@ -199,8 +191,8 @@
 <script>
 
 
-    $('#reqsandbox-container-from').datepicker({format: "yyyy-mm-dd", todayHighlight: true});
-    $('#reqsandbox-container-to').datepicker({format: "yyyy-mm-dd", todayHighlight: true});
+    $('#reqsandbox-container-from').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
+    $('#reqsandbox-container-to').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
 
 
     $("#reqsearchId").keyup(function(event){
@@ -318,7 +310,7 @@
                             .append($('<td/>').text(req.request_subject).addClass("titleTd"))
                             .append($('<td/>').text(req.date_created).addClass("requestDateTd"))
                             .append($('<td/>').text(req.status).addClass("statusTd"))
-                            .append($('<td/>').append($('<div class="btn" onclick="location.href=\'/Workflow/MyForms/details/2/' + req.request_id + '\'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></div>')));
+                            .append($('<td/>').append($('<div class="btn" onclick="location.href=\'/Workflow/MyForms/details/2/' + req.request_id + '\'">View</div>')));
 
                         /*$('<div id="newdiv' + x + '" class="newRequestLabel">New</div>').appendTo(tbody)*/
 

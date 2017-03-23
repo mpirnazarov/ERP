@@ -151,8 +151,8 @@
                     </div>
                     <div class="input-group" style="margin-top: 2%">
                         <span class="input-group-addon" id="date-addon"><span class="reqfield"></span>Date(Start/End):</span>
-                        <input type="date" class="form-control" style="width:50%" name="start" id="dateStart"/>
-                        <input type="date" class="form-control" style="width:50%" name="end" id="dateEnd"/>
+                        <input type="text" class="form-control" style="width:50%" name="start" id="dateStart"/>
+                        <input type="text" class="form-control" style="width:50%" name="end" id="dateEnd"/>
                         <span class="glyphicon warningIcon" aria-hidden="true"></span>
                     </div>
                 </div>
@@ -165,20 +165,6 @@
             </div>
         </form:form>
 
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Warning</h4>
-                        </div>
-                        <div class="modal-body">
-                            <span id="message"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
     </div>
 
 </div>
@@ -188,6 +174,10 @@
 
     /* Send input from approval list to controller by AJAX */
     $(document).ready(function () {
+
+        $('#dateStart').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
+        $('#dateEnd').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
+
 
         globalFlag = false;
 
@@ -222,6 +212,26 @@
             }else {
                 $('#subject').css("border", "1px solid #999999");
                 $('#subject').next('span').removeClass('glyphicon-info-sign')
+
+                if ($("#subject").val().length > 50){
+                    msg += "⛔ Subject cannot be more than 50 characters" + "<br/>";
+                    flag = false
+                    $('#subject').next('span').addClass('glyphicon-info-sign')
+                    $(this).css("border", "2px solid red");
+                }else {
+                    $(this).css("border", "1px solid #999999");
+                    $('#subject').next('span').removeClass('glyphicon-info-sign')
+                }
+            }
+
+            if ($("#comment").val().length > 600) {
+                flag = false;
+                msg += "⛔ Description can not be more than 600 characters" + "<br/>";
+                $('#comment').css("border", "2px solid red");
+                $('#comment').next('span').addClass('glyphicon-info-sign');
+            } else {
+                $('#comment').css("border", "1px solid #999999");
+                $('#comment').next('span').removeClass('glyphicon-info-sign')
             }
 
 

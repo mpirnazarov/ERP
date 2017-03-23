@@ -46,7 +46,7 @@ public class ProfileViewModel {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date entryDate;
     private int vacationDaysAll;
-    private int vacationDaysLeft;
+    private float vacationDaysLeft;
     private boolean isPolitical;
     private String username;
     private PersonalInformationViewModel personalInfo;
@@ -185,11 +185,11 @@ public class ProfileViewModel {
         this.vacationDaysAll = vacationDaysAll;
     }
 
-    public int getVacationDaysLeft() {
+    public float getVacationDaysLeft() {
         return vacationDaysLeft;
     }
 
-    public void setVacationDaysLeft(int vacationDaysLeft) {
+    public void setVacationDaysLeft(float vacationDaysLeft) {
         this.vacationDaysLeft = vacationDaysLeft;
     }
 

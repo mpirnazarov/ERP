@@ -52,7 +52,6 @@
         background-color: #FFFFFF;
     }
 
-
     div .input-group {
         width: 98%;
     }
@@ -84,16 +83,19 @@
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="page-header" style="border: none; padding-top: 6%"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Leave approve {EDIT}</h2>
+        <h2 class="page-header" style="border: none; padding-top: 6%"><span class="glyphicon glyphicon-calendar"
+                                                                            aria-hidden="true"></span> Leave approve
+            {EDIT}</h2>
 
         <form:form modelAttribute="leaveApproveVM" cssClass="form-horizontal" method="post" id="myform"
                    enctype="multipart/form-data">
             <div class="w3-container b3form">
                 <div class="form-header" style="padding-top: 1%">
 
-                    <div  class="input-group" style=" margin-top: 1%">
+                    <div class="input-group" style=" margin-top: 1%">
                         <span class="input-group-addon" id="saerchtype-addon">Absence type:</span>
-                        <form:select class="form-control" aria-describedby="saerchtype-addon" path="absenceType" id="absenceType" items="${absenceType}">
+                        <form:select class="form-control" aria-describedby="saerchtype-addon" path="absenceType"
+                                     id="absenceType" items="${absenceType}">
 
                         </form:select>
                     </div>
@@ -117,58 +119,64 @@
                             </c:if>
                             <c:if test="${not empty unformattedVM.attachments}">
                                 <c:forEach items="${unformattedVM.attachments}" var="attachment">
-                                    <p >
-                                        <a style="color: #000" href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a>
-                                        <a style="color: #000" href="/Workflow/EditForm/files/delete/${attachment.id}"><span style="color: #ff0000; font-style: normal" class="glyphicon glyphicon-remove-sign" aria-hidden="false"></span></a>
+                                    <p>
+                                        <a style="color: #000"
+                                           href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a>
+                                        <a style="color: #000"
+                                           href="/Workflow/EditForm/files/delete/${attachment.id}"><span
+                                                style="color: #ff0000; font-style: normal"
+                                                class="glyphicon glyphicon-remove-sign" aria-hidden="false"></span></a>
                                     </p>
                                 </c:forEach>
                             </c:if>
 
 
-
-                            <%--<c:forEach items="${leaveApproveVM.attachments}" var="attachment">
-                                <p>
-                                    <a href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a>
-                                    <a href="/Workflow/EditForm/files/delete/${attachment.id}"><span style="color: #ff0000"
-                                            class="glyphicon glyphicon-remove-sign" aria-hidden="false"></span></a>
-                                </p>
-                            </c:forEach>--%>
+                                <%--<c:forEach items="${leaveApproveVM.attachments}" var="attachment">
+                                    <p>
+                                        <a href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a>
+                                        <a href="/Workflow/EditForm/files/delete/${attachment.id}"><span style="color: #ff0000"
+                                                class="glyphicon glyphicon-remove-sign" aria-hidden="false"></span></a>
+                                    </p>
+                                </c:forEach>--%>
                         </div>
                     </div>
                     <div class="input-group" style="margin-top: 2%">
                         <span class="input-group-addon" id="attachment-addon">Attachment:</span>
                         <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
+                        <span class="glyphicon warningIcon" aria-hidden="true"></span>
                     </div>
                     <div class="input-group" style="margin-top: 2%">
                         <span class="input-group-addon" id="date-addon">Date(Start/End):</span>
-                        <form:input type="date" class="form-control" style="width:50%" name="start" path="start"
+                        <form:input type="text" class="form-control" style="width:50%" name="start" path="start"
                                     id="start"/>
-                        <form:input type="date" class="form-control" style="width:50%" name="end" path="end" id="end"/>
+                        <form:input type="text" class="form-control" style="width:50%" name="end" path="end" id="end"/>
+                        <span class="glyphicon warningIcon" aria-hidden="true"></span>
                     </div>
                 </div>
             </div>
 
             <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
                 <input id="tv" type="submit" name="submitLeaveApprove" value="Submit" class="btn btn-success"/>
-                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger" />
+                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger"/>
             </div>
         </form:form>
 
 
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Warning</h4>
-                        </div>
-                        <div class="modal-body">
-                            <span id="message"></span>
-                        </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign"
+                                                                        aria-hidden="true"></span> Warning</h4>
+                    </div>
+                    <div class="modal-body">
+                        <span id="message"></span>
                     </div>
                 </div>
             </div>
+        </div>
 
 
     </div>
@@ -181,6 +189,9 @@
     /* Send input from approval list to controller by AJAX */
     $(document).ready(function () {
 
+        $('#start').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
+        $('#end').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
+
 
         $("#tv").click(function () {
             var workedSixMonth = ${sixMonthPassed};
@@ -188,15 +199,26 @@
             var flag = true;
             var msg = "";
 
-             /*Subject cannot be empty*/
-            if($("#absenceType option:selected").text() == ""){
-                $('#absenceType').css("border","2px solid red");
+            /*Subject cannot be empty*/
+            if ($("#absenceType option:selected").text() == "") {
+                $('#absenceType').css("border", "2px solid red");
                 $('#absenceType').next('span').addClass('glyphicon-info-sign')
                 flag = false;
                 msg += "⛔ Absence type cannot be empty" + "<br/>";
-            }else {
+            } else {
                 $('#absenceType').css("border", "1px solid #999999");
                 $('#absenceType').next('span').removeClass('glyphicon-info-sign')
+            }
+
+
+            if ($("#comment").val().length > 600) {
+                flag = false;
+                msg += "⛔ Description can not be more than 600 characters" + "<br/>";
+                $('#comment').css("border", "2px solid red");
+                $('#comment').next('span').addClass('glyphicon-info-sign');
+            } else {
+                $('#comment').css("border", "1px solid #999999");
+                $('#comment').next('span').removeClass('glyphicon-info-sign')
             }
 
             /* file size limitation */
@@ -209,9 +231,9 @@
                 if (size > 104857600) {
                     flag = false
                     msg += "⛔ Attached files cannot be more than 100MB" + "<br/>";
-                    $('#file').css("border","2px solid red");
+                    $('#file').css("border", "2px solid red");
                     $('#file').next('span').addClass('glyphicon-info-sign');
-                }else {
+                } else {
                     $('#file').css("border", "1px solid #999999");
                     $('#file').next('span').removeClass('glyphicon-info-sign')
                 }
@@ -225,8 +247,8 @@
             if (dStart > dEnd) {
                 flag = false;
                 msg += "⛔ Start date cannot be later than end date" + "<br/>";
-                $('#start').css("border","2px solid red");
-                $('#end').css("border","2px solid red");
+                $('#start').css("border", "2px solid red");
+                $('#end').css("border", "2px solid red");
                 $('#end').next('span').addClass('glyphicon-info-sign');
             } else {
                 $('#start').css("border", "1px solid #999999");
@@ -237,30 +259,30 @@
                 var selectedType = $("#absenceType option:selected").text();
 
 
-                if(selectedType == "Annual leave"){
+                if (selectedType == "Annual leave") {
 
                     /*Vocation Check*/
-                    if (!workedSixMonth){
+                    if (!workedSixMonth) {
                         flag = false;
                         msg += "⛔ You can not take vacation because you worked less then 6 month" + "<br/>";
                     }
 
-                    if($("#start").val().trim() != "" && $("#end").val().trim() != "") {
+                    if ($("#start").val().trim() != "" && $("#end").val().trim() != "") {
 
                         var diffDays = parseInt((dEnd - dStart) / (1000 * 60 * 60 * 24));
                         var totalSundays = 0
                         var daysRequested = 0;
 
-                        for (var i = dStart; i <= dEnd; ){
-                            if (i.getDay() == 0){
+                        for (var i = dStart; i <= dEnd;) {
+                            if (i.getDay() == 0) {
                                 totalSundays++;
                             }
-                            i.setTime(i.getTime() + 1000*60*60*24);
+                            i.setTime(i.getTime() + 1000 * 60 * 60 * 24);
                         }
 
                         daysRequested = diffDays - totalSundays;
 
-                        if (vacationAvailable <= daysRequested){
+                        if (vacationAvailable <= daysRequested) {
                             flag = false;
                             msg += "⛔ You can not apply for vacation because you have only : " + vacationAvailable + " days of vacation" + "<br/>";
                         }
@@ -271,9 +293,9 @@
                 if ($("#start").val().trim() == "") {
                     flag = false;
                     msg += "⛔ Start date cannot be empty" + "<br/>";
-                    $("#start").css("border","2px solid red");
+                    $("#start").css("border", "2px solid red");
                     $('#end').next('span').addClass('glyphicon-info-sign');
-                }else {
+                } else {
                     $('#start').css("border", "1px solid #999999");
                     $('#end').next('span').removeClass('glyphicon-info-sign');
                 }
@@ -282,9 +304,9 @@
                 if ($("#end").val().trim() == "") {
                     flag = false;
                     msg += "⛔ End date cannot be empty" + "<br/>";
-                    $('#end').css("border","2px solid red");
+                    $('#end').css("border", "2px solid red");
                     $('#end').next('span').addClass('glyphicon-info-sign');
-                }else {
+                } else {
                     $('#end').css("border", "1px solid #999999");
                     $('#end').next('span').removeClass('glyphicon-info-sign');
                 }
@@ -293,8 +315,7 @@
             }
 
 
-
-            if (!flag){
+            if (!flag) {
                 $('#message').html(msg);
                 $('#myModal').modal('show');
             }

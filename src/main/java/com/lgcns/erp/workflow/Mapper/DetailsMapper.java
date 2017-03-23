@@ -169,6 +169,7 @@ public class DetailsMapper {
         requestsEntity.setDomestic(true);
         requestsEntity.setTripTypeId(old_requestsEntity.getTripTypeId());
         requestsEntity.setDestination(old_requestsEntity.getDestination());
+        requestsEntity.setLeaveTypeId(old_requestsEntity.getLeaveTypeId());
 
         return requestsEntity;
     }

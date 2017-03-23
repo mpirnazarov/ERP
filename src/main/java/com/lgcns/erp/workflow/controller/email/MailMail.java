@@ -3,37 +3,71 @@ package com.lgcns.erp.workflow.controller.email;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 
-public class MailMail
-{
-	private MailSender mailSender;
-	private SimpleMailMessage simpleMailMessage;
-	
-	public void setSimpleMailMessage(SimpleMailMessage simpleMailMessage) {
-		this.simpleMailMessage = simpleMailMessage;
-	}
+import javax.mail.internet.MimeMessage;
 
-	public void setMailSender(MailSender mailSender) {
-		this.mailSender = mailSender;
-	}
+public class MailMail {
+    private MailSender mailSender;
+    private JavaMailSender javaMailSender;
+    private SimpleMailMessage simpleMailMessage;
 
-	public void sendMail(int[] idTo, String subject, String msg) {
+    public void setSimpleMailMessage(SimpleMailMessage simpleMailMessage) {
+        this.simpleMailMessage = simpleMailMessage;
+    }
 
-		SimpleMailMessage message = new SimpleMailMessage();
-		String[] sentTo = new String[idTo.length];
-		int i=0;
+    public void setMailSender(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
 
-		if(idTo.length != 0) {
-			for (int userId :
-					idTo) {
-				sentTo[i++] = UserService.getUserById(userId).geteMail();
-			}
+    public void setMailSender(MailSender mailSender) {
+        this.mailSender = mailSender;
+    }
 
-			message.setFrom("subscription@lgcns.uz");
-			message.setTo(sentTo);
-			message.setSubject(subject);
-			message.setText(msg);
-			mailSender.send(message);
-		}
-	}
+    public void sendMail(int[] idTo, String subject, String msg) {
+
+
+                SimpleMailMessage message = new SimpleMailMessage();
+                String[] sentTo = new String[idTo.length];
+                int i = 0;
+
+                if (idTo.length != 0) {
+                    for (int userId :
+                            idTo) {
+                        sentTo[i++] = UserService.getUserById(userId).geteMail();
+                    }
+
+                    message.setFrom("subscription@lgcns.uz");
+                    message.setTo(sentTo);
+                    message.setSubject(subject);
+                    message.setText(msg);
+                    mailSender.send(message);
+                }
+    }
+
+
+    public void sendHtmlMail(int[] idTo, String subject, String msg) {
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            String[] sentTo = new String[idTo.length];
+            int i = 0;
+
+            if (idTo.length != 0) {
+                for (int userId :
+                        idTo) {
+                    sentTo[i++] = UserService.getUserById(userId).geteMail();
+                }
+                message.setSubject(subject);
+                MimeMessageHelper helper;
+                helper = new MimeMessageHelper(message, true);
+                helper.setFrom("subscription@lgcns.uz");
+                helper.setTo(sentTo);
+                helper.setText(msg, true);
+                javaMailSender.send(message);
+            }
+        } catch (javax.mail.MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 }

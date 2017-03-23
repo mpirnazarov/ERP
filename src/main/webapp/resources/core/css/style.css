@@ -535,13 +535,26 @@ a:focus {
 
 .sarTable .btn {
 
-    border-radius: 0px;
-    font-size: 20px;
-    color: black;
+    border: 1px solid #7a7777;
+    border-radius: 0%;
+    font-size: 16px;
+    color: #7a7777;
+    background-color: #FFFFFF;
+
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.41s ease;
+    transition: all 0.4s ease;
 }
 
 .sarTable .btn:hover {
     color: #bd2828;
+    border-color: #bd2828;
+    border-radius: 15%;
+
+
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    transition: all 0.4s ease;
 }
 
 .sarTableBoxShadow {

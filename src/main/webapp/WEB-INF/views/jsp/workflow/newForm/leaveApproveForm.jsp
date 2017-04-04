@@ -117,6 +117,18 @@
     }
 
 
+    #halfDay {
+        margin-left: 15%;
+        opacity: 1;
+    }
+
+
+    #halfDay input {
+        position: static;
+        margin-left: 0;
+    }
+
+
 </style>
 
 
@@ -187,9 +199,9 @@
                         <span class="glyphicon warningIcon" aria-hidden="true"></span>
                     </div>
                     <div id="halfDay">
-                        <label class="radio-inline"><input type="radio" name="optradio">8 hr</label>
-                        <label class="radio-inline"><input type="radio" name="optradio">4 am</label>
-                        <label class="radio-inline"><input type="radio" name="optradio">4 pm</label>
+                        <label id="radio8hr" class="radio-inline"><input type="radio" name="optradio" checked>8 hr</label>
+                        <label id="radio4am" class="radio-inline"><input type="radio" name="optradio">4 am</label>
+                        <label id="radio4pm" class="radio-inline"><input type="radio" name="optradio">4 pm</label>
                     </div>
 
                 </div>
@@ -423,8 +435,17 @@
     function chechDateEq() {
         var d1 = $('#dateStart').val();
         var d2 = $('#dateEnd').val();
+
+
             if(d1 == d2){
-                alert('equal');
+                $('#halfDay').animate({opacity: 1}, 500);
+                $('#halfDay').css('transform', 'scale(1,1)');
+
+            }
+            else {
+                $('#halfDay').animate({opacity: 0}, 500)
+                $('#halfDay').css('transform', 'scale(0.1,0.1)');
+
             }
     }
 
@@ -436,7 +457,7 @@
 
     $('#dateEnd').change(function () {
 
-        if($('#dateStart').val()!='') {
+        if($('#dateEnd').val()!='') {
             chechDateEq()
         }
     })

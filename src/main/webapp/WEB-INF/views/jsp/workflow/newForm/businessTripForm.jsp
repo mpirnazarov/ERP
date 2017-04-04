@@ -42,18 +42,12 @@
     .w3-container {
         background-color: #FFFFFF;
 
-        width: 115%;
-        margin-left: -3%;
+        width: 100%;
 
-        -webkit-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
-        -moz-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
-        box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.62);
     }
 
     .w3-container input {
         width: 98%;
-
-        border: 1px solid #999999;
 
     }
 
@@ -73,15 +67,6 @@
         width: 98%;
     }
 
-    #buttonGroupcha {
-        margin-left: 45%;
-        margin-top: 2%;
-    }
-
-    #buttonGroupcha input {
-        width: 71px;
-        margin-left: 8px;
-    }
 
     .reqfield:before {
         content: "*";
@@ -118,7 +103,7 @@
     }
 
     thead {
-        background-color: #b1beca;
+        background-color: #f5f5f5;
 
     }
 
@@ -136,7 +121,6 @@
     }
 
     .tableLabel {
-
         width: 100%;
         color: black;
         font-style: italic;
@@ -148,6 +132,8 @@
     #addrow, #addrowToDo {
         width: 100%;
         color: #000;
+        background-color: #fff;
+        border: 1px solid #000000;
     }
 
     .datepicker thead {
@@ -158,195 +144,190 @@
 </style>
 
 
-<div class="col-sm-10 col-md-offset-1">
-    <div class="col-lg-offset-2">
-        <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
-        </h1>
-        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
-        </p>--%>
-        <h2 class="page-header" style="border: none; margin-left: -3%; padding-top: 6%;"><span
-                class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Business trip</h2>
+<div class="mainBodyBlock">
+    <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
+    </h1>
+    <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
+    </p>--%>
+    <h2 class="headerText"><span
+            class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Business trip</h2>
 
 
-        <form:form modelAttribute="businessTripVM" cssClass="form-horizontal" method="post" id="myform"
-                   enctype="multipart/form-data">
-            <div class="w3-container b3form">
-                <div class="form-header" style="padding-top: 1%">
-                    <div class="input-group" style="">
-                        <span class="input-group-addon" id="subject-addon"><span class="reqfield"></span>Subject:</span>
-                        <form:input type="text" class="form-control" placeholder="" aria-describedby="subject-addon"
-                                    path="subject"/>
-                        <span class="glyphicon warningIcon " aria-hidden="true"></span>
-                    </div>
-                    <div class="input-group" style="margin-top: 1%">
-                        <span class="input-group-addon" id="saerchtype-addon"><span class="reqfield"></span>Type of business trip:</span>
-                        <form:select class="form-control" aria-describedby="saerchtype-addon" path="tripType"
-                                     items="${triptypeList}">
-                        </form:select>
-                        <span class="glyphicon warningIcon " aria-hidden="true"></span>
+    <form:form modelAttribute="businessTripVM" cssClass="form-horizontal" method="post" id="myform"
+               enctype="multipart/form-data">
+        <div class="w3-container b3form">
+            <div class="form-header" style="padding-top: 1%">
+                <div class="input-group" style="">
+                    <span class="input-group-addon" id="subject-addon"><span class="reqfield"></span>Subject:</span>
+                    <form:input type="text" class="form-control" placeholder="" aria-describedby="subject-addon"
+                                path="subject"/>
+                    <span class="glyphicon warningIcon " aria-hidden="true"></span>
+                </div>
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon" id="saerchtype-addon"><span class="reqfield"></span>Type of business trip:</span>
+                    <form:select class="form-control" aria-describedby="saerchtype-addon" path="tripType"
+                                 items="${triptypeList}">
+                    </form:select>
+                    <span class="glyphicon warningIcon " aria-hidden="true"></span>
 
-                        <div class="input-group">
-                            <label class="radio-inline">
-                                <form:radiobutton value="true" path="domestic"/> Domestic
-                            </label>
-                            <label class="radio-inline">
-                                <form:radiobutton value="false" path="domestic"/> Overseas
-                            </label>
-                        </div>
-
-                    </div>
-                    <div class="input-group" style=" margin-top: 1%">
-                        <span class="input-group-addon" id="destination-addon"><span class="reqfield"></span>Destination:</span>
-                        <form:input type="text" class="form-control" placeholder="" aria-describedby="destination-addon"
-                                    path="destination"/>
-                        <span class="glyphicon warningIcon " aria-hidden="true"></span>
-                    </div>
-                    <div class="input-group" style="margin-top: 1%">
-                        <span class="input-group-addon" id="purpose-addon">Purpose of Business trip:</span>
-                        <form:textarea class="form-control" rows="3" id="comment" aria-describedby="purpose-addon"
-                                       style="width: 100%; border-color:#999999" path="purpose"></form:textarea>
-                        <span class="glyphicon warningIcon " aria-hidden="true"></span>
-                    </div>
-                    <div class="form-group" style="margin-left: 0px; margin-right: 0px">
-                        <label id="memberLabel" class="tableLabel"><span class="glyphicon glyphicon-user"
-                                                                         aria-hidden="true"
-                                                                         style="width: 2%; font-style: normal"></span>
-                            <span class="reqfield"></span>Business Trip members:
+                    <div class="input-group">
+                        <label class="radio-inline">
+                            <form:radiobutton value="true" path="domestic"/> Domestic
                         </label>
-                        <span class="glyphicon warningIcon" aria-hidden="true"></span>
-                        <div id="myTablecha" style="overflow: auto; width: 100%">
-                            <table class="table order-list table-bordered"
-                                   style="background-color: #2b669a; color: inherit">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                        <%--<th>Department</th>--%>
-                                    <th>From</th>
-                                    <th>To</th>
-                                    <th>Transportation</th>
-                                    <th>Daily Allowance</th>
-                                    <th>Accommodation</th>
-                                    <th>Accommodation Currency</th>
-                                    <th>Other</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody id="membersDynamicBody" style="color: #0f0f0f">
-                                <tr style="color: black">
-                                    <
-                                    <td><form:select path="membersEntityList[0].userId" items="${users}"
-                                                     cssClass="sarvar" /></td>
-                                        <%--<td> <form:input type='text' name = "membersEntityList[0].organizationName" path="membersEntityList[0].organizationName"/> </td>--%>
-                                    <td><input type='text' name="membersEntityList[0].dateFrom" class="memfrom"/></td>
-                                    <td><input type='text' name="membersEntityList[0].dateTo" class="memto"/></td>
-                                    <td><form:input type='number' name="membersEntityList[0].expenseTransportation"
-                                                    min="0" path="membersEntityList[0].expenseTransportation"/></td>
-                                    <td><form:input type='number' name="membersEntityList[0].dailyAllowance" min="0"
-                                                    path="membersEntityList[0].dailyAllowance"/></td>
-                                    <td><form:input type='number' name="membersEntityList[0].expenseAccommodation"
-                                                    min="0" path="membersEntityList[0].expenseAccommodation"/></td>
-                                    <td><form:select path="membersEntityList[0].accomodationCurrency"
-                                                     items="${currency}" cssClass="currencyInput"/></td>
-                                    <td><form:input type='number' name="membersEntityList[0].expenseOther" min="0"
-                                                    path="membersEntityList[0].expenseOther"/></td>
-                                    <td><input type="button" class="ibtnDel btn btn-md btn-danger" name="deletebutton0"
-                                               value="Delete" style="display: none"/></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <input type="button" class="btn btn-normal" value="+ Add member" id="addrow"/>
-                    </div>
-                    <div class="form-group" style="margin-left: 0px; margin-right: 0px">
-                        <label id="toDoLabel" class="tableLabel"><span class="glyphicon glyphicon-list-alt"
-                                                                       aria-hidden="true"
-                                                                       style="width: 2%; font-style: normal"></span>
-                            Detail scheadule and To-do list:
+                        <label class="radio-inline">
+                            <form:radiobutton value="false" path="domestic"/> Overseas
                         </label>
-                        <table class="table table-bordered" style="background-color: #2b669a; color: black"
-                               id="toDoDynamicHead">
+                    </div>
+
+                </div>
+                <div class="input-group" style=" margin-top: 1%">
+                    <span class="input-group-addon" id="destination-addon"><span
+                            class="reqfield"></span>Destination:</span>
+                    <form:input type="text" class="form-control" placeholder="" aria-describedby="destination-addon"
+                                path="destination"/>
+                    <span class="glyphicon warningIcon " aria-hidden="true"></span>
+                </div>
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon" id="purpose-addon">Purpose of Business trip:</span>
+                    <form:textarea class="form-control" rows="3" id="comment" aria-describedby="purpose-addon"
+                                   style="width: 100%; border-color:#999999" path="purpose"></form:textarea>
+                    <span class="glyphicon warningIcon " aria-hidden="true"></span>
+                </div>
+                <div class="form-group" style="margin-left: 0px; margin-right: 0px">
+                    <label id="memberLabel" class="tableLabel"><span class="glyphicon glyphicon-user"
+                                                                     aria-hidden="true"
+                                                                     style="width: 2%; font-style: normal"></span>
+                        <span class="reqfield"></span>Business Trip members:</label>
+                    <div id="myTablecha" style="overflow: auto; width: 100%">
+                        <table class="table order-list table-bordered"
+                               style="background-color: #2b669a; color: inherit">
                             <thead>
                             <tr>
-                                <th width="25%">Date</th>
-                                <th width="75%">Description</th>
+                                <th>Name</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Transportation</th>
+                                <th>Daily Allowance</th>
+                                <th>Accommodation</th>
+                                <th>Accommodation Currency</th>
+                                <th>Other</th>
                                 <th></th>
                             </tr>
                             </thead>
-                            <tbody id="toDoDynamicBody"/>
-                            <tr>
-                                <td><input class="dateInput" type='text' name="toDoEntityList[0].date" min="0"/></td>
-                                <td><input class="descInput" type='text' name="toDoEntityList[0].description" min="0"/>
-                                </td>
-                                <td><a class="deleteRow"/></td>
+                            <tbody id="membersDynamicBody" style="color: #0f0f0f">
+                            <tr style="color: black">
+                                <td><form:select path="membersEntityList[0].userId" items="${users}"
+                                                 cssClass="sarvar"/></td>
+                                    <%--<td> <form:input type='text' name = "membersEntityList[0].organizationName" path="membersEntityList[0].organizationName"/> </td>--%>
+                                <td><input type='text' name="membersEntityList[0].dateFrom" class="memfrom"/></td>
+                                <td><input type='text' name="membersEntityList[0].dateTo" class="memto"/></td>
+                                <td><form:input type='number' name="membersEntityList[0].expenseTransportation"
+                                                min="0" path="membersEntityList[0].expenseTransportation"/></td>
+                                <td><form:input type='number' name="membersEntityList[0].dailyAllowance" min="0"
+                                                path="membersEntityList[0].dailyAllowance"/></td>
+                                <td><form:input type='number' name="membersEntityList[0].expenseAccommodation"
+                                                min="0" path="membersEntityList[0].expenseAccommodation"/></td>
+                                <td><form:select path="membersEntityList[0].accomodationCurrency"
+                                                 items="${currency}" cssClass="currencyInput"/></td>
+                                <td><form:input type='number' name="membersEntityList[0].expenseOther" min="0"
+                                                path="membersEntityList[0].expenseOther"/></td>
+                                <td><input type="button" class="ibtnDel btn btn-md btn-red" name="deletebutton0"
+                                           value="Delete" style="display: none"/></td>
                             </tr>
                             </tbody>
                         </table>
-                        <input type="button" class="btn btn-normal" value=" + Add activity" id="addrowToDo"/>
                     </div>
-
+                    <input type="button" class="btn btn-normal" value="+ Add member" id="addrow"/>
                 </div>
-                <div class="form-footer" style="padding-bottom: 2%;">
-                    <div class="input-group" style="margin-top: 2%">
+                <div class="form-group" style="margin-left: 0px; margin-right: 0px">
+                    <label id="toDoLabel" class="tableLabel"><span class="glyphicon glyphicon-list-alt"
+                                                                   aria-hidden="true"
+                                                                   style="width: 2%; font-style: normal"></span>
+                        Detail scheadule and To-do list:
+                    </label>
+                    <table class="table table-bordered" style="background-color: #2b669a; color: black"
+                           id="toDoDynamicHead">
+                        <thead>
+                        <tr>
+                            <th width="25%">Date</th>
+                            <th width="75%">Description</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody id="toDoDynamicBody"/>
+                        <tr>
+                            <td><input class="dateInput" type='text' name="toDoEntityList[0].date" min="0"/></td>
+                            <td><input class="descInput" type='text' name="toDoEntityList[0].description" min="0"/>
+                            </td>
+                            <td><a class="deleteRow"/></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <input type="button" class="btn btn-normal" value=" + Add activity" id="addrowToDo"/>
+                </div>
+
+            </div>
+            <div class="form-footer" style="padding-bottom: 2%;">
+                <div class="input-group" style="margin-top: 2%">
                         <span class="input-group-addon" id="approvals-addon"><span
                                 class="reqfield"></span>Approvals:</span>
-                        <div class="tab-content" id="approvals">
+                    <div class="tab-content" id="approvals">
                             <span style="margin-left: 74.2%" id="approvalSpan" class="glyphicon warningIcon "
                                   aria-hidden="true"></span>
-                            <input type="text" id="demo-input-local"/>
-                        </div>
-                    </div>
-                    <div class="input-group" style="margin-top: 2%">
-                        <span class="input-group-addon" id="executive-addon">Executive:</span>
-                        <div class="tab-content" id="executives">
-                            <input type="text" id="demo-input-local2"/>
-                        </div>
-                    </div>
-                    <div class="input-group" style="margin-top: 2%">
-                        <span class="input-group-addon" id="reference-addon">Reference:</span>
-                        <div class="tab-content" id="references">
-                            <input type="text" id="demo-input-local3"/>
-                        </div>
-                    </div>
-                    <div class="input-group" style="margin-top: 2%">
-                        <span class="input-group-addon" id="attachment-addon">Attachment:</span>
-                        <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
-                    </div>
-                    <div class="input-group" style="margin-top: 2%">
-                        <span class="input-group-addon" id="date-addon"><span
-                                class="reqfield"></span>Date(Start/End):</span>
-                        <input id="dateStart" type="text" class="form-control" style="width:50%" name="start"/>
-                        <input id="dateEnd" type="text" class="form-control" style="width:50%" name="end"/>
-                        <span class="glyphicon warningIcon" aria-hidden="true"></span>
+                        <input type="text" id="demo-input-local"/>
                     </div>
                 </div>
-            </div>
-
-            <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
-                <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-warning"/>
-                <input id="tv3" type="submit" name="Submit" value="Submit" class="btn btn-success"/>
-                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger"/>
-            </div>
-        </form:form>
-        <%--MODAL--%>
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign"
-                                                                        aria-hidden="true"></span> Warning</h4>
+                <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="executive-addon">Executive:</span>
+                    <div class="tab-content" id="executives">
+                        <input type="text" id="demo-input-local2"/>
                     </div>
-                    <div class="modal-body">
-                        <span id="message"></span>
+                </div>
+                <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="reference-addon">Reference:</span>
+                    <div class="tab-content" id="references">
+                        <input type="text" id="demo-input-local3"/>
                     </div>
+                </div>
+                <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="attachment-addon">Attachment:</span>
+                    <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
+                </div>
+                <div class="input-group" style="margin-top: 2%">
+                        <span class="input-group-addon" id="date-addon"><span
+                                class="reqfield"></span>Date(Start/End):</span>
+                    <input id="dateStart" type="text" class="form-control" style="width:50%" name="start"/>
+                    <input id="dateEnd" type="text" class="form-control" style="width:50%" name="end"/>
+                    <span class="glyphicon warningIcon" aria-hidden="true"></span>
                 </div>
             </div>
         </div>
 
+        <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
+            <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-blue"/>
+            <input id="tv3" type="submit" name="Submit" value="Submit" class="btn btn-green"/>
+            <input type="button" onclick="history.back()" value="Cancel" class="btn btn-red"/>
+        </div>
+    </form:form>
+    <%--MODAL--%>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign"
+                                                                    aria-hidden="true"></span> Warning</h4>
+                </div>
+                <div class="modal-body">
+                    <span id="message"></span>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
+
 
 <script type="text/javascript">
 
@@ -369,12 +350,12 @@
             $('#subject').css("border", "1px solid #999999");
             $('#subject').next('span').removeClass('glyphicon-info-sign')
 
-            if ($("#subject").val().length > 50){
+            if ($("#subject").val().length > 50) {
                 msg += "⛔ Subject cannot be more than 50 characters" + "<br/>";
                 flag = false
                 $('#subject').next('span').addClass('glyphicon-info-sign')
                 $(this).css("border", "2px solid red");
-            }else {
+            } else {
                 $(this).css("border", "1px solid #999999");
                 $('#subject').next('span').removeClass('glyphicon-info-sign')
             }
@@ -412,12 +393,12 @@
             $('#destination').css("border", "1px solid #999999");
             $('#destination').next('span').removeClass('glyphicon-info-sign')
 
-            if ($("#destination").val().length > 100){
+            if ($("#destination").val().length > 100) {
                 msg += "⛔ Destination cannot be more than 100 characters" + "<br/>";
                 flag = false
                 $('#destination').next('span').addClass('glyphicon-info-sign')
                 $(this).css("border", "2px solid red");
-            }else {
+            } else {
                 $(this).css("border", "1px solid #999999");
                 $('#destination').next('span').removeClass('glyphicon-info-sign')
             }
@@ -497,94 +478,94 @@
         });
 
 
-    /*Date from validation*/
-    $("input.memfrom").each(function () {
-        var memfromvar = new Date($(this).val());
-        if (memfromvar != "Invalid Date" && memfromvar != "") {
-            $(this).css('border-color', '#999999');
-            if (memfromvar < dStart) {
-                flag = false;
-                msg += "⛔ Business trip members <strong>From</strong> date can not be earlier than <strong>Start</strong> date of business trip" + "<br/>";
-                $(this).css('border-color', 'red');
-            } else if (memfromvar > dEnd) {
-                flag = false;
-                msg += "⛔ Business trip members <strong>From</strong> date can not be later than <strong>End</strong> date of business trip" + "<br/>";
-                $(this).css('border-color', 'red');
-            }
+        /*Date from validation*/
+        $("input.memfrom").each(function () {
+            var memfromvar = new Date($(this).val());
+            if (memfromvar != "Invalid Date" && memfromvar != "") {
+                $(this).css('border-color', '#999999');
+                if (memfromvar < dStart) {
+                    flag = false;
+                    msg += "⛔ Business trip members <strong>From</strong> date can not be earlier than <strong>Start</strong> date of business trip" + "<br/>";
+                    $(this).css('border-color', 'red');
+                } else if (memfromvar > dEnd) {
+                    flag = false;
+                    msg += "⛔ Business trip members <strong>From</strong> date can not be later than <strong>End</strong> date of business trip" + "<br/>";
+                    $(this).css('border-color', 'red');
+                }
 
-        } else {
-            flag = false;
-            msg += "⛔ Business trip members <strong>From</strong> field should not be empty" + "<br/>";
-            $(this).css('border-color', 'red');
-        }
-
-
-    });
-
-    /*Date to validation*/
-    $("input.memto").each(function () {
-        var memtovar = new Date($(this).val());
-        if (memtovar != "Invalid Date" && memtovar != "") {
-            $(this).css('border-color', '#999999');
-            if (memtovar < dStart) {
+            } else {
                 flag = false;
-                msg += "⛔ Business trip members <strong>To</strong> date can not be earlier than <strong>Start</strong> date of business trip" + "<br/>";
-                $(this).css('border-color', 'red');
-            } else if (memtovar > dEnd) {
-                flag = false;
-                msg += "⛔ Business trip members <strong>To</strong> date can not be later than <strong>End</strong> date of business trip" + "<br/>";
+                msg += "⛔ Business trip members <strong>From</strong> field should not be empty" + "<br/>";
                 $(this).css('border-color', 'red');
             }
-        } else {
-            flag = false;
-            msg += "⛔ Business trip members <strong>To</strong> field should not be empty" + "<br/>";
-            $(this).css('border-color', 'red');
-        }
-    });
 
 
-    /*VALIDATION*/
+        });
 
-
-    var a = [];
-    var b = [];
-    var c = [];
-
-    a = $("#approvals").children().siblings("input[type=text]").val();
-    if (a.length == 0) {
-        msg += "⛔ At least one approval should be selected" + "<br/>";
-        flag = false;
-        $('#approvals').css("border", "2px solid red");
-        $('#approvalSpan').addClass('glyphicon-info-sign');
-    } else {
-        $('#approvals').css("border", "1px solid #999999");
-        $('#approvalSpan').removeClass('glyphicon-info-sign');
-    }
-
-    if (!flag) {
-        $('#message').html(msg);
-        $('#myModal').modal('show');
-    }
-
-
-    a = $("#approvals").children().siblings("input[type=text]").val();
-    b = $("#references").children().siblings("input[type=text]").val();
-    c = $("#executives").children().siblings("input[type=text]").val();
-
-    validateFile();
-    if (flag) {
-        $.ajax({
-            type: "POST",
-            url: "/Workflow/NewForm/BusinessTripFormAjax",
-            data: 'approvals=' + a + '&references=' + b + '&executives=' + c,
-            success: function (response) {
-            },
-            error: function (e) {
-                alert('Error: ' + e);
+        /*Date to validation*/
+        $("input.memto").each(function () {
+            var memtovar = new Date($(this).val());
+            if (memtovar != "Invalid Date" && memtovar != "") {
+                $(this).css('border-color', '#999999');
+                if (memtovar < dStart) {
+                    flag = false;
+                    msg += "⛔ Business trip members <strong>To</strong> date can not be earlier than <strong>Start</strong> date of business trip" + "<br/>";
+                    $(this).css('border-color', 'red');
+                } else if (memtovar > dEnd) {
+                    flag = false;
+                    msg += "⛔ Business trip members <strong>To</strong> date can not be later than <strong>End</strong> date of business trip" + "<br/>";
+                    $(this).css('border-color', 'red');
+                }
+            } else {
+                flag = false;
+                msg += "⛔ Business trip members <strong>To</strong> field should not be empty" + "<br/>";
+                $(this).css('border-color', 'red');
             }
         });
-    }
-    return flag;
+
+
+        /*VALIDATION*/
+
+
+        var a = [];
+        var b = [];
+        var c = [];
+
+        a = $("#approvals").children().siblings("input[type=text]").val();
+        if (a.length == 0) {
+            msg += "⛔ At least one approval should be selected" + "<br/>";
+            flag = false;
+            $('#approvals').css("border", "2px solid red");
+            $('#approvalSpan').addClass('glyphicon-info-sign');
+        } else {
+            $('#approvals').css("border", "1px solid #999999");
+            $('#approvalSpan').removeClass('glyphicon-info-sign');
+        }
+
+        if (!flag) {
+            $('#message').html(msg);
+            $('#myModal').modal('show');
+        }
+
+
+        a = $("#approvals").children().siblings("input[type=text]").val();
+        b = $("#references").children().siblings("input[type=text]").val();
+        c = $("#executives").children().siblings("input[type=text]").val();
+
+        validateFile();
+        if (flag) {
+            $.ajax({
+                type: "POST",
+                url: "/Workflow/NewForm/BusinessTripFormAjax",
+                data: 'approvals=' + a + '&references=' + b + '&executives=' + c,
+                success: function (response) {
+                },
+                error: function (e) {
+                    alert('Error: ' + e);
+                }
+            });
+        }
+        return flag;
     })
     ;
 
@@ -882,7 +863,7 @@
             var input = document.createElement('input');
 
             input.setAttribute('type', 'button');
-            input.className = "ibtnDel btn btn-md btn-danger";
+            input.className = "ibtnDel btn btn-md btn-red";
             input.value = "Delete";
             td.appendChild(input);
             tr.appendChild(td);

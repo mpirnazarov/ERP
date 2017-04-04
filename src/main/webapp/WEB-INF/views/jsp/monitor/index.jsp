@@ -45,15 +45,15 @@
 <div class="container-fluid">
     <div class="row">
 
-        <div class="col-md-offset-1 col-sm-10">
-            <div class=" col-lg-offset-2 col-lg-10">
-                <h1 class="page-header">Monitor Workloads</h1>
+
+            <div class="mainBodyBlock">
+                <h1 class="headerText"><span class="fa fa-pie-chart fa-fw"></span> Monitor Workloads</h1>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-bar-chart-o fa-fw"></i> Monitor
                         <div class="pull-right">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-default btn-xs dropdown-toggle"
+                                <button type="button" class="btn btn-grey btn-xs dropdown-toggle"
                                         data-toggle="dropdown">
                                     Actions
                                     <span class="caret"></span>
@@ -137,7 +137,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="table-responsive" id="targetData">
-                                    <table class="table table-bordered" id="myTable"
+                                    <table class="table sartable table-bordered" id="myTable"
                                            style="color: #696969;">
                                         <thead>
                                             <tr>
@@ -181,7 +181,7 @@
 
 
             </div>
-        </div>
+
     </div>
 </div>
 </div>

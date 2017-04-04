@@ -56,16 +56,6 @@
         width: 98%;
     }
 
-    #buttonGroupcha {
-        margin-left: 40%;
-        margin-top: 2%;
-    }
-
-    #buttonGroupcha input {
-        width: 71px;
-        margin-left: 8px;
-
-    }
 
     #attachmentDiv span, #attachmentDiv a {
         color: #000000;
@@ -77,13 +67,13 @@
 </style>
 
 
-<div class="col-sm-10 col-md-offset-1">
-    <div class="col-lg-offset-2">
+
+    <div class="mainBodyBlock">
         <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="page-header" style="border: none; padding-top: 6%"><span class="glyphicon glyphicon-calendar"
+        <h2 class="headerText"><span class="glyphicon glyphicon-calendar"
                                                                             aria-hidden="true"></span> Leave approve
             {EDIT}</h2>
 
@@ -156,8 +146,8 @@
             </div>
 
             <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
-                <input id="tv" type="submit" name="submitLeaveApprove" value="Submit" class="btn btn-success"/>
-                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger"/>
+                <input id="tv" type="submit" name="submitLeaveApprove" value="Submit" class="btn btn-green"/>
+                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-red"/>
             </div>
         </form:form>
 
@@ -181,7 +171,7 @@
 
     </div>
 
-</div>
+
 
 
 <script type="text/javascript">

@@ -126,16 +126,7 @@
 <%--MY Decision--%>
 <div class="col-md-2 userNavMenu">
     <nav class="navbar navbar-fixed-side __scrollBar">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-                Welcome <%= request.getAttribute("FirstName") %>
-            </a>
-        </div>
-        <div class="userImgBox">
-            <img class="userimg" src="/image/<%= request.getAttribute("userId") %>.jpg"
-                 onerror="this.src='/resources/images/ppicture.png'">
-        </div>
-        <a href="/"><i class="fa fa-fw fa-home"></i> Home</a>
+
         <div style="background: transparent" class="panel-group" id="accordion" role="tablist"
              aria-multiselectable="true">
             <div class="panel panel-default">
@@ -174,13 +165,13 @@
                     <h4 class="panel-title">
                         <a role="button" data-toggle="collapse" data-parent="#accordion"
                            href="#collapseUser"
-                           aria-expanded="true" aria-controls="collapseUser">
+                           aria-expanded="false" aria-controls="collapseUser" class="collapsed">
                             <%--Check for null could be mandatory--%>
                             User: <span style="color: green;">${fullName}</span>
                         </a>
                     </h4>
                 </div>
-                <div id="collapseUser" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingUser">
+                <div id="collapseUser" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingUser">
                     <div class="panel-body">
                         <ul style="list-style: none" class="list-group">
 
@@ -263,9 +254,6 @@
                         <ul style="list-style: none" class="list-group">
                             <li>
                                 <a href="/Hr/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
-                            </li>
-                            <li>
-                                <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
                             </li>
                         </ul>
                     </div>

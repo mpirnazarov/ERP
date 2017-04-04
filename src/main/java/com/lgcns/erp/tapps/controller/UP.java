@@ -35,6 +35,11 @@ public class UP {
             return mav;
         }
     }
+    public static ModelAndView includeUserProfile(ModelAndView mav, Principal principal, String header){
+        mav = includeUserProfile(mav, principal);
+        mav.addObject("pageHeader", header);
+        return mav;
+    }
     private static void getUserProfileInfo(String username){
         UsersEntity user = UserService.getUserByUsername(username);
         String[] firstNames = new String [1], lastNames = new String [1], addresses = new String [1];

@@ -23,11 +23,10 @@
     request.setAttribute("JobTitle", a.getJobTitle());
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
-        </h1>
-        <h2 class="page-header">Documents</h2>
+
+    <div class="mainBodyBlock">
+
+        <h2 class="headerText"><span class="fa fa-file-text-o"></span> Documents</h2>
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#listofdocs">List of documents</a></li>
             <%--<li><a data-toggle="tab" href="#gen">Generatable documents</a></li>--%>
@@ -35,7 +34,7 @@
         <div class="tab-content">
             <div id="listofdocs" class="tab-pane fade in active">
                 <h3>List of documents</h3>
-                <table class="table">
+                <table class="table sartable table-bordered">
                     <thead>
                     <tr>
                         <th>Document name</th>
@@ -64,7 +63,7 @@
                             total size: <span id="fileSize">0</span>
                         </p>
                         <p>
-                            <input type="submit" class="btn btn-success" value="Upload file">
+                            <input type="submit" class="btn btn-green" value="Upload file">
                         </p>
                     </form>
                     <%--<div>--%>
@@ -108,7 +107,7 @@
             </div>--%>
         </div>
     </div>
-</div>
+
 <script>
     function updateSize() {
         var nBytes = 0,

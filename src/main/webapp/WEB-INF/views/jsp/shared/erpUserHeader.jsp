@@ -33,8 +33,8 @@
     <link rel="stylesheet" href="${normalizeCss}"/>
     <link rel="stylesheet" href="${bootstrapminCss}"/>
     <link rel="stylesheet" type="text/css" href="${allInOneCss}"/>
-    <link rel="stylesheet" href="${tokenInputCss}" type="text/css" />
-    <link rel="stylesheet" href="${tokenInputFacebookCss}" type="text/css" />
+    <link rel="stylesheet" href="${tokenInputCss}" type="text/css"/>
+    <link rel="stylesheet" href="${tokenInputFacebookCss}" type="text/css"/>
     <link rel="stylesheet" href="${styleCss}"/>
     <link rel="stylesheet" href="${bootstrapDatePickerCSS}"/>
 
@@ -56,22 +56,15 @@
     <script src="${bootstrapJs}"></script>
     <script src="${bootstrapDatePickerJS}"></script>
 
-    <link rel="icon" type="image/x-icon" href="<s:url value="/resources/images/favicon.ico"/>"/>
+    <link rel="icon" type="image/x-icon" href="<s:url value="/resources/images/SmartOffice-Logo.png"/>"/>
 
 
     <%--Cloud JQ UI--%>
-   <%-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">--%>
-
-
+    <%-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">--%>
 
 
     <style>
-
-        #UserNavigationMenuDiv {
-
-            background-color: rgb(76, 106, 108);
-        }
 
 
         .error {
@@ -86,52 +79,6 @@
             margin: 16px;
         }
 
-        .panel {
-            width: 246px;
-        }
-
-
-        #workflowPanelButton {
-            font-family: 'Oswald', sans-serif;
-            color: #cfd8d8;;
-        }
-
-        #workflowPanelButton2 {
-            font-family: 'Oswald', sans-serif;
-            color: #cfd8d8;;
-        }
-
-        #collapseNewForm a {
-            color: #cfd8d8;;
-            padding-left: 22px;
-        }
-
-        #collapseMyForm a{
-            color: #cfd8d8;;
-            padding-left: 22px;
-        }
-
-        #workflowPanelButton:hover, #workflowPanelButton2:hover, #collapseNewForm a:hover, #collapseMyForm a:hover{
-            color: #2aabd2;
-        }
-
-        .list-group {
-            margin-bottom: 2%;
-            margin-top: 2%;
-        }
-
-
-
-        .well {
-            padding: 0;
-            margin-bottom: 10px;
-            background-color: transparent;
-
-            border: none;
-
-
-        }
-
 
     </style>
 </head>
@@ -140,51 +87,64 @@
 <div id="sarOv">
     <div>
         <%--<img class="sarspinner" src="/images/lg-logo.jpg">--%>
-        <div class="sarspinnerBorder"></div>
+        <%--<div class="sarspinnerBorder"></div>--%>
+
+            <div style="width: 100px; height: 100px; position: absolute; left: 48%; top: 32%; font-size: 10px; text-align: center">
+                <div class="loader"></div>
+            </div>
     </div>
 </div>
 
-<div id="restrictOv"><div style="width: 100px; height: 100px; position: absolute; left: 40%; top: 31%; font-size: 10px; text-align: center"><img style="width: 100%; height: 100%" src="/resources/images/wh.png">Smart office does not support mobile version of web site!</div></div>
-
+<div id="restrictOv">
+    <div style="width: 100px; height: 100px; position: absolute; left: 40%; top: 31%; font-size: 10px; text-align: center">
+        <img style="width: 100%; height: 100%" src="/resources/images/wh.png">Smart office does not support mobile
+        version of web site!
+    </div>
+</div>
 
 
 <script>
-
 
 
     /*load Ovrelay*/
     var sarOv = document.getElementById("sarOv");
     var resOv = document.getElementById("restrictOv");
     var unav = document.getElementById("usernavigationmenudiv");
+    var userNavBar = $('.userNavMenu');
 
     window.addEventListener('load', function () {
-        sarOv.style.animation = 'fadeout 0.3s ease';
-        setTimeout(function (){sarOv.style.display = 'none';}, 300)
+
+        userNavBar.hide()
+        sarOv.style.animation = 'fadeout 0.4s ease';
+        setTimeout(function () {
+            userNavBar.show()
+            sarOv.style.display = 'none';
+        }, 300)
     })
     /*load Ovrelay*/
 
 
     /*Resize Prevent*/
-        $(window).resize(function() {
-            if ($(this).width() < 1000){
+    $(window).resize(function () {
+        if ($(this).width() < 1000) {
 
-                resOv.style.display = 'block';
+            resOv.style.display = 'block';
 
-            } else {
-                resOv.style.display = 'none';
+        } else {
+            resOv.style.display = 'none';
 
-            }
-        });
+        }
+    });
     /*Resize Prevent*/
 
 </script>
 
 <%--Checking if Hierarchy page, if yes call init()--%>
-<% if(request.getAttribute("Hierarchy")!=null) { %>
+    <% if(request.getAttribute("Hierarchy")!=null) { %>
 <body class="__scrollBar" onload="init()">
-<% } else { %>
+    <% } else { %>
 <body class="__scrollBar">
-<% } %>
+    <% } %>
     <%
     if((ProfileViewModel) request.getAttribute("userProfile")!=null){
         ProfileViewModel a = (ProfileViewModel) request.getAttribute("userProfile");
@@ -222,72 +182,97 @@
             }
         %>
         <jsp:include page='${pageType}' flush="true"/>
-<script>
+        <script>
 
-    var hrbutton = $("#collapseOne");
-    var taapsbutton = $("#collapseTwo");
-    var wfbutton = $("#collapseWF");
-    var profilebutton = $("#collapseExample");
+            var hrbutton = $("#collapseOne");
+            var taapsbutton = $("#collapseTwo");
+            var wfbutton = $("#collapseWF");
+            var profilebutton = $("#collapseExample");
 
-    var currentOpenedPanel = 0;
+            var currentOpenedPanel = 0;
 
-    $(document).ready(function () {
-
-
-
-        if(window.location.href.indexOf("Workflow") > -1) {
-            wfbutton.addClass("in")
-            hrbutton.removeClass("in")
-        }else if(window.location.href.indexOf("Profile") > -1){
-            hrbutton.addClass("in")
-            wfbutton.removeClass("in")
-            taapsbutton.removeClass("in")
-            profilebutton.addClass("in")
-
-        }else if(window.location.href.indexOf("Hr") > -1) {
-            hrbutton.addClass("in")
-            wfbutton.removeClass("in")
-        }else if(window.location.href.indexOf("Workload") > -1
-              || window.location.href.indexOf("Projects") > -1
-              || window.location.href.indexOf("Monitor") > -1
-              || window.location.href.indexOf("Roles") > -1
-              || window.location.href.indexOf("Appoint") > -1
-              || window.location.href.indexOf("Customer") > -1) {
-            hrbutton.removeClass("in")
-            wfbutton.removeClass("in")
-            taapsbutton.addClass("in")
-        }else {
-           /* def*/
-        }
-    })
-
-    var newFormButton = $("#workflowPanelButton");
-    var myFormButton = $("#workflowPanelButton2");
-
-    newFormButton.click(function () {
-
-        if ($("a#workflowPanelButton span").hasClass("glyphicon-plus-sign")){
-            $("a#workflowPanelButton span").removeClass("glyphicon-plus-sign");
-            $("a#workflowPanelButton span").addClass("glyphicon-minus-sign");
-        }else {
-            $("a#workflowPanelButton span").addClass("glyphicon-plus-sign");
-            $("a#workflowPanelButton span").removeClass("glyphicon-minus-sign");
-        }
-    })
-
-    myFormButton.click(function () {
-
-        if ($("a#workflowPanelButton2 span").hasClass("glyphicon-plus-sign")){
-            $("a#workflowPanelButton2 span").removeClass("glyphicon-plus-sign");
-            $("a#workflowPanelButton2 span").addClass("glyphicon-minus-sign");
-        }else {
-            $("a#workflowPanelButton2 span").addClass("glyphicon-plus-sign");
-            $("a#workflowPanelButton2 span").removeClass("glyphicon-minus-sign");
-        }
-    })
+            $(document).ready(function () {
 
 
+                if (window.location.href.indexOf("Workflow") > -1) {
+                    wfbutton.addClass("in")
+                    hrbutton.removeClass("in")
+                } else if (window.location.href.indexOf("Profile") > -1) {
+                    hrbutton.addClass("in")
+                    wfbutton.removeClass("in")
+                    taapsbutton.removeClass("in")
+                    profilebutton.addClass("in")
+
+                } else if (window.location.href.indexOf("Hr") > -1) {
+                    hrbutton.addClass("in")
+                    wfbutton.removeClass("in")
+                } else if (window.location.href.indexOf("Workload") > -1
+                    || window.location.href.indexOf("Projects") > -1
+                    || window.location.href.indexOf("Monitor") > -1
+                    || window.location.href.indexOf("Roles") > -1
+                    || window.location.href.indexOf("Contacts") > -1
+                    || window.location.href.indexOf("Organizations") > -1
+                    || window.location.href.indexOf("Appoint") > -1
+                    || window.location.href.indexOf("Customer") > -1) {
+                    hrbutton.removeClass("in")
+                    wfbutton.removeClass("in")
+                    taapsbutton.addClass("in")
+                } else {
+                    /* def*/
+                }
+            })
+
+            var newFormButton = $("#workflowPanelButton");
+            var myFormButton = $("#workflowPanelButton2");
+
+            newFormButton.click(function () {
+
+                if ($("a#workflowPanelButton span").hasClass("glyphicon-plus-sign")) {
+                    $("a#workflowPanelButton span").removeClass("glyphicon-plus-sign");
+                    $("a#workflowPanelButton span").addClass("glyphicon-minus-sign");
+                } else if ($("a#workflowPanelButton span").hasClass("glyphicon-minus-sign")) {
+                    $("a#workflowPanelButton span").removeClass("glyphicon-minus-sign");
+                    $("a#workflowPanelButton span").addClass("glyphicon-plus-sign");
+                }
+            })
+
+            myFormButton.click(function () {
+
+                if ($("a#workflowPanelButton2 span").hasClass("glyphicon-plus-sign")) {
+                    $("a#workflowPanelButton2 span").removeClass("glyphicon-plus-sign");
+                    $("a#workflowPanelButton2 span").addClass("glyphicon-minus-sign");
+                } else if ($("a#workflowPanelButton span").hasClass("glyphicon-minus-sign")) {
+                    $("a#workflowPanelButton2 span").removeClass("glyphicon-minus-sign");
+                    $("a#workflowPanelButton2 span").addClass("glyphicon-plus-sign");
+
+                }
+            })
+
+        </script>
+
+        <%--Header div--%>
+
+        <div id="mainHeaderDiv">
+
+            <a href="/">
+                <img border="0" alt="" src="/resources/images/SmartOffice-Logo-Full.png" class="smartOfficeLogo">
+            </a>
+
+            <%--<iframe scrolling="no" src="https://dollaruz.net/" style="border: 0px none; margin-left: -185px; height: 591px; margin-top: -887px; width: 377px; position: absolute; top: 415px; z-index: 400; left: 54%" frameborder="0"></iframe>--%>
+
+            <div onclick="location.href='/logout';" class="btn btn-darkred logoutButton"><span
+                    class="fa fa-fw fa-power-off"></span>Logout
+            </div>
+
+            <div style="float: right; margin-top: 10px; padding-right: 10px">
+                <img src="/image/<%= request.getAttribute("userId") %>.jpg"
+                     onerror="this.src='/resources/images/ppicture.png'" class="userImgBox-small">
+                <%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
+
+            </div>
 
 
+        </div>
 
-</script>
+
+<%--Header div END--%>

@@ -94,18 +94,8 @@
 </div>--%>
 
 <%--MY Decision--%>
-<div id="UserNavigationMenuDiv" class="col-md-2 userNavMenu">
-    <nav class="navbar navbar-fixed-side __scrollBar">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-                Welcome <%= request.getAttribute("FirstName") %>
-            </a>
-        </div>
-        <div class="userImgBox">
-            <img class="userimg" src="/image/<%= request.getAttribute("userId") %>.jpg"
-                 onerror="this.src='/resources/images/ppicture.png'">
-        </div>
-        <a href="/"><i class="fa fa-fw fa-home"></i> Home</a>
+<div id="UserNavigationMenuDiv" class="userNavMenu">
+    <nav class="__scrollBar navbar navbar-fixed-side">
         <div style="background: transparent" class="panel-group" id="accordion" role="tablist"
              aria-multiselectable="true">
             <div class="panel panel-default">
@@ -205,42 +195,53 @@
                     <div class="panel-body">
                         <ul style="list-style: none" class="list-group">
 
-                            <li>
+                            <li class="well">
                                 <a id="workflowPanelButton" class="linkcolor" role="button" data-toggle="collapse"
-                                   href="#collapseNewForm" aria-expanded="false"
-                                   aria-controls="collapseNewForm"><span class="glyphicon glyphicon-plus-sign"
+                                   href="#collapseNewForm" aria-expanded="true"
+                                   aria-controls="collapseNewForm"><span class="glyphicon glyphicon-minus-sign"
                                                                          aria-hidden="true"></span>
                                     New Form
                                 </a>
-                                <div class="collapse" id="collapseNewForm">
+                                <div class="collapse in" id="collapseNewForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a class="linkcolor" href="/Workflow/NewForm/BusinessTripForm"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Business trip</a></li>
-                                        <li><a class="linkcolor" href="/Workflow/NewForm/LeaveApproveForm"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Leave approve</a>
+                                        <li><a href="/Workflow/NewForm/BusinessTripForm"><span
+                                                class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
+                                            Business trip</a></li>
+                                        <li><a href="/Workflow/NewForm/LeaveApproveForm"><span
+                                                class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Leave
+                                            approve</a>
                                         </li>
-                                        <li><a class="linkcolor" href="/Workflow/NewForm/Unformatted"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Unformatted</a>
+                                        <li>
+                                            <a href="/Workflow/NewForm/Unformatted"><span class="glyphicon glyphicon-th"
+                                                                                          aria-hidden="true"></span>
+                                                Unformatted</a>
                                         </li>
                                     </ul>
 
                                 </div>
                             </li>
-                            <li>
+                            <li class="well">
                                 <a id="workflowPanelButton2" class="linkcolor" role="button" data-toggle="collapse"
                                    href="#collapseMyForm" aria-expanded="false"
-                                   aria-controls="collapseMyForm"><span class="glyphicon glyphicon-plus-sign"
+                                   aria-controls="collapseMyForm"><span class="glyphicon glyphicon-minus-sign"
                                                                         aria-hidden="true"></span>
                                     My Forms
                                 </a>
-                                <div class="collapse" id="collapseMyForm">
+                                <div class="collapse in" id="collapseMyForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a href="/Workflow/MyForms/Request"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Request <span
-                                                class="badge" id="userReqNotifSpan"></span></a></li>
-                                        <li><a href="/Workflow/MyForms/todo/load"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> To-do <span
-                                                class="badge" style="background-color: red" id="userTodoSpan"></span></a>
+                                        <li><a href="/Workflow/MyForms/Request"><span class="glyphicon glyphicon-edit"
+                                                                                      aria-hidden="true"></span> Request
+                                            <span
+                                                    class="badge" style="background-color: red"
+                                                    id="userRequestNotifHr"></span></a></li>
+                                        <li><a href="/Workflow/MyForms/todo/load"><span
+                                                class="glyphicon glyphicon-check" aria-hidden="true"></span> To-do <span
+                                                class="badge" style="background-color: red"
+                                                id="todoNotification"></span></a>
                                         </li>
                                     </ul>
-
                                 </div>
                             </li>
                         </ul>
@@ -266,7 +267,6 @@
                         </ul>
                     </div>
                 </div>
-                <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
             </div>
         </div>
     </nav>

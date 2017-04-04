@@ -28,13 +28,12 @@
             else
                 out.print("<jsp:include flush=\"true\" page=\"/WEB-INF/views/jsp/shared/erpUserLayout.jsp\"></jsp:include>");
         %>
-        <div class="col-md-offset-1 col-sm-10">
-            <div class=" col-lg-offset-2 col-lg-10">
-                <h1 class="page-header">Customer organization</h1>
+            <div class="mainBodyBlock">
+                <h1 class="headerText"><span class="fa fa-briefcase fa-fw"></span> Customer organization</h1>
                 <%
                     if (((int) request.getAttribute("SystemRole")) == 1)
                         out.print("<div style=\"overflow: hidden\">\n" +
-                                "                    <input type=\"button\" value=\"Create new\" class=\"btn btn-success\" style=\"float: left;\"  onclick=\"location.href='/Organizations/Create'\">\n" +
+                                "                    <input type=\"button\" value=\"Create new\" class=\"btn btn-green\" style=\"float: left;\"  onclick=\"location.href='/Organizations/Create'\">\n" +
                                 "                    <div style=\"clear: both;\">&nbsp;</div>\n" +
                                 "                </div>");
                 %>
@@ -65,13 +64,13 @@
                                 <td>${organization.address}</td>
                                 <c:if test='<%=(int)request.getAttribute("SystemRole") == 1%>'>
                                     <td>
-                                        <a class="btn btn-md btn-default .btn-md"
+                                        <a class="btn btn-md btn-blue .btn-md"
                                            href="/Organizations/Edit/<c:out value="${organization.id}"/>">Edit</a>
                                     </td>
                                 </c:if>
                                 <c:if test='<%=(int)request.getAttribute("SystemRole") == 1%>'>
                                     <td>
-                                        <a class="btn btn-md btn-default .btn-md"
+                                        <a class="btn btn-md btn-red .btn-md"
                                            href="/Organizations/Delete/<c:out value="${organization.id}"/>">Delete</a>
                                     </td>
                                 </c:if>
@@ -82,7 +81,6 @@
                     </table>
                 </div>
             </div>
-        </div>
     </div>
 </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

@@ -67,16 +67,6 @@
         width: 98%;
     }
 
-    #buttonGroupcha {
-        margin-left: 45%;
-        margin-top: 2%;
-    }
-
-    #buttonGroupcha input {
-        width: 71px;
-        margin-left: 8px;
-    }
-
     .reqfield:before {
         content: "*";
         color: #ff0000;
@@ -152,13 +142,13 @@
 </style>
 
 
-<div class="col-sm-10 col-md-offset-1">
-    <div class="col-lg-offset-2">
+
+    <div class="mainBodyBlock">
         <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="page-header" style="border: none; margin-left: -3%; padding-top: 6%;"><span
+        <h2 class="headerText"><span
                 class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Business trip {EDIT}</h2>
 
 
@@ -277,7 +267,7 @@
                                     <td><form:input type='text' min="0" path="toDoEntityList[${i.index}].date" cssClass="dateinput"/></td>
                                     <td><form:input type='text' min="0"
                                                     path="toDoEntityList[${i.index}].description"/></td>
-                                    <td><input type="button" class="ibtnDel btn btn-md btn-danger" value="Delete"/></td>
+                                    <td><input type="button" class="ibtnDel btn btn-md btn-red" value="Delete"/></td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -319,8 +309,8 @@
             </div>
 
             <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
-                <input id="tv" type="submit" name="submitBusinessTrip" value="Submit" class="btn btn-success"/>
-                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger"/>
+                <input id="tv" type="submit" name="submitBusinessTrip" value="Submit" class="btn btn-green"/>
+                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-red"/>
             </div>
 
         </form:form>
@@ -343,7 +333,6 @@
 
     </div>
 
-</div>
 
 
 <script type="text/javascript">

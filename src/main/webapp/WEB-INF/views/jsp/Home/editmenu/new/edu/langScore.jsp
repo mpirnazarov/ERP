@@ -16,11 +16,11 @@
     request.setAttribute("EditAdd", 1);
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
+
+    <div class="mainBodyBlock">
         <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
         <form:form modelAttribute="cert" cssClass="form-horizontal" method="post">
-            <h2 class="page-header">Add New Language Score</h2>
+            <h2 class="headerText">Add New Language Score</h2>
             <div class="form-horizontal">
                 <div class="form-group">
                     <label class="control-label col-md-3">Type: <font color='red'>*</font></label>
@@ -62,12 +62,12 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-3 col-md-9">
-                    <input type="submit" value="Add" class="btn btn-success"/>
+                    <input type="submit" value="Add" class="btn btn-green"/>
                     <input type="button" onclick="history.back()" value="Cancel"
-                           class="btn btn-default"/>
+                           class="btn btn-red"/>
                 </div>
             </div>
         </form:form>
     </div>
-</div>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

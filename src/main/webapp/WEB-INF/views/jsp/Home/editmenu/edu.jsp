@@ -11,11 +11,11 @@
 <% request.setAttribute("Mode", 2); %>
 <c:set var="pageTitle" scope="request" value="Education certificates"/>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-offset-2">
+
+    <div class="mainBodyBlock">
         <h1>${fullName}, ${jobTitle}</h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;">${external}</p>
-        <h2 class="page-header">Education Certificate</h2>
+        <h2 class="headerText">Education Certificate</h2>
 
         <ul class="nav nav-tabs">
             <li id="eduprint" class="active"><a data-toggle="tab" href="#edu">Educations</a></li>
@@ -26,7 +26,7 @@
         <div class="tab-content">
             <div id="edu" class="tab-pane fade in active">
                 <!--Educations table-->
-                <table class="table">
+                <table class="table sartable table-bordered">
                     <thead>
                     <tr>
                         <th class="col-md-4 text-center">Name of school</th>
@@ -45,12 +45,12 @@
                             <td class="col-md-1">${eduList.degree}</td>
                             <td class="col-md-2 text-center">${eduList.startDate}</td>
                             <td class="col-md-2 text-center">${eduList.endDate}</td>
-                            <td class="col-md-1 text-center"><a href="./Edu/EditEdu/${eduList.id}" class="btn btn-default">Edit</a></td>
+                            <td class="col-md-1 text-center"><a href="./Edu/EditEdu/${eduList.id}" class="btn btn-blue">Edit</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <a href="./Edu/AddEdu" class="btn btn-success">Add</a>
+                <a href="./Edu/AddEdu" class="btn btn-green">Add</a>
             </div>
             <div id="langsum" class="tab-pane fade">
                 <h3>Language summary</h3>
@@ -74,12 +74,12 @@
                             <td class="text-center">${language.reading}</td>
                             <td class="text-center">${language.writing}</td>
                             <td class="text-center">${language.speaking}</td>
-                            <td><a href="./Edu/EditLang/${language.id}" class="btn btn-default">Edit</a></td>
+                            <td><a href="./Edu/EditLang/${language.id}" class="btn btn-blue">Edit</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <a href="./Edu/AddLang" class="btn btn-success">Add</a>
+                <a href="./Edu/AddLang" class="btn btn-green">Add</a>
 
                 <h3>Language scores</h3>
                 <table class="table">
@@ -104,13 +104,13 @@
                                     <td>${cer.organization}</td>
                                     <td>${cer.number}</td>
                                     <td class="text-center">${cer.dateTime}</td>
-                                    <td><a href="./Edu/EditLangScore/${cer.id}/" class="btn btn-default">Edit</a></td>
+                                    <td><a href="./Edu/EditLangScore/${cer.id}/" class="btn btn-blue">Edit</a></td>
                                 </tr>
                             </c:if>
                         </c:forEach>
                     </tbody>
                 </table>
-                <a href="./Edu/AddLangScore" class="btn btn-success">Add</a>
+                <a href="./Edu/AddLangScore" class="btn btn-green">Add</a>
 
                 <div style="border: solid #ffffff; width: 17%; right: 0; bottom: 0; position: fixed; border-radius: 10px;">
                     <h3 style="text-align: center; text-decoration: underline">LEGEND:</h3>
@@ -142,16 +142,16 @@
                                 <td class="col-md-1">${cer.number}</td>
                                 <td class="col-md-2 text-center">${cer.dateTime}</td>
                                 <td class="col-md-1">${cer.mark}</td>
-                                <td class="col-md-1"><a href="./Edu/EditCert/${cer.id}/" class="btn btn-default">Edit</a></td>
+                                <td class="col-md-1"><a href="./Edu/EditCert/${cer.id}/" class="btn btn-blue">Edit</a></td>
                             </tr>
                         </c:if>
                     </c:forEach>
                     </tbody>
                 </table>
 
-                <a href="./Edu/AddCert" class="btn btn-success">Add</a>
+                <a href="./Edu/AddCert" class="btn btn-green">Add</a>
             </div>
         </div>
     </div>
-</div>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

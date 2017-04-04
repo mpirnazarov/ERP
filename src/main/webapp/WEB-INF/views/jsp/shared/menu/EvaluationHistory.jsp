@@ -11,13 +11,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="pageTitle" scope="request" value="Evaluation History"/>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
-        </h1>
-        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %></p>
-        <h2 class="page-header">Evaluation</h2>
-        <table class="table sartable">
+
+    <div class="mainBodyBlock">
+
+        <h2 class="headerText"><span class="fa fa-fw fa-bar-chart"></span> Evaluation</h2>
+        <table class="table table-bordered sartable">
             <thead>
             <tr>
                 <th>Evaluator</th>
@@ -92,5 +90,5 @@
             </table>
         </div>--%>
     </div>
-</div>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

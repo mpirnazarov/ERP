@@ -30,13 +30,12 @@
             else
                 out.print("<jsp:include flush=\"true\" page=\"/WEB-INF/views/jsp/shared/erpUserLayout.jsp\"></jsp:include>");
         %>
-        <div class="col-md-offset-2 col-sm-10">
-            <div class=" col-lg-offset-1 col-lg-11">
-                <h1 class="page-header">Participating projects</h1>
+            <div class="mainBodyBlock">
+                <h1 class="headerText"><span class="fa fa-file-powerpoint-o fa-fw"></span> Participating projects</h1>
                 <%
                     if (((int) request.getAttribute("SystemRole")) == 1)
                         out.print("<div style=\"overflow: hidden\">\n" +
-                                "                    <input type=\"button\" value=\"Create new project\" class=\"btn btn-success\" style=\"float: left;\"  onclick=\"location.href='/Projects/Create'\">\n" +
+                                "                    <input type=\"button\" value=\"Create new project\" class=\"btn btn-green\" style=\"float: left;\"  onclick=\"location.href='/Projects/Create'\">\n" +
                                 "                    <div style=\"clear: both;\">&nbsp;</div>\n" +
                                 "                </div>");
                 %>
@@ -84,8 +83,8 @@
                                                       value="${project.moneyUzs}" /></td>
                                 </td>
                                 <td>
-                                    <fmt:setLocale value="en_US"/>
-                                    <fmt:formatNumber type="currency" value="${project.moneyUsd}" /></td>
+                                    <fmt:formatNumber type="number" maxIntegerDigits="13" maxFractionDigits="2"
+                                                      value="${project.moneyUsd}" /></td>
                                 </td>
                                 </td>
                             </tr>
@@ -94,7 +93,7 @@
                     </table>
                 </div>
             </div>
-        </div>
+
     </div>
 </div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

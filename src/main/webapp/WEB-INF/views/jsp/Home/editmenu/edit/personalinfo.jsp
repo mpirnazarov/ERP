@@ -16,12 +16,12 @@
     request.setAttribute("EditAdd", 1);
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
+
+    <div class="mainBodyBlock">
         <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
         <form:form commandName="person" cssClass="form-horizontal" method="post">
 
-            <h2 class="page-header">Personal info edit</h2>
+            <h2 class="headerText">Personal info edit</h2>
             <div class="form-group"><label class="control-label col-md-4">Home phone: </label>
                 <div class="col-lg-5">
                     <form:input path="homePhone" placeholder="998971234546"
@@ -63,12 +63,12 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-4 col-md-9">
-                    <input type="submit" value="Save" class="btn btn-success"/>
+                    <input type="submit" value="Save" class="btn btn-green"/>
                     <input type="button" onclick="history.back()" value="Cancel"
-                           class="btn btn-danger"/>
+                           class="btn btn-red"/>
                 </div>
             </div>
         </form:form>
     </div>
-</div>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

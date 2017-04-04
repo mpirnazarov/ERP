@@ -17,7 +17,7 @@
 
 <style>
     body :not(a) {
-        color: inherit;
+        /*color: inherit;*/
     }
 
     .statusTd {
@@ -38,19 +38,18 @@
     }
 
 
-
 </style>
 <spring:url value="/resources/core/css/paginationsStyle.css" var="paginationCss"/>
 <link rel="stylesheet" href="${paginationCss}"/>
 
 
-<div class="col-sm-10 col-md-offset-1">
-    <div class="col-lg-offset-2">
+    <div class="mainBodyBlock">
         <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="page-header" style="border-bottom: 1px solid #FFFFFF; padding-top: 6%"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Request</h2>
+        <h2 class="headerText"><span
+                class="glyphicon glyphicon-edit" aria-hidden="true"></span> Request</h2>
 
         <div class="w3-container">
             <%--<div class="searchtoolstyle" style="height: 20%">
@@ -109,62 +108,65 @@
                 </div>
             </div>--%>
 
-                <div class="searchtoolstyle" style="height: 20%">
+            <div class="searchtoolstyle" style="height: 20%">
 
-                    <%--p1--%>
-                    <div style="display: flex; margin-bottom: 1%;">
-                        <div style="margin-left: auto; width: 20%">
-                            <label>FormType</label>
-                            <select class="form-control" id="reqTypeId">
-                                <c:forEach var="type" items="${typeList}" varStatus="i">
-                                    <option id="${type.key}">${type.value}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div style="margin-left: 1%; width: 20%">
-                            <label>Current status</label>
-                            <select class="form-control"  id="reqStatusId">
-                                <c:forEach var="status" items="${statusList}" varStatus="i">
-                                    <option id="${status.key}">${status.value}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div style="margin-left: 1%; width: 20%">
-                            <label>From</label>
-                            <input placeholder="yyyy-mm-dd" type="text" class="form-control" id="reqsandbox-container-from">
-                        </div>
-
-                        <div style="margin-left: 1%; width: 20%">
-                            <label>To</label>
-                            <input placeholder="yyyy-mm-dd" type="text" class="form-control" id="reqsandbox-container-to">
-                        </div>
+                <%--p1--%>
+                <div style="display: flex; margin-bottom: 1%;">
+                    <div style="margin-left: auto; width: 20%">
+                        <label>FormType</label>
+                        <select class="form-control" id="reqTypeId">
+                            <c:forEach var="type" items="${typeList}" varStatus="i">
+                                <option id="${type.key}">${type.value}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div style="margin-left: 1%; width: 20%">
+                        <label>Current status</label>
+                        <select class="form-control" id="reqStatusId">
+                            <c:forEach var="status" items="${statusList}" varStatus="i">
+                                <option id="${status.key}">${status.value}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div style="margin-left: 1%; width: 20%">
+                        <label>From</label>
+                        <input placeholder="yyyy-mm-dd" type="text" class="form-control" id="reqsandbox-container-from">
                     </div>
 
-                    <%--p2--%>
-                    <div style="width: 41%; margin-left: auto">
-                        <div class="input-group " style="margin-top: 25px">
-                            <span class="input-group-addon" id="search-addon1" style="background-color: white; border: none; color: #4285f4; font-weight: 800">Title:</span>
-                            <input type="text" placeholder="Search for ..." class="form-control" id="reqsearchId" aria-describedby="search-addon1" style="border: none">
-                            <div class="input-group-addon btn" onclick="pagedList(this.id)" id="btnReqFilter" style="background-color: white; color: #4285f4; font-weight: 800"><span
-                                    class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                            </div>
-                        </div>
-
-
-                        <%--<div class="input-group">
-                            <span class="input-group-addon" id="saerchtype-addon">Title:</span>
-
-                            <input type="text" class="form-control" id="reqsearchId">
-                        </div>--%>
-
-                        <%--<button type="button" class="btn btn-success" onclick="pagedList(this.id)" id="btnReqFilter"
-                                style="margin-left: 20%; border-radius: 0; width: 25%"><span
-                                class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                        </button>--%>
+                    <div style="margin-left: 1%; width: 20%">
+                        <label>To</label>
+                        <input placeholder="yyyy-mm-dd" type="text" class="form-control" id="reqsandbox-container-to">
                     </div>
                 </div>
 
-            <table class="table sarTable" id="dynamicHead">
+                <%--p2--%>
+                <div style="width: 41%; margin-left: auto">
+                    <div class="input-group " style="margin-top: 25px">
+                        <span class="input-group-addon" id="search-addon1"
+                              style="color: #4285f4; font-weight: 800">Title:</span>
+                        <input type="text" placeholder="Search for ..." class="form-control" id="reqsearchId"
+                               aria-describedby="search-addon1">
+                        <div class="input-group-addon btn" onclick="pagedList(this.id)" id="btnReqFilter"
+                             style="background-color: white; color: #4285f4; font-weight: 800"><span
+                                class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                        </div>
+                    </div>
+
+
+                    <%--<div class="input-group">
+                        <span class="input-group-addon" id="saerchtype-addon">Title:</span>
+
+                        <input type="text" class="form-control" id="reqsearchId">
+                    </div>--%>
+
+                    <%--<button type="button" class="btn btn-success" onclick="pagedList(this.id)" id="btnReqFilter"
+                            style="margin-left: 20%; border-radius: 0; width: 25%"><span
+                            class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                    </button>--%>
+                </div>
+            </div>
+
+            <table class="table sarTable table-bordered" id="dynamicHead">
                 <thead>
                 <tr>
                     <th>Form type</th>
@@ -178,11 +180,10 @@
                 </tbody>
 
             </table>
-                <ul class="sagination modal-1" id="pagedListContainer"></ul>
+            <ul class="sagination modal-1" id="pagedListContainer"></ul>
         </div>
     </div>
-</div>
-</div>
+
 
 
 <script>
@@ -192,20 +193,11 @@
     $('#reqsandbox-container-to').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
 
 
-    $("#reqsearchId").keyup(function(event){
-        if(event.keyCode == 13){
+    $("#reqsearchId").keyup(function (event) {
+        if (event.keyCode == 13) {
             $("#btnReqFilter").click();
         }
     });
-
-
-
-
-
-
-
-
-
 
 
 </script>
@@ -213,7 +205,6 @@
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>
 <script type="text/javascript">
-
 
 
     function initialize() {
@@ -259,11 +250,11 @@
         $.ajax({
             type: "POST",
             processData: false,
-            data:   'typeId=' + typeId +
-                    '&statusId=' + statusId +
-                    '&reqsandBoxcontainerFrom=' + reqsandBoxcontainerFrom +
-                    '&reqsandBoxcontainerTo=' + reqsandBoxcontainerTo +
-                    '&searchInput=' + searchInput,
+            data: 'typeId=' + typeId +
+            '&statusId=' + statusId +
+            '&reqsandBoxcontainerFrom=' + reqsandBoxcontainerFrom +
+            '&reqsandBoxcontainerTo=' + reqsandBoxcontainerTo +
+            '&searchInput=' + searchInput,
             url: '${pageContext.request.contextPath}/Workflow/list/' + page,
             success: function (data) {
 
@@ -276,11 +267,10 @@
 
 
                 /*var d = new Date();
-                var todayDay = d.getDate();
-                var todayMonth = d.getMonth();
-                var todayYear = d.getFullYear();
-                var todayString = todayYear + "-" + todayMonth + "-" + todayDay;*/
-
+                 var todayDay = d.getDate();
+                 var todayMonth = d.getMonth();
+                 var todayYear = d.getFullYear();
+                 var todayString = todayYear + "-" + todayMonth + "-" + todayDay;*/
 
 
                 var today = new Date();
@@ -291,7 +281,7 @@
 
                 var x = 0;
 
-                if(data.models == null || data.models == ' ') {
+                if (data.models == null || data.models == ' ') {
                     $('#notFoundDiv').show();
 
 
@@ -315,21 +305,19 @@
                         var targetDate = parseInt(req.date_created.slice(-2));
 
 
-
                         /*$(this).prev("div").attr("newdiv", "newdiv" + x);
 
-                        if (targetDate >= nowDate){
+                         if (targetDate >= nowDate){
 
-                            $(this).prev("div").attr("newdiv" + x).show();
-                        }else {
+                         $(this).prev("div").attr("newdiv" + x).show();
+                         }else {
 
-                            $(this).prev("div").attr("newdiv" + x).hide();
+                         $(this).prev("div").attr("newdiv" + x).hide();
 
-                        }*/
+                         }*/
 
                     });
                 }
-
 
 
                 $('.statusTd:contains("In progress")').css('color', '#339abf');
@@ -340,9 +328,6 @@
                 $('.statusTd:contains("Terminated")').css('color', '#ff0000');
                 $('.statusTd:contains("Finished")').css('color', '#59feef');
                 $('.statusTd:contains("Deleted")').css('color', '#000000');
-
-
-
 
 
                 numberOfPages = data.maxPages;
@@ -364,7 +349,6 @@
             error: function () {
                 alert("Table not loaded");
             }
-
 
 
         });

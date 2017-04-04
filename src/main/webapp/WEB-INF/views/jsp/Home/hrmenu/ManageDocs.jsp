@@ -14,12 +14,12 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <div class="container-fluid">
     <div class="row">
-        <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpHRLayout.jsp"></jsp:include>
-        <div class="col-sm-9 col-md-offset-1">
-            <div class="col-lg-offset-2">
-                <h2 class="page-header">Upload documents</h2>
+
+            <div class="mainBodyBlock">
+
+                <h2 class="headerText"><span class="fa fa-upload"></span>Upload documents</h2>
                 <h3>List of documents</h3>
-                <table class="table">
+                <table class="table sartable table-bordered">
                     <thead>
                     <tr>
                         <th>Document name</th>
@@ -31,7 +31,7 @@
                     <c:forEach items="${documents}" var="doc" varStatus="status">
                         <tr>
                             <td>${doc.name}</td>
-                            <td><a href="Manage/Del/<c:out value="${doc.id}"/>" class="btn btn-danger">Delete</a></td>
+                            <td><a href="Manage/Del/<c:out value="${doc.id}"/>" class="btn btn-red">Delete</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -57,13 +57,13 @@
                         <div class="form-group">
                             <div class="col-md-3"></div>
                             <div class="col-md-2">
-                                <input type="submit" value="Upload" class="btn btn-primary btn-sm">
+                                <input type="submit" value="Upload" class="btn btn-darkblue btn-sm">
                             </div>
                         </div>
                     </div>
                 </form:form>
             </div>
-        </div>
+
     </div>
 </div>
 

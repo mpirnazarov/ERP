@@ -71,15 +71,6 @@
         width: 98%;
     }
 
-    #buttonGroupcha {
-        margin-left: 40%;
-        margin-top: 2%;
-    }
-
-    #buttonGroupcha input {
-        width: 71px;
-        margin-left: 8px;
-    }
 
     .reqfield:before {
         content: "*";
@@ -100,13 +91,13 @@
 </style>
 
 
-<div class="col-sm-10 col-md-offset-1">
-    <div class="col-lg-offset-2">
+
+    <div class="mainBodyBlock">
         <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="page-header" style="border: none; padding-top: 6%"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Unformatted</h2>
+        <h2 class="headerText"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Unformatted</h2>
 
         <form:form modelAttribute="unformattedVM" cssClass="form-horizontal" method="post" id="myform" enctype="multipart/form-data">
             <div class="w3-container b3form paper">
@@ -159,15 +150,14 @@
             </div>
 
             <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
-                <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-warning"/>
-                <input id="tv" type="submit" name="Submit" value="Submit" class="btn btn-success"/>
-                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger"/>
+                <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-blue"/>
+                <input id="tv" type="submit" name="Submit" value="Submit" class="btn btn-green"/>
+                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-red"/>
             </div>
         </form:form>
 
     </div>
 
-</div>
 
 
 <script type="text/javascript">

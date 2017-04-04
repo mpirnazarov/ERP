@@ -14,9 +14,9 @@
 <%@ taglib prefix="kendo" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" scope="request" value="Users List"/>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-offset-2">
-        <h1 class="page-header">Evaluation page: </h1>
+
+    <div class="mainBodyBlock">
+        <h1 class="headerText"><span class="fa fa-fw fa-bar-chart"></span> Evaluation page </h1>
         <div class="table-responsive">
 
             <br/>
@@ -55,14 +55,14 @@
                 </table>
                 <div class="form-group">
                     <div class="col-lf-offset-1 col-md-9">
-                        <input type="submit" name="submit" value="Submit" class="btn btn-success"/>
+                        <input type="submit" name="submit" value="Submit" class="btn btn-green"/>
                         <input type="button" onclick="history.back()" value="Cancel"
-                               class="btn btn-default"/>
+                               class="btn btn-red"/>
                     </div>
                 </div>
             </form:form>
         </div>
 
     </div>
-</div>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

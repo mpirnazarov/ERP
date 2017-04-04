@@ -12,12 +12,10 @@
 <c:set var="pageTitle" scope="request" value="Project history"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>
-        </h1>
-        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %></p>
-        <h2 class="page-header" style="color: #fff;">Project History</h2>
+
+    <div class="mainBodyBlock">
+
+        <h2 class="headerText"><span class="fa fa-file-powerpoint-o fa-fw"></span> Projects History</h2>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -47,5 +45,5 @@
             </tbody>
         </table>
     </div>
-</div>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

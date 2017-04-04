@@ -28,19 +28,15 @@
 <link rel="stylesheet" href="${paginationCss}"/>
 
 
-<div class="col-sm-10 col-md-offset-1">
-    <div class="col-lg-offset-2">
+    <div class="mainBodyBlock">
         <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="page-header" style="border-bottom: 1px solid #FFFFFF; padding-top: 6%"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> To Do</h2>
+        <h2 class="headerText"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> To Do</h2>
 
         <div class="w3-container">
-
             <%--????????????????????????--%>
-
-
             <div class="searchtoolstyle" style="height: 20%">
 
                 <%--p1--%>
@@ -95,7 +91,7 @@
         </div>
 
 
-        <table class="table sarTable sarTableBoxShadow" id="tablecha">
+        <table class="table sarTable table-bordered" id="tablecha">
             <thead>
             <tr>
                 <%--<th>#</th>--%>
@@ -104,7 +100,7 @@
                 <th>Author</th>
                 <th>Request date</th>
                 <th>Current status</th>
-                <th></th>
+                <th style="text-align: center">Details</th>
             </tr>
             </thead>
             <tbody id="tbodycha">
@@ -114,7 +110,7 @@
         </table>
         <ul class="sagination modal-1" id="pagedListContainer"></ul>
     </div>
-</div>
+
 
 </div>
 </div>

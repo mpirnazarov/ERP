@@ -16,9 +16,10 @@
 
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
-        <h1 class="page-header">Delete project appointment data</h1>
+
+    <div class="mainBodyBlock">
+
+        <h1 class="headerText">Delete project appointment data</h1>
         <form:form modelAttribute="viewModel" cssClass="form-horizontal" method="post" action="/Appoint/Delete"
                    id="myForm">
 
@@ -75,15 +76,15 @@
 
             <div class="form-group">
                 <div class="col-md-offset-3 col-md-9">
-                    <input type="submit" value="Confirm" class="btn btn-danger"/>
+                    <input type="submit" value="Confirm" class="btn btn-red"/>
                     <input type="button" onclick="location.href='/Appoint'" value="Cancel"
-                           class="btn btn-default"/>
+                           class="btn btn-grey"/>
                 </div>
                 <div class="clearfix"></div>
             </div>
         </form:form>
     </div>
-</div>
+
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">

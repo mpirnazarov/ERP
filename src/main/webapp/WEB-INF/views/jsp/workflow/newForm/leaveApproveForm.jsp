@@ -119,7 +119,8 @@
 
     #halfDay {
         margin-left: 15%;
-        opacity: 1;
+        opacity: 0;
+        transform: scale(0.1,0.1);
     }
 
 
@@ -243,6 +244,8 @@
         var dStart = new Date($("#dateStart").val());
         var dEnd = new Date($("#dateEnd").val());
 
+
+
         $('#dateStart').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
         $('#dateEnd').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
 
@@ -327,6 +330,7 @@
                 var selectedType = $("#absenseSelect option:selected").text();
 
                 if (selectedType == "Annual leave") {
+
 
                     /*Vocation Check*/
                     if (!workedSixMonth) {
@@ -417,6 +421,7 @@
                 }
             });
 
+
             if (flag && isTrue) return true;
             else return false;
         });
@@ -432,35 +437,47 @@
 
     });
 
-    function chechDateEq() {
+
+
+    function showCheckBoxes() {
         var d1 = $('#dateStart').val();
         var d2 = $('#dateEnd').val();
+        var sc = $("#absenseSelect option:selected").text();
 
 
-            if(d1 == d2){
-                $('#halfDay').animate({opacity: 1}, 500);
-                $('#halfDay').css('transform', 'scale(1,1)');
+        if(d1 == d2 && sc == "Annual leave"){
+            $('#halfDay').animate({opacity: 1}, 500);
+            $('#halfDay').css('transform', 'scale(1,1)');
 
-            }
-            else {
-                $('#halfDay').animate({opacity: 0}, 500)
-                $('#halfDay').css('transform', 'scale(0.1,0.1)');
+        }
+        else {
+            $('#halfDay').animate({opacity: 0}, 500)
+            $('#halfDay').css('transform', 'scale(0.1,0.1)');
 
-            }
+        }
+
+
     }
+
+    $('#absenseSelect').change(function () {
+        if ($("#absenseSelect option:selected").text() != ''){
+            showCheckBoxes()
+        }
+    })
 
     $('#dateStart').change(function () {
         if($('#dateStart').val()!='') {
-            chechDateEq()
+            showCheckBoxes()
         }
     })
 
     $('#dateEnd').change(function () {
 
         if($('#dateEnd').val()!='') {
-            chechDateEq()
+            showCheckBoxes()
         }
     })
+
 
     
 </script>

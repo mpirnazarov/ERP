@@ -16,13 +16,12 @@
     request.setAttribute("EditAdd", 1);
 %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
+    <div class="mainBodyBlock">
         <%--<h1 class="page-header">${userProfile.firstName[2]} ${userProfile.lastName[2]}'s profile</h1>--%>
         <form:form modelAttribute="family" cssClass="form-horizontal" method="post">
 
         <!--General info/Family info Tab-->
-        <h3>Family information</h3>
+        <h3 class="headerText">Family information</h3>
         <ul class="nav nav-tabs">
             <li><a data-toggle="tab" id="fienref" href="#fien">EN</a></li>
             <li><a data-toggle="tab" id="firuref" href="#firu">RU</a></li>
@@ -132,14 +131,13 @@
 
         <div class="form-group">
             <div class="col-md-offset-3 col-md-9">
-                <input type="submit" value="Save" class="btn btn-default"/>
+                <input type="submit" value="Save" class="btn btn-green"/>
                 <input type="button" onclick="history.back()" value="Cancel"
-                       class="btn btn-default"/>
+                       class="btn btn-red"/>
             </div>
         </div>
     </div>
     </form:form>
-</div>
 <script>
     $(document).ready(function () {
         $("#firuref").trigger('click');

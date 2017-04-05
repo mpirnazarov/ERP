@@ -98,30 +98,19 @@
     }
 
 
-
-
-
-
 </style>
+
+
+
 <%--MY Decision--%>
-<div id="UserNavigationMenuDiv" class="col-md-2 userNavMenu">
+<div id="UserNavigationMenuDiv" class="userNavMenu">
     <nav class="navbar navbar-fixed-side __scrollBar">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-                Welcome <%= request.getAttribute("FirstName") %>
-            </a>
-        </div>
-        <div class="userImgBox">
-            <img class="userimg" src="/image/<%= request.getAttribute("userId") %>.jpg"
-                 onerror="this.src='/resources/images/ppicture.png'">
-        </div>
-        <a href="/"><i class="fa fa-fw fa-home"></i> Home</a>
-        <div style="background: transparent" class="panel-group" id="accordion" role="tablist"
+        <div class="panel-group" id="Nav-accordion" role="tablist"
              aria-multiselectable="true">
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                        <a role="button" data-toggle="collapse" data-parent="#Nav-accordion" href="#collapseOne"
                            aria-expanded="true" aria-controls="collapseOne">
                             HR System
                         </a>
@@ -133,23 +122,21 @@
                             <li>
                                 <a class="linkcolor" role="button" data-toggle="collapse"
                                    href="#collapseExample" aria-expanded="false"
-                                   aria-controls="collapseExample"><span class="glyphicon glyphicon-user"
-                                                                         aria-hidden="true"></span>
-                                    My profile
+                                   aria-controls="collapseExample"><span class="fa fa-user-circle"></span> My profile
                                 </a>
                                 <div class="collapse" id="collapseExample">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a class="linkcolor" href="/Hr/Profile">General information</a></li>
-                                        <li><a class="linkcolor" href="/Hr/Profile/Appointment">Appointment record</a>
+                                        <li><a href="/Hr/Profile"><span class="fa fa-fw fa-info-circle"></span> General information</a></li>
+                                        <li><a href="/Hr/Profile/Appointment"><span class="fa fa-fw fa-hand-pointer-o"></span> Appointment record</a>
                                         </li>
-                                        <li><a class="linkcolor" href="/Hr/Profile/Salary">Salary details</a>
+                                        <li><a href="/Hr/Profile/Salary"><span class="fa fa-fw fa-money"></span> Salary details</a>
                                         </li>
-                                        <li><a class="linkcolor" href="/Hr/Profile/Edu">Education
+                                        <li><a href="/Hr/Profile/Edu"><span class="fa fa-fw fa-graduation-cap"></span> Education
                                             certificate</a></li>
-                                        <li><a class="linkcolor" href="/Hr/Profile/Jobexp">Job experience</a>
+                                        <li><a href="/Hr/Profile/Jobexp"><span class="fa fa-fw fa-briefcase"></span> Job experience</a>
                                         </li>
-                                        <li><a class="linkcolor" href="/Hr/Profile/Train">Training record</a>
+                                        <li><a href="/Hr/Profile/Train"><span class="fa fa-fw fa-book"></span> Training record</a>
                                         </li>
                                     </ul>
 
@@ -157,18 +144,17 @@
                             </li>
 
                             <li>
-                                <a class="linkcolor" href="/Hr/Userslist"><i class="fa fa-fw fa-users"></i> Users</a>
+                                <a class="linkcolor" href="/Hr/Userslist"><span class="fa fa-fw fa-users"></span> Users</a>
                             </li>
                             <li>
-                                <a class="linkcolor" href="/Hr/Profile/Evaluation"><i class="fa fa-fw fa-bar-chart"></i>
-                                    Evaluation history</a>
+                                <a class="linkcolor" href="/Hr/Profile/Evaluation"><span class="fa fa-fw fa-bar-chart"></span>
+                                    Evaluation</a>
                             </li>
                             <li>
-                                <a class="linkcolor" href="/Hr/GenerateDocs"><i class="fa fa-fw fa-file"></i> Generate
-                                    documents</a>
+                                <a class="linkcolor" href="/Hr/GenerateDocs"><span class="fa fa-fw fa-file"></span> Documents</a>
                             </li>
                             <li>
-                                <a class="linkcolor" href="/Hierarchy"><i class="fa fa-line-chart"></i> Hierarchy</a>
+                                <a class="linkcolor" href="/Hierarchy"><span class="fa fa-line-chart"></span> Hierarchy</a>
                             </li>
                         </ul>
                     </div>
@@ -177,7 +163,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingTwo">
                     <h4 class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#Nav-accordion"
                            href="#collapseTwo"
                            aria-expanded="false" aria-controls="collapseTwo">
                             TAAPS System
@@ -189,22 +175,22 @@
                         <ul style="list-style: none" class="list-group">
 
                             <li>
-                                <a href="/Workload"><i class="fa fa-edit fa-fw"></i> Workload</a>
+                                <a href="/Workload"><span class="fa fa-edit fa-fw"></span> Workload</a>
                             </li>
                             <li>
-                                <a href="/Projects"><i class="fa fa-file-powerpoint-o fa-fw"></i> Projects</a>
+                                <a href="/Projects"><span class="fa fa-file-powerpoint-o fa-fw"></span> Projects</a>
                             </li>
                             <li>
-                                <a href="/Monitor"><i class="fa fa-pie-chart fa-fw"></i> Monitor</a>
+                                <a href="/Monitor"><span class="fa fa-pie-chart fa-fw"></span> Monitor</a>
                             </li>
                             <li>
-                                <a href="/Contacts"><i class="fa fa-male fa-fw"></i> Contacts</a>
+                                <a href="/Contacts"><span class="fa fa-address-book-o"></span> Contacts</a>
                             </li>
                             <li>
-                                <a href="/Appoint"><i class="fa fa-hand-o-up fa-fw"></i> Appoint</a>
+                                <a href="/Appoint"><span class="fa fa-hand-o-up fa-fw"></span> Appoint</a>
                             </li>
                             <li>
-                                <a href="/Organizations"><i class="fa fa-briefcase fa-fw"></i> Organizations</a>
+                                <a href="/Organizations"><span class="fa fa-briefcase fa-fw"></span> Organizations</a>
                             </li>
                         </ul>
                     </div>
@@ -213,7 +199,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingWF">
                     <h4 class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#Nav-accordion"
                            href="#collapseWF"
                            aria-expanded="false" aria-controls="collapseWF">
                             Workflow
@@ -225,19 +211,25 @@
                         <ul style="list-style: none" class="list-group">
                             <li class="well">
                                 <a id="workflowPanelButton" class="linkcolor" role="button" data-toggle="collapse"
-                                   href="#collapseNewForm" aria-expanded="false"
-                                   aria-controls="collapseNewForm"><span class="glyphicon glyphicon-plus-sign"
+                                   href="#collapseNewForm" aria-expanded="true"
+                                   aria-controls="collapseNewForm"><span class="glyphicon glyphicon-minus-sign"
                                                                          aria-hidden="true"></span>
                                     New Form
                                 </a>
-                                <div class="collapse" id="collapseNewForm">
+                                <div class="collapse in" id="collapseNewForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a href="/Workflow/NewForm/BusinessTripForm"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Business trip</a></li>
-                                        <li><a href="/Workflow/NewForm/LeaveApproveForm"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Leave approve</a>
+                                        <li><a href="/Workflow/NewForm/BusinessTripForm"><span
+                                                class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
+                                            Business trip</a></li>
+                                        <li><a href="/Workflow/NewForm/LeaveApproveForm"><span
+                                                class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Leave
+                                            approve</a>
                                         </li>
                                         <li>
-                                            <a href="/Workflow/NewForm/Unformatted"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Unformatted</a>
+                                            <a href="/Workflow/NewForm/Unformatted"><span class="glyphicon glyphicon-th"
+                                                                                          aria-hidden="true"></span>
+                                                Unformatted</a>
                                         </li>
                                     </ul>
 
@@ -246,17 +238,22 @@
                             <li class="well">
                                 <a id="workflowPanelButton2" class="linkcolor" role="button" data-toggle="collapse"
                                    href="#collapseMyForm" aria-expanded="false"
-                                   aria-controls="collapseMyForm"><span class="glyphicon glyphicon-plus-sign"
+                                   aria-controls="collapseMyForm"><span class="glyphicon glyphicon-minus-sign"
                                                                         aria-hidden="true"></span>
                                     My Forms
                                 </a>
-                                <div class="collapse" id="collapseMyForm">
+                                <div class="collapse in" id="collapseMyForm">
 
                                     <ul style="list-style: none" class="list-group">
-                                        <li><a href="/Workflow/MyForms/Request"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Request <span
-                                                class="badge" style="background-color: red" id="userRequestNotifHr"></span></a></li>
-                                        <li><a href="/Workflow/MyForms/todo/load"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> To-do <span
-                                                class="badge" style="background-color: red" id="todoNotification"></span></a>
+                                        <li><a href="/Workflow/MyForms/Request"><span class="glyphicon glyphicon-edit"
+                                                                                      aria-hidden="true"></span> Request
+                                            <span
+                                                    class="badge" style="background-color: red"
+                                                    id="userRequestNotifHr"></span></a></li>
+                                        <li><a href="/Workflow/MyForms/todo/load"><span
+                                                class="glyphicon glyphicon-check" aria-hidden="true"></span> To-do <span
+                                                class="badge" style="background-color: red"
+                                                id="todoNotification"></span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -268,7 +265,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingThree">
                     <h4 class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#Nav-accordion"
                            href="#collapseThree"
                            aria-expanded="false" aria-controls="collapseThree">
                             Settings
@@ -284,28 +281,26 @@
                         </ul>
                     </div>
                 </div>
-                <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
             </div>
         </div>
     </nav>
 
     <div id="navigationButton" style="visibility: hidden">
-        <span id="sarcon" class="glyphicon glyphicon-chevron-right" aria-hidden="false" style="margin-top: 11px; margin-left: 13px; font-size: 20px"></span>
+        <span id="sarcon" class="glyphicon glyphicon-chevron-right" aria-hidden="false"
+              style="margin-top: 11px; margin-left: 13px; font-size: 20px"></span>
     </div>
 
 </div>
 
 
-
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
 
         $('#navigationButton').click(function () {
             $('#navigationButton').toggleClass('pressed');
             $('#UserNavigationMenuDiv').toggleClass('shownav');
             $('#sarcon').toggleClass('twistIcon');
         });
-
 
 
         $('#detailBody').click(function () {
@@ -317,11 +312,11 @@
     });
     setInterval(function () {
         $.ajax({
-            type:"GET",
+            type: "GET",
             processData: false,
-            url : '${pageContext.request.contextPath}/Workflow/MyForms/todo/notification',
-            success: function(data){
-              $('#todoNotification').text(data);
+            url: '${pageContext.request.contextPath}/Workflow/MyForms/todo/notification',
+            success: function (data) {
+                $('#todoNotification').text(data);
             },
             error: function () {
             }
@@ -330,10 +325,10 @@
 
     setInterval(function () {
         $.ajax({
-            type:"GET",
+            type: "GET",
             processData: false,
-            url : '${pageContext.request.contextPath}/Workflow/MyForms/Request/Notification',
-            success: function(data){
+            url: '${pageContext.request.contextPath}/Workflow/MyForms/Request/Notification',
+            success: function (data) {
                 $('#userRequestNotifHr').text(data);
             },
             error: function () {

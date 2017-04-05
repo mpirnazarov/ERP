@@ -12,11 +12,11 @@
 <c:set var="pageTitle" scope="request" value="Documents"/>
 <% request.setAttribute("Mode", 2); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
+
+    <div class="mainBodyBlock">
         <h1>${fullName}, ${jobTitle}</h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;">${external}</p>
-        <h2 class="page-header">Documents</h2>
+        <h2 class="headerText">Documents</h2>
         <h3>List of documents</h3>
         <table class="table">
             <thead>
@@ -31,8 +31,8 @@
                 <tr>
                     <td>${doc.name}</td>
                     <td>${docType.get(doc.documentType)}</td>
-                    <td class="text-center"><a href="Docs/Download/<c:out value="${doc.id}"/>" class="btn btn-primary">Download</a> <a
-                            href="Docs/Del/<c:out value="${doc.id}"/>" class="btn btn-danger">Delete</a></td>
+                    <td class="text-center"><a href="Docs/Download/<c:out value="${doc.id}"/>" class="btn btn-blue">Download</a> <a
+                            href="Docs/Del/<c:out value="${doc.id}"/>" class="btn btn-red">Delete</a></td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -64,11 +64,11 @@
                 <div class="form-group">
                     <div class="col-md-3"></div>
                     <div class="col-md-2">
-                        <input type="submit" value="Upload" class="btn btn-primary btn-sm">
+                        <input type="submit" value="Upload" class="btn btn-green btn-sm">
                     </div>
                 </div>
             </div>
         </form:form>
     </div>
-</div>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

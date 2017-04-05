@@ -44,12 +44,10 @@
 <%--</script>--%>
 <c:set var="pageTitle" scope="request" value="Education certificates"/>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
-        </h1>
-        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %></p>
-        <h2 class="page-header">Education Certificate</h2>
+
+    <div class="mainBodyBlock">
+
+        <h2 class="headerText"><span class="fa fa-fw fa-graduation-cap"></span> Education Certificate</h2>
 
         <ul class="nav nav-tabs">
             <li id="eduprint" class="active"><a data-toggle="tab" href="#edu">Educations</a></li>
@@ -60,7 +58,7 @@
         <div class="tab-content">
             <div id="edu" class="tab-pane fade in active"><br/>
                 <!--Educations table-->
-                <table class="table">
+                <table class="table table-bordered sartable">
                     <thead>
                     <tr>
                         <th class="col-md-4 text-center">Name of school</th>
@@ -89,7 +87,7 @@
             </div>
             <div id="langsum" class="tab-pane fade"><br/>
                 <!--Language summary table-->
-                <table class="table">
+                <table class="table table-bordered sartable">
                     <thead>
                     <tr>
                         <th class="col-md-3">Language</th>
@@ -112,7 +110,7 @@
                     </tbody>
                 </table>
                 <h3>Language scores</h3>
-                <table class="table">
+                <table class="table table-bordered sartable">
                     <thead>
                     <tr>
                         <th class="col-md-3">Type</th>
@@ -148,7 +146,7 @@
             </div>
             <div id="cersum" class="tab-pane fade"><br/>
                 <!--Certificates table-->
-                <table class="table">
+                <table class="table table-bordered sartable">
                     <thead>
                     <tr>
                         <th class="col-md-3">Name</th>
@@ -177,5 +175,5 @@
             </div>
         </div>
     </div>
-</div>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

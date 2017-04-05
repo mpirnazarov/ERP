@@ -26,27 +26,35 @@
 
 <style>
     table h3 {
-        color: #000000;
+        color: #787878;
     }
 
     thead tr, td.duration {
         background-color: #FFFFFF;
-        color: #000000;
+        color: #787878;
     }
 
     tr#weekDays , .btn-default, td.td-head-default, tr.headers {
-        background-color: #eaeaea;
-        color: #000000;
+        background-color: #f5f5f5;
+        color: #787878;
+    }
+
+    .td-space {
+        font-size: 25px;
+        cursor: pointer;
+    }
+
+    .collapseSpan {
+        float: left;
     }
 
 
 </style>
 
-<div class="col-md-offset-1 col-sm-10">
-    <div class=" col-lg-offset-2 col-lg-10">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
-        </h1>
-        <h2 class="page-header">Calendar</h2>
+
+    <div class="mainBodyBlock">
+
+        <h2 class="headerText"><span class="fa fa-edit fa-fw"></span> Workload</h2>
 
         <span class="hidden" id="mondayHidden"><fmt:formatDate value="${model.monday}"
                                                                pattern="yyyy-MM-dd"/></span>
@@ -119,7 +127,7 @@
 
                         String generateProject(CalendarReturningModel model, String projectCode, String projectName, String projectType, Integer projectId, int tabindex, boolean defaultProject) {
                             String returning = "" +
-                                    "<tr>\n" +
+                                    "<tr class=\""+projectId+"\">\n" +
                                     "   <td class=\"td-head-default\" id=\"" + projectId + "\" rowspan=\"5\" style=\"vertical-align:middle;\">" + projectCode;
                             if (projectType.length() != 0)
                                 returning += " - " + projectType;
@@ -159,7 +167,7 @@
                                         typeName = "Default";
                                     }
                                 }
-                                returning += "<tr>\n" +
+                                returning += "<tr class=\""+projectId+"\">\n" +
                                         " <td class=\"hidden\"id=\"" + projectId + "\"></td>\n" +
                                         " <td class=\"td-head-default\" id=\"" + typeName + "\">" + typeName + "</td>\n";
 
@@ -219,9 +227,9 @@
                             }
                         }
 
-                        String getEmptyRow() {
-                            return "<tr>\n" +
-                                    "    <td class=\"td-space\" colspan=\"9\"></td>\n" +
+                        String getEmptyRow(int id, String projectName) {
+                            return "<tr onclick=\"hideRow(" + id + ")\" >\n" +
+                                    "    <td class=\"td-space\" colspan=\"9\"><span class=\"collapseSpan fa fa-calendar-minus-o\" id=\"" + id + "\" data-projectname = \""+projectName+"\"></span></td>\n" +
                                     "</tr>";
                         }
                     %>
@@ -246,7 +254,7 @@
                     out.print(generateProject(model, "Team project", "", "", 0, 1, true));
                     tabindex += 28;
                     for (ProjectsEntity project : model.getProjects()) {
-                        out.print(getEmptyRow());
+                        out.print(getEmptyRow(project.getId(), project.getName()));
                         out.print(generateProject(model, project.getCode(), project.getName(), project.getType(), project.getId(), tabindex, false));
                         tabindex += 28;
                     }
@@ -282,7 +290,7 @@
         </div>
 
     </div>
-</div>
+
 <script>
 
     $(document).ready(function () {
@@ -645,6 +653,26 @@
         var dat = new Date(this.valueOf());
         dat.setDate(dat.getDate() + days);
         return dat;
+    }
+
+    function hideRow(rowId){
+        $('tr.'+rowId).each(function(i,e) {
+            var targetSpan = $('span#' + rowId);
+            var projectName = targetSpan.data('projectname');
+            if ($(e).hasClass('hidden')){
+                $('span#'+rowId).html('');
+                $(e).removeClass('hidden');
+                $(e).animate({opacity: 1}, 300)
+                targetSpan.removeClass('fa-calendar-plus-o');
+                targetSpan.addClass('fa-calendar-minus-o');
+            }else{
+                $('span#'+rowId).html('&nbsp&nbsp'+projectName);
+                $(e).addClass('hidden');
+                $(e).css('opacity','0');
+                targetSpan.removeClass('fa-calendar-minus-o');
+                targetSpan.addClass('fa-calendar-plus-o');
+            }
+        });
     }
 </script>
 <style>

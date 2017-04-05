@@ -14,12 +14,10 @@
 <% request.setAttribute("Hierarchy", 1); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 
-<div class="col-sm-10 col-md-offset-1">
-    <div class="col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
-        </h1>
-        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %></p>
-        <h2 class="page-header">Hierarchy</h2>
+
+    <div class="mainBodyBlock">
+
+        <h2 class="headerText"><span class="fa fa-line-chart"></span> Hierarchy</h2>
         <spring:url value="/resources/core/js/DataInspector.js" var="dataInspector"></spring:url>
 
         <spring:url value="/resources/core/css/DataInspector.css" var="dataCss"></spring:url>
@@ -403,6 +401,6 @@
             </div>
         </div>
     </div>
-</div>
+
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

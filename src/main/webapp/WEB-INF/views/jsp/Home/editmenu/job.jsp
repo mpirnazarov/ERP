@@ -12,13 +12,13 @@
 <c:set var="pageTitle" scope="request" value="Job experience"/>
 <% request.setAttribute("Mode", 2); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
+
+    <div class="mainBodyBlock">
         <h1>${fullName}, ${jobTitle}</h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;">${external}</p>
-        <h2 class="page-header">Job Experience</h2>
+        <h2 class="headerText">Job Experience</h2>
         <!--Job experience table-->
-        <table class="table">
+        <table class="table sartable table-bordered">
             <thead>
             <tr>
                 <th class="col-md-3">Organization</th>
@@ -44,12 +44,12 @@
                             <td class="col-md-2 text-center">Present</td>
                         </c:otherwise>
                     </c:choose>
-                    <td class="col-md-1 text-center"><a href="./Jobexp/updateJob/${jobexp.id}" class="btn btn-default">Edit</a></td>
+                    <td class="col-md-1 text-center"><a href="./Jobexp/updateJob/${jobexp.id}" class="btn btn-blue">Edit</a></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <a href="./Jobexp/add" class="btn btn-success">Add</a>
+        <a href="./Jobexp/add" class="btn btn-green">Add</a>
     </div>
-</div>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

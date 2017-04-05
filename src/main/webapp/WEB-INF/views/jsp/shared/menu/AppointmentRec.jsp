@@ -32,14 +32,12 @@
 
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
-        </h1>
-        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %></p>
-        <h2 class="page-header">Appointment Record</h2>
+
+    <div class="mainBodyBlock">
+
+        <h2 class="headerText"><span class="fa fa-fw fa-hand-pointer-o"></span> Appointment Record</h2>
         <!--Appointment summary table-->
-        <table class="table">
+        <table class="table table-bordered sartable">
             <thead>
             <tr>
                 <th class="text-center">Appointment date<br/><text class="small">(YYYY-MM-DD)</text></th>
@@ -62,5 +60,4 @@
         <%--<input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;"--%>
                <%--value="Print this page" onclick="printpage()"/>--%>
     </div>
-</div>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

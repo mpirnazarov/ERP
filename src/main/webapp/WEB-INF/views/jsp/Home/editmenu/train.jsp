@@ -13,17 +13,17 @@
 <c:set var="pageTitle" scope="request" value="Trainings"/>
 <% request.setAttribute("Mode", 2); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-offset-2">
+
+    <div class="mainBodyBlock">
         <h1>${fullName}, ${jobTitle}</h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;">${external}</p>
-        <h2 class="page-header">Training Record</h2>
+        <h2 class="headerText">Training Record</h2>
 
         <div class="tab-content">
             <div id="train" class="tab-pane fade in active">
 
                 <!--Trainings table-->
-                <table class="table">
+                <table class="table sartable table bordered">
                     <thead>
                     <tr>
                         <th class="col-md-3">Name</th>
@@ -55,5 +55,5 @@
             </div>
         </div>
     </div>
-</div>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

@@ -15,13 +15,13 @@
 <% request.setAttribute("Mode", 2); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-offset-2">
+
+    <div class="mainBodyBlock">
         <h1>${fullName}, ${jobTitle}</h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;">${external}</p>
-        <h2 class="page-header">Salary Details</h2>
+        <h2 class="headerText">Salary Details</h2>
         <!--Appointment summary table-->
-        <table class="table">
+        <table class="table sartable table-bordered">
             <thead>
             <tr>
                 <th class="text-center">Date<br/><text class="small">(YYYY-MM-DD)</text></th>
@@ -52,12 +52,12 @@
                     <c:if test="${salary.currency==2}">
                         <td class="col-md-3">${salary.net} USD</td>
                     </c:if>
-                    <td><a href="./Salary/updateSal/${salary.id}" class="btn btn-default">Edit</a></td>
+                    <td><a href="./Salary/updateSal/${salary.id}" class="btn btn-blue">Edit</a></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <a href="./Salary/addSal" class="btn btn-success">Add</a>
+        <a href="./Salary/addSal" class="btn btn-green">Add</a>
     </div>
-</div>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

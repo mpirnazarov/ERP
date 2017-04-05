@@ -28,19 +28,15 @@
 <link rel="stylesheet" href="${paginationCss}"/>
 
 
-<div class="col-sm-10 col-md-offset-1">
-    <div class="col-lg-offset-2">
+    <div class="mainBodyBlock">
         <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="page-header" style="border-bottom: 1px solid #FFFFFF; padding-top: 6%"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> To Do</h2>
+        <h2 class="headerText"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> To Do</h2>
 
         <div class="w3-container">
-
             <%--????????????????????????--%>
-
-
             <div class="searchtoolstyle" style="height: 20%">
 
                 <%--p1--%>
@@ -75,7 +71,7 @@
                 <div class="row">
                     <div class="input-group col-md-5 col-md-offset-7 " style="margin-top: 10px; margin-bottom: 2%">
                         <span class="input-group-addon" id="search-addon1"
-                              style="background-color: white; color: #bd2828">Attribute:</span>
+                              style="background-color: white; color: #337ab7; font-weight: 800">Attribute:</span>
                         <select class="form-control" aria-describedby="search-addon1" id="attributeId">
                             <option id="0"></option>
                             <option id="1">Author</option>
@@ -84,7 +80,7 @@
                         <input type="text" placeholder="Search for ..." class="form-control" id="searchInputId"
                                aria-describedby="search-addon1">
                         <div class="input-group-addon btn" onclick="pagedList(this.id)" id="btnFilter"
-                             style="background-color: white; color: #bd2828"><span
+                             style="background-color: white; color: #337ab7; font-weight: 800"><span
                                 class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                         </div>
                     </div>
@@ -95,7 +91,7 @@
         </div>
 
 
-        <table class="table sarTable sarTableBoxShadow" id="tablecha">
+        <table class="table sarTable table-bordered" id="tablecha">
             <thead>
             <tr>
                 <%--<th>#</th>--%>
@@ -104,7 +100,7 @@
                 <th>Author</th>
                 <th>Request date</th>
                 <th>Current status</th>
-                <th></th>
+                <th style="text-align: center">Details</th>
             </tr>
             </thead>
             <tbody id="tbodycha">
@@ -112,12 +108,9 @@
             </tbody>
 
         </table>
-        <div id="notFoundDiv">
-            <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Empty
-        </div>
-        <ul class="sagination modal-6" id="pagedListContainer"></ul>
+        <ul class="sagination modal-1" id="pagedListContainer"></ul>
     </div>
-</div>
+
 
 </div>
 </div>
@@ -210,7 +203,7 @@
                             .append($('<td/>').text(req.user_name))
                             .append($('<td/>').text(req.date_created))
                             .append($('<td/>').text(req.status).addClass("statusTd"))
-                            .append($('<td/>').append($('<div class="btn" onclick="location.href=\'/Workflow/MyForms/details/1/' + req.request_id + '\'">View</div>')));
+                            .append($('<td/>').append($('<div class="btn btn-blue" onclick="location.href=\'/Workflow/MyForms/details/1/' + req.request_id + '\'">View</div>')));
                     });
                 }
 
@@ -225,7 +218,7 @@
 
                 numberOfPages = data.maxPages;
                 container.empty();
-                container.append($('<li><a href="#" id="-2" class="prev fa fa-arrow-left" onclick="pagedList(this.id); return false"></a></li>'));
+                container.append($('<li><a href="#" id="-2" onclick="pagedList(this.id); return false">Previous</a></li>'));
 
                 //generate pegination buttons
                 for (count = 1; count < numberOfPages + 1; count++) {
@@ -236,7 +229,7 @@
                         container.append($('<li><a href="#" id="' + count + '" onclick="pagedList(this.id); return false">' + count + '</a></li>'));
                     }
                 }
-                container.append($('<li><a href="#" id="-1" class="next fa fa-arrow-right" onclick="pagedList(this.id); return false"></a></li>'));
+                container.append($('<li><a href="#" id="-1" onclick="pagedList(this.id); return false">Next</a></li>'));
             },
 
 

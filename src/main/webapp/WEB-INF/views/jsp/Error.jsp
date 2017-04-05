@@ -12,6 +12,13 @@
 <c:set var="pageTitle" scope="request" value="Error"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
+
+<script>
+    $(document).ready(function () {
+        $('#mainHeaderDiv').hide();
+    })
+</script>
+
 <style>
     .btn3d {
         transition:all .08s linear;
@@ -34,7 +41,7 @@
         background-color:#fff;
     }
 </style>
-<div class="col-lg-offset-4" style="width: 60%">
+<div class="mainBodyBlock" style="width: 66%; margin-left: auto">
     <img style="width: 70%; height: 50%; margin-left: -70px" src="/resources/images/404.png">
     <h1>Sorry, something went wrong!</h1>
     <h2>Please, contact to our developers</h2>

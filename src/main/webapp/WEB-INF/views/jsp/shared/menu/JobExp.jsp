@@ -35,14 +35,12 @@
 <c:set var="pageTitle" scope="request" value="Job experience"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
-        </h1>
-        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %></p>
-        <h2 class="page-header">Job Experience</h2>
+
+    <div class="mainBodyBlock">
+
+        <h2 class="headerText"><span class="fa fa-fw fa-briefcase"></span> Job Experience</h2>
         <!--Job experience table-->
-        <table class="table">
+        <table class="table table-bordered sartable">
             <thead>
             <tr>
                 <th class="col-md-3">Organization</th>
@@ -71,5 +69,5 @@
         <%--<input id="printpagebutton" type="button" style="color: #0c0c0c; visibility:hidden;"--%>
         <%--value="Print this page" onclick="printpage()"/>--%>
     </div>
-</div>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

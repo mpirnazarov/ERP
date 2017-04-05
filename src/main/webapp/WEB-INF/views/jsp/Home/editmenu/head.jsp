@@ -14,14 +14,14 @@
 <%@ taglib prefix="kendo" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" scope="request" value="Users List"/>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-offset-2">
-        <h1 class="page-header">Userslist</h1>
+
+    <div class="mainBodyBlock">
+        <h1 class="headerText">Userslist</h1>
         <div class="table-responsive">
 
             <br/>
             <form:form method="post" commandName="person">
-                <table id="myTable" class="display table" cellspacing="0" width="100%">
+                <table id="myTable" class="display table sartable table-bordered" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>Employee ID</th>
@@ -46,7 +46,7 @@
         </div>
 
     </div>
-</div>
+
 <script>
     $(document).ready(function () {
         $('#myTable').DataTable({

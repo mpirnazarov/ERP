@@ -94,16 +94,6 @@
         width: 98%;
     }
 
-    #buttonGroupcha {
-        margin-left: 40%;
-        margin-top: 2%;
-    }
-
-    #buttonGroupcha input {
-        width: 71px;
-        margin-left: 8px;
-
-    }
 
     .reqfield:before {
         content: "*";
@@ -127,16 +117,28 @@
     }
 
 
+    #halfDay {
+        margin-left: 15%;
+        opacity: 0;
+        transform: scale(0.1,0.1);
+    }
+
+
+    #halfDay input {
+        position: static;
+        margin-left: 0;
+    }
+
+
 </style>
 
 
-<div class="col-sm-10 col-md-offset-1">
-    <div class="col-lg-offset-2">
+    <div class="mainBodyBlock">
         <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="page-header" style="border: none; padding-top: 6%"><span class="glyphicon glyphicon-calendar"
+        <h2 class="headerText"><span class="glyphicon glyphicon-calendar"
                                                                             aria-hidden="true"></span> Leave
             approve<span class="vacationSpan">You have: ${vacationAvailable} days of vacation</span></h2>
 
@@ -198,16 +200,18 @@
                         <span class="glyphicon warningIcon" aria-hidden="true"></span>
                     </div>
                     <div id="halfDay">
-
+                        <label id="radio8hr" class="radio-inline"><input type="radio" name="optradio" checked>8 hr</label>
+                        <label id="radio4am" class="radio-inline"><input type="radio" name="optradio">4 am</label>
+                        <label id="radio4pm" class="radio-inline"><input type="radio" name="optradio">4 pm</label>
                     </div>
 
                 </div>
             </div>
 
             <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
-                <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-warning"/>
-                <input id="tv" type="submit" name="Submit" value="Submit" class="btn btn-success"/>
-                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-danger"/>
+                <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-blue"/>
+                <input id="tv" type="submit" name="Submit" value="Submit" class="btn btn-green"/>
+                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-red"/>
             </div>
         </form:form>
 
@@ -228,7 +232,7 @@
         </div>
     </div>
 
-</div>
+
 
 
 <script type="text/javascript">
@@ -240,20 +244,12 @@
         var dStart = new Date($("#dateStart").val());
         var dEnd = new Date($("#dateEnd").val());
 
+
+
         $('#dateStart').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
         $('#dateEnd').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
 
-        $('#dateStart').focusout(function () {
-            if (dStart == dEnd) {
 
-            }
-        });
-
-        $('#dateEnd').focusout(function () {
-            if (dStart == dEnd) {
-
-            }
-        });
 
 
         var today = new Date();
@@ -330,9 +326,11 @@
                 $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
 
 
+
                 var selectedType = $("#absenseSelect option:selected").text();
 
                 if (selectedType == "Annual leave") {
+
 
                     /*Vocation Check*/
                     if (!workedSixMonth) {
@@ -422,6 +420,8 @@
                     alert('Error: ' + e);
                 }
             });
+
+
             if (flag && isTrue) return true;
             else return false;
         });
@@ -433,7 +433,53 @@
         $("#demo-input-local").tokenInput(${jsonData});
         $("#demo-input-local2").tokenInput(${jsonData});
         $("#demo-input-local3").tokenInput(${jsonData});
+
+
     });
+
+
+
+    function showCheckBoxes() {
+        var d1 = $('#dateStart').val();
+        var d2 = $('#dateEnd').val();
+        var sc = $("#absenseSelect option:selected").text();
+
+
+        if(d1 == d2 && sc == "Annual leave"){
+            $('#halfDay').animate({opacity: 1}, 500);
+            $('#halfDay').css('transform', 'scale(1,1)');
+
+        }
+        else {
+            $('#halfDay').animate({opacity: 0}, 500)
+            $('#halfDay').css('transform', 'scale(0.1,0.1)');
+
+        }
+
+
+    }
+
+    $('#absenseSelect').change(function () {
+        if ($("#absenseSelect option:selected").text() != ''){
+            showCheckBoxes()
+        }
+    })
+
+    $('#dateStart').change(function () {
+        if($('#dateStart').val()!='') {
+            showCheckBoxes()
+        }
+    })
+
+    $('#dateEnd').change(function () {
+
+        if($('#dateEnd').val()!='') {
+            showCheckBoxes()
+        }
+    })
+
+
+    
 </script>
 <script>
 

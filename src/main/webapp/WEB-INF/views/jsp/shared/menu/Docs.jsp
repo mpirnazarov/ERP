@@ -12,13 +12,11 @@
 <c:set var="pageTitle" scope="request" value="Documents"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
-        </h1>
-        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %></p>
-        <h2 class="page-header">List of documents</h2>
-        <table class="table">
+
+    <div class="mainBodyBlock">
+
+        <h2 class="headerText">List of documents</h2>
+        <table class="table sartable table-bordered">
             <thead>
             <tr>
                 <th>Document name</th>
@@ -67,7 +65,7 @@
             </table>
         </div>--%>
     </div>
-</div>
+
 
 <%--<script>--%>
 <%--function updateSize() {--%>

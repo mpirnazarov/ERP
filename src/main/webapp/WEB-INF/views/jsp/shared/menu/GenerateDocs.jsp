@@ -12,11 +12,10 @@
 <c:set var="pageTitle" scope="request" value="Documents"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-offset-2">
-        <h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
-        </h1>
-        <h2 class="page-header">Documents</h2>
+
+    <div class="mainBodyBlock">
+
+        <h2 class="headerText"><span class="fa fa-fw fa-file"></span> Documents</h2>
 
         <form:form method="post" modelAttribute="docs" action="/Hr/Generate/">
             <div class="form-horizontal">
@@ -33,14 +32,14 @@
                 <div class="form-group">
                     <div class="col-md-2"></div>
                     <div class="col-md-5">
-                        <input type="submit" class="btn btn-default btn-md" name="Save" value="Save"/>
-                        <input type="submit" class="btn btn-default btn-md" name="Print" value="Print"/>
-                        <a href="Docs/Manage" class="btn btn-success">Manage Documents</a>
+                        <input type="submit" class="btn btn-darkblue btn-md" name="Save" value="Save"/>
+                        <input type="submit" class="btn btn-blue btn-md" name="Print" value="Print"/>
+                        <a href="Docs/Manage" class="btn btn-green">Manage Documents</a>
                     </div>
                 </div>
 
             </div>
         </form:form>
     </div>
-</div>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

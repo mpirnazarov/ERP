@@ -46,100 +46,104 @@
             <input type="date" id="tbxTo" name="DateTo"/>
             <input style="display: none" id="btnAddEmp" type="submit"/>
         </form>
-        <div class="col-md-offset-1 col-sm-10">
-            <div class=" col-lg-offset-2 col-lg-10">
-                <h1 class="page-header">Appoint project members</h1>
-                <table class="table" id="Projects">
-                    <tr>
-                        <th>Project name</th>
-                        <th>Start date</th>
-                        <th>Finish date</th>
-                        <th>Status</th>
+
+        <div class=" mainBodyBlock">
+            <h1 class="headerText"><span class="fa fa-hand-o-up fa-fw"></span> Appoint project members</h1>
+            <table class="table sartable table-bordered" id="Projects">
+                <thead>
+                <tr style="color: #337ab7">
+                    <th>Project name</th>
+                    <th>Start date</th>
+                    <th>Finish date</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <c:forEach items="${viewModel}" var="model">
+                    <tr data-prop="${model.projectId}" onclick="viewMembers(${model.projectId})">
+                        <td>${model.projectName}</td>
+                        <td id="Start">${model.startDate}</td>
+                        <td id="End">${model.endDate}</td>
+                        <td>${model.status}</td>
                     </tr>
-                    <c:forEach items="${viewModel}" var="model">
-                        <tr data-prop="${model.projectId}" onclick="viewMembers(${model.projectId})">
-                            <td>${model.projectName}</td>
-                            <td id="Start">${model.startDate}</td>
-                            <td id="End">${model.endDate}</td>
-                            <td>${model.status}</td>
-                        </tr>
-                        <div class="table table-hover" hidden="hidden" id="project_<c:out value="${model.projectId}"/>">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12">
-                                    <div class="row">
-                                        <div class="col-xs-3 col-sm-3">
-                                            Name
-                                        </div>
-                                        <div class="col-xs-2 col-sm-2">
-                                            Role
-                                        </div>
-                                        <div class="col-xs-2 col-sm-2">
-                                            From
-                                        </div>
-                                        <div class="col-xs-2 col-sm-2">
-                                            To
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3">
-                                            &nbsp;
-                                        </div>
+                    <div class="table table-hover" hidden="hidden" id="project_<c:out value="${model.projectId}"/>">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="row" style="color: #337ab7">
+                                    <div class="col-xs-3 col-sm-3">
+                                        Name
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2">
+                                        Role
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2">
+                                        From
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2">
+                                        To
+                                    </div>
+                                    <div class="col-xs-3 col-sm-3">
+                                        &nbsp;
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <%--<table hidden="hidden" class="table" id="project_<c:out value="${model.projectId}"/>">
-                            <th>Name</th>
-                            <th>Role</th>
-                            <th>From</th>
-                            <th>To</th>
+                    </div>
+                    <%--<table hidden="hidden" class="table" id="project_<c:out value="${model.projectId}"/>">
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>From</th>
+                        <th>To</th>
 
-                            <th></th>
-                            <c:forEach items="${model.members}" var="member">
-                                <tr>
-                                    <td>${member.userName}</td>
-                                    <td>${member.roleName}</td>
-                                    <td>${member.participatingFrom}</td>
-                                    <td>${member.participatingTo}</td>
-                                    <td><a class="btn btn-md btn-default .btn-md"href="/Appoint/Edit/<c:out value="${member.appointmentId}"/>">Edit</a>
-                                        <a class="btn btn-md btn-default .btn-md"href="/Appoint/Delete/<c:out value="${member.appointmentId}"/>">Delete</a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </table>--%>
-                    </c:forEach>
+                        <th></th>
+                        <c:forEach items="${model.members}" var="member">
+                            <tr>
+                                <td>${member.userName}</td>
+                                <td>${member.roleName}</td>
+                                <td>${member.participatingFrom}</td>
+                                <td>${member.participatingTo}</td>
+                                <td><a class="btn btn-md btn-default .btn-md"href="/Appoint/Edit/<c:out value="${member.appointmentId}"/>">Edit</a>
+                                    <a class="btn btn-md btn-default .btn-md"href="/Appoint/Delete/<c:out value="${member.appointmentId}"/>">Delete</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>--%>
+                </c:forEach>
+            </table>
+
+            <div id="membersTable">
+                <h2>Project members</h2>
+                <p>
+                    <button id="addMember" onclick="displayAddForm()" class="btn btn-sm btn-green .btn-sx">Add new
+                        member
+                    </button>
+                </p>
+                <table class="table sartable table-bordred" id="myTable">
+                    <thead>
+                    <tr>
+
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Role
+                        </th>
+                        <th>
+                            From
+                        </th>
+                        <th>
+                            To
+                        </th>
+
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+
                 </table>
-
-                <div id="membersTable">
-                    <h2>Project members</h2>
-                    <p>
-                        <button id="addMember" onclick="displayAddForm()" class="btn btn-sm btn-success .btn-sx">Add new
-                            member
-                        </button>
-                    </p>
-                    <table class="table" id="myTable">
-                        <tr>
-
-                            <th>
-                                Name
-                            </th>
-                            <th>
-                                Role
-                            </th>
-                            <th>
-                                From
-                            </th>
-                            <th>
-                                To
-                            </th>
-
-                            <th></th>
-                        </tr>
-                        <tbody id="tbody"></tbody>
-
-                    </table>
-                </div>
-
             </div>
+
         </div>
+
     </div>
 </div>
 
@@ -231,7 +235,7 @@
 
         row.append($("<td>" + new Date(rowData.participatingFrom).toLocaleDateString() + "</td>"));
         row.append($("<td>" + new Date(rowData.participatingTo).toLocaleDateString() + "</td>"));
-        row.append($("<td> <a class=\"btn btn-sm btn-info .btn-sx\" href=\"/Appoint/Edit/" + rowData.appointmentId + "\">Edit</a> <a class=\"btn btn-sm btn-info .btn-sx\" href=\"/Appoint/Delete/" + rowData.appointmentId + "\">Delete</a></td>"))
+        row.append($("<td> <a class=\"btn btn-sm btn-blue .btn-sx\" href=\"/Appoint/Edit/" + rowData.appointmentId + "\">Edit</a> <a class=\"btn btn-sm btn-red .btn-sx\" href=\"/Appoint/Delete/" + rowData.appointmentId + "\">Delete</a></td>"))
 
     }
     function displayAddForm(projectId) {
@@ -283,7 +287,7 @@
             row.append($('<td>' + selectRoles + '</td>'));
             row.append($('<td>' + '<input class="form-control text-box single-line" data-val="true" data-val-date="The field Finish Date must be a date." id="From" type="date" value="' + new Date().toJSON().slice(0, 10) + '"/> </td>'));
             row.append($('<td><input class="form-control text-box single-line" data-val="true" data-val-date="The field Finish Date must be a date." id="To" type="date" value="' + new Date().toJSON().slice(0, 10) + '"/> </td>'));
-            row.append($('<td><button onclick="Add()" class=\"btn btn-sm btn-info .btn-sx\" >Add</button> <button onclick="Cancel()" class=\"btn btn-sm btn-info .btn-sx\">Cancel</button> <button id="Schedule" onclick="ShowCalendar()" class=\"btn btn-sm btn-danger .btn-sx\"><i class="fa fa-calendar fa-fw"></i></button></td>'));
+            row.append($('<td><button onclick="Add()" class=\"btn btn-sm btn-green .btn-sx\" >Add</button> <button onclick="Cancel()" class=\"btn btn-sm btn-red .btn-sx\">Cancel</button> <button id="Schedule" onclick="ShowCalendar()" class=\"btn btn-sm btn-grey .btn-sx\"><i class="fa fa-calendar fa-fw"></i></button></td>'));
             SetEmpId();
             setDatePicker();
         });

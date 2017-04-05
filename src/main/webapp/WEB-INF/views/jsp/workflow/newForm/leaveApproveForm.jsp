@@ -112,8 +112,10 @@
 
     .vacationSpan {
         font-size: 20px;
-        float: right;
-        margin-top: 36px;
+        position: absolute;
+        left: 84%;
+        top:17%;
+        z-index: 1;
     }
 
 
@@ -138,10 +140,8 @@
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="headerText"><span class="glyphicon glyphicon-calendar"
-                                                                            aria-hidden="true"></span> Leave
-            approve<span class="vacationSpan">You have: ${vacationAvailable} days of vacation</span></h2>
-
+        <h2 class="headerText"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Leave approve</h2>
+            <span class="vacationSpan fa fa-plane"> Your vacations: ${vacationAvailable} days</span>
         <form:form modelAttribute="leaveApproveVM" cssClass="form-horizontal" method="post" id="myform"
                    enctype="multipart/form-data">
             <div class="w3-container b3form paper">
@@ -445,7 +445,7 @@
         var sc = $("#absenseSelect option:selected").text();
 
 
-        if(d1 == d2 && sc == "Annual leave"){
+        if( d1 != '' && d2 !='' && (d1 == d2) && sc == "Annual leave"){
             $('#halfDay').animate({opacity: 1}, 500);
             $('#halfDay').css('transform', 'scale(1,1)');
 
@@ -460,22 +460,15 @@
     }
 
     $('#absenseSelect').change(function () {
-        if ($("#absenseSelect option:selected").text() != ''){
-            showCheckBoxes()
-        }
+        showCheckBoxes()
     })
 
     $('#dateStart').change(function () {
-        if($('#dateStart').val()!='') {
-            showCheckBoxes()
-        }
+        showCheckBoxes()
     })
 
     $('#dateEnd').change(function () {
-
-        if($('#dateEnd').val()!='') {
-            showCheckBoxes()
-        }
+        showCheckBoxes()
     })
 
 

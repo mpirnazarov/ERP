@@ -283,6 +283,16 @@ public class Test {
 
         return mav;
     }
+
+    @RequestMapping(value = "/sc", method = RequestMethod.GET)
+    public ModelAndView sc(Principal principal){
+        ModelAndView mav = new ModelAndView();
+        mav = UP.includeUserProfile(mav, principal);
+        mav.setViewName("scheduleManagement/create/scheduleCreate");
+
+
+        return mav;
+    }
 }
 
 

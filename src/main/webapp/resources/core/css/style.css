@@ -427,7 +427,7 @@ input.valid, textarea.valid {
 
     z-index: 10;
     position: fixed;
-    width: 19.5%;
+    width: 20%;
     margin-top: 70px;
     height: 100%;
     border-right: 1px solid #787878;
@@ -514,7 +514,7 @@ a:visited {
 
 .sarTable thead tr th {
     /*border-bottom: 7px groove #1e7ee2;*/
-    background-color: #f5f5f5;
+    background-color: #ececec;
     font-size: 16px;
     color: #787878;
     font-weight: 800;
@@ -729,7 +729,7 @@ a:visited {
 .comments-container h1 {
     margin-left: 4%;
     font-size: 30px;
-    color: #fff;
+    color: #787878;
     font-weight: 400;
 }
 
@@ -1238,11 +1238,10 @@ a:visited {
 
 .mainBodyBlock {
     margin-left: 20%;
-    margin-right: 3%;
     margin-top: 69px;
-    padding-left: 1%;
     padding-bottom: 6%;
-
+    padding-left: 1%;
+    padding-right: 1%;
 }
 
 .userNavMenu .panel a, i {
@@ -1257,6 +1256,7 @@ a:visited {
 .panel-default > .panel-heading {
     border-radius: 0%;
     border: 1px solid #787878;
+    background-color: #ececec;
 }
 
 .form-control {
@@ -1271,7 +1271,7 @@ a:visited {
 .well {
     padding: 0;
     margin-bottom: 10px;
-    background-color: #f5f5f5;
+    background-color: #ececec;
 
     border: none;
 

@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -36,15 +37,17 @@ public class ScheduleMainController {
         return mav;
     }
 
-    @RequestMapping(value = "/submit", method = RequestMethod.POST, params = "submit")
+    @RequestMapping(value = "/create", method = RequestMethod.POST, params = "Submit")
     public String submit(@ModelAttribute ScheduleVM scheduleVM, BindingResult result, Principal principal){
-
+        service.getScheduleList();
+        System.out.println(scheduleVM);
         return "redirect:/ScheduleManagement/main";
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST, params = "save")
+    @RequestMapping(value = "/create", method = RequestMethod.POST, params = "Save")
     public String save(@ModelAttribute ScheduleVM scheduleVM, BindingResult result, Principal principal){
 
+        System.out.println(scheduleVM);
         return "redirect:/ScheduleManagement/main";
     }
 }

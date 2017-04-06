@@ -279,6 +279,7 @@ public class WorkflowToDoApproveService {
         return updateWorkloads(userId, workloadType, from, to, 0);
     }
 
+
     public static boolean updateWorkloads(int userId, int workloadType, Date from, Date to, int duration){
         boolean doneStatus = false;
         try {

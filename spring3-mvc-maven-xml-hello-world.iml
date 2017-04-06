@@ -34,6 +34,7 @@
     <facet type="hibernate" name="Hibernate">
       <configuration>
         <datasource-map>
+          <unit-entry name="a.xml" value="42ff7a68-36c9-4f30-bba8-f5531b04dcc2" />
           <unit-entry name="hibernate.cfg.xml" value="3a577676-5194-4803-abcd-c846401b7995" />
         </datasource-map>
         <naming-strategy-map />
@@ -133,9 +134,9 @@
     <orderEntry type="library" name="Maven: fr.opensagres.xdocreport:fr.opensagres.xdocreport.document.docx:0.9.8" level="project" />
     <orderEntry type="library" name="Maven: fr.opensagres.xdocreport:fr.opensagres.xdocreport.converter:0.9.8" level="project" />
     <orderEntry type="library" name="Maven: fr.opensagres.xdocreport:fr.opensagres.xdocreport.template.freemarker:0.9.8" level="project" />
-    <orderEntry type="library" name="Maven: org.junit.jupiter:junit-jupiter-api:5.0.0-M3" level="project" />
-    <orderEntry type="library" name="Maven: org.opentest4j:opentest4j:1.0.0-M1" level="project" />
-    <orderEntry type="library" name="Maven: org.junit.platform:junit-platform-commons:1.0.0-M3" level="project" />
+    <orderEntry type="library" name="Maven: org.junit.jupiter:junit-jupiter-api:5.0.0-M4" level="project" />
+    <orderEntry type="library" name="Maven: org.opentest4j:opentest4j:1.0.0-M2" level="project" />
+    <orderEntry type="library" name="Maven: org.junit.platform:junit-platform-commons:1.0.0-M4" level="project" />
     <orderEntry type="library" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" name="Maven: fr.opensagres.xdocreport:org.apache.poi.xwpf.converter.xhtml:1.0.0" level="project" />

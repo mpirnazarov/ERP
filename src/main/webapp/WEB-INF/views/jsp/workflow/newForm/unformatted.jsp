@@ -156,6 +156,21 @@
             </div>
         </form:form>
 
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign"
+                                                                            aria-hidden="true"></span> Warning</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span id="message"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
 
 

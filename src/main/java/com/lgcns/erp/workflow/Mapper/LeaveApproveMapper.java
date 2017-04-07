@@ -18,6 +18,9 @@ public class LeaveApproveMapper {
         requestsEntity.setLeaveTypeId(leaveApproveVM.getAbsenceType());
         // Type of workflow. 1-Business trip
         requestsEntity.setTripTypeId(1);
+
+        /* [Leaving hours] 1 - 8 hours; 2 - 4AM; 3- 4PM */
+        requestsEntity.setLeavingHours(leaveApproveVM.getLeavingHours());
         requestsEntity.setTypeId(typeId);
         //If Date is coming null
         requestsEntity.setDateFrom(leaveApproveVM.getStart());

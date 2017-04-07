@@ -107,7 +107,7 @@ public class Test {
 
         destination = requestsEntity.getDestination();
         typeOfBusinessTrip = requestsEntity.getTripTypeId();
-        involvementTypeStr = WorkflowService.getInvolvementType(involvementType);
+        involvementTypeStr = WorkflowService.getInvolvementType(involvementType).getName();
 
         duration = "Start: " + requestsEntity.getDateFrom().toString() + " | End: " + requestsEntity.getDateTo().toString();
         businessTripTypeStr = WorkflowService.getTripType(typeOfBusinessTrip);

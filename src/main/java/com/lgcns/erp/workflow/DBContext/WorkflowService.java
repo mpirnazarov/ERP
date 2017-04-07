@@ -721,7 +721,7 @@ public class WorkflowService {
         return entity.getName();
     }
 
-    public static String getInvolvementType(int involvementType) {
+    public static InvolvementTypesEntity getInvolvementType(int involvementType) {
         InvolvementTypesEntity entity = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -739,7 +739,7 @@ public class WorkflowService {
             session.close();
         }
 
-        return entity.getName();
+        return entity;
     }
 
     public static int getUserIdFromSteps(int nextApproverId) {
@@ -762,4 +762,5 @@ public class WorkflowService {
 
         return entity.getUserId();
     }
+
 }

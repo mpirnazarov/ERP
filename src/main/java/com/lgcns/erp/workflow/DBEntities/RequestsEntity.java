@@ -13,6 +13,7 @@ public class RequestsEntity {
     private int id;
     private int userFromId;
     private Integer leaveTypeId;
+    private Integer leavingHours;
     private String subject;
     private Boolean isDomestic;
     private Integer tripTypeId;
@@ -62,6 +63,16 @@ public class RequestsEntity {
 
     public void setLeaveTypeId(Integer leaveTypeId) {
         this.leaveTypeId = leaveTypeId;
+    }
+
+    @Basic
+    @Column(name = "leaving_hours")
+    public Integer getLeavingHours() {
+        return leavingHours;
+    }
+
+    public void setLeavingHours(Integer leavingHours) {
+        this.leavingHours = leavingHours;
     }
 
     @Basic

@@ -35,15 +35,15 @@
                 <!--General info/Header information Tab-->
                 <div id="headerinfo" class="tab-pane fade in active">
                     <h3>Header information</h3>
-                    <ul class="nav nav-tabs">
+                    <%--<ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#en">EN</a></li>
                         <li><a data-toggle="tab" href="#ru">RU</a></li>
                         <li><a data-toggle="tab" href="#uz">UZ</a></li>
-                    </ul>
+                    </ul>--%>
                     <!--English, Russian, Uzbek (Localizations)-->
                     <div class="tab-content">
                         <div id="en" class="tab-pane fade in active">
-                            <p>In english</p>
+                            <%--<p>In english</p>--%>
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Last name: </label>
@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="ru" class="tab-pane fade">
+                        <%--<div id="ru" class="tab-pane fade">
                             <p>На русском</p>
                             <div class="form-horizontal">
                                 <div class="form-group">
@@ -90,7 +90,7 @@
                                     <div class="col-md-4"><c:out value="${userProfileUser.address[1]}"></c:out></div>
                                 </div>
                             </div>
-                        </div>
+                        </div>--%>
                     </div>
                     <hr/>
                     <!--Other information-->
@@ -129,15 +129,15 @@
                 <!--General info/Personal info Tab-->
                 <div id="personalinfo" class="tab-pane fade">
                     <h3>Personal information</h3>
-                    <ul class="nav nav-tabs">
+                    <%--<ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#pien">EN</a></li>
                         <li><a data-toggle="tab" href="#piru">RU</a></li>
                         <li><a data-toggle="tab" href="#piuz">UZ</a></li>
-                    </ul>
+                    </ul>--%>
                     <!--English, Russian, Uzbek (Localizations)-->
                     <div class="tab-content">
                         <div id="pien" class="tab-pane fade in active">
-                            <p>In english</p>
+                            <%--<p>In english</p>--%>
                             <div class="form-horizontal">
                                 <div class="form-group"><label class="control-label col-md-4">Birth place: </label>
                                     <div class="col-lg-5"><c:out value="${userProfileUser.personalInfo.birthPlace[2]}"></c:out></div>
@@ -159,7 +159,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="piru" class="tab-pane fade">
+                        <%--<div id="piru" class="tab-pane fade">
                             <p>На русском</p>
                             <div class="form-horizontal">
                                 <div class="form-group"><label class="control-label col-md-4">Место рождения: </label>
@@ -208,21 +208,21 @@
                                     <div class="col-lg-5"><c:out value="${userProfileUser.personalInfo.emailPersonal}"></c:out></div>
                                 </div>
                             </div>
-                        </div>
+                        </div>--%>
                     </div>
                 </div>
                 <!--General info/Family info Tab-->
                 <div id="familyinfo" class="tab-pane fade">
                     <h3>Family information</h3>
-                    <ul class="nav nav-tabs">
+                    <%--<ul class="nav nav-tabs">
                         <li><a data-toggle="tab" id="fienref" href="#fien">EN</a></li>
                         <li><a data-toggle="tab" id="firuref"  href="#firu">RU</a></li>
                         <li><a data-toggle="tab" id="fiuzref"  href="#fiuz">UZ</a></li>
-                    </ul>
+                    </ul>--%>
                     <!--English, Russian, Uzbek (Localizations)-->
                     <div class="tab-content">
                         <div id="fien" class="tab-pane fade in active">
-                            <p>In english</p>
+                            <%--<p>In english</p>--%>
                             <div class="form-horizontal">
                                 <!--Family table-->
                                 <table class="table">
@@ -247,7 +247,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div id="firu" class="tab-pane fade in active">
+                        <%--<div id="firu" class="tab-pane fade in active">
                             <p>На русском</p>
                             <div class="form-horizontal">
                                 <!--Family table-->
@@ -298,7 +298,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
+                        </div>--%>
                     </div>
                 </div>
             </div>

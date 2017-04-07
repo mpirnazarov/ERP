@@ -112,6 +112,9 @@ public class HrController {
         return new ModelAndView("redirect:/Hr/Userslist");
     }
 
+
+
+
     // This controller manages view of users (not update)
     @RequestMapping(value = "/Hr/user/{userId}/{path}", method = RequestMethod.GET)
     public ModelAndView UpdateFamInfo(Principal principal, @PathVariable("userId") int userId, @PathVariable("path") String path){

@@ -58,6 +58,7 @@ public class LeaveApproveController {
 
         // Creating Business Trip ViewModel
         LeaveApproveVM leaveApproveVM = new LeaveApproveVM();
+        leaveApproveVM.setLeavingHours(1);
         mav.addObject("leaveApproveVM", leaveApproveVM);
 
         // Creating current users entity
@@ -116,17 +117,6 @@ public class LeaveApproveController {
             if(user.isEnabled()==true) {
                 jsonObject = new JSONObject();
                 Member member = MembersMapper.getMember(user.getId());
-
-                // Retrieving user localizations info from DB for all users and check for null
-                /*if(user.getId()!=0 || UserService.getUserLocByUserId(user.getId(), 3)!=null) {
-                    try {
-                        userLoc = UserService.getUserLocByUserId(user.getId(), 3);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }*/
-                // Inserting user Id as id, fullname as name, jobTitle as jobTitle and department as department
-                /*ProfileViewModel prof =  UserController.getProfileByUsername(user.getUserName());*/
 
                 jsonObject.put("id", member.getId());
                 jsonObject.put("name", member.getFirstName() + " " + member.getLastName());

@@ -85,7 +85,12 @@ public class MailMessage {
 
         destination = requestsEntity.getDestination();
         typeOfBusinessTrip = requestsEntity.getTripTypeId();
-        involvementTypeStr = WorkflowService.getInvolvementType(involvementType);
+        if(involvementType != 2)
+            involvementTypeStr = WorkflowService.getInvolvementType(involvementType).getName();
+        else{
+            involvementTypeStr = WorkflowService.getInvolvementType(involvementType).getName();
+            involvementTypeStr += " or " + WorkflowService.getInvolvementType(involvementType + 1).getName();
+        }
 
         duration = "Start: " + requestsEntity.getDateFrom().toString() + " | End: " + requestsEntity.getDateTo().toString();
         businessTripTypeStr = WorkflowService.getTripType(typeOfBusinessTrip);
@@ -117,8 +122,19 @@ public class MailMessage {
                 "[Destination] - " + destination + "\n" +
                 "[Purpose] - " + description;
 
+        String absenceTypeStr = LeaveType.values()[requestsEntity.getLeaveTypeId().intValue()-1].name().replace("_", " ");
         leaveapproveStr = "\n\nLeave approve details are as follows: \n\n" +
-                "[Absence type] - " + title + "\n" +
+                "[Absence type] - " + absenceTypeStr + "\n" +
+                /* [Leaving hours] 1 - 8 hours; 2 - 4AM; 3- 4PM */
+                "[Leaving hours] - ";
+                if(requestsEntity.getLeavingHours()==1){
+                    leaveapproveStr += "8 HR";
+                }else if(requestsEntity.getLeavingHours()==2){
+                    leaveapproveStr += "4 AM";
+                }else if(requestsEntity.getLeavingHours()==3){
+                    leaveapproveStr += "4 PM";
+                }
+                leaveapproveStr += "\n" +
                 "[Description] - " + description;
 
         unformattedStr = "\n\nUnformatted details are as follows: \n\n" +
@@ -204,7 +220,6 @@ public class MailMessage {
 
         /*Workflow Approved*/
         else if (actionStep == 5){
-
             if (involvementType == 2 || involvementType == 3){
                 msg += "Dear Smart Office user, \n" +
                         formType + " form that was created by " + creator + " was confirmed by all approvals.";

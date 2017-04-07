@@ -11,6 +11,8 @@ import java.util.List;
  */
 public class LeaveApproveVM {
     private int id, absenceType;
+    /* [Leaving hours] 1 - 8 hours; 2 - 4AM; 3- 4PM */
+    private int leavingHours;
     private String description;
     private Date start, end;
     private MultipartFile[] file;
@@ -70,6 +72,14 @@ public class LeaveApproveVM {
 
     public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
+    }
+
+    public int getLeavingHours() {
+        return leavingHours;
+    }
+
+    public void setLeavingHours(int leavingHours) {
+        this.leavingHours = leavingHours;
     }
 
     @Override

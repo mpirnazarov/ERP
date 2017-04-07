@@ -200,9 +200,9 @@
                         <span class="glyphicon warningIcon" aria-hidden="true"></span>
                     </div>
                     <div id="halfDay">
-                        <label id="radio8hr" class="radio-inline"><input type="radio" name="optradio" checked>8 hr</label>
-                        <label id="radio4am" class="radio-inline"><input type="radio" name="optradio">4 am</label>
-                        <label id="radio4pm" class="radio-inline"><input type="radio" name="optradio">4 pm</label>
+                        <label id="radio8hr" class="radio-inline"><form:radiobutton path="leavingHours" value="1"/>8 hr</label>
+                        <label id="radio4am" class="radio-inline"><form:radiobutton path="leavingHours" value="2"/>4 am</label>
+                        <label id="radio4pm" class="radio-inline"><form:radiobutton path="leavingHours" value="3"/>4 pm</label>
                     </div>
 
                 </div>

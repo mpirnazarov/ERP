@@ -272,12 +272,12 @@ public class UnformattedController {
         /* Sending to creator */
         subject = MailMessage.generateSubject(requestId, 1, 4);
         msg = MailMessage.generateMessage(requestId, 1, 4);
-        to = new int[1];
-        to[0] = UserService.getIdByUsername(principal.getName());
-        if (to.length!=0){
-            mm.sendMail(to, subject, msg);
+        int[] toCreator = new int[1];
+        System.out.println("Principal: " + principal.getName());
+        System.out.println("ID: " + UserService.getIdByUsername(principal.getName()));
+        toCreator[0] = UserService.getIdByUsername(principal.getName());
+            mm.sendMail(toCreator, subject, msg);
             to = null;
-        }
 
       /*  // E-mail is sent here
         ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");

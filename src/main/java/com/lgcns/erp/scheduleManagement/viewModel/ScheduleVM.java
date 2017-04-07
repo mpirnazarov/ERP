@@ -3,6 +3,7 @@ package com.lgcns.erp.scheduleManagement.viewModel;
 import com.lgcns.erp.workflow.Model.Attachment;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,8 +16,8 @@ public class ScheduleVM {
     private String place;
     private Integer sType;
     private String other;
-    private Timestamp dateFrom;
-    private Timestamp dateTo;
+    private Date dateFrom;
+    private Date dateTo;
     private Boolean isCompulsory;
     private Boolean toNotify;
     private Boolean isDraft;
@@ -97,19 +98,19 @@ public class ScheduleVM {
         this.other = other;
     }
 
-    public Timestamp getDateFrom() {
+    public Date getDateFrom() {
         return dateFrom;
     }
 
-    public void setDateFrom(Timestamp dateFrom) {
+    public void setDateFrom(Date dateFrom) {
         this.dateFrom = dateFrom;
     }
 
-    public Timestamp getDateTo() {
+    public Date getDateTo() {
         return dateTo;
     }
 
-    public void setDateTo(Timestamp dateTo) {
+    public void setDateTo(Date dateTo) {
         this.dateTo = dateTo;
     }
 

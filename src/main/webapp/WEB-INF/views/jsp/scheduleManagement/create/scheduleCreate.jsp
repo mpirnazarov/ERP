@@ -18,27 +18,22 @@
 <div class="mainBodyBlock">
     <h2 class="headerText"><span
             class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Create Schedule</h2>
-    <form:form modelAttribute="schedule" cssClass="form-horizontal" method="post" id="scheduleMain" action=""
-               enctype="multipart/form-data">
+    <form:form modelAttribute="schedule" cssClass="form-horizontal" method="post" id="scheduleMain" enctype="multipart/form-data">
         <div class="w3-container b3form">
             <div class="container">
                 <%--Radio buttons--%>
                 <span>Type:</span>
                 <label class="radio-inline">
-                    <form:radiobutton  placeholder="" aria-describedby="subject-addon" path="sType"
-                                      value="1"/>Meeting
+                    <form:radiobutton  placeholder="" aria-describedby="subject-addon" path="sType" value="1"/>Meeting
                 </label>
                 <label class="radio-inline">
-                    <form:radiobutton  placeholder="" aria-describedby="subject-addon" path="sType"
-                                      value="2"/>Out of office
+                    <form:radiobutton  placeholder="" aria-describedby="subject-addon" path="sType" value="2"/>Out of office
                 </label>
                 <label class="radio-inline">
-                    <form:radiobutton  placeholder="" aria-describedby="subject-addon" path="sType"
-                                      value="3"/>Personal
+                    <form:radiobutton  placeholder="" aria-describedby="subject-addon" path="sType" value="3"/>Personal
                 </label>
                 <label class="radio-inline">
-                    <form:radiobutton  placeholder="" aria-describedby="subject-addon" path="sType"
-                                      value="4"/>Other
+                    <form:radiobutton  placeholder="" aria-describedby="subject-addon" path="sType" value="4"/>Other
                 </label>
             </div>
             <%--Date from to--%>

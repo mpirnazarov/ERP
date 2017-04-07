@@ -2,7 +2,6 @@ package com.lgcns.erp.scheduleManagement.DBContext;
 
 import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
-import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -37,5 +36,10 @@ public class ScheduleMainContext {
         }
 
         return list;
+    }
+
+    //todo
+    public static void intestSchedule(){
+
     }
 }

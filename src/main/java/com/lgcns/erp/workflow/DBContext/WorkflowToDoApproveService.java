@@ -8,6 +8,7 @@ import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepCommentsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepsEntity;
 import com.lgcns.erp.workflow.Enums.LeaveType;
+import com.lgcns.erp.workflow.Enums.LeavingHours;
 import com.lgcns.erp.workflow.Enums.Status;
 import com.lgcns.erp.workflow.Enums.Type;
 import com.lgcns.erp.workflow.Mapper.CommentMapper;
@@ -102,8 +103,12 @@ public class WorkflowToDoApproveService {
 
     private static void addHours(RequestsEntity entity){
         if (entity.getDateFrom()!=null && entity.getDateTo()!=null) {
-            if (entity.getLeaveTypeId() == LeaveType.Annual_leave.getValue())
-                addHours(entity.getUserFromId(), WorkloadType.Annual_leave.getValue(), entity.getDateFrom(), entity.getDateTo(), true);
+            if (entity.getLeaveTypeId() == LeaveType.Annual_leave.getValue()) {
+                if (entity.getLeavingHours()== LeavingHours.Eight_Hour.getValue())
+                    addHours(entity.getUserFromId(), WorkloadType.Annual_leave.getValue(), entity.getDateFrom(), entity.getDateTo(), true);
+                else
+                    addHours(entity.getUserFromId(), WorkloadType.Annual_leave.getValue(), entity.getDateFrom(), entity.getDateTo(), false);
+            }
             else
                 addHours(entity.getUserFromId(), WorkloadType.Sick_leave.getValue(), entity.getDateFrom(), entity.getDateTo(), true);
         }

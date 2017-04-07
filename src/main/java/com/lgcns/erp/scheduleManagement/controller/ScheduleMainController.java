@@ -2,6 +2,8 @@ package com.lgcns.erp.scheduleManagement.controller;
 
 import com.lgcns.erp.scheduleManagement.service.ScheduleMainService;
 import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
+import com.lgcns.erp.tapps.controller.UP;
+import com.lgcns.erp.tapps.controller.UserController;
 import freemarker.template.SimpleDate;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,21 +28,42 @@ import java.util.Date;
 @RequestMapping("/ScheduleManagement")
 @Controller
 public class ScheduleMainController {
+    private Date startDate = null, endDate = null;
+
     @Autowired
     ScheduleMainService service;
 
     @RequestMapping(value = "/main")
-    public String getMainSchedule(){
-        return "scheduleManagement/main/scheduleIndex";
+    public ModelAndView getMainSchedule(Principal principal){
+
+        ModelAndView mav = new ModelAndView("scheduleManagement/main/scheduleIndex");
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public ModelAndView create(){
+
+        ModelAndView mav = new ModelAndView("scheduleManagement/create/scheduleCreate");
+        ScheduleVM scheduleVM = new ScheduleVM();
+        scheduleVM.setDateFrom(startDate);
+        scheduleVM.setDateTo(endDate);
+        mav.addObject("schedule",scheduleVM);
+
+
+        return mav;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ModelAndView create(@RequestParam String start,
+    public ModelAndView create(Principal principal,
+                               @RequestParam String start,
                                @RequestParam String end){
         start = start.replace('T', ' ');
         end = end.replace('T', ' ');
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date startDate = null, endDate = null;
+
         try {
             startDate = sdf.parse(start);
             endDate = sdf.parse(end);
@@ -48,6 +72,7 @@ public class ScheduleMainController {
         }
 
         ModelAndView mav = new ModelAndView("scheduleManagement/create/scheduleCreate");
+
         ScheduleVM scheduleVM = new ScheduleVM();
         mav.addObject("schedule", scheduleVM);
 

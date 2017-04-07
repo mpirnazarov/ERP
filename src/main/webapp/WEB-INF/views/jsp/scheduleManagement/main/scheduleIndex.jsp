@@ -56,7 +56,9 @@
                     "Event End date: " + moment(end).format(),
                     "AllDay: " + allDay].join("\n"));*/
 
+/*
                 alert("Start: " + moment(start).format() + "    End :" + moment(end).format())
+*/
 
 
                 var myData = {
@@ -71,14 +73,14 @@
                     '&end=' + moment(end).format(),
                     url: '${pageContext.request.contextPath}/ScheduleManagement/create/',
                     success: function (data) {
-                        // do what ever you want with data
-                }
+                        window.location.href="${pageContext.request.contextPath}/ScheduleManagement/create/"
+                    }
                 });
 
             },
 
             /*on DAY clik FUNCTION*/
-            dayClick: function(date, jsEvent, view, resourceObj) {
+           /* dayClick: function(date, jsEvent, view, resourceObj) {
 
                 alert('Date: ' + date.format());
                 alert('Resource ID: ' + resourceObj.id);
@@ -87,7 +89,7 @@
 
                 $(this).css('background-color', 'red');
 
-            },
+            },*/
             /*on DAY clik FUNCTION END*/
             /*on EVENT click FUNCTION*/
             eventClick: function(calEvent, jsEvent, view) {

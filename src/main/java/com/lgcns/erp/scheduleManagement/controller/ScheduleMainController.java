@@ -90,7 +90,7 @@ public class ScheduleMainController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, params = "Submit")
     public String submit(@ModelAttribute ScheduleVM scheduleVM, BindingResult result, Principal principal){
-        service.getScheduleList();
+
         System.out.println(scheduleVM);
         return "redirect:/ScheduleManagement/main";
     }

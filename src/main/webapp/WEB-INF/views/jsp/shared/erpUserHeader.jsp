@@ -64,9 +64,9 @@
      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">--%>
 
 
+
+
     <style>
-
-
         .error {
             color: #ff0000;
         }
@@ -78,12 +78,8 @@
             padding: 8px;
             margin: 16px;
         }
-
-
     </style>
 </head>
-
-
 <div id="sarOv">
     <div>
         <%--<img class="sarspinner" src="/images/lg-logo.jpg">--%>

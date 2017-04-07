@@ -288,7 +288,7 @@ public class Test {
     public ModelAndView sc(Principal principal){
         ModelAndView mav = new ModelAndView();
         mav = UP.includeUserProfile(mav, principal);
-        mav.setViewName("scheduleManagement/create/scheduleCreate");
+        mav.setViewName("scheduleManagement/main/scheduleIndex");
 
 
         return mav;

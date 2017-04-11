@@ -2,8 +2,6 @@ package com.lgcns.erp.scheduleManagement.DBContext;
 
 import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
-import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
-import com.lgcns.erp.workflow.Enums.Status;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

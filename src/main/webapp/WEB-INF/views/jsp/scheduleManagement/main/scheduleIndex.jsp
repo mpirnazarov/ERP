@@ -50,6 +50,8 @@
         });
 
 
+
+
         $('#calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
@@ -72,22 +74,6 @@
 
             select: function (start, end, jsEvent, view) {
 
-                var myData = {
-                    start: moment(start).format(),
-                    end: moment(end).format()
-                }
-
-                $.ajax({
-                    type: "POST",
-                    processData: false,
-                    data: 'start=' + moment(start).format() +
-                    '&end=' + moment(end).format(),
-                    url: '${pageContext.request.contextPath}/ScheduleManagement/create/',
-                    success: function (data) {
-                        // do what ever you want with data
-                    }
-                });
-
                 createEvent(moment(start).format('YYYY/MM/DD hh:mm'), moment(end).format('YYYY/MM/DD hh:mm'), "calendar");
 
             },
@@ -98,10 +84,15 @@
                 /*alert('Event: ' + calEvent.title);
                  alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
                  alert('View: ' + view.name);*/
-                alert('start: ' + moment(start).format());
-
+                /*alert('start: ' + moment(start).format());
+*/
                 // change the border color just for fun
                 $(this).css('border-color', 'red');
+
+
+
+                /*$('#editDiv').css({top:jsEvent.pageY,left:jsEvent.pageX});*/
+
 
 
                 updateEvent(moment(calEvent.start).format('YYYY/MM/DD hh:mm'), moment(calEvent.end).format('YYYY/MM/DD hh:mm'), calEvent.title, calEvent.type, calEvent.place, calEvent.description, calEvent.isCompulsory, calEvent.notifyByEmail);
@@ -199,7 +190,6 @@
         $('#dateTimeStart').val(EventStart);
         $('#dateTimeEnd').val(EventEnd);
 
-
         $('#CalendarModal').modal('show');
 
     }
@@ -286,8 +276,43 @@
         $('#eventParticipants').tokenInput("clear");
         $('#eventReferences').tokenInput("clear");
 
-
+        $('#eventAttachment').val('');
     }
+
+    function submitEvent(id) {
+
+
+        /* Getting array of strings of participants and references */
+        var participants=[];
+        var references=[];
+
+
+
+        participants = $("#eventParticipantsGroup").children().siblings("input[type=text]").val();
+        references = $("#eventReferencesGroup").children().siblings("input[type=text]").val();
+
+
+        alert('        ' + participants + references + "asdfasdf")
+
+
+        $.ajax({
+            type: "POST",
+            url: "/ScheduleManagement/ScheduleMembersAjax",
+            data: 'participants=' + participants + '&references=' + references,
+            success: function (response) {
+//                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
+            },
+            error: function (e) {
+                alert('Error: ' + e);
+            }
+        });
+    }
+
+
+
+
+
+
 
 </script>
 
@@ -296,6 +321,11 @@
 
     <div class="w3-container">
 
+        <%--EditDiv--%>
+        <div id="editDiv">
+
+        </div>
+
         <%--Calendar--%>
         <div id='calendar'></div>
 
@@ -303,7 +333,7 @@
         <div class="modal fade" id="CalendarModal" tabindex="-1" role="dialog" aria-labelledby="CalendarModalLabel">
             <div class="modal-dialog calModal" role="document">
                 <div class="modal-content">
-                    <form:form modelAttribute="ScheduleVM" method="post" >
+                    <form:form modelAttribute="scheduleVM" method="post" enctype="multipart/form-data">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
@@ -321,32 +351,30 @@
                                     <input id="eventTitle" type="text" class="form-control" name="title"
                                            placeholder="...">
                                 </div>
-                                <%--<div class="input-group calInputGroup">
+                                <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">Type:</span>
                                     <label class="btn" onclick="checkPressing()">
                                         <form:radiobutton id="option1" path="sType" value="1"/> Meeting
                                     </label>
                                     <label class="btn" onclick="checkPressing()">
-                                        <form:radiobutton id="option2" path="sType"/> Out of office
+                                        <form:radiobutton id="option2" path="sType" value="2"/> Out of office
                                     </label>
                                     <label class="btn" onclick="checkPressing()">
-                                        <form:radiobutton id="option3" path="sType"/> Personal
+                                        <form:radiobutton id="option3" path="sType" value="3"/> Personal
                                     </label>
                                     <label id="otherTypeLabel" class="btn" onclick="checkPressing(this.id)">
-                                        <form:radiobutton id="option4" path="sType"/> Other
+                                        <form:radiobutton id="option4" path="sType" value="4"/> Other
                                     </label>
-                                    <input id="otherType" type="text" class="form-control calOtherTypeInput"
-                                           name="other" placeholder="Type other type.....">
-                                </div>--%>
+                                    <form:input id="otherType" type="text" class="form-control calOtherTypeInput"
+                                           name="other" placeholder="Type other type....." path="other" />
+                                </div>
 
                                 <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">More</span>
-                                    <label style="margin-left: 1%" class="checkbox-inline"><input id="isCompulsory"
-                                                                                                  name="isCompulsory"
-                                                                                                  type="checkbox"
-                                                                                                  value="">Is compulsory</label>
-                                    <label class="checkbox-inline"><input id="notifyByEmail" name="toNotify"
-                                                                          type="checkbox" value="">Notify by
+                                    <label style="margin-left: 1%" class="checkbox-inline"><form:checkbox id="isCompulsory"
+                                                                                                  path="compulsory"/>Is compulsory</label>
+                                    <label class="checkbox-inline"><form:checkbox id="notifyByEmail"
+                                                                                  path="toNotify"/>Notify by
                                         email</label>
                                 </div>
                                 <div class="input-group calInputGroup">
@@ -366,18 +394,18 @@
                                     <input id="eventDescription" type="text" class="form-control" name="description"
                                            placeholder="...">
                                 </div>
-                                <div class="input-group calInputGroup">
+                                <div id="eventParticipantsGroup" class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">Participants</span>
                                     <input id="eventParticipants" type="text" class="form-control" placeholder="...">
                                 </div>
-                                <div class="input-group calInputGroup">
+                                <div id="eventReferencesGroup" class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">References</span>
                                     <input id="eventReferences" type="text" class="form-control" placeholder="...">
                                 </div>
                                 <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">Attachment</span>
-                                    <input id="eventAttachment" type="text" class="form-control"
-                                           placeholder="...">
+                                    <form:input id="eventAttachment" type="file" class="form-control"
+                                           placeholder="..." path="file" multiple="true"/>
                                 </div>
 
                             </div>
@@ -385,8 +413,8 @@
                         </div>
                         <div class="modal-footer">
                             <div class="btn-group" role="group" aria-label="...">
-                                <input type="submit" name="Save" value="Save" class="btn btn-blue"/>
-                                <input type="submit" name="Submit" value="Submit" class="btn btn-green"/>
+                                <input id="calSaveButton" type="submit" name="Save" value="Save" onclick="submitEvent(this.id)" class="btn btn-blue"/>
+                                <input id="calSubmitButton" type="submit" name="Submit" value="Submit" onclick="submitEvent(this.id)" class="btn btn-green"/>
                                 <input type="button" data-dismiss="modal" value="Cancel" class="btn btn-red"/>
                             </div>
                         </div>

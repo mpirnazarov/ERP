@@ -3,7 +3,7 @@ package com.lgcns.erp.scheduleManagement.DBEntities;
 import javax.persistence.*;
 
 /**
- * Created by DS on 05.04.2017.
+ * Created by Sarvar on 11.04.2017.
  */
 @Entity
 @Table(name = "participant_in_schedule", schema = "schedule", catalog = "LgErpSystem")

@@ -43,8 +43,8 @@
     </schema>
     <schema id="11" parent="2" name="schedule">
       <ObjectId>118583</ObjectId>
-      <IntrospectionTimestamp>2017-04-05.17:03:20.689</IntrospectionTimestamp>
-      <IntrospectionStateNumber>8501</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-04-11.16:32:16.212</IntrospectionTimestamp>
+      <IntrospectionStateNumber>9206</IntrospectionStateNumber>
       <Visible>1</Visible>
     </schema>
     <sequence id="12" parent="3" name="certificate_localizations_id_seq">
@@ -614,15 +614,15 @@
     </sequence>
     <table id="137" parent="11" name="participant_in_schedule">
       <ObjectId>118636</ObjectId>
-      <StateNumber>8497</StateNumber>
+      <StateNumber>9202</StateNumber>
     </table>
     <table id="138" parent="11" name="reference_in_schedule">
       <ObjectId>118617</ObjectId>
-      <StateNumber>8499</StateNumber>
+      <StateNumber>9204</StateNumber>
     </table>
     <table id="139" parent="11" name="schedule">
       <ObjectId>118586</ObjectId>
-      <StateNumber>8501</StateNumber>
+      <StateNumber>9206</StateNumber>
     </table>
     <table id="140" parent="11" name="schedule_attachments">
       <ObjectId>118603</ObjectId>
@@ -3874,7 +3874,7 @@ schedule_id</ColNames>
       <RefColNames>schedule_id</RefColNames>
     </foreign-key>
     <foreign-key id="686" parent="137" name="participant_in_schedule_users_id_fk">
-      <ObjectId>118663</ObjectId>
+      <ObjectId>118727</ObjectId>
       <ColNames>user_id</ColNames>
     </foreign-key>
     <column id="687" parent="138" name="ris_id">
@@ -3921,7 +3921,7 @@ schedule_id</ColNames>
       <RefColNames>schedule_id</RefColNames>
     </foreign-key>
     <foreign-key id="694" parent="138" name="reference_in_schedule_users_id_fk">
-      <ObjectId>118658</ObjectId>
+      <ObjectId>118732</ObjectId>
       <ColNames>user_id</ColNames>
     </foreign-key>
     <column id="695" parent="139" name="schedule_id">
@@ -3959,12 +3959,12 @@ schedule_id</ColNames>
     <column id="701" parent="139" name="date_from">
       <Position>7</Position>
       <DataType>timestamp|0</DataType>
-      <StateNumber>8465</StateNumber>
+      <StateNumber>9197</StateNumber>
     </column>
     <column id="702" parent="139" name="date_to">
       <Position>8</Position>
       <DataType>timestamp|0</DataType>
-      <StateNumber>8465</StateNumber>
+      <StateNumber>9198</StateNumber>
     </column>
     <column id="703" parent="139" name="is_compulsory">
       <Position>9</Position>
@@ -4007,7 +4007,7 @@ schedule_id</ColNames>
       <Primary>1</Primary>
     </key>
     <foreign-key id="710" parent="139" name="schedule_users_id_fk">
-      <ObjectId>118653</ObjectId>
+      <ObjectId>118737</ObjectId>
       <ColNames>author_id</ColNames>
     </foreign-key>
     <column id="711" parent="140" name="attachment_id">

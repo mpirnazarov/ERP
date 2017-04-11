@@ -332,7 +332,6 @@
             var b=[];
             var c=[];
 
-
             a = $("#approvals").children().siblings("input[type=text]").val();
             b = $("#references").children().siblings("input[type=text]").val();
             c = $("#executives").children().siblings("input[type=text]").val();

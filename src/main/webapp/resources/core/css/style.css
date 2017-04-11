@@ -1229,6 +1229,14 @@ input.form-control.calOtherTypeInput:focus {
     font-size: 14px;
 }
 
+#editDiv {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    z-index: 2;
+}
+
 
 /*-------------------------------*/
 /*    Additional New Style       */

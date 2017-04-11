@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 
 /**
- * Created by DS on 05.04.2017.
+ * Created by Sarvar on 11.04.2017.
  */
 @Entity
 @Table(name = "schedule", schema = "schedule", catalog = "LgErpSystem")

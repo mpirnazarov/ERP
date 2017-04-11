@@ -1,6 +1,7 @@
 package com.lgcns.erp.scheduleManagement.viewModel;
 
 import com.lgcns.erp.workflow.Model.Attachment;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -19,13 +20,14 @@ public class ScheduleVM {
     private String other;
     private Date dateFrom;
     private Date dateTo;
-    private Boolean isCompulsory;
-    private Boolean toNotify;
-    private Boolean isDraft;
+    private boolean compulsory;
+    private boolean toNotify;
+    private boolean isDraft;
     private int authorId;
     private int[] participants;
     private int[] references;
     private List<Attachment> attachments;
+    private MultipartFile[] file;
 
     public List<Attachment> getAttachments() {
         return attachments;
@@ -115,28 +117,24 @@ public class ScheduleVM {
         this.dateTo = dateTo;
     }
 
-    public Boolean getCompulsory() {
-        return isCompulsory;
+    public boolean isCompulsory() {
+        return compulsory;
     }
 
-    public void setCompulsory(Boolean compulsory) {
-        isCompulsory = compulsory;
+    public void setCompulsory(boolean compulsory) {
+        this.compulsory = compulsory;
     }
 
-    public Boolean getToNotify() {
+    public boolean isToNotify() {
         return toNotify;
     }
 
-    public void setToNotify(Boolean toNotify) {
+    public void setToNotify(boolean toNotify) {
         this.toNotify = toNotify;
     }
 
-    public Boolean getDraft() {
+    public boolean isDraft() {
         return isDraft;
-    }
-
-    public void setDraft(Boolean draft) {
-        isDraft = draft;
     }
 
     public int getAuthorId() {
@@ -145,6 +143,14 @@ public class ScheduleVM {
 
     public void setAuthorId(int authorId) {
         this.authorId = authorId;
+    }
+
+    public MultipartFile[] getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile[] file) {
+        this.file = file;
     }
 
     @Override
@@ -158,13 +164,14 @@ public class ScheduleVM {
                 ", other='" + other + '\'' +
                 ", dateFrom=" + dateFrom +
                 ", dateTo=" + dateTo +
-                ", isCompulsory=" + isCompulsory +
+                ", compulsory=" + compulsory +
                 ", toNotify=" + toNotify +
                 ", isDraft=" + isDraft +
                 ", authorId=" + authorId +
                 ", participants=" + Arrays.toString(participants) +
                 ", references=" + Arrays.toString(references) +
                 ", attachments=" + attachments +
+                ", file=" + Arrays.toString(file) +
                 '}';
     }
 }

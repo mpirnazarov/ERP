@@ -2,8 +2,10 @@ package com.lgcns.erp.scheduleManagement.controller;
 
 import com.lgcns.erp.scheduleManagement.service.ScheduleMainService;
 import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
+import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
+import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import freemarker.template.SimpleDate;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ public class ScheduleMainController {
         ModelAndView mav = new ModelAndView("scheduleManagement/main/scheduleIndex");
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
-
+        mav.addObject("UserslistJson", WorkflowService.getUsersJson(principal));
         return mav;
     }
 
@@ -56,44 +58,20 @@ public class ScheduleMainController {
         return mav;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ModelAndView create(Principal principal,
-                               @RequestParam String start,
-                               @RequestParam String end){
-        start = start.replace('T', ' ');
-        end = end.replace('T', ' ');
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-
-        try {
-            startDate = sdf.parse(start);
-            endDate = sdf.parse(end);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        ModelAndView mav = new ModelAndView("scheduleManagement/create/scheduleCreate");
-
-        ScheduleVM scheduleVM = new ScheduleVM();
-        mav.addObject("schedule", scheduleVM);
-
-
-
-        if(startDate != null && endDate !=null) {
-
-        }else{
-            mav = new ModelAndView("scheduleManagement/create/error");
-            mav.addObject("message", "Wrong format!!!!");
-        }
-
+    @RequestMapping(value = "/main", method = RequestMethod.POST, params = "Submit")
+    public ModelAndView create(@ModelAttribute ScheduleVM scheduleVM, Principal principal){
+        ModelAndView mav = new ModelAndView();
+        // int userId = UserService.getIdByUsername(principal.getName());
+        System.out.println("Schedule VM: " + scheduleVM);
         return mav;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST, params = "Submit")
+    /*@RequestMapping(value = "/create", method = RequestMethod.POST, params = "Submit")
     public String submit(@ModelAttribute ScheduleVM scheduleVM, BindingResult result, Principal principal){
         service.getScheduleList();
         System.out.println(scheduleVM);
         return "redirect:/ScheduleManagement/main";
-    }
+    }*/
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, params = "Save")
     public String save(@ModelAttribute ScheduleVM scheduleVM, BindingResult result, Principal principal){

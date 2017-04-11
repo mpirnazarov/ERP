@@ -1032,7 +1032,7 @@ a:visited {
     position: fixed;
     left: 0;
     top: 0;
-    z-index: 900;
+    z-index: 9000;
 }
 
 #restrictOv {
@@ -1042,7 +1042,7 @@ a:visited {
     position: fixed;
     left: 0;
     top: 0;
-    z-index: 999;
+    z-index: 9999;
 
     display: none;
 }
@@ -1170,6 +1170,65 @@ a:visited {
     -moz-box-shadow: 0 4px 4px -4px #9B9B9B;
 
 }
+/*-------------------------------*/
+/*       Calendar Styles         */
+/*-------------------------------*/
+
+.modal-dialog.calModal {
+    width: 80%;
+}
+
+.tokenOverwriteClass {
+    border: none !important;
+    font-style: italic !important;
+    border-left: 2px solid !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.17) !important;
+
+}
+
+
+.calInputGroup {
+    width: 100%;
+    margin-top: 1%;
+}
+
+.calInputGroup input.form-control {
+    border: none;
+    font-style: italic;
+    border-left: 2px solid;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.17);
+}
+
+.calInputGroup input.form-control:focus {
+    border-left-color: #4590ff;
+}
+
+.calSpan {
+    width: 15%;
+    background-color: transparent;
+    border: none;
+    text-align: right;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+input.form-control.calOtherTypeInput {
+    float: inherit;
+    width: 30%;
+    border: none;
+    border-left: 2px solid #787878;
+    display: none;
+    opacity: 0;
+}
+
+input.form-control.calOtherTypeInput:focus {
+    border-color: #4590ff;
+}
+
+#createBodyDiv label {
+    font-size: 14px;
+}
+
 
 /*-------------------------------*/
 /*    Additional New Style       */

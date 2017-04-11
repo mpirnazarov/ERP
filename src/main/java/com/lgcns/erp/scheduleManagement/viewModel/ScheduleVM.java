@@ -3,6 +3,7 @@ package com.lgcns.erp.scheduleManagement.viewModel;
 import com.lgcns.erp.workflow.Model.Attachment;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class ScheduleVM {
     private String title;
     private String description;
     private String place;
-    private Integer sType;
+    private int sType;
     private String other;
     private Date dateFrom;
     private Date dateTo;
@@ -82,11 +83,11 @@ public class ScheduleVM {
         this.place = place;
     }
 
-    public Integer getsType() {
+    public int getsType() {
         return sType;
     }
 
-    public void setsType(Integer sType) {
+    public void setsType(int sType) {
         this.sType = sType;
     }
 
@@ -144,5 +145,26 @@ public class ScheduleVM {
 
     public void setAuthorId(int authorId) {
         this.authorId = authorId;
+    }
+
+    @Override
+    public String toString() {
+        return "ScheduleVM{" +
+                "scheduleId=" + scheduleId +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", place='" + place + '\'' +
+                ", sType=" + sType +
+                ", other='" + other + '\'' +
+                ", dateFrom=" + dateFrom +
+                ", dateTo=" + dateTo +
+                ", isCompulsory=" + isCompulsory +
+                ", toNotify=" + toNotify +
+                ", isDraft=" + isDraft +
+                ", authorId=" + authorId +
+                ", participants=" + Arrays.toString(participants) +
+                ", references=" + Arrays.toString(references) +
+                ", attachments=" + attachments +
+                '}';
     }
 }

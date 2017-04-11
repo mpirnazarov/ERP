@@ -19,7 +19,7 @@
     <h2 class="headerText"><span
             class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Create Schedule</h2>
     <form:form modelAttribute="schedule" cssClass="form-horizontal" method="post" id="scheduleMain" enctype="multipart/form-data">
-        <div class="w3-container b3form">
+        <div class="w3-container ">
             <div class="container">
                 <%--Radio buttons--%>
                 <span>Type:</span>

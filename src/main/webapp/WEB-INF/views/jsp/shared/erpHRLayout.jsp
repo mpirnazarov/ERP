@@ -277,7 +277,7 @@
                     <div class="panel-body">
                         <ul style="list-style: none" class="list-group">
                             <li>
-                                <a href="/Workflow/sc"><span class="fa fa-braille"></span> Calendar</a>
+                                <a href="/ScheduleManagement/main"><span class="fa fa-braille"></span> Calendar</a>
                             </li>
                         </ul>
                     </div>

@@ -1,13 +1,20 @@
 package com.lgcns.erp.workflow.DBContext;
 
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
+import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.workflow.DBEntities.*;
 import com.lgcns.erp.workflow.Enums.Status;
+import com.lgcns.erp.workflow.Mapper.MembersMapper;
+import com.lgcns.erp.workflow.Model.Member;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -763,4 +770,39 @@ public class WorkflowService {
         return entity.getUserId();
     }
 
+    public static JSONArray getUsersJson(Principal principal){
+        JSONObject jsonObject = null;
+        JSONArray jsonArray = new JSONArray();
+        for (UsersEntity user :
+                UserService.getAllUsers()) {
+            jsonObject = new JSONObject();
+            if(user.isEnabled()==true) {
+                jsonObject = new JSONObject();
+                Member member = MembersMapper.getMember(user.getId());
+
+                // Retrieving user localizations info from DB for all users and check for null
+                /*if(user.getId()!=0 || UserService.getUserLocByUserId(user.getId(), 3)!=null) {
+                    try {
+                        userLoc = UserService.getUserLocByUserId(user.getId(), 3);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }*/
+                // Inserting user Id as id, fullname as name, jobTitle as jobTitle and department as department
+                /*ProfileViewModel prof =  UserController.getProfileByUsername(user.getUserName());*/
+
+                jsonObject.put("id", member.getId());
+                jsonObject.put("name", member.getFirstName() + " " + member.getLastName());
+                jsonObject.put("jobTitle", member.getJobTitle());
+                jsonObject.put("department", member.getDepartment());
+
+                if(user.getUserName().compareTo(principal.getName())!=0) {
+                    // add object to array
+                    jsonArray.add(jsonObject);
+                }
+            }
+        }
+        // add JSON array to ModelAndView
+        return jsonArray;
+    }
 }

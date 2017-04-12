@@ -1229,13 +1229,48 @@ input.form-control.calOtherTypeInput:focus {
     font-size: 14px;
 }
 
-#editDiv {
+#dialogDiv {
     position: absolute;
-    width: 100px;
-    height: 100px;
-    background-color: red;
+    width: 0px;
+    height: 1px;
     z-index: 2;
+    display: none;
+    opacity: 0;
+
+
+
+
 }
+
+#dialogDiv.showDialog {
+    display: block;
+    opacity: 1;
+    width: 100px;
+
+   -webkit-transition: opacity  1s ease-in-out;
+   -moz-transition: opacity  1s ease-in-out;
+   -ms-transition: opacity  1s ease-in-out;
+   -o-transition: opacity  1s ease-in-out;
+   transition: opacity  1s ease-in-out;
+
+}
+
+#dialogDiv button {
+    width: 60px;
+    font-size: 13px;
+    position: absolute;
+
+}
+
+#dialogEditButton {
+    right: 1px;
+}
+
+#dialogViewButton {
+    left: 1px;
+}
+
+
 
 
 /*-------------------------------*/

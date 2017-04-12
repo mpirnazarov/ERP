@@ -56,10 +56,12 @@
             header: {
                 left: 'prev,next today',
                 center: 'title',
-                right: ''
+                right: ' '
             },
             titleFormat: 'MMMM  D, YYYY',
             columnFormat: 'ddd DD MMM',
+            timeFormat:'H:mm',
+            slotLabelFormat: 'H:mm',
             minTime: '09:00:00',
             maxTime: '21:00:00',
             slotLabelInterval: '00:30',
@@ -74,28 +76,56 @@
 
             select: function (start, end, jsEvent, view) {
 
-                createEvent(moment(start).format('YYYY/MM/DD hh:mm'), moment(end).format('YYYY/MM/DD hh:mm'), "calendar");
+                $('#dialogDiv').removeClass('showDialog');
+
+                createEvent(moment(start).format('YYYY/MM/DD H:mm'), moment(end).format('YYYY/MM/DD H:mm'), "calendar");
 
             },
 
             eventClick: function (calEvent, jsEvent, view, start, end) {
 
-
                 /*alert('Event: ' + calEvent.title);
                  alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
                  alert('View: ' + view.name);*/
-                /*alert('start: ' + moment(start).format());
-*/
-                // change the border color just for fun
+                /*alert('start: ' + moment(start).format());*/
+
                 $(this).css('border-color', 'red');
 
+                var dialogDiv = $('#dialogDiv');
+                var currentUser = ${userId};
+                var curWidth = $(this).width();
+                var curHeight = $(this).height();
+                var divCenterWidth = curWidth/2;
+                var divCenterHeight = curHeight/2;
 
+                var curPosition = $(this).offset();
 
+                /*$(this).mouseout(function () {
+                    dialogDiv.removeClass('showDialog');
+                })*/
+                /*UpdateEvent*/
+                if (currentUser == 1){
+                    dialogDiv.addClass('showDialog');
+                }else {
+                    view(calEvent);
+                }
+
+                dialogDiv.css({top:curPosition.top + divCenterHeight - 5 ,left:curPosition.left + divCenterWidth,width:curWidth});
                 /*$('#editDiv').css({top:jsEvent.pageY,left:jsEvent.pageX});*/
 
+                $('#dialogEditButton').click(function () {
+                        editEvent(calEvent);
+                })
+
+                $('#dialogViewButton').click(function () {
+                        viewEvent(calEvent);
+                })
 
 
-                updateEvent(moment(calEvent.start).format('YYYY/MM/DD hh:mm'), moment(calEvent.end).format('YYYY/MM/DD hh:mm'), calEvent.title, calEvent.type, calEvent.place, calEvent.description, calEvent.isCompulsory, calEvent.notifyByEmail);
+
+
+
+                /*updateEvent(moment(calEvent.start).format('YYYY/MM/DD hh:mm'), moment(calEvent.end).format('YYYY/MM/DD hh:mm'), calEvent.title, calEvent.type, calEvent.place, calEvent.description, calEvent.isCompulsory, calEvent.notifyByEmail);*/
 
             },
             /*on EVENT click FUNCTION END*/
@@ -128,7 +158,7 @@
                 },
                 {
                     start: '2017-04-12T10:30:00',
-                    end: '2017-04-12T12:30:00',
+                    end: '2017-04-12T13:44:00',
                     title: 'Meetingggggg',
                     type: 3,
                     place: 'LG CNS Uzbekistan head office',
@@ -176,9 +206,7 @@
 
     function createEvent(start, end, calendarObject) {
 
-
         clearModal();
-
         var targetCalendar = $('#' + calendarObject)
         var EventStart = start;
         var EventEnd = end;
@@ -194,7 +222,7 @@
 
     }
 
-    function updateEvent(start, end, title, type, place, description, isCompulsory, notifyByEmail) {
+    /*function updateEvent(start, end, title, type, place, description, isCompulsory, notifyByEmail) {
 
         clearModal();
 
@@ -235,7 +263,58 @@
 
         $('#message').html('this is EDIT FORM')
 
+    }*/
+
+    function editEvent(calEvent) {
+
+        clearModal();
+
+        var EventStart = calEvent.start;
+        var EventEnd = calEvent.end;
+        var EventTitle = calEvent.title;
+        var EventType = calEvent.type;
+        var EventPlace = calEvent.place;
+        var EventDescription = calEvent.description;
+        var EventIsCompulsory = calEvent.isCompulsory;
+        var EventNotifyByEmail = calEvent.notifyByEmail;
+
+        $('#dateTimeStart').val(EventStart);
+        $('#dateTimeEnd').val(EventEnd);
+        $('#eventTitle').val(EventTitle);
+        $('#eventPlace').val(EventPlace);
+        $('#eventDescription').val(EventDescription);
+
+        if (EventType == 1) {
+            $('#option1').prop('checked', true);
+        } else if (EventType == 2) {
+            $('#option2').prop('checked', true);
+        } else if (EventType == 3) {
+            $('#option3').prop('checked', true);
+        } else if (EventType == 4) {
+            $('#option4').prop('checked', true);
+        }
+
+        if (EventIsCompulsory) {
+            $('#isCompulsory').prop('checked', true);
+        }
+
+        if (EventNotifyByEmail) {
+            $('#notifyByEmail').prop('checked', true);
+        }
+
+        $('#CalendarModal').modal('show');
+
+        $('#message').html('this is EDIT FORM')
+
+        $('#CalendarModalLabel').append('<span class = "fa fa-pencil-square-o">' + ' Edit Event' + '</span>')
+
+
     }
+
+    function viewEvent() {
+
+    }
+
 
     function checkPressing(id) {
 
@@ -248,6 +327,7 @@
         } else if (targetButton.css('opacity') == 1 && targetButtonId != 'otherTypeLabel') {
             targetButton.css('display', 'none');
             targetButton.animate({opacity: 0}, 300);
+            targetButton.val('');
         }
 
         /* targetButton.css('display','none');
@@ -309,11 +389,6 @@
     }
 
 
-
-
-
-
-
 </script>
 
 <div class="mainBodyBlock">
@@ -322,8 +397,11 @@
     <div class="w3-container">
 
         <%--EditDiv--%>
-        <div id="editDiv">
-
+        <div id="dialogDiv">
+            <div class="btn-group">
+                <button id="dialogEditButton" type="button" class="btn btn-darkblue">Edit</button>
+                <button id="dialogViewButton" type="button" class="btn btn-blue">View</button>
+            </div>
         </div>
 
         <%--Calendar--%>
@@ -337,9 +415,7 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                            <h4 style="font-size:25px" class="modal-title" id="CalendarModalLabel"><span
-                                    class="glyphicon glyphicon glyphicon-edit"
-                                    aria-hidden="true"></span> New Event</h4>
+                            <h4 style="font-size:25px" class="modal-title" id="CalendarModalLabel"></h4>
                         </div>
                         <div class="modal-body">
 

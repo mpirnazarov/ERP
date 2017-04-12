@@ -20,16 +20,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by DS on 12.04.2017.
  */
 public class ScheduleMainControllerUtil {
-    public static  List<HashMap<String, Object>> putScheduleEventsToMap(List<ScheduleVM> scheduleVMList){
+    public static  List<HashMap<String, Object>> putScheduleEventsToMap(List<ScheduleVM> scheduleVMList) throws ParseException {
         List<HashMap<String, Object>> maps = new ArrayList<>();
         HashMap<String, Object> map = null;
 
@@ -45,8 +45,8 @@ public class ScheduleMainControllerUtil {
             map.put("place", scheduleVM.getPlace());
             map.put("s_type", scheduleVM.getsType()+"");
             map.put("other", scheduleVM.getOther());
-            map.put("start", scheduleVM.getDateFrom()+"");
-            map.put("end", scheduleVM.getDateTo()+"");
+            map.put("start", formatDatesToView(scheduleVM.getDateFrom()));
+            map.put("end", formatDatesToView(scheduleVM.getDateTo()));
             map.put("is_compulsory", scheduleVM.isCompulsory()+"");
             map.put("to_notify", scheduleVM.isToNotify()+"");
             map.put("is_draft", scheduleVM.isDraft()+"");
@@ -61,7 +61,21 @@ public class ScheduleMainControllerUtil {
         return maps;
     }
 
-    //todo Create common Class to upload files
+    private static String formatDatesToView(Date date) throws ParseException {
+        Calendar cDate = Calendar.getInstance();
+        cDate.setTime(date);
+        int year = cDate.get(Calendar.YEAR);
+        int month = cDate.get(Calendar.MONTH) + 1; // Note: zero based!
+        int day = cDate.get(Calendar.DAY_OF_MONTH);
+        int hour = cDate.get(Calendar.HOUR_OF_DAY);
+        int minute = cDate.get(Calendar.MINUTE);
+        int second = cDate.get(Calendar.SECOND);
+
+        String formattedDate = year+"-"+(month<10?("0"+month):(month))+"-"+day+"T"+hour+":"+(minute<10?("0"+minute):(minute))+":"+(second<10?("0"+second):(second));
+
+        return formattedDate;
+    }
+
     public static void uploadFile(ScheduleVM scheduleVM, int scheduleId, ScheduleMainService service) throws IOException {
          /* File upload */
         MultipartFile[] multipartFiles=null;
@@ -69,12 +83,11 @@ public class ScheduleMainControllerUtil {
             multipartFiles = scheduleVM.getFile();
 
             // Uploading files attached to C:/files/documents/workflow. Create folder if doesn't exist.
-            File f = new File("C:/files/documents/schedule/" + scheduleVM.getScheduleId()+"/");
+            File f = new File("C:/files/documents/schedule/" + scheduleId+"/");
             if (f.mkdir()) {
                 System.out.println("DIRECTORY CREATED SECCESFULLY");
             }
-            for (MultipartFile file :
-                    multipartFiles) {
+            for (MultipartFile file : multipartFiles) {
                 FileCopyUtils.copy(file.getBytes(), new File("C:/files/documents/schedule/" + scheduleId + "/" + file.getOriginalFilename()));
             }
 

@@ -10,7 +10,6 @@ import java.util.List;
  * Created by DS on 12.04.2017.
  */
 public class AttachmentMapper {
-
     public static List<Attachment> mapAttachmentEntitiesToAttachment(List<ScheduleAttachmentsEntity> entities){
 
         if (entities.isEmpty())

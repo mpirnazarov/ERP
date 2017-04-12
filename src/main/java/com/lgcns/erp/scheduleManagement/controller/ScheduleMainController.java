@@ -57,7 +57,7 @@ public class ScheduleMainController {
     }
 
     @RequestMapping(value = "/api/scheduleList")
-    public @ResponseBody List<HashMap<String, Object>> getAllSchedules(){
+    public @ResponseBody List<HashMap<String, Object>> getAllSchedules() throws ParseException {
         List<ScheduleVM> scheduleVMList = service.getScheduleList();
         List<HashMap<String, Object>> fullSchedule = ScheduleMainControllerUtil.putScheduleEventsToMap(scheduleVMList);
 

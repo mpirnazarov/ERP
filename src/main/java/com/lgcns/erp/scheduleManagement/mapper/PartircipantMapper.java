@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class PartircipantMapper {
     public static List<ParticipantVM> mapParticipantEntityListToVMList(List<ParticipantInScheduleEntity> entities){
-
         if (entities.isEmpty())
             return null;
 

@@ -60,6 +60,10 @@
         <mapping class="com.lgcns.erp.workflow.DBEntities.ToDoEntity"/>
         <mapping class="com.lgcns.erp.workflow.DBEntities.TripTypesEntity"/>
         <mapping class="com.lgcns.erp.workflow.DBEntities.StepCommentsEntity"/>
+        <mapping class="com.lgcns.erp.scheduleManagement.DBEntities.ReferenceInCheduleEntity"/>
+        <mapping class="com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity"/>
+        <mapping class="com.lgcns.erp.scheduleManagement.DBEntities.ScheduleAttachmentsEntity"/>
+        <mapping class="com.lgcns.erp.scheduleManagement.DBEntities.ParticipantInScheduleEntity"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

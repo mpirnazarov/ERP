@@ -9,7 +9,6 @@ public class Attachment {
     private int attachmentId;
     private int scheduleId;
     private String attachmentPath;
-    private ScheduleEntity scheduleByScheduleId;
 
     public int getAttachmentId() {
         return attachmentId;
@@ -35,11 +34,4 @@ public class Attachment {
         this.attachmentPath = attachmentPath;
     }
 
-    public ScheduleEntity getScheduleByScheduleId() {
-        return scheduleByScheduleId;
-    }
-
-    public void setScheduleByScheduleId(ScheduleEntity scheduleByScheduleId) {
-        this.scheduleByScheduleId = scheduleByScheduleId;
-    }
 }

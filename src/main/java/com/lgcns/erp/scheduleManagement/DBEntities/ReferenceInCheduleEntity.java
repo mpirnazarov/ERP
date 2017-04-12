@@ -3,19 +3,19 @@ package com.lgcns.erp.scheduleManagement.DBEntities;
 import javax.persistence.*;
 
 /**
- * Created by Sarvar on 11.04.2017.
+ * Created by DS on 11.04.2017.
  */
 @Entity
-@Table(name = "reference_in_schedule", schema = "schedule", catalog = "LgErpSystem")
-@IdClass(ReferenceInScheduleEntityPK.class)
-public class ReferenceInScheduleEntity {
+@Table(name = "reference_in_chedule", schema = "schedule", catalog = "LgErpSystem")
+public class ReferenceInCheduleEntity {
     private int risId;
-    private int scheduleId;
+    private Integer scheduleId;
     private Integer userId;
     private ScheduleEntity scheduleByScheduleId;
 
     @Id
     @Column(name = "ris_id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getRisId() {
         return risId;
     }
@@ -24,13 +24,13 @@ public class ReferenceInScheduleEntity {
         this.risId = risId;
     }
 
-    @Id
+    @Basic
     @Column(name = "schedule_id")
-    public int getScheduleId() {
+    public Integer getScheduleId() {
         return scheduleId;
     }
 
-    public void setScheduleId(int scheduleId) {
+    public void setScheduleId(Integer scheduleId) {
         this.scheduleId = scheduleId;
     }
 
@@ -49,10 +49,10 @@ public class ReferenceInScheduleEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ReferenceInScheduleEntity that = (ReferenceInScheduleEntity) o;
+        ReferenceInCheduleEntity that = (ReferenceInCheduleEntity) o;
 
         if (risId != that.risId) return false;
-        if (scheduleId != that.scheduleId) return false;
+        if (scheduleId != null ? !scheduleId.equals(that.scheduleId) : that.scheduleId != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
 
         return true;
@@ -61,13 +61,13 @@ public class ReferenceInScheduleEntity {
     @Override
     public int hashCode() {
         int result = risId;
-        result = 31 * result + scheduleId;
+        result = 31 * result + (scheduleId != null ? scheduleId.hashCode() : 0);
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         return result;
     }
 
     @ManyToOne
-    @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id", nullable = false)
+    @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id", insertable = false, updatable = false)
     public ScheduleEntity getScheduleByScheduleId() {
         return scheduleByScheduleId;
     }

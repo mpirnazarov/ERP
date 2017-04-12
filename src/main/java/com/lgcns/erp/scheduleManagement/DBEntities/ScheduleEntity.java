@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 
 /**
- * Created by Sarvar on 11.04.2017.
+ * Created by DS on 11.04.2017.
  */
 @Entity
 @Table(name = "schedule", schema = "schedule", catalog = "LgErpSystem")
@@ -14,20 +14,21 @@ public class ScheduleEntity {
     private String title;
     private String description;
     private String place;
-    private Integer sType;
+    private Integer stype;
     private String other;
     private Timestamp dateFrom;
     private Timestamp dateTo;
     private Boolean isCompulsory;
     private Boolean toNotify;
     private Boolean isDraft;
-    private int authorId;
+    private Integer autherId;
     private Collection<ParticipantInScheduleEntity> participantInSchedulesByScheduleId;
-    private Collection<ReferenceInScheduleEntity> referenceInSchedulesByScheduleId;
+    private Collection<ReferenceInCheduleEntity> referenceInChedulesByScheduleId;
     private Collection<ScheduleAttachmentsEntity> scheduleAttachmentssByScheduleId;
 
     @Id
     @Column(name = "schedule_id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getScheduleId() {
         return scheduleId;
     }
@@ -67,13 +68,13 @@ public class ScheduleEntity {
     }
 
     @Basic
-    @Column(name = "s_type")
-    public Integer getsType() {
-        return sType;
+    @Column(name = "stype")
+    public Integer getStype() {
+        return stype;
     }
 
-    public void setsType(Integer sType) {
-        this.sType = sType;
+    public void setStype(Integer stype) {
+        this.stype = stype;
     }
 
     @Basic
@@ -137,13 +138,13 @@ public class ScheduleEntity {
     }
 
     @Basic
-    @Column(name = "author_id")
-    public int getAuthorId() {
-        return authorId;
+    @Column(name = "auther_id")
+    public Integer getAutherId() {
+        return autherId;
     }
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
+    public void setAutherId(Integer autherId) {
+        this.autherId = autherId;
     }
 
     @Override
@@ -154,17 +155,17 @@ public class ScheduleEntity {
         ScheduleEntity that = (ScheduleEntity) o;
 
         if (scheduleId != that.scheduleId) return false;
-        if (authorId != that.authorId) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (place != null ? !place.equals(that.place) : that.place != null) return false;
-        if (sType != null ? !sType.equals(that.sType) : that.sType != null) return false;
+        if (stype != null ? !stype.equals(that.stype) : that.stype != null) return false;
         if (other != null ? !other.equals(that.other) : that.other != null) return false;
         if (dateFrom != null ? !dateFrom.equals(that.dateFrom) : that.dateFrom != null) return false;
         if (dateTo != null ? !dateTo.equals(that.dateTo) : that.dateTo != null) return false;
         if (isCompulsory != null ? !isCompulsory.equals(that.isCompulsory) : that.isCompulsory != null) return false;
         if (toNotify != null ? !toNotify.equals(that.toNotify) : that.toNotify != null) return false;
         if (isDraft != null ? !isDraft.equals(that.isDraft) : that.isDraft != null) return false;
+        if (autherId != null ? !autherId.equals(that.autherId) : that.autherId != null) return false;
 
         return true;
     }
@@ -175,14 +176,14 @@ public class ScheduleEntity {
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (place != null ? place.hashCode() : 0);
-        result = 31 * result + (sType != null ? sType.hashCode() : 0);
+        result = 31 * result + (stype != null ? stype.hashCode() : 0);
         result = 31 * result + (other != null ? other.hashCode() : 0);
         result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
         result = 31 * result + (dateTo != null ? dateTo.hashCode() : 0);
         result = 31 * result + (isCompulsory != null ? isCompulsory.hashCode() : 0);
         result = 31 * result + (toNotify != null ? toNotify.hashCode() : 0);
         result = 31 * result + (isDraft != null ? isDraft.hashCode() : 0);
-        result = 31 * result + authorId;
+        result = 31 * result + (autherId != null ? autherId.hashCode() : 0);
         return result;
     }
 
@@ -196,12 +197,12 @@ public class ScheduleEntity {
     }
 
     @OneToMany(mappedBy = "scheduleByScheduleId")
-    public Collection<ReferenceInScheduleEntity> getReferenceInSchedulesByScheduleId() {
-        return referenceInSchedulesByScheduleId;
+    public Collection<ReferenceInCheduleEntity> getReferenceInChedulesByScheduleId() {
+        return referenceInChedulesByScheduleId;
     }
 
-    public void setReferenceInSchedulesByScheduleId(Collection<ReferenceInScheduleEntity> referenceInSchedulesByScheduleId) {
-        this.referenceInSchedulesByScheduleId = referenceInSchedulesByScheduleId;
+    public void setReferenceInChedulesByScheduleId(Collection<ReferenceInCheduleEntity> referenceInChedulesByScheduleId) {
+        this.referenceInChedulesByScheduleId = referenceInChedulesByScheduleId;
     }
 
     @OneToMany(mappedBy = "scheduleByScheduleId")

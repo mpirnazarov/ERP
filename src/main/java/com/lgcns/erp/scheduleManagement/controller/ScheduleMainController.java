@@ -2,6 +2,7 @@ package com.lgcns.erp.scheduleManagement.controller;
 
 import com.lgcns.erp.scheduleManagement.mapper.ScheduleMainMapper;
 import com.lgcns.erp.scheduleManagement.service.ScheduleMainService;
+import com.lgcns.erp.scheduleManagement.util.ScheduleMainControllerUtil;
 import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
@@ -24,6 +25,8 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by DS on 05.04.2017.
@@ -53,6 +56,14 @@ public class ScheduleMainController {
         return mav;
     }
 
+    @RequestMapping(value = "/api/scheduleList")
+    public @ResponseBody List<HashMap<String, Object>> getAllSchedules(){
+        List<ScheduleVM> scheduleVMList = service.getScheduleList();
+        List<HashMap<String, Object>> fullSchedule = ScheduleMainControllerUtil.putScheduleEventsToMap(scheduleVMList);
+
+        return fullSchedule;
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ModelAndView create(){
 
@@ -68,51 +79,26 @@ public class ScheduleMainController {
 
     @RequestMapping(value = "/main", method = RequestMethod.POST, params = "Submit")
     public String create(@ModelAttribute ScheduleVM scheduleVM, Principal principal) throws IOException {
-
         scheduleVM.setAuthorId(UserService.getIdByUsername(principal.getName()));
         scheduleVM.setParticipants(participantsGlobal);
         scheduleVM.setReferences(referencesGlobal);
         /* Write into database schedule data */
         int scheduleId = service.insertSchedule(ScheduleMainMapper.mapScheduleFromVMToEntity(scheduleVM));
-
-        for(int participant : scheduleVM.getParticipants()) {
-            service.insertParticipants(ScheduleMainMapper.mapParticipantInSchedule(scheduleId, participant));
-        }
-        for(int reference : scheduleVM.getReferences()) {
-            service.insertReference(ScheduleMainMapper.mapReferenceInSchedule(scheduleId, reference));
-        }
-        /* File upload */
-        MultipartFile[] multipartFiles=null;
-        if(!scheduleVM.getFile()[0].isEmpty()) {
-            multipartFiles = scheduleVM.getFile();
-
-            // Uploading files attached to C:/files/documents/workflow. Create folder if doesn't exist.
-            File f = new File("C:/files/documents/schedule/" + scheduleVM.getScheduleId()+"/");
-            if (f.mkdir()) {
-                System.out.println("DIRECTORY CREATED SECCESFULLY");
-            }
-            for (MultipartFile file :
-                    multipartFiles) {
-                FileCopyUtils.copy(file.getBytes(), new File("C:/files/documents/schedule/" + scheduleId + "/" + file.getOriginalFilename()));
-            }
-
-            System.out.println("FILE WAS UPLOADED!");
-        }
-        if(!scheduleVM.getFile()[0].isEmpty()) {
-            for(MultipartFile multipartFile: scheduleVM.getFile()){
-                service.insertAttachment(ScheduleMainMapper.mapAttachmentInSchedule(scheduleId, multipartFile));
+        if (participantsGlobal != null){
+            for(int participant : scheduleVM.getParticipants()) {
+                service.insertParticipants(ScheduleMainMapper.mapParticipantInSchedule(scheduleId, participant));
             }
         }
 
+        if (referencesGlobal!=null){
+            for(int reference : scheduleVM.getReferences()) {
+                service.insertReference(ScheduleMainMapper.mapReferenceInSchedule(scheduleId, reference));
+            }
+        }
+
+        ScheduleMainControllerUtil.uploadFile(scheduleVM, scheduleId, service);
         return "redirect: /ScheduleManagement/main";
     }
-
-    /*@RequestMapping(value = "/create", method = RequestMethod.POST, params = "Submit")
-    public String submit(@ModelAttribute ScheduleVM scheduleVM, BindingResult result, Principal principal){
-
-        System.out.println(scheduleVM);
-        return "redirect:/ScheduleManagement/main";
-    }*/
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, params = "Save")
     public String save(@ModelAttribute ScheduleVM scheduleVM, BindingResult result, Principal principal){

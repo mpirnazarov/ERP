@@ -1,7 +1,6 @@
 package com.lgcns.erp.scheduleManagement.DBContext;
 
 import com.lgcns.erp.scheduleManagement.DBEntities.ParticipantInScheduleEntity;
-import com.lgcns.erp.scheduleManagement.DBEntities.ReferenceInCheduleEntity;
 import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleAttachmentsEntity;
 import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
@@ -13,21 +12,42 @@ import org.hibernate.query.Query;
 import java.util.List;
 
 /**
- * Created by DS on 06.04.2017.
+ * Created by DS on 12.04.2017.
  */
-public class ScheduleMainContext {
-    /**
-     * Retrieves all schedule entities
-     * @return
-     */
-    public static List<ScheduleEntity> getScheduleList(){
-        List<ScheduleEntity> list = null;
+public class AttachmentContext {
+
+    public static void insertAttachment(ScheduleAttachmentsEntity scheduleAttachmentsEntity) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from ScheduleEntity ");
-            list = (List<ScheduleEntity>)query.list();
+            //Set foreign key items
+            scheduleAttachmentsEntity.setScheduleByScheduleId(session.load(ScheduleEntity.class, scheduleAttachmentsEntity.getScheduleId()));
+
+            //Save the object in database
+            session.save(scheduleAttachmentsEntity);
+
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static List<ScheduleAttachmentsEntity> getAttachmentsByScheduleId(int id){
+        List<ScheduleAttachmentsEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from ScheduleAttachmentsEntity where scheduleId=:id");
+            query.setParameter("id", id);
+            list = (List<ScheduleAttachmentsEntity>)query.list();
             transaction.commit();
         }
         catch (HibernateException e) {
@@ -40,27 +60,4 @@ public class ScheduleMainContext {
 
         return list;
     }
-
-    //todo
-    public static int insertSchedule(ScheduleEntity scheduleEntity){
-        Session session = HibernateUtility.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-
-            //Save the object in database
-            int id = (int)session.save(scheduleEntity);
-            transaction.commit();
-        }
-        catch (HibernateException e) {
-            transaction.rollback();
-            e.printStackTrace();
-        }
-        finally {
-            session.close();
-        }
-        return scheduleEntity.getScheduleId();
-    }
-
-
 }

@@ -3,19 +3,19 @@ package com.lgcns.erp.scheduleManagement.DBEntities;
 import javax.persistence.*;
 
 /**
- * Created by Sarvar on 11.04.2017.
+ * Created by DS on 11.04.2017.
  */
 @Entity
 @Table(name = "schedule_attachments", schema = "schedule", catalog = "LgErpSystem")
-@IdClass(ScheduleAttachmentsEntityPK.class)
 public class ScheduleAttachmentsEntity {
     private int attachmentId;
-    private int scheduleId;
+    private Integer scheduleId;
     private String attachmentPath;
     private ScheduleEntity scheduleByScheduleId;
 
     @Id
     @Column(name = "attachment_id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getAttachmentId() {
         return attachmentId;
     }
@@ -24,13 +24,13 @@ public class ScheduleAttachmentsEntity {
         this.attachmentId = attachmentId;
     }
 
-    @Id
+    @Basic
     @Column(name = "schedule_id")
-    public int getScheduleId() {
+    public Integer getScheduleId() {
         return scheduleId;
     }
 
-    public void setScheduleId(int scheduleId) {
+    public void setScheduleId(Integer scheduleId) {
         this.scheduleId = scheduleId;
     }
 
@@ -52,7 +52,7 @@ public class ScheduleAttachmentsEntity {
         ScheduleAttachmentsEntity that = (ScheduleAttachmentsEntity) o;
 
         if (attachmentId != that.attachmentId) return false;
-        if (scheduleId != that.scheduleId) return false;
+        if (scheduleId != null ? !scheduleId.equals(that.scheduleId) : that.scheduleId != null) return false;
         if (attachmentPath != null ? !attachmentPath.equals(that.attachmentPath) : that.attachmentPath != null)
             return false;
 
@@ -62,13 +62,13 @@ public class ScheduleAttachmentsEntity {
     @Override
     public int hashCode() {
         int result = attachmentId;
-        result = 31 * result + scheduleId;
+        result = 31 * result + (scheduleId != null ? scheduleId.hashCode() : 0);
         result = 31 * result + (attachmentPath != null ? attachmentPath.hashCode() : 0);
         return result;
     }
 
     @ManyToOne
-    @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id", nullable = false)
+    @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id", insertable = false, updatable = false)
     public ScheduleEntity getScheduleByScheduleId() {
         return scheduleByScheduleId;
     }

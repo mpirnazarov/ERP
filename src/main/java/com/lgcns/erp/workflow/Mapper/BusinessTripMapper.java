@@ -136,7 +136,7 @@ public class BusinessTripMapper {
         return members;
     }
 
-    private static String getDepartmentNameByUserId(int id){
+    public static String getDepartmentNameByUserId(int id){
         int deptId = UserService.getUserById(id).getDepartmentId();
 
         DepartmentLocalizationsEntity entity = DepartmentService.getDepartmentLocsByDeptId(deptId, 3);

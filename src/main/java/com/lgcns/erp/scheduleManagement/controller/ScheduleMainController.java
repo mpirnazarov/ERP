@@ -77,6 +77,7 @@ public class ScheduleMainController {
         return mav;
     }
 
+    //todo methods for creation and update
     @RequestMapping(value = "/main", method = RequestMethod.POST, params = "Submit")
     public String create(@ModelAttribute ScheduleVM scheduleVM, Principal principal) throws IOException {
         scheduleVM.setAuthorId(UserService.getIdByUsername(principal.getName()));

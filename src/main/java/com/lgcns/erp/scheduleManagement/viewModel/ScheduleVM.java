@@ -28,6 +28,19 @@ public class ScheduleVM {
     private int[] references;
     private List<Attachment> attachments;
     private MultipartFile[] file;
+    private int actionTypeId;
+
+    public void setDraft(boolean draft) {
+        isDraft = draft;
+    }
+
+    public int getActionTypeId() {
+        return actionTypeId;
+    }
+
+    public void setActionTypeId(int actionTypeId) {
+        this.actionTypeId = actionTypeId;
+    }
 
     public List<Attachment> getAttachments() {
         return attachments;

@@ -82,7 +82,7 @@ public class ScheduleMainControllerUtil {
         if(!scheduleVM.getFile()[0].isEmpty()) {
             multipartFiles = scheduleVM.getFile();
 
-            // Uploading files attached to C:/files/documents/workflow. Create folder if doesn't exist.
+            // Uploading files attached to C:/files/documents/schedule. Create folder if doesn't exist.
             File f = new File("C:/files/documents/schedule/" + scheduleId+"/");
             if (f.mkdir()) {
                 System.out.println("DIRECTORY CREATED SECCESFULLY");

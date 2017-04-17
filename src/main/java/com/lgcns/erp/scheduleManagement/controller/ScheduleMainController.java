@@ -1,5 +1,6 @@
 package com.lgcns.erp.scheduleManagement.controller;
 
+import com.lgcns.erp.scheduleManagement.enums.ActionTypeId;
 import com.lgcns.erp.scheduleManagement.mapper.ScheduleMainMapper;
 import com.lgcns.erp.scheduleManagement.service.ScheduleMainService;
 import com.lgcns.erp.scheduleManagement.util.ScheduleMainControllerUtil;
@@ -56,58 +57,72 @@ public class ScheduleMainController {
         return mav;
     }
 
-    @RequestMapping(value = "/api/scheduleList")
-    public @ResponseBody List<HashMap<String, Object>> getAllSchedules() throws ParseException {
+    /**
+     * This method is called after Main Schedule page is opened
+     * @return  List of schedules mapped
+     * @throws ParseException
+     */
+    @RequestMapping(value = "/api/scheduleList", method = RequestMethod.POST)
+    public @ResponseBody List<HashMap<String, Object>> getAllSchedules(Principal principal, @RequestParam Date from, @RequestParam Date to) throws ParseException {
+
+        System.out.println(from+" "+to);
+
         List<ScheduleVM> scheduleVMList = service.getScheduleList();
         List<HashMap<String, Object>> fullSchedule = ScheduleMainControllerUtil.putScheduleEventsToMap(scheduleVMList);
 
         return fullSchedule;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public ModelAndView create(){
-
-        ModelAndView mav = new ModelAndView("scheduleManagement/create/scheduleCreate");
-        ScheduleVM scheduleVM = new ScheduleVM();
-        scheduleVM.setDateFrom(startDate);
-        scheduleVM.setDateTo(endDate);
-        mav.addObject("schedule",scheduleVM);
-
-
-        return mav;
-    }
-
-    //todo methods for creation and update
+    /**
+     * This method is responsible for creation and update of schedule entities. It decides to use create or update after checking ActionTypeId.
+     * ToDo logically finalize update of participants, references, Attachments
+     * @param scheduleVM
+     * @param principal
+     * @return Redirects to Main Schedule page after finishing the processes
+     * @throws IOException
+     */
     @RequestMapping(value = "/main", method = RequestMethod.POST, params = "Submit")
     public String create(@ModelAttribute ScheduleVM scheduleVM, Principal principal) throws IOException {
         scheduleVM.setAuthorId(UserService.getIdByUsername(principal.getName()));
         scheduleVM.setParticipants(participantsGlobal);
         scheduleVM.setReferences(referencesGlobal);
+
+        if (scheduleVM.getActionTypeId() == ActionTypeId.Update.getValue())
+            service.updateSchedule(ScheduleMainMapper.mapScheduleFromVMToEntity(scheduleVM));
+        else {
         /* Write into database schedule data */
-        int scheduleId = service.insertSchedule(ScheduleMainMapper.mapScheduleFromVMToEntity(scheduleVM));
-        if (participantsGlobal != null){
-            for(int participant : scheduleVM.getParticipants()) {
-                service.insertParticipants(ScheduleMainMapper.mapParticipantInSchedule(scheduleId, participant));
+            int scheduleId = service.insertSchedule(ScheduleMainMapper.mapScheduleFromVMToEntity(scheduleVM));
+            if (participantsGlobal != null) {
+                for (int participant : scheduleVM.getParticipants()) {
+                    service.insertParticipants(ScheduleMainMapper.mapParticipantInSchedule(scheduleId, participant));
+                }
             }
+            if (referencesGlobal != null) {
+                for (int reference : scheduleVM.getReferences()) {
+                    service.insertReference(ScheduleMainMapper.mapReferenceInSchedule(scheduleId, reference));
+                }
+            }
+            ScheduleMainControllerUtil.uploadFile(scheduleVM, scheduleId, service);
         }
 
-        if (referencesGlobal!=null){
-            for(int reference : scheduleVM.getReferences()) {
-                service.insertReference(ScheduleMainMapper.mapReferenceInSchedule(scheduleId, reference));
-            }
-        }
-
-        ScheduleMainControllerUtil.uploadFile(scheduleVM, scheduleId, service);
         return "redirect: /ScheduleManagement/main";
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST, params = "Save")
-    public String save(@ModelAttribute ScheduleVM scheduleVM, BindingResult result, Principal principal){
 
-        System.out.println(scheduleVM);
-        return "redirect:/ScheduleManagement/main";
+    /**
+     * ToDo identify needed parameters and return type based on front end needs and capabilities
+     */
+    @RequestMapping(value = "/ParticipantDecision")
+    public void decide(){
+
     }
 
+    /**
+     * This method consumes participants and references sent from client side, and assigns them to global variables
+     * @param participants
+     * @param references
+     * @return Jason of participants and references
+     */
     @RequestMapping(value = "/ScheduleMembersAjax", method = RequestMethod.POST)
     public @ResponseBody
     int[] ScheduleMembersPostAjax(@RequestParam("participants") int[] participants, @RequestParam("references") int[] references){

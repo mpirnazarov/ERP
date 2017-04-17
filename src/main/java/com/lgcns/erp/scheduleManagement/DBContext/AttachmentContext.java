@@ -39,6 +39,11 @@ public class AttachmentContext {
         }
     }
 
+    /**
+     * Retrieves attachments of an event
+     * @param id
+     * @return List of AttachmentEntity
+     */
     public static List<ScheduleAttachmentsEntity> getAttachmentsByScheduleId(int id){
         List<ScheduleAttachmentsEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();

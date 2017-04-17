@@ -63,4 +63,23 @@ public class ScheduleMainContext {
     }
 
 
+    public static void updateSchedule(ScheduleEntity scheduleEntity){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            //todo not sure
+            session.update(scheduleEntity);
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
 }

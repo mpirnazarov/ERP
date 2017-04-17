@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by DS on 05.04.2017.
  */
-public class ScheduleTestImpl implements ScheduleMainService {
+public class ScheduleMainmpl implements ScheduleMainService {
 
     @Override
     public List<ScheduleVM> getScheduleList() {
@@ -43,5 +43,15 @@ public class ScheduleTestImpl implements ScheduleMainService {
     @Override
     public void insertAttachment(ScheduleAttachmentsEntity scheduleAttachmentsEntity) {
         AttachmentContext.insertAttachment(scheduleAttachmentsEntity);
+    }
+
+    @Override
+    public void updateSchedule(ScheduleEntity scheduleEntity) {
+
+    }
+
+    @Override
+    public void updateParticipantDecision(int participantId, int scheduleId, int status, String reason) {
+        ParticipantContext.updateParticipantDecision(participantId, scheduleId, status, reason);
     }
 }

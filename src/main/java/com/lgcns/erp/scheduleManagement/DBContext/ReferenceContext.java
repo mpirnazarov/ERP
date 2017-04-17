@@ -38,6 +38,11 @@ public class ReferenceContext {
         }
     }
 
+    /**
+     * Retrieves references based on event id
+     * @param id
+     * @return
+     */
     public static List<ReferenceInCheduleEntity> getReferencesByScheduleId(int id){
         List<ReferenceInCheduleEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();

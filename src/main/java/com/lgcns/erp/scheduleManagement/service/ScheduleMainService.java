@@ -16,6 +16,7 @@ public interface ScheduleMainService {
     int insertSchedule(ScheduleEntity scheduleEntity);
     void insertParticipants(ParticipantInScheduleEntity participantInScheduleEntity);
     void insertReference(ReferenceInCheduleEntity referenceInScheduleEntity);
-
     void insertAttachment(ScheduleAttachmentsEntity scheduleAttachmentsEntity);
+    void updateSchedule(ScheduleEntity schedule);
+    void updateParticipantDecision(int participantId, int scheduleId, int status, String reason);
 }

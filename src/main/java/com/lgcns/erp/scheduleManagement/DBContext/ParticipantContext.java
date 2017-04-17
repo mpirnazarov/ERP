@@ -14,6 +14,12 @@ import java.util.List;
  * Created by DS on 12.04.2017.
  */
 public class ParticipantContext {
+
+    /**
+     * Retrieves the participants by schedule(event) id
+     * @param id
+     * @return List of Participants included in the evernt
+     */
     public static List<ParticipantInScheduleEntity> getParticipantsByScheduleId(int id){
         List<ParticipantInScheduleEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
@@ -48,6 +54,36 @@ public class ParticipantContext {
             session.save(participantInScheduleEntity);
 
             //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    /**
+     * updates decision of an participant in a certain event and adds reason
+     * @param participantId
+     * @param scheduleId
+     * @param status
+     * @param reason
+     */
+    public static void updateParticipantDecision(int participantId, int scheduleId, int status, String reason){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update ParticipantInScheduleEntity set status=:status, reason=:reason where scheduleId=:scheduleId and userId=:userId");
+            query.setParameter("userId", participantId);
+            query.setParameter("scheduleId", scheduleId);
+            query.setParameter("status", status);
+            query.setParameter("reason", reason);
+
+            query.executeUpdate();
             transaction.commit();
         }
         catch (HibernateException e) {

@@ -641,11 +641,11 @@ a:visited {
     transition: all 0.4s ease;
 }
 
-.btn-red:hover, .btn-blue:hover, .btn-green:hover, .btn-darkblue:hover, .btn-darkred:hover, .btn-grey:hover, .btn-darkyellow {
+.btn-red:hover, .btn-blue:hover, .btn-green:hover, .btn-darkblue:hover, .btn-darkred:hover, .btn-grey:hover, .btn-darkyellow:hover {
 
     color: #787878;
     border: 1px solid #787878;
-    border-radius: 15%;
+    border-radius: 30%;
 
     -webkit-transition: all 0.4s ease;
     -o-transition: all 0.4s ease;
@@ -1225,6 +1225,10 @@ input.form-control.calOtherTypeInput:focus {
     border-color: #4590ff;
 }
 
+#createBodyDiv{
+    display: none;
+}
+
 #createBodyDiv label {
     font-size: 14px;
 }
@@ -1236,10 +1240,6 @@ input.form-control.calOtherTypeInput:focus {
     z-index: 2;
     display: none;
     opacity: 0;
-
-
-
-
 }
 
 #dialogDiv.showDialog {
@@ -1268,6 +1268,10 @@ input.form-control.calOtherTypeInput:focus {
 
 #dialogViewButton {
     left: 1px;
+}
+
+#CalendarModalCreateAuthorButtonGroup {
+    float: right;
 }
 
 

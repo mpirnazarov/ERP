@@ -41,7 +41,7 @@ public class ScheduleMainControllerUtil {
 
             map.put("id", scheduleVM.getScheduleId()+"");
             map.put("title", scheduleVM.getTitle());
-            map.put("descrition", scheduleVM.getDescription());
+            map.put("description", scheduleVM.getDescription());
             map.put("place", scheduleVM.getPlace());
             map.put("s_type", scheduleVM.getsType()+"");
             map.put("other", scheduleVM.getOther());
@@ -54,6 +54,7 @@ public class ScheduleMainControllerUtil {
             map.put("participants", participantVMList);
             map.put("references", referenceVMList);
             map.put("Attachments", attachmentList);
+            map.put("actionType_id", scheduleVM.getActionTypeId());
 
             maps.add(map);
         }

@@ -74,6 +74,9 @@
             navLinks: false, // can click day/week names to navigate views
             selectable: true,
             selectHelper: true,
+            viewRender: function () {
+              getCurrentWeekDays();
+            },
 
             select: function (start, end, jsEvent, view) {
 
@@ -126,8 +129,8 @@
             },
             /*on EVENT click FUNCTION END*/
             editable: false,
-            eventLimit: true // allow "more" link when too many events
-            /*events: [
+            eventLimit: true, // allow "more" link when too many events
+            events: [
                 {
                     title: 'All Day Event',
                     start: '2017-04-01'
@@ -153,14 +156,14 @@
                     end: '2017-04-13'
                 },
                 {
-                    start: '2017-04-12T10:30:00',
-                    end: '2017-04-12T13:44:00',
+                    start: '2017-04-17T10:30:00',
+                    end: '2017-04-17T13:44:00',
                     title: 'Meetingggggg',
-                    type: 3,
+                    s_type: 3,
                     place: 'LG CNS Uzbekistan head office',
                     description: 'everyone MUST ET',
-                    isCompulsory: true,
-                    notifyByEmail: false
+                    is_compulsory: true,
+                    to_notify: false
                 },
                 {
                     title: 'Lunch',
@@ -195,10 +198,8 @@
                     start: '2017-04-28T14:00:00'
                 }
 
-            ]*/
+            ]
         });
-
-        getCurrentWeekDays();
 
     });
 
@@ -222,49 +223,6 @@
 
 
     }
-
-    /*function updateEvent(start, end, title, type, place, description, isCompulsory, notifyByEmail) {
-
-        clearModal();
-
-        var EventStart = start;
-        var EventEnd = end;
-        var EventTitle = title;
-        var EventType = type;
-        var EventPlace = place;
-        var EventDescription = description;
-        var EventIsCompulsory = isCompulsory;
-        var EventNotifyByEmail = notifyByEmail;
-
-        $('#dateTimeStart').val(EventStart);
-        $('#dateTimeEnd').val(EventEnd);
-        $('#eventTitle').val(EventTitle);
-        $('#eventPlace').val(EventPlace);
-        $('#eventDescription').val(EventDescription);
-
-        if (EventType == 1) {
-            $('#option1').prop('checked', true);
-        } else if (EventType == 2) {
-            $('#option2').prop('checked', true);
-        } else if (EventType == 3) {
-            $('#option3').prop('checked', true);
-        } else if (EventType == 4) {
-            $('#option4').prop('checked', true);
-        }
-
-        if (EventIsCompulsory) {
-            $('#isCompulsory').prop('checked', true);
-        }
-
-        if (EventNotifyByEmail) {
-            $('#notifyByEmail').prop('checked', true);
-        }
-
-        $('#CalendarModal').modal('show');
-
-        $('#message').html('this is EDIT FORM')
-
-    }*/
 
     function editEvent(calEvent) {
 
@@ -502,9 +460,10 @@
         var view = calendar.view;
         var startOfWeek = view.start._d;
         var endOfWeek = view.end._d;
-        var dates = ("Start" + startOfWeek + "End" + endOfWeek);
-
+        /*var dates = ("Start" + startOfWeek + "End" + endOfWeek);
+        alert(dates);*/
        getSourceJson(startOfWeek, endOfWeek);
+
 
     }
 

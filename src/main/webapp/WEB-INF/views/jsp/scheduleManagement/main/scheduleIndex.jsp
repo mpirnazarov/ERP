@@ -36,10 +36,8 @@
 
 <script>
 
-    $(document).onlo
-
     $(document).ready(function () {
-        getSourceJson();
+
 
         $('#eventParticipants').tokenInput(${UserslistJson});
         $('#eventReferences').tokenInput(${UserslistJson});
@@ -199,6 +197,8 @@
 
             ]*/
         });
+
+        getCurrentWeekDays();
 
     });
 
@@ -414,12 +414,13 @@
         });
     }
     
-    function getSourceJson() {
+    function getSourceJson(startOfWeek, endOfWeek) {
 
         var listOfEvents = [];
 
         $.ajax({
-            type: "GET",
+            type: "Post",
+            data: "start=" + startOfWeek + "&=end" + endOfWeek,
             url: "/ScheduleManagement/api/scheduleList",
             success: function (response) {
 
@@ -493,6 +494,17 @@
 
         }
 
+
+    }
+    
+    function getCurrentWeekDays() {
+        var calendar = $('#calendar').fullCalendar('getCalendar');
+        var view = calendar.view;
+        var startOfWeek = view.start._d;
+        var endOfWeek = view.end._d;
+        var dates = ("Start" + startOfWeek + "End" + endOfWeek);
+
+       getSourceJson(startOfWeek, endOfWeek);
 
     }
 

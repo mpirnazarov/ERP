@@ -51,8 +51,6 @@
         });
 
 
-
-
         $('#calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
@@ -61,7 +59,7 @@
             },
             titleFormat: 'MMMM  D, YYYY',
             columnFormat: 'ddd DD MMM',
-            timeFormat:'H:mm',
+            timeFormat: 'H:mm',
             slotLabelFormat: 'H:mm',
             minTime: '09:00:00',
             maxTime: '21:00:00',
@@ -75,7 +73,8 @@
             selectable: true,
             selectHelper: true,
             viewRender: function () {
-              getCurrentWeekDays();
+                $('#calendar').fullCalendar('removeEvents');
+                getCurrentWeekDays();
             },
 
             select: function (start, end, jsEvent, view) {
@@ -99,29 +98,33 @@
                 var currentUser = ${userId};
                 var curWidth = $(this).width();
                 var curHeight = $(this).height();
-                var divCenterWidth = curWidth/2;
-                var divCenterHeight = curHeight/2;
+                var divCenterWidth = curWidth / 2;
+                var divCenterHeight = curHeight / 2;
 
                 var curPosition = $(this).offset();
 
                 /*$(this).mouseout(function () {
-                    dialogDiv.removeClass('showDialog');
-                })*/
+                 dialogDiv.removeClass('showDialog');
+                 })*/
                 /*UpdateEvent*/
-                if (currentUser == 1){
+                if (currentUser == 1) {
                     dialogDiv.addClass('showDialog');
-                }else {
+                } else {
                     view(calEvent);
                 }
 
-                dialogDiv.css({top:curPosition.top + divCenterHeight - 5 ,left:curPosition.left + divCenterWidth,width:curWidth});
+                dialogDiv.css({
+                    top: curPosition.top + divCenterHeight - 5,
+                    left: curPosition.left + divCenterWidth,
+                    width: curWidth
+                });
 
                 $('#dialogEditButton').click(function () {
-                        editEvent(calEvent);
+                    editEvent(calEvent);
                 })
 
                 $('#dialogViewButton').click(function () {
-                        viewEvent(calEvent);
+                    viewEvent(calEvent);
                 })
 
                 /*updateEvent(moment(calEvent.start).format('YYYY/MM/DD hh:mm'), moment(calEvent.end).format('YYYY/MM/DD hh:mm'), calEvent.title, calEvent.type, calEvent.place, calEvent.description, calEvent.isCompulsory, calEvent.notifyByEmail);*/
@@ -163,7 +166,24 @@
                     place: 'LG CNS Uzbekistan head office',
                     description: 'everyone MUST ET',
                     is_compulsory: true,
-                    to_notify: false
+                    to_notify: false,
+                    participantsList: [{
+                        userId: 4,
+                        status: null,
+                        reason: null,
+                        name: "Murodjon",
+                        surname: "Muslimov",
+                        departmentName: "Technical department",
+                        jobTitle: "Developer"
+                    }, {
+                        userId: 7,
+                        status: null,
+                        reason: null,
+                        name: "Shaykhov",
+                        surname: "Jasur",
+                        departmentName: "Technical department",
+                        jobTitle: "Developer"
+                    }]
                 },
                 {
                     title: 'Lunch',
@@ -244,12 +264,34 @@
         var EventIsDraft = calEvent.is_draft;
         var EventStart = moment(calEvent.start).format('YYYY/MM/DD H:mm');
         var EventEnd = moment(calEvent.end).format('YYYY/MM/DD H:mm');
+        var EventParticipants;
+        var EventReferences ;
+        var EventAttachments;
+
+       /* $(calEvent.participantsList).each(function (i, par) {
+           /!* EventParticipants.push(par);*!/
+            $('#eventParticipantsGroup').tokenInput("add", [par]);
+        });
+
+        $(calEvent.referencesList).each(function (i, ref) {
+            /!*EventReferences.push(ref);*!/
+        });
+
+        $(calEvent.attachmentList).each(function (i, at) {
+            /!*EventAttachments.push(at);*!/
+        });
+*/
+
+
+
+
 
         $('#dateTimeStart').val(EventStart);
         $('#dateTimeEnd').val(EventEnd);
         $('#eventTitle').val(EventTitle);
         $('#eventPlace').val(EventPlace);
         $('#eventDescription').val(EventDescription);
+
 
         if (EventType == 1) {
             $('#option1').prop('checked', true);
@@ -297,7 +339,7 @@
         var EventStart = moment(calEvent.start).format('YYYY/MM/DD H:mm');
         var EventEnd = moment(calEvent.end).format('YYYY/MM/DD H:mm');
 
-        $('#eventViewReferencesList').text("Other: " + EventOtherType + "EventAuthor: " + EventAuthorId +"EventId: " + EventId + " EventDescription: " + EventDescription + '  ' + EventPlace + " IS NOTIFY  |" + EventNotifyByEmail + " COMPULSORY  |" + EventIsCompulsory );
+        $('#eventViewReferencesList').text("Other: " + EventOtherType + "EventAuthor: " + EventAuthorId + "EventId: " + EventId + " EventDescription: " + EventDescription + '  ' + EventPlace + " IS NOTIFY  |" + EventNotifyByEmail + " COMPULSORY  |" + EventIsCompulsory);
 
 
         $('#CalendarModalLabel').text('View Event');
@@ -349,14 +391,12 @@
 
 
         /* Getting array of strings of participants and references */
-        var participants=[];
-        var references=[];
-
+        var participants = [];
+        var references = [];
 
 
         participants = $("#eventParticipantsGroup").children().siblings("input[type=text]").val();
         references = $("#eventReferencesGroup").children().siblings("input[type=text]").val();
-
 
 
         $.ajax({
@@ -371,7 +411,7 @@
             }
         });
     }
-    
+
     function getSourceJson(startOfWeek, endOfWeek) {
 
         var listOfEvents = [];
@@ -384,15 +424,14 @@
 
                 $(response).each(function (i, res) {
 
-                    var participants = {};
-                    var references = {};
                     var listOfParticipants = [];
                     var listOfReferences = [];
+                    var listOfAttachments = [];
                     var event = {};
 
                     /*$(res.participants).each(function (i, par) {
 
-                    })*/
+                     })*/
 
                     event.author_id = res.author_id
                     event.id = res.id;
@@ -407,12 +446,23 @@
                     event.is_draft = res.is_draft;
                     event.start = res.start;
                     event.end = res.end;
-
+                    $(res.participants).each(function (i, par) {
+                        listOfParticipants.push(par);
+                    });
+                    $(res.references).each(function (i, ref) {
+                        listOfReferences.push(ref);
+                    });
+                    $(res.Attachments).each(function (i, at) {
+                        listOfAttachments.push(at);
+                    });
+                    event.participantsList = listOfParticipants;
+                    event.referencesList = listOfReferences;
+                    event.attachmentList = listOfAttachments;
 
 
                     /*alert("dasdfa" + event.start);*/
 
-                    $('#calendar').fullCalendar( 'renderEvent', event , 'stick');
+                    $('#calendar').fullCalendar('renderEvent', event, 'stick');
                     listOfEvents.push(event);
                 });
 
@@ -426,8 +476,6 @@
         });
 
 
-
-        
     }
 
     function switchContentDiv(divToDisplay) {
@@ -437,37 +485,43 @@
         var viewDiv = $('#viewBodyDiv');
         var mainModalBody = $('#CalendarModal div.modal-body');
 
-        if (divToDisplay == "create"){
-            createDiv.css('display','block');
-            createDivAuthorButtons.css('display','block');
-            viewDiv.css('display','none');
-        }else if (divToDisplay == "view") {
-            createDiv.css('display','none');
-            createDivAuthorButtons.css('display','none');
-            viewDiv.css('display','block');
-        }else {
-            createDiv.css('display','none');
-            viewDiv.css('display','none');
+        if (divToDisplay == "create") {
+            createDiv.css('display', 'block');
+            createDivAuthorButtons.css('display', 'block');
+            viewDiv.css('display', 'none');
+        } else if (divToDisplay == "view") {
+            createDiv.css('display', 'none');
+            createDivAuthorButtons.css('display', 'none');
+            viewDiv.css('display', 'block');
+        } else {
+            createDiv.css('display', 'none');
+            viewDiv.css('display', 'none');
             mainModalBody.append('<p>All views are disabled</p>')
 
         }
 
 
     }
-    
+
     function getCurrentWeekDays() {
         var calendar = $('#calendar').fullCalendar('getCalendar');
         var view = calendar.view;
         var startOfWeek = view.start.format('YYYY-MM-DD');
         var endOfWeek = view.end.format('YYYY-MM-DD');
-      /*  var dates = ("Start" + startOfWeek + "End" + endOfWeek);
-        alert(dates);*/
-       getSourceJson(startOfWeek, endOfWeek);
+        /*  var dates = ("Start" + startOfWeek + "End" + endOfWeek);
+         alert(dates);*/
+        getSourceJson(startOfWeek, endOfWeek);
 
     }
 
+    /*function whatVal(target) {
+     var targetTag = target;
+     var currentId = $(targetTag).data("user-id");
+     alert(targetTag.text() + "DATA ID :" + currentId);
 
+     return currentId;
 
+     }*/
 
 
 </script>
@@ -494,12 +548,13 @@
                 <div class="modal-content">
                     <form:form modelAttribute="scheduleVM" method="post" enctype="multipart/form-data">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="fa fa-window-close"
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    class="fa fa-window-close"
                                     aria-hidden="true"><%--&times;--%></span></button>
                             <h4 style="font-size:25px" class="modal-title" id="CalendarModalLabel"></h4>
                         </div>
                         <div class="modal-body">
-                            <%-------------------------------%>
+                                <%-------------------------------%>
                             <div id="createBodyDiv">
                                 <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">Title</span>
@@ -521,13 +576,14 @@
                                         <form:radiobutton id="option4" path="sType" value="4"/> Other
                                     </label>
                                     <form:input id="otherType" type="text" class="form-control calOtherTypeInput"
-                                           name="other" placeholder="Type other type....." path="other" />
+                                                name="other" placeholder="Type other type....." path="other"/>
                                 </div>
 
                                 <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">More</span>
-                                    <label style="margin-left: 1%" class="checkbox-inline"><form:checkbox id="isCompulsory"
-                                                                                                  path="compulsory"/>Is compulsory</label>
+                                    <label style="margin-left: 1%" class="checkbox-inline"><form:checkbox
+                                            id="isCompulsory"
+                                            path="compulsory"/>Is compulsory</label>
                                     <label class="checkbox-inline"><form:checkbox id="notifyByEmail"
                                                                                   path="toNotify"/>Notify by
                                         email</label>
@@ -560,7 +616,7 @@
                                 <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">Attachment</span>
                                     <form:input id="eventAttachment" type="file" class="form-control"
-                                           placeholder="..." path="file" multiple="true"/>
+                                                placeholder="..." path="file" multiple="true"/>
                                 </div>
 
                             </div>
@@ -568,12 +624,15 @@
                                 <div class="CalendarViewHeader">
                                     <div class="input-group calInputGroup">
                                         <span class="input-group-addon calSpan">Participants</span>
-                                        <input id="eventViewParticipantsList" type="text" class="form-control"
-                                               placeholder="...">
+                                        <div id="eventViewParticipantsList"><span class="calendarMemberPill">Sarvar Zokirov</span>Sarvar
+                                            Sarvar Sarvar ; Sarvar Sarvsar sarasrw
+                                        </div>
                                     </div>
                                     <div class="input-group calInputGroup">
                                         <span class="input-group-addon calSpan">References</span>
-                                        <div id="eventViewReferencesList">Sarvar Sarvar Sarvar ; Sarvar Sarvsar sarasrw </div>
+                                        <div id="eventViewReferencesList">Sarvar Sarvar Sarvar ; Sarvar Sarvsar
+                                            sarasrw
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="CalendarViewBody">
@@ -583,12 +642,15 @@
 
                                 </div>
                             </div>
-                            <%-------------------------------%>
+                                <%-------------------------------%>
                         </div>
                         <div class="modal-footer">
-                            <div id="CalendarModalCreateAuthorButtonGroup" class="btn-group" role="group" aria-label="...">
-                                <input id="calSaveButton" type="submit" name="Save" value="Save" onclick="submitEvent(this.id)" class="btn btn-blue"/>
-                                <input id="calSubmitButton" type="submit" name="Submit" value="Submit" onclick="submitEvent(this.id)" class="btn btn-green"/>
+                            <div id="CalendarModalCreateAuthorButtonGroup" class="btn-group" role="group"
+                                 aria-label="...">
+                                <input id="calSaveButton" type="submit" name="Save" value="Save"
+                                       onclick="submitEvent(this.id)" class="btn btn-blue"/>
+                                <input id="calSubmitButton" type="submit" name="Submit" value="Submit"
+                                       onclick="submitEvent(this.id)" class="btn btn-green"/>
                                 <input type="button" data-dismiss="modal" value="Cancel" class="btn btn-red"/>
                             </div>
                         </div>

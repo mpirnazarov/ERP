@@ -65,4 +65,27 @@ public class AttachmentContext {
 
         return list;
     }
+
+    /**
+     * Todo
+     * @param attachmentId
+     */
+    public static void deleteAttachment(int attachmentId){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("delete from ScheduleAttachmentsEntity where attachmentId=:attachmentId");
+            query.setParameter("attachmentId", attachmentId);
+             query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
 }

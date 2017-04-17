@@ -47,6 +47,7 @@
 	</bean>
 
 	<bean id="ScheduleTestService" class="com.lgcns.erp.scheduleManagement.serviceImpl.ScheduleMainmpl"></bean>
+	<bean id="sceduleUpdate" class="com.lgcns.erp.scheduleManagement.serviceImpl.ScheduleUpdateImpl"></bean>
 
 	<!--<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>

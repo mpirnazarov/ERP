@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -20,13 +21,15 @@ public class ScheduleMainContext {
      * Retrieves all schedule entities
      * @return
      */
-    public static List<ScheduleEntity> getScheduleList(){
+    public static List<ScheduleEntity> getScheduleList(Timestamp start, Timestamp end){
         List<ScheduleEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from ScheduleEntity ");
+            Query query = session.createQuery("from ScheduleEntity where dateFrom>=:from and dateTo<=:end");
+            query.setParameter("from", start);
+            query.setParameter("end", end);
             list = (List<ScheduleEntity>)query.list();
             transaction.commit();
         }

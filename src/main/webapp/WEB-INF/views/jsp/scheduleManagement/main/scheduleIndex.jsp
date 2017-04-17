@@ -418,8 +418,8 @@
 
         $.ajax({
             type: "Post",
-            data: "start=" + startOfWeek + "&=end" + endOfWeek,
-            url: "/ScheduleManagement/api/scheduleList",
+            data: 'start=' + startOfWeek + '&end=' + endOfWeek,
+            url: "${pageContext.request.contextPath}/ScheduleManagement/api/scheduleList",
             success: function (response) {
 
                 $(response).each(function (i, res) {

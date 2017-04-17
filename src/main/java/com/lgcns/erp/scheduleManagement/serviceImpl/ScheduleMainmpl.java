@@ -12,6 +12,7 @@ import com.lgcns.erp.scheduleManagement.mapper.ScheduleMainMapper;
 import com.lgcns.erp.scheduleManagement.service.ScheduleMainService;
 import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -20,8 +21,8 @@ import java.util.List;
 public class ScheduleMainmpl implements ScheduleMainService {
 
     @Override
-    public List<ScheduleVM> getScheduleList() {
-        List<ScheduleVM> scheduleVMList = ScheduleMainMapper.mapFromScheduleEntityListToVM(ScheduleMainContext.getScheduleList());
+    public List<ScheduleVM> getScheduleList(Timestamp start, Timestamp end) {
+        List<ScheduleVM> scheduleVMList = ScheduleMainMapper.mapFromScheduleEntityListToVM(ScheduleMainContext.getScheduleList(start, end));
         return scheduleVMList;
     }
 
@@ -50,8 +51,5 @@ public class ScheduleMainmpl implements ScheduleMainService {
 
     }
 
-    @Override
-    public void updateParticipantDecision(int participantId, int scheduleId, int status, String reason) {
-        ParticipantContext.updateParticipantDecision(participantId, scheduleId, status, reason);
-    }
+
 }

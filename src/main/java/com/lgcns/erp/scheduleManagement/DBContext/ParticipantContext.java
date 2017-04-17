@@ -94,4 +94,24 @@ public class ParticipantContext {
             session.close();
         }
     }
+
+    public static void deleteParticipant(int userId, int scheduleId){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("delete from ParticipantInScheduleEntity where scheduleId = :scheduleId and userId=:userId");
+            query.setParameter("userId", userId);
+            query.setParameter("scheduleId", scheduleId);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
 }

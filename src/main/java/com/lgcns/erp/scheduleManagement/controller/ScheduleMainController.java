@@ -25,6 +25,7 @@ import java.security.Principal;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -58,24 +59,52 @@ public class ScheduleMainController {
     }
 
     /**
-     * This method is called after Main Schedule page is opened
-     * @return  List of schedules mapped
+     * Returns list of schedules for the requested week
+     * @param principal
+     * @param start
+     * @param end
+     * @return
      * @throws ParseException
      */
     @RequestMapping(value = "/api/scheduleList", method = RequestMethod.POST)
-    public @ResponseBody List<HashMap<String, Object>> getAllSchedules(Principal principal, @RequestParam Date from, @RequestParam Date to) throws ParseException {
+    public @ResponseBody List<HashMap<String, Object>> getAllSchedules(Principal principal, @RequestParam("start") String start, @RequestParam("end") String end) throws ParseException {
+        List<ScheduleVM> scheduleVMList = service.getScheduleList(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)));
+        List<HashMap<String, Object>> weeklySchedule = ScheduleMainControllerUtil.putScheduleEventsToMap(scheduleVMList);
 
-        System.out.println(from+" "+to);
+        return weeklySchedule;
+    }
 
-        List<ScheduleVM> scheduleVMList = service.getScheduleList();
-        List<HashMap<String, Object>> fullSchedule = ScheduleMainControllerUtil.putScheduleEventsToMap(scheduleVMList);
+    /**
+     *
+     * @param date
+     * @return
+     */
+    private Timestamp convertStringToTimeStamp(String date){
+        Timestamp timestamp = null;
+        try{
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsedDate = dateFormat.parse(date);
+            timestamp = new java.sql.Timestamp(parsedDate.getTime());
+        }catch(Exception e){//this generic but you can control another types of exception
+            e.printStackTrace();
+        }
 
-        return fullSchedule;
+        return timestamp;
+    }
+
+    private String minusOneDay(String date) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedDate = dateFormat.parse(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(parsedDate);
+        calendar.add(Calendar.DATE, -1);
+        parsedDate = calendar.getTime();
+
+        return dateFormat.format(parsedDate);
     }
 
     /**
      * This method is responsible for creation and update of schedule entities. It decides to use create or update after checking ActionTypeId.
-     * ToDo logically finalize update of participants, references, Attachments
      * @param scheduleVM
      * @param principal
      * @return Redirects to Main Schedule page after finishing the processes
@@ -108,14 +137,6 @@ public class ScheduleMainController {
         return "redirect: /ScheduleManagement/main";
     }
 
-
-    /**
-     * ToDo identify needed parameters and return type based on front end needs and capabilities
-     */
-    @RequestMapping(value = "/ParticipantDecision")
-    public void decide(){
-
-    }
 
     /**
      * This method consumes participants and references sent from client side, and assigns them to global variables

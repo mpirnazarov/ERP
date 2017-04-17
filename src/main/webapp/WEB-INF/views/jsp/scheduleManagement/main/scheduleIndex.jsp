@@ -458,12 +458,11 @@
     function getCurrentWeekDays() {
         var calendar = $('#calendar').fullCalendar('getCalendar');
         var view = calendar.view;
-        var startOfWeek = view.start._d;
-        var endOfWeek = view.end._d;
-        /*var dates = ("Start" + startOfWeek + "End" + endOfWeek);
+        var startOfWeek = view.start.format('YYYY-MM-DD');
+        var endOfWeek = view.end.format('YYYY-MM-DD');
+      /*  var dates = ("Start" + startOfWeek + "End" + endOfWeek);
         alert(dates);*/
        getSourceJson(startOfWeek, endOfWeek);
-
 
     }
 
@@ -602,6 +601,5 @@
         </div>
     </div>
 
-</div>
 </div>
 

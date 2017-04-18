@@ -37,8 +37,8 @@ import java.util.List;
 @RequestMapping("/ScheduleManagement")
 @Controller
 public class ScheduleMainController {
-    int[] participantsGlobal = null;
-    int[] referencesGlobal = null;
+   int[] participantsGlobal = null;
+   int[] referencesGlobal = null;
 
     @Autowired
     ScheduleMainService service;
@@ -135,7 +135,6 @@ public class ScheduleMainController {
 
         return "redirect: /ScheduleManagement/main";
     }
-
     /**
      * This method consumes participants and references sent from client side, and assigns them to global variables
      * @param participants
@@ -145,7 +144,6 @@ public class ScheduleMainController {
     @RequestMapping(value = "/ScheduleMembersAjax", method = RequestMethod.POST)
     public @ResponseBody
     int[] ScheduleMembersPostAjax(@RequestParam("participants") int[] participants, @RequestParam("references") int[] references){
-
         participantsGlobal = participants;
         referencesGlobal = references;
 

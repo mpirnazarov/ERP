@@ -1,6 +1,9 @@
 package com.lgcns.erp.scheduleManagement.controller;
 
+import com.lgcns.erp.scheduleManagement.mapper.ScheduleMainMapper;
+import com.lgcns.erp.scheduleManagement.service.ScheduleMainService;
 import com.lgcns.erp.scheduleManagement.service.ScheduleUpdateService;
+import com.lgcns.erp.scheduleManagement.util.ScheduleMainControllerUtil;
 import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -12,10 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -28,8 +28,14 @@ import java.security.Principal;
 @RequestMapping("/ScheduleDetails")
 @Controller
 public class ScheduleDetailsController {
+    int[] participantsGlobal = null;
+    int[] referencesGlobal = null;
+
     @Autowired
     ScheduleUpdateService service;
+
+    @Autowired
+    ScheduleMainService mainService;
 
     /**
      * ToDo logically finalize update of participants, references, Attachments
@@ -42,6 +48,20 @@ public class ScheduleDetailsController {
         service.deleteParticipant(scheduleId);
         service.deleteReference(scheduleId);
         service.deleteAttachment(scheduleId);
+
+        mainService.updateSchedule(ScheduleMainMapper.mapScheduleFromVMToEntity(scheduleVM));
+        //insert new participants, referenced and attachments
+        if (participantsGlobal != null) {
+            for (int participant : scheduleVM.getParticipants()) {
+                mainService.insertParticipants(ScheduleMainMapper.mapParticipantInSchedule(scheduleId, participant));
+            }
+        }
+        if (referencesGlobal != null) {
+            for (int reference : scheduleVM.getReferences()) {
+                mainService.insertReference(ScheduleMainMapper.mapReferenceInSchedule(scheduleId, reference));
+            }
+        }
+        ScheduleMainControllerUtil.uploadFile(scheduleVM, scheduleId, mainService);
 
         return "redirect: /ScheduleManagement/main";
     }
@@ -68,5 +88,14 @@ public class ScheduleDetailsController {
         service.deleteAttachment(scheduleId);
         service.deleteParticipant(scheduleId);
         service.deleteSchedule(scheduleId);
+    }
+
+    @RequestMapping(value = "/ScheduleMembersAjax", method = RequestMethod.POST)
+    public @ResponseBody
+    int[] ScheduleMembersPostAjax(@RequestParam("participants") int[] participants, @RequestParam("references") int[] references){
+        participantsGlobal = participants;
+        referencesGlobal = references;
+
+        return participants;
     }
 }

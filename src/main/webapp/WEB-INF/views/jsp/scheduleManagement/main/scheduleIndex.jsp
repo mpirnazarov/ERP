@@ -217,10 +217,8 @@
 
     function createEvent(start, end, calendarObject) {
 
-        clearModal();
-        $('#calSubmitButton').attr('value','Submit');
         switchContentDiv("create");
-
+        clearModal();
 
         var targetCalendar = $('#' + calendarObject)
         var EventStart = start;
@@ -244,9 +242,11 @@
 
     function editEvent(calEvent) {
 
-        clearModal();
-        $('#calSubmitButton').attr('value','Update');
         switchContentDiv("create")
+        clearModal();
+
+
+
 
         /*moment(start).format('YYYY/MM/DD H:mm'), moment(end).format('YYYY/MM/DD H:mm')*/
 
@@ -394,7 +394,6 @@
             targetButton.css('opacity', '0');
         }
 
-        $('#calSubmitButton').attr('value','');
         $('ul.token-input-list').remove();
         $('#option1').prop('checked', true);
         $('#isCompulsory').prop('checked', false);
@@ -405,23 +404,13 @@
     function submitEvent(id) {
 
        var clickedButton =  $('#' + id);
-       var currentUrl = "";
 
         if (clickedButton.attr('value') == 'Submit'){
-            currentUrl = "/ScheduleManagement/ScheduleMembersAjax";
-            $('#isDraft').prop('checked', false);
-            $('#mainCalForm').attr('action', "/ScheduleManagement/main").submit();
-        }else if (clickedButton.attr('value') == 'Save'){
-            currentUrl = "/ScheduleManagement/ScheduleMembersAjax";
-            $('#isDraft').prop('checked', true);
-            $('#mainCalForm').attr('action', "/ScheduleManagement/main").submit();
-        }else if (clickedButton.attr('value') == 'Update'){
-            currentUrl = "/ScheduleDetails/ScheduleMembersAjax";
             $('#isDraft').prop('checked', false)
-            $('#mainCalForm').attr('action', "/ScheduleDetails/UpdateSchedule").submit();
-        }else {
-            alert('Value is empty')
+        }else if (clickedButton.attr('value') == 'Save'){
+            $('#isDraft').prop('checked', true)
         }
+
 
         /* Getting array of strings of participants and references */
         var participants = [];
@@ -434,7 +423,7 @@
 
         $.ajax({
             type: "POST",
-            url: currentUrl,
+            url: "/ScheduleManagement/ScheduleMembersAjax",
             data: 'participants=' + participants + '&references=' + references,
             success: function (response) {
 //                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
@@ -446,7 +435,7 @@
 
         //$('#mainCalForm').submit();
 
-
+        $('#mainCalForm').attr('action', "/ScheduleDetails/UpdateSchedule").submit();
     }
 
     function getSourceJson(startOfWeek, endOfWeek) {
@@ -682,7 +671,9 @@
                                  aria-label="...">
                                 <input id="calSaveButton" type="button" value="Save"
                                        onclick="submitEvent(this.id)" class="btn btn-blue"/>
-                                <input id="calSubmitButton" type="button" value=""
+                                <input id="calSubmitButton" type="button" value="Submit"
+                                       onclick="submitEvent(this.id)" class="btn btn-green"/>
+                                <input id="calUpdate" type="button"
                                        onclick="submitEvent(this.id)" class="btn btn-green"/>
                                 <input type="button" data-dismiss="modal"  value="Cancel" class="btn btn-red"/>
                             </div>

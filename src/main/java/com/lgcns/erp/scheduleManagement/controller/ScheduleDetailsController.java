@@ -1,6 +1,7 @@
 package com.lgcns.erp.scheduleManagement.controller;
 
 import com.lgcns.erp.scheduleManagement.service.ScheduleUpdateService;
+import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -11,12 +12,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.security.Principal;
 
 /**
  * Created by DS on 06.04.2017.
@@ -31,10 +34,10 @@ public class ScheduleDetailsController {
     /**
      * ToDo logically finalize update of participants, references, Attachments
      */
-    @RequestMapping(value = "/UpdateSchedule", method = RequestMethod.POST, params = "Update")
-    public String updateSchedule(@RequestParam("deletedParticipants") int[] deletedParticipants,
-                                 @RequestParam("deletedReferences") int[] deletedReferences,
-                                 @RequestParam("scheduleId") int scheduleId) throws IOException {
+    @RequestMapping(value = "/UpdateSchedule", method = RequestMethod.POST)
+    public String updateSchedule(@ModelAttribute ScheduleVM scheduleVM, Principal principal) throws IOException {
+
+        int scheduleId = scheduleVM.getScheduleId();
 
         service.deleteParticipant(scheduleId);
         service.deleteReference(scheduleId);

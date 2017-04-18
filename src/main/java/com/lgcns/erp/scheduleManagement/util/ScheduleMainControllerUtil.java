@@ -72,7 +72,12 @@ public class ScheduleMainControllerUtil {
         int minute = cDate.get(Calendar.MINUTE);
         int second = cDate.get(Calendar.SECOND);
 
-        String formattedDate = year+"-"+(month<10?("0"+month):(month))+"-"+day+"T"+(hour<10?("0"+hour):(hour))+":"+(minute<10?("0"+minute):(minute))+":"+(second<10?("0"+second):(second));
+        String formattedDate = year+
+                "-"+(month<10?("0"+month):(month))+
+                "-"+(day<10?("0"+day):(day))+
+                "T"+(hour<10?("0"+hour):(hour))+
+                ":"+(minute<10?("0"+minute):(minute))+
+                ":"+(second<10?("0"+second):(second));
 
         return formattedDate;
     }

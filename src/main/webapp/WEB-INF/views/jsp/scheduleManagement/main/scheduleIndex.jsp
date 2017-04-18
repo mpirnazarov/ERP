@@ -433,7 +433,9 @@
             }
         });
 
-        $('#mainCalForm').submit();
+        //$('#mainCalForm').submit();
+
+        $('#mainCalForm').attr('action', "/ScheduleDetails/UpdateSchedule").submit();
     }
 
     function getSourceJson(startOfWeek, endOfWeek) {
@@ -670,6 +672,8 @@
                                 <input id="calSaveButton" type="button" value="Save"
                                        onclick="submitEvent(this.id)" class="btn btn-blue"/>
                                 <input id="calSubmitButton" type="button" value="Submit"
+                                       onclick="submitEvent(this.id)" class="btn btn-green"/>
+                                <input id="calUpdate" type="button"
                                        onclick="submitEvent(this.id)" class="btn btn-green"/>
                                 <input type="button" data-dismiss="modal"  value="Cancel" class="btn btn-red"/>
                             </div>

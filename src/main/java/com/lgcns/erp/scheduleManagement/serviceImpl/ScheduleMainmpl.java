@@ -48,8 +48,6 @@ public class ScheduleMainmpl implements ScheduleMainService {
 
     @Override
     public void updateSchedule(ScheduleEntity scheduleEntity) {
-
+        ScheduleMainContext.updateSchedule(scheduleEntity);
     }
-
-
 }

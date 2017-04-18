@@ -390,6 +390,9 @@
     function submitEvent(id) {
 
 
+        alert("AAAAAAA")
+        $('#mainCalForm').submit();
+
         /* Getting array of strings of participants and references */
         var participants = [];
         var references = [];
@@ -546,7 +549,7 @@
         <div class="modal fade" id="CalendarModal" tabindex="-1" role="dialog" aria-labelledby="CalendarModalLabel">
             <div class="modal-dialog calModal" role="document">
                 <div class="modal-content">
-                    <form:form modelAttribute="scheduleVM" method="post" enctype="multipart/form-data">
+                    <form:form id="mainCalForm" modelAttribute="scheduleVM" method="post" enctype="multipart/form-data">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     class="fa fa-window-close"
@@ -584,9 +587,7 @@
                                     <label style="margin-left: 1%" class="checkbox-inline"><form:checkbox
                                             id="isCompulsory"
                                             path="compulsory"/>Is compulsory</label>
-                                    <label class="checkbox-inline"><form:checkbox id="notifyByEmail"
-                                                                                  path="toNotify"/>Notify by
-                                        email</label>
+                                    <label class="checkbox-inline"><form:checkbox id="notifyByEmail" path="toNotify"/>Notify by email</label>
                                 </div>
                                 <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">Date and Time</span>
@@ -647,14 +648,14 @@
                         <div class="modal-footer">
                             <div id="CalendarModalCreateAuthorButtonGroup" class="btn-group" role="group"
                                  aria-label="...">
-                                <input id="calSaveButton" type="submit" name="Save" value="Save"
+                                <input id="calSaveButton" type="button"  name="Submit" value="Save"
                                        onclick="submitEvent(this.id)" class="btn btn-blue"/>
-                                <input id="calSubmitButton" type="submit" name="Submit" value="Submit"
+                                <input id="calSubmitButton" type="button"  name="Submit" value="Submit"
                                        onclick="submitEvent(this.id)" class="btn btn-green"/>
                                 <input type="button" data-dismiss="modal" value="Cancel" class="btn btn-red"/>
                             </div>
                         </div>
-
+                        <form:input type="hidden" path="draft"/>
                         <form:input type="hidden" path="actionTypeId"/>
                     </form:form>
                     <span id="message"></span>

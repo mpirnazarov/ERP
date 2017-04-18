@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+
 /**
  * Created by DS on 06.04.2017.
  */
@@ -30,21 +32,13 @@ public class ScheduleDetailsController {
      * ToDo logically finalize update of participants, references, Attachments
      */
     @RequestMapping(value = "/UpdateSchedule", method = RequestMethod.POST, params = "Update")
-    public String updateSchedule(@RequestParam("deletedParticipants") int[]deletedParticipants,
-                                 @RequestParam("deletedReferences")int[]deletedReferences,
-                                 @RequestParam("scheduleId")int scheduleId){
+    public String updateSchedule(@RequestParam("deletedParticipants") int[] deletedParticipants,
+                                 @RequestParam("deletedReferences") int[] deletedReferences,
+                                 @RequestParam("scheduleId") int scheduleId) throws IOException {
 
-        if (deletedParticipants!=null){
-            for (int deletedParticipant : deletedParticipants) {
-                service.deleteParticipant(deletedParticipant, scheduleId);
-            }
-        }
-        if (deletedReferences!=null){
-            for (int deletedReference : deletedReferences) {
-                service.deleteReference(deletedReference, scheduleId);
-            }
-        }
-
+        service.deleteParticipant(scheduleId);
+        service.deleteReference(scheduleId);
+        service.deleteAttachment(scheduleId);
 
         return "redirect: /ScheduleManagement/main";
     }
@@ -58,5 +52,18 @@ public class ScheduleDetailsController {
                        @RequestParam("status")int status,
                        @RequestParam("reason")String reason){
         service.updateParticipantDecision(participantId, scheduleId, status,reason);
+    }
+
+    /**
+     * Removes all the rows of a certain schedule todo
+     * @param scheduleId
+     * @throws IOException
+     */
+    @RequestMapping(value = "/DeleteSchedule", method = RequestMethod.POST)
+    public void delete(@RequestParam("scheduleId")int scheduleId) throws IOException {
+        service.deleteReference(scheduleId);
+        service.deleteAttachment(scheduleId);
+        service.deleteParticipant(scheduleId);
+        service.deleteSchedule(scheduleId);
     }
 }

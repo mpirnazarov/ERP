@@ -68,15 +68,15 @@ public class AttachmentContext {
 
     /**
      * Todo
-     * @param attachmentId
+     * @param scheduleId
      */
-    public static void deleteAttachment(int attachmentId){
+    public static void deleteAttachment(int scheduleId){
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("delete from ScheduleAttachmentsEntity where attachmentId=:attachmentId");
-            query.setParameter("attachmentId", attachmentId);
+            Query query = session.createQuery("delete from ScheduleAttachmentsEntity where scheduleId=:scheduleId");
+            query.setParameter("scheduleId", scheduleId);
              query.executeUpdate();
             transaction.commit();
         }

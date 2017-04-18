@@ -65,13 +65,12 @@ public class ReferenceContext {
         return list;
     }
 
-    public static void deleteReference(int userId, int scheduleId){
+    public static void deleteReference(int scheduleId){
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("delete from ReferenceInCheduleEntity where userId = :userId and scheduleId =:scheduleId");
-            query.setParameter("userId", userId);
+            Query query = session.createQuery("delete from ReferenceInCheduleEntity where scheduleId =:scheduleId");
             query.setParameter("scheduleId", scheduleId);
             query.executeUpdate();
             transaction.commit();

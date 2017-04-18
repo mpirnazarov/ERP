@@ -40,8 +40,6 @@ public class ScheduleMainController {
     int[] participantsGlobal = null;
     int[] referencesGlobal = null;
 
-    private Date startDate = null, endDate = null;
-
     @Autowired
     ScheduleMainService service;
 
@@ -75,9 +73,9 @@ public class ScheduleMainController {
     }
 
     /**
-     *
+     * Converts Date type to TimeStamp
      * @param date
-     * @return
+     * @return Timestamp
      */
     private Timestamp convertStringToTimeStamp(String date){
         Timestamp timestamp = null;
@@ -92,6 +90,12 @@ public class ScheduleMainController {
         return timestamp;
     }
 
+    /**
+     * Subtracts one day from the given date and returns
+     * @param date
+     * @return parsed date in String type
+     * @throws ParseException
+     */
     private String minusOneDay(String date) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date parsedDate = dateFormat.parse(date);
@@ -110,33 +114,27 @@ public class ScheduleMainController {
      * @return Redirects to Main Schedule page after finishing the processes
      * @throws IOException
      */
-    @RequestMapping(value = "/main", method = RequestMethod.POST, params = "Submit")
+    @RequestMapping(value = "/main", method = RequestMethod.POST)
     public String create(@ModelAttribute ScheduleVM scheduleVM, Principal principal) throws IOException {
         scheduleVM.setAuthorId(UserService.getIdByUsername(principal.getName()));
         scheduleVM.setParticipants(participantsGlobal);
         scheduleVM.setReferences(referencesGlobal);
-
-        if (scheduleVM.getActionTypeId() == ActionTypeId.Update.getValue())
-            service.updateSchedule(ScheduleMainMapper.mapScheduleFromVMToEntity(scheduleVM));
-        else {
         /* Write into database schedule data */
-            int scheduleId = service.insertSchedule(ScheduleMainMapper.mapScheduleFromVMToEntity(scheduleVM));
-            if (participantsGlobal != null) {
-                for (int participant : scheduleVM.getParticipants()) {
-                    service.insertParticipants(ScheduleMainMapper.mapParticipantInSchedule(scheduleId, participant));
-                }
+        int scheduleId = service.insertSchedule(ScheduleMainMapper.mapScheduleFromVMToEntity(scheduleVM));
+        if (participantsGlobal != null) {
+            for (int participant : scheduleVM.getParticipants()) {
+                service.insertParticipants(ScheduleMainMapper.mapParticipantInSchedule(scheduleId, participant));
             }
-            if (referencesGlobal != null) {
-                for (int reference : scheduleVM.getReferences()) {
-                    service.insertReference(ScheduleMainMapper.mapReferenceInSchedule(scheduleId, reference));
-                }
-            }
-            ScheduleMainControllerUtil.uploadFile(scheduleVM, scheduleId, service);
         }
+        if (referencesGlobal != null) {
+            for (int reference : scheduleVM.getReferences()) {
+                service.insertReference(ScheduleMainMapper.mapReferenceInSchedule(scheduleId, reference));
+            }
+        }
+        ScheduleMainControllerUtil.uploadFile(scheduleVM, scheduleId, service);
 
         return "redirect: /ScheduleManagement/main";
     }
-
 
     /**
      * This method consumes participants and references sent from client side, and assigns them to global variables

@@ -17,10 +17,11 @@ public class ParticipantContext {
 
     /**
      * Retrieves the participants by schedule(event) id
+     *
      * @param id
      * @return List of Participants included in the evernt
      */
-    public static List<ParticipantInScheduleEntity> getParticipantsByScheduleId(int id){
+    public static List<ParticipantInScheduleEntity> getParticipantsByScheduleId(int id) {
         List<ParticipantInScheduleEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -28,21 +29,19 @@ public class ParticipantContext {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from ParticipantInScheduleEntity where scheduleId=:id");
             query.setParameter("id", id);
-            list = (List<ParticipantInScheduleEntity>)query.list();
+            list = (List<ParticipantInScheduleEntity>) query.list();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
 
         return list;
     }
 
-    public static void insertParticipants(ParticipantInScheduleEntity participantInScheduleEntity){
+    public static void insertParticipants(ParticipantInScheduleEntity participantInScheduleEntity) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -55,29 +54,29 @@ public class ParticipantContext {
 
             //Commit the transaction
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
 
     /**
      * updates decision of an participant in a certain event and adds reason
+     *
      * @param participantId
      * @param scheduleId
      * @param status
      * @param reason
      */
-    public static void updateParticipantDecision(int participantId, int scheduleId, int status, String reason){
+    public static void updateParticipantDecision(int participantId, int scheduleId, int status, String reason) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("update ParticipantInScheduleEntity set status=:status, reason=:reason where scheduleId=:scheduleId and userId=:userId");
+            Query query = session.createQuery("update ParticipantInScheduleEntity set status=:status, reason=:reason " +
+                    "where scheduleId=:scheduleId and userId=:userId");
             query.setParameter("userId", participantId);
             query.setParameter("scheduleId", scheduleId);
             query.setParameter("status", status);
@@ -85,32 +84,32 @@ public class ParticipantContext {
 
             query.executeUpdate();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
 
-    public static void deleteParticipant(int userId, int scheduleId){
+    /**
+     * Deletes participant
+     *
+     * @param scheduleId
+     */
+    public static void deleteParticipant(int scheduleId) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("delete from ParticipantInScheduleEntity where scheduleId = :scheduleId and userId=:userId");
-            query.setParameter("userId", userId);
             query.setParameter("scheduleId", scheduleId);
             query.executeUpdate();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }

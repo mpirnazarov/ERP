@@ -22,49 +22,13 @@ public class ScheduleVM {
     private Date dateTo;
     private boolean compulsory;
     private boolean toNotify;
-    private boolean isDraft;
     private int authorId;
     private int[] participants;
     private int[] references;
     private List<Attachment> attachments;
     private MultipartFile[] file;
     private int actionTypeId;
-
-    public void setDraft(boolean draft) {
-        isDraft = draft;
-    }
-
-    public int getActionTypeId() {
-        return actionTypeId;
-    }
-
-    public void setActionTypeId(int actionTypeId) {
-        this.actionTypeId = actionTypeId;
-    }
-
-    public List<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(List<Attachment> attachments) {
-        this.attachments = attachments;
-    }
-
-    public int[] getParticipants() {
-        return participants;
-    }
-
-    public void setParticipants(int[] participants) {
-        this.participants = participants;
-    }
-
-    public int[] getReferences() {
-        return references;
-    }
-
-    public void setReferences(int[] references) {
-        this.references = references;
-    }
+    private boolean draft;
 
     public int getScheduleId() {
         return scheduleId;
@@ -146,16 +110,36 @@ public class ScheduleVM {
         this.toNotify = toNotify;
     }
 
-    public boolean isDraft() {
-        return isDraft;
-    }
-
     public int getAuthorId() {
         return authorId;
     }
 
     public void setAuthorId(int authorId) {
         this.authorId = authorId;
+    }
+
+    public int[] getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(int[] participants) {
+        this.participants = participants;
+    }
+
+    public int[] getReferences() {
+        return references;
+    }
+
+    public void setReferences(int[] references) {
+        this.references = references;
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
     }
 
     public MultipartFile[] getFile() {
@@ -166,25 +150,19 @@ public class ScheduleVM {
         this.file = file;
     }
 
-    @Override
-    public String toString() {
-        return "ScheduleVM{" +
-                "scheduleId=" + scheduleId +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", place='" + place + '\'' +
-                ", sType=" + sType +
-                ", other='" + other + '\'' +
-                ", dateFrom=" + dateFrom +
-                ", dateTo=" + dateTo +
-                ", compulsory=" + compulsory +
-                ", toNotify=" + toNotify +
-                ", isDraft=" + isDraft +
-                ", authorId=" + authorId +
-                ", participants=" + Arrays.toString(participants) +
-                ", references=" + Arrays.toString(references) +
-                ", attachments=" + attachments +
-                ", file=" + Arrays.toString(file) +
-                '}';
+    public int getActionTypeId() {
+        return actionTypeId;
+    }
+
+    public void setActionTypeId(int actionTypeId) {
+        this.actionTypeId = actionTypeId;
+    }
+
+    public boolean isDraft() {
+        return draft;
+    }
+
+    public void setDraft(boolean draft) {
+        this.draft = draft;
     }
 }

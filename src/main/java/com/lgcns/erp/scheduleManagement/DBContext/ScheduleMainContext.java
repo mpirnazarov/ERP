@@ -85,4 +85,23 @@ public class ScheduleMainContext {
         }
     }
 
+    public static void deleteSchedule(int scheduleId){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("delete from ScheduleEntity where scheduleId =:scheduleId");
+            query.setParameter("scheduleId", scheduleId);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
 }

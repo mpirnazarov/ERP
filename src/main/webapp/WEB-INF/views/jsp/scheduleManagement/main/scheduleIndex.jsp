@@ -38,11 +38,6 @@
 
     $(document).ready(function () {
 
-
-        $('#eventParticipants').tokenInput(${UserslistJson});
-        $('#eventReferences').tokenInput(${UserslistJson});
-        $('ul.token-input-list').addClass('tokenOverwriteClass');
-
         $('#dateTimeStart').datetimepicker({
             mask: '9999/19/39 29:59'
         });
@@ -59,16 +54,15 @@
             },
             titleFormat: 'MMMM  D, YYYY',
             columnFormat: 'ddd DD MMM',
-            timeFormat: 'H:mm',
-            slotLabelFormat: 'H:mm',
-            minTime: '09:00:00',
-            maxTime: '21:00:00',
-            slotLabelInterval: '00:30',
+            timeFormat: 'HH:mm',
+            slotLabelFormat: 'HH:mm',
             firstDay: 1,
             allDaySlot: false,
-            aspectRatio: 2,
-            defaultDate: new Date(),
+            nowIndicator: true,
+            aspectRatio: 1,
             defaultView: 'agendaWeek',
+            slotEventOverlap: false,
+            timezone: 'local',
             navLinks: false, // can click day/week names to navigate views
             selectable: true,
             selectHelper: true,
@@ -77,11 +71,11 @@
                 getCurrentWeekDays();
             },
 
-            select: function (start, end, jsEvent, view) {
+            select: function (start, end) {
 
                 $('#dialogDiv').removeClass('showDialog');
 
-                createEvent(moment(start).format('YYYY/MM/DD H:mm'), moment(end).format('YYYY/MM/DD H:mm'), "calendar");
+                createEvent(moment(start).format('YYYY/MM/DD HH:mm'), moment(end).format('YYYY/MM/DD HH:mm'), "calendar");
 
             },
 
@@ -132,8 +126,7 @@
             },
             /*on EVENT click FUNCTION END*/
             editable: false,
-            eventLimit: true, // allow "more" link when too many events
-            events: [
+            /*events: [
                 {
                     title: 'All Day Event',
                     start: '2017-04-01'
@@ -218,9 +211,8 @@
                     start: '2017-04-28T14:00:00'
                 }
 
-            ]
+            ]*/
         });
-
     });
 
     function createEvent(start, end, calendarObject) {
@@ -241,6 +233,10 @@
         $('#CalendarModal').modal('show');
         $('#CalendarModalLabel').text('Create New Event');
 
+        $('#eventParticipants').tokenInput(${UserslistJson});
+        $('#eventReferences').tokenInput(${UserslistJson});
+
+        $('ul.token-input-list').addClass('tokenOverwriteClass');
 
     }
 
@@ -248,6 +244,9 @@
 
         switchContentDiv("create")
         clearModal();
+
+
+
 
         /*moment(start).format('YYYY/MM/DD H:mm'), moment(end).format('YYYY/MM/DD H:mm')*/
 
@@ -262,29 +261,44 @@
         var EventIsCompulsory = calEvent.is_compulsory;
         var EventNotifyByEmail = calEvent.to_notify;
         var EventIsDraft = calEvent.is_draft;
-        var EventStart = moment(calEvent.start).format('YYYY/MM/DD H:mm');
-        var EventEnd = moment(calEvent.end).format('YYYY/MM/DD H:mm');
-        var EventParticipants;
-        var EventReferences ;
-        var EventAttachments;
+        var EventStart = moment(calEvent.start).format('YYYY/MM/DD HH:mm');
+        var EventEnd = moment(calEvent.end).format('YYYY/MM/DD HH:mm');
+        var EventParticipants = [];
+        var EventReferences = [];
+        var EventAttachments = [];
 
-       /* $(calEvent.participantsList).each(function (i, par) {
-           /!* EventParticipants.push(par);*!/
-            $('#eventParticipantsGroup').tokenInput("add", [par]);
+
+        $(calEvent.participantsList).each(function (i, par) {
+            var participant = {id: par.userId, name: par.name + ' ' + par.surname, jobTitle: par.jobTitle, department: par.departmentName};
+            EventParticipants.push(participant);
         });
 
         $(calEvent.referencesList).each(function (i, ref) {
-            /!*EventReferences.push(ref);*!/
+            var references = {id: ref.userId, name: ref.name + ' ' + ref.surname, jobTitle: ref.jobTitle, department: ref.departmentName};
+            EventReferences.push(references);
         });
 
         $(calEvent.attachmentList).each(function (i, at) {
-            /!*EventAttachments.push(at);*!/
+            /*EventAttachments.push(at);*/
         });
-*/
 
 
 
+        if (calEvent.participantsList == ""){
+            $('#eventParticipants').tokenInput(${UserslistJson});
+        }else{
+            $('#eventParticipants').tokenInput(${UserslistJson}, {
+                prePopulate: EventParticipants
+            });
+        }
 
+        if (calEvent.referencesList == ""){
+            $('#eventReferences').tokenInput(${UserslistJson});
+        }else {
+            $('#eventReferences').tokenInput(${UserslistJson}, {
+                prePopulate: EventReferences
+            });
+        }
 
         $('#dateTimeStart').val(EventStart);
         $('#dateTimeEnd').val(EventEnd);
@@ -303,11 +317,11 @@
             $('#option4').prop('checked', true);
         }
 
-        if (EventIsCompulsory) {
+        if (EventIsCompulsory == "true") {
             $('#isCompulsory').prop('checked', true);
         }
 
-        if (EventNotifyByEmail) {
+        if (EventNotifyByEmail == "true") {
             $('#notifyByEmail').prop('checked', true);
         }
 
@@ -317,6 +331,7 @@
 
         $('#CalendarModalLabel').text('Edit Event')
 
+        $('ul.token-input-list').addClass('tokenOverwriteClass');
 
     }
 
@@ -336,8 +351,8 @@
         var EventIsCompulsory = calEvent.is_compulsory;
         var EventNotifyByEmail = calEvent.to_notify;
         var EventIsDraft = calEvent.is_draft;
-        var EventStart = moment(calEvent.start).format('YYYY/MM/DD H:mm');
-        var EventEnd = moment(calEvent.end).format('YYYY/MM/DD H:mm');
+        var EventStart = moment(calEvent.start).format('YYYY/MM/DD HH:mm');
+        var EventEnd = moment(calEvent.end).format('YYYY/MM/DD HH:mm');
 
         $('#eventViewReferencesList').text("Other: " + EventOtherType + "EventAuthor: " + EventAuthorId + "EventId: " + EventId + " EventDescription: " + EventDescription + '  ' + EventPlace + " IS NOTIFY  |" + EventNotifyByEmail + " COMPULSORY  |" + EventIsCompulsory);
 
@@ -379,19 +394,23 @@
             targetButton.css('opacity', '0');
         }
 
+        $('ul.token-input-list').remove();
         $('#option1').prop('checked', true);
         $('#isCompulsory').prop('checked', false);
         $('#notifyByEmail').prop('checked', false);
-        $('#eventParticipants').tokenInput("clear");
-        $('#eventReferences').tokenInput("clear");
         $('#eventAttachment').val('');
     }
 
     function submitEvent(id) {
 
+       var clickedButton =  $('#' + id);
 
-        alert("AAAAAAA")
-        $('#mainCalForm').submit();
+        if (clickedButton.attr('value') == 'Submit'){
+            $('#isDraft').prop('checked', false)
+        }else if (clickedButton.attr('value') == 'Save'){
+            $('#isDraft').prop('checked', true)
+        }
+
 
         /* Getting array of strings of participants and references */
         var participants = [];
@@ -413,6 +432,8 @@
                 alert('Error: ' + e);
             }
         });
+
+        $('#mainCalForm').submit();
     }
 
     function getSourceJson(startOfWeek, endOfWeek) {
@@ -469,7 +490,6 @@
                     listOfEvents.push(event);
                 });
 
-                /*alert(listOfEvents);*/
 
 
             },
@@ -575,7 +595,7 @@
                                     <label class="btn" onclick="checkPressing()">
                                         <form:radiobutton id="option3" path="sType" value="3"/> Personal
                                     </label>
-                                    <label id="otherTypeLabel" class="btn" onclick="checkPressing(this.id)">
+                                    <label id="otherTypeLabel" class="  btn" onclick="checkPressing(this.id)">
                                         <form:radiobutton id="option4" path="sType" value="4"/> Other
                                     </label>
                                     <form:input id="otherType" type="text" class="form-control calOtherTypeInput"
@@ -584,10 +604,9 @@
 
                                 <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">More</span>
-                                    <label style="margin-left: 1%" class="checkbox-inline"><form:checkbox
-                                            id="isCompulsory"
-                                            path="compulsory"/>Is compulsory</label>
+                                    <label style="margin-left: 1%" class="checkbox-inline"><form:checkbox id="isCompulsory" path="compulsory"/>Is compulsory</label>
                                     <label class="checkbox-inline"><form:checkbox id="notifyByEmail" path="toNotify"/>Notify by email</label>
+                                    <label class="hidden checkbox-inline"><form:checkbox id="isDraft" path="draft"/>is Draft</label>
                                 </div>
                                 <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">Date and Time</span>
@@ -648,14 +667,14 @@
                         <div class="modal-footer">
                             <div id="CalendarModalCreateAuthorButtonGroup" class="btn-group" role="group"
                                  aria-label="...">
-                                <input id="calSaveButton" type="button"  name="Submit" value="Save"
+                                <input id="calSaveButton" type="button" value="Save"
                                        onclick="submitEvent(this.id)" class="btn btn-blue"/>
-                                <input id="calSubmitButton" type="button"  name="Submit" value="Submit"
+                                <input id="calSubmitButton" type="button" value="Submit"
                                        onclick="submitEvent(this.id)" class="btn btn-green"/>
-                                <input type="button" data-dismiss="modal" value="Cancel" class="btn btn-red"/>
+                                <input type="button" data-dismiss="modal"  value="Cancel" class="btn btn-red"/>
                             </div>
                         </div>
-                        <form:input type="hidden" path="draft"/>
+
                         <form:input type="hidden" path="actionTypeId"/>
                     </form:form>
                     <span id="message"></span>

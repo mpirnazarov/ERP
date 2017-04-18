@@ -65,6 +65,10 @@ public class ReferenceContext {
         return list;
     }
 
+    /**
+     * Deletes a referenced person in a event
+     * @param scheduleId
+     */
     public static void deleteReference(int scheduleId){
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;

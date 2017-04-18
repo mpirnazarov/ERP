@@ -43,7 +43,7 @@ public class DetailsContext {
     /**
      * ToDo
      * @param map
-     */
+     *//*
     public static void updateSchedule(Map<String, Object> map) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -61,5 +61,5 @@ public class DetailsContext {
         finally {
             session.close();
         }
-    }
+    }*/
 }

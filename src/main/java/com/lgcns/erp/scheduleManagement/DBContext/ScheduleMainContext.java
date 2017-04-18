@@ -44,7 +44,11 @@ public class ScheduleMainContext {
         return list;
     }
 
-    //todo
+    /**
+     * Inserts an event into Schedule table
+     * @param scheduleEntity
+     * @return event Id
+     */
     public static int insertSchedule(ScheduleEntity scheduleEntity){
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -65,7 +69,10 @@ public class ScheduleMainContext {
         return scheduleEntity.getScheduleId();
     }
 
-
+    /**
+     * Modifies the schedule
+     * @param scheduleEntity
+     */
     public static void updateSchedule(ScheduleEntity scheduleEntity){
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -85,6 +92,10 @@ public class ScheduleMainContext {
         }
     }
 
+    /**
+     * Deletes an event from schedule table
+     * @param scheduleId
+     */
     public static void deleteSchedule(int scheduleId){
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;

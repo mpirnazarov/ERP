@@ -55,6 +55,7 @@ public class ScheduleMainMapper {
     public static ScheduleEntity mapScheduleFromVMToEntity(ScheduleVM scheduleVM){
 
         ScheduleEntity scheduleEntity = new ScheduleEntity();
+        scheduleEntity.setScheduleId(scheduleVM.getScheduleId());
         scheduleEntity.setTitle(scheduleVM.getTitle());
         scheduleEntity.setDescription(scheduleVM.getDescription());
         scheduleEntity.setPlace(scheduleVM.getPlace());

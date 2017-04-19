@@ -102,7 +102,7 @@ public class ParticipantContext {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("delete from ParticipantInScheduleEntity where scheduleId = :scheduleId and userId=:userId");
+            Query query = session.createQuery("delete from ParticipantInScheduleEntity where scheduleId = :scheduleId");
             query.setParameter("scheduleId", scheduleId);
             query.executeUpdate();
             transaction.commit();

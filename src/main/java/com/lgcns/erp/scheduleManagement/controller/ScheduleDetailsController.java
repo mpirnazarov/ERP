@@ -52,12 +52,12 @@ public class ScheduleDetailsController {
         mainService.updateSchedule(ScheduleMainMapper.mapScheduleFromVMToEntity(scheduleVM));
         //insert new participants, referenced and attachments
         if (participantsGlobal != null) {
-            for (int participant : scheduleVM.getParticipants()) {
+            for (int participant : participantsGlobal) {
                 mainService.insertParticipants(ScheduleMainMapper.mapParticipantInSchedule(scheduleId, participant));
             }
         }
         if (referencesGlobal != null) {
-            for (int reference : scheduleVM.getReferences()) {
+            for (int reference : referencesGlobal) {
                 mainService.insertReference(ScheduleMainMapper.mapReferenceInSchedule(scheduleId, reference));
             }
         }

@@ -622,7 +622,7 @@
                                     <label style="margin-left: 1%" class="checkbox-inline"><form:checkbox id="isCompulsory" path="compulsory"/>Is compulsory</label>
                                     <label class="checkbox-inline"><form:checkbox id="notifyByEmail" path="toNotify"/>Notify by email</label>
                                     <label class="hidden checkbox-inline"><form:checkbox id="isDraft" path="draft"/>is Draft</label>
-                                    <form:input cssclass="hidden" id="scheduleIdInputHidden" path="scheduleId"></form:input>
+                                    <form:input class="hidden" id="scheduleIdInputHidden" path="scheduleId"></form:input>
                                 </div>
                                 <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">Date and Time</span>

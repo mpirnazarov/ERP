@@ -32,6 +32,7 @@ public class ReferenceMapper {
             referenceVM.setSurname(userLoc.getLastName());
             referenceVM.setDepartment(BusinessTripMapper.getDepartmentNameByUserId(entity.getUserId()));
             referenceVM.setJobTitle(UserController.getProfileByUsername(UserService.getUsernameById(entity.getUserId())).getJobTitle());
+            referenceVM.setUserId(entity.getUserId());
 
             referenceVMList.add(referenceVM);
         }

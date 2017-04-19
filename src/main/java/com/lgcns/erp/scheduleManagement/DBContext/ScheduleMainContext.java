@@ -79,8 +79,21 @@ public class ScheduleMainContext {
         try {
             transaction = session.beginTransaction();
 
-            //todo not sure
-            session.update(scheduleEntity);
+            Query query = session.createQuery("update ScheduleEntity set title=:title, description=:description, place=:place, stype=:stype" +
+                    ", other=:other, dateFrom=:dateFrom, dateTo=:dateTo, compulsory=:isCompulsory, toNotify=:toNotify, draft=:isDraft" +
+                    " where scheduleId =:scheduleId");
+            query.setParameter("scheduleId", scheduleEntity.getScheduleId());
+            query.setParameter("title", scheduleEntity.getTitle());
+            query.setParameter("description", scheduleEntity.getDescription());
+            query.setParameter("place", scheduleEntity.getPlace());
+            query.setParameter("stype", scheduleEntity.getStype());
+            query.setParameter("other", scheduleEntity.getOther());
+            query.setParameter("dateFrom", scheduleEntity.getDateFrom());
+            query.setParameter("dateTo", scheduleEntity.getDateTo());
+            query.setParameter("isCompulsory", scheduleEntity.getCompulsory());
+            query.setParameter("toNotify", scheduleEntity.getToNotify());
+            query.setParameter("isDraft", scheduleEntity.getDraft());
+            query.executeUpdate();
             transaction.commit();
         }
         catch (HibernateException e) {

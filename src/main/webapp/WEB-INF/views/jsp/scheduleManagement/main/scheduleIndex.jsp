@@ -456,6 +456,7 @@
        var participants = [];
        var references = [];
        var scheduleId = "";
+       var type = "";
 
         scheduleId = $("#eventViewScheduleId").val();
         participants = $("#eventParticipantsGroup").children().siblings("input[type=text]").val();
@@ -465,29 +466,34 @@
         if (clickedButton.attr('value') == 'Submit'){
             currentData = "participants="+participants+"&references="+references;
             currentUrl = "/ScheduleManagement/ScheduleMembersAjax";
+            type = "POST";
             $('#scheduleIdInputHidden').remove();
             $('#isDraft').prop('checked', false);
             $('#mainCalForm').attr('action', "/ScheduleManagement/main").submit();
         }else if (clickedButton.attr('value') == 'Save'){
             currentData = "participants="+participants+"&references="+references;
             currentUrl = "/ScheduleManagement/ScheduleMembersAjax";
+            type = "POST";
             $('#scheduleIdInputHidden').remove();
             $('#isDraft').prop('checked', true);
             $('#mainCalForm').attr('action', "/ScheduleManagement/main").submit();
         }else if (clickedButton.attr('value') == 'Update'){
             currentData = "participants="+participants+"&references="+references;
             currentUrl = "/ScheduleDetails/ScheduleMembersAjax";
+            type = "POST";
             $('#isDraft').prop('checked', false);
             $('#mainCalForm').attr('action', "/ScheduleDetails/UpdateSchedule").submit();
         }else if (clickedButton.attr('value') == 'Delete') {
             currentData = "scheduleId="+scheduleId;
             currentUrl = "/ScheduleDetails/DeleteSchedule";
+            type = "POST";
+
         }else {
             alert('Value is empty')
         }
 
         $.ajax({
-            type: "POST",
+            type: type,
             url: currentUrl,
             data: currentData,
             success: function (response) {

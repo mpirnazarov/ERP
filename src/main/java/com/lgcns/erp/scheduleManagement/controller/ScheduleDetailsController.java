@@ -83,11 +83,13 @@ public class ScheduleDetailsController {
      * @throws IOException
      */
     @RequestMapping(value = "/DeleteSchedule", method = RequestMethod.POST)
-    public void delete(@RequestParam("scheduleId")int scheduleId) throws IOException {
+    public String delete(@RequestParam("scheduleId")int scheduleId) throws IOException {
         service.deleteReference(scheduleId);
         service.deleteAttachment(scheduleId);
         service.deleteParticipant(scheduleId);
         service.deleteSchedule(scheduleId);
+
+        return "redirect: /ScheduleManagement/main";
     }
 
     @RequestMapping(value = "/ScheduleMembersAjax", method = RequestMethod.POST)

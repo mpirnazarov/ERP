@@ -135,6 +135,8 @@ public class ScheduleMainController {
 
         return "redirect: /ScheduleManagement/main";
     }
+
+
     /**
      * This method consumes participants and references sent from client side, and assigns them to global variables
      * @param participants

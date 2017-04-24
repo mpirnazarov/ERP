@@ -56,10 +56,13 @@
             columnFormat: 'ddd DD MMM',
             timeFormat: 'HH:mm',
             slotLabelFormat: 'HH:mm',
+            minTime: '09:00:00',
+            maxTime: '22:00:00',
+            slotLabelInterval: '00:30',
             firstDay: 1,
             allDaySlot: false,
             nowIndicator: true,
-            aspectRatio: 1,
+            aspectRatio: 2,
             defaultView: 'agendaWeek',
             slotEventOverlap: false,
             timezone: 'local',
@@ -94,6 +97,7 @@
                 var curHeight = $(this).height();
                 var divCenterWidth = curWidth / 2;
                 var divCenterHeight = curHeight / 2;
+                var authorId = calEvent.author_id;
 
                 var curPosition = $(this).offset();
 
@@ -101,8 +105,11 @@
                  dialogDiv.removeClass('showDialog');
                  })*/
                 /*UpdateEvent*/
-                if (currentUser == 1) {
+                if (currentUser == authorId) {
                     dialogDiv.addClass('showDialog');
+                    window.setTimeout(function(){
+                        dialogDiv.removeClass('showDialog');
+                    }, 3000);
                 } else {
                     view(calEvent);
                 }
@@ -115,10 +122,13 @@
 
                 $('#dialogEditButton').click(function () {
                     editEvent(calEvent);
+
+                    dialogDiv.removeClass('showDialog');
                 })
 
                 $('#dialogViewButton').click(function () {
                     viewEvent(calEvent);
+                    dialogDiv.removeClass('showDialog');
                 })
 
                 /*updateEvent(moment(calEvent.start).format('YYYY/MM/DD hh:mm'), moment(calEvent.end).format('YYYY/MM/DD hh:mm'), calEvent.title, calEvent.type, calEvent.place, calEvent.description, calEvent.isCompulsory, calEvent.notifyByEmail);*/
@@ -216,7 +226,6 @@
     });
 
     function createEvent(start, end, calendarObject) {
-
         clearModal();
         $('#calSubmitButton').attr('value','Submit');
         switchContentDiv("create");
@@ -225,10 +234,10 @@
         var targetCalendar = $('#' + calendarObject)
         var EventStart = start;
         var EventEnd = end;
-        var msg = "Start " + EventStart + "\n End: " + EventEnd;
-        /*alert("Start " + EventStart + "\n End: " + EventEnd );*/
+        /*var msg = "Start " + EventStart + "\n End: " + EventEnd;
+        /!*alert("Start " + EventStart + "\n End: " + EventEnd );*!/
 
-        $('#message').html(msg);
+        $('#message').html(msg);*/
         $('#dateTimeStart').val(EventStart);
         $('#dateTimeEnd').val(EventEnd);
         $('#actionTypeId').val(1);
@@ -243,7 +252,6 @@
     }
 
     function editEvent(calEvent) {
-
         clearModal();
         $('#calSubmitButton').attr('value','Update');
         switchContentDiv("create")
@@ -301,6 +309,7 @@
         }
 
         $('#scheduleIdInputHidden').val(EventId);
+        $('#otherType').val(EventOtherType);
         $('#dateTimeStart').val(EventStart);
         $('#dateTimeEnd').val(EventEnd);
         $('#eventTitle').val(EventTitle);
@@ -316,6 +325,7 @@
             $('#option3').prop('checked', true);
         } else if (EventType == 4) {
             $('#option4').prop('checked', true);
+            checkPressing('otherTypeLabel');
         }
 
         if (EventIsCompulsory == "true") {
@@ -328,7 +338,7 @@
 
         $('#CalendarModal').modal('show');
 
-        $('#message').html('this is EDIT FORM')
+        /*$('#message').html('this is EDIT FORM')*/
 
         $('#CalendarModalLabel').text('Edit Event')
 
@@ -340,6 +350,7 @@
     function viewEvent(calEvent) {
         switchContentDiv("view");
         clearModal();
+        $('.calendarMemberPill').remove();
 
 
         var EventId = calEvent.id;
@@ -348,7 +359,7 @@
         var EventTitle = calEvent.title;
         var EventDescription = calEvent.description;
         var EventPlace = calEvent.place;
-        var EventType = calEvent.sType;
+        var EventType = calEvent.s_type;
         var EventOtherType = calEvent.other;
         var EventIsCompulsory = calEvent.is_compulsory;
         var EventNotifyByEmail = calEvent.to_notify;
@@ -356,7 +367,40 @@
         var EventStart = moment(calEvent.start).format('YYYY/MM/DD HH:mm');
         var EventEnd = moment(calEvent.end).format('YYYY/MM/DD HH:mm');
 
-        $('#eventViewReferencesList').text("Other: " + EventOtherType + "EventAuthor: " + EventAuthorId + "EventId: " + EventId + " EventDescription: " + EventDescription + '  ' + EventPlace + " IS NOTIFY  |" + EventNotifyByEmail + " COMPULSORY  |" + EventIsCompulsory);
+
+        $(calEvent.participantsList).each(function (i, par) {
+
+            $('#eventViewParticipantsList').append('<span title="' + par.jobTitle + ", " + par.departmentName + '" class="calendarMemberPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + par.name + ' ' + par.surname + '</span>');
+
+        });
+
+        $(calEvent.referencesList).each(function (i, ref) {
+
+            $('#eventViewReferencesList').append('<span title="' + ref.jobTitle + ", " + ref.departmentName + '" class="calendarMemberPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + ref.name + ' ' + ref.surname + '</span>');
+
+        });
+
+        if (EventType == 1){
+            EventType = "Meeting";
+        }else if (EventType == 2){
+            EventType = "Out of office";
+        }else if (EventType == 3){
+            EventType = "Personal";
+        }else if (EventType == 4) {
+            EventType = EventOtherType;
+        }
+
+        $('#eventViewScheduleId').val(EventId);
+        $('#eventViewType').val(EventType);
+        $('#eventViewStart').val(EventStart);
+        $('#eventViewEnd').val(EventEnd);
+        $('#eventViewPlace').val(EventPlace);
+        $('#eventViewTitle').val(EventTitle);
+        $('#eventViewDescription').val(EventDescription);
+        $('#eventViewAttachment').val("");
+
+
+
 
 
         $('#CalendarModalLabel').text('View Event');
@@ -408,36 +452,44 @@
 
        var clickedButton =  $('#' + id);
        var currentUrl = "";
+       var currentData = "";
+       var participants = [];
+       var references = [];
+       var scheduleId = "";
 
-        if (clickedButton.attr('value') == 'Submit'){
-            currentUrl = "/ScheduleManagement/ScheduleMembersAjax";
-            $('#isDraft').prop('checked', false);
-            $('#mainCalForm').attr('action', "/ScheduleManagement/main").submit();
-        }else if (clickedButton.attr('value') == 'Save'){
-            currentUrl = "/ScheduleManagement/ScheduleMembersAjax";
-            $('#isDraft').prop('checked', true);
-            $('#mainCalForm').attr('action', "/ScheduleManagement/main").submit();
-        }else if (clickedButton.attr('value') == 'Update'){
-            currentUrl = "/ScheduleDetails/ScheduleMembersAjax";
-            $('#isDraft').prop('checked', false)
-            $('#mainCalForm').attr('action', "/ScheduleDetails/UpdateSchedule").submit();
-        }else {
-            alert('Value is empty')
-        }
-
-        /* Getting array of strings of participants and references */
-        var participants = [];
-        var references = [];
-
-
+        scheduleId = $("#eventViewScheduleId").val();
         participants = $("#eventParticipantsGroup").children().siblings("input[type=text]").val();
         references = $("#eventReferencesGroup").children().siblings("input[type=text]").val();
 
 
+        if (clickedButton.attr('value') == 'Submit'){
+            currentData = "participants="+participants+"&references="+references;
+            currentUrl = "/ScheduleManagement/ScheduleMembersAjax";
+            $('#scheduleIdInputHidden').remove();
+            $('#isDraft').prop('checked', false);
+            $('#mainCalForm').attr('action', "/ScheduleManagement/main").submit();
+        }else if (clickedButton.attr('value') == 'Save'){
+            currentData = "participants="+participants+"&references="+references;
+            currentUrl = "/ScheduleManagement/ScheduleMembersAjax";
+            $('#scheduleIdInputHidden').remove();
+            $('#isDraft').prop('checked', true);
+            $('#mainCalForm').attr('action', "/ScheduleManagement/main").submit();
+        }else if (clickedButton.attr('value') == 'Update'){
+            currentData = "participants="+participants+"&references="+references;
+            currentUrl = "/ScheduleDetails/ScheduleMembersAjax";
+            $('#isDraft').prop('checked', false);
+            $('#mainCalForm').attr('action', "/ScheduleDetails/UpdateSchedule").submit();
+        }else if (clickedButton.attr('value') == 'Delete') {
+            currentData = "scheduleId="+scheduleId;
+            currentUrl = "/ScheduleDetails/DeleteSchedule";
+        }else {
+            alert('Value is empty')
+        }
+
         $.ajax({
             type: "POST",
             url: currentUrl,
-            data: 'participants=' + participants + '&references=' + references,
+            data: currentData,
             success: function (response) {
 //                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
             },
@@ -520,15 +572,18 @@
 
         var createDiv = $('#createBodyDiv');
         var createDivAuthorButtons = $('#CalendarModalCreateAuthorButtonGroup');
+        var viewDivAuthorButtons = $('#CalendarModalViewAuthorButtonGroup');
         var viewDiv = $('#viewBodyDiv');
         var mainModalBody = $('#CalendarModal div.modal-body');
 
         if (divToDisplay == "create") {
             createDiv.css('display', 'block');
             createDivAuthorButtons.css('display', 'block');
+            viewDivAuthorButtons.css('display', 'none');
             viewDiv.css('display', 'none');
         } else if (divToDisplay == "view") {
             createDiv.css('display', 'none');
+            viewDivAuthorButtons.css('display', 'block');
             createDivAuthorButtons.css('display', 'none');
             viewDiv.css('display', 'block');
         } else {
@@ -552,22 +607,13 @@
 
     }
 
-    /*function whatVal(target) {
-     var targetTag = target;
-     var currentId = $(targetTag).data("user-id");
-     alert(targetTag.text() + "DATA ID :" + currentId);
-
-     return currentId;
-
-     }*/
-
 
 </script>
 
 <div class="mainBodyBlock">
-    <h2 class="headerText"><span class="fa fa-pencil" aria-hidden="true"></span> Calendar</h2>
+    <%--<h2 class="headerText"><span class="fa fa-pencil" aria-hidden="true"></span> Calendar</h2>--%>
 
-    <div class="w3-container">
+    <div class="w3-container" style="padding-top: 2%">
 
         <%--EditDiv--%>
         <div id="dialogDiv">
@@ -594,10 +640,10 @@
                         <div class="modal-body">
                                 <%-------------------------------%>
                             <div id="createBodyDiv">
+                                <form:input class="hidden" id="scheduleIdInputHidden" path="scheduleId"></form:input>
                                 <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">Title</span>
-                                    <input id="eventTitle" type="text" class="form-control" name="title"
-                                           placeholder="...">
+                                    <input id="eventTitle" type="text" class="form-control" name="title" placeholder="...">
                                 </div>
                                 <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">Type:</span>
@@ -622,7 +668,6 @@
                                     <label style="margin-left: 1%" class="checkbox-inline"><form:checkbox id="isCompulsory" path="compulsory"/>Is compulsory</label>
                                     <label class="checkbox-inline"><form:checkbox id="notifyByEmail" path="toNotify"/>Notify by email</label>
                                     <label class="hidden checkbox-inline"><form:checkbox id="isDraft" path="draft"/>is Draft</label>
-                                    <form:input class="hidden" id="scheduleIdInputHidden" path="scheduleId"></form:input>
                                 </div>
                                 <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">Date and Time</span>
@@ -660,19 +705,44 @@
                                 <div class="CalendarViewHeader">
                                     <div class="input-group calInputGroup">
                                         <span class="input-group-addon calSpan">Participants</span>
-                                        <div id="eventViewParticipantsList"><span class="calendarMemberPill">Sarvar Zokirov</span>Sarvar
-                                            Sarvar Sarvar ; Sarvar Sarvsar sarasrw
-                                        </div>
+                                        <div id="eventViewParticipantsList"></div>
                                     </div>
                                     <div class="input-group calInputGroup">
                                         <span class="input-group-addon calSpan">References</span>
-                                        <div id="eventViewReferencesList">Sarvar Sarvar Sarvar ; Sarvar Sarvsar
-                                            sarasrw
-                                        </div>
+                                        <div id="eventViewReferencesList"></div>
                                     </div>
                                 </div>
+                                <hr>
                                 <div class="CalendarViewBody">
-
+                                    <input class="hidden" type="text" id="eventViewScheduleId" />
+                                    <div class="input-group calInputGroup">
+                                        <span class="input-group-addon calSpan">Type</span>
+                                        <input id="eventViewType" disabled/>
+                                    </div>
+                                    <div class="input-group calInputGroup">
+                                        <span class="input-group-addon calSpan">Start</span>
+                                        <input id="eventViewStart" disabled/>
+                                    </div>
+                                    <div class="input-group calInputGroup">
+                                        <span class="input-group-addon calSpan">End</span>
+                                        <input id="eventViewEnd" disabled/>
+                                    </div>
+                                    <div class="input-group calInputGroup">
+                                        <span class="input-group-addon calSpan">Place</span>
+                                        <input id="eventViewPlace" disabled/>
+                                    </div>
+                                    <div class="input-group calInputGroup">
+                                        <span class="input-group-addon calSpan">Title</span>
+                                        <input id="eventViewTitle" disabled/>
+                                    </div>
+                                    <div class="input-group calInputGroup">
+                                        <span class="input-group-addon calSpan">Description</span>
+                                        <input id="eventViewDescription" disabled/>
+                                    </div>
+                                    <div class="input-group calInputGroup">
+                                        <span class="input-group-addon calSpan">Attachment</span>
+                                        <span id="eventViewAttachment"></span>
+                                    </div>
                                 </div>
                                 <div class="CalendarViewFooter">
 
@@ -686,6 +756,12 @@
                                 <input id="calSaveButton" type="button" value="Save"
                                        onclick="submitEvent(this.id)" class="btn btn-blue"/>
                                 <input id="calSubmitButton" type="button" value=""
+                                       onclick="submitEvent(this.id)" class="btn btn-green"/>
+                                <input type="button" data-dismiss="modal"  value="Cancel" class="btn btn-red"/>
+                            </div>
+                            <div id="CalendarModalViewAuthorButtonGroup" class="btn-group" role="group"
+                                 aria-label="...">
+                                <input id="calDeleteButton" type="button" value="Delete"
                                        onclick="submitEvent(this.id)" class="btn btn-green"/>
                                 <input type="button" data-dismiss="modal"  value="Cancel" class="btn btn-red"/>
                             </div>

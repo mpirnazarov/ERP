@@ -88,4 +88,46 @@ public class AttachmentContext {
             session.close();
         }
     }
+
+    public static void deleteAttachmentById(int attachmentId){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("delete from ScheduleAttachmentsEntity where attachmentId=:attachmentId");
+            query.setParameter("attachmentId", attachmentId);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static ScheduleAttachmentsEntity getAttachmentById(int id){
+        ScheduleAttachmentsEntity attachment = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from ScheduleAttachmentsEntity where attachmentId=:id");
+            query.setParameter("id", id);
+            attachment = (ScheduleAttachmentsEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return attachment;
+    }
+
 }

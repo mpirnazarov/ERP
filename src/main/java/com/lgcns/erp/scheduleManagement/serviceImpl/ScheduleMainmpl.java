@@ -21,8 +21,8 @@ import java.util.List;
 public class ScheduleMainmpl implements ScheduleMainService {
 
     @Override
-    public List<ScheduleVM> getScheduleList(Timestamp start, Timestamp end) {
-        List<ScheduleVM> scheduleVMList = ScheduleMainMapper.mapFromScheduleEntityListToVM(ScheduleMainContext.getScheduleList(start, end));
+    public List<ScheduleVM> getScheduleList(Timestamp start, Timestamp end, int userId) {
+        List<ScheduleVM> scheduleVMList = ScheduleMainMapper.mapFromScheduleEntityListToVM(ScheduleMainContext.getScheduleList(start, end, userId));
         return scheduleVMList;
     }
 

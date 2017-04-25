@@ -1,10 +1,11 @@
 package com.lgcns.erp.scheduleManagement.serviceImpl;
 
-import com.lgcns.erp.scheduleManagement.DBContext.AttachmentContext;
-import com.lgcns.erp.scheduleManagement.DBContext.ParticipantContext;
-import com.lgcns.erp.scheduleManagement.DBContext.ReferenceContext;
-import com.lgcns.erp.scheduleManagement.DBContext.ScheduleMainContext;
+import com.lgcns.erp.scheduleManagement.DBContext.*;
+import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleAttachmentsEntity;
+import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity;
 import com.lgcns.erp.scheduleManagement.service.ScheduleUpdateService;
+import com.lgcns.erp.scheduleManagement.util.AttachmentUtil;
+import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class ScheduleUpdateImpl implements ScheduleUpdateService {
 
     @Override
     public void deleteAttachment(int scheduleId) throws IOException {
-        DeleteFiles2(scheduleId);
+        AttachmentUtil.deleteFilesByScheduleId(scheduleId);
         AttachmentContext.deleteAttachment(scheduleId);
     }
 
@@ -39,20 +40,18 @@ public class ScheduleUpdateImpl implements ScheduleUpdateService {
         ParticipantContext.updateParticipantDecision(participantId, scheduleId, status, reason);
     }
 
-    /**
-     * ToDo check if this is working
-     * @param scheduleId
-     * @throws IOException
-     */
-    public void DeleteFiles2(int scheduleId) throws IOException {
-        File file = new File("C:/files/documents/schedule/" + scheduleId+"/");
-        String[] myFiles;
-        if (file.isDirectory()) {
-            myFiles = file.list();
-            for (int i = 0; i < myFiles.length; i++) {
-                File myFile = new File(file, myFiles[i]);
-                myFile.delete();
-            }
-        }
+    @Override
+    public void deleteAttachmentById(int attachmentId) {
+        AttachmentContext.deleteAttachmentById(attachmentId);
+    }
+
+    @Override
+    public ScheduleAttachmentsEntity getAttachmentById(int id) {
+        return AttachmentContext.getAttachmentById(id);
+    }
+
+    @Override
+    public ScheduleEntity getSchedule(int scheduleId) {
+        return DetailsContext.getScheduleById(scheduleId);
     }
 }

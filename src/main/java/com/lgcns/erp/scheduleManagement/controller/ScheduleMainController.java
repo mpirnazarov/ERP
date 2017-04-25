@@ -66,12 +66,13 @@ public class ScheduleMainController {
      */
     @RequestMapping(value = "/api/scheduleList", method = RequestMethod.POST)
     public @ResponseBody List<HashMap<String, Object>> getAllSchedules(Principal principal, @RequestParam("start") String start, @RequestParam("end") String end) throws ParseException {
-        List<ScheduleVM> scheduleVMList = service.getScheduleList(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)));
+        int userId = UserService.getIdByUsername(principal.getName());
+
+        List<ScheduleVM> scheduleVMList = service.getScheduleList(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
         List<HashMap<String, Object>> weeklySchedule = ScheduleMainControllerUtil.putScheduleEventsToMap(scheduleVMList);
 
         return weeklySchedule;
     }
-
     /**
      * Converts Date type to TimeStamp
      * @param date

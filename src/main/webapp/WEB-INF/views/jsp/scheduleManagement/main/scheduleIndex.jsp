@@ -367,6 +367,13 @@
         var EventStart = moment(calEvent.start).format('YYYY/MM/DD HH:mm');
         var EventEnd = moment(calEvent.end).format('YYYY/MM/DD HH:mm');
 
+        $(calEvent.attachmentList).each(function (i, at) {
+
+            $('#eventViewAttachment').append('<span class="attachmentItem">' + at.attachmentName + '</span>');
+            $('#eventViewAttachment').append('<a href="/ScheduleDetails/DeleteAttachment/'+at.attachmentId+'">&#10007;</a>');
+
+        });
+
 
         $(calEvent.participantsList).each(function (i, par) {
 
@@ -397,7 +404,7 @@
         $('#eventViewPlace').val(EventPlace);
         $('#eventViewTitle').val(EventTitle);
         $('#eventViewDescription').val(EventDescription);
-        $('#eventViewAttachment').val("");
+
 
 
 
@@ -430,6 +437,8 @@
     function clearModal() {
 
         var targetButton = $('#otherType');
+
+        $('.attachmentItem').empty();
 
         $('input:text').each(function () {
             $(this).val('');
@@ -486,7 +495,7 @@
         }else if (clickedButton.attr('value') == 'Delete') {
             currentData = "scheduleId="+scheduleId;
             currentUrl = "/ScheduleDetails/DeleteSchedule";
-            type = "POST";
+            type = "DELETE";
 
         }else {
             alert('Value is empty')
@@ -550,7 +559,7 @@
                         listOfReferences.push(ref);
                     });
                     $(res.Attachments).each(function (i, at) {
-                        listOfAttachments.push(at);
+                        listOfAttachments.push({attachmentId: at.attachmentId, attachmentName: at.attachmentName});
                     });
                     event.participantsList = listOfParticipants;
                     event.referencesList = listOfReferences;

@@ -136,18 +136,18 @@
                         <div class="input-group" style="width: 100%; margin-top: 1%">
                             <span class="input-group-addon" id="attach-addon" style="width: 35%">Attachment:</span>
                             <c:forEach items="${model.attachments}" var="attachment">
-                            <div class="attachmentDiv"><span class="glyphicon glyphicon-list-alt"
-                                                             aria-hidden="false"></span>
+                            <div class="attachmentDiv"><span class="glyphicon glyphicon-list-alt" aria-hidden="false"></span>
                                 <c:choose>
                                 <c:when test="${attachment.id == '0'}">
-                                <a href="#">${attachment.fileName}</a></div>
+                                <a href="#">${attachment.fileName}</a>
+                            </div>
                             </c:when>
                             <c:otherwise>
                             <a href="/Workflow/MyForms/files/${attachment.id}">${attachment.fileName}</a></div>
-                        </c:otherwise>
-                        </c:choose>
+                            </c:otherwise>
+                            </c:choose>
 
-                        </c:forEach>
+                            </c:forEach>
 
                     </div>
                 </div>

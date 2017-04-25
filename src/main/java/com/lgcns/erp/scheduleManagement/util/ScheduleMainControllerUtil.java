@@ -35,10 +35,6 @@ public class ScheduleMainControllerUtil {
 
         for (ScheduleVM scheduleVM : scheduleVMList) {
             map = new HashMap<>();
-            List<ParticipantVM> participantVMList =PartircipantMapper.mapParticipantEntityListToVMList(ParticipantContext.getParticipantsByScheduleId(scheduleVM.getScheduleId()));
-            List<ReferenceVM> referenceVMList = ReferenceMapper.mapReferenceListToVMList(ReferenceContext.getReferencesByScheduleId(scheduleVM.getScheduleId()));
-            List<Attachment> attachmentList = AttachmentMapper.mapAttachmentEntitiesToAttachment(AttachmentContext.getAttachmentsByScheduleId(scheduleVM.getScheduleId()));
-
             map.put("id", scheduleVM.getScheduleId()+"");
             map.put("title", scheduleVM.getTitle());
             map.put("description", scheduleVM.getDescription());
@@ -51,9 +47,6 @@ public class ScheduleMainControllerUtil {
             map.put("to_notify", scheduleVM.isToNotify()+"");
             map.put("is_draft", scheduleVM.isDraft()+"");
             map.put("author_id", scheduleVM.getAuthorId()+"");
-            map.put("participants", participantVMList);
-            map.put("references", referenceVMList);
-            map.put("Attachments", attachmentList);
             map.put("actionType_id", scheduleVM.getActionTypeId());
 
             maps.add(map);

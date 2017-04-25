@@ -9,6 +9,15 @@ public class Attachment {
     private int attachmentId;
     private int scheduleId;
     private String attachmentPath;
+    private String attachmentName;
+
+    public String getAttachmentName() {
+        return attachmentName;
+    }
+
+    public void setAttachmentName(String attachmentName) {
+        this.attachmentName = attachmentName;
+    }
 
     public int getAttachmentId() {
         return attachmentId;

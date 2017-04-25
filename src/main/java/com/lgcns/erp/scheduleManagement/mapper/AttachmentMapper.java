@@ -22,11 +22,19 @@ public class AttachmentMapper {
             attachment = new Attachment();
             attachment.setAttachmentId(entity.getAttachmentId());
             attachment.setAttachmentPath(entity.getAttachmentPath());
+            attachment.setAttachmentName(getAttachmentNameFromPath(entity.getAttachmentPath()));
 
             attachmentList.add(attachment);
         }
 
         return attachmentList;
+    }
+
+    private static String getAttachmentNameFromPath(String path){
+        int nameIndex = path.lastIndexOf("/");
+        String attachmentName = path.substring(nameIndex+1, path.length());
+
+        return attachmentName;
     }
 
 }

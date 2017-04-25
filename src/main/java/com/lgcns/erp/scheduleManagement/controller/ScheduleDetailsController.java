@@ -1,9 +1,19 @@
 package com.lgcns.erp.scheduleManagement.controller;
 
+import com.lgcns.erp.scheduleManagement.DBContext.AttachmentContext;
+import com.lgcns.erp.scheduleManagement.DBContext.ParticipantContext;
+import com.lgcns.erp.scheduleManagement.DBContext.ReferenceContext;
+import com.lgcns.erp.scheduleManagement.mapper.AttachmentMapper;
+import com.lgcns.erp.scheduleManagement.mapper.PartircipantMapper;
+import com.lgcns.erp.scheduleManagement.mapper.ReferenceMapper;
 import com.lgcns.erp.scheduleManagement.mapper.ScheduleMainMapper;
+import com.lgcns.erp.scheduleManagement.model.Attachment;
 import com.lgcns.erp.scheduleManagement.service.ScheduleMainService;
 import com.lgcns.erp.scheduleManagement.service.ScheduleUpdateService;
+import com.lgcns.erp.scheduleManagement.util.AttachmentUtil;
 import com.lgcns.erp.scheduleManagement.util.ScheduleMainControllerUtil;
+import com.lgcns.erp.scheduleManagement.viewModel.ParticipantVM;
+import com.lgcns.erp.scheduleManagement.viewModel.ReferenceVM;
 import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -20,6 +30,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by DS on 06.04.2017.
@@ -92,6 +104,16 @@ public class ScheduleDetailsController {
         return "redirect: /ScheduleManagement/main";
     }
 
+
+    @RequestMapping(value = "/DeleteAttachment/{attachmentId}")
+    public String deleteAttachment(@PathVariable int attachmentId) throws IOException {
+        String path = service.getAttachmentById(attachmentId).getAttachmentPath();
+        AttachmentUtil.deleteFileByPath(path);
+        service.deleteAttachmentById(attachmentId);
+
+        return "redirect: /ScheduleManagement/main";
+    }
+
     @RequestMapping(value = "/ScheduleMembersAjax", method = RequestMethod.POST)
     public @ResponseBody
     int[] ScheduleMembersPostAjax(@RequestParam("participants") int[] participants, @RequestParam("references") int[] references){
@@ -99,5 +121,20 @@ public class ScheduleDetailsController {
         referencesGlobal = references;
 
         return participants;
+    }
+
+    @RequestMapping(value = "/GetSchedule", method = RequestMethod.POST)
+    public @ResponseBody
+    HashMap<String, Object> ScheduleMembersPostAjax(@RequestParam("scheduleId") int scheduleId){
+        List<ParticipantVM> participantVMList = PartircipantMapper.mapParticipantEntityListToVMList(ParticipantContext.getParticipantsByScheduleId(scheduleId));
+        List<ReferenceVM> referenceVMList = ReferenceMapper.mapReferenceListToVMList(ReferenceContext.getReferencesByScheduleId(scheduleId));
+        List<Attachment> attachmentList = AttachmentMapper.mapAttachmentEntitiesToAttachment(AttachmentContext.getAttachmentsByScheduleId(scheduleId));
+
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("participants", participantVMList);
+        map.put("references", referenceVMList);
+        map.put("Attachments", attachmentList);
+
+        return map;
     }
 }

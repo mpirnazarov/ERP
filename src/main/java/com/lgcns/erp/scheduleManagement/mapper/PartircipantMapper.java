@@ -23,12 +23,13 @@ public class PartircipantMapper {
 
         for (ParticipantInScheduleEntity entity : entities) {
             participantVM = new ParticipantVM();
+
             UserLocalizationsEntity userLoc = UserService.getUserLocByUserId(entity.getUserId(), 3);
 
             participantVM.setName(userLoc.getFirstName());
             participantVM.setSurname(userLoc.getLastName());
             participantVM.setDepartmentName(BusinessTripMapper.getDepartmentNameByUserId(entity.getUserId()));
-            participantVM.setJobTitle(UserController.getProfileByUsername(UserService.getUsernameById(entity.getUserId())).getJobTitle());
+            participantVM.setJobTitle(UserService.getUserJobTitle(entity.getUserId()));
             participantVM.setReason(entity.getReason());
             participantVM.setStatus(entity.getStatus());
             participantVM.setUserId(entity.getUserId());

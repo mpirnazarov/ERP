@@ -37,8 +37,8 @@ public class ScheduleMainMapper {
         scheduleVM.setDateFrom(entity.getDateFrom());
         scheduleVM.setDescription(entity.getDescription());
         scheduleVM.setOther(entity.getOther());
-        scheduleVM.setParticipants(ParticipantUtil.getParticipantIds(ParticipantContext.getParticipantsByScheduleId(entity.getScheduleId())));
-        scheduleVM.setReferences(ReferenceUtil.getReferencedIds(ReferenceContext.getReferencesByScheduleId(entity.getScheduleId())));
+       /* scheduleVM.setParticipants(ParticipantUtil.getParticipantIds(ParticipantContext.getParticipantsByScheduleId(entity.getScheduleId())));
+        scheduleVM.setReferences(ReferenceUtil.getReferencedIds(ReferenceContext.getReferencesByScheduleId(entity.getScheduleId())));*/
         scheduleVM.setPlace(entity.getPlace());
         scheduleVM.setsType(entity.getStype());
         scheduleVM.setTitle(entity.getTitle());

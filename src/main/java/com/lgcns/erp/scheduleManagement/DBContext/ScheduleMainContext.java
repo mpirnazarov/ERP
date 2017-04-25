@@ -21,15 +21,16 @@ public class ScheduleMainContext {
      * Retrieves all schedule entities
      * @return
      */
-    public static List<ScheduleEntity> getScheduleList(Timestamp start, Timestamp end){
+    public static List<ScheduleEntity> getScheduleList(Timestamp start, Timestamp end, int userId){
         List<ScheduleEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from ScheduleEntity where dateFrom>=:from and dateTo<=:end");
+            Query query = session.createQuery("from ScheduleEntity s where s.dateFrom>=:from and s.dateTo<=:end and s.autherId=:userId or s.scheduleId in (select p.scheduleId from ParticipantInScheduleEntity p where p.userId=:userId) or s.scheduleId in (select r.scheduleId from ReferenceInCheduleEntity r where r.userId=:userId)");
             query.setParameter("from", start);
             query.setParameter("end", end);
+            query.setParameter("userId", userId);
             list = (List<ScheduleEntity>)query.list();
             transaction.commit();
         }
@@ -40,9 +41,9 @@ public class ScheduleMainContext {
         finally {
             session.close();
         }
-
         return list;
     }
+
 
     /**
      * Inserts an event into Schedule table

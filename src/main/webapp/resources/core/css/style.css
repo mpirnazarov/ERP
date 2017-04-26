@@ -1192,7 +1192,7 @@ a:visited {
     margin-top: 1%;
 }
 
-.calInputGroup input.form-control {
+/*.calInputGroup input.form-control {
     border: none;
     font-style: italic;
     border-left: 2px solid;
@@ -1201,7 +1201,7 @@ a:visited {
 
 .calInputGroup input.form-control:focus {
     border-left-color: #4590ff;
-}
+}*/
 
 
 
@@ -1285,13 +1285,33 @@ div.CalendarViewBody input {
 }
 
 
-.calendarMemberPill {
+.calendarMemberPill  {
     background-color: #e8e8e8;
     border: 1px solid;
     border-radius: 4%;
     padding: 1px 3px 1px 3px;
     margin-right: 2px;
 }
+
+.attachmentItem
+{
+    background-color: #ffffff;
+    border: 1px solid #a9a6a6;
+    border-radius: 4%;
+    padding: 1px 3px 1px 3px;
+    margin-right: 2px;
+
+    -webkit-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    -o-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.attachmentItem:hover
+{
+    background-color: #9acfea;
+}
+
 /*-------------------------------*/
 /*    Calendar  Spinner          */
 /*-------------------------------*/

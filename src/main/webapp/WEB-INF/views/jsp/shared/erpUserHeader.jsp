@@ -184,6 +184,7 @@
             var taapsbutton = $("#collapseTwo");
             var wfbutton = $("#collapseWF");
             var profilebutton = $("#collapseExample");
+            var schedulebutton = $("#collapseSchedule");
 
             var currentOpenedPanel = 0;
 
@@ -213,7 +214,12 @@
                     hrbutton.removeClass("in")
                     wfbutton.removeClass("in")
                     taapsbutton.addClass("in")
-                } else {
+                }else if(window.location.href.indexOf("ScheduleManagement") > -1){
+                    hrbutton.removeClass("in")
+                    wfbutton.removeClass("in")
+                    taapsbutton.removeClass("in")
+                    schedulebutton.addClass("in")
+                }else {
                     /* def*/
                 }
             })

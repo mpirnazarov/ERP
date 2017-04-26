@@ -38,6 +38,7 @@
 
     $(document).ready(function () {
 
+
         $('#dateTimeStart').datetimepicker({
             mask: '9999/19/39 29:59'
         });
@@ -47,8 +48,16 @@
 
 
         $('#calendar').fullCalendar({
+            customButtons: {
+              createEventButton:{
+                  text: '✚ New Event',
+                  click: function(){
+                      createEvent();
+                  }
+              }
+            },
             header: {
-                left: 'prev,next today',
+                left: 'prev,next today createEventButton',
                 center: '',
                 right: 'title'
             },
@@ -101,9 +110,6 @@
 
                 var curPosition = $(this).offset();
 
-                /*$(this).mouseout(function () {
-                 dialogDiv.removeClass('showDialog');
-                 })*/
                 /*UpdateEvent*/
                 if (currentUser == authorId) {
                     dialogDiv.addClass('showDialog');
@@ -275,24 +281,24 @@
         var EventReferences = [];
         var EventAttachments = [];
 
+        var response = calendarCommonAjax("POST","/ScheduleDetails/GetSchedule", "scheduleId=" + calEvent.id,"Update");
 
-        $(calEvent.participantsList).each(function (i, par) {
+        $(response.participants).each(function (i, par) {
             var participant = {id: par.userId, name: par.name + ' ' + par.surname, jobTitle: par.jobTitle, department: par.departmentName};
             EventParticipants.push(participant);
         });
 
-        $(calEvent.referencesList).each(function (i, ref) {
+        $(response.references).each(function (i, ref) {
             var references = {id: ref.userId, name: ref.name + ' ' + ref.surname, jobTitle: ref.jobTitle, department: ref.departmentName};
             EventReferences.push(references);
         });
 
-        $(calEvent.attachmentList).each(function (i, at) {
-            /*EventAttachments.push(at);*/
+        $(response.Attachments).each(function (i, at) {
+            $('#eventAttachedFiles').append('<span class="attachmentItem">' + at.attachmentName + ' <a style="color: red" href="/ScheduleDetails/DeleteAttachment/'+at.attachmentId+'"><span class="fa fa-trash" aria-hidden="true"></span></a>' +'</span>');
         });
 
 
-
-        if (calEvent.participantsList == ""){
+        if (EventParticipants == ""){
             $('#eventParticipants').tokenInput(${UserslistJson});
         }else{
             $('#eventParticipants').tokenInput(${UserslistJson}, {
@@ -300,7 +306,7 @@
             });
         }
 
-        if (calEvent.referencesList == ""){
+        if (EventReferences == ""){
             $('#eventReferences').tokenInput(${UserslistJson});
         }else {
             $('#eventReferences').tokenInput(${UserslistJson}, {
@@ -352,6 +358,26 @@
         clearModal();
         $('.calendarMemberPill').remove();
 
+        var response = calendarCommonAjax("POST","/ScheduleDetails/GetSchedule", "scheduleId=" + calEvent.id,"View");
+
+
+        $(response).each(function (i, res) {
+            $(res.participants).each(function (i, par) {
+
+                $('#eventViewParticipantsList').append('<span title="' + par.jobTitle + ", " + par.departmentName + '" class="calendarMemberPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + par.name + ' ' + par.surname + '</span>');
+            });
+
+            $(res.references).each(function (i, ref) {
+                $('#eventViewReferencesList').append('<span title="' + ref.jobTitle + ", " + ref.departmentName + '" class="calendarMemberPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + ref.name + ' ' + ref.surname + '</span>');
+            });
+
+            $(res.Attachments).each(function (i, at) {
+
+                $('#eventViewAttachment').append('<span class="attachmentItem">' + at.attachmentName + '</span>');
+                $/*('#eventViewAttachment').append('<a href="/ScheduleDetails/DeleteAttachment/'+at.attachmentId+'">&#10007;</a>');*/
+            });
+        });
+
 
         var EventId = calEvent.id;
         var EventAuthorId = calEvent.author_id;
@@ -367,25 +393,7 @@
         var EventStart = moment(calEvent.start).format('YYYY/MM/DD HH:mm');
         var EventEnd = moment(calEvent.end).format('YYYY/MM/DD HH:mm');
 
-        $(calEvent.attachmentList).each(function (i, at) {
 
-            $('#eventViewAttachment').append('<span class="attachmentItem">' + at.attachmentName + '</span>');
-            $('#eventViewAttachment').append('<a href="/ScheduleDetails/DeleteAttachment/'+at.attachmentId+'">&#10007;</a>');
-
-        });
-
-
-        $(calEvent.participantsList).each(function (i, par) {
-
-            $('#eventViewParticipantsList').append('<span title="' + par.jobTitle + ", " + par.departmentName + '" class="calendarMemberPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + par.name + ' ' + par.surname + '</span>');
-
-        });
-
-        $(calEvent.referencesList).each(function (i, ref) {
-
-            $('#eventViewReferencesList').append('<span title="' + ref.jobTitle + ", " + ref.departmentName + '" class="calendarMemberPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + ref.name + ' ' + ref.surname + '</span>');
-
-        });
 
         if (EventType == 1){
             EventType = "Meeting";
@@ -404,9 +412,6 @@
         $('#eventViewPlace').val(EventPlace);
         $('#eventViewTitle').val(EventTitle);
         $('#eventViewDescription').val(EventDescription);
-
-
-
 
 
 
@@ -439,6 +444,8 @@
         var targetButton = $('#otherType');
 
         $('.attachmentItem').empty();
+        $('#eventAttachedFiles').empty();
+        $('#eventViewAttachment').empty();
 
         $('input:text').each(function () {
             $(this).val('');
@@ -459,7 +466,9 @@
 
     function submitEvent(id) {
 
-       var clickedButton =  $('#' + id);
+  /*      return validationCheckInput();*/
+
+       var clickedButton =  $('#' + id).attr('value');
        var currentUrl = "";
        var currentData = "";
        var participants = [];
@@ -472,48 +481,51 @@
         references = $("#eventReferencesGroup").children().siblings("input[type=text]").val();
 
 
-        if (clickedButton.attr('value') == 'Submit'){
+        if (clickedButton == 'Submit'){
             currentData = "participants="+participants+"&references="+references;
             currentUrl = "/ScheduleManagement/ScheduleMembersAjax";
             type = "POST";
             $('#scheduleIdInputHidden').remove();
             $('#isDraft').prop('checked', false);
             $('#mainCalForm').attr('action', "/ScheduleManagement/main").submit();
-        }else if (clickedButton.attr('value') == 'Save'){
+        }else if (clickedButton == 'Save'){
             currentData = "participants="+participants+"&references="+references;
             currentUrl = "/ScheduleManagement/ScheduleMembersAjax";
             type = "POST";
             $('#scheduleIdInputHidden').remove();
             $('#isDraft').prop('checked', true);
             $('#mainCalForm').attr('action', "/ScheduleManagement/main").submit();
-        }else if (clickedButton.attr('value') == 'Update'){
+        }else if (clickedButton == 'Update'){
             currentData = "participants="+participants+"&references="+references;
             currentUrl = "/ScheduleDetails/ScheduleMembersAjax";
             type = "POST";
             $('#isDraft').prop('checked', false);
             $('#mainCalForm').attr('action', "/ScheduleDetails/UpdateSchedule").submit();
-        }else if (clickedButton.attr('value') == 'Delete') {
+        }else if (clickedButton == 'Delete') {
             currentData = "scheduleId="+scheduleId;
             currentUrl = "/ScheduleDetails/DeleteSchedule";
-            type = "DELETE";
+            type = "POST";
 
         }else {
             alert('Value is empty')
         }
 
-        $.ajax({
+        calendarCommonAjax(type,currentUrl,currentData,clickedButton);
+
+
+       /* $.ajax({
             type: type,
             url: currentUrl,
             data: currentData,
             success: function (response) {
 //                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
+                returnToCalendar();
             },
             error: function (e) {
                 alert('Error: ' + e);
             }
-        });
+        });*/
 
-        //$('#mainCalForm').submit();
 
 
     }
@@ -534,10 +546,6 @@
                     var listOfReferences = [];
                     var listOfAttachments = [];
                     var event = {};
-
-                    /*$(res.participants).each(function (i, par) {
-
-                     })*/
 
                     event.author_id = res.author_id
                     event.id = res.id;
@@ -622,6 +630,203 @@
 
     }
 
+    function returnToCalendar() {
+        $('#calendar').fullCalendar('removeEvents');
+        getCurrentWeekDays();
+        $('#CalendarModal').modal('hide');
+    }
+    
+    function validationCheckInput() {
+
+        var valFlag = true;
+
+        $('#eventTitle').append('<p>TestMaimn</p>');
+
+
+
+        var i_title = $('#eventTitle');
+        var i_other = $('#otherType');
+        var i_dFrom = $('#dateFrom');
+        var i_dTo = $('#dateTo');
+
+
+        if (i_title.val() == ""){
+            i_title.append("<p>Test</p>");
+            alert("ISHLADI");
+            valFlag = false;
+        }
+
+
+
+        return valFlag;
+    }
+
+    function calendarCommonAjax(type, url, data, actionType) {
+        var currentResponse ;
+        var currentType = type;
+        var currentUrl = url;
+        var currentData = data;
+        var currentAction = actionType;
+
+
+        $.ajax({
+            type: currentType,
+            async: false,
+            url: currentUrl,
+            data: currentData,
+            success: function (response) {
+
+                if (currentAction == "Create"){
+                    ///create
+                }else if(currentAction == "Save"){
+                    ///save
+                }else if(currentAction == "Update"){
+                    currentResponse = response;
+                }else if (currentAction == "Delete"){
+                    returnToCalendar();
+                }else if (currentAction == "View"){
+                    currentResponse = response;
+
+                }else {
+                    ///default
+                }
+
+
+            },
+            error: function (e) {
+                alert('Error: ' + e);
+            }
+        });
+
+        return currentResponse;
+    }
+
+    //asdfasdfasdfasdfasdf
+
+    /*$(document).ready(function() {
+        $('#mainCalForm').bootstrapValidator({
+            // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                first_name: {
+                    validators: {
+                        stringLength: {
+                            min: 2,
+                        },
+                        notEmpty: {
+                            message: 'Please supply your first name'
+                        }
+                    }
+                },
+                last_name: {
+                    validators: {
+                        stringLength: {
+                            min: 2,
+                        },
+                        notEmpty: {
+                            message: 'Please supply your last name'
+                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please supply your email address'
+                        },
+                        emailAddress: {
+                            message: 'Please supply a valid email address'
+                        }
+                    }
+                },
+                phone: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please supply your phone number'
+                        },
+                        phone: {
+                            country: 'US',
+                            message: 'Please supply a vaild phone number with area code'
+                        }
+                    }
+                },
+                address: {
+                    validators: {
+                        stringLength: {
+                            min: 8,
+                        },
+                        notEmpty: {
+                            message: 'Please supply your street address'
+                        }
+                    }
+                },
+                city: {
+                    validators: {
+                        stringLength: {
+                            min: 4,
+                        },
+                        notEmpty: {
+                            message: 'Please supply your city'
+                        }
+                    }
+                },
+                state: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select your state'
+                        }
+                    }
+                },
+                zip: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please supply your zip code'
+                        },
+                        zipCode: {
+                            country: 'US',
+                            message: 'Please supply a vaild zip code'
+                        }
+                    }
+                },
+                comment: {
+                    validators: {
+                        stringLength: {
+                            min: 10,
+                            max: 200,
+                            message:'Please enter at least 10 characters and no more than 200'
+                        },
+                        notEmpty: {
+                            message: 'Please supply a description of your project'
+                        }
+                    }
+                }
+            }
+        })
+            .on('success.form.bv', function(e) {
+                $('#success_message').slideDown({ opacity: "show" }, "slow") // Do something ...
+                $('#contact_form').data('bootstrapValidator').resetForm();
+
+                // Prevent form submission
+                e.preventDefault();
+
+                // Get the form instance
+                var $form = $(e.target);
+
+                // Get the BootstrapValidator instance
+                var bv = $form.data('bootstrapValidator');
+
+                // Use Ajax to submit form data
+                $.post($form.attr('action'), $form.serialize(), function(result) {
+                    console.log(result);
+                }, 'json');
+            });
+    });*/
+
+    //asdfasdfasdfasdf
+
 
 </script>
 
@@ -656,9 +861,10 @@
                                 <%-------------------------------%>
                             <div id="createBodyDiv">
                                 <form:input class="hidden" id="scheduleIdInputHidden" path="scheduleId"></form:input>
-                                <div class="input-group calInputGroup">
+                                <div class="input-group calInputGroup has-error has-feedback">
                                     <span class="input-group-addon calSpan">Title</span>
                                     <input id="eventTitle" type="text" class="form-control" name="title" placeholder="...">
+                                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </div>
                                 <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">Type:</span>
@@ -710,7 +916,11 @@
                                     <input id="eventReferences" type="text" class="form-control" placeholder="...">
                                 </div>
                                 <div class="input-group calInputGroup">
-                                    <span class="input-group-addon calSpan">Attachment</span>
+                                    <span class="input-group-addon calSpan">Attached Files</span>
+                                    <span id="eventAttachedFiles"></span>
+                                </div>
+                                <div class="input-group calInputGroup">
+                                    <span class="input-group-addon calSpan">New Attachment</span>
                                     <form:input id="eventAttachment" type="file" class="form-control"
                                                 placeholder="..." path="file" multiple="true"/>
                                 </div>

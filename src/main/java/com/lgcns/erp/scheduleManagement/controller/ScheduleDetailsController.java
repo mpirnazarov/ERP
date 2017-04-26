@@ -3,6 +3,7 @@ package com.lgcns.erp.scheduleManagement.controller;
 import com.lgcns.erp.scheduleManagement.DBContext.AttachmentContext;
 import com.lgcns.erp.scheduleManagement.DBContext.ParticipantContext;
 import com.lgcns.erp.scheduleManagement.DBContext.ReferenceContext;
+import com.lgcns.erp.scheduleManagement.enums.ActionTypeId;
 import com.lgcns.erp.scheduleManagement.mapper.AttachmentMapper;
 import com.lgcns.erp.scheduleManagement.mapper.PartircipantMapper;
 import com.lgcns.erp.scheduleManagement.mapper.ReferenceMapper;
@@ -12,9 +13,12 @@ import com.lgcns.erp.scheduleManagement.service.ScheduleMainService;
 import com.lgcns.erp.scheduleManagement.service.ScheduleUpdateService;
 import com.lgcns.erp.scheduleManagement.util.AttachmentUtil;
 import com.lgcns.erp.scheduleManagement.util.ScheduleMainControllerUtil;
+import com.lgcns.erp.scheduleManagement.util.email.EmailUtil;
 import com.lgcns.erp.scheduleManagement.viewModel.ParticipantVM;
 import com.lgcns.erp.scheduleManagement.viewModel.ReferenceVM;
 import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
+import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -25,10 +29,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +83,10 @@ public class ScheduleDetailsController {
         }
         ScheduleMainControllerUtil.uploadFile(scheduleVM, scheduleId, mainService);
 
+        int[] author = new int[1];
+        author[0] = UserService.getIdByUsername(principal.getName());
+        EmailUtil.sendEmail(scheduleId, author, participantsGlobal, referencesGlobal, ActionTypeId.Update.getValue());
+
         return "redirect: /ScheduleManagement/main";
     }
 
@@ -85,8 +97,11 @@ public class ScheduleDetailsController {
     public void decide(@RequestParam("participantId")int participantId,
                        @RequestParam("scheduleId")int scheduleId,
                        @RequestParam("status")int status,
-                       @RequestParam("reason")String reason){
+                       @RequestParam("reason")String reason, Principal principal){
         service.updateParticipantDecision(participantId, scheduleId, status,reason);
+        int[] author = new int[1];
+        author[0] = UserService.getIdByUsername(principal.getName());
+        EmailUtil.sendEmail(scheduleId, author, null, null, ActionTypeId.ParticipantDecide.getValue());
     }
 
     /**
@@ -95,11 +110,15 @@ public class ScheduleDetailsController {
      * @throws IOException
      */
     @RequestMapping(value = "/DeleteSchedule", method = RequestMethod.POST)
-    public String delete(@RequestParam("scheduleId")int scheduleId) throws IOException {
+    public String delete(@RequestParam("scheduleId")int scheduleId, Principal principal) throws IOException {
         service.deleteReference(scheduleId);
         service.deleteAttachment(scheduleId);
         service.deleteParticipant(scheduleId);
         service.deleteSchedule(scheduleId);
+
+        int[] author = new int[1];
+        author[0] = UserService.getIdByUsername(principal.getName());
+        EmailUtil.sendEmail(scheduleId, author, participantsGlobal, referencesGlobal, ActionTypeId.Delete.getValue());
 
         return "redirect: /ScheduleManagement/main";
     }
@@ -136,5 +155,32 @@ public class ScheduleDetailsController {
         map.put("Attachments", attachmentList);
 
         return map;
+    }
+
+    @RequestMapping(value = "/files/{id}", method = RequestMethod.GET)
+    public void getFile(@PathVariable("id") int id, HttpServletResponse response) throws IOException {
+
+        String fullPath = AttachmentContext.getAttachmentById(id).getAttachmentPath();
+
+        File file = new File(fullPath);
+        if(!file.exists()){
+            String errorMessage = "Sorry. The file you are looking for does not exist";
+            OutputStream outputStream = response.getOutputStream();
+            outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
+            outputStream.close();
+        }
+
+        String mimeType= URLConnection.guessContentTypeFromName(file.getName());
+        if(mimeType==null){
+            System.out.println("mimetype is not detectable, will take default");
+            mimeType = "application/octet-stream";
+        }
+
+        response.setContentType(mimeType);
+        response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() +"\""));
+        response.setContentLength((int)file.length());
+        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+        FileCopyUtils.copy(inputStream, response.getOutputStream());
+
     }
 }

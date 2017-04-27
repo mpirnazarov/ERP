@@ -6,6 +6,7 @@ import com.lgcns.erp.scheduleManagement.DBEntities.ParticipantInScheduleEntity;
 import com.lgcns.erp.scheduleManagement.DBEntities.ReferenceInCheduleEntity;
 import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleAttachmentsEntity;
 import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity;
+import com.lgcns.erp.scheduleManagement.enums.ParticipantStatus;
 import com.lgcns.erp.scheduleManagement.util.ParticipantUtil;
 import com.lgcns.erp.scheduleManagement.util.ReferenceUtil;
 import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
@@ -79,6 +80,7 @@ public class ScheduleMainMapper {
         ParticipantInScheduleEntity participantInScheduleEntity = new ParticipantInScheduleEntity();
         participantInScheduleEntity.setScheduleId(scheduleId);
         participantInScheduleEntity.setUserId(participant);
+        participantInScheduleEntity.setStatus(ParticipantStatus.Not_decided.getValue());
         return participantInScheduleEntity;
     }
 

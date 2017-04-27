@@ -38,6 +38,7 @@
 
     $(document).ready(function () {
 
+        var currentUser = ${userId};
 
         $('#dateTimeStart').datetimepicker({
             mask: '9999/19/39 29:59'
@@ -101,7 +102,6 @@
                 $(this).css('border-color', 'red');
 
                 var dialogDiv = $('#dialogDiv');
-                var currentUser = ${userId};
                 var curWidth = $(this).width();
                 var curHeight = $(this).height();
                 var divCenterWidth = curWidth / 2;
@@ -117,7 +117,7 @@
                         dialogDiv.removeClass('showDialog');
                     }, 3000);
                 } else {
-                    view(calEvent);
+                    viewEvent(calEvent);
                 }
 
                 dialogDiv.css({
@@ -234,8 +234,8 @@
     function createEvent(start, end, calendarObject) {
         clearModal();
         $('#calSubmitButton').attr('value','Submit');
-        switchContentDiv("create");
 
+        switchContentDiv("create");
 
         var targetCalendar = $('#' + calendarObject)
         var EventStart = start;
@@ -331,7 +331,7 @@
             $('#option3').prop('checked', true);
         } else if (EventType == 4) {
             $('#option4').prop('checked', true);
-            checkPressing('otherTypeLabel');
+            checkPressing('otherTypeLabel',1);
         }
 
         if (EventIsCompulsory == "true") {
@@ -359,12 +359,38 @@
         $('.calendarMemberPill').remove();
 
         var response = calendarCommonAjax("POST","/ScheduleDetails/GetSchedule", "scheduleId=" + calEvent.id,"View");
+        var currentUserId = ${userId};
+        var participantsId = [];
+        var isParticipate = false;
+        var totalParticipants = 0;
+        var totalWillParticipate = 0;
+        var totalNotParticipate = 0;
+        var totalNotDecidied = 0;
 
 
         $(response).each(function (i, res) {
             $(res.participants).each(function (i, par) {
 
-                $('#eventViewParticipantsList').append('<span title="' + par.jobTitle + ", " + par.departmentName + '" class="calendarMemberPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + par.name + ' ' + par.surname + '</span>');
+                /*$('#eventViewParticipantsList').append('<span title="' + par.jobTitle + ", " + par.departmentName + '" class="calendarMemberPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + par.name + ' ' + par.surname + '</span>');*/
+                participantsId.push(par.userId);
+
+                if(par.userId == currentUserId){
+                    isParticipate = true;
+                }
+
+                if(par.status == 1){
+                    totalWillParticipate +=1;
+                    $('#eventViewParticipantsList').append('<span title="' + par.jobTitle + ", " + par.departmentName + '" class="calendarMemberPill greenPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + par.name + ' ' + par.surname + '</span>');
+                }else if(par.status == 2){
+                    totalNotParticipate +=1;
+                    $('#eventViewParticipantsList').append('<span title="' + par.jobTitle + ", " + par.departmentName + " | Reason of not participating: " + par.reason + '" class="calendarMemberPill redPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + par.name + ' ' + par.surname + '</span>');
+                }else if(par.status == 3){
+                    totalNotDecidied +=1;
+                    $('#eventViewParticipantsList').append('<span title="' + par.jobTitle + ", " + par.departmentName + '" class="calendarMemberPill greyPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + par.name + ' ' + par.surname + '</span>');
+                }else {
+                    totalNotDecidied +=1;
+                    $('#eventViewParticipantsList').append('<span title="' + par.jobTitle + ", " + par.departmentName + '" class="calendarMemberPill greyPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + par.name + ' ' + par.surname + '</span>');
+                }
             });
 
             $(res.references).each(function (i, ref) {
@@ -377,6 +403,9 @@
                 $/*('#eventViewAttachment').append('<a href="/ScheduleDetails/DeleteAttachment/'+at.attachmentId+'">&#10007;</a>');*/
             });
         });
+
+        totalParticipants = participantsId.length;
+        /*alert(totalParticipants);*/
 
 
         var EventId = calEvent.id;
@@ -393,6 +422,24 @@
         var EventStart = moment(calEvent.start).format('YYYY/MM/DD HH:mm');
         var EventEnd = moment(calEvent.end).format('YYYY/MM/DD HH:mm');
 
+        if (EventAuthorId == currentUserId){
+            $('#CalendarModalViewDecisionButtonGroup').hide();
+            $('#CalendarModalViewAuthorButtonGroup').show();
+            $('#CalendarModalViewParticipantsButtonGroup').hide();
+        }else if (isParticipate) {
+            $('#CalendarModalViewDecisionButtonGroup').show();
+            $('#CalendarModalViewAuthorButtonGroup').hide();
+            $('#CalendarModalViewParticipantsButtonGroup').show();
+        }else {
+            $('#CalendarModalViewDecisionButtonGroup').hide();
+            $('#CalendarModalViewAuthorButtonGroup').hide();
+            $('#CalendarModalViewParticipantsButtonGroup').hide();
+        }
+
+        $('#eventTotalParticipants span').text(totalParticipants);
+        $('#eventTotalWillParticipate span').text(totalWillParticipate);
+        $('#eventTotalNotParticipate span').text(totalNotParticipate);
+        $('#eventTotalNotDecided span').text(totalNotDecidied);
 
 
         if (EventType == 1){
@@ -419,22 +466,52 @@
         $('#CalendarModal').modal('show');
     }
 
-    function checkPressing(id) {
+    function checkPressing(id, groupNumber) {
 
-        var targetButton = $('#otherType');
+        var otherTypeTextBox = $('#otherType');
         var targetButtonId = id;
+        var group = groupNumber;
+        var yesButton = $('#CalendarDecisionYes');
+        var noButton = $('#CalendarDecisionNo');
+        yesButton.data("pressed", false);
+        noButton.data("pressed", false);
+        var decisionTextBox = $('#eventDecisionText');
+        var decisionResult = "";
 
-        if (targetButton.css('opacity') == 0 && targetButtonId == 'otherTypeLabel') {
-            targetButton.css('display', 'inline-block');
-            targetButton.animate({opacity: 1}, 300);
-        } else if (targetButton.css('opacity') == 1 && targetButtonId != 'otherTypeLabel') {
-            targetButton.css('display', 'none');
-            targetButton.animate({opacity: 0}, 300);
-            targetButton.val('');
+        if (group == 1){
+            if (otherTypeTextBox.css('opacity') == 0 && targetButtonId == 'otherTypeLabel') {
+                otherTypeTextBox.css('display', 'inline-block');
+                otherTypeTextBox.animate({opacity: 1}, 300);
+            } else if (otherTypeTextBox.css('opacity') == 1 && targetButtonId != 'otherTypeLabel') {
+                otherTypeTextBox.css('display', 'none');
+                otherTypeTextBox.animate({opacity: 0}, 300);
+                otherTypeTextBox.val('');
+            }
+        }else if (group = 2){
+            if (targetButtonId == "CalendarDecisionYes"){
+                yesButton.data("pressed", true);
+                noButton.data("pressed", false);
+                yesButton.css("background-color","#449d44");
+                yesButton.css("color","#ffffff");
+                noButton.css("background-color","#ffffff");
+                noButton.css("color","#337ab7");
+                decisionTextBox.css('display', 'none');
+                decisionTextBox.animate({opacity: 0}, 200);
+                decisionTextBox.val('');
+            }else if (targetButtonId == "CalendarDecisionNo"){
+                yesButton.data("pressed", false);
+                noButton.data("pressed", true);
+                yesButton.css("background-color","#ffffff");
+                yesButton.css("color","#449d44");
+                noButton.css("background-color","#337ab7");
+                noButton.css("color","#ffffff");
+                decisionTextBox.css('display', 'inline-block');
+                decisionTextBox.animate({opacity: 1}, 200);
+            }
+        }else {
+            alert("Wronge Button!")
+            return false;
         }
-
-        /* targetButton.css('display','none');
-         targetButton.animate({opacity: 0}, 400);*/
 
 
     }
@@ -442,6 +519,12 @@
     function clearModal() {
 
         var targetButton = $('#otherType');
+        var yesButton = $('#CalendarDecisionYes');
+        var noButton = $('#CalendarDecisionNo');
+        var decisionTextBox = $('#eventDecisionText');
+
+        yesButton.data("pressed", false);
+        noButton.data("pressed", false);
 
         $('.attachmentItem').empty();
         $('#eventAttachedFiles').empty();
@@ -449,7 +532,7 @@
 
         $('input:text').each(function () {
             $(this).val('');
-        })
+        });
 
         if (targetButton.css('opacity') == 1) {
             targetButton.css('display', 'none');
@@ -462,6 +545,17 @@
         $('#isCompulsory').prop('checked', false);
         $('#notifyByEmail').prop('checked', false);
         $('#eventAttachment').val('');
+
+
+
+        decisionTextBox.val('');
+        yesButton.css("background-color","#ffffff");
+        yesButton.css("color","#449d44");
+        noButton.css("background-color","#ffffff");
+        noButton.css("color","#337ab7");
+        decisionTextBox.css('display', 'none');
+        decisionTextBox.animate({opacity: 0});
+
     }
 
     function submitEvent(id) {
@@ -508,25 +602,10 @@
 
         }else {
             alert('Value is empty')
+            return false;
         }
 
         calendarCommonAjax(type,currentUrl,currentData,clickedButton);
-
-
-       /* $.ajax({
-            type: type,
-            url: currentUrl,
-            data: currentData,
-            success: function (response) {
-//                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
-                returnToCalendar();
-            },
-            error: function (e) {
-                alert('Error: ' + e);
-            }
-        });*/
-
-
 
     }
 
@@ -599,11 +678,15 @@
         var viewDiv = $('#viewBodyDiv');
         var mainModalBody = $('#CalendarModal div.modal-body');
 
+
+
+
         if (divToDisplay == "create") {
             createDiv.css('display', 'block');
             createDivAuthorButtons.css('display', 'block');
             viewDivAuthorButtons.css('display', 'none');
             viewDiv.css('display', 'none');
+            $('#CalendarModalViewParticipantsButtonGroup').hide();
         } else if (divToDisplay == "view") {
             createDiv.css('display', 'none');
             viewDivAuthorButtons.css('display', 'block');
@@ -660,6 +743,48 @@
 
         return valFlag;
     }
+    
+    function eventDecisionMaking(id) {
+
+      /*  targetButton.css('display', 'inline-block');
+        targetButton.animate({opacity: 1}, 300);*/
+        var currentButtonId = id;
+        var decisionTextBox = $('#eventDecisionText');
+        var yesButton = $('#CalendarDecisionYes');
+        var noButton = $('#CalendarDecisionNo');
+        var currentType = "";
+        var currentUrl = "";
+        var currentData = "";
+        var currentAction = "";
+        var currentParticipant = ${userId};
+        var currentScheduleId = $("#eventViewScheduleId").val();
+        var currentStatus = "";
+        var currentReason = "";
+
+
+
+        if (currentButtonId = "calSubmitDecision"){
+            if (yesButton.data("pressed")){
+                currentStatus = 1;
+                currentType = "POST";
+                currentUrl = "/ScheduleDetails/ParticipantDecision";
+                currentData = "participantId=" + currentParticipant + "&scheduleId=" + currentScheduleId + "&status=" + currentStatus + "&reason=" + currentReason;
+                /*currentData = "participantId=1&scheduleId=1&status=1&reason=A";*/
+
+            }else if(noButton.data("pressed")){
+                currentStatus = 2;
+                currentReason = decisionTextBox.val();
+                currentType = "POST";
+                currentUrl = "/ScheduleDetails/ParticipantDecision";
+                currentData = "participantId=" + currentParticipant + "&scheduleId=" + currentScheduleId + "&status=" + currentStatus + "&reason=" + currentReason;
+            }else {
+                return false;
+            }
+        }
+
+
+        calendarCommonAjax(currentType,currentUrl,currentData,"DecisionSubmit");
+    }
 
     function calendarCommonAjax(type, url, data, actionType) {
         var currentResponse ;
@@ -687,6 +812,8 @@
                 }else if (currentAction == "View"){
                     currentResponse = response;
 
+                }else if(currentAction = "DecisionSubmit"){
+                    returnToCalendar();
                 }else {
                     ///default
                 }
@@ -868,16 +995,16 @@
                                 </div>
                                 <div class="input-group calInputGroup">
                                     <span class="input-group-addon calSpan">Type:</span>
-                                    <label class="btn" onclick="checkPressing()">
+                                    <label class="btn" onclick="checkPressing(this.id,1)">
                                         <form:radiobutton id="option1" path="sType" value="1"/> Meeting
                                     </label>
-                                    <label class="btn" onclick="checkPressing()">
+                                    <label class="btn" onclick="checkPressing(this.id,1)">
                                         <form:radiobutton id="option2" path="sType" value="2"/> Out of office
                                     </label>
-                                    <label class="btn" onclick="checkPressing()">
+                                    <label class="btn" onclick="checkPressing(this.id,1)">
                                         <form:radiobutton id="option3" path="sType" value="3"/> Personal
                                     </label>
-                                    <label id="otherTypeLabel" class="  btn" onclick="checkPressing(this.id)">
+                                    <label id="otherTypeLabel" class="  btn" onclick="checkPressing(this.id,1)">
                                         <form:radiobutton id="option4" path="sType" value="4"/> Other
                                     </label>
                                     <form:input id="otherType" type="text" class="form-control calOtherTypeInput"
@@ -945,6 +1072,10 @@
                                         <input id="eventViewType" disabled/>
                                     </div>
                                     <div class="input-group calInputGroup">
+                                        <span class="input-group-addon calSpan">Title</span>
+                                        <input id="eventViewTitle" disabled/>
+                                    </div>
+                                    <div class="input-group calInputGroup">
                                         <span class="input-group-addon calSpan">Start</span>
                                         <input id="eventViewStart" disabled/>
                                     </div>
@@ -957,10 +1088,6 @@
                                         <input id="eventViewPlace" disabled/>
                                     </div>
                                     <div class="input-group calInputGroup">
-                                        <span class="input-group-addon calSpan">Title</span>
-                                        <input id="eventViewTitle" disabled/>
-                                    </div>
-                                    <div class="input-group calInputGroup">
                                         <span class="input-group-addon calSpan">Description</span>
                                         <input id="eventViewDescription" disabled/>
                                     </div>
@@ -970,6 +1097,22 @@
                                     </div>
                                 </div>
                                 <div class="CalendarViewFooter">
+                                    <div id="CalendarModalViewDecisionButtonGroup"  class="input-group calInputGroup">
+                                        <span class="input-group-addon calSpan">Will you participate?</span>
+                                        <div class="btn-group" role="group"
+                                             aria-label="...">
+                                            <input id="CalendarDecisionYes" type="button" value="Yes" class="btn btn-green" onclick="checkPressing(this.id,2)" data=""/>
+                                            <input id="CalendarDecisionNo" type="button" value="No" class="btn btn-darkblue" onclick="checkPressing(this.id,2)"/>
+                                        </div>
+                                        <input id="eventDecisionText" type="text" class="form-control" name="decisionText"
+                                               placeholder="Reason of not participating...">
+                                    </div>
+                                    <div class="row" id="eventMembersCalculation">
+                                        <div class="col-md-2 col-md-offset-2" id="eventTotalParticipants" >Total | <span>0</span></div>
+                                        <div class="col-md-2" id="eventTotalWillParticipate" >Participate | <span>0</span></div>
+                                        <div class="col-md-2" id="eventTotalNotParticipate">Not Participate | <span>0</span></div>
+                                        <div class="col-md-2" id="eventTotalNotDecided">Not Decided | <span>0</span></div>
+                                    </div>
 
                                 </div>
                             </div>
@@ -982,13 +1125,20 @@
                                        onclick="submitEvent(this.id)" class="btn btn-blue"/>
                                 <input id="calSubmitButton" type="button" value=""
                                        onclick="submitEvent(this.id)" class="btn btn-green"/>
-                                <input type="button" data-dismiss="modal"  value="Cancel" class="btn btn-red"/>
+                                <input type="button" data-dismiss="modal"  value="Cancel" class="btn btn-darkyellow"/>
                             </div>
                             <div id="CalendarModalViewAuthorButtonGroup" class="btn-group" role="group"
                                  aria-label="...">
+                                <div id="calSendEmailToAllButton" type="text" value="SendEmail"
+                                     onclick="submitEvent(this.id)" class="btn btn-blue">Send Email <span class="fa fa-envelope" aria-hidden="true"></span></div>
                                 <input id="calDeleteButton" type="button" value="Delete"
-                                       onclick="submitEvent(this.id)" class="btn btn-green"/>
-                                <input type="button" data-dismiss="modal"  value="Cancel" class="btn btn-red"/>
+                                       onclick="submitEvent(this.id)" class="btn btn-red"/>
+                                <input type="button" data-dismiss="modal"  value="Cancel" class="btn btn-darkyellow"/>
+                            </div>
+                            <div id="CalendarModalViewParticipantsButtonGroup" class="btn-group" role="group" aria-label="...">
+                                <input id="calSubmitDecision" type="button" value="Submit"
+                                       onclick="eventDecisionMaking(this.id)" class="btn btn-green"/>
+                                <input type="button" data-dismiss="modal"  value="Cancel" class="btn btn-darkyellow"/>
                             </div>
                         </div>
 

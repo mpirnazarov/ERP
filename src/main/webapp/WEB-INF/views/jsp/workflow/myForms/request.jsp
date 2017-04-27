@@ -52,61 +52,6 @@
                 class="glyphicon glyphicon-edit" aria-hidden="true"></span> Request</h2>
 
         <div class="w3-container">
-            <%--<div class="searchtoolstyle" style="height: 20%">
-
-                &lt;%&ndash;p1&ndash;%&gt;
-                <div style="display: flex; margin-bottom: 1%;">
-                    <div style="margin-left: auto; width: 20%">
-                        <label>FormType</label>
-                        <select class="form-control" id="reqTypeId">
-                            <c:forEach var="type" items="${typeList}" varStatus="i">
-                                <option id="${type.key}">${type.value}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div style="margin-left: 1%; width: 20%">
-                        <label>Current status</label>
-                        <select class="form-control"  id="reqStatusId">
-                            <c:forEach var="status" items="${statusList}" varStatus="i">
-                                <option id="${status.key}">${status.value}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div style="margin-left: 1%; width: 20%">
-                        <label>Request date from</label>
-                        <input placeholder="yyyy-mm-dd" type="text" class="form-control" id="reqsandbox-container-from">
-                    </div>
-
-                    <div style="margin-left: 1%; width: 20%">
-                        <label>Request date to</label>
-                        <input placeholder="yyyy-mm-dd" type="text" class="form-control" id="reqsandbox-container-to">
-                    </div>
-                </div>
-
-                    &lt;%&ndash;p2&ndash;%&gt;
-                <div class="row">
-
-                    <div class="input-group col-md-5 col-md-offset-7 " style="margin-top: 25px">
-                        <span class="input-group-addon" id="search-addon1" style="background-color: white; border: none; color: #bd2828">Title:</span>
-                        <input type="text" placeholder="Search for ..." class="form-control" id="reqsearchId" aria-describedby="search-addon1" style="border: none">
-                        <div class="input-group-addon btn" onclick="pagedList(this.id)" id="btnReqFilter" style="background-color: white; color: #bd2828"><span
-                                class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                        </div>
-                    </div>
-
-
-                    &lt;%&ndash;<div class="input-group">
-                        <span class="input-group-addon" id="saerchtype-addon">Title:</span>
-
-                        <input type="text" class="form-control" id="reqsearchId">
-                    </div>&ndash;%&gt;
-
-                    &lt;%&ndash;<button type="button" class="btn btn-success" onclick="pagedList(this.id)" id="btnReqFilter"
-                            style="margin-left: 20%; border-radius: 0; width: 25%"><span
-                            class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                    </button>&ndash;%&gt;
-                </div>
-            </div>--%>
 
             <div class="searchtoolstyle" style="height: 20%">
 
@@ -151,18 +96,6 @@
                                 class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                         </div>
                     </div>
-
-
-                    <%--<div class="input-group">
-                        <span class="input-group-addon" id="saerchtype-addon">Title:</span>
-
-                        <input type="text" class="form-control" id="reqsearchId">
-                    </div>--%>
-
-                    <%--<button type="button" class="btn btn-success" onclick="pagedList(this.id)" id="btnReqFilter"
-                            style="margin-left: 20%; border-radius: 0; width: 25%"><span
-                            class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                    </button>--%>
                 </div>
             </div>
 

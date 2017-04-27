@@ -82,11 +82,14 @@ public class ScheduleDetailsController {
      * ToDo identify needed parameters and return type based on front end needs and capabilities
      */
     @RequestMapping(value = "/ParticipantDecision", method = RequestMethod.POST)
-    public void decide(@RequestParam("participantId")int participantId,
+    public @ResponseBody HashMap<String, String> decide(@RequestParam("participantId")int participantId,
                        @RequestParam("scheduleId")int scheduleId,
                        @RequestParam("status")int status,
                        @RequestParam("reason")String reason){
         service.updateParticipantDecision(participantId, scheduleId, status,reason);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("jovob", "");
+        return map;
     }
 
     /**

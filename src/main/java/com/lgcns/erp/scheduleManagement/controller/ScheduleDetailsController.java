@@ -105,6 +105,7 @@ public class ScheduleDetailsController {
         author[0] = UserService.getIdByUsername(principal.getName());
         EmailUtil.sendEmail(scheduleId, author, null, null, ActionTypeId.ParticipantDecide.getValue());
 
+
         HashMap<String, String> map = new HashMap<>();
         map.put("jovob", "");
         return map;

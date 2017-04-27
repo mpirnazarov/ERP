@@ -4,6 +4,7 @@ import com.lgcns.erp.scheduleManagement.enums.ActionTypeId;
 import com.lgcns.erp.scheduleManagement.mapper.ScheduleMainMapper;
 import com.lgcns.erp.scheduleManagement.service.ScheduleMainService;
 import com.lgcns.erp.scheduleManagement.util.ScheduleMainControllerUtil;
+import com.lgcns.erp.scheduleManagement.util.email.EmailUtil;
 import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
@@ -134,6 +135,10 @@ public class ScheduleMainController {
         }
         ScheduleMainControllerUtil.uploadFile(scheduleVM, scheduleId, service);
 
+        int[] author = new int[1];
+        author[0] = UserService.getIdByUsername(principal.getName());
+
+        EmailUtil.sendEmail(scheduleId, author, participantsGlobal, referencesGlobal, ActionTypeId.Create.getValue());
         return "redirect: /ScheduleManagement/main";
     }
 

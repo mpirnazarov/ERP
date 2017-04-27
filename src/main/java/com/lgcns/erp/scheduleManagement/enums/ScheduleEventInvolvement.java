@@ -1,13 +1,13 @@
 package com.lgcns.erp.scheduleManagement.enums;
 
 /**
- * Created by DS on 13.04.2017.
+ * Created by DS on 26.04.2017.
  */
-public enum ActionTypeId {
-    Create(1), Update(2), ParticipantDecide(3), Delete(4);
+public enum  ScheduleEventInvolvement {
+    Participant(1), Referenced(2), Author(3);
 
     int value;
-    ActionTypeId(int value){
+    ScheduleEventInvolvement(int value){
         this.value = value;
     }
     public int getValue(){

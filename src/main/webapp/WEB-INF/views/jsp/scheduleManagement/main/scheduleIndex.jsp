@@ -575,6 +575,8 @@
         references = $("#eventReferencesGroup").children().siblings("input[type=text]").val();
 
 
+
+
         if (clickedButton == 'Submit'){
             currentData = "participants="+participants+"&references="+references;
             currentUrl = "/ScheduleManagement/ScheduleMembersAjax";

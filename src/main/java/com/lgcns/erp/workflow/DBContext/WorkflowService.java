@@ -22,28 +22,26 @@ import java.util.List;
  */
 public class WorkflowService {
 
-    public static List<RequestsEntity> getRequestList(){
+    public static List<RequestsEntity> getRequestList() {
         List<RequestsEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from RequestsEntity");
-            list = (List<RequestsEntity>)query.list();
+            list = (List<RequestsEntity>) query.list();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
 
         return list;
     }
 
-    public static List<RequestsEntity> filter(String whereClause){
+    public static List<RequestsEntity> filter(String whereClause) {
         String q = "select r from RequestsEntity r ";
 
         List<RequestsEntity> list = null;
@@ -51,83 +49,75 @@ public class WorkflowService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery(q+whereClause+" order by r.dateCreated desc, r.statusId");
-            list = (List<RequestsEntity>)query.list();
+            Query query = session.createQuery(q + whereClause + " order by r.dateCreated desc, r.statusId");
+            list = (List<RequestsEntity>) query.list();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
 
         return list;
     }
 
-    public static List<StepsEntity> getStepsList(){
+    public static List<StepsEntity> getStepsList() {
         List<StepsEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from StepsEntity");
-            list = (List<StepsEntity>)query.list();
+            list = (List<StepsEntity>) query.list();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
         return list;
     }
 
-    public static RequestsEntity getRequestsEntityById(int id){
+    public static RequestsEntity getRequestsEntityById(int id) {
         RequestsEntity entity = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from RequestsEntity where id="+id);
-            entity = (RequestsEntity)query.getSingleResult();
+            Query query = session.createQuery("from RequestsEntity where id=" + id);
+            entity = (RequestsEntity) query.getSingleResult();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
 
         return entity;
     }
 
-    public static List<AttachmentsEntity> getAttachmentList(){
+    public static List<AttachmentsEntity> getAttachmentList() {
         List<AttachmentsEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from AttachmentsEntity ");
-            list = (List<AttachmentsEntity>)query.list();
+            list = (List<AttachmentsEntity>) query.list();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
         return list;
     }
 
-    public static List<AttachmentsEntity> getRequestAttachmentsByReqId(int req_id){
+    public static List<AttachmentsEntity> getRequestAttachmentsByReqId(int req_id) {
         List<AttachmentsEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -135,35 +125,31 @@ public class WorkflowService {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from AttachmentsEntity where requestId = :req_id");
             query.setParameter("req_id", req_id);
-            list = (List<AttachmentsEntity>)query.list();
+            list = (List<AttachmentsEntity>) query.list();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
         return list;
     }
 
 
-    public static String getAttachmentPathNameById(Long id){
+    public static String getAttachmentPathNameById(Long id) {
         AttachmentsEntity entity = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from AttachmentsEntity WHERE id="+id);
-            entity = (AttachmentsEntity)query.getSingleResult();
+            Query query = session.createQuery("from AttachmentsEntity WHERE id=" + id);
+            entity = (AttachmentsEntity) query.getSingleResult();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
         return entity.getUrl();
@@ -176,90 +162,82 @@ public class WorkflowService {
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from TripTypesEntity ");
-            list = (List<TripTypesEntity>)query.list();
+            list = (List<TripTypesEntity>) query.list();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
         return list;
     }
 
-    public static List<StepCommentsEntity> getStepComments(){
+    public static List<StepCommentsEntity> getStepComments() {
         List<StepCommentsEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from StepCommentsEntity ");
-            list = (List<StepCommentsEntity>)query.list();
+            list = (List<StepCommentsEntity>) query.list();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
         return list;
     }
 
-    public static List<StepCommentsEntity> getStepCommentsByStepId(int id){
+    public static List<StepCommentsEntity> getStepCommentsByStepId(int id) {
         List<StepCommentsEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from StepCommentsEntity WHERE stepsId="+id);
-            list = (List<StepCommentsEntity>)query.list();
+            Query query = session.createQuery("from StepCommentsEntity WHERE stepsId=" + id);
+            list = (List<StepCommentsEntity>) query.list();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
         return list;
     }
 
-    public static void stepApprove(int reqId, int statusId, String comment){
+    public static void stepApprove(int reqId, int statusId, String comment) {
         int newRowId = WorkflowToDoApproveService.getTheNextSequence(reqId, statusId, comment);
-        if (newRowId != -1){
+        if (newRowId != -1) {
             WorkflowToDoApproveService.approve(reqId, statusId);
             WorkflowToDoApproveService.setNewStep(newRowId, reqId);
         }
     }
 
-    public static void stepReject(int reqId, int statusId, String comment){
+    public static void stepReject(int reqId, int statusId, String comment) {
         WorkFlowToDoRejectService.reject(reqId, statusId, comment);
     }
 
-    public static void stepReview(int reqId, int statusId, String comment){
+    public static void stepReview(int reqId, int statusId, String comment) {
         WorkFlowToDoReviewService.review(reqId, statusId, comment);
     }
 
-    public static StepsEntity getStepById(int id){
+    public static StepsEntity getStepById(int id) {
         StepsEntity entity = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from StepsEntity where id="+id);
-            entity = (StepsEntity)query.getSingleResult();
+            Query query = session.createQuery("from StepsEntity where id=" + id);
+            entity = (StepsEntity) query.getSingleResult();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
 
@@ -275,16 +253,14 @@ public class WorkflowService {
 
             //requestsEntity.setTripTypesByTripTypeId(session.load(TripTypesEntity.class, requestsEntity.getTripTypeId()));
             //Save the object in database
-            int id = (int)session.save(requestsEntity);
+            int id = (int) session.save(requestsEntity);
             System.out.println(id);
             //Commit the transaction
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
         return requestsEntity.getId();
@@ -301,12 +277,10 @@ public class WorkflowService {
             session.save(membersEntity);
             //Commit the transaction
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
@@ -322,12 +296,10 @@ public class WorkflowService {
             session.save(toDoEntity);
             //Commit the transaction
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
@@ -343,12 +315,10 @@ public class WorkflowService {
             session.save(attachmentsEntity);
             //Commit the transaction
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
@@ -367,12 +337,10 @@ public class WorkflowService {
 
             //Commit the transaction
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
@@ -385,14 +353,12 @@ public class WorkflowService {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from MembersEntity WHERE requestId=:reqId");
             query.setParameter("reqId", requestId);
-            list = (List<MembersEntity>)query.list();
+            list = (List<MembersEntity>) query.list();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
         return list;
@@ -406,14 +372,12 @@ public class WorkflowService {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from ToDoEntity WHERE requestId=:reqId");
             query.setParameter("reqId", requestId);
-            list = (List<ToDoEntity>)query.list();
+            list = (List<ToDoEntity>) query.list();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
         return list;
@@ -429,12 +393,10 @@ public class WorkflowService {
             query.setParameter("docId", id);
             query.executeUpdate();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
@@ -445,15 +407,13 @@ public class WorkflowService {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from AttachmentsEntity where id="+id);
+            Query query = session.createQuery("from AttachmentsEntity where id=" + id);
             entity = (AttachmentsEntity) query.getSingleResult();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
 
@@ -466,9 +426,9 @@ public class WorkflowService {
 
         RequestsEntity requestsEntityForStatus = getRequestsEntityById(requestsEntity.getId());
 
-        if (requestsEntityForStatus.getStatusId()== Status.Draft.getValue()){
+        if (requestsEntityForStatus.getStatusId() == Status.Draft.getValue()) {
             setDraftToInProgressSteps(requestsEntity.getId());
-        }else {
+        } else {
             requestHasReviewed(requestsEntity.getId());
         }
 
@@ -485,12 +445,10 @@ public class WorkflowService {
 
             query.executeUpdate();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
 
@@ -507,17 +465,15 @@ public class WorkflowService {
             query.setParameter("reqId", id);
             query.executeUpdate();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
 
-    private static void setDraftInactiveToActiveSteps(int id){
+    private static void setDraftInactiveToActiveSteps(int id) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
 
@@ -527,17 +483,15 @@ public class WorkflowService {
             query.setParameter("reqId", id);
             query.executeUpdate();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
 
-    private static void requestHasReviewed(int id){
+    private static void requestHasReviewed(int id) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         setDraftInactiveToActiveSteps(id);
@@ -547,12 +501,10 @@ public class WorkflowService {
             query.setParameter("reqId", id);
             query.executeUpdate();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
@@ -562,9 +514,9 @@ public class WorkflowService {
         Transaction transaction = null;
         RequestsEntity requestsEntityForStatus = getRequestsEntityById(requestsEntity.getId());
 
-        if (requestsEntityForStatus.getStatusId()==Status.Draft.getValue()){
+        if (requestsEntityForStatus.getStatusId() == Status.Draft.getValue()) {
             setDraftToInProgressSteps(requestsEntity.getId());
-        }else {
+        } else {
             requestHasReviewed(requestsEntity.getId());
         }
 
@@ -581,17 +533,15 @@ public class WorkflowService {
 
             query.executeUpdate();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
 
-    public static void setIsViewed(int req_id){
+    public static void setIsViewed(int req_id) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -601,12 +551,10 @@ public class WorkflowService {
 
             int s = query.executeUpdate();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
@@ -620,12 +568,10 @@ public class WorkflowService {
             query.setParameter("reqId", reqId);
             query.executeUpdate();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
@@ -639,12 +585,10 @@ public class WorkflowService {
             query.setParameter("reqId", reqId);
             query.executeUpdate();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
@@ -654,9 +598,9 @@ public class WorkflowService {
         Transaction transaction = null;
         RequestsEntity requestsEntityForStatus = getRequestsEntityById(reqId);
 
-        if (requestsEntityForStatus.getStatusId()==Status.Draft.getValue()){
+        if (requestsEntityForStatus.getStatusId() == Status.Draft.getValue()) {
             setDraftToInProgressSteps(reqId);
-        }else {
+        } else {
             requestHasReviewed(reqId);
         }
 
@@ -676,17 +620,15 @@ public class WorkflowService {
 
             query.executeUpdate();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
 
-    public static List<StepsEntity> getStepsByRequestId(int requestId){
+    public static List<StepsEntity> getStepsByRequestId(int requestId) {
         List<StepsEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -694,14 +636,12 @@ public class WorkflowService {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from StepsEntity WHERE requestId=:reqId");
             query.setParameter("reqId", requestId);
-            list = (List<StepsEntity>)query.list();
+            list = (List<StepsEntity>) query.list();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
         return list;
@@ -716,12 +656,10 @@ public class WorkflowService {
             Query query = session.createQuery("from TripTypesEntity where id=" + typeOfBusinessTrip);
             entity = (TripTypesEntity) query.getSingleResult();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
 
@@ -737,12 +675,10 @@ public class WorkflowService {
             Query query = session.createQuery("from InvolvementTypesEntity where id=" + involvementType);
             entity = (InvolvementTypesEntity) query.getSingleResult();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
 
@@ -758,25 +694,23 @@ public class WorkflowService {
             Query query = session.createQuery("from StepsEntity where id=" + nextApproverId);
             entity = (StepsEntity) query.getSingleResult();
             transaction.commit();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             session.close();
         }
 
         return entity.getUserId();
     }
 
-    public static JSONArray getUsersJson(Principal principal){
+    public static JSONArray getUsersJson(Principal principal) {
         JSONObject jsonObject = null;
         JSONArray jsonArray = new JSONArray();
         for (UsersEntity user :
                 UserService.getAllUsers()) {
             jsonObject = new JSONObject();
-            if(user.isEnabled()==true) {
+            if (user.isEnabled() == true) {
                 jsonObject = new JSONObject();
                 Member member = MembersMapper.getMember(user.getId());
 
@@ -796,7 +730,7 @@ public class WorkflowService {
                 jsonObject.put("jobTitle", member.getJobTitle());
                 jsonObject.put("department", member.getDepartment());
 
-                if(user.getUserName().compareTo(principal.getName())!=0) {
+                if (user.getUserName().compareTo(principal.getName()) != 0) {
                     // add object to array
                     jsonArray.add(jsonObject);
                 }
@@ -805,4 +739,21 @@ public class WorkflowService {
         // add JSON array to ModelAndView
         return jsonArray;
     }
+
+    public static JSONObject getUserJson(int userId) {
+        JSONObject jsonObject = null;
+        UsersEntity user = UserService.getUserById(userId);
+        jsonObject = new JSONObject();
+        if (user.isEnabled() == true) {
+            jsonObject = new JSONObject();
+            Member member = MembersMapper.getMember(user.getId());
+
+            jsonObject.put("id", member.getId());
+            jsonObject.put("name", member.getFirstName() + " " + member.getLastName());
+            jsonObject.put("jobTitle", member.getJobTitle());
+            jsonObject.put("department", member.getDepartment());
+        }
+        return jsonObject;
+    }
+
 }

@@ -6,7 +6,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 public class MailMail {
     private MailSender mailSender;
@@ -47,27 +50,36 @@ public class MailMail {
     }
 
 
-    public void sendHtmlMail(int[] idTo, String subject, String msg) {
-        try {
-            MimeMessage message = javaMailSender.createMimeMessage();
-            String[] sentTo = new String[idTo.length];
-            int i = 0;
+    public void sendHtmlMail(int userId, String subject, String msg) {
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "mail.lgcns.uz");
+        props.put("mail.smtp.socketFactory.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtps.ssl.checkserveridentity", "true");
+        props.put("mail.smtp.ssl.trust", "mail.lgcns.uz");
+        props.put("mail.smtp.port", "587");
 
-            if (idTo.length != 0) {
-                for (int userId :
-                        idTo) {
-                    sentTo[i++] = UserService.getUserById(userId).geteMail();
-                }
-                message.setSubject(subject);
-                MimeMessageHelper helper;
-                helper = new MimeMessageHelper(message, true);
-                helper.setFrom("subscription@lgcns.uz");
-                helper.setTo(sentTo);
-                helper.setText(msg, true);
-                javaMailSender.send(message);
-            }
-        } catch (javax.mail.MessagingException e) {
-            e.printStackTrace();
+        String sendTo =UserService.getUserById(userId).geteMail();
+        Session session = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("subscription@lgcns.uz","PkGv4614yBWn");
+                    }
+                });
+
+        try {
+
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("subscription@lgcns.uz"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(sendTo));
+            message.setSubject(subject);
+            message.setContent(msg, "text/html");
+            Transport.send(message);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
         }
     }
 }

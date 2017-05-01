@@ -13,6 +13,7 @@ import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import freemarker.template.SimpleDate;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
@@ -41,12 +42,23 @@ public class ScheduleMainController {
    int[] participantsGlobal = null;
    int[] referencesGlobal = null;
 
+    @Value("${message.create.to.author}")
+    private String createToAuthor;
+
+    @Value("${message.create.to.participant}")
+    private String createToParticipant;
+
+    @Value("${message.create.to.reference}")
+    private String createToReference;
+
     @Autowired
     ScheduleMainService service;
 
+
     @RequestMapping(value = "/main")
     public ModelAndView getMainSchedule(Principal principal){
-
+        String temp = String.format(createToAuthor, "name", "title");
+        System.out.println(temp);
         ModelAndView mav = new ModelAndView("scheduleManagement/main/scheduleIndex");
         int userId = UserService.getIdByUsername(principal.getName());
         mav = UP.includeUserProfile(mav, principal);
@@ -55,6 +67,43 @@ public class ScheduleMainController {
         mav.addObject("scheduleVM", new ScheduleVM());
         mav.addObject("userId", userId);
         return mav;
+    }
+
+    /**
+     * This method is responsible for creation and update of schedule entities. It decides to use create or update after checking ActionTypeId.
+     * @param scheduleVM
+     * @param principal
+     * @return Redirects to Main Schedule page after finishing the processes
+     * @throws IOException
+     */
+    @RequestMapping(value = "/main", method = RequestMethod.POST)
+    public String create(@ModelAttribute ScheduleVM scheduleVM, Principal principal) throws IOException {
+        scheduleVM.setAuthorId(UserService.getIdByUsername(principal.getName()));
+        scheduleVM.setParticipants(participantsGlobal);
+        scheduleVM.setReferences(referencesGlobal);
+        /* Write into database schedule data */
+        int scheduleId = service.insertSchedule(ScheduleMainMapper.mapScheduleFromVMToEntity(scheduleVM));
+        if (participantsGlobal != null) {
+            for (int participant : scheduleVM.getParticipants()) {
+                service.insertParticipants(ScheduleMainMapper.mapParticipantInSchedule(scheduleId, participant));
+            }
+        }
+        if (referencesGlobal != null) {
+            for (int reference : scheduleVM.getReferences()) {
+                service.insertReference(ScheduleMainMapper.mapReferenceInSchedule(scheduleId, reference));
+            }
+        }
+        ScheduleMainControllerUtil.uploadFile(scheduleVM, scheduleId, service);
+
+        int[] author = new int[1];
+        author[0] = UserService.getIdByUsername(principal.getName());
+
+        EmailUtil.sendEmailToAuthor(scheduleId, author, ActionTypeId.Create.getValue(), createToAuthor);
+        EmailUtil.sendEmailToParticipants(scheduleId, participantsGlobal, ActionTypeId.Create.getValue(), createToParticipant);
+        EmailUtil.sendEmailToReferences(scheduleId, referencesGlobal, ActionTypeId.Create.getValue(), createToReference);
+
+
+        return "redirect: /ScheduleManagement/main";
     }
 
     /**
@@ -109,38 +158,7 @@ public class ScheduleMainController {
         return dateFormat.format(parsedDate);
     }
 
-    /**
-     * This method is responsible for creation and update of schedule entities. It decides to use create or update after checking ActionTypeId.
-     * @param scheduleVM
-     * @param principal
-     * @return Redirects to Main Schedule page after finishing the processes
-     * @throws IOException
-     */
-    @RequestMapping(value = "/main", method = RequestMethod.POST)
-    public String create(@ModelAttribute ScheduleVM scheduleVM, Principal principal) throws IOException {
-        scheduleVM.setAuthorId(UserService.getIdByUsername(principal.getName()));
-        scheduleVM.setParticipants(participantsGlobal);
-        scheduleVM.setReferences(referencesGlobal);
-        /* Write into database schedule data */
-        int scheduleId = service.insertSchedule(ScheduleMainMapper.mapScheduleFromVMToEntity(scheduleVM));
-        if (participantsGlobal != null) {
-            for (int participant : scheduleVM.getParticipants()) {
-                service.insertParticipants(ScheduleMainMapper.mapParticipantInSchedule(scheduleId, participant));
-            }
-        }
-        if (referencesGlobal != null) {
-            for (int reference : scheduleVM.getReferences()) {
-                service.insertReference(ScheduleMainMapper.mapReferenceInSchedule(scheduleId, reference));
-            }
-        }
-        ScheduleMainControllerUtil.uploadFile(scheduleVM, scheduleId, service);
 
-        int[] author = new int[1];
-        author[0] = UserService.getIdByUsername(principal.getName());
-
-        EmailUtil.sendEmail(scheduleId, author, participantsGlobal, referencesGlobal, ActionTypeId.Create.getValue());
-        return "redirect: /ScheduleManagement/main";
-    }
 
 
     /**

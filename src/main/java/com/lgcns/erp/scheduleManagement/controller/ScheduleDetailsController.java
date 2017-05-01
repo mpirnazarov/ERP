@@ -1,6 +1,7 @@
 package com.lgcns.erp.scheduleManagement.controller;
 
 import com.lgcns.erp.scheduleManagement.DBContext.AttachmentContext;
+import com.lgcns.erp.scheduleManagement.DBContext.DetailsContext;
 import com.lgcns.erp.scheduleManagement.DBContext.ParticipantContext;
 import com.lgcns.erp.scheduleManagement.DBContext.ReferenceContext;
 import com.lgcns.erp.scheduleManagement.enums.ActionTypeId;
@@ -26,6 +27,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -52,6 +54,23 @@ import java.util.List;
 public class ScheduleDetailsController {
     int[] participantsGlobal = null;
     int[] referencesGlobal = null;
+    @Value("${message.update.to.author}")
+    private String updateToAuthor;
+
+    @Value("${message.update.to.participant}")
+    private String updateToParticipant;
+
+    @Value("${message.update.to.reference}")
+    private String updateToReference;
+
+   @Value("${message.not.mandatory.decide}")
+    private String participantDecision;
+
+   @Value("${message.delete.to.author}")
+    private String deleteToAuthor;
+
+   @Value("${message.delete.to.other}")
+    private String deleteToOthers;
 
     @Autowired
     ScheduleUpdateService service;
@@ -87,8 +106,9 @@ public class ScheduleDetailsController {
 
         int[] author = new int[1];
         author[0] = UserService.getIdByUsername(principal.getName());
-        EmailUtil.sendEmail(scheduleId, author, participantsGlobal, referencesGlobal, ActionTypeId.Update.getValue());
-
+        EmailUtil.sendEmailToAuthor(scheduleId, author, ActionTypeId.Update.getValue(), updateToAuthor);
+        EmailUtil.sendEmailToParticipants(scheduleId, participantsGlobal, ActionTypeId.Update.getValue(), updateToParticipant);
+        EmailUtil.sendEmailToReferences(scheduleId, referencesGlobal, ActionTypeId.Update.getValue(), updateToReference);
         return "redirect: /ScheduleManagement/main";
     }
 
@@ -101,10 +121,9 @@ public class ScheduleDetailsController {
                        @RequestParam("status")int status,
                        @RequestParam("reason")String reason, Principal principal){
         service.updateParticipantDecision(participantId, scheduleId, status,reason);
-        int[] author = new int[1];
-        author[0] = UserService.getIdByUsername(principal.getName());
-        EmailUtil.sendEmail(scheduleId, author, null, null, ActionTypeId.ParticipantDecide.getValue());
-
+        int[] decider = new int[1];
+        decider[0] = UserService.getIdByUsername(principal.getName());
+        EmailUtil.sendEmailToAuthorByDecider(scheduleId, decider, ActionTypeId.ParticipantDecide.getValue(), participantDecision);
 
         HashMap<String, String> map = new HashMap<>();
         map.put("jovob", "");
@@ -125,7 +144,10 @@ public class ScheduleDetailsController {
 
         int[] author = new int[1];
         author[0] = UserService.getIdByUsername(principal.getName());
-        EmailUtil.sendEmail(scheduleId, author, participantsGlobal, referencesGlobal, ActionTypeId.Delete.getValue());
+
+        EmailUtil.sendEmailToAuthor(scheduleId, author, ActionTypeId.Delete.getValue(), deleteToAuthor);
+        EmailUtil.sendEmailToParticipants(scheduleId, participantsGlobal, ActionTypeId.Delete.getValue(), deleteToOthers);
+        EmailUtil.sendEmailToReferences(scheduleId, referencesGlobal, ActionTypeId.Delete.getValue(), deleteToOthers);
 
         return "redirect: /ScheduleManagement/main";
     }
@@ -160,6 +182,7 @@ public class ScheduleDetailsController {
         map.put("participants", participantVMList);
         map.put("references", referenceVMList);
         map.put("Attachments", attachmentList);
+        map.put("UserslistJson", WorkflowService.getUserJson(DetailsContext.getScheduleById(scheduleId).getAutherId()));
 
         return map;
     }

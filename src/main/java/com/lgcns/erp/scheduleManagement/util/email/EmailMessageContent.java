@@ -19,16 +19,13 @@ public class EmailMessageContent {
     public String generateSubject(int action) {
         String msg = "";
 
-        if(action == ActionTypeId.Create.getValue()) {
+        if (action == ActionTypeId.Create.getValue()) {
             msg = "Creation of new event";
-        }
-        else if(action == ActionTypeId.Delete.getValue()) {
+        } else if (action == ActionTypeId.Delete.getValue()) {
             msg = "Deletion of an event";
-        }
-        else if(action == ActionTypeId.Update.getValue()) {
+        } else if (action == ActionTypeId.Update.getValue()) {
             msg = "Update of an event";
-        }
-        else if(action == ActionTypeId.ParticipantDecide.getValue()) {
+        } else if (action == ActionTypeId.ParticipantDecide.getValue()) {
             msg = "A participant has decided";
         }
         return msg;
@@ -41,23 +38,22 @@ public class EmailMessageContent {
         String creator = UserService.getUserFullNameInLanguageById(scheduleEntity.getAutherId(), 3);
         String sentTo = UserService.getUserFullNameInLanguageById(sentToId, 3);
 
-        if (involvementType== ScheduleEventInvolvement.Author.getValue()){
-            if (action==ActionTypeId.Create.getValue())
-                msg=String.format(message, creator, scheduleEntity.getTitle());
-            else if (action==ActionTypeId.Update.getValue())
-                msg=String.format(message, creator, scheduleEntity.getTitle());
-            else if (action==ActionTypeId.ParticipantDecide.getValue())
-                msg=String.format(message, creator, sentTo);
+        if (involvementType == ScheduleEventInvolvement.Author.getValue()) {
+            if (action == ActionTypeId.Create.getValue())
+                msg = String.format(message, creator, scheduleEntity.getTitle());
+            else if (action == ActionTypeId.Update.getValue())
+                msg = String.format(message, creator, scheduleEntity.getTitle());
+            else if (action == ActionTypeId.ParticipantDecide.getValue())
+                msg = String.format(message, creator, sentTo);
             else
-                msg=String.format(message, creator, scheduleEntity.getTitle());
-        }
-        else if (involvementType==ScheduleEventInvolvement.Participant.getValue()||involvementType==ScheduleEventInvolvement.Referenced.getValue()){
-            if (action==ActionTypeId.Create.getValue())
-                msg=String.format(message, creator, scheduleEntity.getTitle(), sentTo);
-            else if (action==ActionTypeId.Update.getValue())
-                msg=String.format(message, sentTo, scheduleEntity.getTitle(), creator);
-            else if (action==ActionTypeId.Delete.getValue())
-                msg=String.format(message, sentTo, scheduleEntity.getTitle(), creator);
+                msg = String.format(message, creator, scheduleEntity.getTitle());
+        } else if (involvementType == ScheduleEventInvolvement.Participant.getValue() || involvementType == ScheduleEventInvolvement.Referenced.getValue()) {
+            if (action == ActionTypeId.Create.getValue())
+                msg = String.format(message, creator, scheduleEntity.getTitle(), sentTo);
+            else if (action == ActionTypeId.Update.getValue())
+                msg = String.format(message, sentTo, scheduleEntity.getTitle(), creator);
+            else if (action == ActionTypeId.Delete.getValue())
+                msg = String.format(message, sentTo, scheduleEntity.getTitle(), creator);
         }
 
         return msg;

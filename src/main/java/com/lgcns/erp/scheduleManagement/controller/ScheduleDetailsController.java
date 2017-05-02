@@ -137,11 +137,6 @@ public class ScheduleDetailsController {
      */
     @RequestMapping(value = "/DeleteSchedule", method = RequestMethod.POST)
     public String delete(@RequestParam("scheduleId")int scheduleId, Principal principal) throws IOException {
-        service.deleteReference(scheduleId);
-        service.deleteAttachment(scheduleId);
-        service.deleteParticipant(scheduleId);
-        service.deleteSchedule(scheduleId);
-
         int[] author = new int[1];
         author[0] = UserService.getIdByUsername(principal.getName());
 
@@ -149,6 +144,10 @@ public class ScheduleDetailsController {
         EmailUtil.sendEmailToParticipants(scheduleId, participantsGlobal, ActionTypeId.Delete.getValue(), deleteToOthers);
         EmailUtil.sendEmailToReferences(scheduleId, referencesGlobal, ActionTypeId.Delete.getValue(), deleteToOthers);
 
+        service.deleteReference(scheduleId);
+        service.deleteAttachment(scheduleId);
+        service.deleteParticipant(scheduleId);
+        service.deleteSchedule(scheduleId);
         return "redirect: /ScheduleManagement/main";
     }
 

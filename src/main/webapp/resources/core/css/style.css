@@ -1175,6 +1175,19 @@ a:visited {
 /*       Calendar Styles         */
 /*-------------------------------*/
 
+.form-control-feedback
+{
+    right: 17px;
+}
+
+.calLabel
+{
+    font-size: 18px;
+    text-align: right;
+    margin-top: 6px
+}
+
+
 .modal-dialog.calModal {
     width: 80%;
 }
@@ -1386,7 +1399,13 @@ div.CalendarViewBody input {
 }
 
 
-
+.calValidationText{
+    color: #ca4e4e;
+    font-style: normal;
+    text-align: center;
+    margin-left: 15%;
+    font-weight: bold;
+}
 
 
 

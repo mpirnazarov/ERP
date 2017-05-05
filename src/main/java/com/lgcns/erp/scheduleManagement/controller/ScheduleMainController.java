@@ -77,7 +77,7 @@ public class ScheduleMainController {
      * @throws IOException
      */
     @RequestMapping(value = "/main", method = RequestMethod.POST)
-    public String create(@ModelAttribute ScheduleVM scheduleVM, Principal principal) throws IOException {
+    public String create(@ModelAttribute ScheduleVM scheduleVM, BindingResult result, Principal principal) throws IOException {
         scheduleVM.setAuthorId(UserService.getIdByUsername(principal.getName()));
         scheduleVM.setParticipants(participantsGlobal);
         scheduleVM.setReferences(referencesGlobal);

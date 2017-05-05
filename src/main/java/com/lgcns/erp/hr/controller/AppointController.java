@@ -42,7 +42,7 @@ public class AppointController {
         UsersEntity curUser = UserService.getUserByUsername(principal.getName());
         List<ProjectsEntity> list = ProjectServices.getProjectsByManager(curUser.getId());
         for(ProjectsEntity p : list){
-            model.add(new AppointViewModel(p.getName(),p.getId(),p.getStartDate(),p.getEndDate(),p.getStatus()));
+            model.add(new AppointViewModel(p.getName() + " (" + p.getType() + ")",p.getId(),p.getStartDate(),p.getEndDate(),p.getStatus()));
         }
 
         mav.addObject("viewModel", model);
@@ -130,7 +130,7 @@ public class AppointController {
         UserInProjectsEntity appointment = ProjectServices.getAppointmentById(id);
         if(appointment != null){
             AppointEdit viewModel = ProjectMapper.mapAppointEdit(appointment);
-
+            mav = insertAppointmentData(mav, viewModel, principal.getName());
             return mav;
         }
         return new ModelAndView("redirect:/Appoint");

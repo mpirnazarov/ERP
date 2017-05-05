@@ -62,8 +62,10 @@ public class ScheduleMainMapper {
         scheduleEntity.setPlace(scheduleVM.getPlace());
         scheduleEntity.setStype(scheduleVM.getsType());
         scheduleEntity.setOther(scheduleVM.getOther());
-        scheduleEntity.setDateFrom(new java.sql.Timestamp(scheduleVM.getDateFrom().getTime()));
-        scheduleEntity.setDateTo(new java.sql.Timestamp(scheduleVM.getDateTo().getTime()));
+        if (scheduleVM.getDateFrom()!=null)
+            scheduleEntity.setDateFrom(new java.sql.Timestamp(scheduleVM.getDateFrom().getTime()));
+        if (scheduleVM.getDateTo()!=null)
+            scheduleEntity.setDateTo(new java.sql.Timestamp(scheduleVM.getDateTo().getTime()));
         scheduleEntity.setCompulsory(scheduleVM.isCompulsory());
         scheduleEntity.setToNotify(scheduleVM.isToNotify());
         scheduleEntity.setDraft(scheduleVM.isDraft());

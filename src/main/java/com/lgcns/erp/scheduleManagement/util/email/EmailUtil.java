@@ -28,7 +28,7 @@ public class EmailUtil {
             for (int participantId : participantIds) {
                 subject = content.generateSubject(action);
                 msg = content.generateMessage(scheduleId, action, ScheduleEventInvolvement.Participant.getValue(), message, participantId);
-                mm.sendHtmlMail(participantId, subject, msg);
+              //  mm.sendHtmlMail(participantId, subject, msg);
             }
         }
     }
@@ -45,7 +45,7 @@ public class EmailUtil {
             for (int referenceId : referenceIds) {
                 subject = content.generateSubject(action);
                 msg = content.generateMessage(scheduleId, action, ScheduleEventInvolvement.Referenced.getValue(), message, referenceId);
-                mm.sendHtmlMail(referenceId, subject, msg);
+               // mm.sendHtmlMail(referenceId, subject, msg);
             }
         }
     }
@@ -62,7 +62,7 @@ public class EmailUtil {
         for (int i : author) {
             subject = content.generateSubject(action);
             msg = content.generateMessage(scheduleId, action, ScheduleEventInvolvement.Author.getValue(), message, i);
-            mm.sendHtmlMail(i, subject, msg);
+          //  mm.sendHtmlMail(i, subject, msg);
         }
     }
 
@@ -77,7 +77,7 @@ public class EmailUtil {
 
         subject = content.generateSubject(action);
         msg = content.generateMessage(scheduleId, action, ScheduleEventInvolvement.Author.getValue(), message, authorId);
-        mm.sendHtmlMail(authorId, subject, msg);
+       // mm.sendHtmlMail(authorId, subject, msg);
 
     }
 }

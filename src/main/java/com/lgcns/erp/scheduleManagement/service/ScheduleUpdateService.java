@@ -18,4 +18,6 @@ public interface ScheduleUpdateService {
     void deleteAttachmentById(int attachmentId);
     ScheduleAttachmentsEntity getAttachmentById(int id);
     ScheduleEntity getSchedule(int scheduleId);
+    int[] getParticipantsByScheduleId(int scheduleId);
+    int[] getReferencesByScheduleId(int scheduleId);
 }

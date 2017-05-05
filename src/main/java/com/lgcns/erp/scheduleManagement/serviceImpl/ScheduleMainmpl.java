@@ -50,4 +50,25 @@ public class ScheduleMainmpl implements ScheduleMainService {
     public void updateSchedule(ScheduleEntity scheduleEntity) {
         ScheduleMainContext.updateSchedule(scheduleEntity);
     }
+
+    @Override
+    public List<ScheduleVM> getSchedulesWhereUserIsAuthor(Timestamp start, Timestamp end, int authorId) {
+        List<ScheduleVM> scheduleVMList = ScheduleMainMapper.mapFromScheduleEntityListToVM(ScheduleMainContext.getScheduleWhereUserIsAuthor(start, end, authorId));
+
+        return scheduleVMList;
+    }
+
+    @Override
+    public List<ScheduleVM> getSchedulesWhereUserIsParticipant(Timestamp start, Timestamp end, int participantId) {
+        List<ScheduleVM> scheduleVMList = ScheduleMainMapper.mapFromScheduleEntityListToVM(ScheduleMainContext.getScheduleWhereUserIsParticipant(start, end, participantId));
+
+        return scheduleVMList;
+    }
+
+    @Override
+    public List<ScheduleVM> getSchedulesWhereUserIsReference(Timestamp start, Timestamp end, int referenceId) {
+        List<ScheduleVM> scheduleVMList = ScheduleMainMapper.mapFromScheduleEntityListToVM(ScheduleMainContext.getScheduleWhereUserIsReference(start, end, referenceId));
+
+        return scheduleVMList;
+    }
 }

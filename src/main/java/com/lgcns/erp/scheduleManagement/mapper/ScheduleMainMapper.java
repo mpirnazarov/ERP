@@ -44,7 +44,8 @@ public class ScheduleMainMapper {
         scheduleVM.setsType(entity.getStype());
         scheduleVM.setTitle(entity.getTitle());
         scheduleVM.setToNotify(entity.getToNotify());
-        //todo Add attachments
+        scheduleVM.setDraft(entity.getDraft());
+
         return scheduleVM;
     }
 

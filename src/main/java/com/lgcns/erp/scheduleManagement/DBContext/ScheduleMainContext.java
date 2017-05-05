@@ -44,6 +44,68 @@ public class ScheduleMainContext {
         return list;
     }
 
+    public static List<ScheduleEntity> getScheduleWhereUserIsAuthor(Timestamp start, Timestamp end, int authorId) {
+        List<ScheduleEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from ScheduleEntity s where s.dateFrom>=:from and s.dateTo<=:end and s.autherId=:authorId");
+            query.setParameter("from", start);
+            query.setParameter("end", end);
+            query.setParameter("authorId", authorId);
+            list = (List<ScheduleEntity>) query.list();
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
+    }
+
+    public static List<ScheduleEntity> getScheduleWhereUserIsParticipant(Timestamp start, Timestamp end, int userId) {
+        List<ScheduleEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from ScheduleEntity s where s.dateFrom>=:from and s.dateTo<=:end and s.scheduleId in (select p.scheduleId from ParticipantInScheduleEntity p where p.userId=:userId)");
+            query.setParameter("from", start);
+            query.setParameter("end", end);
+            query.setParameter("userId", userId);
+            list = (List<ScheduleEntity>) query.list();
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
+    }
+
+    public static List<ScheduleEntity> getScheduleWhereUserIsReference(Timestamp start, Timestamp end, int userId) {
+        List<ScheduleEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from ScheduleEntity s where s.dateFrom>=:from and s.dateTo<=:end and s.scheduleId in (select r.scheduleId from ReferenceInCheduleEntity r where r.userId=:userId)");
+            query.setParameter("from", start);
+            query.setParameter("end", end);
+            query.setParameter("userId", userId);
+            list = (List<ScheduleEntity>) query.list();
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
+    }
 
     /**
      * Inserts an event into Schedule table

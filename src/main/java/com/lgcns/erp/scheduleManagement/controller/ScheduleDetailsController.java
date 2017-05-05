@@ -136,13 +136,16 @@ public class ScheduleDetailsController {
      * @throws IOException
      */
     @RequestMapping(value = "/DeleteSchedule", method = RequestMethod.POST)
-    public String delete(@RequestParam("scheduleId")int scheduleId, Principal principal) throws IOException {
+    public String delete(@RequestParam("scheduleId")int scheduleId,
+                         @RequestParam("participants") int[] participants,
+                         @RequestParam("references") int[] references,
+                         Principal principal) throws IOException {
         int[] author = new int[1];
         author[0] = UserService.getIdByUsername(principal.getName());
 
         EmailUtil.sendEmailToAuthor(scheduleId, author, ActionTypeId.Delete.getValue(), deleteToAuthor);
-        EmailUtil.sendEmailToParticipants(scheduleId, participantsGlobal, ActionTypeId.Delete.getValue(), deleteToOthers);
-        EmailUtil.sendEmailToReferences(scheduleId, referencesGlobal, ActionTypeId.Delete.getValue(), deleteToOthers);
+        EmailUtil.sendEmailToParticipants(scheduleId, participants, ActionTypeId.Delete.getValue(), deleteToOthers);
+        EmailUtil.sendEmailToReferences(scheduleId, references, ActionTypeId.Delete.getValue(), deleteToOthers);
 
         service.deleteReference(scheduleId);
         service.deleteAttachment(scheduleId);
@@ -210,6 +213,7 @@ public class ScheduleDetailsController {
         response.setContentLength((int)file.length());
         InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
         FileCopyUtils.copy(inputStream, response.getOutputStream());
-
     }
+
+
 }

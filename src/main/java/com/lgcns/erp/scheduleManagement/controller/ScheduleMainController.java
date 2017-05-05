@@ -1,6 +1,7 @@
 package com.lgcns.erp.scheduleManagement.controller;
 
 import com.lgcns.erp.scheduleManagement.enums.ActionTypeId;
+import com.lgcns.erp.scheduleManagement.enums.ScheduleEventInvolvement;
 import com.lgcns.erp.scheduleManagement.mapper.ScheduleMainMapper;
 import com.lgcns.erp.scheduleManagement.service.ScheduleMainService;
 import com.lgcns.erp.scheduleManagement.util.ScheduleMainControllerUtil;
@@ -174,5 +175,23 @@ public class ScheduleMainController {
         referencesGlobal = references;
 
         return participants;
+    }
+
+    @RequestMapping(value = "/Filter", method = RequestMethod.POST)
+    public @ResponseBody List<HashMap<String, Object>> filter(@RequestParam("eventInvolvement")int eventInvolvement,
+                                                              @RequestParam("start") String start,
+                                                              @RequestParam("end") String end, Principal principal) throws ParseException {
+        int userId = UserService.getIdByUsername(principal.getName());
+        List<ScheduleVM> scheduleVMList;
+        if (eventInvolvement== ScheduleEventInvolvement.Author.getValue())
+            scheduleVMList = service.getSchedulesWhereUserIsAuthor(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
+        else if (eventInvolvement==ScheduleEventInvolvement.Participant.getValue())
+            scheduleVMList = service.getSchedulesWhereUserIsParticipant(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
+        else
+            scheduleVMList = service.getSchedulesWhereUserIsReference(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
+
+        List<HashMap<String, Object>> authorsSchedule = ScheduleMainControllerUtil.putScheduleEventsToMap(scheduleVMList);
+
+        return authorsSchedule;
     }
 }

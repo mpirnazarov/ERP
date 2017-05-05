@@ -19,4 +19,7 @@ public interface ScheduleMainService {
     void insertReference(ReferenceInCheduleEntity referenceInScheduleEntity);
     void insertAttachment(ScheduleAttachmentsEntity scheduleAttachmentsEntity);
     void updateSchedule(ScheduleEntity schedule);
+    List<ScheduleVM> getSchedulesWhereUserIsAuthor(Timestamp start, Timestamp end, int authorId);
+    List<ScheduleVM> getSchedulesWhereUserIsParticipant(Timestamp start, Timestamp end, int participantId);
+    List<ScheduleVM> getSchedulesWhereUserIsReference(Timestamp start, Timestamp end, int referenceId);
 }

@@ -1,6 +1,8 @@
 package com.lgcns.erp.scheduleManagement.serviceImpl;
 
 import com.lgcns.erp.scheduleManagement.DBContext.*;
+import com.lgcns.erp.scheduleManagement.DBEntities.ParticipantInScheduleEntity;
+import com.lgcns.erp.scheduleManagement.DBEntities.ReferenceInCheduleEntity;
 import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleAttachmentsEntity;
 import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity;
 import com.lgcns.erp.scheduleManagement.service.ScheduleUpdateService;
@@ -9,6 +11,7 @@ import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by DS on 17.04.2017.
@@ -53,5 +56,31 @@ public class ScheduleUpdateImpl implements ScheduleUpdateService {
     @Override
     public ScheduleEntity getSchedule(int scheduleId) {
         return DetailsContext.getScheduleById(scheduleId);
+    }
+
+    @Override
+    public int[] getParticipantsByScheduleId(int scheduleId) {
+        List<ParticipantInScheduleEntity> participantInScheduleEntityList = ParticipantContext.getParticipantsByScheduleId(scheduleId);
+        int[] ids = new int[participantInScheduleEntityList.size()];
+        int counter = 0;
+        for (ParticipantInScheduleEntity entity : participantInScheduleEntityList) {
+            ids[counter] = entity.getUserId();
+            counter++;
+        }
+
+        return ids;
+    }
+
+    @Override
+    public int[] getReferencesByScheduleId(int scheduleId) {
+        List<ReferenceInCheduleEntity> entities = ReferenceContext.getReferencesByScheduleId(scheduleId);
+        int[] ids = new int[entities.size()];
+        int counter = 0;
+        for (ReferenceInCheduleEntity entity : entities) {
+            ids[counter] = entity.getUserId();
+            counter++;
+        }
+
+        return ids;
     }
 }

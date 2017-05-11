@@ -1294,6 +1294,44 @@ div.CalendarViewBody input {
     left: 1px;
 }
 
+div#calFilterDiv
+{
+    top: 142px;
+    width: 78%;
+    height: 94px;
+    background-color: white;
+    position: absolute;
+    z-index: 5;
+    border: 6px double #ddd;
+    display: none;
+    padding: 7px 20px 7px 20px;
+
+}
+
+.calFilterSelectGroup
+{
+    width: 55%;
+    margin-left: 35%;
+    position: absolute;
+}
+
+.calFilterOptionsDiv
+{
+    width: 35%;
+    position: absolute;
+    text-align: center;
+    top: 34px;
+    font-size: 17px;
+}
+
+.calFilterSearchButton
+{
+    float: right;
+    width: 6%;
+    height: 32px;
+    margin-top: 25px;
+}
+
 #CalendarModalCreateAuthorButtonGroup, #CalendarModalViewAuthorButtonGroup {
     float: right;
 }
@@ -1399,13 +1437,22 @@ div.CalendarViewBody input {
 }
 
 
-.calValidationText{
+.calValidationText
+{
     color: #ca4e4e;
     font-style: normal;
     text-align: center;
     margin-left: 15%;
     font-weight: bold;
 }
+
+a.fc-time-grid-event:hover
+{
+    cursor: pointer;
+    border: 0px solid transparent;
+}
+
+
 
 
 

@@ -13,6 +13,7 @@ import com.lgcns.erp.scheduleManagement.service.ScheduleMainService;
 import com.lgcns.erp.scheduleManagement.viewModel.ParticipantVM;
 import com.lgcns.erp.scheduleManagement.viewModel.ReferenceVM;
 import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
+import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.Mapper.RequestMapper;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,7 +49,7 @@ public class ScheduleMainControllerUtil {
             map.put("is_draft", scheduleVM.isDraft()+"");
             map.put("author_id", scheduleVM.getAuthorId()+"");
             map.put("actionType_id", scheduleVM.getActionTypeId());
-
+            map.put("authorInfo", WorkflowService.getUserJson(scheduleVM.getAuthorId()));
             maps.add(map);
         }
 

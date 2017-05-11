@@ -13,14 +13,18 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 <%--CSS--%>
 <spring:url value="/resources/core/css/fullcalendar.css" var="fullcalendarCSS"/>
+<spring:url value="/resources/core/css/jquery-ui.min.css" var="jqueryUiCSS"/>
 <spring:url value="/resources/core/css/jquery.datetimepicker.css" var="dateTimePickerCSS"/>
 <link rel="stylesheet" href="${fullcalendarCSS}"/>
 <link rel="stylesheet" href="${dateTimePickerCSS}"/>
+<link rel="stylesheet" href="${jqueryUiCSS}"/>
+
 
 <%--CSS--%>
 
 <%--JS--%>
 <spring:url value="/resources/core/js/jquery.min.js" var="jqueryJS"/>
+<spring:url value="/resources/core/js/jquery-ui.min.js" var="jqueryUiJS"/>
 <spring:url value="/resources/core/js/moment.min.js" var="momentJS"/>
 <spring:url value="/resources/core/js/fullcalendar.js" var="fullcalendarJS"/>
 <spring:url value="/resources/core/js/jquery.datetimepicker.full.js" var="dateTimePickerJS"/>
@@ -33,6 +37,8 @@
 <script src="${dateTimePickerJS}"></script>
 <script type="text/javascript" src="${tokenInputJs}"></script>
 <script src="${bootstrapValidationJS}"></script>
+<script src="${jqueryUiJS}"></script>
+
 
 
 <%--JS--%>
@@ -42,11 +48,17 @@
     $(document).ready(function () {
 
         var currentUser = ${userId};
+        var arrayOfUsers = [];
+
+        $(${UserslistJson}).each(function (i,e) {
+            arrayOfUsers.push(e.name);
+        });
+
 
         /*$('input[type=text]').on('keyup', function () {
-            /!*validationCheckInput();*!/
-            validationCheckInput(this.id)
-        });*/
+         /!*validationCheckInput();*!/
+         validationCheckInput(this.id)
+         });*/
 
         $('#dateTimeStart').datetimepicker({
             mask: '9999/19/39 29:59'
@@ -63,11 +75,17 @@
                     click: function () {
                         createEvent();
                     }
+                },
+                filterEventButton: {
+                    text: '⛁ Filter',
+                    click: function () {
+                        filterTrigger();
+                    }
                 }
             },
             header: {
-                left: 'prev,next today createEventButton',
-                center: '',
+                left: 'prev,next today filterEventButton',
+                center: 'createEventButton',
                 right: 'title'
             },
             titleFormat: 'MMMM  D, YYYY',
@@ -107,7 +125,7 @@
                  alert('View: ' + view.name);*/
                 /*alert('start: ' + moment(start).format());*/
 
-                $(this).css('border-color', 'red');
+                /*$(this).css('border-color', 'red');*/
 
                 var dialogDiv = $('#dialogDiv');
                 var curWidth = $(this).width();
@@ -146,6 +164,9 @@
                 })
 
                 /*updateEvent(moment(calEvent.start).format('YYYY/MM/DD hh:mm'), moment(calEvent.end).format('YYYY/MM/DD hh:mm'), calEvent.title, calEvent.type, calEvent.place, calEvent.description, calEvent.isCompulsory, calEvent.notifyByEmail);*/
+
+            },
+            eventMouseover: function (calEvent) {
 
             },
             /*on EVENT click FUNCTION END*/
@@ -238,6 +259,9 @@
              ]*/
         });
 
+        $( "#calFilterSelectInput" ).tokenInput(${UserslistJson},{tokenLimit: 1});
+
+
     });
 
     function createEvent(start, end, calendarObject) {
@@ -259,7 +283,7 @@
         $('#eventParticipants').tokenInput(${UserslistJson});
         $('#eventReferences').tokenInput(${UserslistJson});
 
-        $('ul.token-input-list').addClass('tokenOverwriteClass');
+        $('#CalendarModal ul.token-input-list').addClass('tokenOverwriteClass');
 
     }
 
@@ -310,7 +334,7 @@
         });
 
         $(response.Attachments).each(function (i, at) {
-            $('#eventAttachedFiles').append('<span class="attachmentItem">' + at.attachmentName + ' <a style="color: red" href="/ScheduleDetails/DeleteAttachment/' + at.attachmentId + '"><span class="fa fa-trash" aria-hidden="true"></span></a>' + '</span>');
+            $('#eventAttachedFiles').append('<a class="attachmentItem" href="/ScheduleDetails/files/'+at.attachmentId+'"> ' + at.attachmentName + ' <a style="color: red" href="/ScheduleDetails/DeleteAttachment/' + at.attachmentId + '"><span class="fa fa-trash" aria-hidden="true"></span></a>' + '</a>');
         });
 
 
@@ -415,8 +439,8 @@
 
             $(res.Attachments).each(function (i, at) {
 
-                $('#eventViewAttachment').append('<span class="attachmentItem">' + at.attachmentName + '</span>');
-                $
+                $('#eventViewAttachment').append('<a class="attachmentItem" href="/ScheduleDetails/files/'+at.attachmentId+'"> ' + '<span class="fa fa-download" aria-hidden="true"></span> ' +  at.attachmentName  + '</a>');
+
                 /*('#eventViewAttachment').append('<a href="/ScheduleDetails/DeleteAttachment/'+at.attachmentId+'">&#10007;</a>');*/
             });
         });
@@ -541,7 +565,7 @@
         var mainForm = $('#mainCalForm');
 
         $('#createBodyDiv :input').each(function () {
-           $(this).css('border-color','#ccc');
+            $(this).css('border-color', '#ccc');
         });
 
         yesButton.data("pressed", false);
@@ -552,7 +576,7 @@
         $('#eventViewAttachment').empty();
         $('p.calValidationText').remove();
 
-        $('input:text').each(function () {
+        $('createBodyDiv input:text').each(function () {
             $(this).val('');
         });
 
@@ -562,7 +586,7 @@
         }
 
         $('#calSubmitButton').attr('value', '');
-        $('ul.token-input-list').remove();
+        $('#CalendarModal ul.token-input-list').remove();
         $('#option1').prop('checked', true);
         $('#isCompulsory').prop('checked', false);
         $('#notifyByEmail').prop('checked', false);
@@ -594,25 +618,25 @@
         var dateEnd = $('#dateTimeEnd');
 
 
-        if(dateStart.val() == ''){
+        if (dateStart.val() == '') {
             dateStart.val(moment().format('YYYY/MM/DD HH:mm'))
-            dateEnd.val(moment().add(30,'m').format('YYYY/MM/DD HH:mm'))
+            dateEnd.val(moment().add(30, 'm').format('YYYY/MM/DD HH:mm'))
         }
 
-        if(dateEnd.val() == ''){
+        if (dateEnd.val() == '') {
             dateStart.val(moment().format('YYYY/MM/DD HH:mm'))
-            dateEnd.val(moment().add(30,'m').format('YYYY/MM/DD HH:mm'))
+            dateEnd.val(moment().add(30, 'm').format('YYYY/MM/DD HH:mm'))
         }
 
         scheduleId = $("#eventViewScheduleId").val();
         participants = $("#eventParticipantsGroup").children().siblings("input[type=text]").val();
         references = $("#eventReferencesGroup").children().siblings("input[type=text]").val();
-/*
-        return validationCheckInput();
+        /*
+         return validationCheckInput();
 
-    /!*    return false*!/*/
+         /!*    return false*!/*/
         if (clickedButton == 'Submit') {
-            if(!isValid){
+            if (!isValid) {
                 return false;
             }
             currentData = "participants=" + participants + "&references=" + references;
@@ -679,6 +703,17 @@
                     event.is_draft = res.is_draft;
                     event.start = res.start;
                     event.end = res.end;
+                    event.borderColor = "#fff";
+
+                    if (res.author_id == ${userId}) {
+                        event.backgroundColor = "#14b441";
+                    }
+
+                    if (res.is_draft == "true") {
+                        event.backgroundColor = "#ffb100";
+                    }
+
+
                     $(res.participants).each(function (i, par) {
                         listOfParticipants.push(par);
                     });
@@ -739,14 +774,19 @@
 
     }
 
-    function getCurrentWeekDays() {
+    function getCurrentWeekDays(option) {
+
+        var getOption = option;
         var calendar = $('#calendar').fullCalendar('getCalendar');
         var view = calendar.view;
         var startOfWeek = view.start.format('YYYY-MM-DD');
         var endOfWeek = view.end.format('YYYY-MM-DD');
-        /*  var dates = ("Start" + startOfWeek + "End" + endOfWeek);
-         alert(dates);*/
-        getSourceJson(startOfWeek, endOfWeek);
+        var filterData = 2;
+        if (option == "filter"){
+            alert(filterData)
+        }else {
+            getSourceJson(startOfWeek, endOfWeek);
+        }
 
     }
 
@@ -763,7 +803,6 @@
         var dateStart = $('#dateTimeStart');
         var dateEnd = $('#dateTimeEnd');
         var otherTypeTextBox = $('#otherType')
-
 
 
         if (typeof id == 'undefined') {
@@ -834,49 +873,46 @@
             }
 
 
-
-
         });
 
         /*
-        other Validation
-        */
+         other Validation
+         */
 
-        if(!(moment(dateStart.val()).isBefore(dateEnd.val()))){
+        if (!(moment(dateStart.val()).isBefore(dateEnd.val()))) {
             dateEnd.css('border', '1px solid #ca4e4e');
             dateEnd.parent().append('<p class="calValidationText">' + 'Event end time can not be earlier than event start time' + '</p>');
             mainValidationFlag = false;
-        }else {
+        } else {
             dateEnd.css('border', '1px solid #ccc');
             dateEnd.parent().next('p.calValidation').remove();
         }
 
-        if (otherTypeTextBox.css('opacity') != 0){
-            if (otherTypeTextBox.val().trim() == ''){
-                otherTypeTextBox.css('border-color','#ca4e4e');
+        if (otherTypeTextBox.css('opacity') != 0) {
+            if (otherTypeTextBox.val().trim() == '') {
+                otherTypeTextBox.css('border-color', '#ca4e4e');
                 otherTypeTextBox.parent().append('<p class="calValidationText">' + 'Event type can not be empty' + '</p>');
                 mainValidationFlag = false;
-            }else {
-                otherTypeTextBox.css('border-color','#ccc')
+            } else {
+                otherTypeTextBox.css('border-color', '#ccc')
                 otherTypeTextBox.parent().next('p.calValidation').remove();
             }
         }
 
 
         var pNumber = 0;
-            $('#eventParticipantsGroup li.token-input-token').each(function () {
-                pNumber +=1;
-            });
+        $('#eventParticipantsGroup li.token-input-token').each(function () {
+            pNumber += 1;
+        });
 
-            if(pNumber == 0){
-                mainValidationFlag = false;
-                $('#eventParticipantsGroup').after('<p class="calValidationText">' + 'At lease one participant should be selected' + '</p>')
-                $('div#token-input-eventParticipants').css('border-color','#ca4e4e');
-            }else {
-                $('#eventParticipantsGroup').next('p.calValidationText').remove();
-                $('ul.tokenOverwriteClass').css('border-color','#ccc');
-            }
-
+        if (pNumber == 0) {
+            mainValidationFlag = false;
+            $('#eventParticipantsGroup').after('<p class="calValidationText">' + 'At lease one participant should be selected' + '</p>')
+            $('div#token-input-eventParticipants').css('border-color', '#ca4e4e');
+        } else {
+            $('#eventParticipantsGroup').next('p.calValidationText').remove();
+            $('ul.tokenOverwriteClass').css('border-color', '#ccc');
+        }
 
 
         return mainValidationFlag;
@@ -967,6 +1003,11 @@
 
         return currentResponse;
     }
+    
+    function filterTrigger() {
+        var filterDiv = $('#calFilterDiv');
+        filterDiv.slideToggle();
+    }
 
 
 </script>
@@ -983,9 +1024,29 @@
                 <button id="dialogViewButton" type="button" class="btn btn-green">View</button>
             </div>
         </div>
+           <div id="calFilterDiv">
+               <div class="calFilterOptionsDiv">
+                   <label class="checkbox-inline">
+                       <input type="checkbox" value="">Author
+                   </label>
+                   <label class="checkbox-inline">
+                       <input type="checkbox" value="">Participant
+                   </label>
+                   <label class="checkbox-inline">
+                       <input type="checkbox" value="">Reference
+                   </label>
+               </div>
+               <div class="calFilterSelectGroup">
+                   <label for="calFilterSelectInput">Search by user</label>
+                   <input id="calFilterSelectInput">
+               </div>
+               <div class="btn calFilterSearchButton" type="button" onclick="getCurrentWeekDays('filter')"><span class="fa fa-filter" aria-hidden="true"> Filter</span></div>
+
+            </div>
 
         <%--Calendar--%>
         <div id='calendar'></div>
+
 
         <%--Modal--%>
         <div class="modal fade" id="CalendarModal" tabindex="-1" role="dialog" aria-labelledby="CalendarModalLabel">
@@ -1135,7 +1196,7 @@
                                     <div class="row" id="eventMembersCalculation">
                                         <div class="col-md-2 col-md-offset-2" id="eventTotalParticipants">Total | <span>0</span>
                                         </div>
-                                        <div class="col-md-2" id="eventTotalWillParticipate">Participate |
+                                        <div class="col-md-2" id="eventTotalWillParticipate">Will Participate |
                                             <span>0</span></div>
                                         <div class="col-md-2" id="eventTotalNotParticipate">Not Participate |
                                             <span>0</span></div>

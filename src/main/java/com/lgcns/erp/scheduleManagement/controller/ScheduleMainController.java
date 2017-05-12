@@ -159,14 +159,11 @@ public class ScheduleMainController {
         return dateFormat.format(parsedDate);
     }
 
-
-
-
     /**
      * This method consumes participants and references sent from client side, and assigns them to global variables
      * @param participants
      * @param references
-     * @return Jason of participants and references
+     * @return Json of participants and references
      */
     @RequestMapping(value = "/ScheduleMembersAjax", method = RequestMethod.POST)
     public @ResponseBody
@@ -177,10 +174,11 @@ public class ScheduleMainController {
         return participants;
     }
 
-    @RequestMapping(value = "/Filter", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/Filter", method = RequestMethod.POST)
     public @ResponseBody List<HashMap<String, Object>> filter(@RequestParam("eventInvolvement")int eventInvolvement,
                                                               @RequestParam("start") String start,
-                                                              @RequestParam("end") String end, Principal principal) throws ParseException {
+                                                              @RequestParam("end") String end,
+                                                              Principal principal) throws ParseException {
         int userId = UserService.getIdByUsername(principal.getName());
         List<ScheduleVM> scheduleVMList;
         if (eventInvolvement== ScheduleEventInvolvement.Author.getValue())
@@ -189,6 +187,30 @@ public class ScheduleMainController {
             scheduleVMList = service.getSchedulesWhereUserIsParticipant(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
         else
             scheduleVMList = service.getSchedulesWhereUserIsReference(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
+
+        List<HashMap<String, Object>> authorsSchedule = ScheduleMainControllerUtil.putScheduleEventsToMap(scheduleVMList);
+
+        return authorsSchedule;
+    }*/
+
+    @RequestMapping(value = "/Filter", method = RequestMethod.POST)
+    public @ResponseBody List<HashMap<String, Object>> filter(@RequestParam("userId")int userId,
+                                                              @RequestParam("author") boolean isAuthor,
+                                                              @RequestParam("participant") boolean isParticipant,
+                                                              @RequestParam("reference")boolean isReference,
+                                                              @RequestParam("start") String start,
+                                                              @RequestParam("end") String end,
+                                                              Principal principal) throws ParseException {
+        List<ScheduleVM> scheduleVMList = null;
+        if (isAuthor)
+            scheduleVMList.addAll(service.
+                    getSchedulesWhereUserIsAuthor(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId));
+        else if (isParticipant)
+            scheduleVMList.addAll(service.
+                    getSchedulesWhereUserIsParticipant(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId));
+        else if (isReference)
+            scheduleVMList.addAll(service.
+                    getSchedulesWhereUserIsReference(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId));
 
         List<HashMap<String, Object>> authorsSchedule = ScheduleMainControllerUtil.putScheduleEventsToMap(scheduleVMList);
 

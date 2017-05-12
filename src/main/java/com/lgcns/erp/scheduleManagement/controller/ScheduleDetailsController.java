@@ -63,13 +63,13 @@ public class ScheduleDetailsController {
     @Value("${message.update.to.reference}")
     private String updateToReference;
 
-   @Value("${message.not.mandatory.decide}")
+    @Value("${message.not.mandatory.decide}")
     private String participantDecision;
 
-   @Value("${message.delete.to.author}")
+    @Value("${message.delete.to.author}")
     private String deleteToAuthor;
 
-   @Value("${message.delete.to.other}")
+    @Value("${message.delete.to.other}")
     private String deleteToOthers;
 
     @Autowired
@@ -116,11 +116,13 @@ public class ScheduleDetailsController {
      * ToDo identify needed parameters and return type based on front end needs and capabilities
      */
     @RequestMapping(value = "/ParticipantDecision", method = RequestMethod.POST)
-    public @ResponseBody HashMap<String, String> decide(@RequestParam("participantId")int participantId,
-                       @RequestParam("scheduleId")int scheduleId,
-                       @RequestParam("status")int status,
-                       @RequestParam("reason")String reason, Principal principal){
-        service.updateParticipantDecision(participantId, scheduleId, status,reason);
+    public
+    @ResponseBody
+    HashMap<String, String> decide(@RequestParam("participantId") int participantId,
+                                   @RequestParam("scheduleId") int scheduleId,
+                                   @RequestParam("status") int status,
+                                   @RequestParam("reason") String reason, Principal principal) {
+        service.updateParticipantDecision(participantId, scheduleId, status, reason);
         int[] decider = new int[1];
         decider[0] = UserService.getIdByUsername(principal.getName());
         EmailUtil.sendEmailToAuthorByDecider(scheduleId, decider, ActionTypeId.ParticipantDecide.getValue(), participantDecision);
@@ -132,11 +134,12 @@ public class ScheduleDetailsController {
 
     /**
      * Removes all the rows of a certain schedule todo
+     *
      * @param scheduleId
      * @throws IOException
      */
     @RequestMapping(value = "/DeleteSchedule", method = RequestMethod.POST)
-    public String delete(@RequestParam("scheduleId")int scheduleId,
+    public String delete(@RequestParam("scheduleId") int scheduleId,
                          @RequestParam("participants") int[] participants,
                          @RequestParam("references") int[] references,
                          Principal principal) throws IOException {
@@ -165,8 +168,9 @@ public class ScheduleDetailsController {
     }
 
     @RequestMapping(value = "/ScheduleMembersAjax", method = RequestMethod.POST)
-    public @ResponseBody
-    int[] ScheduleMembersPostAjax(@RequestParam("participants") int[] participants, @RequestParam("references") int[] references){
+    public
+    @ResponseBody
+    int[] ScheduleMembersPostAjax(@RequestParam("participants") int[] participants, @RequestParam("references") int[] references) {
         participantsGlobal = participants;
         referencesGlobal = references;
 
@@ -174,13 +178,14 @@ public class ScheduleDetailsController {
     }
 
     @RequestMapping(value = "/GetSchedule", method = RequestMethod.POST)
-    public @ResponseBody
-    HashMap<String, Object> ScheduleMembersPostAjax(@RequestParam("scheduleId") int scheduleId){
+    public
+    @ResponseBody
+    HashMap<String, Object> ScheduleMembersPostAjax(@RequestParam("scheduleId") int scheduleId) {
         List<ParticipantVM> participantVMList = PartircipantMapper.mapParticipantEntityListToVMList(ParticipantContext.getParticipantsByScheduleId(scheduleId));
         List<ReferenceVM> referenceVMList = ReferenceMapper.mapReferenceListToVMList(ReferenceContext.getReferencesByScheduleId(scheduleId));
         List<Attachment> attachmentList = AttachmentMapper.mapAttachmentEntitiesToAttachment(AttachmentContext.getAttachmentsByScheduleId(scheduleId));
 
-        HashMap<String,Object> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("participants", participantVMList);
         map.put("references", referenceVMList);
         map.put("Attachments", attachmentList);
@@ -195,22 +200,22 @@ public class ScheduleDetailsController {
         String fullPath = AttachmentContext.getAttachmentById(id).getAttachmentPath();
 
         File file = new File(fullPath);
-        if(!file.exists()){
+        if (!file.exists()) {
             String errorMessage = "Sorry. The file you are looking for does not exist";
             OutputStream outputStream = response.getOutputStream();
             outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
             outputStream.close();
         }
 
-        String mimeType= URLConnection.guessContentTypeFromName(file.getName());
-        if(mimeType==null){
+        String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+        if (mimeType == null) {
             System.out.println("mimetype is not detectable, will take default");
             mimeType = "application/octet-stream";
         }
 
         response.setContentType(mimeType);
-        response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() +"\""));
-        response.setContentLength((int)file.length());
+        response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() + "\""));
+        response.setContentLength((int) file.length());
         InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
         FileCopyUtils.copy(inputStream, response.getOutputStream());
     }

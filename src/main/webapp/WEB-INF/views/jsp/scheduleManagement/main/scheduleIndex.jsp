@@ -576,7 +576,7 @@
         $('#eventViewAttachment').empty();
         $('p.calValidationText').remove();
 
-        $('createBodyDiv input:text').each(function () {
+        $('input:text').each(function () {
             $(this).val('');
         });
 

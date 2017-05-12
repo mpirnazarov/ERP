@@ -1,6 +1,7 @@
 package com.lgcns.erp.scheduleManagement.util;
 
 import com.lgcns.erp.scheduleManagement.DBContext.AttachmentContext;
+import com.lgcns.erp.scheduleManagement.DBContext.DetailsContext;
 import com.lgcns.erp.scheduleManagement.DBContext.ParticipantContext;
 import com.lgcns.erp.scheduleManagement.DBContext.ReferenceContext;
 import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleAttachmentsEntity;
@@ -34,6 +35,7 @@ public class ScheduleMainControllerUtil {
         List<HashMap<String, Object>> maps = new ArrayList<>();
         HashMap<String, Object> map = null;
 
+
         for (ScheduleVM scheduleVM : scheduleVMList) {
             map = new HashMap<>();
             map.put("id", scheduleVM.getScheduleId()+"");
@@ -50,6 +52,7 @@ public class ScheduleMainControllerUtil {
             map.put("author_id", scheduleVM.getAuthorId()+"");
             map.put("actionType_id", scheduleVM.getActionTypeId());
             map.put("authorInfo", WorkflowService.getUserJson(scheduleVM.getAuthorId()));
+
             maps.add(map);
         }
 

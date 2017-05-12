@@ -740,7 +740,7 @@
             if (typeof inputdata  == 'undefined'){
                 currentUserId = ${userId};
             }else {
-                currentUserId == inputdata;
+                currentUserId = inputdata;
             }
 
 
@@ -762,7 +762,7 @@
                 fltReference = false;
             }
 
-            calendarCommonAjax("POST","/ScheduleManagement/Filter","userId=" + currentUserId + "&author=" + fltAuthor + "&participant=" + fltParticipant + "&reference=" + fltReference + "&start=" + startOfWeek + "&end=" + endOfWeek);
+            calendarCommonAjax("POST","/ScheduleManagement/Filter","userId=" + currentUserId + "&author=" + fltAuthor + "&participant=" + fltParticipant + "&reference=" + fltReference + "&start=" + startOfWeek + "&end=" + endOfWeek,"filter");
 
 
         }else {
@@ -973,8 +973,10 @@
                     returnToCalendar();
                 } else if (currentAction = "renderCurrentWeek"){
                     renderFromJson(response);
-                }
-                else {
+                } else if (currentAction = "filter") {
+                    $('#calendar').fullCalendar('removeEvents');
+                    renderFromJson(response);
+                } else {
                     ///default
                 }
 

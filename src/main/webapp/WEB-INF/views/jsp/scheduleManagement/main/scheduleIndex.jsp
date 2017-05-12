@@ -47,6 +47,7 @@
 
     $(document).ready(function () {
 
+
         var currentUser = ${userId};
         var arrayOfUsers = [];
 
@@ -260,7 +261,6 @@
         });
 
         $( "#calFilterSelectInput" ).tokenInput(${UserslistJson},{tokenLimit: 1});
-
 
     });
 
@@ -631,10 +631,8 @@
         scheduleId = $("#eventViewScheduleId").val();
         participants = $("#eventParticipantsGroup").children().siblings("input[type=text]").val();
         references = $("#eventReferencesGroup").children().siblings("input[type=text]").val();
-        /*
-         return validationCheckInput();
 
-         /!*    return false*!/*/
+
         if (clickedButton == 'Submit') {
             if (!isValid) {
                 return false;
@@ -645,7 +643,6 @@
             $('#scheduleIdInputHidden').remove();
             $('#isDraft').prop('checked', false);
             $('#mainCalForm').attr('action', "/ScheduleManagement/main").submit();
-            alert("kirdi!s1")
         } else if (clickedButton == 'Save') {
             currentData = "participants=" + participants + "&references=" + references;
             currentUrl = "/ScheduleManagement/ScheduleMembersAjax";
@@ -654,13 +651,16 @@
             $('#isDraft').prop('checked', true);
             $('#mainCalForm').attr('action', "/ScheduleManagement/main").submit();
         } else if (clickedButton == 'Update') {
+            if (!isValid) {
+                return false;
+            }
             currentData = "participants=" + participants + "&references=" + references;
             currentUrl = "/ScheduleDetails/ScheduleMembersAjax";
             type = "POST";
             $('#isDraft').prop('checked', false);
             $('#mainCalForm').attr('action', "/ScheduleDetails/UpdateSchedule").submit();
         } else if (clickedButton == 'Delete') {
-            currentData = "scheduleId=" + scheduleId;
+            currentData = "scheduleId=" + scheduleId + "&participants=" + participants + "&references=" + references;
             currentUrl = "/ScheduleDetails/DeleteSchedule";
             type = "POST";
 
@@ -674,74 +674,17 @@
     }
 
     function getSourceJson(startOfWeek, endOfWeek) {
-
-        var listOfEvents = [];
-
         $.ajax({
-            type: "Post",
+            type: "POST",
             data: 'start=' + startOfWeek + '&end=' + endOfWeek,
             url: "${pageContext.request.contextPath}/ScheduleManagement/api/scheduleList",
             success: function (response) {
-
-                $(response).each(function (i, res) {
-
-                    var listOfParticipants = [];
-                    var listOfReferences = [];
-                    var listOfAttachments = [];
-                    var event = {};
-
-                    event.author_id = res.author_id
-                    event.id = res.id;
-                    event.actionType_id = res.actionType_id;
-                    event.title = res.title;
-                    event.description = res.description;
-                    event.place = res.place;
-                    event.s_type = res.s_type;
-                    event.other = res.other;
-                    event.is_compulsory = res.is_compulsory;
-                    event.to_notify = res.to_notify;
-                    event.is_draft = res.is_draft;
-                    event.start = res.start;
-                    event.end = res.end;
-                    event.borderColor = "#fff";
-
-                    if (res.author_id == ${userId}) {
-                        event.backgroundColor = "#14b441";
-                    }
-
-                    if (res.is_draft == "true") {
-                        event.backgroundColor = "#ffb100";
-                    }
-
-
-                    $(res.participants).each(function (i, par) {
-                        listOfParticipants.push(par);
-                    });
-                    $(res.references).each(function (i, ref) {
-                        listOfReferences.push(ref);
-                    });
-                    $(res.Attachments).each(function (i, at) {
-                        listOfAttachments.push({attachmentId: at.attachmentId, attachmentName: at.attachmentName});
-                    });
-                    event.participantsList = listOfParticipants;
-                    event.referencesList = listOfReferences;
-                    event.attachmentList = listOfAttachments;
-
-
-                    /*alert("dasdfa" + event.start);*/
-
-                    $('#calendar').fullCalendar('renderEvent', event, 'stick');
-                    listOfEvents.push(event);
-                });
-
-
+                renderFromJson(response);
             },
             error: function (e) {
                 alert('Error: ' + e);
             }
         });
-
-
     }
 
     function switchContentDiv(divToDisplay) {
@@ -781,12 +724,52 @@
         var view = calendar.view;
         var startOfWeek = view.start.format('YYYY-MM-DD');
         var endOfWeek = view.end.format('YYYY-MM-DD');
-        var filterData = 2;
-        if (option == "filter"){
-            alert(filterData)
+        var chbAuthor = $('#calFilterCheckBoxAuthor');
+        var chbParticipant = $('#calFilterCheckBoxParticipant');
+        var chbReference = $('#calFilterCheckBoxReference');
+        var currentUserId = '';
+        var fltAuthor = true;
+        var fltParticipant = true;
+        var fltReference = true;
+
+
+
+        if ( getOption == "filter"){
+            var inputdata = $('#calFilterSelectGroup li').first().data('user-id')
+
+            if (typeof inputdata  == 'undefined'){
+                currentUserId = ${userId};
+            }else {
+                currentUserId == inputdata;
+            }
+
+
+            if(chbAuthor.is(":checked")){
+                fltAuthor = true;
+            }else{
+                fltAuthor = false;
+            }
+
+            if(chbParticipant.is(":checked")){
+                fltParticipant = true;
+            }else {
+                fltParticipant = false;
+            }
+
+            if(chbReference.is(":checked")){
+                fltReference = true;
+            }else {
+                fltReference = false;
+            }
+
+            calendarCommonAjax("POST","/ScheduleManagement/Filter","userId=" + currentUserId + "&author=" + fltAuthor + "&participant=" + fltParticipant + "&reference=" + fltReference + "&start=" + startOfWeek + "&end=" + endOfWeek);
+
+
         }else {
+
             getSourceJson(startOfWeek, endOfWeek);
         }
+
 
     }
 
@@ -913,8 +896,6 @@
             $('#eventParticipantsGroup').next('p.calValidationText').remove();
             $('ul.tokenOverwriteClass').css('border-color', '#ccc');
         }
-
-
         return mainValidationFlag;
 
         /*ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss*/
@@ -990,7 +971,10 @@
                     currentResponse = response;
                 } else if (currentAction = "DecisionSubmit") {
                     returnToCalendar();
-                } else {
+                } else if (currentAction = "renderCurrentWeek"){
+                    renderFromJson(response);
+                }
+                else {
                     ///default
                 }
 
@@ -1007,6 +991,56 @@
     function filterTrigger() {
         var filterDiv = $('#calFilterDiv');
         filterDiv.slideToggle();
+    }
+
+    function renderFromJson(response) {
+
+        $(response).each(function (i, res) {
+
+            var listOfParticipants = [];
+            var listOfReferences = [];
+            var listOfAttachments = [];
+            var event = {};
+
+            event.author_id = res.author_id
+            event.id = res.id;
+            event.actionType_id = res.actionType_id;
+            event.title = res.title;
+            event.description = res.description;
+            event.place = res.place;
+            event.s_type = res.s_type;
+            event.other = res.other;
+            event.is_compulsory = res.is_compulsory;
+            event.to_notify = res.to_notify;
+            event.is_draft = res.is_draft;
+            event.start = res.start;
+            event.end = res.end;
+            event.borderColor = "#fff";
+
+            if (res.author_id == ${userId}) {
+                event.backgroundColor = "#14b441";
+            }
+
+            if (res.is_draft == "true") {
+                event.backgroundColor = "#ffb100";
+            }
+
+
+            $(res.participants).each(function (i, par) {
+                listOfParticipants.push(par);
+            });
+            $(res.references).each(function (i, ref) {
+                listOfReferences.push(ref);
+            });
+            $(res.Attachments).each(function (i, at) {
+                listOfAttachments.push({attachmentId: at.attachmentId, attachmentName: at.attachmentName});
+            });
+            event.participantsList = listOfParticipants;
+            event.referencesList = listOfReferences;
+            event.attachmentList = listOfAttachments;
+
+            $('#calendar').fullCalendar('renderEvent', event, 'stick');
+        });
     }
 
 
@@ -1027,16 +1061,16 @@
            <div id="calFilterDiv">
                <div class="calFilterOptionsDiv">
                    <label class="checkbox-inline">
-                       <input type="checkbox" value="">Author
+                       <input id="calFilterCheckBoxAuthor" type="checkbox" value="" checked>Author
                    </label>
                    <label class="checkbox-inline">
-                       <input type="checkbox" value="">Participant
+                       <input id="calFilterCheckBoxParticipant" type="checkbox" value="" checked>Participant
                    </label>
                    <label class="checkbox-inline">
-                       <input type="checkbox" value="">Reference
+                       <input id="calFilterCheckBoxReference" type="checkbox" value="" checked>Reference
                    </label>
                </div>
-               <div class="calFilterSelectGroup">
+               <div id="calFilterSelectGroup">
                    <label for="calFilterSelectInput">Search by user</label>
                    <input id="calFilterSelectInput">
                </div>

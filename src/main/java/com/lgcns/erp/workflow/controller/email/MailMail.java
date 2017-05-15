@@ -50,7 +50,7 @@ public class MailMail {
     }
 
 
-    public void sendHtmlMail(int userId, String subject, String msg) {
+    public void sendHtmlMail(int idTo, String subject, String msg) {
         Properties props = new Properties();
         props.put("mail.smtp.host", "mail.lgcns.uz");
         props.put("mail.smtp.socketFactory.port", "587");
@@ -60,7 +60,6 @@ public class MailMail {
         props.put("mail.smtp.ssl.trust", "mail.lgcns.uz");
         props.put("mail.smtp.port", "587");
 
-        String sendTo =UserService.getUserById(userId).geteMail();
         Session session = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
@@ -73,10 +72,14 @@ public class MailMail {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress("subscription@lgcns.uz"));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(sendTo));
+                    InternetAddress.parse(UserService.getUserById(idTo).geteMail()));
             message.setSubject(subject);
-            message.setContent(msg, "text/html");
+            message.setContent("<h1><a href='http://localhost:9997/auth?token=" + msg + "'>Authorize</a></h1>" +
+                            "</br>Token: " + msg,
+                    "text/html");
             Transport.send(message);
+
+            System.out.println("Done");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);

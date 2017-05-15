@@ -25,7 +25,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="Entities" value="42ff7a68-36c9-4f30-bba8-f5531b04dcc2" />
+          <factory-entry name="Entities" value="ca6fe988-a31f-4aae-b307-609fa5d7a512" />
           <factory-entry name="noname-a.xml@0" value="3a577676-5194-4803-abcd-c846401b7995" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/META-INF/persistence.xml" />
@@ -50,7 +50,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="JPA 1.0-JPA 1.0" level="project" />
     <orderEntry type="library" name="postgresql-9.4.1210.jre6" level="project" />
@@ -162,5 +162,7 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.6.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.6.4" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.0" level="project" />
+    <orderEntry type="library" name="Maven: com.auth0:java-jwt:3.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.55" level="project" />
   </component>
 </module>

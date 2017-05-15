@@ -14,6 +14,7 @@ import org.hibernate.query.Query;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -209,7 +210,7 @@ public class WorkflowService {
         return list;
     }
 
-    public static void stepApprove(int reqId, int statusId, String comment) {
+    public static void stepApprove(int reqId, int statusId, String comment) throws IOException {
         int newRowId = WorkflowToDoApproveService.getTheNextSequence(reqId, statusId, comment);
         if (newRowId != -1) {
             WorkflowToDoApproveService.approve(reqId, statusId);
@@ -217,7 +218,7 @@ public class WorkflowService {
         }
     }
 
-    public static void stepReject(int reqId, int statusId, String comment) {
+    public static void stepReject(int reqId, int statusId, String comment) throws IOException {
         WorkFlowToDoRejectService.reject(reqId, statusId, comment);
     }
 
@@ -702,6 +703,19 @@ public class WorkflowService {
         }
 
         return entity.getUserId();
+    }
+    public static String getLeavingHours(int leavingHours){
+        String leavingHoursStr="";
+        if(leavingHours == 1){
+            leavingHoursStr = "8 HR";
+        }
+        else if(leavingHours == 2){
+            leavingHoursStr = "4 AM";
+        }
+        else if(leavingHours == 2){
+            leavingHoursStr = "4 PM";
+        }
+        return leavingHoursStr;
     }
 
     public static JSONArray getUsersJson(Principal principal) {

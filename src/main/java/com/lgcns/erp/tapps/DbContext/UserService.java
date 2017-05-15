@@ -9,6 +9,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.joda.time.DateTime;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.MessageDigest;
@@ -1059,7 +1060,7 @@ public class UserService {
         return username;
     }
 
-    public static int getIdByUsername(String name) {
+    public static int getIdByUsername(String name){
         int id = 0;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -2366,5 +2367,71 @@ public class UserService {
             e.printStackTrace();
         }
         return jobTitle;
+    }
+
+    public static void insertAuthToken(AuthTokenEntity authTokenEntity) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            //Set foreign key items
+            authTokenEntity.setUsersByUserId(session.load(UsersEntity.class, authTokenEntity.getUserId()));
+            //Save the object in database
+            session.save(authTokenEntity);
+
+
+            //Commit the transaction
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static AuthTokenEntity getAuthTokenEntityByToken(String token) {
+        AuthTokenEntity authTokenEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from AuthTokenEntity where token=:token");
+            query.setParameter("token", token);
+            authTokenEntity = (AuthTokenEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return authTokenEntity;
+    }
+
+    public static void deleteAuthTokenWithId(int id) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("delete from AuthTokenEntity where id = :id");
+            query.setParameter("id", id);
+            query.executeUpdate();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
     }
 }

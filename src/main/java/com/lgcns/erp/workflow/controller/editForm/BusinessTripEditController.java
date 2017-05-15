@@ -1,5 +1,6 @@
 package com.lgcns.erp.workflow.controller.editForm;
 
+import com.lgcns.erp.tapps.DbContext.EmailService;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.workflow.DBContext.WorkflowEmailService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
@@ -35,7 +36,7 @@ import java.security.Principal;
 public class BusinessTripEditController {
 
     @RequestMapping(value = "/EditForm/{reqId}", method = RequestMethod.POST, params = "submitBusinessTrip")
-    public String BusinessTripPostSave(@ModelAttribute BusinessTripVM businessTripVM, BindingResult result, Principal principal, @PathVariable int reqId) throws IOException {
+    public String BusinessTripPostSave(@ModelAttribute BusinessTripVM businessTripVM, BindingResult result, Principal principal, @PathVariable int reqId) throws Exception {
 
         int userId = UserService.getIdByUsername(principal.getName());
         RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(reqId);
@@ -100,18 +101,41 @@ public class BusinessTripEditController {
 
 
         if(requestsEntity.getViewed() == true){
+
             /* Sending to approvals*/
             subject = MailMessage.generateSubject(reqId, 3, 1);
-            msg = MailMessage.generateMessage(reqId, 3, 1);
-
             to = WorkflowEmailService.getInvolvementList(reqId, 1);
             if (to.length!=0){
-                mm.sendMail(to, subject, msg);
-                to=null;
+                for (int uId :
+                        to) {
+                    msg = MailMessage.generateMessage(reqId, 3, 1, uId);
+                    EmailService.sendHtmlMail(uId, subject, msg);
+                }
             }
-            /* Sending to references and executors */
-            to = (int[]) ArrayUtils.addAll(WorkflowEmailService.getInvolvementList(reqId, 2), WorkflowEmailService.getInvolvementList(reqId, 3));
+            to=null;
+
+            /* Sending to executors */
+            subject = MailMessage.generateSubject(reqId, 3, 2);
+            to = WorkflowEmailService.getInvolvementList(reqId, 2);
             if (to.length!=0){
+                for (int uId :
+                        to) {
+                    msg = MailMessage.generateMessage(reqId, 3, 2, uId);
+                    EmailService.sendHtmlMail(uId, subject, msg);
+                }
+                mm.sendMail(to, subject, msg);
+            }
+            to = null;
+
+            /* Sending to references */
+            subject = MailMessage.generateSubject(reqId, 3, 3);
+            to = WorkflowEmailService.getInvolvementList(reqId, 3);
+            if (to.length!=0){
+                for (int uId :
+                        to) {
+                    msg = MailMessage.generateMessage(reqId, 3, 3, uId);
+                    EmailService.sendHtmlMail(uId, subject, msg);
+                }
                 mm.sendMail(to, subject, msg);
             }
         }

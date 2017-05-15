@@ -1,5 +1,6 @@
 package com.lgcns.erp.workflow.controller.newForm;
 
+import com.lgcns.erp.tapps.DbContext.EmailService;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
@@ -7,6 +8,7 @@ import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.model.UserInfo;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
+import com.lgcns.erp.workflow.DBContext.WorkflowEmailService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.MembersEntity;
 import com.lgcns.erp.workflow.DBEntities.ToDoEntity;
@@ -15,13 +17,8 @@ import com.lgcns.erp.workflow.Mapper.BusinessTripMapper;
 import com.lgcns.erp.workflow.Mapper.MembersMapper;
 import com.lgcns.erp.workflow.Model.Member;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
-import com.lgcns.erp.workflow.controller.email.MailMail;
-import com.lgcns.erp.workflow.controller.email.MailMessage;
-import org.apache.commons.lang3.ArrayUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
@@ -138,7 +135,7 @@ public class BusinessTripController {
     }
 
     @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.POST, params = "Submit")
-    public String BusinessTripPostSubmit(@ModelAttribute BusinessTripVM businessTripVM, BindingResult result, Principal principal) throws IOException {
+    public String BusinessTripPostSubmit(@ModelAttribute BusinessTripVM businessTripVM, BindingResult result, Principal principal) throws Exception {
 
         int userId = UserService.getIdByUsername(principal.getName());
 
@@ -211,43 +208,14 @@ public class BusinessTripController {
         }
 
         // E-mail is sent here
-        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-        MailMail mm = (MailMail) context.getBean("mailMail");
-        String subject = "";
-        String msg = "";
-        int[] to;
+        WorkflowEmailService.sendNewWorkflowEmail(requestId, principal.getName(), approvalsGlobal, executivesGlobal, referencesGlobal);
 
-        /* Sending to approvals*/
-        subject = MailMessage.generateSubject(requestId, 1, 1);
-        msg = MailMessage.generateMessage(requestId, 1, 1);
-        to = approvalsGlobal;
-        if (to.length != 0) {
-            mm.sendMail(to, subject, msg);
-            to = null;
-        }
-        /* Sending to references and executors */
-        subject = MailMessage.generateSubject(requestId, 1, 2);
-        msg = MailMessage.generateMessage(requestId, 1, 2);
-        to = (int[]) ArrayUtils.addAll(referencesGlobal, executivesGlobal);
-        if (to.length != 0) {
-            mm.sendMail(to, subject, msg);
-            to = null;
-        }
-        /* Sending to creator */
-        subject = MailMessage.generateSubject(requestId, 1, 4);
-        msg = MailMessage.generateMessage(requestId, 1, 4);
-        to = new int[1];
-        to[0] = UserService.getIdByUsername(principal.getName());
-        if (to.length != 0) {
-            mm.sendMail(to, subject, msg);
-            to = null;
-        }
         return "redirect: /Workflow/MyForms/Request";
     }
 
 
     @RequestMapping(value = "/NewForm/BusinessTripForm", method = RequestMethod.POST, params = "Save")
-    public String BusinessTripPostSave(@ModelAttribute BusinessTripVM businessTripVM, BindingResult result, Principal principal) throws IOException {
+    public String BusinessTripPostSave(@ModelAttribute BusinessTripVM businessTripVM, BindingResult result, Principal principal) throws Exception {
 
         System.out.println(result);
         int userId = UserService.getIdByUsername(principal.getName());

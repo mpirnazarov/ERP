@@ -1,7 +1,6 @@
 package com.lgcns.erp.workflow.controller.myForms;
 
-import com.github.amr.mimetypes.MimeTypes;
-import com.google.common.io.Files;
+import com.lgcns.erp.tapps.DbContext.EmailService;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
@@ -16,7 +15,6 @@ import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.TripTypesEntity;
 import com.lgcns.erp.workflow.Enums.LeaveType;
 import com.lgcns.erp.workflow.Enums.Status;
-import com.lgcns.erp.workflow.Enums.Type;
 import com.lgcns.erp.workflow.Mapper.*;
 import com.lgcns.erp.workflow.Model.Approver;
 import com.lgcns.erp.workflow.ViewModel.BusinessTripVM;
@@ -26,19 +24,12 @@ import com.lgcns.erp.workflow.ViewModel.LeaveApproveVM;
 import com.lgcns.erp.workflow.ViewModel.UnformattedViewModel;
 import com.lgcns.erp.workflow.controller.email.MailMail;
 import com.lgcns.erp.workflow.controller.email.MailMessage;
-import com.lgcns.erp.workflow.util.ContentType;
 import com.lgcns.erp.workflow.util.DetailsAction;
 import com.lgcns.erp.workflow.util.ValidateRequestAccess;
-import org.apache.commons.lang3.ArrayUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +50,7 @@ import java.util.*;
 public class DetailsController {
 
     @RequestMapping(value = "/details/{controllerId}/{id}", method = RequestMethod.GET)
-    public ModelAndView details(Principal principal, @PathVariable(value = "id")int id, @PathVariable(value = "controllerId") int controller){
+    public ModelAndView details(Principal principal, @PathVariable(value = "id")int id, @PathVariable(value = "controllerId") int controller) throws Exception {
 
         int userId = UserService.getIdByUsername(principal.getName());
         if (controller==1&&!ValidateRequestAccess.ValidateTodoAccess(id, userId)){
@@ -127,7 +118,7 @@ public class DetailsController {
     }
 
     @RequestMapping(value = "/details", method = RequestMethod.POST)
-    public String details(@RequestParam("comment")String comment, @RequestParam("status")int status, @RequestParam("reqId")int reqId){
+    public String details(@RequestParam("comment")String comment, @RequestParam("status")int status, @RequestParam("reqId")int reqId) throws IOException {
 
         DetailsAction.doAction(comment, status, reqId);
         return "";
@@ -250,7 +241,7 @@ public class DetailsController {
     }
 
     @RequestMapping(value = "/Delete/{id}")
-    public String delete(@PathVariable("id")int id){
+    public String delete(@PathVariable("id")int id) throws IOException {
         RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(id);
 
         if (requestsEntity.getStatusId()!= Status.Draft.getValue())
@@ -259,10 +250,9 @@ public class DetailsController {
         return "redirect:/Workflow/MyForms/Request";
     }
 
-    private static void sendEmailAfterDelete(int id){
+    private static void sendEmailAfterDelete(int id) throws IOException {
+
         // E-mail is sent here
-        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-        MailMail mm = (MailMail) context.getBean("mailMail");
         String subject = "";
         String msg = "";
         int[] to;
@@ -270,20 +260,29 @@ public class DetailsController {
 
         /* Sending to approvals*/
         subject = MailMessage.generateSubject(id, 2, 1);
-        msg = MailMessage.generateMessage(id, 2, 1);
+
         to = WorkflowEmailService.getInvolvementList(id, 1);
         System.out.println(to.length);
         if (to.length!=0) {
-            mm.sendMail(to, subject, msg);
-            to = null;
+            for (int userId :
+                    to) {
+                msg = MailMessage.generateMessage(id, 2, 1, userId);
+                EmailService.sendHtmlMail(userId, subject, msg);
+            }
         }
+        to = null;
 
         /* Sending to references */
         subject = MailMessage.generateSubject(id, 2, 3);
-        msg = MailMessage.generateMessage(id, 2, 3);
+
         to = WorkflowEmailService.getInvolvementList(id, 3);
         if (to.length!=0){
-            mm.sendMail(to, subject, msg);
+            for (int userId :
+                    to) {
+                msg = MailMessage.generateMessage(id, 2, 3, userId);
+                EmailService.sendHtmlMail(userId, subject, msg);
+
+            }
         }
     }
 }

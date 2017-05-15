@@ -1,5 +1,6 @@
 package com.lgcns.erp.workflow.controller.email;
 
+import com.lgcns.erp.tapps.DbContext.EmailService;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
@@ -9,10 +10,9 @@ import com.lgcns.erp.workflow.Enums.Type;
 import com.lgcns.erp.workflow.Mapper.MembersMapper;
 import com.lgcns.erp.workflow.Model.Member;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * Created by Muslimbek Pirnazarov on 3/1/2017.
@@ -44,7 +44,8 @@ public class MailMessage {
         return msg;
     }
 
-    public static String generateMessage(int requestId, int actionStep, int involvementType) {
+    public static String generateMessage(int requestId, int actionStep, int involvementType, int userId) {
+
         /* Message creation */
 
         RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(requestId);
@@ -61,6 +62,7 @@ public class MailMessage {
         String duration = "";
         String approvalsStr = "", executivesStr = "", referencesStr = "";
         String businesstripStr = "", unformattedStr = "", leaveapproveStr = "", footerStr = "", approvalheaderStr = "", authorCreateStr = "", SignatureStr = "", approvalCreateBodyStr = "";
+        String token = null;
 
         String involvement = "";
         String businessTripTypeStr = "", leaveApproveTypeStr = "";
@@ -75,6 +77,12 @@ public class MailMessage {
         List<StepsEntity> stepsEntities = new LinkedList<>();
         Member member = new Member();
 
+        /**
+         * Generate token for sending through email
+         */
+        /* Firstly generate redirect URL */
+        String redirectUrl = generateURL(requestId, actionStep, involvementType, userId);
+        token = EmailService.generateToken(userId, redirectUrl);
 
         formType = Type.values()[requestsEntity.getTypeId() - 1].toString().replace("_", " ");
         formTypeId = requestsEntity.getTypeId();
@@ -104,64 +112,71 @@ public class MailMessage {
             member = MembersMapper.getMember(stepsEntity.getUserId());
             if (stepsEntity.getInvolvementTypeId() == 1) {
                 approvals.add(member);
-                approvalsStr += "\n\t" + appId++ + ". " + member.toString();
+                approvalsStr += "<br>&nbsp;&nbsp;&nbsp;&nbsp;" + appId++ + ". " + member.toString();
             } else if (stepsEntity.getInvolvementTypeId() == 2) {
                 executives.add(member);
-                executivesStr += "\n\t" + execId++ + ". " + member.toString();
+                executivesStr += "<br>&nbsp;&nbsp;&nbsp;&nbsp;" + execId++ + ". " + member.toString();
             } else if (stepsEntity.getInvolvementTypeId() == 3) {
                 references.add(member);
-                referencesStr += "\n\t" + refId++ + ". " + member.toString();
+                referencesStr += "<br>&nbsp;&nbsp;&nbsp;&nbsp;" + refId++ + ". " + member.toString();
             }
         }
 
         /*FormStrings*/
 
-        businesstripStr = "\n\nBusiness Trip details are as follows:\n\n" +
-                "[Subject] - " + title + "\n" +
-                "[Type of business trip] - " + businessTripTypeStr + "\n" +
-                "[Destination] - " + destination + "\n" +
+        businesstripStr = "<br><br>Business Trip details are as follows:<br><br>" +
+                "[Subject] - " + title + "<br>" +
+                "[Type of business trip] - " + businessTripTypeStr + "<br>" +
+                "[Destination] - " + destination + "<br>" +
                 "[Purpose] - " + description;
-
-        String absenceTypeStr = LeaveType.values()[requestsEntity.getLeaveTypeId().intValue()-1].name().replace("_", " ");
-        leaveapproveStr = "\n\nLeave approve details are as follows: \n\n" +
-                "[Absence type] - " + absenceTypeStr + "\n" +
+        String absenceTypeStr = "";
+        if(requestsEntity.getTypeId() == 2 && requestsEntity.getLeaveTypeId()!=null)
+            absenceTypeStr = LeaveType.values()[requestsEntity.getLeaveTypeId().intValue()-1].name().replace("_", " ");
+        leaveapproveStr = "<br><br>Leave approve details are as follows: <br><br>" +
+                "[Absence type] - " + absenceTypeStr + "<br>";
                 /* [Leaving hours] 1 - 8 hours; 2 - 4AM; 3- 4PM */
-                "[Leaving hours] - ";
-                if(requestsEntity.getLeavingHours()==1){
-                    leaveapproveStr += "8 HR";
-                }else if(requestsEntity.getLeavingHours()==2){
-                    leaveapproveStr += "4 AM";
-                }else if(requestsEntity.getLeavingHours()==3){
-                    leaveapproveStr += "4 PM";
+                if(requestsEntity.getTypeId() ==2 &&  requestsEntity.getDateFrom().compareTo(requestsEntity.getDateTo())==0  ) {
+                    if(requestsEntity.getLeaveTypeId().intValue()==2) {
+                        leaveapproveStr += "[Leaving hours] - ";
+                        if (requestsEntity.getLeavingHours() == 1) {
+                            leaveapproveStr += "8 HR";
+                        } else if (requestsEntity.getLeavingHours() == 2) {
+                            leaveapproveStr += "4 AM";
+                        } else if (requestsEntity.getLeavingHours() == 3) {
+                            leaveapproveStr += "4 PM";
+                        }
+                        leaveapproveStr += "<br>";
+                    }
                 }
-                leaveapproveStr += "\n" +
+
+        leaveapproveStr += "[Description] - " + description;
+
+        unformattedStr = "<br><br>Unformatted details are as follows: <br><br>" +
+                "[Subject] - " + title + "<br>" +
                 "[Description] - " + description;
 
-        unformattedStr = "\n\nUnformatted details are as follows: \n\n" +
-                "[Subject] - " + title + "\n" +
-                "[Description] - " + description;
-
-        approvalheaderStr = "\nDear Smart Office user, \n\n" +
-                "\tWe would like to notify you that, " +
+        approvalheaderStr = "<br>Dear Smart Office user, <br><br>" +
+                "&nbsp;&nbsp;&nbsp;&nbsp;We would like to notify you that, " +
                 creator + " has created the " + formType + " form in workflow system on " +
                 creationDate + ", and you were selected as " + involvementTypeStr + ".";
 
         approvalCreateBodyStr = " When it's your turn to make a decision, " +
-                "you will be notified through Smart Office system in the Workflow/My Forms/To-do tab.\n ";
+                "you will be notified through Smart Office system in the Workflow/My Forms/To-do tab.<br> ";
 
-        authorCreateStr = "\nDear " + creator + "\n\n" +
-                "\tWe would like to notify you that, your " +
+        authorCreateStr = "<br>Dear " + creator + "<br><br>" +
+                "&nbsp;&nbsp;&nbsp;&nbsp;We would like to notify you that, your " +
                 formType + " form is successfully submitted. " +
                 "You can check the current state of your form in the Workflow/MyForms/Request tab.";
 
 
-        footerStr = "\n\n[Approvals] " + approvalsStr + "\n" +
-                "\n[Executives] " + executivesStr + "\n" +
-                "\n[References] " + referencesStr + "\n" +
-                "\n[Duration] " + duration;
+        footerStr = "<br><br>[Approvals] " + approvalsStr + "<br>" +
+                "<br>[Executives] " + executivesStr + "<br>" +
+                "<br>[References] " + referencesStr + "<br>" +
+                "<br>[Duration] " + duration;
 
-        SignatureStr = "\n\nThank you for your attention,\n" +
-                "Best regards\n" +
+        SignatureStr = "<br><br><h1><a href='http://localhost:9997/auth?token=" + token + "'>Authorize</a></h1>" +
+                "<br>Thank you for your attention,<br>" +
+                "Best regards<br>" +
                 "Technical Department team";
 
 
@@ -188,8 +203,8 @@ public class MailMessage {
         else if (actionStep == 2) {
             /*Message ONLY for Approval*/
             if (involvementType == 1 || involvementType == 3) {
-                msg += " Dear Smart Office user,\n\n" +
-                        "\tWe would like to notify you that " + creator + " has deleted " + formType + " form, that was created at" + creationDate;
+                msg += " Dear Smart Office user,<br><br>" +
+                        "&nbsp;&nbsp;&nbsp;&nbsp;We would like to notify you that " + creator + " has deleted " + formType + " form, that was created at" + creationDate;
 
             }
 
@@ -199,8 +214,8 @@ public class MailMessage {
         else if (actionStep == 3) {
 
             if (involvementType != 4) {
-                msg += "Dear Smart Office user,\n" +
-                        "\tWe would like to notify you that " + creator + " has updated " + formType + " form, that was created at " + creationDate;
+                msg += "Dear Smart Office user,<br>" +
+                        "&nbsp;&nbsp;&nbsp;&nbsp;We would like to notify you that " + creator + " has updated " + formType + " form, that was created at " + creationDate;
             }
 
         }
@@ -208,12 +223,12 @@ public class MailMessage {
         /*Massege for Author and next Approval*/
         else if (actionStep == 4){
             if (involvementType == 1){
-                msg += "Dear Smart Office user,\n" +
-                        "\tWe would like to notify you that, you have to take an action on a " + formType + " form" +
+                msg += "Dear Smart Office user,<br>" +
+                        "&nbsp;&nbsp;&nbsp;&nbsp;We would like to notify you that, you have to take an action on a " + formType + " form" +
                         " that was created by " + creator + ". Please go to Workflow/My Forms/To-do tab in Smart Office system," +
                         " and take corresponding actions.  ";
             } else if (involvementType == 4){
-                msg += "Dear " + creator + ",\n" +
+                msg += "Dear " + creator + ",<br>" +
                         "One of the approvals has approved your" + formType + " form.";
             }
         }
@@ -221,10 +236,10 @@ public class MailMessage {
         /*Workflow Approved*/
         else if (actionStep == 5){
             if (involvementType == 2 || involvementType == 3){
-                msg += "Dear Smart Office user, \n" +
+                msg += "Dear Smart Office user, <br>" +
                         formType + " form that was created by " + creator + " was confirmed by all approvals.";
             }else if (involvementType == 4){
-                msg += "Dear " + creator + ",\n" +
+                msg += "Dear " + creator + ",<br>" +
                         "Your " + formType + " form, was confirmed by all approvals.";
             }
         }
@@ -233,11 +248,11 @@ public class MailMessage {
         else if (actionStep == 7){
 
             if (involvementType == 1){
-                msg += "Dear Smart Office user, \n" +
+                msg += "Dear Smart Office user, <br>" +
                         "We would like to notify you that, " + formType + " form, " +
                         "that was created by " + creator + " is rejected.";
             }else if(involvementType == 4){
-                msg += "Dear " + creator + ", \n" +
+                msg += "Dear " + creator + ", <br>" +
                         "Your " + formType + " form, was rejected. For additional information," +
                         " please go to Workflow/My Forms/Request tab in Smart Office system.";
             }
@@ -247,7 +262,7 @@ public class MailMessage {
         else if (actionStep == 8){
 
             if (involvementType != 4){
-                msg += "Dear Smart Office user, \n" +
+                msg += "Dear Smart Office user, <br>" +
                         "We would like to notify you that " + creator + " updated his/her workflow. For additional information," +
                         " please go to Workflow/My Forms/To-do tab in Smart Office system.";
             }
@@ -269,5 +284,20 @@ public class MailMessage {
         msg += SignatureStr;
 
         return msg;
+    }
+
+    private static String generateURL(int requestId, int actionStep, int involvementType, int userId) {
+        String URL = null;
+
+        /*if(actionStep == 1){*/
+            if(involvementType == 1){
+                URL = "/Workflow/MyForms/details/1/" + requestId;
+            }
+            else if(involvementType == 4){
+                URL = "/Workflow/MyForms/details/2/" + requestId;
+            }
+
+        /*}*/
+        return URL;
     }
 }

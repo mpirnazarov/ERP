@@ -23,8 +23,8 @@
             if ((int) request.getAttribute("SystemRole") == 3) {
         %>
         <%--<div class="col-lg-offset-10 col-xs-1">--%>
-        <div class="text-right">
-            <a href="/Hr/Register" class="btn btn-green" role="button">Create User</a>
+        <div class="text-left">
+            <a href="/Hr/Register" class="btn btn-green" role="button"><span class="fa fa-user-plus" aria-hidden="true"></span> Create User</a>
         </div>
         <%--</div>--%>
         <% } %>

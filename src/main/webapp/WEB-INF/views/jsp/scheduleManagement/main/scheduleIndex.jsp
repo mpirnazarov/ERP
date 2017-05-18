@@ -40,7 +40,6 @@
 <script src="${jqueryUiJS}"></script>
 
 
-
 <%--JS--%>
 
 <script>
@@ -51,7 +50,7 @@
         var currentUser = ${userId};
         var arrayOfUsers = [];
 
-        $(${UserslistJson}).each(function (i,e) {
+        $(${UserslistJson}).each(function (i, e) {
             arrayOfUsers.push(e.name);
         });
 
@@ -107,6 +106,8 @@
             selectable: true,
             selectHelper: true,
             viewRender: function () {
+                $('#calLoaderDiv').css('display','block');
+                $('#calendar').css('filter','blur(2px)');
                 $('#calendar').fullCalendar('removeEvents');
                 getCurrentWeekDays();
             },
@@ -260,7 +261,7 @@
              ]*/
         });
 
-        $( "#calFilterSelectInput" ).tokenInput(${UserslistJson},{tokenLimit: 1});
+        $("#calFilterSelectInput").tokenInput(${UserslistJson}, {tokenLimit: 1});
 
     });
 
@@ -334,7 +335,7 @@
         });
 
         $(response.Attachments).each(function (i, at) {
-            $('#eventAttachedFiles').append('<a class="attachmentItem" href="/ScheduleDetails/files/'+at.attachmentId+'"> ' + at.attachmentName + ' <a style="color: red" href="/ScheduleDetails/DeleteAttachment/' + at.attachmentId + '"><span class="fa fa-trash" aria-hidden="true"></span></a>' + '</a>');
+            $('#eventAttachedFiles').append('<a class="attachmentItem" href="/ScheduleDetails/files/' + at.attachmentId + '"> ' + at.attachmentName + ' <a style="color: red" href="/ScheduleDetails/DeleteAttachment/' + at.attachmentId + '"><span class="fa fa-trash" aria-hidden="true"></span></a>' + '</a>');
         });
 
 
@@ -407,7 +408,6 @@
         var totalNotParticipate = 0;
         var totalNotDecidied = 0;
 
-
         $(response).each(function (i, res) {
             $(res.participants).each(function (i, par) {
 
@@ -438,16 +438,12 @@
             });
 
             $(res.Attachments).each(function (i, at) {
+                $('#eventViewAttachment').append('<a class="attachmentItem" href="/ScheduleDetails/files/' + at.attachmentId + '"> ' + '<span class="fa fa-download" aria-hidden="true"></span> ' + at.attachmentName + '</a>');
 
-                $('#eventViewAttachment').append('<a class="attachmentItem" href="/ScheduleDetails/files/'+at.attachmentId+'"> ' + '<span class="fa fa-download" aria-hidden="true"></span> ' +  at.attachmentName  + '</a>');
-
-                /*('#eventViewAttachment').append('<a href="/ScheduleDetails/DeleteAttachment/'+at.attachmentId+'">&#10007;</a>');*/
             });
         });
 
         totalParticipants = participantsId.length;
-        /*alert(totalParticipants);*/
-
 
         var EventId = calEvent.id;
         var EventAuthorId = calEvent.author_id;
@@ -467,11 +463,23 @@
             $('#CalendarModalViewDecisionButtonGroup').hide();
             $('#CalendarModalViewAuthorButtonGroup').show();
             $('#CalendarModalViewParticipantsButtonGroup').hide();
+            $('#eventViewAuthor').parent().hide()
         } else if (isParticipate) {
-            $('#CalendarModalViewDecisionButtonGroup').show();
+            $('#eventViewAuthor').parent().show();
+            $(${UserslistJson}).each(function (i,us) {
+                if(us.id == EventAuthorId){
+                    $('#eventViewAuthor').append('<span title="' + us.jobTitle + ", " + us.departmentName + '" class="calendarMemberPill authorPill">' + '<span class="fa fa-user" aria-hidden="true"></span>' + ' ' + us.name + '</span>');
+                }
+            });
+            if(EventIsCompulsory == "true"){
+                $('#CalendarModalViewDecisionButtonGroup').hide();
+            }else {
+                $('#CalendarModalViewDecisionButtonGroup').show();
+            }
             $('#CalendarModalViewAuthorButtonGroup').hide();
             $('#CalendarModalViewParticipantsButtonGroup').show();
         } else {
+            $('#eventViewAuthor').hide();
             $('#CalendarModalViewDecisionButtonGroup').hide();
             $('#CalendarModalViewAuthorButtonGroup').hide();
             $('#CalendarModalViewParticipantsButtonGroup').hide();
@@ -481,7 +489,6 @@
         $('#eventTotalWillParticipate span').text(totalWillParticipate);
         $('#eventTotalNotParticipate span').text(totalNotParticipate);
         $('#eventTotalNotDecided span').text(totalNotDecidied);
-
 
         if (EventType == 1) {
             EventType = "Meeting";
@@ -500,7 +507,6 @@
         $('#eventViewPlace').val(EventPlace);
         $('#eventViewTitle').val(EventTitle);
         $('#eventViewDescription').val(EventDescription);
-
 
         $('#CalendarModalLabel').text('View Event');
         $('#CalendarModal').modal('show');
@@ -680,6 +686,8 @@
             url: "${pageContext.request.contextPath}/ScheduleManagement/api/scheduleList",
             success: function (response) {
                 renderFromJson(response);
+                $('#calLoaderDiv').css('display','none');
+                $('#calendar').css('filter','blur(0px)');
             },
             error: function (e) {
                 alert('Error: ' + e);
@@ -733,39 +741,38 @@
         var fltReference = true;
 
 
-
-        if ( getOption == "filter"){
+        if (getOption == "filter") {
             var inputdata = $('#calFilterSelectGroup li').first().data('user-id')
 
-            if (typeof inputdata  == 'undefined'){
+            if (typeof inputdata == 'undefined') {
                 currentUserId = ${userId};
-            }else {
+            } else {
                 currentUserId = inputdata;
             }
 
 
-            if(chbAuthor.is(":checked")){
+            if (chbAuthor.is(":checked")) {
                 fltAuthor = true;
-            }else{
+            } else {
                 fltAuthor = false;
             }
 
-            if(chbParticipant.is(":checked")){
+            if (chbParticipant.is(":checked")) {
                 fltParticipant = true;
-            }else {
+            } else {
                 fltParticipant = false;
             }
 
-            if(chbReference.is(":checked")){
+            if (chbReference.is(":checked")) {
                 fltReference = true;
-            }else {
+            } else {
                 fltReference = false;
             }
 
-            calendarCommonAjax("POST","/ScheduleManagement/Filter","userId=" + currentUserId + "&author=" + fltAuthor + "&participant=" + fltParticipant + "&reference=" + fltReference + "&start=" + startOfWeek + "&end=" + endOfWeek,"filter");
+            calendarCommonAjax("POST", "/ScheduleManagement/Filter", "userId=" + currentUserId + "&author=" + fltAuthor + "&participant=" + fltParticipant + "&reference=" + fltReference + "&start=" + startOfWeek + "&end=" + endOfWeek, "filter");
 
 
-        }else {
+        } else {
 
             getSourceJson(startOfWeek, endOfWeek);
         }
@@ -971,7 +978,7 @@
                     currentResponse = response;
                 } else if (currentAction = "DecisionSubmit") {
                     returnToCalendar();
-                } else if (currentAction = "renderCurrentWeek"){
+                } else if (currentAction = "renderCurrentWeek") {
                     renderFromJson(response);
                 } else if (currentAction = "filter") {
                     $('#calendar').fullCalendar('removeEvents');
@@ -989,7 +996,7 @@
 
         return currentResponse;
     }
-    
+
     function filterTrigger() {
         var filterDiv = $('#calFilterDiv');
         filterDiv.slideToggle();
@@ -1060,30 +1067,31 @@
                 <button id="dialogViewButton" type="button" class="btn btn-green">View</button>
             </div>
         </div>
-           <div id="calFilterDiv">
-               <div class="calFilterOptionsDiv">
-                   <label class="checkbox-inline">
-                       <input id="calFilterCheckBoxAuthor" type="checkbox" value="" checked>Author
-                   </label>
-                   <label class="checkbox-inline">
-                       <input id="calFilterCheckBoxParticipant" type="checkbox" value="" checked>Participant
-                   </label>
-                   <label class="checkbox-inline">
-                       <input id="calFilterCheckBoxReference" type="checkbox" value="" checked>Reference
-                   </label>
-               </div>
-               <div id="calFilterSelectGroup">
-                   <label for="calFilterSelectInput">Search by user</label>
-                   <input id="calFilterSelectInput">
-               </div>
-               <div class="btn calFilterSearchButton" type="button" onclick="getCurrentWeekDays('filter')"><span class="fa fa-filter" aria-hidden="true"> Filter</span></div>
-
+        <div id="calFilterDiv">
+            <div class="calFilterOptionsDiv">
+                <label class="checkbox-inline">
+                    <input id="calFilterCheckBoxAuthor" type="checkbox" value="" checked>Author
+                </label>
+                <label class="checkbox-inline">
+                    <input id="calFilterCheckBoxParticipant" type="checkbox" value="" checked>Participant
+                </label>
+                <label class="checkbox-inline">
+                    <input id="calFilterCheckBoxReference" type="checkbox" value="" checked>Reference
+                </label>
             </div>
+            <div id="calFilterSelectGroup">
+                <label for="calFilterSelectInput">Search by user</label>
+                <input id="calFilterSelectInput">
+            </div>
+            <div class="btn calFilterSearchButton" type="button" onclick="getCurrentWeekDays('filter')"><span class="fa fa-filter" aria-hidden="true"> Filter</span></div>
 
+        </div>
         <%--Calendar--%>
         <div id='calendar'></div>
-
-
+           <%--Loader--%>
+            <div id="calLoaderDiv">
+                <div class="calLoader">Loading...</div>
+            </div>
         <%--Modal--%>
         <div class="modal fade" id="CalendarModal" tabindex="-1" role="dialog" aria-labelledby="CalendarModalLabel">
             <div class="modal-dialog calModal" role="document">
@@ -1174,6 +1182,10 @@
                             </div>
                             <div id="viewBodyDiv">
                                 <div class="CalendarViewHeader">
+                                    <div class="input-group calInputGroup">
+                                        <span class="input-group-addon calSpan">Author</span>
+                                        <div id="eventViewAuthor"></div>
+                                    </div>
                                     <div class="input-group calInputGroup">
                                         <span class="input-group-addon calSpan">Participants</span>
                                         <div id="eventViewParticipantsList"></div>

@@ -248,6 +248,28 @@
                     </div>
                 </div>
             </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingSchedule">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#Nav-accordion"
+                           href="#collapseSchedule"
+                           aria-expanded="false" aria-controls="collapseSchedule">
+                            Schedule
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseSchedule" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSchedule">
+                    <div class="panel-body">
+                        <ul style="list-style: none" class="list-group">
+                            <li>
+                                <a href="/ScheduleManagement/main"><span class="fa fa-braille"></span> Calendar</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingThree">
                     <h4 class="panel-title">

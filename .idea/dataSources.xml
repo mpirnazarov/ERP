@@ -17,19 +17,9 @@
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/PostgreSQL/9.4-1201/postgresql-driver-license.txt</url>
         </library>
         <library>
-          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/postgresql-driver-license.txt</url>
-        </library>
-        <library>
-          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/postgresql-9.4-1201.jdbc4.jar</url>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/PostgreSQL/9.4-1201/postgresql-9.4-1201.jdbc4.jar</url>
         </library>
       </libraries>
-    </data-source>
-    <data-source source="LOCAL" name="PostgreSQL - LgErpSystem@192.168.1.77 [2]" uuid="42ff7a68-36c9-4f30-bba8-f5531b04dcc2">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <configured-by-url>true</configured-by-url>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://192.168.1.77:5432/LgErpSystem</jdbc-url>
     </data-source>
     <data-source source="LOCAL" name="LgErpSystemProd@192.168.1.77" uuid="871e83d9-7813-4535-94be-34544ebc1ca4">
       <driver-ref>postgresql</driver-ref>
@@ -38,6 +28,12 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://192.168.1.77:5432/LgErpSystemProd</jdbc-url>
       <default-dialect>PostgreSQL</default-dialect>
+    </data-source>
+    <data-source source="LOCAL" name="LgErpSystem@192.168.1.77" uuid="ca6fe988-a31f-4aae-b307-609fa5d7a512">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://192.168.1.77:5432/LgErpSystem</jdbc-url>
     </data-source>
   </component>
 </project>

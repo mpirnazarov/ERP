@@ -1,5 +1,6 @@
 package com.lgcns.erp.workflow.controller.editForm;
 
+import com.lgcns.erp.tapps.DbContext.EmailService;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.workflow.DBContext.WorkflowEmailService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
@@ -30,62 +31,8 @@ import java.security.Principal;
 @RequestMapping(value = "/Workflow")
 public class LeaveApproveEditController {
 
-    /*int[] approvalsGlobal = null;
-    int[] executivesGlobal = null;
-    int[] referencesGlobal = null;
-
     @RequestMapping(value = "/EditForm/{reqId}", method = RequestMethod.POST, params = "submitLeaveApprove")
-    public ModelAndView LeaveApproveEditGET(Principal principal, @PathVariable int reqId){
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("workflow/editForm/leaveApprove");
-        mav = UP.includeUserProfile(mav, principal);
-
-        // Retrieving Leave approve ViewModel
-        LeaveApproveVM leaveApproveVM = getLeaveApprove(reqId);
-        mav.addObject("leaveApproveVM", leaveApproveVM);
-
-        // Retriving data about type of Business trip
-        Map<Integer, String> absenceType = new HashMap<>();
-        absenceType.put(0, "");
-        for (LeaveType leaveType :
-                LeaveType.values()) {
-            absenceType.put(leaveType.getValue(), leaveType.name().replace("_", " "));
-        }
-
-        // Add trip type data to ModelAndView
-        mav.addObject("absenceType", absenceType);
-
-
-        return mav;
-    }
-
-    private LeaveApproveVM getLeaveApprove(int reqId) {
-
-        LeaveApproveVM leaveApproveVM = new LeaveApproveVM();
-        RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(reqId);
-
-        leaveApproveVM.setId(reqId);
-        leaveApproveVM.setAbsenceType(requestsEntity.getLeaveTypeId());
-        leaveApproveVM.setDescription(requestsEntity.getDescription());
-        leaveApproveVM.setStart(requestsEntity.getDateFrom());
-        leaveApproveVM.setEnd(requestsEntity.getDateTo());
-
-        Collection<AttachmentsEntity> attachmentsEntities = WorkflowService.getAttachmentList();
-        List<Attachment> attachments = new LinkedList<>();
-        if(attachmentsEntities.size()!=0) {
-            for (AttachmentsEntity atEn :
-                    attachmentsEntities) {
-                if(atEn.getRequestId() == reqId)
-                    attachments.add(new Attachment(atEn.getId(), atEn.getUrl(), atEn.getFilename()));
-            }
-        }
-        leaveApproveVM.setAttachments(attachments);
-
-        return leaveApproveVM;
-    }
-*/
-    @RequestMapping(value = "/EditForm/{reqId}", method = RequestMethod.POST, params = "submitLeaveApprove")
-    public String LeaveApprovePostSave(@ModelAttribute LeaveApproveVM leaveApproveVM, Principal principal, @PathVariable int reqId) throws IOException {
+    public String LeaveApprovePostSave(@ModelAttribute LeaveApproveVM leaveApproveVM, Principal principal, @PathVariable int reqId) throws Exception {
 
         int userId = UserService.getIdByUsername(principal.getName());
         leaveApproveVM.setId(reqId);
@@ -128,19 +75,39 @@ public class LeaveApproveEditController {
 
 
         if(requestsEntity.getViewed() == true){
+
             /* Sending to approvals*/
             subject = MailMessage.generateSubject(reqId, 3, 1);
-            msg = MailMessage.generateMessage(reqId, 3, 1);
-
             to = WorkflowEmailService.getInvolvementList(reqId, 1);
             if (to.length!=0){
-                mm.sendMail(to, subject, msg);
-                to=null;
+                for (int uId :
+                        to) {
+                    msg = MailMessage.generateMessage(reqId, 3, 1, uId);
+                    EmailService.sendHtmlMail(uId, subject, msg);
+                }
             }
-            /* Sending to references and executors */
-            to = (int[]) ArrayUtils.addAll(WorkflowEmailService.getInvolvementList(reqId, 2), WorkflowEmailService.getInvolvementList(reqId, 3));
+            to=null;
+
+            /* Sending to executors */
+            subject = MailMessage.generateSubject(reqId, 3, 2);
+            to = WorkflowEmailService.getInvolvementList(reqId, 2);
             if (to.length!=0){
-                mm.sendMail(to, subject, msg);
+                for (int uId :
+                        to) {
+                    msg = MailMessage.generateMessage(reqId, 3, 2, uId);
+                    EmailService.sendHtmlMail(uId, subject, msg);
+                }
+            }
+
+            /* Sending to references */
+            subject = MailMessage.generateSubject(reqId, 3, 3);
+            to = WorkflowEmailService.getInvolvementList(reqId, 3);
+            if (to.length!=0){
+                for (int uId :
+                        to) {
+                    msg = MailMessage.generateMessage(reqId, 3, 3, uId);
+                    EmailService.sendHtmlMail(uId, subject, msg);
+                }
             }
         }
 

@@ -1,11 +1,13 @@
 package com.lgcns.erp.workflow.controller.newForm;
 
 import com.lgcns.erp.hr.enums.WorkloadType;
+import com.lgcns.erp.tapps.DbContext.EmailService;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.DbContext.WorkloadServices;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
+import com.lgcns.erp.workflow.DBContext.WorkflowEmailService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.Enums.LeaveType;
 import com.lgcns.erp.workflow.Mapper.LeaveApproveMapper;
@@ -181,7 +183,7 @@ public class LeaveApproveController {
     }
 
     @RequestMapping(value = "/NewForm/LeaveApproveForm", method = RequestMethod.POST, params = "Submit")
-    public String LeaveApprovePostSubmit(@ModelAttribute LeaveApproveVM leaveApproveVM, Principal principal) throws IOException {
+    public String LeaveApprovePostSubmit(@ModelAttribute LeaveApproveVM leaveApproveVM, Principal principal) throws Exception {
 
         int userId = UserService.getIdByUsername(principal.getName());
 
@@ -237,45 +239,13 @@ public class LeaveApproveController {
         }
 
         // E-mail is sent here
-        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-        MailMail mm = (MailMail) context.getBean("mailMail");
-        String subject = "";
-        String msg = "";
-        int[] to;
-
-        /* Sending to approvals*/
-        subject = MailMessage.generateSubject(requestId, 1, 1);
-        msg = MailMessage.generateMessage(requestId, 1, 1);
-        to = approvalsGlobal;
-        if (to.length!=0){
-            mm.sendMail(to, subject, msg);
-            to = null;
-        }
-
-        /* Sending to references and executors */
-        subject = MailMessage.generateSubject(requestId, 1, 2);
-        msg = MailMessage.generateMessage(requestId, 1, 2);
-        to = (int[]) ArrayUtils.addAll(referencesGlobal, executivesGlobal);
-        if (to.length!=0){
-            mm.sendMail(to, subject, msg);
-            to = null;
-        }
-
-        /* Sending to creator */
-        subject = MailMessage.generateSubject(requestId, 1, 4);
-        msg = MailMessage.generateMessage(requestId, 1, 4);
-        to = new int[1];
-        to[0] = UserService.getIdByUsername(principal.getName());
-
-        if (to.length!=0){
-            mm.sendMail(to, subject, msg);
-         }
+        WorkflowEmailService.sendNewWorkflowEmail(requestId, principal.getName(), approvalsGlobal, executivesGlobal, referencesGlobal);
 
         return "redirect: /Workflow/MyForms/Request";
     }
 
     @RequestMapping(value = "/NewForm/LeaveApproveForm", method = RequestMethod.POST, params = "Save")
-    public String LeaveApprovePostSave(@ModelAttribute LeaveApproveVM leaveApproveVM, BindingResult result, Principal principal) throws IOException {
+    public String LeaveApprovePostSave(@ModelAttribute LeaveApproveVM leaveApproveVM, BindingResult result, Principal principal) throws Exception {
 
         int userId = UserService.getIdByUsername(principal.getName());
 

@@ -30,9 +30,9 @@
 </script>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
-        <h1 class="page-header">Add New Project</h1>
+<div class="mainBodyBlock">
+    <div class="">
+        <h1 class="headerText">Add New Project</h1>
         <form class="form-horizontal">
             <div class="form-group">
                 <label class="control-label col-md-3">Project Name<font color='red'>*</font></label>
@@ -59,7 +59,7 @@
             </div>
         </form>
     </div>
-    <div class="col-md-offset-2 col-md-9">
+    <div class="">
         <div class="row">
             <div class="col-md-offset-2 col-md-9">
                 <form:form modelAttribute="createVM" cssClass="form" method="post" action="/Projects/Create" onsubmit="return isValidDate();"

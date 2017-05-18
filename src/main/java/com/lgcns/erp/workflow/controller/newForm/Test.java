@@ -1,5 +1,8 @@
 package com.lgcns.erp.workflow.controller.newForm;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.model.UserInfo;
@@ -8,17 +11,25 @@ import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
 import com.lgcns.erp.workflow.DBEntities.StepsEntity;
 import com.lgcns.erp.workflow.Enums.LeaveType;
 import com.lgcns.erp.workflow.Enums.Type;
+import com.lgcns.erp.workflow.Mapper.AuthTokenMapper;
 import com.lgcns.erp.workflow.Mapper.MembersMapper;
 import com.lgcns.erp.workflow.Model.Member;
+import com.lgcns.erp.workflow.controller.email.MailMail;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by Muslimbek Pirnazarov on 1/27/2017.
@@ -292,6 +303,53 @@ public class Test {
 
 
         return mav;
+    }
+
+    /* Testing HTML Mail sending*/
+    @RequestMapping(value = "/htmlMailTest", method = RequestMethod.GET)
+    public String htmlMailTest(Principal principal){
+        ModelAndView mav = new ModelAndView();
+        String secret = null;
+        String token=  null;
+        try {
+            SecureRandom random = new SecureRandom();
+            byte bytes[] = new byte[20];
+            random.nextBytes(bytes);
+            secret = bytes.toString();
+
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            token = JWT.create()
+                    .withIssuer("auth0")
+                    .withClaim("Json", "1234321")
+                    .sign(algorithm);
+            System.out.println("TOKEN: " + token);
+        } catch (UnsupportedEncodingException exception){
+            //UTF-8 encoding not supported
+        } catch (JWTCreationException exception){
+            //Invalid Signing configuration / Couldn't convert Claims.
+        }
+
+        DateTime expireDate = new DateTime().plusHours(24);
+        /* Adding new token and expire date to DB */
+        UserService.insertAuthToken(AuthTokenMapper.mapAuthToken(UserService.getUserIdByUsername(principal.getName()), token, expireDate, secret));
+
+        MailMail mailMail = new MailMail();
+        int[] to = new int[1];
+        to[0] = 1;
+        mailMail.sendHtmlMail(2 , "Subject HTML", token);
+
+        /*String resourceName = "app.properties"; // could also be a constant
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        Properties props = new Properties();
+        try(InputStream resourceStream = loader.getResourceAsStream(resourceName)) {
+            props.load(resourceStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("PROPERTY: " + props.getProperty("app.path"));*/
+        // use props here ...
+
+        return "redirect: /";
     }
 }
 

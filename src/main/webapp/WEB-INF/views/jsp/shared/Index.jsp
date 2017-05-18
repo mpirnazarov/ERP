@@ -147,7 +147,7 @@
         <%
         if ((int) request.getAttribute("SystemRole") == 2) {
     %>
-    <div><a href="Profile/addFam" class="btn btn-blue">Add</a>
+    <div><a href="User/Profile/addFam" class="btn btn-blue">Add</a>
         <% } %>
 
     </div>

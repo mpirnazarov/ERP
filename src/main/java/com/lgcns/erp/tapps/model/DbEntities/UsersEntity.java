@@ -46,7 +46,7 @@ public class UsersEntity {
     private Collection<WorksEntity> worksesById;
     private Boolean isPolitical;
     private Collection<UserInPostsEntity> userInPostsesById;
-
+    private Collection<AuthTokenEntity> authTokensById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -191,11 +191,11 @@ public class UsersEntity {
 
     @Basic
     @Column(name = "hiring_date", nullable = false)
-    public java.sql.Date getHiringDate() {
+    public Date getHiringDate() {
         return hiringDate;
     }
 
-    public void setHiringDate(java.sql.Date hiringDate) {
+    public void setHiringDate(Date hiringDate) {
         this.hiringDate = hiringDate;
     }
 
@@ -398,7 +398,6 @@ public class UsersEntity {
         this.workloadsById = workloadsById;
     }
 
-
     @OneToMany(mappedBy = "usersByUserId")
     public Collection<WorksEntity> getWorksesById() {
         return worksesById;
@@ -425,5 +424,14 @@ public class UsersEntity {
 
     public void setUserInPostsesById(Collection<UserInPostsEntity> userInPostsesById) {
         this.userInPostsesById = userInPostsesById;
+    }
+
+    @OneToMany(mappedBy = "usersByUserId")
+    public Collection<AuthTokenEntity> getAuthTokensById() {
+        return authTokensById;
+    }
+
+    public void setAuthTokensById(Collection<AuthTokenEntity> authTokensById) {
+        this.authTokensById = authTokensById;
     }
 }

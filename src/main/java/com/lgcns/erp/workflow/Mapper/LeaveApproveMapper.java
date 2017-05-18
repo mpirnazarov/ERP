@@ -66,6 +66,7 @@ public class LeaveApproveMapper {
         viewModel.setEnd(requestsEntity.getDateTo());
         viewModel.setAbsenceType(requestsEntity.getLeaveTypeId());
         viewModel.setDescription(requestsEntity.getDescription());
+        viewModel.setLeavingHours(requestsEntity.getLeavingHours());
 
         return viewModel;
     }

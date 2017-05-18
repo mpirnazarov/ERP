@@ -1,6 +1,7 @@
 package com.lgcns.erp.workflow.DBContext;
 
 import com.lgcns.erp.hr.enums.WorkloadType;
+import com.lgcns.erp.tapps.DbContext.EmailService;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
 import com.lgcns.erp.tapps.DbContext.WorkloadServices;
 import com.lgcns.erp.tapps.model.DbEntities.WorkloadEntity;
@@ -22,6 +23,7 @@ import org.hibernate.query.Query;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,7 +32,7 @@ import java.util.*;
  * Created by DS on 08.02.2017.
  */
 public class WorkflowToDoApproveService {
-    public static int getTheNextSequence(int requestId, int statusId, String comment){
+    public static int getTheNextSequence(int requestId, int statusId, String comment) throws IOException {
         List<StepsEntity> list = getTheStepsByReqId(requestId);
         int currentSequence = 0;
         int currentStepId = 0;
@@ -74,31 +76,46 @@ public class WorkflowToDoApproveService {
         }
     }
 
-    private static void sendEmailAfterLastApproves(int requestId){
+    private static void sendEmailAfterLastApproves(int requestId) throws IOException {
 
         // E-mail is sent here
-        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-        MailMail mm = (MailMail) context.getBean("mailMail");
+        /*ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+        MailMail mm = (MailMail) context.getBean("mailMail");*/
         String subject = "";
         String msg = "";
         int[] to;
 
         /* Sending to references and executors */
         subject = MailMessage.generateSubject(requestId, 5, 2);
-        msg = MailMessage.generateMessage(requestId, 5, 2);
-        to = (int[]) ArrayUtils.addAll(WorkflowEmailService.getInvolvementList(requestId, 2), WorkflowEmailService.getInvolvementList(requestId, 3));
+
+        to = WorkflowEmailService.getInvolvementList(requestId, 2);
         if (to.length!=0) {
-            mm.sendMail(to, subject, msg);
-            /*mm.sendHtmlMail(to, subject, msg);*/
-            to = null;
+            for (int userId :
+                    to) {
+                msg = MailMessage.generateMessage(requestId, 5, 2, userId);
+                EmailService.sendHtmlMail(userId, subject, msg);
+            }
         }
+        to = null;
+
+        to = WorkflowEmailService.getInvolvementList(requestId, 3);
+        if (to.length!=0) {
+            for (int userId :
+                    to) {
+                msg = MailMessage.generateMessage(requestId, 5, 3, userId);
+                EmailService.sendHtmlMail(userId, subject, msg);
+            }
+        }
+        to = null;
+
+
         /* Sending to creator */
         subject = MailMessage.generateSubject(requestId, 5, 4);
-        msg = MailMessage.generateMessage(requestId, 5, 4);
-        to[0] = WorkflowService.getRequestsEntityById(requestId).getUserFromId();
-        if (to.length!=0) {
-            mm.sendMail(to, subject, msg);
-         }
+
+        int toCreator = WorkflowService.getRequestsEntityById(requestId).getUserFromId();
+        msg = MailMessage.generateMessage(requestId, 5, 4, toCreator);
+        EmailService.sendHtmlMail(toCreator, subject, msg);
+
     }
 
     private static void addHours(RequestsEntity entity){
@@ -191,7 +208,7 @@ public class WorkflowToDoApproveService {
     }
 
 
-    public static void setNewStep(int newStepId, int reqId){
+    public static void setNewStep(int newStepId, int reqId) throws IOException {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -211,30 +228,28 @@ public class WorkflowToDoApproveService {
         }
     }
 
-    private static void sendEmailToTheNextApprover(int requestId, int nextApproverId){
+    private static void sendEmailToTheNextApprover(int requestId, int nextApproverId) throws IOException {
         // E-mail is sent here
         ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
         MailMail mm = (MailMail) context.getBean("mailMail");
         String subject = "";
         String msg = "";
-        int[] to = new int[1];
 
-         /* Sending to approvals*/
+         /* Sending to next Approval*/
+        int to = WorkflowService.getUserIdFromSteps(nextApproverId);
         subject = MailMessage.generateSubject(requestId, 4, 1);
-        msg = MailMessage.generateMessage(requestId, 4, 1);
-        to[0] = WorkflowService.getUserIdFromSteps(nextApproverId);
-        if (to.length!=0) {
-            mm.sendMail(to, subject, msg);
-            to = null;
-        }
-        to = new int[1];
+        msg = MailMessage.generateMessage(requestId, 4, 1, to);
+
+        EmailService.sendHtmlMail(to, subject, msg);
+
+
          /* Sending to creator */
+        to = WorkflowService.getRequestsEntityById(requestId).getUserFromId();
         subject = MailMessage.generateSubject(requestId, 4, 4);
-        msg = MailMessage.generateMessage(requestId, 4, 4);
-        to[0] = WorkflowService.getRequestsEntityById(requestId).getUserFromId();
-        if (to.length!=0) {
-            mm.sendMail(to, subject, msg);
-        }
+        msg = MailMessage.generateMessage(requestId, 4, 4, to);
+
+        EmailService.sendHtmlMail(to, subject, msg);
+
     }
 
     public static void submitRequest(int requestId, int statusId){

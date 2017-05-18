@@ -17,9 +17,9 @@
 <fmt:formatDate value="${viewModel.startDate}" var="yearOfProject" pattern="yyyy"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
-        <h1 class="page-header">Delete Project</h1>
+
+    <div class="mainBodyBlock">
+        <h1 class="headerText">Delete Project</h1>
         <form:form modelAttribute="viewModel" cssClass="form-horizontal" method="post" action="/Projects/Delete"
                    id="myForm">
 
@@ -102,5 +102,5 @@
             </form:form>
         </div>
     </div>
-</div>
+
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>

@@ -1,9 +1,11 @@
 package com.lgcns.erp.workflow.controller.newForm;
 
+import com.lgcns.erp.tapps.DbContext.EmailService;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.workflow.DBContext.WorkflowEmailService;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import com.lgcns.erp.workflow.Mapper.MembersMapper;
 import com.lgcns.erp.workflow.Mapper.UnformattedMapper;
@@ -68,15 +70,6 @@ public class UnformattedController {
                 Member member = MembersMapper.getMember(user.getId());
 
                 // Retrieving user localizations info from DB for all users and check for null
-                /*if(user.getId()!=0 || UserService.getUserLocByUserId(user.getId(), 3)!=null) {
-                    try {
-                        userLoc = UserService.getUserLocByUserId(user.getId(), 3);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }*/
-                // Inserting user Id as id, fullname as name, jobTitle as jobTitle and department as department
-                /*ProfileViewModel prof =  UserController.getProfileByUsername(user.getUserName());*/
 
                 jsonObject.put("id", member.getId());
                 jsonObject.put("name", member.getFirstName() + " " + member.getLastName());
@@ -103,7 +96,7 @@ public class UnformattedController {
         return mav;
     }
     @RequestMapping(value = "NewForm/Unformatted", method = RequestMethod.POST, params = "Submit")
-    public String NewUnformattedSubmit(@ModelAttribute UnformattedViewModel unformattedVM, Principal principal) throws IOException {
+    public String NewUnformattedSubmit(@ModelAttribute UnformattedViewModel unformattedVM, Principal principal) throws Exception {
 
         int userId = UserService.getIdByUsername(principal.getName());
 
@@ -164,12 +157,11 @@ public class UnformattedController {
         }
 
 
-        sendEmail(requestId, principal);
+        WorkflowEmailService.sendNewWorkflowEmail(requestId, principal.getName(), approvalsGlobal, executivesGlobal, referencesGlobal);
 
 
         return "redirect: /Workflow/MyForms/Request";
     }
-
 
    /* @InitBinder
     public void initBinder( WebDataBinder binder) throws ServletException {
@@ -179,7 +171,7 @@ public class UnformattedController {
     }
 */
     @RequestMapping(value = "NewForm/Unformatted", method = RequestMethod.POST, params = "Save")
-    public String NewUnformattedSave(@ModelAttribute UnformattedViewModel unformattedVM, BindingResult result, Principal principal) throws IOException {
+    public String NewUnformattedSave(@ModelAttribute UnformattedViewModel unformattedVM, BindingResult result, Principal principal) throws Exception {
 
         int userId = UserService.getIdByUsername(principal.getName());
 
@@ -245,72 +237,9 @@ public class UnformattedController {
         return "redirect: /Workflow/MyForms/Request";
     }
 
-    private void sendEmail(int requestId, Principal principal){
-        // E-mail is sent here
-        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-        MailMail mm = (MailMail) context.getBean("mailMail");
-        String subject = "";
-        String msg = "";
-        int[] to;
-
-        /* Sending to approvals*/
-        subject = MailMessage.generateSubject(requestId, 1, 1);
-        msg = MailMessage.generateMessage(requestId, 1, 1);
-        to = approvalsGlobal;
-        if (to.length!=0){
-            mm.sendMail(to, subject, msg);
-            to = null;
-        }
-        /* Sending to references and executors */
-        subject = MailMessage.generateSubject(requestId, 1, 2);
-        msg = MailMessage.generateMessage(requestId, 1, 2);
-        to = (int[]) ArrayUtils.addAll(referencesGlobal, executivesGlobal);
-        if (to.length!=0){
-            mm.sendMail(to, subject, msg);
-            to = null;
-        }
-        /* Sending to creator */
-        subject = MailMessage.generateSubject(requestId, 1, 4);
-        msg = MailMessage.generateMessage(requestId, 1, 4);
-        int[] toCreator = new int[1];
-        System.out.println("Principal: " + principal.getName());
-        System.out.println("ID: " + UserService.getIdByUsername(principal.getName()));
-        toCreator[0] = UserService.getIdByUsername(principal.getName());
-            mm.sendMail(toCreator, subject, msg);
-            to = null;
-
-      /*  // E-mail is sent here
-        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-        MailMail mm = (MailMail) context.getBean("mailMail");
-        String subject = "";
-        String msg = "";
-        int[] to;
-
-        *//* Sending to approvals*//*
-        subject = MailMessage.generateSubject(requestId, 1, 1);
-        msg = MailMessage.generateMessage(requestId, 1, 1);
-        to = approvalsGlobal;
-        mm.sendMail(to, subject, msg);
-
-        *//* Sending to references and executors *//*
-        subject = MailMessage.generateSubject(requestId, 1, 2);
-        msg = MailMessage.generateMessage(requestId, 1, 2);
-        to = (int[]) ArrayUtils.addAll(referencesGlobal, executivesGlobal);
-        mm.sendMail(to, subject, msg);
-
-        *//* Sending to creator *//*
-        subject = MailMessage.generateSubject(requestId, 1, 4);
-        msg = MailMessage.generateMessage(requestId, 1, 4);
-        to[0] = UserService.getIdByUsername(principal.getName());
-        mm.sendMail(to, subject, msg);*/
-
-
-    }
-
     @RequestMapping(value = "/NewForm/UnformattedFormAjax", method = RequestMethod.POST)
     public @ResponseBody
     int[] UnformattedPostAjax(@RequestParam("approvals") int[] approvals, @RequestParam("executives") int[] executives, @RequestParam("references") int[] references){
-        System.out.println("Unformatted is working.");
 
         approvalsGlobal = approvals;
         executivesGlobal = executives;

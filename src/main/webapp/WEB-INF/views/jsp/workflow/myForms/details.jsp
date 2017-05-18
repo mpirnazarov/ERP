@@ -562,12 +562,25 @@
         var description = "${leavemodel.description}";
         var start = '${leavemodel.start.toString()}';
         var end = '${leavemodel.end.toString()}';
+        var leavingHours = '${leavemodel.leavingHours}';
+
+        if(leavingHours == '1'){
+            leavingHours = "8 HR";
+        }else if(leavingHours == '2'){
+            leavingHours = "4 AM";
+        }else if(leavingHours == '3'){
+            leavingHours = "4 PM";
+        }
 
 
         $("#left-info").append('<div id="unformattedFormGen"> ' +
             '<div class="labelDiv">' +
             '<label>Absence Type: </label>' +
             '<p>' + absenceType + '</p>' +
+            '</div>' +
+            '<div class="labelDiv">' +
+            '<label>Leaving Hours: </label>' +
+            '<p>' + leavingHours + '</p>' +
             '</div>' +
             '<div class="labelDiv">' +
             '<label>Description: </label>' +

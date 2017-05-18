@@ -237,7 +237,7 @@ public class AppointController {
         return df.format(date);
 
     }
-    private Map<Integer, String> getAllProjectsByManager(String username) {
+    private Map<Integer, String> getAllProjectsByManager(String username){
         Map<Integer,String> returning = new LinkedHashMap<Integer, String>();
         Calendar cal = Calendar.getInstance();
         for(ProjectsEntity p : ProjectServices.getProjectsByManager(UserService.getIdByUsername(username))){

@@ -201,8 +201,8 @@
                     </div>
                     <div id="halfDay">
                         <label id="radio8hr" class="radio-inline"><form:radiobutton path="leavingHours" value="1"/>8 hr</label>
-                        <label id="radio4am" class="radio-inline"><form:radiobutton path="leavingHours" value="2"/>4 am</label>
-                        <label id="radio4pm" class="radio-inline"><form:radiobutton path="leavingHours" value="3"/>4 pm</label>
+                        <label id="radio4am" class="radio-inline"><form:radiobutton path="leavingHours" value="2"/>4 hr(am)</label>
+                        <label id="radio4pm" class="radio-inline"><form:radiobutton path="leavingHours" value="3"/>4 hr(pm)</label>
                     </div>
 
                 </div>

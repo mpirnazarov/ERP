@@ -106,6 +106,7 @@
             selectable: true,
             selectHelper: true,
             viewRender: function () {
+                filterTrigger("Off");
                 $('#calLoaderDiv').css('display','block');
                 $('#calendar').css('filter','blur(2px)');
                 $('#calendar').fullCalendar('removeEvents');
@@ -679,22 +680,6 @@
 
     }
 
-    function getSourceJson(startOfWeek, endOfWeek) {
-        $.ajax({
-            type: "POST",
-            data: 'start=' + startOfWeek + '&end=' + endOfWeek,
-            url: "${pageContext.request.contextPath}/ScheduleManagement/api/scheduleList",
-            success: function (response) {
-                renderFromJson(response);
-                $('#calLoaderDiv').css('display','none');
-                $('#calendar').css('filter','blur(0px)');
-            },
-            error: function (e) {
-                alert('Error: ' + e);
-            }
-        });
-    }
-
     function switchContentDiv(divToDisplay) {
 
         var createDiv = $('#createBodyDiv');
@@ -773,8 +758,8 @@
 
 
         } else {
-
-            getSourceJson(startOfWeek, endOfWeek);
+            calendarCommonAjax("POST", "/ScheduleManagement/api/scheduleList", "start=" + startOfWeek + "&end=" + endOfWeek, "renderCurrentWeek");
+            /*getSourceJson(startOfWeek, endOfWeek);*/
         }
 
 
@@ -976,15 +961,18 @@
                     returnToCalendar();
                 } else if (currentAction == "View") {
                     currentResponse = response;
-                } else if (currentAction = "DecisionSubmit") {
+                } else if (currentAction == "DecisionSubmit") {
                     returnToCalendar();
-                } else if (currentAction = "renderCurrentWeek") {
+                } else if (currentAction == "renderCurrentWeek") {
+                    $('#calLoaderDiv').css('display','none');
+                    $('#calendar').css('filter','blur(0px)');
                     renderFromJson(response);
-                } else if (currentAction = "filter") {
+                } else if (currentAction == "filter") {
                     $('#calendar').fullCalendar('removeEvents');
+                    currentResponse = response;
                     renderFromJson(response);
                 } else {
-                    ///default
+                    currentResponse = response;
                 }
 
 
@@ -997,14 +985,25 @@
         return currentResponse;
     }
 
-    function filterTrigger() {
+    function filterTrigger(action) {
+
         var filterDiv = $('#calFilterDiv');
-        filterDiv.slideToggle();
+
+        if (action == "On"){
+            filterDiv.slideDown();
+        }else if(action == "Off"){
+            filterDiv.slideUp();
+        }else {
+            filterDiv.slideToggle();
+        }
     }
 
     function renderFromJson(response) {
 
+
+
         $(response).each(function (i, res) {
+
 
             var listOfParticipants = [];
             var listOfReferences = [];
@@ -1069,13 +1068,13 @@
         </div>
         <div id="calFilterDiv">
             <div class="calFilterOptionsDiv">
-                <label class="checkbox-inline">
+                <label class="checkbox-inline calfilterCheckBox">
                     <input id="calFilterCheckBoxAuthor" type="checkbox" value="" checked>Author
                 </label>
-                <label class="checkbox-inline">
+                <label class="checkbox-inline calfilterCheckBox">
                     <input id="calFilterCheckBoxParticipant" type="checkbox" value="" checked>Participant
                 </label>
-                <label class="checkbox-inline">
+                <label class="checkbox-inline calfilterCheckBox">
                     <input id="calFilterCheckBoxReference" type="checkbox" value="" checked>Reference
                 </label>
             </div>

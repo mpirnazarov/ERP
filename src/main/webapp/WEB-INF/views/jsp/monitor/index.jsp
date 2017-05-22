@@ -53,7 +53,10 @@
                         <i class="fa fa-bar-chart-o fa-fw"></i> Monitor
                         <div class="pull-right">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-grey btn-xs dropdown-toggle"
+                                <a style="margin-top: -2px; margin-right: 4px; font-size: 12px; line-height: 1" class="btn btn-green" href="" onclick="ExportExcel()"><span class="fa fa-file-excel-o"></span> Export to Excel</a>
+                                <a style="margin-top: -2px; margin-right: 4px; font-size: 12px; line-height: 1" class="btn btn-darkyellow" href="" onclick="$('#myTable').tableExport({type:'csv',escape:'false'});"><span class="fa fa-file-code-o"></span> Export to CSV</a>
+                                <a style="margin-top: -2px; margin-right: 4px; font-size: 12px; line-height: 1" class="btn btn-darkblue" href="" onclick="$('#myTable').tableExport({type:'txt',escape:'false'});"><span class="fa fa-file-word-o"></span> Export to TXT</a>
+                                <%--<button type="button" class="btn btn-grey btn-xs dropdown-toggle"
                                         data-toggle="dropdown">
                                     Actions
                                     <span class="caret"></span>
@@ -72,7 +75,7 @@
                                         <a href="" onclick="$('#myTable').tableExport({type:'txt',escape:'false'});">Export to TXT</a>
                                     </li>
                                     <li class="divider"></li>
-                                </ul>
+                                </ul>--%>
                             </div>
                         </div>
                     </div>

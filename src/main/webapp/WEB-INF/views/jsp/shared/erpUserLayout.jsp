@@ -8,91 +8,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-<%--Old Version--%>
-<%--<div class="col-md-2 userNavMenu">
-    <!-- Sidebar -->
-    <nav class="navbar navbar-inverse navbar-fixed-side __scrollBar">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">
-                        Welcome <%= request.getAttribute("FirstName") %>
-                    </a>
-                </div>
-                <ul class="nav navbar-nav">
-                    <!--Profile picture-->
-
-                    &lt;%&ndash;<img src="/resources/images/ppicture.png" style="width:45%; margin-left: 25%"><br>&ndash;%&gt;
-                    <div class="userImgBox">
-                        <img class="userimg" src="/image/<%= request.getAttribute("userId") %>.jpg" onerror="this.src='/resources/images/ppicture.png'">
-                    </div>
-                    <hr/>
-                    HR System
-                    <li>
-                        <a href="/User/Profile"><i class="fa fa-fw fa-info-circle"></i> General information</a>
-                    </li>
-                    <li>
-                        <a href="/User/Profile/Appointment"><i class="fa fa-fw fa-hand-pointer-o"></i> Appointment
-                            record</a>
-                    </li>
-                    <li>
-                        <a href="/User/Profile/Salary"><i class="fa fa-fw fa-money"></i> Salary details</a>
-                    </li>
-                    <li>
-                        <a href="/User/Profile/Edu"><i class="fa fa-fw fa-graduation-cap"></i> Education certificate</a>
-                    </li>
-                    <li>
-                        <a href="/User/Profile/Jobexp"><i class="fa fa-fw fa-briefcase"></i> Job experience</a>
-                    </li>
-                    <li>
-                        <a href="/User/Profile/Train"><i class="fa fa-fw fa-book"></i> Training record</a>
-                    </li>
-                    <li>
-                        <a href="/User/Profile/Docs"><i class="fa fa-fw fa-file"></i> Documents</a>
-                    </li>
-                    <li>
-                        <a href="/Projects/ProjectHistory"><i class="fa fa-fw fa-folder"></i> Project history</a>
-                    </li>
-                    <li>
-                        <a href="/User/Profile/Evaluation"><i class="fa fa-fw fa-bar-chart"></i> Evaluation history</a>
-                    </li>
-                    <li>
-                        <a href="/Hierarchy"><i class="fa fa-line-chart"></i> Hierarchy</a>
-                    </li>
-                    <hr/>
-                    TAPPS System
-                    <li>
-                        <a href="/Workload"><i class="fa fa-edit fa-fw"></i> Workload</a>
-                    </li>
-                    <li>
-                        <a href="/Projects"><i class="fa fa-file-powerpoint-o fa-fw"></i> Projects</a>
-                    </li>
-                    <li>
-                        <a href="/Monitor"><i class="fa fa-pie-chart fa-fw"></i> Monitor</a>
-                    </li>
-                    <li>
-                        <a href="/Appoint"><i class="fa fa-hand-o-up fa-fw"></i> Appoint</a>
-                    </li>
-                    <li>
-                        <a href="/Organizations"><i class="fa fa-briefcase fa-fw"></i> Customer organizations</a>
-                    </li>
-                    <li>
-                        <a href="/Contacts"><i class="fa fa-male fa-fw"></i> Contacts</a>
-                    </li>
-                    <hr/>
-                    Settings
-                    <li>
-                        <a href="/User/changepass"><i class="fa fa-fw fa-gears"></i> Change password</a>
-                    </li>
-                    <li>
-                        <a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    <!-- /#sidebar-wrapper -->
-</div>--%>
-
 <%--MY Decision--%>
 <div id="UserNavigationMenuDiv" class="userNavMenu">
     <nav class="__scrollBar navbar navbar-fixed-side">
@@ -107,7 +22,7 @@
                         </a>
                     </h4>
                 </div>
-                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                     <div class="panel-body">
                         <ul style="list-style: none" class="list-group active">
                             <li>

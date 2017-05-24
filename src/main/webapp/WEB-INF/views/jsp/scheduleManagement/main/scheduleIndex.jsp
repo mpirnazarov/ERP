@@ -460,6 +460,8 @@
         var EventStart = moment(calEvent.start).format('YYYY/MM/DD HH:mm');
         var EventEnd = moment(calEvent.end).format('YYYY/MM/DD HH:mm');
 
+
+
         if (EventAuthorId == currentUserId) {
             $('#CalendarModalViewDecisionButtonGroup').hide();
             $('#CalendarModalViewAuthorButtonGroup').show();
@@ -478,7 +480,11 @@
                 $('#CalendarModalViewDecisionButtonGroup').show();
             }
             $('#CalendarModalViewAuthorButtonGroup').hide();
-            $('#CalendarModalViewParticipantsButtonGroup').show();
+            if (EventIsCompulsory == "true"){
+                $('#CalendarModalViewParticipantsButtonGroup').hide();
+            }else {
+                $('#CalendarModalViewParticipantsButtonGroup').show();
+            }
         } else {
             $('#eventViewAuthor').hide();
             $('#CalendarModalViewDecisionButtonGroup').hide();

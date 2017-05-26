@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.joda.time.DateTime;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -2433,5 +2434,53 @@ public class UserService {
         finally {
             session.close();
         }
+    }
+
+    public static boolean getEmailExists(String email) {
+        Long usersNum=null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("select count(users.userName) from UsersEntity users where users.eMail = :email");//" inner join user.usersByUserId");//" on user.id = userLoc.userId where userLoc.languageId = :languageId");
+            query.setParameter("email", email);
+            usersNum = (Long)query.getSingleResult();
+
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        if(usersNum.intValue()>0)
+            return true;
+        else
+            return false;
+    }
+
+    public static UsersEntity getUserByEmail(String email) {
+        UsersEntity user=null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UsersEntity users where users.eMail = :email");//" inner join user.usersByUserId");//" on user.id = userLoc.userId where userLoc.languageId = :languageId");
+            query.setParameter("email", email);
+            user = (UsersEntity)query.getSingleResult();
+
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return user;
     }
 }

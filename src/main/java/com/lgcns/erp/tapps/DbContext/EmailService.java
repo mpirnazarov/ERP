@@ -21,7 +21,7 @@ import java.util.Properties;
  * Created by Muslimbek on 5/2/2017.
  */
 public class EmailService {
-    public static String generateToken(int userId, String redirectUrl) {
+    public static String generateToken(int userId, String redirectUrl, int hours) {
         String token = null;
         String secret = null;
         try {
@@ -42,7 +42,7 @@ public class EmailService {
             //Invalid Signing configuration / Couldn't convert Claims.
         }
 
-        DateTime expireDate = new DateTime().plusHours(168);
+        DateTime expireDate = new DateTime().plusHours(hours);
             /* Adding new token and expire date to DB */
         UserService.insertAuthToken(AuthTokenMapper.mapAuthToken(userId, token, expireDate, secret));
         return token;
@@ -77,7 +77,7 @@ public class EmailService {
                     message.setRecipients(Message.RecipientType.TO,
                             InternetAddress.parse(UserService.getUserById(idTo).geteMail()));
                     message.setSubject(subject);
-                    message.setContent(msg, "text/html");
+                    message.setContent(msg, "text/html; charset=utf-8");
 
                     Transport.send(message);
 

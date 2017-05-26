@@ -80,9 +80,10 @@ public class MailMessage {
         /**
          * Generate token for sending through email
          */
+
         /* Firstly generate redirect URL */
         String redirectUrl = generateURL(requestId, actionStep, involvementType, userId);
-        token = EmailService.generateToken(userId, redirectUrl);
+        token = EmailService.generateToken(userId, redirectUrl, 168);
 
         formType = Type.values()[requestsEntity.getTypeId() - 1].toString().replace("_", " ");
         formTypeId = requestsEntity.getTypeId();
@@ -174,7 +175,14 @@ public class MailMessage {
                 "<br>[References] " + referencesStr + "<br>" +
                 "<br>[Duration] " + duration;
 
-        SignatureStr = "<br><br><h1><a href='http://localhost:9997/auth?token=" + token + "'>Authorize</a></h1>" +
+        String auth = "";
+        if(involvementType == 1 || involvementType == 4) {
+            auth = "<div style='border:1px solid #000'><a href=''>Authorize</a></div>";
+            auth = "<a href=\"http://192.168.1.78/auth?token=" + token + "\" target=\"_blank\" style=\"display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #ffffff; background-color: #1BBCCE; border-radius: 0px; -webkit-border-radius: 0px; -moz-border-radius: 0px; max-width: 134px; width: 126px; width: 25%; border-top: 4px solid #1BBCCE; border-right: 4px solid #1BBCCE; border-bottom: 4px solid #1BBCCE; border-left: 4px solid #1BBCCE; padding-top: 5px; padding-right: 0px; padding-bottom: 5px; padding-left: 0px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;mso-border-alt: none\">\n" +
+                    "      <span style=\"font-size:16px;line-height:32px;\"><strong><span style=\"font-size: 14px; line-height: 28px;\" data-mce-style=\"font-size: 14px; line-height: 28px;\">View</span></strong></span>\n" +
+                    "    </a>";
+        }
+        SignatureStr = "<br><br>" + auth +
                 "<br>Thank you for your attention,<br>" +
                 "Best regards<br>" +
                 "Technical Department team";
@@ -287,7 +295,7 @@ public class MailMessage {
     }
 
     private static String generateURL(int requestId, int actionStep, int involvementType, int userId) {
-        String URL = null;
+        String URL = "/";
 
         /*if(actionStep == 1){*/
             if(involvementType == 1){
@@ -300,4 +308,20 @@ public class MailMessage {
         /*}*/
         return URL;
     }
+
+    public static String generateRestorePasswordMessage(int userId) {
+        String msg = "";
+        String fullName = UserService.getUserFullNameInLanguageById(userId, 3);
+        String URL = "http://192.168.1.78/restorePassword?token=";
+        String token = EmailService.generateToken(userId, "/", 168);
+        msg += "Dear " + fullName + msg + ", <br>" +
+                "You requested password recovery. In order to recover password, please press the button below. <br>" ;
+        msg += "<br><br><h1><a href='" + URL + "?token=" + token + "'>Authorize</a></h1>" +
+                "<br>Thank you for your attention,<br>" +
+                "Best regards<br>" +
+                "Technical Department team";
+
+        return msg;
+    }
+
 }

@@ -14,6 +14,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
             	<prop key="mail.smtp.auth">true</prop>
             	<prop key="mail.smtp.starttls.enable">true</prop>
 				<prop key="mail.smtp.ssl.trust">mail.lgcns.uz</prop>
+				<prop key="mail.smtp.timeout">10000</prop>
         	</props>
 		</property>
 		

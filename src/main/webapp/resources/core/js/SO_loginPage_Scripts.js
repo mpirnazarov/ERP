@@ -34,12 +34,14 @@ function passwordRestartMailSend() {
     var inputMail = $('#mail_reset_button').val();
 
     $.ajax({
-        type: "Post",
+        type: "POST",
         async: false,
         url: '/restorePassword',
-        data: "email" + inputMail,
-        success: function (response) {
+        data: "email=" + inputMail,
+        success: function (data) {
             forgetDialogue("hide");
+
+            alert(data);
         },
         error: function (e) {
             alert('Error: ' + e);

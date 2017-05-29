@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.IOException;
 import java.security.Principal;
 import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Muslimbek on 5/16/2017.
@@ -24,21 +26,22 @@ public class PasswordManagementController {
 
     @RequestMapping(value = "/restorePassword" , method = RequestMethod.POST)
     @ResponseBody
-    public int RestorePasswordPost(Principal principal, @RequestParam("email") String email) {
+    public String RestorePasswordPost(Principal principal, @RequestParam("email") String email) {
+        Map<Integer, String> errorMessage = new HashMap<Integer, String>();
         if(UserService.getEmailExists(email)){
             UsersEntity usersEntity = UserService.getUserByEmail(email);
             if(usersEntity.isEnabled()){
                 /* Email send to users mail */
                 if(sendEmailNewPassword(usersEntity.getId())){
-                    return 200;
+                    return errorMessage.put(RestorePasswordMessage.Okey.getValue(), "");
                 }else {
-                    return RestorePasswordMessage.Email_Not_Sent.getValue();
+                    return errorMessage.put(RestorePasswordMessage.Email_Not_Sent.getValue(), "");
                 }
             }else{
-                return RestorePasswordMessage.User_Disabled.getValue();
+                return errorMessage.put(RestorePasswordMessage.User_Disabled.getValue(), "");
             }
         }else{
-            return RestorePasswordMessage.Email_Not_Exist.getValue();
+            return errorMessage.put(RestorePasswordMessage.Email_Not_Exist.getValue(), "");
         }
     }
 

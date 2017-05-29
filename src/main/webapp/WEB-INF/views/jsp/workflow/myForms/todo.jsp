@@ -178,7 +178,7 @@
             '&selectedDateFrom=' + sandBoxcontainerfrom +
             '&attrValue=' + attrValue +
             '&selectedDateTo=' + sandBoxcontainerto,
-            url: '${pageContext.request.contextPath}/Workflow/MyForms/todo/list/' + page,
+                url: '${pageContext.request.contextPath}/Workflow/MyForms/todo/list/' + page,
             success: function (data) {
 
                 //table

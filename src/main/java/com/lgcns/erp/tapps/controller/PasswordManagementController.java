@@ -4,6 +4,7 @@ import com.lgcns.erp.tapps.DbContext.EmailService;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.Enums.RestorePasswordMessage;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.lgcns.erp.tapps.model.MessageResponse;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -25,23 +26,22 @@ import java.util.Map;
 public class PasswordManagementController {
 
     @RequestMapping(value = "/restorePassword" , method = RequestMethod.POST)
-    @ResponseBody
-    public String RestorePasswordPost(Principal principal, @RequestParam("email") String email) {
-        Map<Integer, String> errorMessage = new HashMap<Integer, String>();
+    public @ResponseBody
+    MessageResponse RestorePasswordPost(Principal principal, @RequestParam("email") String email) {
         if(UserService.getEmailExists(email)){
             UsersEntity usersEntity = UserService.getUserByEmail(email);
             if(usersEntity.isEnabled()){
                 /* Email send to users mail */
                 if(sendEmailNewPassword(usersEntity.getId())){
-                    return errorMessage.put(RestorePasswordMessage.Okey.getValue(), "");
+                    return new MessageResponse(RestorePasswordMessage.Okey.getValue(), "Mail has been sent");
                 }else {
-                    return errorMessage.put(RestorePasswordMessage.Email_Not_Sent.getValue(), "");
+                    return new MessageResponse(RestorePasswordMessage.Email_Not_Sent.getValue(), "Delivery failed");
                 }
             }else{
-                return errorMessage.put(RestorePasswordMessage.User_Disabled.getValue(), "");
+                return new MessageResponse(RestorePasswordMessage.User_Disabled.getValue(), "Your account is disabled");
             }
         }else{
-            return errorMessage.put(RestorePasswordMessage.Email_Not_Exist.getValue(), "");
+            return new MessageResponse(RestorePasswordMessage.Email_Not_Exist.getValue(), "Email does not exist");
         }
     }
 

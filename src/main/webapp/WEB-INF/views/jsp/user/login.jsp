@@ -12,12 +12,15 @@
 <head>
     <title>Sign in</title>
     <link rel="icon" type="image/x-icon" href="<s:url value="/resources/images/SmartOffice-Logo.png"/>"/>
+
     <spring:url value="/resources/core/css/logincss.css" var="loginCss"></spring:url>
     <link rel="stylesheet" href="${loginCss}"/>
 
     <spring:url value="/resources/core/js/jquery.min.js" var="jquery"/>
     <spring:url value="/resources/core/js/SO_loginPage_Scripts.js" var="loginScripts"/>
+    <spring:url value="/resources/core/js/bootstrap.min.js" var="bootstrapJs"/>
     <script src="${jquery}"></script>
+    <script src="${bootstrapJs}"></script>
 
 </head>
 <body>
@@ -34,9 +37,9 @@
     </c:if>
     <div id="login_forgetPassword_dialogue">
         <span class="mail_reset_dialogue_close_span" onclick="forgetDialogue('hide')">❌</span>
-        <label id="mail_reset_label" for="mail_reset_button">Please enter your email</label>
-        <input id="mail_reset_button" type="email" placeholder="example@lgcns.uz">
-        <button type="button" class="btn btn-block login_forgetPassword_send_button pulse" onclick="passwordRestartMailSend()">Send</button>
+        <label id="mail_reset_label" for="mail_reset_input">Please enter your email</label>
+        <input id="mail_reset_input" type="email" placeholder="example@lgcns.uz">
+        <button id="mail_reset_submit_button" type="button" class="btn btn-block login_forgetPassword_send_button" onclick="passwordRestartMailSend()">Send</button>
     </div>
 
     <form id="login_main_form" action="<c:url value='/j_spring_security_check' />" method='POST'>
@@ -46,7 +49,6 @@
         <button id="loginButton" type="submit" class="btn btn-block lgButton pulse">Sign in</button>
         <span class="login_forgetPasswordSpan" onclick="forgetDialogue()">Forget Password?</span>
     </form>
-
 </div>
 </body>
 <script src="${loginScripts}"></script>

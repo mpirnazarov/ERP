@@ -10,7 +10,7 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<context:component-scan base-package="com.lgcns.erp.tapps.controller, com.lgcns.erp.hr.controller, com.lgcns.erp.workflow.controller, com.lgcns.erp.scheduleManagement" />
+	<context:component-scan base-package="com.lgcns.erp.tapps.controller, com.lgcns.erp.hr.controller, com.lgcns.erp.workflow.controller, com.lgcns.erp.scheduleManagement, com.lgcns.erp.attendanceManagement" />
 	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

@@ -1,5 +1,6 @@
 package com.lgcns.erp.attendanceManagement.controller.daily;
 
+import com.lgcns.erp.tapps.controller.UP;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +18,8 @@ public class AttendanceDailyController {
     @RequestMapping(value = "/Daily", method = RequestMethod.GET)
     public ModelAndView WorkflowGET(Principal principal) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("attendance/newForm/businessTripForm");
+        mav = UP.includeUserProfile(mav, principal);
+        mav.setViewName("attendanceManagement/dailyView/daily");
         return mav;
     }
 

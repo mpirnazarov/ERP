@@ -313,7 +313,6 @@ h1 {
 
 .loginSpanPopOver
  {
-    border: 1px solid;
     white-space: pre;
     height: 25px;
     margin-top: 5px;
@@ -323,3 +322,10 @@ h1 {
     padding: 0px 4px 0px 4px;
 
  }
+
+.loginSpanPopOverImage
+{
+    height: 100%;
+    margin-right: 5px;
+    margin-bottom: -5px;
+}

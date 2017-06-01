@@ -30,7 +30,9 @@
 		    default-target-url="/"
 			authentication-failure-url="/login?error" 
 			username-parameter="username"
-			password-parameter="password" />
+			password-parameter="password"
+            authentication-success-handler-ref="loginSucessHandler"
+        />
 		<logout logout-success-url="/login?logout"  />
 		<!-- enable csrf protection -->
 		<!--<csrf />-->
@@ -56,5 +58,7 @@
 	<beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<beans:constructor-arg name="strength" value="11" />
 	</beans:bean>
+
+    <beans:bean id="loginSucessHandler" class="com.lgcns.erp.tapps.controller.CustomAuthenticationSuccessHandler" />
 
 </beans:beans>

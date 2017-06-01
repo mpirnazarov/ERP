@@ -5,11 +5,16 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity;
+import com.lgcns.erp.scheduleManagement.enums.ScheduleType;
+import com.lgcns.erp.scheduleManagement.service.ScheduleMainService;
+import com.lgcns.erp.scheduleManagement.service.ScheduleUpdateService;
 import com.lgcns.erp.tapps.DbContext.EmailService;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.workflow.controller.email.MailMail;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +34,13 @@ import java.security.Principal;
 
 @Controller
 public class HomeController {
+
+    @Autowired
+    ScheduleUpdateService scheduleUpdateService;
+
+    @Autowired
+    ScheduleMainService scheduleMainService;
+
     @RequestMapping(value = "/")
     public String printWelcome(Principal principal) {
         int roleId = UserService.getRoleByUserName(principal.getName());
@@ -45,11 +57,11 @@ public class HomeController {
     @RequestMapping(value = "/htmlEmail")
     public void sendTestHTML(Principal principal) {
         String subject = "Schedule management";
-        String msgBody = generateHtmlCode(1,1);
+        String msgBody = generateHtmlCode(1,301, 2);
 
 
         try {
-            EmailService.sendHtmlMail(16, subject, msgBody);
+            EmailService.sendHtmlMail(2, subject, msgBody);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,21 +69,42 @@ public class HomeController {
 
     }
 
-    private String generateHtmlCode(int roleType, int scheduleId){
+    private String generateHtmlCode(int roleType, int scheduleId, int userId){
 
+        ScheduleEntity scheduleEntity = scheduleUpdateService.getSchedule(scheduleId);
+        String participants="", references="";
+        String calStart, calEnd, calLink , token, calAuthor, calUser, calCreationDate, calType, calTitle, calPlace, calDescription, msgCalInfo, msgCalParRef, msgCalForParticipant, msgCalForReference;
 
-
-        String calStart, calEnd, calLink , calAuthor, calUser, calCreationDate, calType, calTitle, calPlace, calDescription, msgCalInfo, msgCalParRef, msgCalForParticipant, msgCalForReference;
-        calLink = "192.168.1.78";
-        calAuthor = "";
-        calUser = "";
-        calType = "";
-        calTitle = "";
-        calPlace = "";
-        calDescription = "";
+        calAuthor = UserService.getUserFullNameInLanguageById(scheduleEntity.getAutherId(), 3);
+        calUser = "User";
+        if(scheduleEntity.getStype()!= ScheduleType.Other.getValue()){
+            calType = ScheduleType.values()[scheduleEntity.getStype()].name().replace("_", " ");
+        }else{
+            calType = scheduleEntity.getOther();
+        }
+        calTitle = scheduleEntity.getTitle();
+        calPlace = scheduleEntity.getPlace();
+        calDescription = scheduleEntity.getDescription();
         calCreationDate = "";
-        calStart = "";
-        calEnd = "";
+        calStart = scheduleEntity.getDateFrom().toString();
+        calEnd = scheduleEntity.getDateTo().toString();
+
+        /* Get all participants with their full name */
+        for (int participantId :
+                scheduleUpdateService.getParticipantsByScheduleId(scheduleId)) {
+            participants += UserService.getUserFullNameInLanguageById(participantId, 3) + "<br>";
+        }
+
+        /* Get all references with their full name */
+        for (int referenceId :
+                scheduleUpdateService.getReferencesByScheduleId(scheduleId)) {
+            participants += UserService.getUserFullNameInLanguageById(referenceId, 3) + "<br>";
+        }
+
+        /* Firstly generate redirect URL */
+        String redirectUrl = "/ScheduleManagement/main";
+        token = EmailService.generateToken(userId, redirectUrl, 168);
+        calLink = "http://192.168.1.122/auth?token=" + token;
 
 
         int calRoleType = roleType;

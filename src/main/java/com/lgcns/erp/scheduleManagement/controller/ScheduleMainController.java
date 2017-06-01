@@ -97,7 +97,7 @@ public class ScheduleMainController {
         int[] author = new int[1];
         author[0] = UserService.getIdByUsername(principal.getName());
 
-        EmailUtil.sendEmailToAuthor(scheduleId, author, ActionTypeId.Create.getValue(), createToAuthor);
+        // EmailUtil.sendEmailToAuthor(scheduleId, author, ActionTypeId.Create.getValue(), createToAuthor);
         EmailUtil.sendEmailToParticipants(scheduleId, participantsGlobal, ActionTypeId.Create.getValue(), createToParticipant);
         EmailUtil.sendEmailToReferences(scheduleId, referencesGlobal, ActionTypeId.Create.getValue(), createToReference);
 
@@ -225,4 +225,5 @@ public class ScheduleMainController {
 
         return authorsSchedule;
     }
+
 }

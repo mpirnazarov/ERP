@@ -106,9 +106,9 @@ public class ScheduleDetailsController {
 
         int[] author = new int[1];
         author[0] = UserService.getIdByUsername(principal.getName());
-        EmailUtil.sendEmailToAuthor(scheduleId, author, ActionTypeId.Update.getValue(), updateToAuthor);
-        EmailUtil.sendEmailToParticipants(scheduleId, participantsGlobal, ActionTypeId.Update.getValue(), updateToParticipant);
-        EmailUtil.sendEmailToReferences(scheduleId, referencesGlobal, ActionTypeId.Update.getValue(), updateToReference);
+        // EmailUtil.sendEmailToAuthor(scheduleId, author, ActionTypeId.Update.getValue(), updateToAuthor);
+        // EmailUtil.sendEmailToParticipants(scheduleId, participantsGlobal, ActionTypeId.Update.getValue(), updateToParticipant);
+        // EmailUtil.sendEmailToReferences(scheduleId, referencesGlobal, ActionTypeId.Update.getValue(), updateToReference);
         return "redirect: /ScheduleManagement/main";
     }
 
@@ -125,7 +125,7 @@ public class ScheduleDetailsController {
         service.updateParticipantDecision(participantId, scheduleId, status, reason);
         int[] decider = new int[1];
         decider[0] = UserService.getIdByUsername(principal.getName());
-        EmailUtil.sendEmailToAuthorByDecider(scheduleId, decider, ActionTypeId.ParticipantDecide.getValue(), participantDecision);
+        // EmailUtil.sendEmailToAuthorByDecider(scheduleId, decider, ActionTypeId.ParticipantDecide.getValue(), participantDecision);
 
         HashMap<String, String> map = new HashMap<>();
         map.put("jovob", "");
@@ -146,9 +146,9 @@ public class ScheduleDetailsController {
         int[] author = new int[1];
         author[0] = UserService.getIdByUsername(principal.getName());
 
-        EmailUtil.sendEmailToAuthor(scheduleId, author, ActionTypeId.Delete.getValue(), deleteToAuthor);
+        /*EmailUtil.sendEmailToAuthor(scheduleId, author, ActionTypeId.Delete.getValue(), deleteToAuthor);
         EmailUtil.sendEmailToParticipants(scheduleId, participants, ActionTypeId.Delete.getValue(), deleteToOthers);
-        EmailUtil.sendEmailToReferences(scheduleId, references, ActionTypeId.Delete.getValue(), deleteToOthers);
+        EmailUtil.sendEmailToReferences(scheduleId, references, ActionTypeId.Delete.getValue(), deleteToOthers);*/
 
         service.deleteReference(scheduleId);
         service.deleteAttachment(scheduleId);
@@ -220,5 +220,24 @@ public class ScheduleDetailsController {
         FileCopyUtils.copy(inputStream, response.getOutputStream());
     }
 
-
+    /**
+     * This method consumes participants and references sent from client side, and assigns them to global variables
+     *
+     * @author Muslimbek Pirnazarov
+     * @param scheduleId
+     * @return Json of participants and references
+     */
+    @RequestMapping(value = "/SendEmail", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean ScheduleSendEmailPost(@RequestParam("scheduleId") int scheduleId) {
+        try {
+            EmailUtil.sendEmailToParticipants(scheduleId, service.getParticipantsByScheduleId(scheduleId), ActionTypeId.Send_Email.getValue(), "");
+            EmailUtil.sendEmailToReferences(scheduleId, service.getReferencesByScheduleId(scheduleId), ActionTypeId.Send_Email.getValue(), "");
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -27,8 +27,8 @@ public class EmailUtil {
         if (participantIds.length != 0 && participantIds != null) {
             for (int participantId : participantIds) {
                 subject = content.generateSubject(action);
-                msg = content.generateMessage(scheduleId, action, ScheduleEventInvolvement.Participant.getValue(), message, participantId);
-              //  mm.sendHtmlMail(participantId, subject, msg);
+                msg = content.generateMessage(scheduleId, action, ScheduleEventInvolvement.Participant.getValue(), participantId);
+                mm.sendHtmlMail(participantId, subject, msg);
             }
         }
     }
@@ -44,14 +44,14 @@ public class EmailUtil {
         if (referenceIds.length != 0 && referenceIds != null) {
             for (int referenceId : referenceIds) {
                 subject = content.generateSubject(action);
-                msg = content.generateMessage(scheduleId, action, ScheduleEventInvolvement.Referenced.getValue(), message, referenceId);
-               // mm.sendHtmlMail(referenceId, subject, msg);
+                msg = content.generateMessage(scheduleId, action, ScheduleEventInvolvement.Referenced.getValue(), referenceId);
+                mm.sendHtmlMail(referenceId, subject, msg);
             }
         }
     }
 
-    public static void sendEmailToAuthor(int scheduleId, int[] author, int action, String message) {
-        /* Sending to creator */
+    /*public static void sendEmailToAuthor(int scheduleId, int[] author, int action, String message) {
+        *//* Sending to creator *//*
         ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
         MailMail mm = (MailMail) context.getBean("mailMail");
         subject="";
@@ -61,13 +61,13 @@ public class EmailUtil {
 
         for (int i : author) {
             subject = content.generateSubject(action);
-            msg = content.generateMessage(scheduleId, action, ScheduleEventInvolvement.Author.getValue(), message, i);
+            msg = content.generateMessage(scheduleId, action, ScheduleEventInvolvement.Author.getValue(), i);
           //  mm.sendHtmlMail(i, subject, msg);
         }
     }
-
+*/
     public static void sendEmailToAuthorByDecider(int scheduleId, int[] decider, int action, String message) {
-        /* Sending to creator */
+        //* Sending to creator *//*
         ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
         MailMail mm = (MailMail) context.getBean("mailMail");
         subject="";
@@ -76,7 +76,7 @@ public class EmailUtil {
         int authorId = DetailsContext.getScheduleById(scheduleId).getAutherId();
 
         subject = content.generateSubject(action);
-        msg = content.generateMessage(scheduleId, action, ScheduleEventInvolvement.Author.getValue(), message, authorId);
+        msg = content.generateMessage(scheduleId, action, ScheduleEventInvolvement.Author.getValue(), authorId);
        // mm.sendHtmlMail(authorId, subject, msg);
 
     }

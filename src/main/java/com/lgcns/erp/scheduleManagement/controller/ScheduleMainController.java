@@ -183,9 +183,6 @@ public class ScheduleMainController {
     /**
      * Filter
      * @param userId
-     * @param isAuthor
-     * @param isParticipant
-     * @param isReference
      * @param start
      * @param end
      * @param principal
@@ -195,35 +192,14 @@ public class ScheduleMainController {
     @RequestMapping(value = "/Filter", method = RequestMethod.POST)
     public
     @ResponseBody
-    List<HashMap<String, Object>> filter(@RequestParam("userId") int userId,
-                                         @RequestParam("author") boolean isAuthor,
-                                         @RequestParam("participant") boolean isParticipant,
-                                         @RequestParam("reference") boolean isReference,
+    List<ScheduleVM> filter(@RequestParam("userId") int userId,
                                          @RequestParam("start") String start,
                                          @RequestParam("end") String end,
                                          Principal principal) throws ParseException {
         List<ScheduleVM> scheduleVMList = new ArrayList<>();
-        List<ScheduleVM> temps;
 
-        if (isAuthor) {
-            temps = service.getSchedulesWhereUserIsAuthor(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
-            if (temps.size() != 0 && temps != null)
-                scheduleVMList.addAll(temps);
-        }
-        if (isParticipant) {
-            temps = service.getSchedulesWhereUserIsParticipant(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
-            if (temps.size() != 0 && temps != null)
-                scheduleVMList.addAll(temps);
-        }
-        if (isReference) {
-            temps = service.getSchedulesWhereUserIsReference(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
-            if (temps.size()!=0 && temps!=null)
-                scheduleVMList.addAll(temps);
-        }
-
-        List<HashMap<String, Object>> authorsSchedule = ScheduleMainControllerUtil.putScheduleEventsToMap(scheduleVMList);
-
-        return authorsSchedule;
+        scheduleVMList = service.getScheduleList(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
+        return scheduleVMList;
     }
 
 }

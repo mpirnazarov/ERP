@@ -45,7 +45,7 @@ public class EmailUtil {
             for (int referenceId : referenceIds) {
                 subject = content.generateSubject(action);
                 msg = content.generateMessage(scheduleId, action, ScheduleEventInvolvement.Referenced.getValue(), referenceId);
-                mm.sendHtmlMail(referenceId, subject, msg);
+                //mm.sendHtmlMail(referenceId, subject, msg);
             }
         }
     }

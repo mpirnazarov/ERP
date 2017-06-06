@@ -16,9 +16,9 @@
     request.setAttribute("Mode", 2);
 } %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-offset-2">
-        <h1 class="page-header">Change password</h1>
+
+    <div class="mainBodyBlock">
+        <h1 class="headerText">Change password</h1>
         <br/>
         <div class="form-horizontal">
 
@@ -52,7 +52,7 @@
             </form:form>
         </div>
     </div>
-</div>
+
 <script>
     $(document).ready(function () {
         $("#changepassVM").validate({

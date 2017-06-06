@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by DS on 26.04.2017.
  */
+@Component
 public class EmailMessageContent {
 
     @Autowired

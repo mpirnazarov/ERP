@@ -13,9 +13,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="pageTitle" scope="request" value="Change password"/>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
-<div class="col-sm-9 col-md-offset-1">
-    <div class="col-lg-8 col-lg-offset-2">
-        <h1 class="page-header">Change password</h1>
+
+    <div class="mainBodyBlock">
+        <h1 class="headerText">Change password</h1>
         <br/>
         <div class="form-horizontal">
             <%--<form action="<c:url value='/user_changepass' />" method='POST'>
@@ -83,7 +83,7 @@
             </form:form>
         </div>
     </div>
-</div>
+
 <script>
     $(document).ready(function () {
         $("#changepassVM").validate({

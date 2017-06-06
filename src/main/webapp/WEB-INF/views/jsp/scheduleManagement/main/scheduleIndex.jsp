@@ -75,16 +75,10 @@
                     click: function () {
                         createEvent();
                     }
-                },
-                filterEventButton: {
-                    text: '⛁ Filter',
-                    click: function () {
-                        filterTrigger();
-                    }
                 }
             },
             header: {
-                left: 'prev,next today filterEventButton',
+                left: 'prev,next today',
                 center: 'createEventButton',
                 right: 'title'
             },
@@ -173,96 +167,10 @@
 
             },
             /*on EVENT click FUNCTION END*/
-            editable: false,
-            /*events: [
-             {
-             title: 'All Day Event',
-             start: '2017-04-01'
-             },
-             {
-             title: 'Long Event',
-             start: '2017-04-07',
-             end: '2017-04-10'
-             },
-             {
-             id: 999,
-             title: 'Repeating Event',
-             start: '2017-04-09T16:00:00'
-             },
-             {
-             id: 999,
-             title: 'Repeating Event',
-             start: '2017-04-16T16:00:00'
-             },
-             {
-             title: 'Conference',
-             start: '2017-04-11',
-             end: '2017-04-13'
-             },
-             {
-             start: '2017-04-17T10:30:00',
-             end: '2017-04-17T13:44:00',
-             title: 'Meetingggggg',
-             s_type: 3,
-             place: 'LG CNS Uzbekistan head office',
-             description: 'everyone MUST ET',
-             is_compulsory: true,
-             to_notify: false,
-             participantsList: [{
-             userId: 4,
-             status: null,
-             reason: null,
-             name: "Murodjon",
-             surname: "Muslimov",
-             departmentName: "Technical department",
-             jobTitle: "Developer"
-             }, {
-             userId: 7,
-             status: null,
-             reason: null,
-             name: "Shaykhov",
-             surname: "Jasur",
-             departmentName: "Technical department",
-             jobTitle: "Developer"
-             }]
-             },
-             {
-             title: 'Lunch',
-             start: '2017-04-12T12:00:00'
-             },
-             {
-             id: 1111,
-             usha: "asdasd",
-             title: 'Meeting',
-             start: '2017-04-12T14:30:00'
-             },
-             {
-             title: 'Happy Hour',
-             start: '2017-04-12T17:30:00'
-             },
-             {
-             title: 'Dinner',
-             start: '2017-04-12T20:00:00'
-             },
-             {
-             title: 'Birthday Party',
-             start: '2017-04-13T07:00:00'
-             },
-             {
-             title: 'Click for Google',
-             url: 'http://google.com/',
-             start: '2017-04-28'
-             },
-             {
-             title: 'Click for Google',
-             url: 'http://google.com/',
-             start: '2017-04-28T14:00:00'
-             }
-
-             ]*/
+            editable: false
         });
 
-        $("#calFilterSelectInput").tokenInput(${UserslistJson}, {tokenLimit: 1});
+        $("#calFilterSelectInputUsers").tokenInput(${UserslistJson},{tokenLimit: 1});
 
     });
 
@@ -723,13 +631,7 @@
         var view = calendar.view;
         var startOfWeek = view.start.format('YYYY-MM-DD');
         var endOfWeek = view.end.format('YYYY-MM-DD');
-        var chbAuthor = $('#calFilterCheckBoxAuthor');
-        var chbParticipant = $('#calFilterCheckBoxParticipant');
-        var chbReference = $('#calFilterCheckBoxReference');
         var currentUserId = '';
-        var fltAuthor = true;
-        var fltParticipant = true;
-        var fltReference = true;
 
 
         if (getOption == "filter") {
@@ -741,28 +643,7 @@
                 currentUserId = inputdata;
             }
 
-
-            if (chbAuthor.is(":checked")) {
-                fltAuthor = true;
-            } else {
-                fltAuthor = false;
-            }
-
-            if (chbParticipant.is(":checked")) {
-                fltParticipant = true;
-            } else {
-                fltParticipant = false;
-            }
-
-            if (chbReference.is(":checked")) {
-                fltReference = true;
-            } else {
-                fltReference = false;
-            }
-
-            calendarCommonAjax("POST", "/ScheduleManagement/Filter", "userId=" + currentUserId + "&author=" + fltAuthor + "&participant=" + fltParticipant + "&reference=" + fltReference + "&start=" + startOfWeek + "&end=" + endOfWeek, "filter");
-
-
+            calendarCommonAjax("POST", "/ScheduleManagement/Filter", "userId=" + currentUserId + "&start=" + startOfWeek + "&end=" + endOfWeek, "filter");
         } else {
             calendarCommonAjax("POST", "/ScheduleManagement/api/scheduleList", "start=" + startOfWeek + "&end=" + endOfWeek, "renderCurrentWeek");
             /*getSourceJson(startOfWeek, endOfWeek);*/
@@ -992,6 +873,7 @@
     }
 
     function filterTrigger(action) {
+        return false
 
         var filterDiv = $('#calFilterDiv');
 
@@ -1005,8 +887,6 @@
     }
 
     function renderFromJson(response) {
-
-
 
         $(response).each(function (i, res) {
 
@@ -1073,23 +953,11 @@
             </div>
         </div>
         <div id="calFilterDiv">
-            <div class="calFilterOptionsDiv">
-                <label class="checkbox-inline calfilterCheckBox">
-                    <input id="calFilterCheckBoxAuthor" type="checkbox" value="" checked>Author
-                </label>
-                <label class="checkbox-inline calfilterCheckBox">
-                    <input id="calFilterCheckBoxParticipant" type="checkbox" value="" checked>Participant
-                </label>
-                <label class="checkbox-inline calfilterCheckBox">
-                    <input id="calFilterCheckBoxReference" type="checkbox" value="" checked>Reference
-                </label>
-            </div>
             <div id="calFilterSelectGroup">
-                <label for="calFilterSelectInput">Search by user</label>
-                <input id="calFilterSelectInput">
+                <label for="calFilterSelectInputUsers">Search by user</label>
+                <input id="calFilterSelectInputUsers">
             </div>
-            <div class="btn calFilterSearchButton" type="button" onclick="getCurrentWeekDays('filter')"><span class="fa fa-filter" aria-hidden="true"> Filter</span></div>
-
+            <div class="btn btn-black calFilterSearchButton" onclick="getCurrentWeekDays('filter')">Filter</div>
         </div>
         <%--Calendar--%>
         <div id='calendar'></div>

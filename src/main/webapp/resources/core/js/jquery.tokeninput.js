@@ -28,7 +28,7 @@ var DEFAULT_SETTINGS = {
     hintText: "Type the name of employee",
     noResultsText: "No results",
     searchingText: "Searching...",
-    deleteText: "&times;",
+    deleteText: "&#10060;",
     animateDropdown: true,
 
 	// Tokenization settings
@@ -47,7 +47,8 @@ var DEFAULT_SETTINGS = {
     idPrefix: "token-input-",
 
 	// Formatters
-    resultsFormatter: function(item){ return "<li>" + "<div style='display: inline-block; width: 100%; line-height: 13px;'>" + "<p style='font-size: 20px;'>" + item[this.propertyToSearch] + "</p>" + "<p style='border-bottom-style: solid;'>" + item[this.myDepartment] + ", " + item[this.myJobTitle] + "</p>" + "</div>" + "</li>" },
+    /*resultsFormatter: function(item){ return "<li>" + "<div style='display: inline-block; width: 100%; line-height: 13px;'>" + "<p style='font-size: 17px;'>" + item[this.propertyToSearch] + "</p>" + "<p style='border-bottom-style: solid;'>" + item[this.myDepartment] + ", " + item[this.myJobTitle] + "</p>" + "</div>" + "</li>" },*/
+    resultsFormatter: function(item){ return "<li>" + "<div style='display: inline-block; width: 100%; line-height: 13px;'>" + "<p style='font-size: 17px;'>" + item[this.propertyToSearch] + " | " + "<span style='font-size:15px'>" + item[this.myDepartment] + ", " + item[this.myJobTitle] + "</span>" + "</p>" + "</div>" + "</li>" },
     tokenFormatter: function(item) { return "<li data-user-id = '" + item[this.myId] + "'>" + "<div style='width: 100%; line-height: 20px;'>" + "<p style='font-size: 17px;'>" + item[this.propertyToSearch] + " |  " + "</p>" + "<p style='line-height: 23px'>" + item[this.myDepartment] + ", " + item[this.myJobTitle] + "</p>" + "</div>" + "</li>" },
     /*resultsFormatter: function(item){ return "<li>" + "<img src='" + item.url + "' title='" + item.first_name + " " + item.last_name + "' height='25px' width='25px' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='full_name'>" + item.first_name + " " + item.last_name + "</div><div class='email'>" + item.email + "</div></div></li>" },*/
     /*resultsFormatter: function(item){ return "<li>" +  "<img src='/image/" + item[this.myId]+ ".jpg'" + " title='" + item[this.propertyToSearch] + "' height='25px' width='25px' />"+ "<div style='display: inline-block; width: 100%;  padding-left: 10px;'>" + item[this.propertyToSearch]+ "</div>" + item[this.myJobTitle] + "</li>" },*/

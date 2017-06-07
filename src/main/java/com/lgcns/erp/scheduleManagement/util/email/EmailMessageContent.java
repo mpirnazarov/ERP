@@ -1,7 +1,11 @@
 package com.lgcns.erp.scheduleManagement.util.email;
 
 import com.lgcns.erp.scheduleManagement.DBContext.DetailsContext;
+import com.lgcns.erp.scheduleManagement.DBContext.ParticipantContext;
+import com.lgcns.erp.scheduleManagement.DBContext.ReferenceContext;
 import com.lgcns.erp.scheduleManagement.DBContext.ScheduleMainContext;
+import com.lgcns.erp.scheduleManagement.DBEntities.ParticipantInScheduleEntity;
+import com.lgcns.erp.scheduleManagement.DBEntities.ReferenceInCheduleEntity;
 import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity;
 import com.lgcns.erp.scheduleManagement.enums.ActionTypeId;
 import com.lgcns.erp.scheduleManagement.enums.ScheduleEventInvolvement;
@@ -11,18 +15,22 @@ import com.lgcns.erp.scheduleManagement.service.ScheduleUpdateService;
 import com.lgcns.erp.tapps.DbContext.EmailService;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by DS on 26.04.2017.
  */
-@Component
+@Service
 public class EmailMessageContent {
 
-    @Autowired
-    ScheduleUpdateService scheduleUpdateService;
 
     @Autowired
     ScheduleMainService scheduleMainService;
@@ -42,34 +50,6 @@ public class EmailMessageContent {
         return msg;
     }
 
-    /*public String generateMessage(int scheduleId, int action, int involvementType, String message, int sentToId) {
-        *//* Message creation *//*
-        String msg = "";
-        ScheduleEntity scheduleEntity = DetailsContext.getScheduleById(scheduleId);
-        String creator = UserService.getUserFullNameInLanguageById(scheduleEntity.getAutherId(), 3);
-        String sentTo = UserService.getUserFullNameInLanguageById(sentToId, 3);
-
-        if (involvementType == ScheduleEventInvolvement.Author.getValue()) {
-            if (action == ActionTypeId.Create.getValue())
-                msg = String.format(message, creator, scheduleEntity.getTitle());
-            else if (action == ActionTypeId.Update.getValue())
-                msg = String.format(message, creator, scheduleEntity.getTitle());
-            else if (action == ActionTypeId.ParticipantDecide.getValue())
-                msg = String.format(message, creator, sentTo);
-            else
-                msg = String.format(message, creator, scheduleEntity.getTitle());
-        } else if (involvementType == ScheduleEventInvolvement.Participant.getValue() || involvementType == ScheduleEventInvolvement.Referenced.getValue()) {
-            if (action == ActionTypeId.Create.getValue())
-                msg = String.format(message, creator, scheduleEntity.getTitle(), sentTo);
-            else if (action == ActionTypeId.Update.getValue())
-                msg = String.format(message, sentTo, scheduleEntity.getTitle(), creator);
-            else if (action == ActionTypeId.Delete.getValue())
-                msg = String.format(message, sentTo, scheduleEntity.getTitle(), creator);
-        }
-
-        return msg;
-    }*/
-
 
     public String generateMessage(int scheduleId, int action, int roleType, int userId){
         if (ActionTypeId.Create.getValue()==action) {
@@ -77,7 +57,7 @@ public class EmailMessageContent {
         }else if(ActionTypeId.Send_Email.getValue()==action){
 
         }
-        ScheduleEntity scheduleEntity = scheduleUpdateService.getSchedule(scheduleId);
+        ScheduleEntity scheduleEntity =DetailsContext.getScheduleById(scheduleId);
         String participants="", references="";
         String calStart, calEnd, calLink , token, calAuthor, calUser, calCreationDate, calType, calTitle, calPlace, calDescription, msgCalInfo, msgCalParRef, msgCalForParticipant, msgCalForReference;
 
@@ -96,15 +76,15 @@ public class EmailMessageContent {
         calEnd = scheduleEntity.getDateTo().toString();
 
         /* Get all participants with their full name */
-        for (int participantId :
-                scheduleUpdateService.getParticipantsByScheduleId(scheduleId)) {
-            participants += UserService.getUserFullNameInLanguageById(participantId, 3) + "<br>";
+        for (ParticipantInScheduleEntity participant :
+                ParticipantContext.getParticipantsByScheduleId(scheduleId)) {
+            participants += UserService.getUserFullNameInLanguageById(participant.getUserId(), 3) + "<br>";
         }
 
         /* Get all references with their full name */
-        for (int referenceId :
-                scheduleUpdateService.getReferencesByScheduleId(scheduleId)) {
-            participants += UserService.getUserFullNameInLanguageById(referenceId, 3) + "<br>";
+        for (ReferenceInCheduleEntity reference :
+                ReferenceContext.getReferencesByScheduleId(scheduleId)) {
+            participants += UserService.getUserFullNameInLanguageById(reference.getUserId(), 3) + "<br>";
         }
 
         /* Firstly generate redirect URL */

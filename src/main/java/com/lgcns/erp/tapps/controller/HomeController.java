@@ -35,11 +35,11 @@ import java.security.Principal;
 @Controller
 public class HomeController {
 
-    @Autowired
+    /*@Autowired
     ScheduleUpdateService scheduleUpdateService;
 
     @Autowired
-    ScheduleMainService scheduleMainService;
+    ScheduleMainService scheduleMainService;*/
 
     @RequestMapping(value = "/")
     public String printWelcome(Principal principal) {
@@ -54,7 +54,7 @@ public class HomeController {
     }
 
     /* Test side. Must be deleted. */
-    @RequestMapping(value = "/htmlEmail")
+    /*@RequestMapping(value = "/htmlEmail")
     public void sendTestHTML(Principal principal) {
         String subject = "Schedule management";
         String msgBody = generateHtmlCode(1,301, 2);
@@ -89,19 +89,19 @@ public class HomeController {
         calStart = scheduleEntity.getDateFrom().toString();
         calEnd = scheduleEntity.getDateTo().toString();
 
-        /* Get all participants with their full name */
+        *//* Get all participants with their full name *//*
         for (int participantId :
                 scheduleUpdateService.getParticipantsByScheduleId(scheduleId)) {
             participants += UserService.getUserFullNameInLanguageById(participantId, 3) + "<br>";
         }
 
-        /* Get all references with their full name */
+        *//* Get all references with their full name *//*
         for (int referenceId :
                 scheduleUpdateService.getReferencesByScheduleId(scheduleId)) {
             participants += UserService.getUserFullNameInLanguageById(referenceId, 3) + "<br>";
         }
 
-        /* Firstly generate redirect URL */
+        *//* Firstly generate redirect URL *//*
         String redirectUrl = "/ScheduleManagement/main";
         token = EmailService.generateToken(userId, redirectUrl, 168);
         calLink = "http://192.168.1.122/auth?token=" + token;
@@ -406,7 +406,7 @@ public class HomeController {
 
 
         return html;
-    }
+    }*/
 
 
 }

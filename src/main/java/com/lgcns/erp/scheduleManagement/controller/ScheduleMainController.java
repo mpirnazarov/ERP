@@ -196,7 +196,7 @@ public class ScheduleMainController {
                                          @RequestParam("start") String start,
                                          @RequestParam("end") String end,
                                          Principal principal) throws ParseException {
-        List<ScheduleVM> scheduleVMList = new ArrayList<>();
+        List<ScheduleVM> scheduleVMList;
 
         scheduleVMList = service.getScheduleList(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
         return scheduleVMList;

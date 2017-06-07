@@ -8,6 +8,8 @@ import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity;
 import com.lgcns.erp.scheduleManagement.service.ScheduleUpdateService;
 import com.lgcns.erp.scheduleManagement.util.AttachmentUtil;
 import com.lgcns.erp.workflow.DBEntities.AttachmentsEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +18,7 @@ import java.util.List;
 /**
  * Created by DS on 17.04.2017.
  */
+@Service
 public class ScheduleUpdateImpl implements ScheduleUpdateService {
     @Override
     public void deleteParticipant(int scheduleId) {

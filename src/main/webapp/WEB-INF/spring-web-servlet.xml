@@ -10,8 +10,9 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<context:component-scan base-package="com.lgcns.erp.tapps.controller, com.lgcns.erp.hr.controller, com.lgcns.erp.workflow.controller, com.lgcns.erp.scheduleManagement, com.lgcns.erp.attendanceManagement" />
-	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
+	<context:component-scan base-package="com.lgcns.erp.tapps.controller, com.lgcns.erp.hr.controller, com.lgcns.erp.workflow.controller, com.lgcns.erp.attendanceManagement" />
+	<context:component-scan base-package="com.lgcns.erp.scheduleManagement.controller"/>
+    <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -51,8 +52,15 @@
 		</property>
 	</bean>
 
-	<bean id="ScheduleTestService" class="com.lgcns.erp.scheduleManagement.serviceImpl.ScheduleMainmpl"></bean>
-	<bean id="sceduleUpdate" class="com.lgcns.erp.scheduleManagement.serviceImpl.ScheduleUpdateImpl"></bean>
+	<bean id="ScheduleTestService" class="com.lgcns.erp.scheduleManagement.serviceImpl.ScheduleMainmpl">
+
+	</bean>
+
+	<bean id="sceduleUpdate" class="com.lgcns.erp.scheduleManagement.serviceImpl.ScheduleUpdateImpl">
+
+	</bean>
+
+
 
 	<!--<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>

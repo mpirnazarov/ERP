@@ -192,14 +192,15 @@ public class ScheduleMainController {
     @RequestMapping(value = "/Filter", method = RequestMethod.POST)
     public
     @ResponseBody
-    List<ScheduleVM> filter(@RequestParam("userId") int userId,
+    List<HashMap<String, Object>> filter(@RequestParam("userId") int userId,
                                          @RequestParam("start") String start,
                                          @RequestParam("end") String end,
                                          Principal principal) throws ParseException {
         List<ScheduleVM> scheduleVMList;
 
         scheduleVMList = service.getScheduleList(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
-        return scheduleVMList;
+        List<HashMap<String, Object>> weeklySchedule = ScheduleMainControllerUtil.putScheduleEventsToMap(scheduleVMList);
+        return weeklySchedule;
     }
 
 }

@@ -376,9 +376,9 @@
             $('#CalendarModalViewParticipantsButtonGroup').hide();
             $('#eventViewAuthor').parent().hide()
         } else if (isParticipate) {
-            $('#eventViewAuthor').parent().show();
             $(${UserslistJson}).each(function (i,us) {
                 if(us.id == EventAuthorId){
+                    $('#eventViewAuthor').parent().show();
                     $('#eventViewAuthor').append('<span title="' + us.jobTitle + ", " + us.departmentName + '" class="calendarMemberPill authorPill">' + '<span class="fa fa-user" aria-hidden="true"></span>' + ' ' + us.name + '</span>');
                 }
             });
@@ -635,12 +635,20 @@
 
 
         if (getOption == "filter") {
-            var inputdata = $('#calFilterSelectGroup li').first().data('user-id')
+            var inputdata = $('#calFilterSelectGroup li').first().data('user-id');
 
             if (typeof inputdata == 'undefined') {
+                $('#calendar').fullCalendar({selectable: true})
+                $('button.fc-createEventButton-button').attr('disabled',false);
+                $('button.fc-createEventButton-button').css('opacity',1);
                 currentUserId = ${userId};
             } else {
+                $('#calendar').fullCalendar({selectable: false})
+                $('button.fc-createEventButton-button').attr('disabled',true);
+                $('button.fc-createEventButton-button').css('opacity',0.4);
                 currentUserId = inputdata;
+
+
             }
 
             calendarCommonAjax("POST", "/ScheduleManagement/Filter", "userId=" + currentUserId + "&start=" + startOfWeek + "&end=" + endOfWeek, "filter");

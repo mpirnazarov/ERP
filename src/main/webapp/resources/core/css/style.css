@@ -529,6 +529,7 @@ a:visited {
 /*         My Buttons            */
 /*-------------------------------*/
 
+
 .sar-btn {
     color: #fff;
     text-decoration: none;
@@ -1741,6 +1742,53 @@ a.fc-time-grid-event:hover
 .page-header {
     border-bottom: 2px solid rgba(120, 120, 120, 0.39);
     margin: 40px 0 40px;
+}
+
+.head-nav-group
+{
+    margin: 0px -25px 0px -25px;
+    float: right;
+    width: 50%;
+    display: inline-flex;
+}
+
+.head-nav-tab
+{
+    height: 100%;
+    color: #787878;
+    margin-right: 15px;
+    text-align: center;
+    width: 10%;
+    padding: 10px 0px 0px 0px;
+    border-bottom: 4px solid #787878;
+}
+
+.head-nav-tab:hover
+{
+    color: #a50034;
+    border-color:#a50034;
+    cursor: pointer;
+}
+
+.head-nav-tab .head-icon
+{
+    font-size: 30px;
+}
+
+.head-nav-tab .head-text
+{
+    font-size: 14px;
+    font-weight: 800;
+    color: inherit;
+}
+
+.head-nav-tab .head-nav-counter
+{
+    background-color: #72bd69;
+    color: white;
+    border-bottom-left-radius: 100%;
+    border-bottom-right-radius: 100%;
+    border-color: #a50034;
 }
 
 

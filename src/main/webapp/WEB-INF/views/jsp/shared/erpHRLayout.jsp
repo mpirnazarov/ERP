@@ -209,15 +209,7 @@
                 <div id="collapseWF" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingWF">
                     <div class="panel-body">
                         <ul style="list-style: none" class="list-group">
-                            <li class="well">
-                                <a id="workflowPanelButton" class="linkcolor" role="button" data-toggle="collapse"
-                                   href="#collapseNewForm" aria-expanded="true"
-                                   aria-controls="collapseNewForm"><span class="glyphicon glyphicon-minus-sign"
-                                                                         aria-hidden="true"></span>
-                                    New Form
-                                </a>
-                                <div class="collapse in" id="collapseNewForm">
-
+                            <li>
                                     <ul style="list-style: none" class="list-group">
                                         <li><a href="/Workflow/NewForm/BusinessTripForm"><span
                                                 class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
@@ -232,10 +224,8 @@
                                                 Unformatted</a>
                                         </li>
                                     </ul>
-
-                                </div>
                             </li>
-                            <li class="well">
+                            <%--<li class="well">
                                 <a id="workflowPanelButton2" class="linkcolor" role="button" data-toggle="collapse"
                                    href="#collapseMyForm" aria-expanded="false"
                                    aria-controls="collapseMyForm"><span class="glyphicon glyphicon-minus-sign"
@@ -257,13 +247,13 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </li>
+                            </li>--%>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <div class="panel panel-default">
+            <%--<div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingSchedule">
                     <h4 class="panel-title">
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#Nav-accordion"
@@ -282,7 +272,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div>--%>
 
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingThree">

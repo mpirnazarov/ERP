@@ -22,11 +22,11 @@ public class MembersMapper {
         member.setFirstName(userLocalizationsEntity.getFirstName());
         member.setLastName(userLocalizationsEntity.getLastName());
         member.setDepartment(DepartmentService.getDepartmentLocsByDeptId(usersEntity.getDepartmentId(), 3).getName());
-        /*try {
+        try {
             member.setJobTitle(UserService.getUserJobTitle(userId));
         }catch (Exception e){
             e.printStackTrace();
-        }*/
+        }
 
         return member;
     }

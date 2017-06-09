@@ -64,8 +64,6 @@
      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">--%>
 
 
-
-
     <style>
         .error {
             color: #ff0000;
@@ -255,7 +253,6 @@
         <%--Header div--%>
 
         <div id="mainHeaderDiv">
-
             <a href="/">
                 <img border="0" alt="" src="/resources/images/SmartOffice-Logo-Full.png" class="smartOfficeLogo">
             </a>
@@ -265,15 +262,35 @@
             <div onclick="location.href='/logout';" class="btn btn-darkred logoutButton"><span
                     class="fa fa-fw fa-power-off"></span>Logout
             </div>
-
             <div style="float: right; margin-top: 10px; padding-right: 10px">
                 <img src="/image/<%= request.getAttribute("userId") %>.jpg"
                      onerror="this.src='/resources/images/ppicture.png'" class="userImgBox-small">
                 <%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
-
             </div>
-
-
+            <%--Tabs--%>
+            <div class="head-nav-group">
+                <div class="head-nav-tab" onclick="location.href = '/Workflow/MyForms/Request'">
+                    <span class="fa fa-pencil-square-o head-icon"></span>
+                    <p class="head-text">Requests</p>
+                    <div id="head-nav-counter-request" class="head-nav-counter">
+                        4
+                    </div>
+                </div>
+                <div class="head-nav-tab" onclick="location.href = '/Workflow/MyForms/todo/load'">
+                    <span class="fa fa-check-square-o head-icon"></span>
+                    <p class="head-text">To-Do</p>
+                    <div id="head-nav-counter-todo" class="head-nav-counter">
+                        8
+                    </div>
+                </div>
+                <div class="head-nav-tab" onclick="location.href = '/ScheduleManagement/main'">
+                    <span class="fa fa-calendar head-icon"></span>
+                    <p class="head-text">Scheduler</p>
+                    <div id="head-nav-counter-scheduler" class="head-nav-counter">
+                        1
+                    </div>
+                </div>
+            </div>
         </div>
 
 

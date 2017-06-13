@@ -648,6 +648,26 @@ public class WorkflowService {
         return list;
     }
 
+    public static List<StepsEntity> getStepsByRequestIdFilterInvolvement(int requestId, int involvementId) {
+        List<StepsEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from StepsEntity WHERE requestId=:reqId AND involvementTypeId = :involvementId");
+            query.setParameter("reqId", requestId);
+            query.setParameter("involvementId", involvementId);
+            list = (List<StepsEntity>) query.list();
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
+    }
+
     public static String getTripType(int typeOfBusinessTrip) {
         TripTypesEntity entity = null;
         Session session = HibernateUtility.getSessionFactory().openSession();

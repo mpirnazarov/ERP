@@ -7,11 +7,16 @@ import com.lgcns.erp.scheduleManagement.DBEntities.ReferenceInCheduleEntity;
 import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleAttachmentsEntity;
 import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity;
 import com.lgcns.erp.scheduleManagement.enums.ParticipantStatus;
+import com.lgcns.erp.scheduleManagement.enums.ScheduleType;
 import com.lgcns.erp.scheduleManagement.util.ParticipantUtil;
 import com.lgcns.erp.scheduleManagement.util.ReferenceUtil;
 import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
+import com.lgcns.erp.workflow.DBContext.WorkflowService;
+import com.lgcns.erp.workflow.DBEntities.RequestsEntity;
+import com.lgcns.erp.workflow.Enums.LeaveType;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,4 +113,35 @@ public class ScheduleMainMapper {
         scheduleAttachmentsEntity.setAttachmentPath("C:/files/documents/schedule/" + scheduleId + "/" + multipartFile.getOriginalFilename());
         return scheduleAttachmentsEntity;
     }
+
+    public static ScheduleEntity mapScheduleFromWorkflowToEntity(int requestId) {
+        RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(requestId);
+
+        ScheduleEntity scheduleEntity = new ScheduleEntity();
+        scheduleEntity.setTitle(LeaveType.values()[requestsEntity.getLeaveTypeId()].name().replace("_", " "));
+        scheduleEntity.setDescription(requestsEntity.getDescription());
+        /* No schedule place */
+        scheduleEntity.setStype(ScheduleType.Other.getValue());
+        /* Should be reviewed */
+        scheduleEntity.setOther("Busy");
+        if(requestsEntity.getDateFrom()==null || requestsEntity.getDateTo()==null){
+            return null;
+        }
+        scheduleEntity.setDateFrom(getTimestamp(requestsEntity.getDateFrom()));
+        scheduleEntity.setDateTo(getTimestamp(requestsEntity.getDateTo()));
+        scheduleEntity.setCompulsory(Boolean.TRUE);
+        scheduleEntity.setToNotify(Boolean.FALSE);
+        scheduleEntity.setDraft(Boolean.FALSE);
+        scheduleEntity.setAutherId(requestsEntity.getUserFromId());
+
+
+
+        return scheduleEntity;
+    }
+
+    public static Timestamp getTimestamp(java.util.Date date){
+        return date == null ? null : new java.sql.Timestamp(date.getTime());
+    }
+
+
 }

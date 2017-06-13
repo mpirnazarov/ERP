@@ -5,12 +5,15 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.lgcns.erp.attendanceManagement.DBContext.AttendanceMainContext;
+import com.lgcns.erp.attendanceManagement.mapper.AttendanceManagementMapper;
 import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity;
 import com.lgcns.erp.scheduleManagement.enums.ScheduleType;
 import com.lgcns.erp.scheduleManagement.service.ScheduleMainService;
 import com.lgcns.erp.scheduleManagement.service.ScheduleUpdateService;
 import com.lgcns.erp.tapps.DbContext.EmailService;
 import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.workflow.controller.email.MailMail;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -54,21 +57,20 @@ public class HomeController {
     }
 
     /* Test side. Must be deleted. */
-    /*@RequestMapping(value = "/htmlEmail")
+    @RequestMapping(value = "/htmlEmail")
     public void sendTestHTML(Principal principal) {
         String subject = "Schedule management";
-        String msgBody = generateHtmlCode(1,301, 2);
 
-
-        try {
-            EmailService.sendHtmlMail(2, subject, msgBody);
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (UsersEntity user :
+                UserService.getAllUsers()) {
+            if(user.isEnabled()){
+                AttendanceMainContext.insertAttendance(AttendanceManagementMapper.mapAttendanceManagement(user.getId()));
+            }
         }
 
 
     }
-
+/*
     private String generateHtmlCode(int roleType, int scheduleId, int userId){
 
         ScheduleEntity scheduleEntity = scheduleUpdateService.getSchedule(scheduleId);

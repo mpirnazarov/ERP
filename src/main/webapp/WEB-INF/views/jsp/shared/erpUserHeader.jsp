@@ -48,6 +48,7 @@
     <spring:url value="/resources/core/js/jquery.scrollbar.min.js" var="scrollJs"/>
     <spring:url value="/resources/core/js/main.js" var="main"/>
     <spring:url value="/resources/core/js/bootstrap-datepicker.min.js" var="bootstrapDatePickerJS"/>
+    <spring:url value="/resources/core/js/common-hr.js" var="commonHrJs"/>
 
     <script src="${jquery}"></script>
     <script type="text/javascript" src="${allInOneJs}"></script>
@@ -55,6 +56,7 @@
     <script src="${scrollJs}"></script>
     <script src="${bootstrapJs}"></script>
     <script src="${bootstrapDatePickerJS}"></script>
+    <script src="${commonHrJs}"></script>
 
     <link rel="icon" type="image/x-icon" href="<s:url value="/resources/images/SmartOffice-Logo.png"/>"/>
 
@@ -99,6 +101,8 @@
 
 <script>
 
+   /* mainCommonAjax("GET","/Workflow/MyForms/Request/Notification","",true,"getNotificationsRequest");*/
+
 
     /*load Ovrelay*/
     var sarOv = document.getElementById("sarOv");
@@ -130,6 +134,7 @@
         }
     });
     /*Resize Prevent*/
+
 
 </script>
 
@@ -248,6 +253,8 @@
                 }
             })
 
+
+
         </script>
 
         <%--Header div--%>
@@ -287,11 +294,18 @@
                     <span class="fa fa-calendar head-icon"></span>
                     <p class="head-text">Scheduler</p>
                     <div id="head-nav-counter-scheduler" class="head-nav-counter">
-                        1
+
                     </div>
                 </div>
             </div>
         </div>
 
+                <script>
+                    getNotificationsFromAjax();
+                </script>
 
-<%--Header div END--%>
+
+        <%--Header div END--%>
+
+
+

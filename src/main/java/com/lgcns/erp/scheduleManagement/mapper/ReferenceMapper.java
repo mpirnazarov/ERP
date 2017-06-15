@@ -5,6 +5,7 @@ import com.lgcns.erp.scheduleManagement.viewModel.ReferenceVM;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UserController;
 import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
+import com.lgcns.erp.workflow.DBEntities.StepsEntity;
 import com.lgcns.erp.workflow.Mapper.BusinessTripMapper;
 
 import java.util.ArrayList;
@@ -39,5 +40,14 @@ public class ReferenceMapper {
         }
 
         return referenceVMList;
+    }
+
+    public static ReferenceInCheduleEntity mapReferenceListToScheduleFromWorkflow(StepsEntity referenceStep, int scheduleId) {
+        ReferenceInCheduleEntity referenceInCheduleEntity = new ReferenceInCheduleEntity();
+
+        referenceInCheduleEntity.setScheduleId(scheduleId);
+        referenceInCheduleEntity.setUserId(referenceStep.getUserId());
+
+        return referenceInCheduleEntity;
     }
 }

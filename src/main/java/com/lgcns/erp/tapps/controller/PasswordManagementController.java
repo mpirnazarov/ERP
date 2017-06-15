@@ -6,6 +6,7 @@ import com.lgcns.erp.tapps.Enums.RestorePasswordMessage;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import com.lgcns.erp.tapps.model.MessageResponse;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +14,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.security.Principal;
 import java.security.SecureRandom;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +31,9 @@ import java.util.Map;
  */
 @Controller
 public class PasswordManagementController {
+
+    @Autowired
+    private HttpServletRequest request;
 
     @RequestMapping(value = "/restorePassword" , method = RequestMethod.POST)
     public @ResponseBody
@@ -54,7 +64,16 @@ public class PasswordManagementController {
             String secret = pwd;
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); //for hashing
             String subject = "Password changed";
-            String message = "New password: " + secret;
+            InetAddress internetAddress = null;
+            String ip = null;
+
+            ip = request.getRemoteAddr();
+            /*internetAddress = InetAddress.getByName(ip);
+            System.out.println("INTERNET ADDRESS: " + ip + " | " + InetAddress.getByName(ip).toString());*/
+
+            String message = "New password: " + secret + "<br>"
+                    + "Password changed from: " + "<br>" +
+                    "IP: " + ip + "<br>";
             EmailService.sendHtmlMail(id, subject, message);
             UserService.updatePassword(UserService.getUserById(id), passwordEncoder.encode(secret));
         }catch (IOException e){

@@ -1,6 +1,12 @@
 package com.lgcns.erp.workflow.DBContext;
 
 import com.lgcns.erp.hr.enums.WorkloadType;
+import com.lgcns.erp.scheduleManagement.DBContext.ParticipantContext;
+import com.lgcns.erp.scheduleManagement.DBContext.ReferenceContext;
+import com.lgcns.erp.scheduleManagement.DBContext.ScheduleMainContext;
+import com.lgcns.erp.scheduleManagement.mapper.ReferenceMapper;
+import com.lgcns.erp.scheduleManagement.mapper.ScheduleMainMapper;
+import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
 import com.lgcns.erp.tapps.DbContext.EmailService;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
 import com.lgcns.erp.tapps.DbContext.WorkloadServices;
@@ -70,9 +76,23 @@ public class WorkflowToDoApproveService {
             if (entity.getLeaveTypeId()!=null&&(entity.getLeaveTypeId()==LeaveType.Annual_leave.getValue()
                     ||entity.getLeaveTypeId()==LeaveType.Sick_leave.getValue()))
                 addHours(entity);
+            addToSchedule(requestId);
             sendEmailAfterLastApproves(requestId);
-
             return -1;
+        }
+    }
+
+    private static void addToSchedule(int requestId) throws IOException{
+
+        RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(requestId);
+        if(requestsEntity.getTypeId().intValue() == Type.Leave.getValue()){
+            int scheduleId = ScheduleMainContext.insertSchedule(ScheduleMainMapper.mapScheduleFromWorkflowToEntity(requestId));
+            /* Set references */
+            for (StepsEntity step :
+                    WorkflowService.getStepsByRequestIdFilterInvolvement(requestId, 3)) {
+                ReferenceContext.insertReference(ReferenceMapper.mapReferenceListToScheduleFromWorkflow(step, scheduleId));
+            }
+
         }
     }
 

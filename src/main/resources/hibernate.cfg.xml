@@ -65,6 +65,7 @@
         <mapping class="com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity"/>
         <mapping class="com.lgcns.erp.scheduleManagement.DBEntities.ScheduleAttachmentsEntity"/>
         <mapping class="com.lgcns.erp.scheduleManagement.DBEntities.ParticipantInScheduleEntity"/>
+        <mapping class="com.lgcns.erp.attendanceManagement.DBEntities.AttendanceManagementEntity"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

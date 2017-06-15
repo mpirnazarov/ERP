@@ -1,45 +1,4 @@
 /**
- * Created by JAS SHAYKHOV on 11/30/2016.
- */
-
-$(document).ready(function(){
-    $('.__scrollBar').scrollbar();
-});
-/*menu handler*/
-$(document).ready(function(){
-$(function(){
-    function stripTrailingSlash(str) {
-        if(str.substr(-1) == '/') {
-            return str.substr(0, str.length - 1);
-        }
-        return str;
-    }
-
-    var url = window.location.pathname;
-    var activePage = stripTrailingSlash(url);
-
-    $('.nav li a').each(function(){
-        var currentPage = stripTrailingSlash($(this).attr('href'));
-
-        if (activePage == currentPage) {
-            $(this).parent().addClass('active');
-        }
-    });
-});
-});
-$(document).ready(function () {
-    $(".filingbutton").click(function (e) {
-        e.preventDefault();
-        var obj = $("#"+$(this).attr("data-target"));
-        var element = $(this);
-        obj.click();
-        obj.change(function () {
-            element.text($(this).val().replace(/^.*[\\\/]/, ''));
-        });
-    })
-
-});
-/**
  * Created by Sarvar on 09.06.2017.
  */
 /*-----------*/
@@ -125,12 +84,13 @@ var commonAjax = new function () {
 /*Main   Ajax*/
 /*-----------*/
 
-function mainCommonAjax(type, url, data, async) {
+function mainCommonAjax(type, url, data, async, callbackFunc) {
     var currentResponse;
     var currentType = type;
     var currentUrl = url;
     var currentData = data;
     var async = async;
+    var callBack = callbackFunc;
 
 
     $.ajax({
@@ -143,6 +103,11 @@ function mainCommonAjax(type, url, data, async) {
         },
         error: function (e) {
             alert('Error: ' + e);
+        },
+        complete: function (response) {
+            if(callbackFunc != ""){
+
+            }
         }
     });
 
@@ -152,11 +117,28 @@ function mainCommonAjax(type, url, data, async) {
 /*-----------------*/
 /*Tab Notifications*/
 /*-----------------*/
+function getNotificationsRequest(data) {
+    var requests = data;
+    var requestTab = $('#head-nav-counter-request');
+    requestTab.css('background-color','red');
+    requestTab.text(data);
+
+};
+
+function getNotificationsToDo(data) {
+    var todos = data;
+    var todosTab = $('#head-nav-counter-todo');
+
+    todosTab.css('background-color','red');
+    todosTab.text(data);
+};
 
 function getNotificationsFromAjax() {
 
-    var request_notifications = 0;
-    var toDo_notifications = 0;
+    var request_notifications , toDo_notifications;
+    var todosTab = $('#head-nav-counter-todo');
+    var requestTab = $('#head-nav-counter-request');
+
 
     $.get("/Workflow/MyForms/Request/Notification",function (data,status) {
         request_notifications = data;
@@ -164,8 +146,28 @@ function getNotificationsFromAjax() {
 
     $.get("/Workflow/MyForms/todo/notification",function (data,status) {
         toDo_notifications = data;
-        alert("Requests: " + request_notifications + " To-Do: " + toDo_notifications);
+
+        if (request_notifications == 0){
+            requestTab.hide();
+        }else {
+            requestTab.show();
+            requestTab.html(request_notifications);
+        }
+
+        if(toDo_notifications == 0){
+            todosTab.hide();
+        }else {
+            todosTab.show();
+            todosTab.html(toDo_notifications);
+        }
+
+        /*alert("requet: " + request_notifications + "\nTo-Do: " + toDo_notifications )*/
     });
+
+
+
+
+
 
 
 

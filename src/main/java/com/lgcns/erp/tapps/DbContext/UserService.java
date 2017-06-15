@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
@@ -1733,7 +1734,7 @@ public class UserService {
         return userInPostsEntity;
     }
 
-    public static UserInPostsEntity getMaxUserInPostByUserId(int id) {
+    public static UserInPostsEntity getMaxUserInPostByUserId(int id) throws IOException{
         UserInPostsEntity userInPostsEntity = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;

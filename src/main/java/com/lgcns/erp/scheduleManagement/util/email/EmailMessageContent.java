@@ -64,7 +64,7 @@ public class EmailMessageContent {
         calAuthor = UserService.getUserFullNameInLanguageById(scheduleEntity.getAutherId(), 3);
         calUser = "User";
         if(scheduleEntity.getStype()!= ScheduleType.Other.getValue()){
-            calType = ScheduleType.values()[scheduleEntity.getStype()].name().replace("_", " ");
+            calType = ScheduleType.values()[scheduleEntity.getStype()-1].name().replace("_", " ");
         }else{
             calType = scheduleEntity.getOther();
         }
@@ -321,7 +321,7 @@ public class EmailMessageContent {
                 "                  \n" +
                 "                    <!--[if mso]><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"><tr><td style=\"padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 0px;\"><![endif]-->\n" +
                 "<div style=\"padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 0px;\">\n" +
-                "\t<div style=\"font-size:12px;line-height:14px;color:#555555;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;text-align:left;\"><p style=\"margin: 0;font-size: 12px;line-height: 14px\">Dear,&nbsp;" + calUser + "</p><p style=\"margin: 0;font-size: 12px;line-height: 14px\">&nbsp;</p><p style=\"margin: 0;font-size: 12px;line-height: 14px\">We would like to notify you that, " + calAuthor + " is created " + calType + " at " + calCreationDate + ".&nbsp;</p></div>\n" +
+                "\t<div style=\"font-size:12px;line-height:14px;color:#555555;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;text-align:left;\"><p style=\"margin: 0;font-size: 12px;line-height: 14px\">Dear,&nbsp;" + calUser + "</p><p style=\"margin: 0;font-size: 12px;line-height: 14px\">&nbsp;</p><p style=\"margin: 0;font-size: 12px;line-height: 14px\">We would like to notify you that, " + calAuthor + " created event of type " + calType + ".&nbsp;</p></div>\n" +
                 "</div>\n" +
                 "<!--[if mso]></td></tr></table><![endif]-->\n" +
                 "\n" +

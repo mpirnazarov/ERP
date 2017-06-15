@@ -74,8 +74,7 @@ public class MailMail {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(UserService.getUserById(idTo).geteMail()));
             message.setSubject(subject);
-            message.setContent("<h1><a href='http://localhost:9997/auth?token=" + msg + "'>Authorize</a></h1>" +
-                            "</br>Token: " + msg,
+            message.setContent(msg,
                     "text/html");
             Transport.send(message);
 

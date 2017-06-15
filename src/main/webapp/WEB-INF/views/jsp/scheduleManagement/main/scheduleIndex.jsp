@@ -367,6 +367,9 @@
         var EventIsDraft = calEvent.is_draft;
         var EventStart = moment(calEvent.start).format('YYYY/MM/DD HH:mm');
         var EventEnd = moment(calEvent.end).format('YYYY/MM/DD HH:mm');
+        var a_name = response.UserslistJson.name;
+        var a_jobtitle = response.UserslistJson.jobTitle;
+        var a_department = response.UserslistJson.department;
 
 
 

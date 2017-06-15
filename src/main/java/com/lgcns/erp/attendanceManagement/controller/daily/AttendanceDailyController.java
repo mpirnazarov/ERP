@@ -15,12 +15,12 @@ import java.security.Principal;
 @RequestMapping(value = "/Attendance")
 public class AttendanceDailyController {
 
-    @RequestMapping(value = "/Daily", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/Daily", method = RequestMethod.GET)
     public ModelAndView WorkflowGET(Principal principal) {
         ModelAndView mav = new ModelAndView();
         mav = UP.includeUserProfile(mav, principal);
         mav.setViewName("attendanceManagement/dailyView/daily");
         return mav;
-    }
+    }*/
 
 }

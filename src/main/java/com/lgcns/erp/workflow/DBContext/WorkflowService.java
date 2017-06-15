@@ -744,10 +744,8 @@ public class WorkflowService {
                 jsonObject.put("jobTitle", member.getJobTitle());
                 jsonObject.put("department", member.getDepartment());
 
-                if (user.getUserName().compareTo(principal.getName()) != 0) {
-                    // add object to array
-                    jsonArray.add(jsonObject);
-                }
+                // add object to array
+                jsonArray.add(jsonObject);
             }
         }
         // add JSON array to ModelAndView

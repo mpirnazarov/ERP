@@ -198,7 +198,13 @@ public class ScheduleMainController {
                                          Principal principal) throws ParseException {
         List<ScheduleVM> scheduleVMList;
 
-        scheduleVMList = service.getScheduleList(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
+        if (userId==0){
+            userId=UserService.getIdByUsername(principal.getName());
+            scheduleVMList = service.getScheduleList(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
+        }else{
+            scheduleVMList = service.getSchedulesWhereUserIsParticipant(convertStringToTimeStamp(start), convertStringToTimeStamp(minusOneDay(end)), userId);
+        }
+
         List<HashMap<String, Object>> weeklySchedule = ScheduleMainControllerUtil.putScheduleEventsToMap(scheduleVMList);
         return weeklySchedule;
     }

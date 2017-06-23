@@ -1,3 +1,4 @@
+/*
 package com.lgcns.erp.attendanceManagement.DBContext;
 
 import com.lgcns.erp.attendanceManagement.DBEntities.AttendanceManagementEntity;
@@ -12,16 +13,20 @@ import org.hibernate.query.Query;
 import java.io.IOException;
 import java.util.List;
 
+*/
 /**
  * Created by DS on 12.04.2017.
- */
+ *//*
+
 public class AttendanceMainContext {
 
 
-    /**
+    */
+/**
      * Manually inserts attendance
      * @param attendanceManagementEntity
-     */
+     *//*
+
     public static void insertAttendance(AttendanceManagementEntity attendanceManagementEntity) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -66,3 +71,4 @@ public class AttendanceMainContext {
 
 
 }
+*/

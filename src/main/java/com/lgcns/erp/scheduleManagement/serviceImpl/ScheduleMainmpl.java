@@ -71,4 +71,9 @@ public class ScheduleMainmpl implements ScheduleMainService {
 
         return scheduleVMList;
     }
+
+    @Override
+    public int getScheduleCountWhereUserIsParticipantOrReference(Timestamp end, int userId) {
+        return ScheduleMainContext.getScheduleCountWhereUserIsParticipantOrReference(end, userId);
+    }
 }

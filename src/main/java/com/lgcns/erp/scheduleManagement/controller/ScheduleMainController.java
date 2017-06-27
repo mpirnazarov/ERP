@@ -209,4 +209,17 @@ public class ScheduleMainController {
         return weeklySchedule;
     }
 
+
+    @RequestMapping(value = "/Notification")
+    public @ResponseBody Object getScheduleCountByUser(Principal principal){
+        int userId = UserService.getIdByUsername(principal.getName());
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        int count = service.getScheduleCountWhereUserIsParticipantOrReference(convertStringToTimeStamp(timeStamp), userId);
+
+        if (count==0)
+            return "";
+        else
+            return count;
+    }
+
 }

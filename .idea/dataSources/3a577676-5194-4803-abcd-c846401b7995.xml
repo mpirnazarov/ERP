@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-06-15.16:05:06.200</IntrospectionTimestamp>
-      <IntrospectionStateNumber>16616</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-06-27.11:25:53.034</IntrospectionTimestamp>
+      <IntrospectionStateNumber>16909</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -405,7 +405,7 @@
     </table>
     <table id="93" parent="3" name="users">
       <ObjectId>16913</ObjectId>
-      <StateNumber>16616</StateNumber>
+      <StateNumber>16908</StateNumber>
     </table>
     <table id="94" parent="3" name="vocation_status">
       <ObjectId>17411</ObjectId>
@@ -2384,209 +2384,219 @@ language_id</ColNames>
       <DataType>integer|0</DataType>
       <StateNumber>1111</StateNumber>
     </column>
-    <index id="424" parent="93" name="users_pkey">
+    <column id="424" parent="93" name="ip_address">
+      <Position>21</Position>
+      <DataType>varchar(20)|0</DataType>
+      <StateNumber>16908</StateNumber>
+    </column>
+    <index id="425" parent="93" name="users_pkey">
       <ObjectId>16920</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="425" parent="93" name="username&amp;id">
+    <index id="426" parent="93" name="username&amp;id">
       <ObjectId>33210</ObjectId>
       <ColNames>user_name
 id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="426" parent="93" name="users_user_name_uindex">
+    <index id="427" parent="93" name="users_user_name_uindex">
       <ObjectId>57798</ObjectId>
       <ColNames>user_name</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="427" parent="93" name="users_pkey">
+    <index id="428" parent="93" name="users_ip_address_uindex">
+      <ObjectId>127915</ObjectId>
+      <ColNames>ip_address</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="429" parent="93" name="users_pkey">
       <ObjectId>16921</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>users_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <key id="428" parent="93" name="username&amp;id">
+    <key id="430" parent="93" name="username&amp;id">
       <ObjectId>33211</ObjectId>
       <ColNames>user_name
 id</ColNames>
       <UnderlyingIndexName>username&amp;id</UnderlyingIndexName>
     </key>
-    <foreign-key id="429" parent="93" name="fk_department_get_depid">
+    <foreign-key id="431" parent="93" name="fk_department_get_depid">
       <ObjectId>17658</ObjectId>
       <ColNames>department_id</ColNames>
       <RefTableName>departments</RefTableName>
       <RefKeyName>departments_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="430" parent="93" name="fk_user_get_statusid">
+    <foreign-key id="432" parent="93" name="fk_user_get_statusid">
       <ObjectId>17618</ObjectId>
       <ColNames>status_id</ColNames>
       <RefTableName>statuses</RefTableName>
       <RefKeyName>statuses_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="431" parent="93" name="fk_user_get_chiefid">
+    <foreign-key id="433" parent="93" name="fk_user_get_chiefid">
       <ObjectId>17733</ObjectId>
       <ColNames>chief_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefKeyName>users_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="432" parent="93" name="fk_user_get_roleid">
+    <foreign-key id="434" parent="93" name="fk_user_get_roleid">
       <ObjectId>41392</ObjectId>
       <ColNames>role_id</ColNames>
       <RefTableName>roles</RefTableName>
       <RefKeyName>roles_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="433" parent="94" name="id">
+    <column id="435" parent="94" name="id">
       <Position>1</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>767</StateNumber>
       <DefaultExpression>nextval(&apos;vocation_status_id_seq&apos;::regclass)</DefaultExpression>
     </column>
-    <column id="434" parent="94" name="user_id">
+    <column id="436" parent="94" name="user_id">
       <Position>2</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>767</StateNumber>
     </column>
-    <column id="435" parent="94" name="used_vocation">
+    <column id="437" parent="94" name="used_vocation">
       <Position>3</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>767</StateNumber>
     </column>
-    <index id="436" parent="94" name="vocation_status_pkey">
+    <index id="438" parent="94" name="vocation_status_pkey">
       <ObjectId>17415</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="437" parent="94" name="vocation_status_pkey">
+    <key id="439" parent="94" name="vocation_status_pkey">
       <ObjectId>17416</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>vocation_status_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="438" parent="94" name="fk_vocation_status_get_userid">
+    <foreign-key id="440" parent="94" name="fk_vocation_status_get_userid">
       <ObjectId>17478</ObjectId>
       <ColNames>user_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefKeyName>users_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="439" parent="95" name="id">
+    <column id="441" parent="95" name="id">
       <Position>1</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>747</StateNumber>
       <DefaultExpression>nextval(&apos;work_localizations_id_seq&apos;::regclass)</DefaultExpression>
     </column>
-    <column id="440" parent="95" name="organization">
+    <column id="442" parent="95" name="organization">
       <Position>2</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>747</StateNumber>
     </column>
-    <column id="441" parent="95" name="post">
+    <column id="443" parent="95" name="post">
       <Position>3</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>747</StateNumber>
     </column>
-    <column id="442" parent="95" name="work_id">
+    <column id="444" parent="95" name="work_id">
       <Position>4</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>747</StateNumber>
     </column>
-    <column id="443" parent="95" name="language_id">
+    <column id="445" parent="95" name="language_id">
       <Position>5</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>747</StateNumber>
     </column>
-    <index id="444" parent="95" name="work_localizations_pkey">
+    <index id="446" parent="95" name="work_localizations_pkey">
       <ObjectId>17341</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="445" parent="95" name="work_id&amp;language_id">
+    <index id="447" parent="95" name="work_id&amp;language_id">
       <ObjectId>25033</ObjectId>
       <ColNames>work_id
 language_id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="446" parent="95" name="work_localizations_pkey">
+    <key id="448" parent="95" name="work_localizations_pkey">
       <ObjectId>17342</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>work_localizations_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <key id="447" parent="95" name="work_id&amp;language_id">
+    <key id="449" parent="95" name="work_id&amp;language_id">
       <ObjectId>25034</ObjectId>
       <ColNames>work_id
 language_id</ColNames>
       <UnderlyingIndexName>work_id&amp;language_id</UnderlyingIndexName>
     </key>
-    <foreign-key id="448" parent="95" name="fk_workloc_get_workid">
+    <foreign-key id="450" parent="95" name="fk_workloc_get_workid">
       <ObjectId>17643</ObjectId>
       <ColNames>work_id</ColNames>
       <RefTableName>works</RefTableName>
       <RefKeyName>works_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="449" parent="95" name="fk_workloc_get_langid">
+    <foreign-key id="451" parent="95" name="fk_workloc_get_langid">
       <ObjectId>17713</ObjectId>
       <ColNames>language_id</ColNames>
       <RefTableName>languages</RefTableName>
       <RefKeyName>languages_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="450" parent="96" name="id">
+    <column id="452" parent="96" name="id">
       <Position>1</Position>
       <DataType>bigint|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>778</StateNumber>
       <DefaultExpression>nextval(&apos;workload_id_seq&apos;::regclass)</DefaultExpression>
     </column>
-    <column id="451" parent="96" name="user_id">
+    <column id="453" parent="96" name="user_id">
       <Position>2</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>778</StateNumber>
     </column>
-    <column id="452" parent="96" name="project_id">
+    <column id="454" parent="96" name="project_id">
       <Position>3</Position>
       <DataType>integer|0</DataType>
       <StateNumber>778</StateNumber>
     </column>
-    <column id="453" parent="96" name="date">
+    <column id="455" parent="96" name="date">
       <Position>4</Position>
       <DataType>date|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>778</StateNumber>
     </column>
-    <column id="454" parent="96" name="duration">
+    <column id="456" parent="96" name="duration">
       <Position>5</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>778</StateNumber>
     </column>
-    <column id="455" parent="96" name="workload_type">
+    <column id="457" parent="96" name="workload_type">
       <Position>6</Position>
       <DataType>numeric|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>778</StateNumber>
     </column>
-    <index id="456" parent="96" name="workload_pkey">
+    <index id="458" parent="96" name="workload_pkey">
       <ObjectId>17461</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="457" parent="96" name="workload uniqueness">
+    <index id="459" parent="96" name="workload uniqueness">
       <ObjectId>41512</ObjectId>
       <ColNames>user_id
 project_id
@@ -2594,13 +2604,13 @@ date
 workload_type</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="458" parent="96" name="workload_pkey">
+    <key id="460" parent="96" name="workload_pkey">
       <ObjectId>17462</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>workload_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <key id="459" parent="96" name="workload uniqueness">
+    <key id="461" parent="96" name="workload uniqueness">
       <ObjectId>41513</ObjectId>
       <ColNames>user_id
 project_id
@@ -2608,73 +2618,73 @@ date
 workload_type</ColNames>
       <UnderlyingIndexName>workload uniqueness</UnderlyingIndexName>
     </key>
-    <foreign-key id="460" parent="96" name="fk_workload_get_userid">
+    <foreign-key id="462" parent="96" name="fk_workload_get_userid">
       <ObjectId>17488</ObjectId>
       <ColNames>user_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefKeyName>users_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="461" parent="96" name="fk_workload_get_projectid">
+    <foreign-key id="463" parent="96" name="fk_workload_get_projectid">
       <ObjectId>17563</ObjectId>
       <ColNames>project_id</ColNames>
       <RefTableName>projects</RefTableName>
       <RefKeyName>projects_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="462" parent="97" name="id">
+    <column id="464" parent="97" name="id">
       <Position>1</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>742</StateNumber>
       <DefaultExpression>nextval(&apos;works_id_seq&apos;::regclass)</DefaultExpression>
     </column>
-    <column id="463" parent="97" name="user_id">
+    <column id="465" parent="97" name="user_id">
       <Position>2</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>742</StateNumber>
     </column>
-    <column id="464" parent="97" name="start_date">
+    <column id="466" parent="97" name="start_date">
       <Position>3</Position>
       <DataType>date|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>742</StateNumber>
     </column>
-    <column id="465" parent="97" name="end_date">
+    <column id="467" parent="97" name="end_date">
       <Position>4</Position>
       <DataType>date|0</DataType>
       <StateNumber>1228</StateNumber>
     </column>
-    <column id="466" parent="97" name="comments">
+    <column id="468" parent="97" name="comments">
       <Position>5</Position>
       <DataType>text|0</DataType>
       <StateNumber>742</StateNumber>
     </column>
-    <column id="467" parent="97" name="contract_type">
+    <column id="469" parent="97" name="contract_type">
       <Position>6</Position>
       <DataType>integer|0</DataType>
       <StateNumber>1227</StateNumber>
     </column>
-    <index id="468" parent="97" name="works_pkey">
+    <index id="470" parent="97" name="works_pkey">
       <ObjectId>17308</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="469" parent="97" name="works_pkey">
+    <key id="471" parent="97" name="works_pkey">
       <ObjectId>17309</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>works_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="470" parent="97" name="fk_works_get_userid">
+    <foreign-key id="472" parent="97" name="fk_works_get_userid">
       <ObjectId>17513</ObjectId>
       <ColNames>user_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefKeyName>users_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <argument id="471" parent="98">
+    <argument id="473" parent="98">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>trigger|0</DataType>
     </argument>

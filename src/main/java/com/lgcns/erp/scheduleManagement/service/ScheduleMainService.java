@@ -22,4 +22,5 @@ public interface ScheduleMainService {
     List<ScheduleVM> getSchedulesWhereUserIsAuthor(Timestamp start, Timestamp end, int authorId);
     List<ScheduleVM> getSchedulesWhereUserIsParticipant(Timestamp start, Timestamp end, int participantId);
     List<ScheduleVM> getSchedulesWhereUserIsReference(Timestamp start, Timestamp end, int referenceId);
+    int getScheduleCountWhereUserIsParticipantOrReference(Timestamp end, int userId);
 }

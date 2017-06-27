@@ -135,7 +135,7 @@ public class ScheduleMainController {
     private Timestamp convertStringToTimeStamp(String date) {
         Timestamp timestamp = null;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date parsedDate = dateFormat.parse(date);
             timestamp = new java.sql.Timestamp(parsedDate.getTime());
         } catch (Exception e) {//this generic but you can control another types of exception

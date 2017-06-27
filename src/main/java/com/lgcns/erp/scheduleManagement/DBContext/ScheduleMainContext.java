@@ -44,13 +44,13 @@ public class ScheduleMainContext {
         return list;
     }
 
-    public static int getScheduleCountWhereUserIsParticipantOrReference(Timestamp end ,int userId){
+    public static int getScheduleCountWhereUserIsParticipantOrReference(Timestamp end, int userId){
         List<ScheduleEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from ScheduleEntity s where s.dateTo>=:endcha and s.scheduleId in (select p.scheduleId from ParticipantInScheduleEntity p where p.userId=:userId and s.draft=false) or s.scheduleId in (select r.scheduleId from ReferenceInCheduleEntity r where r.userId=:userId and s.draft=false)");
+            Query query = session.createQuery("from ScheduleEntity s where s.dateTo>=:endcha and (s.scheduleId in (select p.scheduleId from ParticipantInScheduleEntity p where p.userId=:userId and s.draft=false) or s.scheduleId in (select r.scheduleId from ReferenceInCheduleEntity r where r.userId=:userId and s.draft=false))");
             query.setParameter("userId", userId);
             query.setParameter("endcha", end);
             list = (List<ScheduleEntity>)query.list();

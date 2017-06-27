@@ -47,7 +47,7 @@
     $(document).ready(function () {
 
 
-        var currentUser = ${userId};
+        var currentUser = Number('${userProfile.id}');
         var arrayOfUsers = [];
 
         $(${UserslistJson}).each(function (i, e) {
@@ -307,9 +307,8 @@
         switchContentDiv("view");
         clearModal();
         $('.calendarMemberPill').remove();
-
         var response = calendarCommonAjax("POST", "/ScheduleDetails/GetSchedule", "scheduleId=" + calEvent.id, "View");
-        var currentUserId = ${userId};
+        var currentUserId = response.UserslistJson.id;
         var participantsId = [];
         var isParticipate = false;
         var totalParticipants = 0;
@@ -322,10 +321,6 @@
 
                 /*$('#eventViewParticipantsList').append('<span title="' + par.jobTitle + ", " + par.departmentName + '" class="calendarMemberPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + par.name + ' ' + par.surname + '</span>');*/
                 participantsId.push(par.userId);
-
-                if (par.userId == currentUserId) {
-                    isParticipate = true;
-                }
 
                 if (par.status == 1) {
                     totalWillParticipate += 1;
@@ -373,18 +368,18 @@
 
 
 
+
         if (EventAuthorId == currentUserId) {
             $('#CalendarModalViewDecisionButtonGroup').hide();
             $('#CalendarModalViewAuthorButtonGroup').show();
             $('#CalendarModalViewParticipantsButtonGroup').hide();
-            $('#eventViewAuthor').parent().hide()
         } else if (isParticipate) {
-            $(${UserslistJson}).each(function (i,us) {
+            /*$(${UserslistJson}).each(function (i,us) {
                 if(us.id == EventAuthorId){
                     $('#eventViewAuthor').parent().show();
                     $('#eventViewAuthor').append('<span title="' + us.jobTitle + ", " + us.departmentName + '" class="calendarMemberPill authorPill">' + '<span class="fa fa-user" aria-hidden="true"></span>' + ' ' + us.name + '</span>');
                 }
-            });
+            });*/
             if(EventIsCompulsory == "true"){
                 $('#CalendarModalViewDecisionButtonGroup').hide();
             }else {
@@ -402,6 +397,9 @@
             $('#CalendarModalViewAuthorButtonGroup').hide();
             $('#CalendarModalViewParticipantsButtonGroup').hide();
         }
+
+        $('#eventViewAuthor').parent().show();
+        $('#eventViewAuthor').append('<span title="' + a_jobtitle + ", " + a_department + '" class="calendarMemberPill authorPill">' + '<span class="fa fa-user" aria-hidden="true"></span>' + ' ' + a_name + '</span>');
 
         $('#eventTotalParticipants span').text(totalParticipants);
         $('#eventTotalWillParticipate span').text(totalWillParticipate);
@@ -644,7 +642,7 @@
                 $('#calendar').fullCalendar({selectable: true})
                 $('button.fc-createEventButton-button').attr('disabled',false);
                 $('button.fc-createEventButton-button').css('opacity',1);
-                currentUserId = ${userId};
+                currentUserId = 0;
             } else {
                 $('#calendar').fullCalendar({selectable: false})
                 $('button.fc-createEventButton-button').attr('disabled',true);
@@ -773,7 +771,7 @@
         }
 
 
-        var pNumber = 0;
+        /*var pNumber = 0;
         $('#eventParticipantsGroup li.token-input-token').each(function () {
             pNumber += 1;
         });
@@ -785,7 +783,7 @@
         } else {
             $('#eventParticipantsGroup').next('p.calValidationText').remove();
             $('ul.tokenOverwriteClass').css('border-color', '#ccc');
-        }
+        }*/
         return mainValidationFlag;
 
         /*ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss*/
@@ -906,6 +904,7 @@
             var listOfReferences = [];
             var listOfAttachments = [];
             var event = {};
+            var currentUser = Number('${userProfile.id}');
 
             event.author_id = res.author_id
             event.id = res.id;
@@ -922,7 +921,7 @@
             event.end = res.end;
             event.borderColor = "#fff";
 
-            if (res.author_id == ${userId}) {
+            if (res.author_id == currentUser) {
                 event.backgroundColor = "#14b441";
             }
 

@@ -8,6 +8,7 @@
 
     <!-- enable use-expressions -->
 	<http auto-config="true" use-expressions="true" disable-url-rewriting="true">
+		<intercept-url pattern="/Asset/**" access="permitAll" />
 		<intercept-url pattern="/Attendance/**" access="isAuthenticated()" />
 		<intercept-url pattern="/Workflow/**" access="isAuthenticated()" />
 		<intercept-url pattern="/Hr/**" access="hasRole('3')" />

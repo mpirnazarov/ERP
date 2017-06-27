@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -118,7 +120,7 @@ public class ScheduleMainMapper {
         RequestsEntity requestsEntity = WorkflowService.getRequestsEntityById(requestId);
 
         ScheduleEntity scheduleEntity = new ScheduleEntity();
-        scheduleEntity.setTitle(LeaveType.values()[requestsEntity.getLeaveTypeId()].name().replace("_", " "));
+        scheduleEntity.setTitle(LeaveType.values()[requestsEntity.getLeaveTypeId()-1].name().replace("_", " "));
         scheduleEntity.setDescription(requestsEntity.getDescription());
         /* No schedule place */
         scheduleEntity.setStype(ScheduleType.Other.getValue());
@@ -128,7 +130,7 @@ public class ScheduleMainMapper {
             return null;
         }
         scheduleEntity.setDateFrom(getTimestamp(requestsEntity.getDateFrom()));
-        scheduleEntity.setDateTo(getTimestamp(requestsEntity.getDateTo()));
+        scheduleEntity.setDateTo(getTimestamp(addDays(requestsEntity.getDateTo(), 1)));
         scheduleEntity.setCompulsory(Boolean.TRUE);
         scheduleEntity.setToNotify(Boolean.FALSE);
         scheduleEntity.setDraft(Boolean.FALSE);
@@ -143,5 +145,12 @@ public class ScheduleMainMapper {
         return date == null ? null : new java.sql.Timestamp(date.getTime());
     }
 
+    public static Date addDays(Date date, int days)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        return cal.getTime();
+    }
 
 }

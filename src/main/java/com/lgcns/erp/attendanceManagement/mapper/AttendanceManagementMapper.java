@@ -1,3 +1,4 @@
+/*
 package com.lgcns.erp.attendanceManagement.mapper;
 
 import com.lgcns.erp.attendanceManagement.DBEntities.AttendanceManagementEntity;
@@ -9,9 +10,11 @@ import org.joda.time.DateTime;
 import java.sql.Timestamp;
 import java.util.List;
 
+*/
 /**
  * Created by Muslimbek on 6/9/2017.
- */
+ *//*
+
 public class AttendanceManagementMapper {
     public static AttendanceManagementEntity mapAttendanceManagement(int userId) {
         AttendanceManagementEntity attendanceManagementEntity = new AttendanceManagementEntity();
@@ -29,3 +32,4 @@ public class AttendanceManagementMapper {
         return attendanceVM;
     }
 }
+*/

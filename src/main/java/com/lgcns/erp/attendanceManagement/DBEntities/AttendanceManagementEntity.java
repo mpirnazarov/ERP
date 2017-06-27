@@ -1,11 +1,14 @@
+/*
 package com.lgcns.erp.attendanceManagement.DBEntities;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+*/
 /**
  * Created by Muslimbek on 6/9/2017.
- */
+ *//*
+
 @Entity
 @Table(name = "attendance_management", schema = "attendance", catalog = "LgErpSystem")
 public class AttendanceManagementEntity {
@@ -81,3 +84,4 @@ public class AttendanceManagementEntity {
 
 
 }
+*/

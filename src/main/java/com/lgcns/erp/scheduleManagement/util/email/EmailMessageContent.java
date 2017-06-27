@@ -90,7 +90,7 @@ public class EmailMessageContent {
         /* Firstly generate redirect URL */
         String redirectUrl = "/ScheduleManagement/main";
         token = EmailService.generateToken(userId, redirectUrl, 168);
-        calLink = "http://192.168.1.122/auth?token=" + token;
+        calLink = "http://192.168.1.78/auth?token=" + token;
 
 
         int calRoleType = roleType;

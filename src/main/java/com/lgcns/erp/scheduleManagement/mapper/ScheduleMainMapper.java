@@ -78,6 +78,7 @@ public class ScheduleMainMapper {
         scheduleEntity.setToNotify(scheduleVM.isToNotify());
         scheduleEntity.setDraft(scheduleVM.isDraft());
         scheduleEntity.setAutherId(scheduleVM.getAuthorId());
+        scheduleEntity.setPrivate(scheduleVM.isPrivate());
 
         return scheduleEntity;
     }

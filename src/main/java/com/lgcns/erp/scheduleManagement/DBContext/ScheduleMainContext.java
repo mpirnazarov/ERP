@@ -27,7 +27,7 @@ public class ScheduleMainContext {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from ScheduleEntity s where s.dateFrom>=:from and s.dateTo<=:end and s.autherId=:userId or s.scheduleId in (select p.scheduleId from ParticipantInScheduleEntity p where p.userId=:userId and s.draft=false) or s.scheduleId in (select r.scheduleId from ReferenceInCheduleEntity r where r.userId=:userId and s.draft=false)");
+            Query query = session.createQuery("from ScheduleEntity s where s.dateFrom>=:from and s.dateTo<=:end and s.autherId=:userId or (s.scheduleId in (select p.scheduleId from ParticipantInScheduleEntity p where p.userId=:userId and s.draft=false) or s.scheduleId in (select r.scheduleId from ReferenceInCheduleEntity r where r.userId=:userId and s.draft=false))");
             query.setParameter("from", start);
             query.setParameter("end", end);
             query.setParameter("userId", userId);

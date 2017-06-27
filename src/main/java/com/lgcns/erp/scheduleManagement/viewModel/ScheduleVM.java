@@ -29,6 +29,15 @@ public class ScheduleVM {
     private MultipartFile[] file;
     private int actionTypeId;
     private boolean draft;
+    private boolean isPrivate;
+
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate(boolean aPrivate) {
+        isPrivate = aPrivate;
+    }
 
     public int getScheduleId() {
         return scheduleId;

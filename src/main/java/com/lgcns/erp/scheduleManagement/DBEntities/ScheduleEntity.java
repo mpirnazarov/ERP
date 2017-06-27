@@ -22,6 +22,7 @@ public class ScheduleEntity {
     private Boolean toNotify;
     private Boolean isDraft;
     private Integer autherId;
+    private Boolean isPrivate;
     private Collection<ParticipantInScheduleEntity> participantInSchedulesByScheduleId;
     private Collection<ReferenceInCheduleEntity> referenceInChedulesByScheduleId;
     private Collection<ScheduleAttachmentsEntity> scheduleAttachmentssByScheduleId;
@@ -145,6 +146,16 @@ public class ScheduleEntity {
 
     public void setAutherId(Integer autherId) {
         this.autherId = autherId;
+    }
+
+    @Basic
+    @Column(name = "isPrivate")
+    public Boolean getPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate(Boolean aPrivate) {
+        isPrivate = aPrivate;
     }
 
     @Override

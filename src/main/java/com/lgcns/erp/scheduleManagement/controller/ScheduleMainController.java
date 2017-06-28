@@ -135,6 +135,18 @@ public class ScheduleMainController {
     private Timestamp convertStringToTimeStamp(String date) {
         Timestamp timestamp = null;
         try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsedDate = dateFormat.parse(date);
+            timestamp = new java.sql.Timestamp(parsedDate.getTime());
+        } catch (Exception e) {//this generic but you can control another types of exception
+            e.printStackTrace();
+        }
+
+        return timestamp;
+    }
+    private Timestamp convertStringToTimeStamp2(String date) {
+        Timestamp timestamp = null;
+        try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date parsedDate = dateFormat.parse(date);
             timestamp = new java.sql.Timestamp(parsedDate.getTime());
@@ -144,7 +156,6 @@ public class ScheduleMainController {
 
         return timestamp;
     }
-
     /**
      * Subtracts one day from the given date and returns
      *
@@ -214,7 +225,7 @@ public class ScheduleMainController {
     public @ResponseBody Object getScheduleCountByUser(Principal principal){
         int userId = UserService.getIdByUsername(principal.getName());
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        int count = service.getScheduleCountWhereUserIsParticipantOrReference(convertStringToTimeStamp(timeStamp), userId);
+        int count = service.getScheduleCountWhereUserIsParticipantOrReference(convertStringToTimeStamp2(timeStamp), userId);
 
         if (count==0)
             return "";

@@ -52,6 +52,7 @@ public class ScheduleMainControllerUtil {
             map.put("author_id", scheduleVM.getAuthorId()+"");
             map.put("actionType_id", scheduleVM.getActionTypeId());
             map.put("authorInfo", WorkflowService.getUserJson(scheduleVM.getAuthorId()));
+            map.put("is_private", scheduleVM.isPrivate()+"");
 
             maps.add(map);
         }

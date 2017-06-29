@@ -117,58 +117,22 @@ function mainCommonAjax(type, url, data, async, callbackFunc) {
 /*-----------------*/
 /*Tab Notifications*/
 /*-----------------*/
-function getNotificationsRequest(data) {
-    var requests = data;
-    var requestTab = $('#head-nav-counter-request');
-    requestTab.css('background-color','red');
-    requestTab.text(data);
-
-};
-
-function getNotificationsToDo(data) {
-    var todos = data;
-    var todosTab = $('#head-nav-counter-todo');
-
-    todosTab.css('background-color','red');
-    todosTab.text(data);
-};
-
 function getNotificationsFromAjax() {
 
-    var request_notifications , toDo_notifications;
     var todosTab = $('#head-nav-counter-todo');
     var requestTab = $('#head-nav-counter-request');
-
+    var schedulerTab =$('#head-nav-counter-scheduler');
 
     $.get("/Workflow/MyForms/Request/Notification",function (data,status) {
-        request_notifications = data;
+        requestTab.html(data);
     });
 
     $.get("/Workflow/MyForms/todo/notification",function (data,status) {
-        toDo_notifications = data;
-
-        if (request_notifications == 0){
-            requestTab.hide();
-        }else {
-            requestTab.show();
-            requestTab.html(request_notifications);
-        }
-
-        if(toDo_notifications == 0){
-            todosTab.hide();
-        }else {
-            todosTab.show();
-            todosTab.html(toDo_notifications);
-        }
-
-        /*alert("requet: " + request_notifications + "\nTo-Do: " + toDo_notifications )*/
+        todosTab.html(data);
     });
 
-
-
-
-
-
-
+    $.get("/ScheduleManagement/Notification",function (data,status) {
+        schedulerTab.html(data);
+    });
 
 };

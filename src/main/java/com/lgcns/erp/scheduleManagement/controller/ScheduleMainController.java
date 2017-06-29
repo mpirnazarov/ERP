@@ -59,7 +59,7 @@ public class ScheduleMainController {
         System.out.println(temp);
         ModelAndView mav = new ModelAndView("scheduleManagement/main/scheduleIndex");
         int userId = UserService.getIdByUsername(principal.getName());
-        mav = UP.includeUserProfile(mav, principal);
+         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
         mav.addObject("UserslistJson", WorkflowService.getUsersJson(principal));
         mav.addObject("scheduleVM", new ScheduleVM());

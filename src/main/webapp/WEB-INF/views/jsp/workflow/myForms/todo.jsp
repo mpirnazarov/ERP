@@ -129,6 +129,9 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpFooter.jsp"></jsp:include>
 
 <script type="text/javascript">
+
+
+
     function initialize() {
         pagedList(0);
     }
@@ -168,6 +171,8 @@
         else {
             page = id;
         }
+
+
 
         $.ajax({
             type: "POST",
@@ -239,13 +244,15 @@
         });
     }
 
+    Pace.start()
+
+
 
 </script>
 
 <script type="text/javascript">
     var loading_gif = $('#loading_img');
     $(document).ready(function () {
-
         $('#notFoundDiv').hide();
         initialize();
 

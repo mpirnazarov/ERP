@@ -127,11 +127,17 @@ public class RequestController {
     }
 
     @RequestMapping(value = "/MyForms/Request/Notification", method = RequestMethod.GET)
-    public @ResponseBody int getNotification(Principal principal){
+    public @ResponseBody Object getNotification(Principal principal){
         int userId = UserService.getUserIdByUsername(principal.getName());
 
         int numberOfNotifications = WorkflowNotificationService.getRequestNotification(userId);
-        return numberOfNotifications;
+        /*return numberOfNotifications;*/
+
+        if (numberOfNotifications==0)
+            return "";
+        else
+            return numberOfNotifications;
+
     }
 
     @RequestMapping(value = "example")

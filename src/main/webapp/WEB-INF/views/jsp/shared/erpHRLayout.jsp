@@ -322,31 +322,6 @@
             }
         });
     });
-    setInterval(function () {
-        $.ajax({
-            type: "GET",
-            processData: false,
-            url: '${pageContext.request.contextPath}/Workflow/MyForms/todo/notification',
-            success: function (data) {
-                $('#todoNotification').text(data);
-            },
-            error: function () {
-            }
-        });
-    }, 5000);
-
-    setInterval(function () {
-        $.ajax({
-            type: "GET",
-            processData: false,
-            url: '${pageContext.request.contextPath}/Workflow/MyForms/Request/Notification',
-            success: function (data) {
-                $('#userRequestNotifHr').text(data);
-            },
-            error: function () {
-            }
-        });
-    }, 5000);
 </script>
 
 <%--<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--%>

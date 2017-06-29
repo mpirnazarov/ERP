@@ -242,29 +242,3 @@
 <spring:url value="/resources/core/js/index.js" var="indexJs"></spring:url>
 
 <script src="${indexJs}"></script>
-<script>
-    setInterval(function () {
-        $.ajax({
-            type:"GET",
-            processData: false,
-            url : '${pageContext.request.contextPath}/Workflow/MyForms/todo/notification',
-            success: function(data){
-                $('#userTodoSpan').text(data);
-            },
-            error: function () {
-            }
-        });
-    }, 5000);
-    setInterval(function () {
-        $.ajax({
-            type:"GET",
-            processData: false,
-            url : '${pageContext.request.contextPath}/Workflow/MyForms/Request/Notification',
-            success: function(data){
-                $('#userReqNotifSpan').text(data);
-            },
-            error: function () {
-            }
-        });
-    }, 5000);
-</script>

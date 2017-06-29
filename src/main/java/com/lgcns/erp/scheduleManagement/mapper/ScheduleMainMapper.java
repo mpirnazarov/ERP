@@ -52,6 +52,7 @@ public class ScheduleMainMapper {
         scheduleVM.setTitle(entity.getTitle());
         scheduleVM.setToNotify(entity.getToNotify());
         scheduleVM.setDraft(entity.getDraft());
+        scheduleVM.setPrivate(entity.getPrivate());
 
         return scheduleVM;
     }

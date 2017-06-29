@@ -26,6 +26,7 @@
     <spring:url value="/resources/core/css/bootstrap-datepicker3.standalone.css" var="bootstrapDatePickerCSS"/>
     <spring:url value="/resources/core/css/token-input.css" var="tokenInputCss"/>
     <spring:url value="/resources/core/css/token-input-facebook.css" var="tokenInputFacebookCss"/>
+    <spring:url value="/resources/core/css/pace_barber.css" var="paceCSS"/>
 
 
     <link rel="stylesheet" href="${navbar}"/>
@@ -49,6 +50,9 @@
     <spring:url value="/resources/core/js/main.js" var="main"/>
     <spring:url value="/resources/core/js/bootstrap-datepicker.min.js" var="bootstrapDatePickerJS"/>
     <spring:url value="/resources/core/js/common-hr.js" var="commonHrJs"/>
+    <spring:url value="/resources/core/js/pace.js" var="paceJs"/>
+    <spring:url value="/resources/core/js/notify.min.js" var="notifyJs"/>
+
 
     <script src="${jquery}"></script>
     <script type="text/javascript" src="${allInOneJs}"></script>
@@ -57,8 +61,13 @@
     <script src="${bootstrapJs}"></script>
     <script src="${bootstrapDatePickerJS}"></script>
     <script src="${commonHrJs}"></script>
+    <script src="${notifyJs}"></script>
 
     <link rel="icon" type="image/x-icon" href="<s:url value="/resources/images/SmartOffice-Logo.png"/>"/>
+
+<%--
+    <link rel="stylesheet" href="${paceCSS}"/>
+    <script src="${paceJs}"></script>--%>
 
 
     <%--Cloud JQ UI--%>
@@ -91,12 +100,12 @@
     </div>
 </div>
 
-<div id="restrictOv">
+<%--<div id="restrictOv">
     <div style="width: 100px; height: 100px; position: absolute; left: 40%; top: 31%; font-size: 10px; text-align: center">
         <img style="width: 100%; height: 100%" src="/resources/images/wh.png">Smart office does not support mobile
         version of web site!
     </div>
-</div>
+</div>--%>
 
 
 <script>
@@ -118,7 +127,7 @@
             userNavBar.show()
             sarOv.style.display = 'none';
         }, 300)
-    })
+    });
     /*load Ovrelay*/
 
 
@@ -280,14 +289,14 @@
                     <span class="fa fa-pencil-square-o head-icon"></span>
                     <p class="head-text">Requests</p>
                     <div id="head-nav-counter-request" class="head-nav-counter">
-                        4
+
                     </div>
                 </div>
                 <div class="head-nav-tab" onclick="location.href = '/Workflow/MyForms/todo/load'">
                     <span class="fa fa-check-square-o head-icon"></span>
                     <p class="head-text">To-Do</p>
                     <div id="head-nav-counter-todo" class="head-nav-counter">
-                        8
+
                     </div>
                 </div>
                 <div class="head-nav-tab" onclick="location.href = '/ScheduleManagement/main'">

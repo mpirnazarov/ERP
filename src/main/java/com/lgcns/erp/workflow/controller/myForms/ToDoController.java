@@ -78,6 +78,8 @@ public class ToDoController {
                                                            @RequestParam("attrValue")String attrValue,
                                                            @RequestParam("selectedDateTo")String selectedDateTo,
                                                            Principal principal){
+
+
         Map<String, Object> mav = new HashMap<>();
 
         int userId = UserService.getUserIdByUsername(principal.getName());
@@ -106,10 +108,15 @@ public class ToDoController {
 
 
     @RequestMapping(value = "/notification", method = RequestMethod.GET)
-    public @ResponseBody int getNotification(Principal principal){
+    public @ResponseBody Object getNotification(Principal principal){
         int userId = UserService.getUserIdByUsername(principal.getName());
 
         int numberOfNotifications = WorkflowNotificationService.getToDoNotification(userId);
-        return numberOfNotifications;
+        /*return numberOfNotifications;*/
+
+        if (numberOfNotifications==0)
+            return "";
+        else
+            return numberOfNotifications;
     }
 }

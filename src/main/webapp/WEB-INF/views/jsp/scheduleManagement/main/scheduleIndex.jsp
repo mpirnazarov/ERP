@@ -15,9 +15,11 @@
 <spring:url value="/resources/core/css/fullcalendar.css" var="fullcalendarCSS"/>
 <spring:url value="/resources/core/css/jquery-ui.min.css" var="jqueryUiCSS"/>
 <spring:url value="/resources/core/css/jquery.datetimepicker.css" var="dateTimePickerCSS"/>
+
 <link rel="stylesheet" href="${fullcalendarCSS}"/>
 <link rel="stylesheet" href="${dateTimePickerCSS}"/>
 <link rel="stylesheet" href="${jqueryUiCSS}"/>
+<link rel="stylesheet" href="${paceCSS}"/>
 
 
 <%--CSS--%>
@@ -31,6 +33,7 @@
 <spring:url value="/resources/core/js/jquery.tokeninput.js" var="tokenInputJs"/>
 <spring:url value="/resources/core/js/bootstrapValidator.min.js" var="bootstrapValidationJS"/>
 
+
 <%--<script src="${jqueryJS}"></script>--%>
 <script src="${momentJS}"></script>
 <script src="${fullcalendarJS}"></script>
@@ -38,6 +41,7 @@
 <script type="text/javascript" src="${tokenInputJs}"></script>
 <script src="${bootstrapValidationJS}"></script>
 <script src="${jqueryUiJS}"></script>
+<script src="${paceJs}"></script>
 
 
 <%--JS--%>
@@ -99,10 +103,21 @@
             navLinks: false, // can click day/week names to navigate views
             selectable: true,
             selectHelper: true,
+            eventMouseover:function () {
+                var curPosition = $(this).offset();
+                var curWidth = $(this).width();
+                var notifyspan = $('#calNotifySpan');
+
+                notifyspan.css({
+                    top: curPosition.top,
+                    left: curPosition.left,
+                    width: curWidth
+                });
+            },
             viewRender: function () {
                 filterTrigger("Off");
-                $('#calLoaderDiv').css('display','block');
-                $('#calendar').css('filter','blur(2px)');
+                $('#calLoaderDiv').css('display', 'block');
+                $('#calendar').css('filter', 'blur(2px)');
                 $('#calendar').fullCalendar('removeEvents');
                 getCurrentWeekDays();
             },
@@ -130,47 +145,44 @@
                 var divCenterWidth = curWidth / 2;
                 var divCenterHeight = curHeight / 2;
                 var authorId = calEvent.author_id;
-
                 var curPosition = $(this).offset();
 
                 /*UpdateEvent*/
                 if (currentUser == authorId) {
                     dialogDiv.addClass('showDialog');
+                    dialogDiv.css({
+                        top: curPosition.top + divCenterHeight - 5,
+                        left: curPosition.left + divCenterWidth,
+                        width: curWidth
+                    });
                     window.setTimeout(function () {
                         dialogDiv.removeClass('showDialog');
-                    }, 3000);
+                    }, 5000);
                 } else {
                     viewEvent(calEvent);
                 }
 
-                dialogDiv.css({
-                    top: curPosition.top + divCenterHeight - 5,
-                    left: curPosition.left + divCenterWidth,
-                    width: curWidth
-                });
+
+
 
                 $('#dialogEditButton').click(function () {
                     editEvent(calEvent);
-
                     dialogDiv.removeClass('showDialog');
-                })
+                });
 
                 $('#dialogViewButton').click(function () {
                     viewEvent(calEvent);
                     dialogDiv.removeClass('showDialog');
-                })
+                });
 
                 /*updateEvent(moment(calEvent.start).format('YYYY/MM/DD hh:mm'), moment(calEvent.end).format('YYYY/MM/DD hh:mm'), calEvent.title, calEvent.type, calEvent.place, calEvent.description, calEvent.isCompulsory, calEvent.notifyByEmail);*/
-
-            },
-            eventMouseover: function (calEvent) {
 
             },
             /*on EVENT click FUNCTION END*/
             editable: false
         });
 
-        $("#calFilterSelectInputUsers").tokenInput(${UserslistJson},{tokenLimit: 1});
+        $("#calFilterSelectInputUsers").tokenInput(${UserslistJson}, {tokenLimit: 1});
 
     });
 
@@ -202,6 +214,7 @@
         $('#calSubmitButton').attr('value', 'Update');
         switchContentDiv("create")
 
+
         /*moment(start).format('YYYY/MM/DD H:mm'), moment(end).format('YYYY/MM/DD H:mm')*/
 
         var EventId = calEvent.id;
@@ -214,6 +227,7 @@
         var EventOtherType = calEvent.other;
         var EventIsCompulsory = calEvent.is_compulsory;
         var EventNotifyByEmail = calEvent.to_notify;
+        var EventIsPrivate = calEvent.is_private;
         var EventIsDraft = calEvent.is_draft;
         var EventStart = moment(calEvent.start).format('YYYY/MM/DD HH:mm');
         var EventEnd = moment(calEvent.end).format('YYYY/MM/DD HH:mm');
@@ -244,6 +258,7 @@
         });
 
         $(response.Attachments).each(function (i, at) {
+            $('#eventAttachedFiles').parent().show();
             $('#eventAttachedFiles').append('<a class="attachmentItem" href="/ScheduleDetails/files/' + at.attachmentId + '"> ' + at.attachmentName + ' <a style="color: red" href="/ScheduleDetails/DeleteAttachment/' + at.attachmentId + '"><span class="fa fa-trash" aria-hidden="true"></span></a>' + '</a>');
         });
 
@@ -292,12 +307,14 @@
             $('#notifyByEmail').prop('checked', true);
         }
 
+        if(EventIsPrivate == "true"){
+            $('#isPrivate').prop('checked',true);
+        }
+
+
         $('#CalendarModal').modal('show');
-
         /*$('#message').html('this is EDIT FORM')*/
-
         $('#CalendarModalLabel').text('Edit Event')
-
         $('ul.token-input-list').addClass('tokenOverwriteClass');
 
 
@@ -308,9 +325,11 @@
         clearModal();
         $('.calendarMemberPill').remove();
         var response = calendarCommonAjax("POST", "/ScheduleDetails/GetSchedule", "scheduleId=" + calEvent.id, "View");
-        var currentUserId = response.UserslistJson.id;
+        /*var currentUserId = response.UserslistJson.id;*/
+        var currentUserId = parseInt("${userId}", 10);
         var participantsId = [];
         var isParticipate = false;
+        var isReference = false;
         var totalParticipants = 0;
         var totalWillParticipate = 0;
         var totalNotParticipate = 0;
@@ -318,6 +337,10 @@
 
         $(response).each(function (i, res) {
             $(res.participants).each(function (i, par) {
+
+                if (par.userId == currentUserId) {
+                    isParticipate = true;
+                }
 
                 /*$('#eventViewParticipantsList').append('<span title="' + par.jobTitle + ", " + par.departmentName + '" class="calendarMemberPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + par.name + ' ' + par.surname + '</span>');*/
                 participantsId.push(par.userId);
@@ -338,14 +361,19 @@
             });
 
             $(res.references).each(function (i, ref) {
+                if (ref.userId == currentUserId) {
+                    isReference = true;
+                }
                 $('#eventViewReferencesList').append('<span title="' + ref.jobTitle + ", " + ref.departmentName + '" class="calendarMemberPill">' + '<span class="fa fa-user-circle" aria-hidden="true"></span>' + ' ' + ref.name + ' ' + ref.surname + '</span>');
             });
 
             $(res.Attachments).each(function (i, at) {
+                $('#eventAttachedFiles').parent().show();
                 $('#eventViewAttachment').append('<a class="attachmentItem" href="/ScheduleDetails/files/' + at.attachmentId + '"> ' + '<span class="fa fa-download" aria-hidden="true"></span> ' + at.attachmentName + '</a>');
 
             });
         });
+
 
         totalParticipants = participantsId.length;
 
@@ -358,6 +386,7 @@
         var EventType = calEvent.s_type;
         var EventOtherType = calEvent.other;
         var EventIsCompulsory = calEvent.is_compulsory;
+        var EventIsPrivate = calEvent.is_private;
         var EventNotifyByEmail = calEvent.to_notify;
         var EventIsDraft = calEvent.is_draft;
         var EventStart = moment(calEvent.start).format('YYYY/MM/DD HH:mm');
@@ -367,36 +396,48 @@
         var a_department = response.UserslistJson.department;
 
 
+        /*-------Private Check-------*/
+        if (EventIsPrivate == "true") {
+            if (currentUserId != EventAuthorId || isParticipate || isReference) {
 
+                $("#calNotifySpan").notify(
+                    "This event is private!",
+                    { position:"top left" }
+                );
+
+
+                /*$.notify(
+                    "I'm to the right of this box",
+                    { position:"top center" }
+                );*/
+                /*$('#dialogDiv').show().notify("Hello!");*/
+
+                return false;
+            }
+        }
 
         if (EventAuthorId == currentUserId) {
             $('#CalendarModalViewDecisionButtonGroup').hide();
             $('#CalendarModalViewAuthorButtonGroup').show();
             $('#CalendarModalViewParticipantsButtonGroup').hide();
         } else if (isParticipate) {
-            /*$(${UserslistJson}).each(function (i,us) {
-                if(us.id == EventAuthorId){
-                    $('#eventViewAuthor').parent().show();
-                    $('#eventViewAuthor').append('<span title="' + us.jobTitle + ", " + us.departmentName + '" class="calendarMemberPill authorPill">' + '<span class="fa fa-user" aria-hidden="true"></span>' + ' ' + us.name + '</span>');
-                }
-            });*/
-            if(EventIsCompulsory == "true"){
+            if (EventIsCompulsory == "true") {
                 $('#CalendarModalViewDecisionButtonGroup').hide();
-            }else {
+            } else {
                 $('#CalendarModalViewDecisionButtonGroup').show();
             }
             $('#CalendarModalViewAuthorButtonGroup').hide();
-            if (EventIsCompulsory == "true"){
+            if (EventIsCompulsory == "true") {
                 $('#CalendarModalViewParticipantsButtonGroup').hide();
-            }else {
+            } else {
                 $('#CalendarModalViewParticipantsButtonGroup').show();
             }
         } else {
-            $('#eventViewAuthor').hide();
             $('#CalendarModalViewDecisionButtonGroup').hide();
             $('#CalendarModalViewAuthorButtonGroup').hide();
             $('#CalendarModalViewParticipantsButtonGroup').hide();
         }
+
 
         $('#eventViewAuthor').parent().show();
         $('#eventViewAuthor').append('<span title="' + a_jobtitle + ", " + a_department + '" class="calendarMemberPill authorPill">' + '<span class="fa fa-user" aria-hidden="true"></span>' + ' ' + a_name + '</span>');
@@ -511,7 +552,9 @@
         $('#CalendarModal ul.token-input-list').remove();
         $('#option1').prop('checked', true);
         $('#isCompulsory').prop('checked', false);
-        $('#notifyByEmail').prop('checked', false);
+        $('#isPrivate').prop('checked', false);
+        $('#').prop('checked', false);
+
         $('#eventAttachment').val('');
 
         decisionTextBox.val('');
@@ -602,9 +645,11 @@
         var viewDivAuthorButtons = $('#CalendarModalViewAuthorButtonGroup');
         var viewDiv = $('#viewBodyDiv');
         var mainModalBody = $('#CalendarModal div.modal-body');
+        $('#eventAttachedFiles').parent().hide();
 
 
         if (divToDisplay == "create") {
+            $('#eventAttachedFiles').parent().hide();
             createDiv.css('display', 'block');
             createDivAuthorButtons.css('display', 'block');
             viewDivAuthorButtons.css('display', 'none');
@@ -640,13 +685,13 @@
 
             if (typeof inputdata == 'undefined') {
                 $('#calendar').fullCalendar({selectable: true})
-                $('button.fc-createEventButton-button').attr('disabled',false);
-                $('button.fc-createEventButton-button').css('opacity',1);
+                $('button.fc-createEventButton-button').attr('disabled', false);
+                $('button.fc-createEventButton-button').css('opacity', 1);
                 currentUserId = 0;
             } else {
                 $('#calendar').fullCalendar({selectable: false})
-                $('button.fc-createEventButton-button').attr('disabled',true);
-                $('button.fc-createEventButton-button').css('opacity',0.4);
+                $('button.fc-createEventButton-button').attr('disabled', true);
+                $('button.fc-createEventButton-button').css('opacity', 0.4);
                 currentUserId = inputdata;
 
 
@@ -772,18 +817,18 @@
 
 
         /*var pNumber = 0;
-        $('#eventParticipantsGroup li.token-input-token').each(function () {
-            pNumber += 1;
-        });
+         $('#eventParticipantsGroup li.token-input-token').each(function () {
+         pNumber += 1;
+         });
 
-        if (pNumber == 0) {
-            mainValidationFlag = false;
-            $('#eventParticipantsGroup').after('<p class="calValidationText">' + 'At lease one participant should be selected' + '</p>')
-            $('div#token-input-eventParticipants').css('border-color', '#ca4e4e');
-        } else {
-            $('#eventParticipantsGroup').next('p.calValidationText').remove();
-            $('ul.tokenOverwriteClass').css('border-color', '#ccc');
-        }*/
+         if (pNumber == 0) {
+         mainValidationFlag = false;
+         $('#eventParticipantsGroup').after('<p class="calValidationText">' + 'At lease one participant should be selected' + '</p>')
+         $('div#token-input-eventParticipants').css('border-color', '#ca4e4e');
+         } else {
+         $('#eventParticipantsGroup').next('p.calValidationText').remove();
+         $('ul.tokenOverwriteClass').css('border-color', '#ccc');
+         }*/
         return mainValidationFlag;
 
         /*ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss*/
@@ -860,8 +905,8 @@
                 } else if (currentAction == "DecisionSubmit") {
                     returnToCalendar();
                 } else if (currentAction == "renderCurrentWeek") {
-                    $('#calLoaderDiv').css('display','none');
-                    $('#calendar').css('filter','blur(0px)');
+                    $('#calLoaderDiv').css('display', 'none');
+                    $('#calendar').css('filter', 'blur(0px)');
                     renderFromJson(response);
                 } else if (currentAction == "filter") {
                     $('#calendar').fullCalendar('removeEvents');
@@ -882,15 +927,15 @@
     }
 
     function filterTrigger(action) {
-        return false
+        return false;
 
         var filterDiv = $('#calFilterDiv');
 
-        if (action == "On"){
+        if (action == "On") {
             filterDiv.slideDown();
-        }else if(action == "Off"){
+        } else if (action == "Off") {
             filterDiv.slideUp();
-        }else {
+        } else {
             filterDiv.slideToggle();
         }
     }
@@ -917,9 +962,11 @@
             event.is_compulsory = res.is_compulsory;
             event.to_notify = res.to_notify;
             event.is_draft = res.is_draft;
+            event.is_private = res.is_private;
             event.start = res.start;
             event.end = res.end;
             event.borderColor = "#fff";
+
 
             if (res.author_id == currentUser) {
                 event.backgroundColor = "#14b441";
@@ -955,6 +1002,9 @@
 
     <div class="w3-container" style="padding-top: 2%">
 
+        <%--Notify Span--%>
+        <span id="calNotifySpan"></span>
+
         <%--EditDiv--%>
         <div id="dialogDiv">
             <div class="btn-group">
@@ -971,10 +1021,10 @@
         </div>
         <%--Calendar--%>
         <div id='calendar'></div>
-           <%--Loader--%>
-            <div id="calLoaderDiv">
-                <div class="calLoader">Loading...</div>
-            </div>
+        <%--Loader--%>
+        <div id="calLoaderDiv">
+            <div class="calLoader">Loading...</div>
+        </div>
         <%--Modal--%>
         <div class="modal fade" id="CalendarModal" tabindex="-1" role="dialog" aria-labelledby="CalendarModalLabel">
             <div class="modal-dialog calModal" role="document">
@@ -1023,6 +1073,7 @@
                                             id="isCompulsory" path="compulsory"/>Is compulsory</label>
                                     <label class="checkbox-inline"><form:checkbox id="notifyByEmail" path="toNotify"/>Notify
                                         by email</label>
+                                    <label class="checkbox-inline"><form:checkbox id="isPrivate" path="private"/>Private event</label>
                                     <label class="hidden checkbox-inline"><form:checkbox id="isDraft" path="draft"/>is
                                         Draft</label>
                                 </div>
@@ -1064,6 +1115,7 @@
 
                             </div>
                             <div id="viewBodyDiv">
+
                                 <div class="CalendarViewHeader">
                                     <div class="input-group calInputGroup">
                                         <span class="input-group-addon calSpan">Author</span>

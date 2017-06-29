@@ -20,9 +20,7 @@ public class AssetViewController {
         ModelAndView mav = new ModelAndView();
 
         /* JSP joyi i nomi korsatilishi kerak*/
-        mav.setViewName("shared/Index");
-        mav = UP.includeUserProfile(mav, principal);
-        mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
+        mav.setViewName("assetManagement/assetItemView");
         return mav;
     }
 }

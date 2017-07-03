@@ -230,30 +230,3 @@
 <%--<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--%>
 <%--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>--%>
 
-<script>
-    setInterval(function () {
-        $.ajax({
-            type:"GET",
-            processData: false,
-            url : '${pageContext.request.contextPath}/Workflow/MyForms/todo/notification',
-            success: function(data){
-                $('#ctoNotif').text(data);
-            },
-            error: function () {
-            }
-        });
-    }, 5000);
-
-    setInterval(function () {
-        $.ajax({
-            type:"GET",
-            processData: false,
-            url : '${pageContext.request.contextPath}/Workflow/MyForms/Request/Notification',
-            success: function(data){
-                $('#userRequestNotifCto').text(data);
-            },
-            error: function () {
-            }
-        });
-    }, 5000);
-</script>

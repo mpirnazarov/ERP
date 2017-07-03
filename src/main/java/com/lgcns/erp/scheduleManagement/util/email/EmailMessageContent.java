@@ -54,9 +54,17 @@ public class EmailMessageContent {
     public String generateMessage(int scheduleId, int action, int roleType, int userId){
         if (ActionTypeId.Create.getValue()==action) {
 
-        }else if(ActionTypeId.Send_Email.getValue()==action){
+        }
+
+        if (ActionTypeId.Update.getValue()==action){
+
 
         }
+
+        if (ActionTypeId.Delete.getValue()==action){
+
+        }
+
         ScheduleEntity scheduleEntity =DetailsContext.getScheduleById(scheduleId);
         String participants="", references="";
         String calStart, calEnd, calLink , token, calAuthor, calUser, calCreationDate, calType, calTitle, calPlace, calDescription, msgCalInfo, msgCalParRef, msgCalForParticipant, msgCalForReference;

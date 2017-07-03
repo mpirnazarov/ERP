@@ -398,7 +398,7 @@
 
         /*-------Private Check-------*/
         if (EventIsPrivate == "true") {
-            if (currentUserId != EventAuthorId || isParticipate || isReference) {
+            if (currentUserId != EventAuthorId && !isParticipate && !isReference) {
 
                 $("#calNotifySpan").notify(
                     "This event is private!",

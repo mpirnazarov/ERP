@@ -97,10 +97,12 @@ public class ScheduleMainController {
         int[] author = new int[1];
         author[0] = UserService.getIdByUsername(principal.getName());
 
-        // EmailUtil.sendEmailToAuthor(scheduleId, author, ActionTypeId.Create.getValue(), createToAuthor);
-        EmailUtil.sendEmailToParticipants(scheduleId, participantsGlobal, ActionTypeId.Create.getValue(), createToParticipant);
-        EmailUtil.sendEmailToReferences(scheduleId, referencesGlobal, ActionTypeId.Create.getValue(), createToReference);
+        if (scheduleVM.isToNotify()){
+            // EmailUtil.sendEmailToAuthor(scheduleId, author, ActionTypeId.Create.getValue(), createToAuthor);
+            EmailUtil.sendEmailToParticipants(scheduleId, participantsGlobal, ActionTypeId.Create.getValue(), createToParticipant);
+            EmailUtil.sendEmailToReferences(scheduleId, referencesGlobal, ActionTypeId.Create.getValue(), createToReference);
 
+        }
 
         return "redirect: /ScheduleManagement/main";
     }

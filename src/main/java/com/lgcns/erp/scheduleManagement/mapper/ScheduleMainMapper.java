@@ -137,7 +137,7 @@ public class ScheduleMainMapper {
         scheduleEntity.setToNotify(Boolean.FALSE);
         scheduleEntity.setDraft(Boolean.FALSE);
         scheduleEntity.setAutherId(requestsEntity.getUserFromId());
-
+        scheduleEntity.setPrivate(Boolean.FALSE);
 
 
         return scheduleEntity;

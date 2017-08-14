@@ -13,6 +13,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="kendo" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" scope="request" value="Users List"/>
+<% request.setAttribute("Mode", 2); %>
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 
     <div class="mainBodyBlock">

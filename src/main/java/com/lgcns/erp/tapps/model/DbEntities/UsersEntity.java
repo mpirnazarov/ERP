@@ -1,5 +1,7 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
+import org.junit.runner.manipulation.Sortable;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
@@ -9,7 +11,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "users", schema = "public", catalog = "LgErpSystem")
-public class UsersEntity {
+public class UsersEntity{
     private int id;
     private Date dateOfBirth;
     private Integer departmentId;

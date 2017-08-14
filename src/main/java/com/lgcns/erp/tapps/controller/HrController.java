@@ -181,8 +181,13 @@ public class HrController {
         // Below data is necessary for GoJs. Must be included
         root.put("class", "go.TreeModel");
         UserLocalizationsEntity userLoc=null;
+
         for (UsersEntity user :
-                UserService.getAllUsers()) {
+                // Shit code
+                SortUsers(UserService.getAllUsers())) {
+                // Normal code
+                // Should be switched with above
+                // UserService.getAllUsers())
             if(user.isEnabled()==true) {
 
                 jsonObject = new JSONObject();
@@ -206,6 +211,56 @@ public class HrController {
         root.put("nodeDataArray", jsonArray);
         mav.addObject("jsonData", root);
         return mav;
+    }
+
+    private List<UsersEntity> SortUsers(List<UsersEntity> allUsers) {
+        List<UsersEntity> sortedUsers = new LinkedList<>();
+        List<UsersEntity> idiotUsers = new LinkedList<>();
+        Collections.sort(allUsers, new Comparator<UsersEntity>() {
+            @Override
+            public int compare(UsersEntity lhs, UsersEntity rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                if(lhs.getChiefId() != null && rhs.getChiefId() != null)
+                    return lhs.getChiefId() > rhs.getChiefId() ? -1 : (lhs.getChiefId() < rhs.getChiefId() ) ? 1 : 0;
+                else return 0;
+            }
+        });
+        for (UsersEntity user :
+                allUsers) {
+            if(user.getChiefId() != null) {
+                if (user.getChiefId() == 2) {
+                    idiotUsers.add(user);
+                } else
+                    sortedUsers.add(user);
+            }
+            else
+            {
+                sortedUsers.add(user);
+            }
+        }
+
+        for (UsersEntity idiotUser:
+             idiotUsers) {
+            if(idiotUser.getId() == 3)
+                sortedUsers.add(idiotUser);
+        }
+        for (UsersEntity idiotUser:
+                idiotUsers) {
+            if(idiotUser.getId() == 9)
+                sortedUsers.add(idiotUser);
+        }
+        for (UsersEntity idiotUser:
+                idiotUsers) {
+            if(idiotUser.getId() == 7)
+                sortedUsers.add(idiotUser);
+        }
+        for (UsersEntity idiotUser:
+                idiotUsers) {
+            if(idiotUser.getId() == 30)
+                sortedUsers.add(idiotUser);
+        }
+        //sortedUsers = allUsers;
+        return sortedUsers;
     }
 
     @RequestMapping (value = "/Hr/Profile", method = RequestMethod.GET)
@@ -1216,7 +1271,7 @@ public class HrController {
         }
         else if(path.compareTo("Head")==0){
             mav.setViewName("Home/editmenu/head");
-            List<PersonInfo> users = getUsers();
+            List<PersonInfo> users = getUsersHead();
             mav.addObject("hrUserslistVM", users);
             mav.addObject("person", new PersonInfo());
             return mav;
@@ -1457,6 +1512,43 @@ public class HrController {
 
     }
 
+    public static List<PersonInfo> getUsersHead() {
+        List<PersonInfo> returning = new LinkedList<PersonInfo>();
+        PersonInfo userProfile;
+        List<UsersEntity> usersEntityList = UserService.getAllUsers();
+
+
+        for (UsersEntity userEntity:
+                usersEntityList) {
+            if(userEntity.isEnabled()==true){
+                userProfile = new PersonInfo();
+                // Getting data from users db
+                UsersEntity user = UserService.getUserByUsername(userEntity.getUserName());
+                if (user.getId() != 0) {
+                    userProfile.setId(String.format("%05d", user.getId()));
+                    userProfile.setRoleId(user.getRoleId());
+                    if (user.getChiefId() != null)
+                        userProfile.setChiefId(user.getChiefId());
+                    userProfile.setUserName(user.getUserName());
+
+                    // Getting its localization data
+                    try {
+                        if (UserService.getUserLocByUserId(user.getId(), 3) != null) {
+                            UserLocalizationsEntity userLoc = UserService.getUserLocByUserId(user.getId(), 3);
+                            userProfile.setFirstName(userLoc.getFirstName());
+                            userProfile.setLastName(userLoc.getLastName());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    userProfile.setEnabled(user.isEnabled());
+                    returning.add(userProfile);
+                }
+            }
+        }
+        return returning;
+
+    }
     public static List<PersonInfo> getUsers() {
         List<PersonInfo> returning = new LinkedList<PersonInfo>();
         PersonInfo userProfile;
@@ -1466,32 +1558,33 @@ public class HrController {
         for (UsersEntity userEntity:
                 usersEntityList) {
             userProfile = new PersonInfo();
-            // Getting data from users db
-            UsersEntity user = UserService.getUserByUsername(userEntity.getUserName());
-            if(user.getId()!=0) {
-                userProfile.setId(String.format("%05d", user.getId()));
-                userProfile.setRoleId(user.getRoleId());
-                if (user.getChiefId() != null)
-                    userProfile.setChiefId(user.getChiefId());
-                userProfile.setUserName(user.getUserName());
+                // Getting data from users db
+                UsersEntity user = UserService.getUserByUsername(userEntity.getUserName());
+                if (user.getId() != 0) {
+                    userProfile.setId(String.format("%05d", user.getId()));
+                    userProfile.setRoleId(user.getRoleId());
+                    if (user.getChiefId() != null)
+                        userProfile.setChiefId(user.getChiefId());
+                    userProfile.setUserName(user.getUserName());
 
-                // Getting its localization data
-                try {
-                    if (UserService.getUserLocByUserId(user.getId(), 3) != null) {
-                        UserLocalizationsEntity userLoc = UserService.getUserLocByUserId(user.getId(), 3);
-                        userProfile.setFirstName(userLoc.getFirstName());
-                        userProfile.setLastName(userLoc.getLastName());
+                    // Getting its localization data
+                    try {
+                        if (UserService.getUserLocByUserId(user.getId(), 3) != null) {
+                            UserLocalizationsEntity userLoc = UserService.getUserLocByUserId(user.getId(), 3);
+                            userProfile.setFirstName(userLoc.getFirstName());
+                            userProfile.setLastName(userLoc.getLastName());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                }catch (Exception e){
-                    e.printStackTrace();
+                    userProfile.setEnabled(user.isEnabled());
+                    returning.add(userProfile);
                 }
-                userProfile.setEnabled(user.isEnabled());
-                returning.add(userProfile);
-            }
         }
         return returning;
 
     }
+
 
     // Getting user from ID
     public static ProfileViewModel getProfileById(int id){

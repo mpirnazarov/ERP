@@ -81,6 +81,10 @@ public class WorkflowEmailService {
                 }
             }
 
+            /* Send to Kamola, must be changed in case of HR change (Kamola's ID is 20, hard coded) */
+            msg = MailMessage.generateMessage(requestId, 1, 3, 20);
+            EmailService.sendHtmlMail(20, subject, msg);
+
             /* Sending to creator */
             int toCreator;
 

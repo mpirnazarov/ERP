@@ -848,7 +848,7 @@
         var currentUrl = "";
         var currentData = "";
         var currentAction = "";
-        var currentParticipant = ${userId};
+        var currentParticipant = parseInt("${userId}", 10);
         var currentScheduleId = $("#eventViewScheduleId").val();
         var currentStatus = "";
         var currentReason = "";

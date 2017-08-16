@@ -1,7 +1,7 @@
 package com.lgcns.erp.assetManagement.DBContext;
 
 import com.lgcns.erp.assetManagement.DBEntities.AssetCategoryEntity;
-import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity;
+import com.lgcns.erp.assetManagement.model.AssetCategoryVM;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -52,5 +52,39 @@ public class AssetCategoryContext {
         }
     }
 
+    public static void updateAssetCategory(AssetCategoryVM category){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update AssetCategoryEntity set assetItemName=:itemName where id=:id");
+            query.setParameter("itemName", category.getAssetItemName());
+            query.setParameter("id", category.getId());
 
+            query.executeUpdate();
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+    public static void deleteAssetCategory(int id){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("delete from AssetCategoryEntity where id = :id");
+            query.setParameter("id", id);
+            query.executeUpdate();
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
 }

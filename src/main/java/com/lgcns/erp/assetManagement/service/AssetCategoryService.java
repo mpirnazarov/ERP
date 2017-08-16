@@ -1,7 +1,7 @@
 package com.lgcns.erp.assetManagement.service;
 
 import com.lgcns.erp.assetManagement.DBEntities.AssetCategoryEntity;
-import org.springframework.stereotype.Service;
+import com.lgcns.erp.assetManagement.model.AssetCategoryVM;
 
 import java.util.List;
 
@@ -11,4 +11,7 @@ import java.util.List;
 
 public interface AssetCategoryService {
     List<AssetCategoryEntity> getAssetCategoryList();
+    void saveAssetCategory(AssetCategoryEntity categoryEntity);
+    void updateAssetCategory(AssetCategoryVM category);
+    void deleteAssetCategory(int id);
 }

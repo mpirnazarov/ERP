@@ -1,7 +1,7 @@
 package com.lgcns.erp.assetManagement.mapper;
 
 import com.lgcns.erp.assetManagement.DBEntities.AssetCategoryEntity;
-import com.lgcns.erp.assetManagement.model.AssetCategory;
+import com.lgcns.erp.assetManagement.model.AssetCategoryVM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.List;
  * Created by DS on 15.08.2017.
  */
 public class AssetCategoryMapper {
-    public static List<AssetCategory> mapAssetCategoryEntityListToModelList(List<AssetCategoryEntity> assetCategoryEntities){
+    public static List<AssetCategoryVM> mapAssetCategoryEntityListToModelList(List<AssetCategoryEntity> assetCategoryEntities){
 
-        List<AssetCategory> categories = new ArrayList<>();
+        List<AssetCategoryVM> categories = new ArrayList<>();
         for (AssetCategoryEntity assetCategoryEntity : assetCategoryEntities) {
 
             categories.add(mapAssetCategoryEntityToModel(assetCategoryEntity));
@@ -22,11 +22,19 @@ public class AssetCategoryMapper {
         return categories;
     }
 
-    public static AssetCategory mapAssetCategoryEntityToModel(AssetCategoryEntity assetCategoryEntity){
-        AssetCategory category = new AssetCategory();
+    public static AssetCategoryVM mapAssetCategoryEntityToModel(AssetCategoryEntity assetCategoryEntity){
+        AssetCategoryVM category = new AssetCategoryVM();
         category.setAssetItemName(assetCategoryEntity.getAssetItemName());
+        category.setId(assetCategoryEntity.getId());
 
         return category;
+    }
+
+    public static AssetCategoryEntity mapAssetCategoryToEntity(AssetCategoryVM category){
+        AssetCategoryEntity categoryEntity = new AssetCategoryEntity();
+        categoryEntity.setAssetItemName(category.getAssetItemName());
+
+        return categoryEntity;
     }
 
 }

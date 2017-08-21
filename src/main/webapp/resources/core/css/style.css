@@ -781,7 +781,9 @@ input[type="checkbox"].green.ios-switch:checked + div > div {
     transition: all 0.4s ease;
 }
 
-.btn-red:hover,.btn-black:hover, .btn-blue:hover, .btn-green:hover, .btn-darkblue:hover, .btn-darkred:hover, .btn-grey:hover, .btn-darkyellow:hover {
+.btn-red:hover,.btn-black:hover, .btn-blue:hover, .btn-green:hover, .btn-darkblue:hover, .btn-darkred:hover, .btn-grey:hover, .btn-darkyellow:hover,
+btn-df:hover
+{
 
     color: #787878;
     opacity: 0.6;
@@ -1916,7 +1918,24 @@ a.fc-time-grid-event:hover
 }
 
 
+/*asset design */
+.list_size
+{
+    height: 200px !important;
+    margin-top: 10px;
+}
 
+.main_continer
+{
+    margin-top: 30px;
+    padding-bottom: 6%;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+.btn-df
+{
+    margin-top: 20px;
+}
 
 
 

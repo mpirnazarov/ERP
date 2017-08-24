@@ -22,7 +22,7 @@
 </head>
 <body>
 
- <div class="mainBodyBlock" style="background-color: red">
+ <div class="mainBodyBlock" style="background-color: yellow">
     <h2 class="headerText"><span class="fa fa-pencil" aria-hidden="true"></span>Asset management</h2>
 
      <div class="w3-container">
@@ -159,7 +159,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <form id="userItemsForm" action="#" method="post" style="margin-top: 10px;">
-                                <select  path="itemlist"  multiple="multiple" class="form-control list_size" onchange="call()" id="userItemSelect" >
+                                <select multiple="multiple" class="form-control list_size" onchange="call()" id="userItemSelect" >
                                     <option>Table</option>
                                     <option>Table2</option>
                                 </select>
@@ -220,7 +220,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <form id="demoform1" action="#" method="post" style="margin-top: 10px;">
-                                <select path="itemsec"  multiple="multiple" class="form-control list_size" id="userItemSelectSec">
+                                <select multiple="multiple" class="form-control list_size" id="userItemSelectSec">
                                     <option>Table</option>
                                     <option>Table2</option>
                                 </select>
@@ -256,7 +256,7 @@
 
     /*asset manage code*/
 
-    /*var selectedItem;
+    var selectedItem;
     var selectedId;
 
     function call() {
@@ -274,8 +274,8 @@
         selectedItem = y[x].text;
         selectedId = y[x].index;
         alert("Index: " + y[x].index + " is " + y[x].text);
-
     }
+
     var listItem;
     $(function () {
         function moveItems(origin, dest) {
@@ -337,11 +337,9 @@
         $('#multiselect2_rightAll').on('click', function () {
             moveAllItems('#userItemSelect', '#userItemSelectSec');
         });
-    });*/
+    });
 
-    /*combobox select*/
-
-   /* $('#userSelect').change(function () {
+    $('#userSelect').change(function () {
         var userId = $('#userSelect option:selected').val();
 
         $.ajax({
@@ -388,7 +386,7 @@
             }
 
         });
-    });*/
+    });
 
     /*---------------*/
 </script>

@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -59,5 +60,14 @@ public class AssetCategoryController {
         ModelAndView mav = new ModelAndView("assetManagement/assetCategoryList");
         mav.addObject("categoryList", categories);
         return mav;
+    }
+
+    @RequestMapping(value = "/JsonList", method = RequestMethod.GET)
+    public @ResponseBody List<AssetCategoryVM> getAssetCategoryJsonList(){
+
+        List<AssetCategoryVM> categories = AssetCategoryMapper.
+                mapAssetCategoryEntityListToModelList(service.getAssetCategoryList());
+
+        return categories;
     }
 }

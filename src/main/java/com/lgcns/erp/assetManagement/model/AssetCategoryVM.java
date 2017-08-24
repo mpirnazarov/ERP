@@ -5,7 +5,7 @@ package com.lgcns.erp.assetManagement.model;
  */
 public class AssetCategoryVM {
     private int id;
-    private String assetItemName;
+    private String assetCategoryName;
 
     public int getId() {
         return id;
@@ -15,11 +15,11 @@ public class AssetCategoryVM {
         this.id = id;
     }
 
-    public String getAssetItemName() {
-        return assetItemName;
+    public String getAssetCategoryName() {
+        return assetCategoryName;
     }
 
-    public void setAssetItemName(String assetItemName) {
-        this.assetItemName = assetItemName;
+    public void setAssetCategoryName(String assetCategoryName) {
+        this.assetCategoryName = assetCategoryName;
     }
 }

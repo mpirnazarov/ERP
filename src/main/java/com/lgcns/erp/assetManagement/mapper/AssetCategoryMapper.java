@@ -24,7 +24,7 @@ public class AssetCategoryMapper {
 
     public static AssetCategoryVM mapAssetCategoryEntityToModel(AssetCategoryEntity assetCategoryEntity){
         AssetCategoryVM category = new AssetCategoryVM();
-        category.setAssetItemName(assetCategoryEntity.getAssetItemName());
+        category.setAssetCategoryName(assetCategoryEntity.getAssetItemName());
         category.setId(assetCategoryEntity.getId());
 
         return category;
@@ -32,7 +32,7 @@ public class AssetCategoryMapper {
 
     public static AssetCategoryEntity mapAssetCategoryToEntity(AssetCategoryVM category){
         AssetCategoryEntity categoryEntity = new AssetCategoryEntity();
-        categoryEntity.setAssetItemName(category.getAssetItemName());
+        categoryEntity.setAssetItemName(category.getAssetCategoryName());
 
         return categoryEntity;
     }

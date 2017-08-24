@@ -58,7 +58,7 @@ public class AssetCategoryContext {
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("update AssetCategoryEntity set assetItemName=:itemName where id=:id");
-            query.setParameter("itemName", category.getAssetItemName());
+            query.setParameter("itemName", category.getAssetCategoryName());
             query.setParameter("id", category.getId());
 
             query.executeUpdate();

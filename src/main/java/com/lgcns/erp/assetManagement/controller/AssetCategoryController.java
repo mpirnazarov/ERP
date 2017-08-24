@@ -10,10 +10,7 @@ import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -30,22 +27,20 @@ public class AssetCategoryController {
     AssetCategoryService service;
 
     @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.GET)
-    public String getAssetCategoryForm(Model model, Principal principal){
+    public ModelAndView getAssetCategoryForm(Principal principal){
         int userId = UserService.getIdByUsername(principal.getName());
 
-        ModelAndView mav = new ModelAndView("assetManagement/assetManagementIndex");
+        ModelAndView mav = new ModelAndView("assetManagement/assetCategoryList");
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
         mav.addObject("UserslistJson", WorkflowService.getUsersJson(principal));
         mav.addObject("userId", userId);
-        AssetCategoryVM category = new AssetCategoryVM();
-        model.addAttribute("AssetCategory", category);
 
-        return "assetManagement/assetCategory";
+        return mav;
     }
 
     @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.POST)
-    public String saveAssetCategoryForm(@ModelAttribute AssetCategoryVM assetCategory){
+    public String saveAssetCategoryForm(@RequestBody AssetCategoryVM assetCategory){
         service.saveAssetCategory(AssetCategoryMapper.mapAssetCategoryToEntity(assetCategory));
         return "redirect:/Asset/Category/List";
     }

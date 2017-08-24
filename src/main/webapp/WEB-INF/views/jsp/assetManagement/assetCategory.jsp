@@ -152,11 +152,21 @@
                     <button type="button" class="btn btn-blue" data-dismiss="modal">Add</button>
                     <button type="button" class="btn btn-red" data-dismiss="modal">Close</button>
                 </div>
+
+                <form id="formId" cssClass="form-horizontal" method="post" id="myform">
+
+                    <input type="submit" value="Submit">
+                </form>
+
             </div>
         </div>
     </div>
 </div>
 
+<script>
+
+    var myForm = $('#formId').serialize();
+</script>
 <!--<div class="container col-lg-10 col-lg-offset-1 col-sm-12">
     <div class="headerDiv">
         <div class="logoDiv" onclick="location='/login'"></div>

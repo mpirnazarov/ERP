@@ -1937,6 +1937,9 @@ a.fc-time-grid-event:hover
     margin-top: 20px;
 }
 
-
+.no-border {
+    border: 0;
+    box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
+}
 
 

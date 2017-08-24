@@ -25,15 +25,15 @@
  <div class="mainBodyBlock" style="background-color: red">
     <h2 class="headerText"><span class="fa fa-pencil" aria-hidden="true"></span>Asset management</h2>
 
-    <div class="w3-container">
+     <div class="w3-container">
 
-    <div id="calFilterDiv">
+      <div id="calFilterDiv">
         <div id="calFilterSelectGroup">
             <label for="calFilterSelectInputUsers">Search by user</label>
             <input id="calFilterSelectInputUsers">
         </div>
         <button type="button" class="btn btn-black"  id="clickModal">Search</button>
-    </div>
+       </div>
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
@@ -140,9 +140,7 @@
 
         </div>
     </div>
-
-
-     <div  class=w3-container">
+   <div class="row">
         <div class="col-md-12" style="margin-top:50px">
             <div class="row">
                 <div class="col-lg-5">
@@ -151,14 +149,11 @@
                             <select path="users" class="form-control" id="userSelect">
                                 <option ></option>
                             </select>
-
-                           <% /*<form:select path="users" class="form-control" id="userSelect">
+                            <%  /*<form:select path="users" class="form-control" id="userSelect">
                                 <c:forEach items="${availableUsers}" var="users">
                                     <option value="${users.userid}">${users.users}</option>
                                 </c:forEach>
                             </form:select>*/ %>
-
-
                         </div>
                     </div>
                     <div class="row">
@@ -243,8 +238,6 @@
             </div>
         </div>
        </div>
-
-
     </div>
 
 

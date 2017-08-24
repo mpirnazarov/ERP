@@ -3,14 +3,20 @@ package com.lgcns.erp.assetManagement.controller;
 import com.lgcns.erp.assetManagement.mapper.AssetCategoryMapper;
 import com.lgcns.erp.assetManagement.model.AssetCategoryVM;
 import com.lgcns.erp.assetManagement.service.AssetCategoryService;
+import com.lgcns.erp.tapps.DbContext.UserService;
+import com.lgcns.erp.tapps.controller.UP;
+import com.lgcns.erp.tapps.controller.UserController;
+import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -24,10 +30,17 @@ public class AssetCategoryController {
     AssetCategoryService service;
 
     @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.GET)
-    public String getAssetCategoryForm(Model model){
+    public String getAssetCategoryForm(Model model, Principal principal){
+        int userId = UserService.getIdByUsername(principal.getName());
 
+        ModelAndView mav = new ModelAndView("assetManagement/assetManagementIndex");
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
+        mav.addObject("UserslistJson", WorkflowService.getUsersJson(principal));
+        mav.addObject("userId", userId);
         AssetCategoryVM category = new AssetCategoryVM();
         model.addAttribute("AssetCategory", category);
+
         return "assetManagement/assetCategory";
     }
 
@@ -59,5 +72,14 @@ public class AssetCategoryController {
         ModelAndView mav = new ModelAndView("assetManagement/assetCategoryList");
         mav.addObject("categoryList", categories);
         return mav;
+    }
+
+    @RequestMapping(value = "/JsonList", method = RequestMethod.GET)
+    public @ResponseBody List<AssetCategoryVM> getAssetCategoryJsonList(){
+
+        List<AssetCategoryVM> categories = AssetCategoryMapper.
+                mapAssetCategoryEntityListToModelList(service.getAssetCategoryList());
+
+        return categories;
     }
 }

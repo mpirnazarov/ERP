@@ -30,7 +30,7 @@
                                 <c:out value="${category.id}" />
                             </td>
                             <td>
-                                <c:out value="${category.assetItemName}" />
+                                <c:out value="${category.assetCategoryName}" />
                             </td>
                         </tr>
                     </c:forEach>

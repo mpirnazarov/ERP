@@ -27,31 +27,33 @@ public class AssetCategoryController {
     AssetCategoryService service;
 
     @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.GET)
-    public ModelAndView getAssetCategoryForm(Principal principal){
+    public ModelAndView getAssetCategoryForm(Model model,Principal principal){
         int userId = UserService.getIdByUsername(principal.getName());
 
-        ModelAndView mav = new ModelAndView("assetManagement/assetCategoryList");
+        ModelAndView mav = new ModelAndView("assetManagement/assetManagementCategory");
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
         mav.addObject("UserslistJson", WorkflowService.getUsersJson(principal));
         mav.addObject("userId", userId);
+        AssetCategoryVM categoryVM = new AssetCategoryVM();
+        model.addAttribute("AssetCategory",categoryVM);
 
         return mav;
     }
 
-    @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.POST)
-    public String saveAssetCategoryForm(@RequestBody AssetCategoryVM assetCategory){
+    @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.POST, params = "submit")
+    public String saveAssetCategoryForm(@ModelAttribute AssetCategoryVM assetCategory){
         service.saveAssetCategory(AssetCategoryMapper.mapAssetCategoryToEntity(assetCategory));
         return "redirect:/Asset/Category/List";
     }
 
-    @RequestMapping(value = "/AssetCategoryUpdateForm", method = RequestMethod.POST)
+    @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.POST, params = "update")
     public String updateAssetCategoryForm(@ModelAttribute AssetCategoryVM assetCategory){
         service.updateAssetCategory(assetCategory);
         return "redirect:/Asset/Category/List";
     }
 
-    @RequestMapping(value = "/AssetCategoryDelete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.DELETE, params = "delete")
     public String deleteAssetCategory(@ModelAttribute AssetCategoryVM assetCategory){
         service.deleteAssetCategory(assetCategory.getId());
 

@@ -38,6 +38,11 @@ public class AssetCategoryController {
         AssetCategoryVM categoryVM = new AssetCategoryVM();
         model.addAttribute("AssetCategory",categoryVM);
 
+        List<AssetCategoryVM> categories = AssetCategoryMapper.
+                mapAssetCategoryEntityListToModelList(service.getAssetCategoryList());
+
+        mav.addObject("categoryList", categories);
+
         return mav;
     }
 
@@ -53,7 +58,7 @@ public class AssetCategoryController {
         return "redirect:/Asset/Category/List";
     }
 
-    @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.DELETE, params = "delete")
+    @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.POST, params = "delete")
     public String deleteAssetCategory(@ModelAttribute AssetCategoryVM assetCategory){
         service.deleteAssetCategory(assetCategory.getId());
 

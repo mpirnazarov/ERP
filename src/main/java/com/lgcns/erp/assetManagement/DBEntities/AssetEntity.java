@@ -127,13 +127,4 @@ public class AssetEntity {
         this.assetCategoryByCategoryId = assetCategoryByCategoryId;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "invent_number", referencedColumnName = "asset_invent_number", insertable = false, updatable = false)
-    public AssetHistoryEntity getAssetHistoryByInventNumber() {
-        return assetHistoryByInventNumber;
-    }
-
-    public void setAssetHistoryByInventNumber(AssetHistoryEntity assetHistoryByInventNumber) {
-        this.assetHistoryByInventNumber = assetHistoryByInventNumber;
-    }
 }

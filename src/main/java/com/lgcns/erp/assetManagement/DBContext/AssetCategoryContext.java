@@ -1,7 +1,6 @@
 package com.lgcns.erp.assetManagement.DBContext;
 
 import com.lgcns.erp.assetManagement.DBEntities.AssetCategoryEntity;
-import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

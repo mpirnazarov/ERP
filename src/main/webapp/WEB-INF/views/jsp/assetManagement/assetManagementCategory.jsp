@@ -36,8 +36,8 @@
                 </td>
                 <td>
                     <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
-                        <input onclick="updateCategory(${category.id},'${category.assetCategoryName}')" value="Edit" class="btn btn-blue"/>
-                        <input onclick="deleteCategory(${category.id})" value="Delete" class="btn btn-red"/>
+                        <button onclick="updateCategory(${category.id},'${category.assetCategoryName}')" value="Edit" class="btn btn-blue">Edit</button>
+                        <button onclick="deleteCategory(${category.id})" value="Delete" class="btn btn-red">Delete</button>
                     </div>
                 </td>
             </tr>
@@ -102,8 +102,8 @@
     }
 
     function deleteCategory(id) {
-        $('#assetCategoryId').val(id)
-        $('#categoryForm').submit();
+
+        $.post("/Asset/Category/AssetCategoryFormDelete","assetCategoryId="+id);
     }
 
 </script>

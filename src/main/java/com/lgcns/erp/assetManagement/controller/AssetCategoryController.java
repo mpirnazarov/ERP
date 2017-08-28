@@ -58,7 +58,7 @@ public class AssetCategoryController {
         return "redirect:/Asset/Category/List";
     }
 
-    @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.POST, params = "delete")
+    @RequestMapping(value = "/AssetCategoryFormDelete", method = RequestMethod.POST)
     public String deleteAssetCategory(@RequestParam("assetCategoryId") int assetCategoryId){
         service.deleteAssetCategory(assetCategoryId);
 

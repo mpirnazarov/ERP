@@ -30,6 +30,12 @@ public class AssetController {
     AssetService service;
 
 
+    /**
+     * Temprory
+     * @param principal
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/jsonTable", method = RequestMethod.GET)
     public @ResponseBody
     List<AssetVM> getTable(Principal principal, Model model){
@@ -52,6 +58,10 @@ public class AssetController {
 
         AssetVM assetVM = new AssetVM();
         model.addAttribute("assetVM", assetVM);
+        List<AssetVM> assetVMS = AssetMapper.mapAssetEntitiesToModels(
+                service.getAssetList());
+
+        mav.addObject("AssetList", assetVMS);
 
         return mav;
     }

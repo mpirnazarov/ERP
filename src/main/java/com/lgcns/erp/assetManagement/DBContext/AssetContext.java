@@ -2,7 +2,6 @@ package com.lgcns.erp.assetManagement.DBContext;
 
 import com.lgcns.erp.assetManagement.DBEntities.AssetCategoryEntity;
 import com.lgcns.erp.assetManagement.DBEntities.AssetEntity;
-import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleEntity;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import org.hibernate.HibernateException;
@@ -34,8 +33,10 @@ public class AssetContext {
         finally {
             session.close();
         }
+
         return list;
     }
+
 
     public static void insertAsset(AssetEntity assetEntity){
         Session session = HibernateUtility.getSessionFactory().openSession();

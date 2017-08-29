@@ -20,6 +20,7 @@ public class AssetMapper{
         assetVM.setRegDate(assetEntity.getRegDate());
         assetVM.setCategoryId(assetEntity.getCategoryId());
         assetVM.setUserId(assetEntity.getUserId());
+        assetVM.setCategoryName(assetEntity.getAssetCategoryByCategoryId().getAssetItemName());
 
         return assetVM;
     }

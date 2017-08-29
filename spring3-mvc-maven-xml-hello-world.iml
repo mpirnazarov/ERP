@@ -14,7 +14,8 @@
     <facet type="hibernate" name="Hibernate">
       <configuration>
         <datasource-map>
-          <unit-entry name="hibernate.cfg.xml" value="d8c89cd7-c90c-4b7e-80b7-fb958d6fc77e" />
+          <unit-entry name="a.xml" value="36e38b2c-ad3a-47e9-94c2-1a35ce3939e5" />
+          <unit-entry name="hibernate.cfg.xml" value="36e38b2c-ad3a-47e9-94c2-1a35ce3939e5" />
         </datasource-map>
         <naming-strategy-map />
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/main/resources/hibernate.cfg.xml" />
@@ -26,6 +27,7 @@
         <setting name="provider-name" value="" />
         <datasource-mapping>
           <factory-entry name="Entities" />
+          <factory-entry name="noname-a.xml@0" value="36e38b2c-ad3a-47e9-94c2-1a35ce3939e5" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/META-INF/persistence.xml" />
       </configuration>
@@ -34,7 +36,7 @@
       <configuration />
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">

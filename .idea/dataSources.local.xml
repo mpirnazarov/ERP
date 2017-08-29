@@ -7,7 +7,6 @@
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <user-name>user_erp</user-name>
-      <introspection-schemas>LgErpSystem:public</introspection-schemas>
     </data-source>
     <data-source name="LgErpSystemProd@192.168.1.77" uuid="2fc63b45-fa0d-4afb-8f5c-9fe947b45567">
       <database-info product="PostgreSQL" version="9.6rc1" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4.1212">
@@ -16,7 +15,15 @@
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
       <user-name>user_erp</user-name>
-      <introspection-schemas>LgErpSystemProd:public</introspection-schemas>
+    </data-source>
+    <data-source name="LgErpSystem@192.168.1.77 [2]" uuid="36e38b2c-ad3a-47e9-94c2-1a35ce3939e5">
+      <database-info product="PostgreSQL" version="9.6rc1" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.1.1">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>user_erp</user-name>
+      <resolve-scope>LgErpSystem:public,user_erp</resolve-scope>
     </data-source>
   </component>
 </project>

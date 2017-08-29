@@ -13,6 +13,16 @@ public class AssetVM {
     private int userId;
     private Date regDate;
     private int categoryId;
+    private String categoryName;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
 
     public int getId() {
         return id;

@@ -73,8 +73,7 @@
         </h1>
         <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
         </p>--%>
-        <h2 class="headerText"><span class="glyphicon glyphicon-calendar"
-                                                                            aria-hidden="true"></span> Leave approve
+        <h2 class="headerText"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Leave approve
             {EDIT}</h2>
 
         <form:form modelAttribute="leaveApproveVM" cssClass="form-horizontal" method="post" id="myform"

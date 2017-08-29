@@ -188,6 +188,7 @@
 
     function createEvent(start, end, calendarObject) {
         clearModal();
+
         $('#calSubmitButton').attr('value', 'Submit');
 
         switchContentDiv("create");
@@ -997,7 +998,7 @@
 
 </script>
 
-<div class="mainBodyBlock">
+ <div class="mainBodyBlock">
     <%--<h2 class="headerText"><span class="fa fa-pencil" aria-hidden="true"></span> Calendar</h2>--%>
 
     <div class="w3-container" style="padding-top: 2%">
@@ -1007,7 +1008,7 @@
 
         <%--EditDiv--%>
         <div id="dialogDiv">
-            <div class="btn-group">
+                    <div class="btn-group">
                 <button id="dialogEditButton" type="button" class="btn btn-darkblue">Edit</button>
                 <button id="dialogViewButton" type="button" class="btn btn-green">View</button>
             </div>

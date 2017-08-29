@@ -65,7 +65,9 @@
 
 	</bean>
 
+	<bean id="assetService" class="com.lgcns.erp.assetManagement.serviceImpl.AssetServiceImpl">
 
+	</bean>
 	<!--<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>
     </bean>

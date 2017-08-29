@@ -11,9 +11,7 @@ import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -64,6 +62,28 @@ public class AssetController {
         mav.addObject("AssetList", assetVMS);
 
         return mav;
+    }
+
+
+    @RequestMapping(value = "/index", method = RequestMethod.POST, params = "submit")
+    public String submitAsset(@ModelAttribute AssetVM assetVM){
+        service.insertAsset(AssetMapper.mapAssetVMToEntity(assetVM));
+
+        return "redirect:/Asset/index";
+    }
+
+    @RequestMapping(value = "/index", method = RequestMethod.POST, params = "update")
+    public String updateAsset(@ModelAttribute AssetVM assetVM){
+        service.updateAsset(AssetMapper.mapAssetVMToEntity(assetVM));
+
+        return "redirect:/Asset/index";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String deleteAsset(@RequestParam("assetId") int assetId){
+        service.deleteAsset(assetId);
+
+        return "";
     }
 
 

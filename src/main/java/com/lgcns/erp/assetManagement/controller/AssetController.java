@@ -1,5 +1,6 @@
 package com.lgcns.erp.assetManagement.controller;
 
+import com.lgcns.erp.assetManagement.mapper.AssetMapper;
 import com.lgcns.erp.assetManagement.model.AssetVM;
 import com.lgcns.erp.assetManagement.service.AssetService;
 import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
@@ -12,9 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.List;
 
 /**
  * Created by DS on 16.08.2017.
@@ -25,6 +28,17 @@ public class AssetController {
 
     @Autowired
     AssetService service;
+
+
+    @RequestMapping(value = "/jsonTable", method = RequestMethod.GET)
+    public @ResponseBody
+    List<AssetVM> getTable(Principal principal, Model model){
+
+        List<AssetVM> assetVMS = AssetMapper.mapAssetEntitiesToModels(
+                service.getAssetList());
+
+        return assetVMS;
+    }
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public ModelAndView getIndex(Principal principal, Model model){

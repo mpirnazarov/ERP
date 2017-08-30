@@ -9,7 +9,7 @@ import java.sql.Date;
 public class AssetVM {
     private int id;
     private int inventNumber;
-    private boolean isPublic;
+    private int isPublic;
     private int userId;
     private Date regDate;
     private int categoryId;
@@ -40,11 +40,11 @@ public class AssetVM {
         this.inventNumber = inventNumber;
     }
 
-    public boolean isPublic() {
+    public int isPublic() {
         return isPublic;
     }
 
-    public void setPublic(boolean aPublic) {
+    public void setPublic(int aPublic) {
         isPublic = aPublic;
     }
 

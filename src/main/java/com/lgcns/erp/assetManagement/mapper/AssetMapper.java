@@ -2,6 +2,7 @@ package com.lgcns.erp.assetManagement.mapper;
 
 import com.lgcns.erp.assetManagement.DBEntities.AssetEntity;
 import com.lgcns.erp.assetManagement.model.AssetVM;
+import com.lgcns.erp.tapps.DbContext.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class AssetMapper{
         assetVM.setCategoryId(assetEntity.getCategoryId());
         assetVM.setUserId(assetEntity.getUserId());
         assetVM.setCategoryName(assetEntity.getAssetCategoryByCategoryId().getAssetItemName());
+        assetVM.setUserNameSurname(UserService.getUserFullNameInLanguageById(assetEntity.getUserId(), 3));
 
         return assetVM;
     }

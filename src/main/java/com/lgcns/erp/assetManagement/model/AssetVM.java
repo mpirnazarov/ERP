@@ -11,12 +11,29 @@ public class AssetVM {
     private int inventNumber;
     private int isPublic;
     private int userId;
+    private String userNameSurname;
     private Date regDate;
     private int categoryId;
     private String categoryName;
 
     public String getCategoryName() {
         return categoryName;
+    }
+
+    public int getIsPublic() {
+        return isPublic;
+    }
+
+    public void setIsPublic(int isPublic) {
+        this.isPublic = isPublic;
+    }
+
+    public String getUserNameSurname() {
+        return userNameSurname;
+    }
+
+    public void setUserNameSurname(String userNameSurname) {
+        this.userNameSurname = userNameSurname;
     }
 
     public void setCategoryName(String categoryName) {

@@ -49,13 +49,13 @@ public class AssetCategoryController {
     @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.POST, params = "submit")
     public String saveAssetCategoryForm(@ModelAttribute AssetCategoryVM assetCategory){
         service.saveAssetCategory(AssetCategoryMapper.mapAssetCategoryToEntity(assetCategory));
-        return "redirect:/Asset/Category/List";
+        return "redirect:/Asset/Category/AssetCategoryForm";
     }
 
     @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.POST, params = "update")
     public String updateAssetCategoryForm(@ModelAttribute AssetCategoryVM assetCategory){
         service.updateAssetCategory(assetCategory);
-        return "redirect:/Asset/Category/List";
+        return "redirect:/Asset/Category/AssetCategoryForm";
     }
 
     @RequestMapping(value = "/AssetCategoryFormDelete", method = RequestMethod.POST)

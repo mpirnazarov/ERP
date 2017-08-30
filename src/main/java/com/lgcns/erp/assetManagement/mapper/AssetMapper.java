@@ -16,7 +16,7 @@ public class AssetMapper{
 
         assetVM.setId(assetEntity.getId());
         assetVM.setInventNumber(assetEntity.getInventNumber());
-        assetVM.setPublic(assetEntity.getPublic());
+        assetVM.setPublic(assetEntity.getPublic()?1:0);
         assetVM.setRegDate(assetEntity.getRegDate());
         assetVM.setCategoryId(assetEntity.getCategoryId());
         assetVM.setUserId(assetEntity.getUserId());
@@ -40,7 +40,7 @@ public class AssetMapper{
 
         assetEntity.setId(assetVM.getId());
         assetEntity.setInventNumber(assetVM.getInventNumber());
-        assetEntity.setPublic(assetVM.isPublic());
+        assetEntity.setPublic(assetVM.isPublic()==1?true:false);
         assetEntity.setRegDate(assetVM.getRegDate());
         assetEntity.setCategoryId(assetVM.getCategoryId());
         assetEntity.setUserId(assetVM.getUserId());

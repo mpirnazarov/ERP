@@ -24,6 +24,7 @@
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
       <user-name>user_erp</user-name>
+      <introspection-schemas>LgErpSystem:asset_management,public</introspection-schemas>
       <resolve-scope>LgErpSystem:public,user_erp</resolve-scope>
       <unqualified-resolve-schemas>LgErpSystem:public,user_erp</unqualified-resolve-schemas>
     </data-source>

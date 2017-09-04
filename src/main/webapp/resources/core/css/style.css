@@ -1946,6 +1946,29 @@ a.fc-time-grid-event:hover
 /*       Asset-Management        */
 /*-------------------------------*/
 
+.asset_index .assetInputGroup {
+    width: 100%;
+    margin-top: 1%;
+}
+
+.asset_index .assetInputGroup span{
+    width: 25%;
+}
+
+.asset_index .assetInputGroup select{
+    width: 99%;
+    margin-left: 1%;
+}
+
+.asset_index .assetInputGroup .token-input-dropdown {
+    width: 200px;
+}
+
+.asset_index
+
+
+
+
 
 
 

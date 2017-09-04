@@ -15,9 +15,11 @@ public class AssetMapper{
     public static AssetVM mapAssetEntityToModel(AssetEntity assetEntity){
         AssetVM assetVM = new AssetVM();
 
+        int isPublicInt = assetEntity.getPublic()?1:0;
         assetVM.setId(assetEntity.getId());
         assetVM.setInventNumber(assetEntity.getInventNumber());
-        assetVM.setPublic(assetEntity.getPublic()?1:0);
+        /*assetVM.setCheckPublic(isPublicInt);*/
+        assetVM.setCheckPublic(assetEntity.getPublic());
         assetVM.setRegDate(assetEntity.getRegDate());
         assetVM.setCategoryId(assetEntity.getCategoryId());
         assetVM.setUserId(assetEntity.getUserId());
@@ -42,7 +44,8 @@ public class AssetMapper{
 
         assetEntity.setId(assetVM.getId());
         assetEntity.setInventNumber(assetVM.getInventNumber());
-        assetEntity.setPublic(assetVM.isPublic()==1?true:false);
+        /*assetEntity.setPublic(assetVM.isCheckPublic()==1?true:false);*/
+        assetEntity.setPublic(assetVM.isCheckPublic());
         assetEntity.setRegDate(assetVM.getRegDate());
         assetEntity.setCategoryId(assetVM.getCategoryId());
         assetEntity.setUserId(assetVM.getUserId());

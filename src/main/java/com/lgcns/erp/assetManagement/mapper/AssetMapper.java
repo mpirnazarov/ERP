@@ -49,10 +49,15 @@ public class AssetMapper{
         assetEntity.setId(assetVM.getId());
         assetEntity.setInventNumber(assetVM.getInventNumber());
         /*assetEntity.setPublic(assetVM.isCheckPublic()==1?true:false);*/
-        if(assetVM.getCheckPublic()==false)
-            assetEntity.setPublic(false);
-        else
-            assetEntity.setPublic(true);
+        try {
+            if(assetVM.getCheckPublic()==true)
+                assetEntity.setPublic(true);
+            else
+                assetEntity.setPublic(false);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         assetEntity.setRegDate(assetVM.getRegDate());
         assetEntity.setCategoryId(assetVM.getCategoryId());
         assetEntity.setUserId(assetVM.getUserId());

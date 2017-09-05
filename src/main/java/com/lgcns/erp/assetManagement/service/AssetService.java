@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface AssetService {
     List<AssetEntity> getAssetList();
+    List<AssetEntity> getAssetListByUserID(int userId);
     void insertAsset(AssetEntity assetEntity);
     void updateAsset(AssetEntity assetEntity);
     void deleteAsset(int id);

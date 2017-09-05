@@ -16,6 +16,11 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+    public List<AssetEntity> getAssetListByUserID(int userId) {
+        return AssetContext.getAssetListByUserID(userId);
+    }
+
+    @Override
     public void insertAsset(AssetEntity assetEntity) {
         AssetContext.insertAsset(assetEntity);
     }

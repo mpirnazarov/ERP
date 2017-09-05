@@ -44,15 +44,12 @@ public class UnformattedController {
 
     @RequestMapping(value = "NewForm/Unformatted", method = RequestMethod.GET)
     public ModelAndView Hrprofile(Principal principal){
-        System.out.println("Unformatted is working!!!");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("workflow/newForm/unformatted");
         mav = UP.includeUserProfile(mav, principal);
-        System.out.println("Unformatted is working2!!!");
         // Creating Unformatted ViewModel
         UnformattedViewModel unformattedViewModel = new UnformattedViewModel();
         mav.addObject("unformattedVM", unformattedViewModel);
-        System.out.println("Unformatted is working3!!!");
         // Create Json data about userlist for Approvals, reference and executive persons list
         JSONObject jsonObject = null;
         JSONArray jsonArray = new JSONArray();

@@ -37,6 +37,28 @@ public class AssetContext {
         return list;
     }
 
+    public static List<AssetEntity> getAssetListByUserID(int userId){
+        List<AssetEntity> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from AssetEntity where userId = :userId");
+            query.setParameter("userId", userId);
+            list = (List<AssetEntity>)query.list();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return list;
+    }
+
 
     public static void insertAsset(AssetEntity assetEntity){
         Session session = HibernateUtility.getSessionFactory().openSession();

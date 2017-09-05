@@ -38,7 +38,7 @@
                     </button>
                     <h4 class="modal-title" id="gridSystemModalLabel"></h4>
                 </div>
-                <form:form modelAttribute="assetVM" method="post" id="assetForm" enctype="multipart/form-data">
+                <form:form modelAttribute="assetVM" method="post" id="assetForm">
                     <div class="modal-body">
                         <form:input class="hidden" id="asset_id" path="id"></form:input>
 
@@ -55,7 +55,7 @@
 
                         <div class="input-group assetInputGroup">
                             <span class="input-group-addon calSpan">Public</span>
-                            <form:checkbox id="asset_public" path="checkPublic"/>
+                            <form:checkbox id="asset_public" path="checkPublic" />
                         </div>
 
                         <div class="input-group assetInputGroup">
@@ -229,7 +229,7 @@
 
             $('#assetForm :input').val("");
             $('#asset_category_select').empty();
-            $('#asset_public').prop('checked', false);
+            $('#asset_public').prop('checked', 0);
             $('#asset_owner').tokenInput("clear");
             $('#assetForm ul.token-input-list').remove();
         }

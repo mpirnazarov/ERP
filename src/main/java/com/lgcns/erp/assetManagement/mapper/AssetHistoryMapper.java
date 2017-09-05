@@ -1,6 +1,8 @@
 package com.lgcns.erp.assetManagement.mapper;
 
 import com.lgcns.erp.assetManagement.DBEntities.AssetEntity;
+import com.lgcns.erp.assetManagement.DBEntities.AssetHistoryEntity;
+import com.lgcns.erp.assetManagement.model.AssetHistoryVM;
 import com.lgcns.erp.assetManagement.model.AssetVM;
 import com.lgcns.erp.tapps.DbContext.UserService;
 
@@ -8,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by DS on 16.08.2017.
+ * Created by Muslimbek on 05.09.2017.
  */
-public class AssetMapper{
+public class AssetHistoryMapper {
 
-    public static AssetVM mapAssetEntityToModel(AssetEntity assetEntity){
+    /*public static AssetVM mapAssetHistoryEntityToModel(AssetHistoryEntity assetHistoryEntity){
         AssetVM assetVM = new AssetVM();
         try {
             int isPublicInt = assetEntity.getPublic()?1:0;
@@ -22,7 +24,7 @@ public class AssetMapper{
         }
         assetVM.setId(assetEntity.getId());
         assetVM.setInventNumber(assetEntity.getInventNumber());
-        /*assetVM.setCheckPublic(isPublicInt);*/
+        *//*assetVM.setCheckPublic(isPublicInt);*//*
         assetVM.setCheckPublic(assetEntity.getPublic());
         assetVM.setRegDate(assetEntity.getRegDate());
         assetVM.setCategoryId(assetEntity.getCategoryId());
@@ -31,9 +33,9 @@ public class AssetMapper{
         assetVM.setUserNameSurname(UserService.getUserFullNameInLanguageById(assetEntity.getUserId(), 3));
 
         return assetVM;
-    }
+    }*/
 
-    public static List<AssetVM> mapAssetEntitiesToModels(List<AssetEntity> assetEntities){
+    /*public static List<AssetVM> mapAssetEntitiesToModels(List<AssetEntity> assetEntities){
         List<AssetVM> assetVMList = new ArrayList<>();
 
         for (AssetEntity assetEntity : assetEntities) {
@@ -41,28 +43,17 @@ public class AssetMapper{
         }
 
         return assetVMList;
-    }
+    }*/
 
-    public static AssetEntity mapAssetVMToEntity(AssetVM assetVM){
-        AssetEntity assetEntity = new AssetEntity();
+    public static AssetHistoryEntity mapAssetVMToEntity(AssetHistoryVM assetVM){
+        AssetHistoryEntity assetHistoryEntity = new AssetHistoryEntity();
 
-        assetEntity.setId(assetVM.getId());
-        assetEntity.setInventNumber(assetVM.getInventNumber());
-        /*assetEntity.setPublic(assetVM.isCheckPublic()==1?true:false);*/
-        try {
-            if(assetVM.isCheckPublic()==true)
-                assetEntity.setPublic(true);
-            else
-                assetEntity.setPublic(false);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        assetHistoryEntity.setAssetInventNumber(assetVM.getInventNumber());
+        assetHistoryEntity.setUserIdNew(assetVM.getUserToId());
+        assetHistoryEntity.setUserIdOld(assetVM.getUserFromId());
+        assetHistoryEntity.setRegDate(assetVM.getRegDate());
 
-        assetEntity.setRegDate(assetVM.getRegDate());
-        assetEntity.setCategoryId(assetVM.getCategoryId());
-        assetEntity.setUserId(assetVM.getUserId());
-
-        return assetEntity;
+        return assetHistoryEntity;
     }
 
 }

@@ -26,7 +26,7 @@ public class AssetCategoryController {
     @Autowired
     AssetCategoryService service;
 
-    @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView getAssetCategoryForm(Model model,Principal principal){
         int userId = UserService.getIdByUsername(principal.getName());
 
@@ -46,19 +46,19 @@ public class AssetCategoryController {
         return mav;
     }
 
-    @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.POST, params = "submit")
+    @RequestMapping(value = "/", method = RequestMethod.POST, params = "submit")
     public String saveAssetCategoryForm(@ModelAttribute AssetCategoryVM assetCategory){
         service.saveAssetCategory(AssetCategoryMapper.mapAssetCategoryToEntity(assetCategory));
         return "redirect:/Asset/Category/AssetCategoryForm";
     }
 
-    @RequestMapping(value = "/AssetCategoryForm", method = RequestMethod.POST, params = "update")
+    @RequestMapping(value = "/", method = RequestMethod.POST, params = "update")
     public String updateAssetCategoryForm(@ModelAttribute AssetCategoryVM assetCategory){
         service.updateAssetCategory(assetCategory);
         return "redirect:/Asset/Category/AssetCategoryForm";
     }
 
-    @RequestMapping(value = "/AssetCategoryFormDelete", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     public String deleteAssetCategory(@RequestParam("assetCategoryId") int assetCategoryId){
         service.deleteAssetCategory(assetCategoryId);
 

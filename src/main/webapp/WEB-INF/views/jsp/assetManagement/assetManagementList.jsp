@@ -197,6 +197,8 @@
         function asset_create() {
             asset_clear();
 
+            $('#asset_id').val('1');
+
             $('#asset_owner').tokenInput(${UserslistJson},{tokenLimit: 1});
 
             generateCategory();

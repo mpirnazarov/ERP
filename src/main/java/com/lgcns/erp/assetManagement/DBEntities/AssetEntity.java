@@ -11,6 +11,7 @@ public class AssetEntity {
     private int id;
     private Integer inventNumber;
     private Boolean isPublic;
+    private Boolean isEnabled;
     private Integer userId;
     private Date regDate;
     private Integer categoryId;
@@ -47,6 +48,16 @@ public class AssetEntity {
 
     public void setPublic(Boolean aPublic) {
         isPublic = aPublic;
+    }
+
+    @Basic
+    @Column(name = "is_enabled")
+    public Boolean getEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(Boolean aEnabled) {
+        isEnabled = aEnabled;
     }
 
     @Basic

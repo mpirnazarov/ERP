@@ -1,5 +1,6 @@
 package com.lgcns.erp.assetManagement.controller;
 
+import com.lgcns.erp.assetManagement.DBEntities.AssetEntity;
 import com.lgcns.erp.assetManagement.mapper.AssetHistoryMapper;
 import com.lgcns.erp.assetManagement.mapper.AssetMapper;
 import com.lgcns.erp.assetManagement.model.AssetHistoryVM;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.sql.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -54,22 +56,47 @@ public class AssetOwnerController {
     }
 
     @RequestMapping(value = "/changeAssetOwner", method = RequestMethod.POST)
-    public int changeAssetOwner(Principal principal, Model model, @RequestParam("userFrom") int userFrom, @RequestParam("userTo") int userTo, @RequestParam("assetNumber") int assetNumber ){
+    public int changeAssetOwner(Principal principal, Model model, @RequestParam("userFrom") int userFrom, @RequestParam("userTo") int userTo, @RequestParam("assetNumber") int[] assetNumbers ) {
+
         AssetHistoryVM assetHistoryVM = new AssetHistoryVM();
+        if(assetNumbers[0] == 0){
 
-        assetHistoryVM.setInventNumber(assetNumber);
-        assetHistoryVM.setUserFromId(userFrom);
-        assetHistoryVM.setUserToId(userTo);
-        //assetHistoryVM.setRegDate((Date) new java.util.Date());
+            for (AssetEntity assetNumber :
+                    service.getAssetListByUserID(userFrom)) {
+                assetHistoryVM.setInventNumber(assetNumber.getId());
+                assetHistoryVM.setUserFromId(userFrom);
+                assetHistoryVM.setUserToId(userTo);
+                assetHistoryVM.setRegDate(AssetMapper.getCurrentDate());
 
-        try {
-            assetHistoryService.insertAssetHistory(AssetHistoryMapper.mapAssetVMToEntity(assetHistoryVM));
-            service.updateAssetOwner(assetNumber, userTo);
+                try {
+                    assetHistoryService.insertAssetHistory(AssetHistoryMapper.mapAssetVMToEntity(assetHistoryVM));
+                    service.updateAssetOwner(assetNumber.getId(), userTo);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            }
             return 1;
-        }catch (Exception e){
-            e.printStackTrace();
-            return 0;
+
+        }else {
+
+            for (int assetNumber :
+                    assetNumbers) {
+                assetHistoryVM.setInventNumber(assetNumber);
+                assetHistoryVM.setUserFromId(userFrom);
+                assetHistoryVM.setUserToId(userTo);
+                assetHistoryVM.setRegDate(AssetMapper.getCurrentDate());
+
+                try {
+                    assetHistoryService.insertAssetHistory(AssetHistoryMapper.mapAssetVMToEntity(assetHistoryVM));
+                    service.updateAssetOwner(assetNumber, userTo);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            }
         }
+        return 1;
     }
 
 }

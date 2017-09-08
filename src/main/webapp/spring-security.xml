@@ -8,7 +8,12 @@
 
     <!-- enable use-expressions -->
 	<http auto-config="true" use-expressions="true" disable-url-rewriting="true">
-		<intercept-url pattern="/Asset/**" access="permitAll" />
+		<intercept-url pattern="/Asset/Category**" access="hasRole('3')" />
+		<intercept-url pattern="/Asset/Category/**" access="hasRole('3')" />
+		<intercept-url pattern="/Asset/index**" access="hasRole('1') or hasRole('3')" />
+		<intercept-url pattern="/Asset/Owner**" access="hasRole('3')" />
+		<intercept-url pattern="/Asset/Owner/**" access="hasRole('3')" />
+		<intercept-url pattern="/Asset/**" access="isAuthenticated()" />
 		<intercept-url pattern="/Attendance/**" access="isAuthenticated()" />
 		<intercept-url pattern="/Workflow/**" access="isAuthenticated()" />
 		<intercept-url pattern="/Hr/**" access="hasRole('3')" />
@@ -20,6 +25,7 @@
 		<intercept-url pattern="/favicon.ico" access="permitAll" />
 		<intercept-url pattern="/logout" access="permitAll" />
 		<intercept-url pattern="/login*" access="permitAll" />
+
 
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 

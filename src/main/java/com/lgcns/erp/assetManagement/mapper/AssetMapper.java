@@ -61,7 +61,7 @@ public class AssetMapper{
         return assetEntity;
     }
 
-    private static Date getCurrentDate(){
+    public static Date getCurrentDate(){
         Date currentDate = new Date(Calendar.getInstance().getTime().getTime());
 
         return currentDate;

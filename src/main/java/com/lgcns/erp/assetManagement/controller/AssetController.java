@@ -79,11 +79,11 @@ public class AssetController {
         return "redirect:/Asset/index";
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String deleteAsset(@RequestParam("assetId") int assetId){
         service.deleteAsset(assetId);
 
-        return "";
+        return "redirect:/Asset/index";
     }
 
 

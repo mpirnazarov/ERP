@@ -1,5 +1,7 @@
 package com.lgcns.erp.assetManagement.DBEntities;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -8,6 +10,7 @@ import java.util.Collection;
 public class AssetCategoryEntity {
     private int id;
     private String assetItemName;
+    private Boolean isEnabled;
     private Collection<AssetEntity> assetsById;
 
     @Id
@@ -25,6 +28,16 @@ public class AssetCategoryEntity {
     @Column(name = "asset_item_name")
     public String getAssetItemName() {
         return assetItemName;
+    }
+
+    @Basic
+    @Column(name = "is_enabled")
+    public Boolean getEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(Boolean aEnabled) {
+        isEnabled = aEnabled;
     }
 
     public void setAssetItemName(String assetItemName) {

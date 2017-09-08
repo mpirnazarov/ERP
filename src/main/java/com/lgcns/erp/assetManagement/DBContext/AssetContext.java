@@ -4,6 +4,7 @@ import com.lgcns.erp.assetManagement.DBEntities.AssetCategoryEntity;
 import com.lgcns.erp.assetManagement.DBEntities.AssetEntity;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -118,8 +119,13 @@ public class AssetContext {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("delete from AssetEntity where id = :id");
+            Query query = session.
+                    createQuery("update AssetEntity set " +
+                            "enabled=" + Boolean.FALSE +
+                            "where id=:id");
+
             query.setParameter("id", id);
+
             query.executeUpdate();
             transaction.commit();
         } catch (HibernateException e) {

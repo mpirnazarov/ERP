@@ -4,7 +4,9 @@ import com.lgcns.erp.assetManagement.DBEntities.AssetEntity;
 import com.lgcns.erp.assetManagement.model.AssetVM;
 import com.lgcns.erp.tapps.DbContext.UserService;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -14,15 +16,9 @@ public class AssetMapper{
 
     public static AssetVM mapAssetEntityToModel(AssetEntity assetEntity){
         AssetVM assetVM = new AssetVM();
-        try {
-            int isPublicInt = assetEntity.getPublic()?1:0;
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+
         assetVM.setId(assetEntity.getId());
         assetVM.setInventNumber(assetEntity.getInventNumber());
-        /*assetVM.setCheckPublic(isPublicInt);*/
         assetVM.setCheckPublic(assetEntity.getPublic());
         assetVM.setRegDate(assetEntity.getRegDate());
         assetVM.setCategoryId(assetEntity.getCategoryId());
@@ -50,7 +46,7 @@ public class AssetMapper{
         assetEntity.setInventNumber(assetVM.getInventNumber());
         /*assetEntity.setPublic(assetVM.isCheckPublic()==1?true:false);*/
         try {
-            if(assetVM.isCheckPublic()==true)
+            if(assetVM.getCheckPublic() == null || assetVM.getCheckPublic() == true)
                 assetEntity.setPublic(true);
             else
                 assetEntity.setPublic(false);
@@ -58,11 +54,17 @@ public class AssetMapper{
             e.printStackTrace();
         }
 
-        assetEntity.setRegDate(assetVM.getRegDate());
+        assetEntity.setRegDate(getCurrentDate());
         assetEntity.setCategoryId(assetVM.getCategoryId());
         assetEntity.setUserId(assetVM.getUserId());
 
         return assetEntity;
+    }
+
+    private static Date getCurrentDate(){
+        Date currentDate = new Date(Calendar.getInstance().getTime().getTime());
+
+        return currentDate;
     }
 
 }

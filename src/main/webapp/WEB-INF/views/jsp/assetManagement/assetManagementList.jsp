@@ -161,7 +161,7 @@
             var asset = $(obj).data("asset");
             var owner = [];
 
-            $('#asset_id').val(asset.categoryId);
+            $('#asset_id').val(asset.assetId);
             $('#asset_inventoryNumber').val(asset.invNumber);
 
             if(asset.public){

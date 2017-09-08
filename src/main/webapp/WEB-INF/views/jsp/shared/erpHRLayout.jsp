@@ -258,6 +258,11 @@
                                                                                       aria-hidden="true"></span>
                                             Manage Asset Owners</a>
                                     </li>
+                                    <li>
+                                        <a href="/Asset/MyAsset"><span class="glyphicon glyphicon-hdd"
+                                                                     aria-hidden="true"></span>
+                                            My Assets</a>
+                                    </li>
                                 </ul>
                             </li>
 

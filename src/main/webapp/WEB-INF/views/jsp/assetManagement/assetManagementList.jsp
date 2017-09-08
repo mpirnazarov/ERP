@@ -14,6 +14,7 @@
     <c:set var="pageTitle" scope="request" value="Asset Management"/>
     <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 
+
     <spring:url value="/resources/core/js/jquery.tokeninput.js" var="tokenInputJs"/>
     <script type="text/javascript" src="${tokenInputJs}"></script>
 

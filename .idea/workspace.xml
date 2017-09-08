@@ -7,10 +7,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5bf7bc6-dab5-45ee-86a6-7d6544218634" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementMyAsset.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/controller/AssetController.java" afterPath="$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/controller/AssetController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementCategory.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementCategory.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementList.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementList.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementOwner.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementOwner.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpCTOLayout.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpCTOLayout.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpHRLayout.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpHRLayout.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpUserLayout.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpUserLayout.jsp" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -99,30 +104,50 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="assetManagementCategory.jsp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementCategory.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="13" column="60" lean-forward="false" selection-start-line="13" selection-start-column="60" selection-end-line="13" selection-end-column="60" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="assetManagementList.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementList.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="233" column="33" lean-forward="false" selection-start-line="233" selection-start-column="27" selection-end-line="233" selection-end-column="33" />
+            <state relative-caret-position="255">
+              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding>
-                <element signature="e#4842#6551#0#HTML" expanded="false" />
-                <element signature="e#6588#7795#0#HTML" expanded="false" />
-                <element signature="e#7837#8211#0#HTML" expanded="false" />
-                <element signature="e#8251#8714#0#HTML" expanded="false" />
-                <element signature="e#8755#9020#0#HTML" expanded="false" />
-                <marker date="1504869689654" expanded="true" signature="5515:5528" ph="..." />
-                <marker date="1504869689654" expanded="true" signature="5895:5908" ph="..." />
-                <marker date="1504869689654" expanded="true" signature="6275:6288" ph="..." />
+                <element signature="e#4843#6552#0#HTML" expanded="false" />
+                <element signature="e#6589#7796#0#HTML" expanded="false" />
+                <element signature="e#7838#8212#0#HTML" expanded="false" />
+                <element signature="e#8252#8715#0#HTML" expanded="false" />
+                <element signature="e#8756#9021#0#HTML" expanded="false" />
+                <marker date="1504870977852" expanded="true" signature="5516:5529" ph="..." />
+                <marker date="1504870977852" expanded="true" signature="5896:5909" ph="..." />
+                <marker date="1504870977852" expanded="true" signature="6276:6289" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AssetController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AssetCategoryController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/controller/AssetCategoryController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="753">
+              <caret line="64" column="16" lean-forward="true" selection-start-line="64" selection-start-column="16" selection-end-line="64" selection-end-column="42" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AssetController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/controller/AssetController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+            <state relative-caret-position="15">
+              <caret line="66" column="37" lean-forward="false" selection-start-line="66" selection-start-column="30" selection-end-line="66" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -131,21 +156,61 @@
       <file leaf-file-name="assetManagementOwner.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementOwner.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="516" column="15" lean-forward="true" selection-start-line="516" selection-start-column="15" selection-end-line="516" selection-end-column="15" />
+            <state relative-caret-position="107">
+              <caret line="16" column="59" lean-forward="false" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
               <folding>
-                <element signature="e#4725#10247#0#JSP" expanded="false" />
-                <element signature="e#13655#17907#0#JSP" expanded="false" />
-                <marker date="1504867015701" expanded="false" signature="4789:4804" ph="..." />
-                <marker date="1504867015701" expanded="false" signature="5414:5431" ph="..." />
-                <marker date="1504867015701" expanded="false" signature="9280:9297" ph="..." />
-                <marker date="1504867015701" expanded="false" signature="13765:14025" ph="{...}" />
-                <marker date="1504867015701" expanded="false" signature="14051:14318" ph="{...}" />
-                <marker date="1504867015701" expanded="false" signature="15554:15945" ph="{...}" />
-                <marker date="1504867015701" expanded="false" signature="16523:17868" ph="/*...*/" />
-                <marker date="1504867015701" expanded="false" signature="16561:17184" ph="{...}" />
-                <marker date="1504867015701" expanded="true" signature="19567:19579" ph="..." />
+                <element signature="e#4788#10310#0#JSP" expanded="false" />
+                <element signature="e#13718#17970#0#JSP" expanded="false" />
+                <marker date="1504870978087" expanded="false" signature="4852:4867" ph="..." />
+                <marker date="1504870978087" expanded="false" signature="5477:5494" ph="..." />
+                <marker date="1504870978087" expanded="false" signature="9343:9360" ph="..." />
+                <marker date="1504870978087" expanded="false" signature="13828:14088" ph="{...}" />
+                <marker date="1504870978087" expanded="false" signature="14114:14381" ph="{...}" />
+                <marker date="1504870978087" expanded="false" signature="15617:16008" ph="{...}" />
+                <marker date="1504870978087" expanded="false" signature="16586:17931" ph="/*...*/" />
+                <marker date="1504870978087" expanded="false" signature="16624:17247" ph="{...}" />
+                <marker date="1504870978087" expanded="true" signature="19630:19642" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="erpHRLayout.jsp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpHRLayout.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="448">
+              <caret line="271" column="18" lean-forward="true" selection-start-line="234" selection-start-column="12" selection-end-line="271" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="erpCTOLayout.jsp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpCTOLayout.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="574">
+              <caret line="196" column="18" lean-forward="false" selection-start-line="196" selection-start-column="18" selection-end-line="196" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="erpUserLayout.jsp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpUserLayout.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="143" column="44" lean-forward="true" selection-start-line="143" selection-start-column="44" selection-end-line="143" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AssetVM.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/model/AssetVM.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="10" column="28" lean-forward="false" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="28" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -194,7 +259,6 @@
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementIndex.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetCategory.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementItems.jsp" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementCategory.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetCategoryList.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/DBEntities/AssetEntity.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/core/css/style.css" />
@@ -215,11 +279,15 @@
         <option value="$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/serviceImpl/AssetHistoryServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring-web-servlet.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/controller/AssetCategoryController.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpHRLayout.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/controller/AssetOwnerController.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementOwner.jsp" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementList.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/controller/AssetController.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementMyAsset.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpHRLayout.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementOwner.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementCategory.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementList.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpUserLayout.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpCTOLayout.jsp" />
       </list>
     </option>
   </component>
@@ -1577,11 +1645,18 @@
       <option name="project" value="LOCAL" />
       <updated>1504866826254</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Asset owner change backend update">
+      <created>1504869951433</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1504869951433</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="128523000" />
+    <option name="totallyTimeSpent" value="129610000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -1697,7 +1772,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/controller/AssetController.java</url>
-          <line>104</line>
+          <line>102</line>
           <properties />
           <option name="timeStamp" value="37" />
         </line-breakpoint>
@@ -1711,30 +1786,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="das://table:/3fa0f24e/2fc63b45-fa0d-4afb-8f5c-9fe947b45567/LgErpSystemProd.public.user_in_projects" />
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementIndex.jsp" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/3.2.13.RELEASE/spring-web-3.2.13.RELEASE.jar!/org/springframework/web/method/support/InvocableHandlerMethod.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="54" column="37" lean-forward="false" selection-start-line="54" selection-start-column="37" selection-end-line="54" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementCategory.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1491">
-          <caret line="101" column="83" lean-forward="false" selection-start-line="101" selection-start-column="83" selection-end-line="101" selection-end-column="83" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/DBEntities/AssetEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="8" column="43" lean-forward="false" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/workflow/controller/newForm/BusinessTripController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -1853,13 +1904,6 @@
       </provider>
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/3.2.13.RELEASE/spring-context-3.2.13.RELEASE-sources.jar!/org/springframework/ui/Model.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/model/AssetVM.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/DBContext/AssetCategoryContext.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-799">
@@ -1875,13 +1919,6 @@
       </provider>
     </entry>
     <entry file="das://table:/3fa0f24e/36e38b2c-ad3a-47e9-94c2-1a35ce3939e5/LgErpSystem.asset_management.asset_category" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/mapper/AssetMapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/serviceImpl/AssetServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -1952,26 +1989,10 @@
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/36e38b2c-ad3a-47e9-94c2-1a35ce3939e5/console.sql" />
     <entry file="das://table:/3fa0f24e/36e38b2c-ad3a-47e9-94c2-1a35ce3939e5/LgErpSystem.attendance.attendance_management" />
     <entry file="das://table:/3fa0f24e/36e38b2c-ad3a-47e9-94c2-1a35ce3939e5/LgErpSystem.public.users" />
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpHRLayout.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="252" column="64" lean-forward="false" selection-start-line="252" selection-start-column="64" selection-end-line="252" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/DBContext/AssetContext.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="251">
           <caret line="142" column="44" lean-forward="false" selection-start-line="142" selection-start-column="44" selection-end-line="142" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/controller/AssetCategoryController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="64" column="16" lean-forward="true" selection-start-line="64" selection-start-column="16" selection-end-line="64" selection-end-column="45" />
           <folding />
         </state>
       </provider>
@@ -1981,23 +2002,6 @@
         <state relative-caret-position="680">
           <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementList.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="233" column="33" lean-forward="false" selection-start-line="233" selection-start-column="27" selection-end-line="233" selection-end-column="33" />
-          <folding>
-            <element signature="e#4842#6551#0#HTML" expanded="false" />
-            <element signature="e#6588#7795#0#HTML" expanded="false" />
-            <element signature="e#7837#8211#0#HTML" expanded="false" />
-            <element signature="e#8251#8714#0#HTML" expanded="false" />
-            <element signature="e#8755#9020#0#HTML" expanded="false" />
-            <marker date="1504869689654" expanded="true" signature="5515:5528" ph="..." />
-            <marker date="1504869689654" expanded="true" signature="5895:5908" ph="..." />
-            <marker date="1504869689654" expanded="true" signature="6275:6288" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2014,30 +2018,121 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/mapper/AssetMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="31" column="32" lean-forward="false" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/controller/AssetCategoryController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="753">
+          <caret line="64" column="16" lean-forward="true" selection-start-line="64" selection-start-column="16" selection-end-line="64" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/model/AssetVM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="28" lean-forward="false" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementCategory.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="60" lean-forward="false" selection-start-line="13" selection-start-column="60" selection-end-line="13" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementList.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding>
+            <element signature="e#4843#6552#0#HTML" expanded="false" />
+            <element signature="e#6589#7796#0#HTML" expanded="false" />
+            <element signature="e#7838#8212#0#HTML" expanded="false" />
+            <element signature="e#8252#8715#0#HTML" expanded="false" />
+            <element signature="e#8756#9021#0#HTML" expanded="false" />
+            <marker date="1504870977852" expanded="true" signature="5516:5529" ph="..." />
+            <marker date="1504870977852" expanded="true" signature="5896:5909" ph="..." />
+            <marker date="1504870977852" expanded="true" signature="6276:6289" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementOwner.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="516" column="15" lean-forward="true" selection-start-line="516" selection-start-column="15" selection-end-line="516" selection-end-column="15" />
+        <state relative-caret-position="107">
+          <caret line="16" column="59" lean-forward="false" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
           <folding>
-            <element signature="e#4725#10247#0#JSP" expanded="false" />
-            <element signature="e#13655#17907#0#JSP" expanded="false" />
-            <marker date="1504867015701" expanded="false" signature="4789:4804" ph="..." />
-            <marker date="1504867015701" expanded="false" signature="5414:5431" ph="..." />
-            <marker date="1504867015701" expanded="false" signature="9280:9297" ph="..." />
-            <marker date="1504867015701" expanded="false" signature="13765:14025" ph="{...}" />
-            <marker date="1504867015701" expanded="false" signature="14051:14318" ph="{...}" />
-            <marker date="1504867015701" expanded="false" signature="15554:15945" ph="{...}" />
-            <marker date="1504867015701" expanded="false" signature="16523:17868" ph="/*...*/" />
-            <marker date="1504867015701" expanded="false" signature="16561:17184" ph="{...}" />
-            <marker date="1504867015701" expanded="true" signature="19567:19579" ph="..." />
+            <element signature="e#4788#10310#0#JSP" expanded="false" />
+            <element signature="e#13718#17970#0#JSP" expanded="false" />
+            <marker date="1504870978087" expanded="false" signature="4852:4867" ph="..." />
+            <marker date="1504870978087" expanded="false" signature="5477:5494" ph="..." />
+            <marker date="1504870978087" expanded="false" signature="9343:9360" ph="..." />
+            <marker date="1504870978087" expanded="false" signature="13828:14088" ph="{...}" />
+            <marker date="1504870978087" expanded="false" signature="14114:14381" ph="{...}" />
+            <marker date="1504870978087" expanded="false" signature="15617:16008" ph="{...}" />
+            <marker date="1504870978087" expanded="false" signature="16586:17931" ph="/*...*/" />
+            <marker date="1504870978087" expanded="false" signature="16624:17247" ph="{...}" />
+            <marker date="1504870978087" expanded="true" signature="19630:19642" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/assetManagement/assetManagementMyAsset.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="58" />
+          <folding>
+            <element signature="n#style#0;n#tr#0;n#table#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/menu/Userslist.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1424">
+          <caret line="101" column="11" lean-forward="true" selection-start-line="101" selection-start-column="11" selection-end-line="101" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lgcns/erp/assetManagement/controller/AssetController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+        <state relative-caret-position="15">
+          <caret line="66" column="37" lean-forward="false" selection-start-line="66" selection-start-column="30" selection-end-line="66" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpUserLayout.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="143" column="44" lean-forward="true" selection-start-line="143" selection-start-column="44" selection-end-line="143" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpHRLayout.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="271" column="18" lean-forward="true" selection-start-line="234" selection-start-column="12" selection-end-line="271" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/shared/erpCTOLayout.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="574">
+          <caret line="196" column="18" lean-forward="false" selection-start-line="196" selection-start-column="18" selection-end-line="196" selection-end-column="18" />
           <folding />
         </state>
       </provider>

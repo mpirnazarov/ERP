@@ -74,8 +74,6 @@ public class AssetController {
         /*mav.addObject("UserslistJson", WorkflowService.getUsersJson(principal));*/
         mav.addObject("userId", userId);
 
-        AssetVM assetVM = new AssetVM();
-        model.addAttribute("assetVM", assetVM);
         List<AssetVM> assetVMS = AssetMapper.mapAssetEntitiesToModels(
                 service.getAssetListByUserID(userId));
 

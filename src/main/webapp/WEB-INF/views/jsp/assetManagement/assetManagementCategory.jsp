@@ -11,8 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="pageTitle" scope="request" value="ERP"/>
-<c:set var="pageTitle" scope="request" value="Projects"/>
+<c:set var="pageTitle" scope="request" value="Asset Category"/>
 
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 

@@ -125,54 +125,36 @@
                                     </li>
                                 </ul>
                             </li>
-                            <%--<li class="well">
-                                <a id="workflowPanelButton2" class="linkcolor" role="button" data-toggle="collapse"
-                                   href="#collapseMyForm" aria-expanded="false"
-                                   aria-controls="collapseMyForm"><span class="glyphicon glyphicon-minus-sign"
-                                                                        aria-hidden="true"></span>
-                                    My Forms
-                                </a>
-                                <div class="collapse in" id="collapseMyForm">
-
-                                    <ul style="list-style: none" class="list-group">
-                                        <li><a href="/Workflow/MyForms/Request"><span class="glyphicon glyphicon-edit"
-                                                                                      aria-hidden="true"></span> Request
-                                            <span
-                                                    class="badge" style="background-color: red"
-                                                    id="userRequestNotifHr"></span></a></li>
-                                        <li><a href="/Workflow/MyForms/todo/load"><span
-                                                class="glyphicon glyphicon-check" aria-hidden="true"></span> To-do <span
-                                                class="badge" style="background-color: red"
-                                                id="todoNotification"></span></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>--%>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <%--<div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingSchedule">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingAM">
                     <h4 class="panel-title">
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#Nav-accordion"
-                           href="#collapseSchedule"
-                           aria-expanded="false" aria-controls="collapseSchedule">
-                            Schedule
+                           href="#collapseAM"
+                           aria-expanded="false" aria-controls="collapseAM">
+                            Asset Management
                         </a>
                     </h4>
                 </div>
-                <div id="collapseSchedule" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSchedule">
+                <div id="collapseAM" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAM">
                     <div class="panel-body">
                         <ul style="list-style: none" class="list-group">
                             <li>
-                                <a href="/ScheduleManagement/main"><span class="fa fa-braille"></span> Calendar</a>
+                                    <li>
+                                        <a href="/Asset/MyAsset"><span class="glyphicon glyphicon-hdd"
+                                                                       aria-hidden="true"></span>
+                                            My Assets</a>
+                                    </li>
                             </li>
+
                         </ul>
                     </div>
                 </div>
-            </div>--%>
+            </div>
 
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingThree">

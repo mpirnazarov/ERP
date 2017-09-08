@@ -14,6 +14,7 @@
 
 <spring:url value="/resources/core/js/jquery.tokeninput.js" var="tokenInputJs"/>
 <script type="text/javascript" src="${tokenInputJs}"></script>
+<c:set var="pageTitle" scope="request" value="Manage Owners"/>
 
 
 <html>

@@ -523,6 +523,38 @@
     }
 
     function moveAllAssets(direction) {
+        var s1 = $('#asset_userSelectBox_1');
+        var s2 = $('#asset_userSelectBox_2');
+        var userFrom = 0;
+        var userTo = 0;
+        var trade = "";
+
+        if(direction == "right"){
+
+            userFrom = s1.val();
+            userTo = s2.val();
+
+            trade = "userFrom=" + userFrom + "&userTo=" + userTo + "&assetNumber=" + 0;
+
+            $.post("/Asset/Owner/changeAssetOwner", trade ,function (data,status) {
+                loadAssets();
+            });
+
+        }else if(direction == "left"){
+
+            userFrom = s2.val();
+            userTo = s1.val();
+
+            trade = "userFrom=" + userFrom + "&userTo=" + userTo + "&assetNumber=" + 0;
+
+            $.post("/Asset/Owner/changeAssetOwner", trade ,function (data,status) {
+                loadAssets();
+            });
+
+        }else{
+            return false
+        }
+
 
     }
 

@@ -13,4 +13,6 @@ public interface AssetService {
     void insertAsset(AssetEntity assetEntity);
     void updateAsset(AssetEntity assetEntity);
     void deleteAsset(int id);
+
+    void updateAssetOwner(int assetId, int userTo);
 }

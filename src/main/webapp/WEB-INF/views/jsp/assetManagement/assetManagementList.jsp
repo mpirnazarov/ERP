@@ -66,7 +66,7 @@
                         </div>
 
 
-                        <div class="btn btn-red" onclick="test()">Test</div>
+
 
 
 
@@ -81,7 +81,6 @@
         </div><!-- /.modal-dialog -->
     </div>
 
-    <button onclick="test()">Test</button>
 
 
     <script>
@@ -151,17 +150,13 @@
 
         });
 
-        function test() {
-
-        }
-
         function asset_edit(obj) {
             asset_clear();
 
             var asset = $(obj).data("asset");
             var owner = [];
 
-            $('#asset_id').val(asset.categoryId);
+            $('#asset_id').val(asset.assetId);
             $('#asset_inventoryNumber').val(asset.invNumber);
 
             if(asset.public){

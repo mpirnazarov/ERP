@@ -61,8 +61,10 @@ public class AssetOwnerController {
         assetHistoryVM.setUserFromId(userFrom);
         assetHistoryVM.setUserToId(userTo);
         //assetHistoryVM.setRegDate((Date) new java.util.Date());
+
         try {
             assetHistoryService.insertAssetHistory(AssetHistoryMapper.mapAssetVMToEntity(assetHistoryVM));
+            service.updateAssetOwner(assetNumber, userTo);
             return 1;
         }catch (Exception e){
             e.printStackTrace();

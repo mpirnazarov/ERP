@@ -34,4 +34,9 @@ public class AssetServiceImpl implements AssetService {
     public void deleteAsset(int id) {
         AssetContext.deleteAsset(id);
     }
+
+    @Override
+    public void updateAssetOwner(int assetNumber, int userTo) {
+        AssetContext.updateAssetOwner(assetNumber, userTo);
+    }
 }

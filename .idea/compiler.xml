@@ -6,10 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="spring3-mvc-maven-xml-hello-world" />
+        <module name="SmartOffice" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
+      <module name="SmartOffice" target="1.8" />
       <module name="spring3-mvc-maven-xml-hello-world" target="1.8" />
     </bytecodeTargetLevel>
   </component>

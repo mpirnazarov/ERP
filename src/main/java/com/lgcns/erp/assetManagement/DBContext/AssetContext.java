@@ -130,4 +130,25 @@ public class AssetContext {
         }
     }
 
+    public static void updateAssetOwner(int assetId, int userTo) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.
+                    createQuery("update AssetEntity set " +
+                            "userId=:userId where id=:id");
+
+            query.setParameter("userId", userTo);
+            query.setParameter("id", assetId);
+
+            query.executeUpdate();
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
 }

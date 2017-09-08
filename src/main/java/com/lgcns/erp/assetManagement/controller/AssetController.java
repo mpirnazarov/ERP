@@ -100,7 +100,7 @@ public class AssetController {
         return "redirect:/Asset/index";
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String deleteAsset(@RequestParam("assetId") int assetId){
         service.deleteAsset(assetId);
 

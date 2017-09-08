@@ -102,7 +102,7 @@
             ? $a.publicLabel = "true" : $a.publicLabel = "false";
         <%--${asset.checkPublic()} == 1 ? $a.public = "True" : $a.public = "False";--%>
 
-        table_data.push([$a.invNumber, $a.categoryName, $a.public, $a.userName, $a.regDate, "<button class='btn btn-blue' onclick='asset_edit(this)' data-asset='" + JSON.stringify($a) + "'>Edit</button>"]);
+        table_data.push([$a.invNumber, $a.categoryName, $a.public, $a.userName, $a.regDate, "<button class='btn btn-blue' onclick='asset_edit(this)' data-asset='" + JSON.stringify($a) + "'>Edit</button>" + "<button class='btn btn-red' onclick='asset_delete(" + $a.assetId + ")'>Delete</button>"]);
         </c:forEach>
 
         $(document).ready(function () {
@@ -227,6 +227,14 @@
             $('#asset_public').prop('checked', 0);
             $('#asset_owner').tokenInput("clear");
             $('#assetForm ul.token-input-list').remove();
+        }
+
+        function asset_delete(id) {
+
+            $.post("/Asset/delete", "assetId=" + id ,function (data,status) {
+                console.log("asset2 " + status);
+            });
+
         }
 
         

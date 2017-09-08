@@ -529,6 +529,10 @@
         var userTo = 0;
         var trade = "";
 
+        if (s1.val() == s2.val()){
+            return false
+        }
+
         if(direction == "right"){
 
             userFrom = s1.val();

@@ -64,6 +64,27 @@ public class AssetController {
         return mav;
     }
 
+    @RequestMapping(value = "/MyAsset", method = RequestMethod.GET)
+    public ModelAndView getMyAsset(Principal principal, Model model){
+        int userId = UserService.getIdByUsername(principal.getName());
+
+        ModelAndView mav = new ModelAndView("assetManagement/assetManagementMyAsset");
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
+        /*mav.addObject("UserslistJson", WorkflowService.getUsersJson(principal));*/
+        mav.addObject("userId", userId);
+
+        AssetVM assetVM = new AssetVM();
+        model.addAttribute("assetVM", assetVM);
+        List<AssetVM> assetVMS = AssetMapper.mapAssetEntitiesToModels(
+                service.getAssetListByUserID(userId));
+
+        mav.addObject("myAssets", assetVMS);
+
+        return mav;
+    }
+
+
 
     @RequestMapping(value = "/index", method = RequestMethod.POST, params = "submit")
     public String submitAsset(@ModelAttribute AssetVM assetVM){

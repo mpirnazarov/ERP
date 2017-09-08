@@ -74,10 +74,16 @@ public class AssetCategoryContext {
     public static void deleteAssetCategory(int id){
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
+        Boolean enabled = Boolean.FALSE;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("delete from AssetCategoryEntity where id = :id");
+            Query query = session.
+                    createQuery("update AssetCategoryEntity set " +
+                            "enabled=:val where id =:id");
+
+            query.setParameter("val", enabled);
             query.setParameter("id", id);
+
             query.executeUpdate();
             transaction.commit();
         } catch (HibernateException e) {

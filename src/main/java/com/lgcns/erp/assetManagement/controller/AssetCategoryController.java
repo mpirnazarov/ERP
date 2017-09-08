@@ -58,11 +58,11 @@ public class AssetCategoryController {
         return "redirect:/Asset/Category";
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String deleteAssetCategory(@RequestParam("assetCategoryId") int assetCategoryId){
         service.deleteAssetCategory(assetCategoryId);
 
-        return "redirect:/Asset/Category/List";
+        return "redirect:/Asset/Category";
     }
 
     @RequestMapping(value = "/List", method = RequestMethod.GET)

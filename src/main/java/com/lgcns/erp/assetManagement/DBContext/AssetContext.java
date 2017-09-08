@@ -117,13 +117,14 @@ public class AssetContext {
     public static void deleteAsset(int id){
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
+        Boolean enabled = Boolean.FALSE;
         try {
             transaction = session.beginTransaction();
             Query query = session.
                     createQuery("update AssetEntity set " +
-                            "enabled=" + Boolean.FALSE +
-                            "where id=:id");
+                            "enabled=:val where id =:id");
 
+            query.setParameter("val", enabled);
             query.setParameter("id", id);
 
             query.executeUpdate();

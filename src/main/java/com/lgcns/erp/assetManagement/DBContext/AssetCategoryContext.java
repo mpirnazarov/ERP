@@ -17,11 +17,13 @@ public class AssetCategoryContext {
 
     public static List<AssetCategoryEntity> getAssetCategoryList(){
         List<AssetCategoryEntity> list = null;
+        Boolean enabled = Boolean.TRUE;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from AssetCategoryEntity");
+            Query query = session.createQuery("from AssetCategoryEntity where enabled=:val");
+            query.setParameter("val", enabled);
             list = (List<AssetCategoryEntity>)query.list();
             transaction.commit();
         }

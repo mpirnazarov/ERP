@@ -20,10 +20,12 @@ public class AssetContext {
     public static List<AssetEntity> getAssetList(){
         List<AssetEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
+        Boolean enabled = Boolean.TRUE;
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from AssetEntity");
+            Query query = session.createQuery("from AssetEntity where enabled=:val");
+            query.setParameter("val", enabled);
             list = (List<AssetEntity>)query.list();
             transaction.commit();
         }
@@ -40,12 +42,14 @@ public class AssetContext {
 
     public static List<AssetEntity> getAssetListByUserID(int userId){
         List<AssetEntity> list = null;
+        Boolean enabled = Boolean.TRUE;
         Session session = HibernateUtility.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from AssetEntity where userId = :userId");
+            Query query = session.createQuery("from AssetEntity where userId = :userId and enabled=:val");
             query.setParameter("userId", userId);
+            query.setParameter("val", enabled);
             list = (List<AssetEntity>)query.list();
             transaction.commit();
         }

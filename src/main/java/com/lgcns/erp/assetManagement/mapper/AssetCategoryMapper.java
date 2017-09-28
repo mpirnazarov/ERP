@@ -33,7 +33,7 @@ public class AssetCategoryMapper {
     public static AssetCategoryEntity mapAssetCategoryToEntity(AssetCategoryVM category){
         AssetCategoryEntity categoryEntity = new AssetCategoryEntity();
         categoryEntity.setAssetItemName(category.getAssetCategoryName());
-
+        categoryEntity.setEnabled(Boolean.TRUE);
         return categoryEntity;
     }
 

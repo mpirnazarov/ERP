@@ -233,7 +233,12 @@
         function asset_delete(id) {
 
             $.post("/Asset/delete", "assetId=" + id ,function (data,status) {
-                console.log("asset2 " + status);
+                console.log(status);
+                if(status == "success"){
+                    location.reload();
+
+                }
+
             });
 
         }

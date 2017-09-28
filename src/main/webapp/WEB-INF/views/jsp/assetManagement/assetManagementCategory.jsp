@@ -98,7 +98,13 @@
 
     function deleteCategory(id) {
 
-        $.post("/Asset/Category/AssetCategoryFormDelete", "assetCategoryId=" + id);
+        $.post("/Asset/Category/delete", "assetCategoryId=" + id ,function (data,status) {
+            console.log(status);
+            if(status == "success"){
+                location.reload();
+
+            }
+        });
     }
 
 </script>

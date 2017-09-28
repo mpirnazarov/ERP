@@ -57,7 +57,7 @@ public class AssetMapper{
         assetEntity.setRegDate(getCurrentDate());
         assetEntity.setCategoryId(assetVM.getCategoryId());
         assetEntity.setUserId(assetVM.getUserId());
-
+        assetEntity.setEnabled(Boolean.TRUE);
         return assetEntity;
     }
 

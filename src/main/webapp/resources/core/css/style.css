@@ -1967,13 +1967,6 @@ a.fc-time-grid-event:hover
 .asset_index
 
 
-
-
-
-
-
-
-
 /*Material Switch*/
 .material-switch > input[type="checkbox"] {
     display: none;
@@ -2018,4 +2011,19 @@ a.fc-time-grid-event:hover
 .material-switch > input[type="checkbox"]:checked + label::after {
     background: inherit;
     left: 20px;
+}
+
+/*AssetManagement*/
+
+.asset_validation_text
+{
+    color: #ff0000;
+    /*display: none;*/
+
+}
+
+
+.asset_category_validator
+{
+
 }

@@ -24,7 +24,7 @@
     <h2 class="headerText"><span class="fa fa-cubes" aria-hidden="true"></span> Asset Management</h2>
 
     <div class="container">
-        <button class='btn btn-darkblue' style="margin-bottom: 1%" onclick="asset_create()"><span class="fa fa-plus-circle" aria-hidden="true"></span> Add New Asset</button>
+        <button id="asset_create_button" class='btn btn-darkblue' style="margin-bottom: 1%" onclick="asset_create()"><span class="fa fa-plus-circle" aria-hidden="true"></span> Add New Asset</button>
         <table cellspacing="0" width="100%" id="asset_table" class="display table table-bordered sarTable"></table>
     </div>
 
@@ -108,9 +108,12 @@
 
         $(document).ready(function () {
 
+            var role = ${userRoleId};
+            var targetTable = $('#asset_table');
+
             $('#asset_owner').tokenInput(${UserslistJson}, {tokenLimit: 1},{theme: "facebook"})
 
-            $('#asset_table').DataTable({
+            targetTable.DataTable({
                 data: table_data,
                 columns: [
                     {title: "Invent Number"},
@@ -149,6 +152,14 @@
                 ]
             });
 
+
+            if(role == 1){
+                $('#asset_create_button').hide();
+                targetTable.DataTable().column(5).visible(false);
+            }else {
+                $('#asset_create_button').show();
+            }
+
         });
 
         function asset_edit(obj) {
@@ -174,7 +185,7 @@
                             name: value.name,
                             jobTitle: value.jobTitle,
                             department: value.department
-                        }
+                        };
 
                         owner.push(user)
                     }
@@ -242,6 +253,15 @@
             });
 
         }
+
+        /* 1- Manager, 2- User, 3- HR, 4- Admin*/
+
+        $(document).ready(function () {
+
+
+        });
+
+
 
         
 

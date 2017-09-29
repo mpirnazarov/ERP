@@ -51,6 +51,7 @@ public class AssetController {
         ModelAndView mav = new ModelAndView("assetManagement/assetManagementList");
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
+        mav.addObject("userRoleId", UserService.getUserByUsername(principal.getName()).getRoleId());
         mav.addObject("UserslistJson", WorkflowService.getUsersJson(principal));
         mav.addObject("userId", userId);
 

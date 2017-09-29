@@ -175,14 +175,6 @@
                                     <li><a href="/Asset/index"><span
                                             class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
                                         Manage Assets</a></li>
-                                    <li><a href="/Asset/Category"><span
-                                            class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Asset Category</a>
-                                    </li>
-                                    <li>
-                                        <a href="/Asset/Owner"><span class="glyphicon glyphicon-transfer"
-                                                                     aria-hidden="true"></span>
-                                            Manage Asset Owners</a>
-                                    </li>
                                     <li>
                                         <a href="/Asset/MyAsset"><span class="glyphicon glyphicon-hdd"
                                                                        aria-hidden="true"></span>

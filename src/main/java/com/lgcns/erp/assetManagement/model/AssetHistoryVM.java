@@ -7,7 +7,7 @@ import java.sql.Date;
  * Created by Muslimbek on 05.09.2017.
  */
 public class AssetHistoryVM {
-    private int id;
+    /*private int id;
     private int inventNumber;
     private int userFromId;
     private int userToId;
@@ -51,5 +51,5 @@ public class AssetHistoryVM {
 
     public void setRegDate(Date regDate) {
         this.regDate = regDate;
-    }
+    }*/
 }

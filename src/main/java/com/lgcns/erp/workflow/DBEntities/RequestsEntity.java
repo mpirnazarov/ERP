@@ -33,6 +33,7 @@ public class RequestsEntity {
     private Collection<RequestsEntity> requestssById;
     private Collection<StepsEntity> stepssById;
     private Collection<ToDoEntity> toDosById;
+    private Collection<AssetMovemenetReqEntity> assetMovemenetReqsById;
 
     @Id
     @Column(name = "id")
@@ -304,5 +305,14 @@ public class RequestsEntity {
 
     public void setToDosById(Collection<ToDoEntity> toDosById) {
         this.toDosById = toDosById;
+    }
+
+    @OneToMany(mappedBy = "requestsByRequestId")
+    public Collection<AssetMovemenetReqEntity> getAssetMovemenetReqsById() {
+        return assetMovemenetReqsById;
+    }
+
+    public void setAssetMovemenetReqsById(Collection<AssetMovemenetReqEntity> assetMovemenetReqsById) {
+        this.assetMovemenetReqsById = assetMovemenetReqsById;
     }
 }

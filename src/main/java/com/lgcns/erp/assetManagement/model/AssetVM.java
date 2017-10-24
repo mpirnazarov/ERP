@@ -8,30 +8,18 @@ import java.sql.Date;
  */
 public class AssetVM {
     private int id;
-    private int inventNumber;
-    private Boolean checkPublic;
-    private int userId;
-    private String userNameSurname;
+    private int inventNum;
+    private String nameEn;
+    private String nameRu;
+    private int ownerId;
+    private String ownerFullName;
     private Date regDate;
-    private int categoryId;
-    private String categoryName;
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public String getUserNameSurname() {
-        return userNameSurname;
-    }
-
-    public void setUserNameSurname(String userNameSurname) {
-        this.userNameSurname = userNameSurname;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
+    private String regInfo;
+    private Double cost;
+    private String location;
+    private boolean checkPublic;
+    private boolean checkEnabled;
+    private boolean checkDeleted;
 
     public int getId() {
         return id;
@@ -41,28 +29,44 @@ public class AssetVM {
         this.id = id;
     }
 
-    public int getInventNumber() {
-        return inventNumber;
+    public int getInventNum() {
+        return inventNum;
     }
 
-    public void setInventNumber(int inventNumber) {
-        this.inventNumber = inventNumber;
+    public void setInventNum(int inventNum) {
+        this.inventNum = inventNum;
     }
 
-    public Boolean getCheckPublic() {
-        return checkPublic;
+    public String getNameEn() {
+        return nameEn;
     }
 
-    public void setCheckPublic(Boolean checkPublic) {
-        this.checkPublic = checkPublic;
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getNameRu() {
+        return nameRu;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setNameRu(String nameRu) {
+        this.nameRu = nameRu;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getOwnerFullName() {
+        return ownerFullName;
+    }
+
+    public void setOwnerFullName(String ownerFullName) {
+        this.ownerFullName = ownerFullName;
     }
 
     public Date getRegDate() {
@@ -73,11 +77,51 @@ public class AssetVM {
         this.regDate = regDate;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public String getRegInfo() {
+        return regInfo;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setRegInfo(String regInfo) {
+        this.regInfo = regInfo;
+    }
+
+    public Double getCost() {
+        return cost;
+    }
+
+    public void setCost(Double cost) {
+        this.cost = cost;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public boolean isCheckPublic() {
+        return checkPublic;
+    }
+
+    public void setCheckPublic(boolean checkPublic) {
+        this.checkPublic = checkPublic;
+    }
+
+    public boolean isCheckEnabled() {
+        return checkEnabled;
+    }
+
+    public void setCheckEnabled(boolean checkEnabled) {
+        this.checkEnabled = checkEnabled;
+    }
+
+    public boolean isCheckDeleted() {
+        return checkDeleted;
+    }
+
+    public void setCheckDeleted(boolean checkDeleted) {
+        this.checkDeleted = checkDeleted;
     }
 }

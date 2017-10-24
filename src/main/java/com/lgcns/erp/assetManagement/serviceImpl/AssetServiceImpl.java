@@ -10,10 +10,13 @@ import java.util.List;
  * Created by DS on 16.08.2017.
  */
 public class AssetServiceImpl implements AssetService {
+
     @Override
     public List<AssetEntity> getAssetList() {
         return AssetContext.getAssetList();
     }
+
+    /*
 
     @Override
     public List<AssetEntity> getAssetListByUserID(int userId) {
@@ -38,5 +41,5 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public void updateAssetOwner(int assetNumber, int userTo) {
         AssetContext.updateAssetOwner(assetNumber, userTo);
-    }
+    }*/
 }

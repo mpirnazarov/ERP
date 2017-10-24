@@ -1,6 +1,8 @@
 package com.lgcns.erp.tapps.model.DbEntities;
 
-import org.junit.runner.manipulation.Sortable;
+import com.lgcns.erp.assetManagement.DBEntities.AssetEntity;
+import com.lgcns.erp.assetManagement.DBEntities.AssetHistoryEntity;
+import com.lgcns.erp.workflow.DBEntities.AssetMovemenetReqEntity;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -49,6 +51,12 @@ public class UsersEntity{
     private Boolean isPolitical;
     private Collection<UserInPostsEntity> userInPostsesById;
     private Collection<AuthTokenEntity> authTokensById;
+
+    private Collection<AssetMovemenetReqEntity> assetMovemenetReqsById;
+    private Collection<AssetMovemenetReqEntity> assetMovemenetReqsById_0;
+    private Collection<AssetEntity> assetsById;
+    private Collection<AssetHistoryEntity> assetHistoriesById;
+    private Collection<AssetHistoryEntity> assetHistoriesById_0;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -435,5 +443,50 @@ public class UsersEntity{
 
     public void setAuthTokensById(Collection<AuthTokenEntity> authTokensById) {
         this.authTokensById = authTokensById;
+    }
+
+    @OneToMany(mappedBy = "usersByUserFromOld")
+    public Collection<AssetMovemenetReqEntity> getAssetMovemenetReqsById() {
+        return assetMovemenetReqsById;
+    }
+
+    public void setAssetMovemenetReqsById(Collection<AssetMovemenetReqEntity> assetMovemenetReqsById) {
+        this.assetMovemenetReqsById = assetMovemenetReqsById;
+    }
+
+    @OneToMany(mappedBy = "usersByUserToNew")
+    public Collection<AssetMovemenetReqEntity> getAssetMovemenetReqsById_0() {
+        return assetMovemenetReqsById_0;
+    }
+
+    public void setAssetMovemenetReqsById_0(Collection<AssetMovemenetReqEntity> assetMovemenetReqsById_0) {
+        this.assetMovemenetReqsById_0 = assetMovemenetReqsById_0;
+    }
+
+    @OneToMany(mappedBy = "usersByOwnerId")
+    public Collection<AssetEntity> getAssetsById() {
+        return assetsById;
+    }
+
+    public void setAssetsById(Collection<AssetEntity> assetsById) {
+        this.assetsById = assetsById;
+    }
+
+    @OneToMany(mappedBy = "usersByUserIdOld")
+    public Collection<AssetHistoryEntity> getAssetHistoriesById() {
+        return assetHistoriesById;
+    }
+
+    public void setAssetHistoriesById(Collection<AssetHistoryEntity> assetHistoriesById) {
+        this.assetHistoriesById = assetHistoriesById;
+    }
+
+    @OneToMany(mappedBy = "usersByUserIdNew")
+    public Collection<AssetHistoryEntity> getAssetHistoriesById_0() {
+        return assetHistoriesById_0;
+    }
+
+    public void setAssetHistoriesById_0(Collection<AssetHistoryEntity> assetHistoriesById_0) {
+        this.assetHistoriesById_0 = assetHistoriesById_0;
     }
 }

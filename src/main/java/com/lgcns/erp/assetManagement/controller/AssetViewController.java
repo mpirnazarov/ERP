@@ -15,12 +15,12 @@ import java.security.Principal;
 @RequestMapping("/Asset")
 @Controller
 public class AssetViewController {
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView Hrprofile(Principal principal){
         ModelAndView mav = new ModelAndView();
 
-        /* JSP joyi i nomi korsatilishi kerak*/
+        *//* JSP joyi i nomi korsatilishi kerak*//*
         mav.setViewName("assetManagement/assetItemView");
         return mav;
-    }
+    }*/
 }

@@ -21,7 +21,7 @@ import java.util.List;
  * Created by DS on 16.08.2017.
  */
 @Controller
-@RequestMapping("/Asset")
+@RequestMapping("/AssetManagement")
 public class AssetController {
 
     @Autowired
@@ -29,20 +29,52 @@ public class AssetController {
 
 
     /**
+     * @detail Opens main page of assets with assets list
+     * @param principal
+     * @param model
+     * @return ModelAndView
+     * @author Muslimbek Pirnazarov
+     */
+    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    public ModelAndView getIndex(Principal principal, Model model){
+        int userId = UserService.getIdByUsername(principal.getName());
+
+        ModelAndView mav = new ModelAndView("assetManagement/assetManagementMain");
+        mav = UP.includeUserProfile(mav, principal);
+        mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
+        mav.addObject("userRoleId", UserService.getUserByUsername(principal.getName()).getRoleId());
+        mav.addObject("UserslistJson", WorkflowService.getUsersJson(principal));
+        mav.addObject("userId", userId);
+
+        /*AssetVM assetVM = new AssetVM();
+        model.addAttribute("assetVM", assetVM);
+        List<AssetVM> assetVMS = AssetMapper.mapAssetEntitiesToModels(
+                service.getAssetList());
+
+        mav.addObject("AssetList", assetVMS);*/
+
+        return mav;
+    }
+
+    /**
      * Temprory
      * @param principal
      * @param model
      * @return
-     */
-    @RequestMapping(value = "/jsonTable", method = RequestMethod.GET)
+             */
+    @RequestMapping(value = "/AllAssetJSON", method = RequestMethod.GET)
     public @ResponseBody
     List<AssetVM> getTable(Principal principal, Model model){
+
 
         List<AssetVM> assetVMS = AssetMapper.mapAssetEntitiesToModels(
                 service.getAssetList());
 
         return assetVMS;
     }
+
+/*
+    *
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public ModelAndView getIndex(Principal principal, Model model){
@@ -72,7 +104,7 @@ public class AssetController {
         ModelAndView mav = new ModelAndView("assetManagement/assetManagementMyAsset");
         mav = UP.includeUserProfile(mav, principal);
         mav.addObject("UserProfileUser", UserController.getProfileByUsername(principal.getName()));
-        /*mav.addObject("UserslistJson", WorkflowService.getUsersJson(principal));*/
+        *//*mav.addObject("UserslistJson", WorkflowService.getUsersJson(principal));*//*
         mav.addObject("userId", userId);
 
         List<AssetVM> assetVMS = AssetMapper.mapAssetEntitiesToModels(
@@ -104,7 +136,7 @@ public class AssetController {
         service.deleteAsset(assetId);
 
         return "redirect:/Asset/index";
-    }
+    }*/
 
 
 

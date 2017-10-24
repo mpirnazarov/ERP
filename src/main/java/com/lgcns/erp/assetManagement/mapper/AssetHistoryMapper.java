@@ -1,13 +1,6 @@
 package com.lgcns.erp.assetManagement.mapper;
 
-import com.lgcns.erp.assetManagement.DBEntities.AssetEntity;
-import com.lgcns.erp.assetManagement.DBEntities.AssetHistoryEntity;
 import com.lgcns.erp.assetManagement.model.AssetHistoryVM;
-import com.lgcns.erp.assetManagement.model.AssetVM;
-import com.lgcns.erp.tapps.DbContext.UserService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Muslimbek on 05.09.2017.
@@ -45,7 +38,7 @@ public class AssetHistoryMapper {
         return assetVMList;
     }*/
 
-    public static AssetHistoryEntity mapAssetVMToEntity(AssetHistoryVM assetVM){
+    /*public static AssetHistoryEntity mapAssetVMToEntity(AssetHistoryVM assetVM){
         AssetHistoryEntity assetHistoryEntity = new AssetHistoryEntity();
 
         assetHistoryEntity.setAssetInventNumber(assetVM.getInventNumber());
@@ -54,6 +47,6 @@ public class AssetHistoryMapper {
         assetHistoryEntity.setRegDate(assetVM.getRegDate());
 
         return assetHistoryEntity;
-    }
+    }*/
 
 }

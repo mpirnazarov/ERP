@@ -1,26 +1,10 @@
 package com.lgcns.erp.assetManagement.controller;
 
-import com.lgcns.erp.assetManagement.DBEntities.AssetEntity;
-import com.lgcns.erp.assetManagement.mapper.AssetHistoryMapper;
-import com.lgcns.erp.assetManagement.mapper.AssetMapper;
-import com.lgcns.erp.assetManagement.model.AssetHistoryVM;
-import com.lgcns.erp.assetManagement.model.AssetVM;
 import com.lgcns.erp.assetManagement.service.AssetHistoryService;
 import com.lgcns.erp.assetManagement.service.AssetService;
-import com.lgcns.erp.tapps.DbContext.UserService;
-import com.lgcns.erp.tapps.controller.UP;
-import com.lgcns.erp.tapps.controller.UserController;
-import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.security.Principal;
-import java.sql.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Muslimbek on 05.09.2017.
@@ -36,7 +20,7 @@ public class AssetOwnerController {
     AssetHistoryService assetHistoryService;
 
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    /*@RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView getIndex(Principal principal, Model model){
         int userId = UserService.getIdByUsername(principal.getName());
 
@@ -97,6 +81,6 @@ public class AssetOwnerController {
             }
         }
         return 1;
-    }
+    }*/
 
 }

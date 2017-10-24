@@ -1,10 +1,7 @@
 package com.lgcns.erp.assetManagement.DBContext;
 
-import com.lgcns.erp.assetManagement.DBEntities.AssetCategoryEntity;
 import com.lgcns.erp.assetManagement.DBEntities.AssetEntity;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
-import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -20,12 +17,13 @@ public class AssetContext {
     public static List<AssetEntity> getAssetList(){
         List<AssetEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
-        Boolean enabled = Boolean.TRUE;
+        Boolean enabled = Boolean.FALSE;
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from AssetEntity where enabled=:val");
-            query.setParameter("val", enabled);
+            Query query = session.createQuery("from AssetEntity");
+            /*Query query = session.createQuery("from AssetEntity where checkDeleted=:val");*/
+            /*query.setParameter("val", enabled);*/
             list = (List<AssetEntity>)query.list();
             transaction.commit();
         }
@@ -39,6 +37,8 @@ public class AssetContext {
 
         return list;
     }
+
+    /*
 
     public static List<AssetEntity> getAssetListByUserID(int userId){
         List<AssetEntity> list = null;
@@ -161,5 +161,5 @@ public class AssetContext {
         } finally {
             session.close();
         }
-    }
+    }*/
 }

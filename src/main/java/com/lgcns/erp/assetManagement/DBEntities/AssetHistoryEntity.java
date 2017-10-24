@@ -7,18 +7,18 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "asset_history", schema = "asset_management", catalog = "LgErpSystem")
-public class AssetHistoryEntity {
+public class AssetHistoryEntity implements java.io.Serializable{
     private int id;
-    private Integer assetInventNumber;
-    private Integer userIdOld;
-    private Integer userIdNew;
-    private Date regDate;
+    private int inventNum;
+    private int userIdOld;
+    private int userIdNew;
+    private Date updateDate;
     private UsersEntity usersByUserIdOld;
     private UsersEntity usersByUserIdNew;
 
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -28,43 +28,43 @@ public class AssetHistoryEntity {
     }
 
     @Basic
-    @Column(name = "asset_invent_number")
-    public Integer getAssetInventNumber() {
-        return assetInventNumber;
+    @Column(name = "invent_num")
+    public int getInventNum() {
+        return inventNum;
     }
 
-    public void setAssetInventNumber(Integer assetInventNumber) {
-        this.assetInventNumber = assetInventNumber;
+    public void setInventNum(int inventNum) {
+        this.inventNum = inventNum;
     }
 
     @Basic
     @Column(name = "user_id_old")
-    public Integer getUserIdOld() {
+    public int getUserIdOld() {
         return userIdOld;
     }
 
-    public void setUserIdOld(Integer userIdOld) {
+    public void setUserIdOld(int userIdOld) {
         this.userIdOld = userIdOld;
     }
 
     @Basic
     @Column(name = "user_id_new")
-    public Integer getUserIdNew() {
+    public int getUserIdNew() {
         return userIdNew;
     }
 
-    public void setUserIdNew(Integer userIdNew) {
+    public void setUserIdNew(int userIdNew) {
         this.userIdNew = userIdNew;
     }
 
     @Basic
-    @Column(name = "reg_date")
-    public Date getRegDate() {
-        return regDate;
+    @Column(name = "update_date")
+    public Date getUpdateDate() {
+        return updateDate;
     }
 
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     @Override
@@ -75,11 +75,10 @@ public class AssetHistoryEntity {
         AssetHistoryEntity that = (AssetHistoryEntity) o;
 
         if (id != that.id) return false;
-        if (assetInventNumber != null ? !assetInventNumber.equals(that.assetInventNumber) : that.assetInventNumber != null)
-            return false;
-        if (userIdOld != null ? !userIdOld.equals(that.userIdOld) : that.userIdOld != null) return false;
-        if (userIdNew != null ? !userIdNew.equals(that.userIdNew) : that.userIdNew != null) return false;
-        if (regDate != null ? !regDate.equals(that.regDate) : that.regDate != null) return false;
+        if (inventNum != that.inventNum) return false;
+        if (userIdOld != that.userIdOld) return false;
+        if (userIdNew != that.userIdNew) return false;
+        if (updateDate != null ? !updateDate.equals(that.updateDate) : that.updateDate != null) return false;
 
         return true;
     }
@@ -87,15 +86,15 @@ public class AssetHistoryEntity {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (assetInventNumber != null ? assetInventNumber.hashCode() : 0);
-        result = 31 * result + (userIdOld != null ? userIdOld.hashCode() : 0);
-        result = 31 * result + (userIdNew != null ? userIdNew.hashCode() : 0);
-        result = 31 * result + (regDate != null ? regDate.hashCode() : 0);
+        result = 31 * result + inventNum;
+        result = 31 * result + userIdOld;
+        result = 31 * result + userIdNew;
+        result = 31 * result + (updateDate != null ? updateDate.hashCode() : 0);
         return result;
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_id_old", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id_old", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     public UsersEntity getUsersByUserIdOld() {
         return usersByUserIdOld;
     }
@@ -105,7 +104,7 @@ public class AssetHistoryEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_id_new", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id_new", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     public UsersEntity getUsersByUserIdNew() {
         return usersByUserIdNew;
     }

@@ -17,7 +17,7 @@
 <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
 
 <div class="mainBodyBlock">
-    <h2 class="headerText"><span class="fa fa-bars" aria-hidden="true"></span> My Assets</h2>
+    <h2 class="headerText"><span class="fa fa-cube" aria-hidden="true"></span> My Assets</h2>
     <div class="container">
         <table id="myTable" class="table sarTable table-bordered">
             <!-- here should go some titles... -->
@@ -29,7 +29,7 @@
             <c:forEach items="${myAssets}" var="assets">
                 <tr>
                     <td>
-                        <c:out value="${assets.inventNumber}"/>
+                        <span class="fa fa-cube" aria-hidden="true"></span> <c:out value="${assets.inventNumber}"/>
                     </td>
                     <td>
                         <c:out value="${assets.checkPublic}"/>

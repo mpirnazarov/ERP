@@ -73,6 +73,20 @@ public class AssetController {
         return assetVMS;
     }
 
+    /*@RequestMapping(value = "/testSubmit", method = RequestMethod.POST)
+    public String controllerMethod(@RequestParam(value="myArray[]") List<Object> myArray){
+
+        String someSt = "sdfasdf";
+        return "Good";
+    }*/
+
+
+
+    /*@RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String controllerMethod(@RequestParam(value="myArray[]") Integer[] myArray){
+
+    }*/
+
 /*
     *
 
@@ -123,6 +137,8 @@ public class AssetController {
 
         return "redirect:/Asset/index";
     }
+
+
 
     @RequestMapping(value = "/index", method = RequestMethod.POST, params = "update")
     public String updateAsset(@ModelAttribute AssetVM assetVM){

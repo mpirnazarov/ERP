@@ -247,7 +247,7 @@
                         <ul style="list-style: none" class="list-group">
                             <li>
                                 <ul style="list-style: none" class="list-group">
-                                    <li><a href="/Asset/index"><span
+                                    <li><a href="/AssetManagement/main"><span
                                             class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
                                         Manage Assets</a></li>
                                     <li><a href="/Asset/Category"><span

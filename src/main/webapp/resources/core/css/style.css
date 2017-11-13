@@ -1964,7 +1964,19 @@ a.fc-time-grid-event:hover
     width: 200px;
 }
 
-.asset_index
+span.asset-link {
+    color: #46beff;
+
+}
+
+span.asset-link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+table .asset_table_body>tr>td {
+    vertical-align: middle;
+}
 
 
 /*Material Switch*/

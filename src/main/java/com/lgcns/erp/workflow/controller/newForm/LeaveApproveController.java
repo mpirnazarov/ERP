@@ -313,6 +313,11 @@ public class LeaveApproveController {
     public @ResponseBody
     int[] LeaveApprovePostAjax(@RequestParam("approvals") int[] approvals, @RequestParam("executives") int[] executives, @RequestParam("references") int[] references){
 
+
+        approvalsGlobal = null;
+        executivesGlobal = null;
+        referencesGlobal = null;
+
         approvalsGlobal = approvals;
         executivesGlobal = executives;
         referencesGlobal = references;

@@ -8,13 +8,20 @@ import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.*;
 import java.security.Principal;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -28,15 +35,17 @@ public class AssetController {
     AssetService service;
 
 
+    private String fileLocation;
+
     /**
-     * @detail Opens main page of assets with assets list
      * @param principal
      * @param model
      * @return ModelAndView
+     * @detail Opens main page of assets with assets list
      * @author Muslimbek Pirnazarov
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public ModelAndView getIndex(Principal principal, Model model){
+    public ModelAndView getIndex(Principal principal, Model model) {
         int userId = UserService.getIdByUsername(principal.getName());
 
         ModelAndView mav = new ModelAndView("assetManagement/assetManagementMain");
@@ -57,18 +66,19 @@ public class AssetController {
     }
 
     /**
-     * Temprory
      * @param principal
      * @param model
      * @return
-             */
+     * @detail Returns all assets in JSON format
+     * @author Muslimbek Pirnazarov
+     */
     @RequestMapping(value = "/AllAssetJSON", method = RequestMethod.GET)
     public @ResponseBody
-    List<AssetVM> getTable(Principal principal, Model model){
+    List<AssetVM> getTable(Principal principal, Model model) {
 
 
         List<AssetVM> assetVMS = AssetMapper.mapAssetEntitiesToModels(
-                service.getAssetList());
+                service.getAssetList(), UserService.getAllUserLocs());
 
         return assetVMS;
     }
@@ -153,7 +163,6 @@ public class AssetController {
 
         return "redirect:/Asset/index";
     }*/
-
 
 
 }

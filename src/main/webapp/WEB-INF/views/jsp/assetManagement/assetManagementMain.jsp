@@ -53,6 +53,7 @@
         $.get("/AssetManagement/AllAssetJSON", function (data, status) {
 
             $.each(data, function (item, value) {
+
                 table_body.append("<tr data-asset-id='" + value.id + "'>" +
                     "<td>" + value.inventNum + "</td>" +
                     "<td><span class='asset-link'>" + value.nameRu + "</span></td>" +
@@ -64,10 +65,19 @@
                     "<td>" + value.regInfo + "</td>" +
                     "<td>" + value.cost + "</td>" +
                     "</tr>");
+
+
+
+
+
+
+                $('tr[data-asset-id="' + value.id + '"]').find('select').val(value.ownerId);
             });
 
             $.each(${UserslistJson}, function (item, value) {
+
                 $('select.asset-input-owner').append('<option value="' + value.id + '">' + value.name + '</option>');
+
             });
 
             $("#asset_table").DataTable();

@@ -557,6 +557,7 @@
             $.ajax({
                 type: "POST",
                 url: "/Workflow/NewForm/BusinessTripFormAjax",
+                async: false,
                 data: 'approvals=' + a + '&references=' + b + '&executives=' + c,
                 success: function (response) {
                 },
@@ -642,6 +643,7 @@
         $.ajax({
             type: "POST",
             url: "/Workflow/NewForm/BusinessTripFormAjax",
+            async: false,
             data: 'approvals=' + a + '&references=' + b + '&executives=' + c,
             success: function (response) {
 

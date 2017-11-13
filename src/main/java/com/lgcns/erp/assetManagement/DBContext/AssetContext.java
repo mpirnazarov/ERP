@@ -1,7 +1,9 @@
 package com.lgcns.erp.assetManagement.DBContext;
 
 import com.lgcns.erp.assetManagement.DBEntities.AssetEntity;
+import com.lgcns.erp.assetManagement.mapper.AssetImportMapper;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
+import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -38,6 +40,82 @@ public class AssetContext {
         return list;
     }
 
+    public static void updateAsset(AssetEntity assetEntity){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.
+                    createQuery("update AssetEntity set " +
+                            "nameRu=:nameRu," +
+                            "nameEn=:nameEn," +
+                            "regInfo=:regInfo," +
+                            "regDate=:regDate," +
+                            "cost=:cost where inventNum=:inventNumber");
+
+            query.setParameter("inventNumber", assetEntity.getInventNum());
+            query.setParameter("nameRu", assetEntity.getNameRu());
+            query.setParameter("nameEn", AssetImportMapper.translateRuToEng(assetEntity.getNameRu()));
+            query.setParameter("regInfo", assetEntity.getRegInfo());
+            query.setParameter("regDate", assetEntity.getRegDate());
+            query.setParameter("cost", assetEntity.getCost());
+
+            query.executeUpdate();
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+    public static void insertAsset(AssetEntity assetEntity){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            assetEntity.setUsersByOwnerId(session.load(UsersEntity.class, assetEntity.getOwnerId()));
+
+            session.save(assetEntity);
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    public static void deleteAsset(int inventNum, boolean status){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.
+                    createQuery("update AssetEntity set " +
+                            "checkDeleted=:val where inventNum=:id");
+            if(status == true){
+                query.setParameter("val", Boolean.TRUE);
+            }else{
+                query.setParameter("val", Boolean.FALSE);
+            }
+
+            query.setParameter("id", inventNum);
+
+            query.executeUpdate();
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
     /*
 
     public static List<AssetEntity> getAssetListByUserID(int userId){
@@ -65,81 +143,7 @@ public class AssetContext {
     }
 
 
-    public static void insertAsset(AssetEntity assetEntity){
-        Session session = HibernateUtility.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
 
-            assetEntity.setUsersByUserId(session.load(UsersEntity.class, assetEntity.getUserId()));
-            assetEntity.setAssetCategoryByCategoryId(session.
-                    load(AssetCategoryEntity.class, assetEntity.getCategoryId()));
-
-            session.save(assetEntity);
-            transaction.commit();
-        }
-        catch (HibernateException e) {
-            transaction.rollback();
-            e.printStackTrace();
-        }
-        finally {
-            session.close();
-        }
-    }
-
-
-    public static void updateAsset(AssetEntity assetEntity){
-        Session session = HibernateUtility.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            Query query = session.
-                    createQuery("update AssetEntity set " +
-                    "inventNumber=:inventNumber," +
-                    "public=:public," +
-                    "regDate=:regDate," +
-                    "categoryId=:categoryId," +
-                    "userId=:userId where id=:id");
-
-            query.setParameter("inventNumber", assetEntity.getInventNumber());
-            query.setParameter("public", assetEntity.getPublic());
-            query.setParameter("regDate", assetEntity.getRegDate());
-            query.setParameter("categoryId", assetEntity.getCategoryId());
-            query.setParameter("userId", assetEntity.getUserId());
-            query.setParameter("id", assetEntity.getId());
-
-            query.executeUpdate();
-            transaction.commit();
-        } catch (HibernateException e) {
-            transaction.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-    }
-
-    public static void deleteAsset(int id){
-        Session session = HibernateUtility.getSessionFactory().openSession();
-        Transaction transaction = null;
-        Boolean enabled = Boolean.FALSE;
-        try {
-            transaction = session.beginTransaction();
-            Query query = session.
-                    createQuery("update AssetEntity set " +
-                            "enabled=:val where id =:id");
-
-            query.setParameter("val", enabled);
-            query.setParameter("id", id);
-
-            query.executeUpdate();
-            transaction.commit();
-        } catch (HibernateException e) {
-            transaction.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-    }
 
     public static void updateAssetOwner(int assetId, int userTo) {
         Session session = HibernateUtility.getSessionFactory().openSession();

@@ -278,13 +278,13 @@
             <div onclick="location.href='/logout';" class="btn btn-darkred logoutButton"><span
                     class="fa fa-fw fa-power-off"></span>Logout
             </div>
-            <div style="float: right; margin-top: 10px; padding-right: 10px">
+            <div class="hidden-xs hidden-sm" style="float: right; margin-top: 10px; padding-right: 10px">
                 <img src="/image/<%= request.getAttribute("userId") %>.jpg"
                      onerror="this.src='/resources/images/ppicture.png'" class="userImgBox-small">
                 <%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
             </div>
             <%--Tabs--%>
-            <div class="head-nav-group">
+            <div class="head-nav-group hidden-xs">
                 <div class="head-nav-tab" onclick="location.href = '/Workflow/MyForms/Request'">
                     <span class="fa fa-pencil-square-o head-icon"></span>
                     <p class="head-text">Requests</p>

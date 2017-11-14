@@ -15,17 +15,21 @@
     <jsp:include flush="true" page="/WEB-INF/views/jsp/shared/erpUserHeader.jsp"></jsp:include>
     <spring:url value="/resources/core/js/jquery.tokeninput.js" var="tokenInputJs"/>
     <script type="text/javascript" src="${tokenInputJs}"></script>
+    <link rel="stylesheet" href="/resources/core/css/datatables-responsiv.min.css">
+    <script src="/resources/core/js/datatables-responsive.js"></script>
 </head>
 <body>
-<div class="mainBodyBlock">
+<div class="mainBodyBlock assetManagement">
 
     <h2 class="headerText"><span class="fa fa-cubes" aria-hidden="true"></span> Asset Management</h2>
 
-    <table id="asset_table" class="table table-bordered" cellspacing="0" width="100%">
+
+    <button class="btn btn-green asset-table-button" onclick="saveAssets()"><span class="fa fa-floppy-o" aria-hidden="true"></span> Save</button>
+    <table id="asset_table" class="table table-bordered display responsive nowrap" cellspacing="0" width="100%">
         <thead>
         <tr>
-            <th>Inventory Number</th>
             <th>Name</th>
+            <th>Inventory Number</th>
             <th>Owner</th>
             <th>Location</th>
             <th>Registration date</th>
@@ -38,9 +42,9 @@
 
     <button class="btn btn-danger" onclick="assetModal()">Sarvar</button>
     <button class="btn btn-danger" onclick="fill3()">Test</button>
-    <button class="btn btn-info" onclick="saveAssets()">Save</button>
 
     <jsp:include page="/WEB-INF/views/jsp/shared/assetManagement/assetManagementModals.jsp"></jsp:include>
+
 </div>
 <script>
 
@@ -54,20 +58,34 @@
 
             $.each(data, function (item, value) {
                 table_body.append("<tr data-asset-id='" + value.id + "'>" +
-                    "<td>" + value.inventNum + "</td>" +
-                    "<td><span class='asset-link'>" + value.nameRu + "</span></td>" +
+                    "<td>" + value.nameRu + "</td>" +
+                    "<td><span class='asset-link' onclick='testt()'>" + value.inventNum + "</span></td>" +
                     "<td>" +
-                    '<select class="form-control asset-input-owner" onchange="fill(this)"></select>' +
+                    '<select data-default-owner="' + value.ownerId + '" class="form-control asset-input-owner" onchange="fill(this)"></select>' +
                     "</td>" +
                     "<td>" + '<input type="text" class="form-control asset-input-location" onchange="fill(this)" placeholder="Location" value="' + value.location + '">' + "</td>" +
                     "<td>" + value.regDate + "</td>" +
                     "<td>" + value.regInfo + "</td>" +
                     "<td>" + value.cost + "</td>" +
                     "</tr>");
+
+           /*     $('tr[data-asset-id="' + value.id + '"]').find('select');*/
+                /*val(value.owenrId);*/
             });
 
+
             $.each(${UserslistJson}, function (item, value) {
-                $('select.asset-input-owner').append('<option value="' + value.id + '">' + value.name + '</option>');
+
+                var $s = $('select.asset-input-owner');
+
+                $s.append('<option value="' + value.id + '">' + value.name + '</option>');
+                /*$s.val($s.data('default-owner'));*/
+            });
+
+            $('tr').find('select').each(function () {
+                var $this = $(this);
+                var $data = $this.data('default-owner');
+                $this.val($data);
             });
 
             $("#asset_table").DataTable();
@@ -79,6 +97,7 @@
         var targetRow = $(item).parent().parent();
         var assetId = targetRow.data('asset-id');
         var assetOwner = targetRow.find('select.asset-input-owner').val();
+        var assetCurrentOwner = targetRow.find('select.asset-input-owner').data('default-owner');
         var assetLocation = targetRow.find('input.asset-input-location').val();
 
 
@@ -94,7 +113,8 @@
 
         var asset = {
             a_id: assetId,
-            a_owner: assetOwner,
+            a_newOwner: assetOwner,
+            a_oldOwner: assetCurrentOwner,
             a_location: assetLocation
         };
 
@@ -102,23 +122,31 @@
         /*console.log(changedItems);*/
     }
 
+    function saveAssets() {
+        if(changedItems == ''){
+            console.log("no assets to save")
+        }else {
+            console.log(changedItems)
+        }
+    }
+
     /*function saveAssets() {
 
-        $.ajax({
-            type : "POST",
-            url : "/AssetManagement/testSubmit",
-            data : {
-                myArray: changedItems //notice that "myArray" matches the value for @RequestParam
-                           //on the Java side
-            },
-            success : function(response) {
-                console.log(response)
-            },
-            error : function(e) {
-                alert('Error: ' + e);
-            }
-        });
-    }*/
+     $.ajax({
+     type : "POST",
+     url : "/AssetManagement/testSubmit",
+     data : {
+     myArray: changedItems //notice that "myArray" matches the value for @RequestParam
+     //on the Java side
+     },
+     success : function(response) {
+     console.log(response)
+     },
+     error : function(e) {
+     alert('Error: ' + e);
+     }
+     });
+     }*/
 
 </script>
 </body>

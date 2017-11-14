@@ -124,4 +124,23 @@ public class AssetVM {
     public void setCheckDeleted(boolean checkDeleted) {
         this.checkDeleted = checkDeleted;
     }
+
+    @Override
+    public String toString() {
+        return "AssetVM{" +
+                "id=" + id +
+                ", inventNum=" + inventNum +
+                ", nameEn='" + nameEn + '\'' +
+                ", nameRu='" + nameRu + '\'' +
+                ", ownerId=" + ownerId +
+                ", ownerFullName='" + ownerFullName + '\'' +
+                ", regDate=" + regDate +
+                ", regInfo='" + regInfo + '\'' +
+                ", cost=" + cost +
+                ", location='" + location + '\'' +
+                ", checkPublic=" + checkPublic +
+                ", checkEnabled=" + checkEnabled +
+                ", checkDeleted=" + checkDeleted +
+                '}';
+    }
 }

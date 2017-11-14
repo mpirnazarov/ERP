@@ -10,12 +10,11 @@ import java.util.List;
 public interface AssetService {
 
     List<AssetEntity> getAssetList();
-
+    void updateAsset(AssetEntity assetEntity);
+    void insertAsset(AssetEntity assetEntity);
+    void deleteAsset(int inventNum, boolean status);
     /*
     List<AssetEntity> getAssetListByUserID(int userId);
-    void insertAsset(AssetEntity assetEntity);
-    void updateAsset(AssetEntity assetEntity);
-    void deleteAsset(int id);
 
     void updateAssetOwner(int assetId, int userTo);*/
 }

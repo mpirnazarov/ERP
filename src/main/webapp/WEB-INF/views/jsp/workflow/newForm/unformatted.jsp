@@ -338,6 +338,7 @@
             $.ajax({
                 type: "POST",
                 url: "/Workflow/NewForm/UnformattedFormAjax",
+                async: false,
                 data: 'approvals=' + a + '&references=' + b + '&executives=' + c,
                 success: function (response) {
 //                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
@@ -431,6 +432,7 @@
             $.ajax({
                 type : "POST",
                 url : "/Workflow/NewForm/UnformattedFormAjax",
+                async: false,
                 data :'approvals='+a+'&references='+b+'&executives='+c,
                 success : function(response) {
 //                    window.location.href = "/Workflow/NewForm/BusinessTripForm"

@@ -3,6 +3,7 @@ package com.lgcns.erp.tapps.DbContext;
 import com.lgcns.erp.tapps.Enums.Language;
 import com.lgcns.erp.tapps.model.DbEntities.*;
 import com.lgcns.erp.tapps.model.UserInfo;
+import com.lgcns.erp.tapps.model.UserModel;
 import com.lgcns.erp.tapps.viewModel.ProfileViewModel;
 import com.lgcns.erp.tapps.viewModel.usermenu.FamilyMember;
 import org.hibernate.HibernateException;
@@ -2484,4 +2485,93 @@ public class UserService {
 
         return user;
     }
+
+    public static UserModel getHrEnabled() {
+        List<UsersEntity> user=null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UsersEntity users where users.roleId = :role and users.enabled = TRUE ");//" inner join user.usersByUserId");//" on user.id = userLoc.userId where userLoc.languageId = :languageId");
+            query.setParameter("role", 3);
+            user = query.list();
+
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        UserLocalizationsEntity userLocalizationsEntity = getUserLocByUserId(user.get(0).getId(), 3);
+
+        UserModel userModel = new UserModel(user.get(0).getId(), userLocalizationsEntity.getFirstName() + " " + userLocalizationsEntity.getLastName());
+        return userModel;
+    }
+
+    /*public static List<UserModel> getUserIDUserFullnameList() {
+
+        List<UserModel> usersModelList = null;
+        List<UsersEntity> users = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from UsersEntity users where users.enabled = TRUE ");//" inner join user.usersByUserId");//" on user.id = userLoc.userId where userLoc.languageId = :languageId");
+            users = query.list();
+
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+
+        List<UserLocalizationsEntity> userLocalizationsEntities = null;
+        Session session2 = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction2 = null;
+        try {
+            transaction = session2.beginTransaction();
+            Query query = session2.createQuery("from UserLocalizationsEntity userLoc where userLoc.languageId = 3 ");//" inner join user.usersByUserId");//" on user.id = userLoc.userId where userLoc.languageId = :languageId");
+            users = query.list();
+
+            transaction2.commit();
+        }
+        catch (HibernateException e) {
+            transaction2.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        UserModel userModel = null;
+        for (UsersEntity usersEntity:
+             users) {
+            userModel = new UserModel();
+            userModel.setID(usersEntity.getId());
+            userModel.setFullName(mapUserFullName(usersEntity.getId(), userLocalizationsEntities));
+            usersModelList.add(userModel);
+            userModel = null;
+        }
+
+        return usersModelList;
+    }
+
+    private static String mapUserFullName(int id, List<UserLocalizationsEntity> userLocalizationsEntities) {
+        for (UserLocalizationsEntity userLoc :
+                userLocalizationsEntities) {
+            if (userLoc.getUserId() == id){
+                return userLoc.getFirstName() + userLoc.getLastName();
+            }
+        }
+        return null;
+    }*/
 }

@@ -16,11 +16,9 @@ public class AssetServiceImpl implements AssetService {
         return AssetContext.getAssetList();
     }
 
-    /*
-
     @Override
-    public List<AssetEntity> getAssetListByUserID(int userId) {
-        return AssetContext.getAssetListByUserID(userId);
+    public void updateAsset(AssetEntity assetEntity) {
+        AssetContext.updateAsset(assetEntity);
     }
 
     @Override
@@ -29,14 +27,21 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public void updateAsset(AssetEntity assetEntity) {
-        AssetContext.updateAsset(assetEntity);
+    public void deleteAsset(int inventNum, boolean status) {
+        AssetContext.deleteAsset(inventNum, status);
     }
+    /*
 
     @Override
-    public void deleteAsset(int id) {
-        AssetContext.deleteAsset(id);
+    public List<AssetEntity> getAssetListByUserID(int userId) {
+        return AssetContext.getAssetListByUserID(userId);
     }
+
+
+
+
+
+
 
     @Override
     public void updateAssetOwner(int assetNumber, int userTo) {

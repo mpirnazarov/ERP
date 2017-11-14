@@ -94,7 +94,6 @@
         width: 98%;
     }
 
-
     .reqfield:before {
         content: "*";
         color: #ff0000;
@@ -114,17 +113,15 @@
         font-size: 20px;
         position: absolute;
         left: 84%;
-        top:17%;
+        top: 17%;
         z-index: 1;
     }
-
 
     #halfDay {
         margin-left: 15%;
         opacity: 0;
-        transform: scale(0.1,0.1);
+        transform: scale(0.1, 0.1);
     }
-
 
     #halfDay input {
         position: static;
@@ -135,104 +132,106 @@
 </style>
 
 
-    <div class="mainBodyBlock">
-        <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
-        </h1>
-        <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
-        </p>--%>
-        <h2 class="headerText"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Leave approve</h2>
-            <span class="vacationSpan fa fa-plane"> Your vacations: ${vacationAvailable} days</span>
-        <form:form modelAttribute="leaveApproveVM" cssClass="form-horizontal" method="post" id="myform"
-                   enctype="multipart/form-data">
-            <div class="w3-container b3form paper">
-                <div class="form-header" style="padding-top: 1%">
+<div class="mainBodyBlock">
+    <%--<h1><%= request.getAttribute("FullName") %>, <%= request.getAttribute("JobTitle") %>
+    </h1>
+    <p style="font-family: 'Oswald', sans-serif; font-size:x-large;"><%= request.getAttribute("External") %>
+    </p>--%>
+    <h2 class="headerText"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Leave approve</h2>
+    <span class="vacationSpan fa fa-plane"> Your vacations: ${vacationAvailable} days</span>
+    <form:form modelAttribute="leaveApproveVM" cssClass="form-horizontal" method="post" id="myform"
+               enctype="multipart/form-data">
+        <div class="w3-container b3form paper">
+            <div class="form-header" style="padding-top: 1%">
 
-                    <div class="input-group" style="margin-top: 1%">
-                        <span class="input-group-addon" id="saerchtype-addon"><span class="reqfield"></span>Absence type:</span>
-                        <form:select id="absenseSelect" class="form-control" aria-describedby="saerchtype-addon"
-                                     style="width: 100%; border-color:#999999" path="absenceType"
-                                     items="${absenceType}">
-                        </form:select>
-                        <span class="glyphicon warningIcon " aria-hidden="true"></span>
-                    </div>
-
-                    <div class="input-group" style="margin-top: 1%">
-                        <span class="input-group-addon" id="purpose-addon">Description</span>
-                        <form:textarea class="form-control warningBorder" rows="3" id="comment"
-                                       aria-describedby="purpose-addon"
-                                       style="width: 100%; border-color:#999999" path="description"></form:textarea>
-                    </div>
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon" id="saerchtype-addon"><span
+                            class="reqfield"></span>Absence type:</span>
+                    <form:select id="absenseSelect" class="form-control" aria-describedby="saerchtype-addon"
+                                 style="width: 100%; border-color:#999999" path="absenceType"
+                                 items="${absenceType}">
+                    </form:select>
+                    <span class="glyphicon warningIcon " aria-hidden="true"></span>
                 </div>
-                <div class="form-footer" style="padding-bottom: 2%">
-                    <div class="input-group" style="margin-top: 2%">
+
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon" id="purpose-addon">Description</span>
+                    <form:textarea class="form-control warningBorder" rows="3" id="comment"
+                                   aria-describedby="purpose-addon"
+                                   style="width: 100%; border-color:#999999" path="description"></form:textarea>
+                </div>
+            </div>
+            <div class="form-footer" style="padding-bottom: 2%">
+                <div class="input-group" style="margin-top: 2%">
                         <span class="input-group-addon" id="approvals-addon"><span
                                 class="reqfield"></span>Approvals</span>
-                        <div class="tab-content" id="approvals">
+                    <div class="tab-content" id="approvals">
                             <span style="margin-left: 83.7%" id="approvalSpan" class="glyphicon warningIcon "
                                   aria-hidden="true"></span>
-                            <input type="text" id="demo-input-local"/>
-                        </div>
+                        <input type="text" id="demo-input-local"/>
                     </div>
-                    <div class="input-group" style="margin-top: 2%">
-                        <span class="input-group-addon" id="executive-addon">Executive</span>
-                        <div class="tab-content" id="executives">
-                            <input type="text" id="demo-input-local2"/>
-                        </div>
+                </div>
+                <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="executive-addon">Executive</span>
+                    <div class="tab-content" id="executives">
+                        <input type="text" id="demo-input-local2"/>
                     </div>
-                    <div class="input-group" style="margin-top: 2%">
-                        <span class="input-group-addon" id="reference-addon">Reference</span>
-                        <div class="tab-content" id="references">
-                            <input type="text" id="demo-input-local3"/>
-                        </div>
+                </div>
+                <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="reference-addon">Reference</span>
+                    <div class="tab-content" id="references">
+                        <input type="text" id="demo-input-local3"/>
                     </div>
-                    <div class="input-group" style="margin-top: 2%">
-                        <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open>Attachment</span>
-                        <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
-                        <span class="glyphicon warningIcon " aria-hidden="true"></span>
-                    </div>
-                    <div class="input-group" style="margin-top: 2%">
+                </div>
+                <div class="input-group" style="margin-top: 2%">
+                    <span class="input-group-addon" id="attachment-addon" glyphicon glyphicon-open>Attachment</span>
+                    <form:input type="file" path="file" id="file" class="form-control input-sm" multiple="true"/>
+                    <span class="glyphicon warningIcon " aria-hidden="true"></span>
+                </div>
+                <div class="input-group" style="margin-top: 2%">
                         <span class="input-group-addon" id="date-addon"><span
                                 class="reqfield"></span>Date(Start/End)</span>
-                        <form:input type="text" class="form-control" style="width:50%" name="start" id="dateStart"
-                                    path="start"/>
-                        <form:input type="text" class="form-control" style="width:50%" name="end" id="dateEnd"
-                                    path="end"/>
-                        <span class="glyphicon warningIcon" aria-hidden="true"></span>
-                    </div>
-                    <div id="halfDay">
-                        <label id="radio8hr" class="radio-inline"><form:radiobutton path="leavingHours" value="1"/>8 hr</label>
-                        <label id="radio4am" class="radio-inline"><form:radiobutton path="leavingHours" value="2"/>4 hr(am)</label>
-                        <label id="radio4pm" class="radio-inline"><form:radiobutton path="leavingHours" value="3"/>4 hr(pm)</label>
-                    </div>
-
+                    <form:input type="text" class="form-control" style="width:50%" name="start" id="dateStart"
+                                path="start"/>
+                    <form:input type="text" class="form-control" style="width:50%" name="end" id="dateEnd"
+                                path="end"/>
+                    <span class="glyphicon warningIcon" aria-hidden="true"></span>
                 </div>
-            </div>
+                <div id="halfDay">
+                    <label id="radio8hr" class="radio-inline"><form:radiobutton path="leavingHours" value="1"/>8
+                        hr</label>
+                    <label id="radio4am" class="radio-inline"><form:radiobutton path="leavingHours" value="2"/>4
+                        hr(am)</label>
+                    <label id="radio4pm" class="radio-inline"><form:radiobutton path="leavingHours" value="3"/>4
+                        hr(pm)</label>
+                </div>
 
-            <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
-                <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-blue"/>
-                <input id="tv" type="submit" name="Submit" value="Submit" class="btn btn-green"/>
-                <input type="button" onclick="history.back()" value="Cancel" class="btn btn-red"/>
             </div>
-        </form:form>
+        </div>
 
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign"
-                                                                        aria-hidden="true"></span> Warning</h4>
-                    </div>
-                    <div class="modal-body">
-                        <span id="message"></span>
-                    </div>
+        <div id="buttonGroupcha" class="btn-group" role="group" aria-label="...">
+            <input id="tv2" type="submit" name="Save" value="Save" class="btn btn-blue"/>
+            <input id="tv" type="submit" name="Submit" value="Submit" class="btn btn-green"/>
+            <input type="button" onclick="history.back()" value="Cancel" class="btn btn-red"/>
+        </div>
+    </form:form>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign"
+                                                                    aria-hidden="true"></span> Warning</h4>
+                </div>
+                <div class="modal-body">
+                    <span id="message"></span>
                 </div>
             </div>
         </div>
     </div>
-
-
+</div>
 
 
 <script type="text/javascript">
@@ -245,11 +244,8 @@
         var dEnd = new Date($("#dateEnd").val());
 
 
-
         $('#dateStart').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
         $('#dateEnd').datepicker({format: "yyyy-mm-dd", todayHighlight: true, autoclose: true});
-
-
 
 
         var today = new Date();
@@ -324,7 +320,6 @@
                 $('#dateStart').css("border", "1px solid #999999");
                 $('#dateEnd').css("border", "1px solid #999999");
                 $('#dateEnd').next('span').removeClass('glyphicon-info-sign');
-
 
 
                 var selectedType = $("#absenseSelect option:selected").text();
@@ -412,8 +407,11 @@
             $.ajax({
                 type: "POST",
                 url: "/Workflow/NewForm/LeaveApproveFormAjax",
+                async: false,
                 data: 'approvals=' + a + '&references=' + b + '&executives=' + c,
                 success: function (response) {
+
+
 //                    window.location.href = "/Workflow/NewForm/BusinessTripForm"
                 },
                 error: function (e) {
@@ -438,14 +436,13 @@
     });
 
 
-
     function showCheckBoxes() {
         var d1 = $('#dateStart').val();
         var d2 = $('#dateEnd').val();
         var sc = $("#absenseSelect option:selected").text();
 
 
-        if( d1 != '' && d2 !='' && (d1 == d2) && sc == "Annual leave"){
+        if (d1 != '' && d2 != '' && (d1 == d2) && sc == "Annual leave") {
             $('#halfDay').animate({opacity: 1}, 500);
             $('#halfDay').css('transform', 'scale(1,1)');
 
@@ -472,7 +469,6 @@
     })
 
 
-    
 </script>
 <script>
 
@@ -552,6 +548,7 @@
         $.ajax({
             type: "POST",
             url: "/Workflow/NewForm/LeaveApproveFormAjax",
+            async: false,
             data: 'approvals=' + a + '&references=' + b + '&executives=' + c,
             success: function (response) {
                 //                    window.location.href = "/Workflow/NewForm/BusinessTripForm"

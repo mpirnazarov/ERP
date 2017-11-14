@@ -61,9 +61,6 @@
 
 	</bean>
 
-	<bean id="assetCategoryService" class="com.lgcns.erp.assetManagement.serviceImpl.AssetCategoryServiceImpl">
-
-	</bean>
 
 	<bean id="assetService" class="com.lgcns.erp.assetManagement.serviceImpl.AssetServiceImpl">
 

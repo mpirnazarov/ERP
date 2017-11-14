@@ -3,11 +3,12 @@ package com.lgcns.erp.assetManagement.DBEntities;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
 @Table(name = "asset_history", schema = "asset_management", catalog = "LgErpSystem")
-public class AssetHistoryEntity implements java.io.Serializable{
+public class AssetHistoryEntity implements Serializable {
     private int id;
     private int inventNum;
     private int userIdOld;

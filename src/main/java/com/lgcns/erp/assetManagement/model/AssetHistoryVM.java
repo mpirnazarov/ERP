@@ -1,16 +1,18 @@
 package com.lgcns.erp.assetManagement.model;
 
 
+import com.lgcns.erp.tapps.model.UserModel;
+
 import java.sql.Date;
 
 /**
  * Created by Muslimbek on 05.09.2017.
  */
 public class AssetHistoryVM {
-    /*private int id;
+    private int id;
     private int inventNumber;
-    private int userFromId;
-    private int userToId;
+    private UserModel userOldId;
+    private UserModel userNewId;
     private Date regDate;
 
     public int getId() {
@@ -29,20 +31,20 @@ public class AssetHistoryVM {
         this.inventNumber = inventNumber;
     }
 
-    public int getUserFromId() {
-        return userFromId;
+    public UserModel getUserOldId() {
+        return userOldId;
     }
 
-    public void setUserFromId(int userFromId) {
-        this.userFromId = userFromId;
+    public void setUserOldId(UserModel userOldId) {
+        this.userOldId = userOldId;
     }
 
-    public int getUserToId() {
-        return userToId;
+    public UserModel getUserNewId() {
+        return userNewId;
     }
 
-    public void setUserToId(int userToId) {
-        this.userToId = userToId;
+    public void setUserNewId(UserModel userNewId) {
+        this.userNewId = userNewId;
     }
 
     public Date getRegDate() {
@@ -51,5 +53,16 @@ public class AssetHistoryVM {
 
     public void setRegDate(Date regDate) {
         this.regDate = regDate;
-    }*/
+    }
+
+    @Override
+    public String toString() {
+        return "AssetHistoryVM{" +
+                "id=" + id +
+                ", inventNumber=" + inventNumber +
+                ", userOldId=" + userOldId +
+                ", userNewId=" + userNewId +
+                ", regDate=" + regDate +
+                '}';
+    }
 }

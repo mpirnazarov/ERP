@@ -52,6 +52,10 @@
 
     $(document).ready(function () {
 
+        $.get("/AssetManagement/GetAssetByIDJson?inventNum=3", function(data, status){
+            console.log("Data: " + data + "\nStatus: " + status);
+        });
+
         var table_body = $("#asset_table_body");
 
         $.get("/AssetManagement/AllAssetJSON", function (data, status) {

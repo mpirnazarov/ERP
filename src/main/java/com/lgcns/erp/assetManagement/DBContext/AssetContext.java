@@ -2,6 +2,7 @@ package com.lgcns.erp.assetManagement.DBContext;
 
 import com.lgcns.erp.assetManagement.DBEntities.AssetEntity;
 import com.lgcns.erp.assetManagement.mapper.AssetImportMapper;
+import com.lgcns.erp.scheduleManagement.DBEntities.ScheduleAttachmentsEntity;
 import com.lgcns.erp.tapps.DbContext.HibernateUtility;
 import com.lgcns.erp.tapps.model.DbEntities.UsersEntity;
 import org.hibernate.HibernateException;
@@ -19,13 +20,13 @@ public class AssetContext {
     public static List<AssetEntity> getAssetList(){
         List<AssetEntity> list = null;
         Session session = HibernateUtility.getSessionFactory().openSession();
-        Boolean enabled = Boolean.FALSE;
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from AssetEntity");
-            /*Query query = session.createQuery("from AssetEntity where checkDeleted=:val");*/
-            /*query.setParameter("val", enabled);*/
+            // Query query = session.createQuery("from AssetEntity");
+            Query query = session.createQuery("from AssetEntity where checkDeleted=:val");
+            query.setParameter("val", false);
+
             list = (List<AssetEntity>)query.list();
             transaction.commit();
         }
@@ -116,6 +117,31 @@ public class AssetContext {
             session.close();
         }
     }
+
+    public static AssetEntity getAssetByID(int inventNum) {
+        AssetEntity assetEntity = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from AssetEntity where inventNum=:id and checkDeleted=:val");
+            query.setParameter("id", inventNum);
+            query.setParameter("val", false);
+            assetEntity = (AssetEntity) query.getSingleResult();
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+
+        return assetEntity;
+
+    }
+
     /*
 
     public static List<AssetEntity> getAssetListByUserID(int userId){

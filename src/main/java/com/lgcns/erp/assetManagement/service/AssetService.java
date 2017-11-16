@@ -13,6 +13,7 @@ public interface AssetService {
     void updateAsset(AssetEntity assetEntity);
     void insertAsset(AssetEntity assetEntity);
     void deleteAsset(int inventNum, boolean status);
+    AssetEntity getAssetByID(int inventNum);
     /*
     List<AssetEntity> getAssetListByUserID(int userId);
 

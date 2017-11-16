@@ -30,6 +30,11 @@ public class AssetServiceImpl implements AssetService {
     public void deleteAsset(int inventNum, boolean status) {
         AssetContext.deleteAsset(inventNum, status);
     }
+
+    @Override
+    public AssetEntity getAssetByID(int inventNum){
+        return AssetContext.getAssetByID(inventNum);
+    }
     /*
 
     @Override

@@ -2,6 +2,7 @@ package com.lgcns.erp.assetManagement.model;
 
 
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by DS on 16.08.2017.
@@ -20,6 +21,7 @@ public class AssetVM {
     private boolean checkPublic;
     private boolean checkEnabled;
     private boolean checkDeleted;
+    private List<AssetHistoryVM> assetHistoryVMList;
 
     public int getId() {
         return id;
@@ -125,6 +127,14 @@ public class AssetVM {
         this.checkDeleted = checkDeleted;
     }
 
+    public List<AssetHistoryVM> getAssetHistoryVMList() {
+        return assetHistoryVMList;
+    }
+
+    public void setAssetHistoryVMList(List<AssetHistoryVM> assetHistoryVMList) {
+        this.assetHistoryVMList = assetHistoryVMList;
+    }
+
     @Override
     public String toString() {
         return "AssetVM{" +
@@ -141,6 +151,7 @@ public class AssetVM {
                 ", checkPublic=" + checkPublic +
                 ", checkEnabled=" + checkEnabled +
                 ", checkDeleted=" + checkDeleted +
+                ", assetHistoryVMList=" + assetHistoryVMList +
                 '}';
     }
 }

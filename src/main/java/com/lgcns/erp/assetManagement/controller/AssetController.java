@@ -2,11 +2,13 @@ package com.lgcns.erp.assetManagement.controller;
 
 import com.lgcns.erp.assetManagement.mapper.AssetMapper;
 import com.lgcns.erp.assetManagement.model.AssetVM;
+import com.lgcns.erp.assetManagement.service.AssetHistoryService;
 import com.lgcns.erp.assetManagement.service.AssetService;
 import com.lgcns.erp.scheduleManagement.viewModel.ScheduleVM;
 import com.lgcns.erp.tapps.DbContext.UserService;
 import com.lgcns.erp.tapps.controller.UP;
 import com.lgcns.erp.tapps.controller.UserController;
+import com.lgcns.erp.tapps.model.DbEntities.UserLocalizationsEntity;
 import com.lgcns.erp.workflow.DBContext.WorkflowService;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
@@ -34,6 +36,8 @@ public class AssetController {
     @Autowired
     AssetService service;
 
+    @Autowired
+    AssetHistoryService assetHistoryService;
 
     private String fileLocation;
 
@@ -76,9 +80,8 @@ public class AssetController {
     public @ResponseBody
     List<AssetVM> getTable(Principal principal, Model model) {
 
-
         List<AssetVM> assetVMS = AssetMapper.mapAssetEntitiesToModels(
-                service.getAssetList(), UserService.getAllUserLocs());
+                service.getAssetList(), UserService.getAllUserLocs(3));
 
         return assetVMS;
     }
@@ -156,13 +159,7 @@ public class AssetController {
 
         return "redirect:/Asset/index";
     }
-
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteAsset(@RequestParam("assetId") int assetId){
-        service.deleteAsset(assetId);
-
-        return "redirect:/Asset/index";
-    }*/
+*/
 
 
 }

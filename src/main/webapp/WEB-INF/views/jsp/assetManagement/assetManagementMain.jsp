@@ -19,12 +19,17 @@
     <script src="/resources/core/js/datatables-responsive.js"></script>
 </head>
 <body>
-<div class="mainBodyBlock assetManagement">
+<div class="mainBodyBlock assetManagement_mainBlock">
 
     <h2 class="headerText"><span class="fa fa-cubes" aria-hidden="true"></span> Asset Management</h2>
 
 
-    <button class="btn btn-green asset-table-button" onclick="saveAssets()"><span class="fa fa-floppy-o" aria-hidden="true"></span> Save</button>
+    <button id="asset_management_save_button" class="btn btn-green asset-table-button" onclick="saveAssets()"><span class="fa fa-floppy-o"
+                                                                                  aria-hidden="true"></span> Save
+    </button>
+    <div id="asset_management_loader">
+        <div class="loader">Loading...</div>
+    </div>
     <table id="asset_table" class="table table-bordered display responsive nowrap" cellspacing="0" width="100%">
         <thead>
         <tr>
@@ -37,11 +42,25 @@
             <th>Price</th>
         </tr>
         </thead>
+        <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        </tfoot>
         <tbody id="asset_table_body"></tbody>
     </table>
 
-    <button class="btn btn-danger" onclick="assetModal()">Sarvar</button>
-    <button class="btn btn-danger" onclick="fill3()">Test</button>
+
+    <%-- <div class="input-group">
+         <span class="input-group-addon" id="basic-addon1">@</span>
+         <select data-default-owner="' + value.ownerId + '" class="form-control asset-input-owner" aria-describedby="basic-addon1" onchange="fill(this)"></select>
+     </div>--%>
 
     <jsp:include page="/WEB-INF/views/jsp/shared/assetManagement/assetManagementModals.jsp"></jsp:include>
 
@@ -52,26 +71,47 @@
 
     $(document).ready(function () {
 
+      /*  if (typeof(Worker) !== "undefined") {
+            // Yes! Web worker support!
+            // Some code.....
+            console.log("WORKING")
+        } else {
+            // Sorry! No Web Worker support..
+        }*/
+
         var table_body = $("#asset_table_body");
 
         $.get("/AssetManagement/AllAssetJSON", function (data, status) {
 
+            $('#asset_table').addClass('letter');
+            $('#asset_management_save_button').addClass('showButton');
+
+            $('#asset_management_loader').fadeOut( 2000, "linear");
+          /*  $('#asset_management_save_button').fadeIn(6000);*/
+
+
+
+
             $.each(data, function (item, value) {
                 table_body.append("<tr data-asset-id='" + value.id + "'>" +
                     "<td>" + value.nameRu + "</td>" +
-                    "<td><span class='asset-link' onclick='testt()'>" + value.inventNum + "</span></td>" +
-                    "<td>" +
+                    "<td><span class='asset-link' onclick='assetModal(" + value.inventNum + ")'>" + value.inventNum + "</span></td>" +
+                    '<td data-search="'+ value.ownerFullName +'" data-order="'+ value.ownerFullName +'" data-sort="'+ value.ownerFullName +'" data-filter="'+ value.ownerFullName +'">' +
+                    '<div class="input-group">' +
                     '<select data-default-owner="' + value.ownerId + '" class="form-control asset-input-owner" onchange="fill(this)"></select>' +
+                    '<span class="input-group-addon"><span class="fa fa-info-circle asset-userinfo-icon" aria-hidden="true"></span></span>' +
+                    '</div>' +
                     "</td>" +
-                    "<td>" + '<input type="text" class="form-control asset-input-location" onchange="fill(this)" placeholder="Location" value="' + value.location + '">' + "</td>" +
+                    "<td data-search='"+ value.location +"'>" + '<input type="text" class="form-control asset-input-location" onchange="fill(this)" placeholder="Location" value="' + value.location + '">' + "</td>" +
                     "<td>" + value.regDate + "</td>" +
                     "<td>" + value.regInfo + "</td>" +
                     "<td>" + value.cost + "</td>" +
                     "</tr>");
 
-           /*     $('tr[data-asset-id="' + value.id + '"]').find('select');*/
-                /*val(value.owenrId);*/
+                /*     $('tr[data-asset-id="' + value.id + '"]').find('select');*/
+                /*val(value.owenrId);    */
             });
+
 
 
             $.each(${UserslistJson}, function (item, value) {
@@ -88,13 +128,47 @@
                 $this.val($data);
             });
 
-            $("#asset_table").DataTable();
+            $("#asset_table").DataTable({
+                initComplete: function () {
+                    this.api().columns([0,4]).every( function () {
+                        var column = this;
+                        var select = $('<select><option value=""><code>~none~</code></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on( 'change', function () {
+
+                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                                column
+                                    .search( val ? '^'+val+'$' : '', true, false )
+                                    .draw();
+                            } );
+
+                        column.data().unique().sort().each( function ( d, j ) {
+                            /*var html_val = $.parseHTML(d);
+                            console.log(d);
+
+                            if(html_val.innerText == ''){
+                              /!*  console.log(html_val)
+                                var new_d = $(html_val)[0].innerText
+                                select.append( '<option value="'+new_d+'">'+new_d+'</option>' )*!/
+                            }*/
+
+                            /*var val = $('<div/>').html(d).text();
+                            select.append( '<option value="' + val + '">' + val + '</option>' );*/
+
+                       /*     select.append( '<option value="'+d+'">'+d+'</option>' )*/
+
+                            select.append( '<option value="' + d + '">' + d + '</option>' );
+                        } );
+                    } );
+                }
+            });
         });
     });
 
     function fill(item) {
 
-        var targetRow = $(item).parent().parent();
+        var targetRow = $(item).closest('tr');
         var assetId = targetRow.data('asset-id');
         var assetOwner = targetRow.find('select.asset-input-owner').val();
         var assetCurrentOwner = targetRow.find('select.asset-input-owner').data('default-owner');
@@ -119,13 +193,12 @@
         };
 
         changedItems.push(asset);
-        /*console.log(changedItems);*/
     }
 
     function saveAssets() {
-        if(changedItems == ''){
+        if (changedItems == '') {
             console.log("no assets to save")
-        }else {
+        } else {
             console.log(changedItems)
         }
     }

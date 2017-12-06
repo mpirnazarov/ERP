@@ -93,7 +93,7 @@
 
 
             $.each(data, function (item, value) {
-                table_body.append("<tr data-asset-id='" + value.id + "'>" +
+                table_body.append("<tr data-asset-id='" + value.id + "' data-asset-inventory='" + value.inventNum + "'>" +
                     "<td>" + value.nameRu + "</td>" +
                     "<td><span class='asset-link' onclick='assetModal(" + value.inventNum + ")'>" + value.inventNum + "</span></td>" +
                     '<td data-search="'+ value.ownerFullName +'" data-order="'+ value.ownerFullName +'" data-sort="'+ value.ownerFullName +'" data-filter="'+ value.ownerFullName +'">' +
@@ -170,6 +170,7 @@
 
         var targetRow = $(item).closest('tr');
         var assetId = targetRow.data('asset-id');
+        var assetInv = targetRow.data('asset-inventory');
         var assetOwner = targetRow.find('select.asset-input-owner').val();
         var assetCurrentOwner = targetRow.find('select.asset-input-owner').data('default-owner');
         var assetLocation = targetRow.find('input.asset-input-location').val();
@@ -187,6 +188,7 @@
 
         var asset = {
             a_id: assetId,
+            a_inv: assetInv,
             a_newOwner: assetOwner,
             a_oldOwner: assetCurrentOwner,
             a_location: assetLocation
@@ -199,6 +201,13 @@
         if (changedItems == '') {
             console.log("no assets to save")
         } else {
+
+            $.post("/SaveAsset",changedItems,
+                function(data, status){
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+
+
             console.log(changedItems)
         }
     }

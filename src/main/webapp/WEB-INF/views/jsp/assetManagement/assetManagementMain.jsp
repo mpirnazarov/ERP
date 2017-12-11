@@ -62,14 +62,18 @@
          <select data-default-owner="' + value.ownerId + '" class="form-control asset-input-owner" aria-describedby="basic-addon1" onchange="fill(this)"></select>
      </div>--%>
 
-    <jsp:include page="/WEB-INF/views/jsp/shared/assetManagement/assetManagementModals.jsp"></jsp:include>
+
 
 </div>
+<jsp:include page="/WEB-INF/views/jsp/shared/assetManagement/assetManagementModals.jsp"></jsp:include>
 <script>
+
+   /* assetModal();*/
 
     var changedItems = [];
 
     $(document).ready(function () {
+
 
       /*  if (typeof(Worker) !== "undefined") {
             // Yes! Web worker support!
@@ -164,6 +168,7 @@
                 }
             });
         });
+
     });
 
     function fill(item) {

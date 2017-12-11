@@ -7,7 +7,7 @@
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <user-name>user_erp</user-name>
-      <introspection-schemas>LgErpSystem:public</introspection-schemas>
+      <introspection-schemas>LgErpSystem:asset_management,public</introspection-schemas>
     </data-source>
     <data-source name="LgErpSystemProd@192.168.1.77" uuid="2fc63b45-fa0d-4afb-8f5c-9fe947b45567">
       <database-info product="PostgreSQL" version="9.6rc1" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.1.1">

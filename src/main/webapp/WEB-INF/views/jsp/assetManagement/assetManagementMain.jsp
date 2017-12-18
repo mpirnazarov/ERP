@@ -68,20 +68,9 @@
 <jsp:include page="/WEB-INF/views/jsp/shared/assetManagement/assetManagementModals.jsp"></jsp:include>
 <script>
 
-   /* assetModal();*/
-
     var changedItems = [];
 
     $(document).ready(function () {
-
-
-      /*  if (typeof(Worker) !== "undefined") {
-            // Yes! Web worker support!
-            // Some code.....
-            console.log("WORKING")
-        } else {
-            // Sorry! No Web Worker support..
-        }*/
 
         var table_body = $("#asset_table_body");
 
@@ -89,12 +78,7 @@
 
             $('#asset_table').addClass('letter');
             $('#asset_management_save_button').addClass('showButton');
-
             $('#asset_management_loader').fadeOut( 2000, "linear");
-          /*  $('#asset_management_save_button').fadeIn(6000);*/
-
-
-
 
             $.each(data, function (item, value) {
                 table_body.append("<tr data-asset-id='" + value.id + "' data-asset-inventory='" + value.inventNum + "'>" +
@@ -111,9 +95,6 @@
                     "<td>" + value.regInfo + "</td>" +
                     "<td>" + value.cost + "</td>" +
                     "</tr>");
-
-                /*     $('tr[data-asset-id="' + value.id + '"]').find('select');*/
-                /*val(value.owenrId);    */
             });
 
 
@@ -207,13 +188,15 @@
             console.log("no assets to save")
         } else {
 
-            $.post("/SaveAsset",changedItems,
+            var sData = JSON.stringify(changedItems);
+
+            console.log(sData);
+
+            $.post("/AssetManagement/SaveAsset",sData,
                 function(data, status){
                     alert("Data: " + data + "\nStatus: " + status);
                 });
 
-
-            console.log(changedItems)
         }
     }
 

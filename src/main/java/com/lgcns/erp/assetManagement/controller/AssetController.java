@@ -86,6 +86,10 @@ public class AssetController {
         return assetVMS;
     }
 
+
+
+
+
     /*@RequestMapping(value = "/testSubmit", method = RequestMethod.POST)
     public String controllerMethod(@RequestParam(value="myArray[]") List<Object> myArray){
 
